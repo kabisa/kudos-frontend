@@ -1,0 +1,16 @@
+version: "2"
+plugins:
+  eslint:
+    enabled: true
+exclude_patterns:
+  - "hooks/"
+  - "node_modules/"
+  - "platforms/"
+  - "plugins/"
+  - "res/"
+  - "www/"
+  - "kudos-o-matic/node_modules/"
+ratings:
+  paths:
+    - "**.js"
+
