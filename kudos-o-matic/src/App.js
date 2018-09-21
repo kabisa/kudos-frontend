@@ -17,7 +17,6 @@ import 'react-toastify/dist/ReactToastify.min.css';
 // Check for user token
 const token = localStorage.getItem(config.localStorageToken);
 if (token) {
-  console.log('got token');
   store.dispatch(setToken(token));
 }
 
