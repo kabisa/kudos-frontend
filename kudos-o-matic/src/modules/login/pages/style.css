@@ -1,0 +1,10 @@
+body > div,
+body > div > div,
+body > div > div > div.main-form {
+  height: 100%;
+}
+
+div.main-form {
+  width: 98%;
+  margin: auto;
+}

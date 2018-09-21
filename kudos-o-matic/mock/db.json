@@ -1,0 +1,21 @@
+{
+  "transactions": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    },
+    {
+      "username": "username",
+      "password": "password",
+      "id": 2
+    }
+  ],
+  "users": [
+    {
+      "id": "123",
+      "username": "stefan",
+      "token": "123"
+    }
+  ]
+}

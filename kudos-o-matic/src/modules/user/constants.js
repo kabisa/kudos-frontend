@@ -1,0 +1,4 @@
+export default {
+  USER_SET_TOKEN: 'USER_SET_TOKEN',
+  USER_LOGOUT: 'USER_LOGOUT'
+};
