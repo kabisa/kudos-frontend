@@ -24,5 +24,8 @@
             "android",
             "ios"
         ]
+    },
+    "devDependencies": {
+        "gitmoji-commit-hook": "^3.0.0"
     }
 }

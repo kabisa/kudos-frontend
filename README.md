@@ -4,7 +4,7 @@
   
 # Kudos-o-Matic Frontend
 
-> The Kudos-o-Matic front end project. This is a cordova/react based application that supports Android, IOS and Web. :tada:
+> The Kudos-o-Matic front end project. This is a cordova/react based application that supports Android, IOS and Web.
 
 ## :bulb: Installation
 
@@ -15,7 +15,7 @@ Running the project on android or IOS requires their respective emulators.:fire:
 ```shell
 $ git clone git@github.com:StefanPahlplatz/maji-react.git
 $ cd maji-react/kudos-o-matic
-$ yarn
+$ ./setup.sh
 $ yarn mock
 $ yarn start
 ```
