@@ -13,8 +13,8 @@ Running the project on android or IOS requires their respective emulators.:fire:
 ### :zap: Setup
 
 ```shell
-$ git clone git@github.com:StefanPahlplatz/maji-react.git
-$ cd maji-react/kudos-o-matic
+$ git clone git@github.com:kabisa/kudos-frontend.git
+$ cd kudos-frontend/kudos-o-matic
 $ ./setup.sh
 $ yarn mock
 $ yarn start
@@ -25,8 +25,8 @@ $ yarn start
 Requires the android emulator up and running (or a connected mobile device). :calling:
 
 ```shell
-$ git clone git@github.com:StefanPahlplatz/maji-react.git
-$ cd maji-react
+$ git clone git@github.com:kabisa/kudos-frontend.git
+$ cd kudos-frontend
 $ npm install
 $ cordova run android
 ```
@@ -43,7 +43,7 @@ $ cordova run android
     - 🍴 Fork this repo!
 
 - **Option 2**
-    - 👯 Clone this repo to your local machine using `git@github.com:StefanPahlplatz/maji-react.git`
+    - 👯 Clone this repo to your local machine using `git@github.com:kabisa/kudos-frontend.git`
 
 ### Step 2
 
@@ -51,7 +51,7 @@ $ cordova run android
 
 ### Step 3
 
-- 🔃 Create a new pull request using <a href="https://github.com/StefanPahlplatz/maji-react/pulls" target="_blank">`https://github.com/StefanPahlplatz/maji-react/pulls`</a>.
+- 🔃 Create a new pull request using <a href="https://github.com/StefanPahlplatz/kudos-frontend/pulls" target="_blank">`https://github.com/StefanPahlplatz/maji-react/pulls`</a>.
 
 ---
 
