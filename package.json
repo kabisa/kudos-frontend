@@ -26,7 +26,6 @@
         ]
     },
     "devDependencies": {
-        "faker": "^4.1.0",
         "gitmoji-commit-hook": "^3.0.0"
     }
 }
