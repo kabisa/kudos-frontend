@@ -6,10 +6,10 @@ export function setToken(token) {
 
 export const logout = () => {
   const logoutAction = { type: c.USER_LOGOUT };
-
+  localStorage.clear();
   return dispatch => {
-    window.location.hash = '';
-    setToken(null);
+    dispatch(setToken(null));
     dispatch(logoutAction);
+    window.location.hash = '';
   };
 };
