@@ -24,8 +24,8 @@
     "start": "react-scripts start",
     "build:old": "react-scripts build",
     "build": "rm -rf ../www/ && rm -rf ./build && react-scripts build && cp -rf ./build/ ../www/",
-    "lint": "eslint --ext .jsx --ext .js .",
-    "lint:fix": "eslint --ext .jsx --ext .js . --fix",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "mock": "cd mock && nodemon server.js",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
