@@ -2,6 +2,8 @@
   <img src="https://dovetail.world/wp-content/uploads/2016/09/Logo-Kabisa-e1496142251302.png" height="160"/>
 </p>
   
+[![Build Status](https://travis-ci.org/kabisa/kudos-frontend.svg?branch=master)](https://travis-ci.org/kabisa/kudos-frontend)  
+
 # Kudos-o-Matic Frontend
 
 > The Kudos-o-Matic front end project. This is a cordova/react based application that supports Android, IOS and Web.
