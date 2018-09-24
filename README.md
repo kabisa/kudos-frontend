@@ -22,6 +22,8 @@ $ yarn mock
 $ yarn start
 ```
 
+## :computer: Run on emulators
+
 ### :phone: Run on Android
 
 Requires the android emulator up and running (or a connected mobile device). :calling:
@@ -31,6 +33,15 @@ $ git clone git@github.com:kabisa/kudos-frontend.git
 $ cd kudos-frontend
 $ npm install
 $ cordova run android
+```
+
+### :iphone: Run on iOS
+
+Requires that you're on a mac.
+
+```shell
+$ open -a Simulator
+$ cordova run ios
 ```
 
 ---
