@@ -5,6 +5,7 @@ import { Button, Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
 import { Link, Redirect } from 'react-router-dom';
 
 import { login } from '../actions';
+import routes from '../../../routes';
 
 import './style.css';
 
@@ -35,7 +36,7 @@ export class LoginPage extends Component {
     const { username, password } = this.state;
 
     if (isLoggedIn) {
-      return <Redirect to="/" />;
+      return <Redirect to={routes.feedPath} />;
     }
 
     return (
@@ -88,10 +89,10 @@ export class LoginPage extends Component {
             </Form>
             <Message>
               <div style={{ height: '20px' }}>
-                <Link to="/register" style={{ float: 'left' }}>
+                <Link to={routes.registerPath} style={{ float: 'left' }}>
                   Sign Up
                 </Link>
-                <Link to="/forgot-password" style={{ float: 'right' }}>
+                <Link to={routes.forgotPasswordPath} style={{ float: 'right' }}>
                   Forgot password?
                 </Link>
               </div>

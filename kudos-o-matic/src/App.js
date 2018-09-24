@@ -10,7 +10,9 @@ import { LoginPage, ForgotPasswordPage } from './modules/login';
 import { FeedPage } from './modules/feed';
 import { SettingsPage } from './modules/settings';
 import { StatisticsPage } from './modules/statistics';
+import { NotificationsPage } from './modules/notifications';
 import { UserPage, setToken } from './modules/user';
+import routes from './routes';
 
 import 'react-toastify/dist/ReactToastify.min.css';
 
@@ -25,13 +27,13 @@ const App = () => (
     <Provider store={store}>
       <HashRouter>
         <Switch>
-          <PrivateRoute path="/" exact component={FeedPage} />
-          <PrivateRoute path="/settings" exact component={SettingsPage} />
-          <PrivateRoute path="/notifications" exact component={SettingsPage} />
-          <PrivateRoute path="/statistics" exact component={StatisticsPage} />
-          <PrivateRoute path="/user" exact component={UserPage} />
-          <Route path="/login" component={LoginPage} />
-          <Route path="/forgot-password" component={ForgotPasswordPage} />
+          <PrivateRoute path={routes.feedPath} exact component={FeedPage} />
+          <PrivateRoute path={routes.settingsPath} exact component={SettingsPage} />
+          <PrivateRoute path={routes.notificationsPath} exact component={NotificationsPage} />
+          <PrivateRoute path={routes.statsPath} exact component={StatisticsPage} />
+          <PrivateRoute path={routes.userPath} exact component={UserPage} />
+          <Route path={routes.loginPath} component={LoginPage} />
+          <Route path={routes.forgotPasswordPath} component={ForgotPasswordPage} />
         </Switch>
       </HashRouter>
     </Provider>
