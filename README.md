@@ -15,7 +15,7 @@ Running the project on android or IOS requires their respective emulators.:fire:
 ### :zap: Setup
 
 ```shell
-$ git clone git@github.com:kabisa/kudos-frontend.git
+$ git clone https://github.com/kabisa/kudos-frontend.git
 $ cd kudos-frontend/kudos-o-matic
 $ ./setup.sh
 $ yarn start
@@ -24,12 +24,12 @@ $ yarn start
 ### :whale: Or run it with docker
 
 ```shell
-$ git clone git@github.com:kabisa/kudos-frontend.git
+$ git clone https://github.com/kabisa/kudos-frontend.git
 $ cd kudos-frontend
 $ docker build -f docker/dev/web/Dockerfile -t kudos-frontend .
 $ docker run -it \
+    -v /code/node_modules \
     -v ${PWD}/kudos-o-matic:/code \
-    -v ${PWD}/kudos-o-matic/node_modules:/code/node_modules \
     -p 3000:3000 \
     -p 3001:3001 \
     --rm \
@@ -67,7 +67,7 @@ $ cordova run ios
     - 🍴 Fork this repo!
 
 - **Option 2**
-    - 👯 Clone this repo to your local machine using `git@github.com:kabisa/kudos-frontend.git`
+    - 👯 Clone this repo to your local machine using `https://github.com/kabisa/kudos-frontend.git`
 
 ### Step 2
 
