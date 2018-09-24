@@ -18,33 +18,31 @@ Running the project on android or IOS requires their respective emulators.:fire:
 $ git clone git@github.com:kabisa/kudos-frontend.git
 $ cd kudos-frontend/kudos-o-matic
 $ ./setup.sh
-$ yarn mock
 $ yarn start
 ```
 
 ### :whale: Or run it with docker
 
 ```shell
-docker build -f docker/dev/web/Dockerfile -t kudos-frontend .
-docker run -it \
-  -v ${PWD}/kudos-o-matic:/code \
-  -v ${PWD}/kudos-o-matic/node_modules:/code/node_modules \
-  -p 3000:3000 \
-  -p 3001:3001 \
-  --rm \
-  kudos-frontend
+$ git clone git@github.com:kabisa/kudos-frontend.git
+$ cd kudos-frontend
+$ docker build -f docker/dev/web/Dockerfile -t kudos-frontend .
+$ docker run -it \
+    -v ${PWD}/kudos-o-matic:/code \
+    -v ${PWD}/kudos-o-matic/node_modules:/code/node_modules \
+    -p 3000:3000 \
+    -p 3001:3001 \
+    --rm \
+    kudos-frontend
 ```
 
 ## :computer: Run on emulators
 
+Requires the android emulator up and running (or a connected mobile device). Assumes that you ran `npm install` in the root directory and are currently in the root directory of the project. :calling:
+
 ### :phone: Run on Android
 
-Requires the android emulator up and running (or a connected mobile device). :calling:
-
 ```shell
-$ git clone git@github.com:kabisa/kudos-frontend.git
-$ cd kudos-frontend
-$ npm install
 $ cordova run android
 ```
 
