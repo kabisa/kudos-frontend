@@ -16,7 +16,7 @@ const faker = require('faker');
 
 function generateTransactions() {
   const transactions = [];
-  for (let id = 0; id < 50; id += 1) {
+  for (let id = 0; id < 25; id += 1) {
     transactions.push({
       id,
       author_id: Math.floor(Math.random() * 10),
