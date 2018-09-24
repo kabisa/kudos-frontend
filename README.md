@@ -36,6 +36,8 @@ $ docker run -it \
     kudos-frontend
 ```
 
+Or run it directly from Dockerhub with `docker run -it -p 3000:3000 -p 3001:3001 --rm stefan314/kudos-frontend`
+
 ## :computer: Run on emulators
 
 Requires the android emulator up and running (or a connected mobile device). Assumes that you ran `npm install` in the root directory and are currently in the root directory of the project. :calling:
