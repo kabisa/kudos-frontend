@@ -22,6 +22,19 @@ $ yarn mock
 $ yarn start
 ```
 
+### :whale: Or run it with docker
+
+```shell
+docker build -f docker/dev/web/Dockerfile -t kudos-frontend .
+docker run -it \
+  -v ${PWD}/kudos-o-matic:/code \
+  -v ${PWD}/kudos-o-matic/node_modules:/code/node_modules \
+  -p 3000:3000 \
+  -p 3001:3001 \
+  --rm \
+  kudos-frontend
+```
+
 ## :computer: Run on emulators
 
 ### :phone: Run on Android

@@ -21,7 +21,7 @@
     "semantic-ui-react": "^0.82.5"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "npm run mock & react-scripts start",
     "build:old": "react-scripts build",
     "build": "rm -rf ../www/ && rm -rf ./build && react-scripts build && cp -rf ./build/ ../www/",
     "lint": "eslint .",
