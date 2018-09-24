@@ -3,6 +3,7 @@ export default {
 
   urlLogin: '/login',
   urlResetPassword: '/reset-password',
+  urlTransactions: '/transactions',
 
   localStorageToken: 'token'
 };

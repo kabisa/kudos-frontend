@@ -1,6 +1,4 @@
-// import axios from 'axios';
 import config from '../../config';
-
 import axios from '../../axios';
 
 export function loginService(username, password) {
