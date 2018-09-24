@@ -17,7 +17,7 @@ Running the project on android or IOS requires their respective emulators.:fire:
 ```shell
 $ git clone https://github.com/kabisa/kudos-frontend.git
 $ cd kudos-frontend/kudos-o-matic
-$ ./setup.sh
+$ ./bin/setup.sh
 $ yarn start
 ```
 
