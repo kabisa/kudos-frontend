@@ -10,23 +10,20 @@ const initialState = {};
 const middleware = [thunk];
 
 // Freeze
-if (process.env.NODE_ENV === 'dev' || process.env.NODE_ENV === 'development') {
+if (
+  process.env.NODE_ENV === 'dev' ||
+  process.env.NODE_ENV === 'development' ||
+  !process.env.NODE_ENV
+) {
   middleware.push(freeze);
 }
 
-// Redux devtools
-let devTools = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
-if (process.env.NODE_ENV === 'prod' || process.env.NODE_ENV === 'production') {
-  devTools = a => a;
-}
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
   rootReducer,
   initialState,
-  compose(
-    applyMiddleware(...middleware),
-    devTools
-  )
+  composeEnhancers(applyMiddleware(...middleware))
 );
 
 export default store;
