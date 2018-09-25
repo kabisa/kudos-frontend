@@ -4,12 +4,17 @@ import { Image } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import moment from 'moment-twitter';
 
-const Header = ({ url, name, createdOn }) => {
+const Header = ({ url, name, createdOn, kudos }) => {
   const timestamp = moment(createdOn);
   return (
     <div style={{ display: 'flex', alignItems: 'center' }}>
       <Image src={url} avatar />
-      <span style={{ marginLeft: '4px' }}>{name}</span>
+      <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '4px' }}>
+        <span>{name}</span>
+        <span style={{ fontWeight: '300', fontSize: '12px', lineHeight: 'initial' }}>
+          Gave {kudos} kudos
+        </span>
+      </div>
       <span style={{ fontWeight: '300', fontSize: '12px', marginLeft: 'auto' }}>
         {timestamp.twitter()} ago
       </span>
@@ -20,7 +25,8 @@ const Header = ({ url, name, createdOn }) => {
 Header.propTypes = {
   url: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  createdOn: PropTypes.string.isRequired
+  createdOn: PropTypes.string.isRequired,
+  kudos: PropTypes.number.isRequired
 };
 
 export default Header;

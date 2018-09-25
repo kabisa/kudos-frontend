@@ -16,6 +16,7 @@ const Transaction = ({ transaction }) => (
             url={transaction.author.avatar_url}
             name={transaction.author.name}
             createdOn={transaction.created_on}
+            kudos={transaction.kudos}
           />
         </Card.Header>
         <Card.Description>{transaction.message}</Card.Description>
