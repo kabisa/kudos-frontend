@@ -6,7 +6,7 @@
 
 # Kudos-o-Matic Frontend
 
-> The Kudos-o-Matic front end project. This is a cordova/react based application that supports Android, IOS and Web.
+> The Kudos-o-Matic front end project. This is a cordova/react based application that supports Android, IOS and Web. For the quickest way to get the application running check [DockerHub](https://hub.docker.com/r/stefan314/kudos-frontend/) :whale:!
 
 ## :bulb: Installation
 
@@ -35,8 +35,6 @@ $ docker run -it \
     --rm \
     kudos-frontend
 ```
-
-Or run it directly from Dockerhub with `docker run -it -p 3000:3000 -p 3001:3001 --rm stefan314/kudos-frontend`
 
 ## :computer: Run on emulators
 
