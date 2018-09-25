@@ -75,7 +75,7 @@ $ cordova run ios
 
 ### Step 3
 
-- 🔃 Create a new pull request using <a href="https://github.com/StefanPahlplatz/kudos-frontend/pulls" target="_blank">`https://github.com/StefanPahlplatz/maji-react/pulls`</a>.
+- 🔃 Create a new pull request using <a href="https://github.com/kabisa/kudos-frontend/pulls" target="_blank">`https://github.com/kabisa/kudos-frontend/pulls`</a>.
 
 ---
 
