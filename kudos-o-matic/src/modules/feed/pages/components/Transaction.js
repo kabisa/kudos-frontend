@@ -20,9 +20,9 @@ const Transaction = ({ transaction }) => (
         </Card.Header>
         <Card.Description>{transaction.message}</Card.Description>
       </Card.Content>
-      <Card.Content extra>
+      <Card.Content extra style={{ padding: '4px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <ActionButton icon="heart outline" text={transaction.likes} color="green" />
+          <ActionButton icon="heart outline" text={transaction.likes} />
           <ActionButton icon="comment outline" text={transaction.comments} />
           <ActionButton icon="share" text="Share" />
         </div>

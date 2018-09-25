@@ -2,8 +2,10 @@ import React from 'react';
 import { Button, Icon } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
+import './ActionButton.css';
+
 const ActionButton = ({ color, icon, text }) => (
-  <Button size="mini" basic color={color} style={{ width: '30%' }}>
+  <Button size="mini" basic color={color} className="button-action">
     <Icon name={icon} />
     {text}
   </Button>
