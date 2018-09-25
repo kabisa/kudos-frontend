@@ -1,4 +1,5 @@
 /* eslint import/no-extraneous-dependencies: off */
+/* eslint import/no-unresolved: off */
 /* eslint no-console: 0 */
 /**
  * Mock server
