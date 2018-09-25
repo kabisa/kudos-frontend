@@ -11,6 +11,7 @@
  */
 const jsonServer = require('json-server');
 const faker = require('faker');
+const express = require('express');
 
 // Functions
 
@@ -65,6 +66,7 @@ const middlewares = jsonServer.defaults();
 // Middleware
 
 server.use(middlewares);
+server.use(express.static('public'));
 server.use(jsonServer.bodyParser);
 server.use((req, res, next) => {
   // Request delay
