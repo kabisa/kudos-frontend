@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Loader } from 'semantic-ui-react';
 
+import { TransactionProp } from '../../../proptypes';
 import { Navigation } from '../../navigation';
-import Transaction from './Transaction';
-
+import { Transaction } from './components';
 import { getTransactions } from '../actions';
 
 export class FeedPage extends Component {
@@ -41,7 +41,7 @@ FeedPage.propTypes = {
 
   isLoading: PropTypes.bool.isRequired,
   isFailed: PropTypes.bool.isRequired,
-  transactions: PropTypes.array.isRequired
+  transactions: PropTypes.arrayOf(TransactionProp).isRequired
 };
 
 const mapStateToProps = state => ({

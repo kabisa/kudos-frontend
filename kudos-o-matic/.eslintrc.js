@@ -7,7 +7,6 @@ module.exports = {
     'react/prefer-stateless-function': ['warn'],
     'import/prefer-default-export': ['off'],
     'react/destructuring-assignment': ['off'],
-    'react/forbid-prop-types': ['off'],
   },
   env: {
     browser: true

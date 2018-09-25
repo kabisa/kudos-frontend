@@ -19,11 +19,16 @@ function generateTransactions() {
   for (let id = 0; id < 25; id += 1) {
     transactions.push({
       id,
-      author_id: Math.floor(Math.random() * 10),
+      author: {
+        id: Math.floor(Math.random() * 10),
+        name: faker.name.findName(),
+        avatar_url: faker.internet.avatar()
+      },
       message: faker.hacker.phrase(),
       kudos: Math.floor(Math.random() * 50),
       comments: Math.floor(Math.random() * 50),
-      likes: Math.floor(Math.random() * 50)
+      likes: Math.floor(Math.random() * 50),
+      created_on: faker.date.recent()
     });
   }
   return transactions;
