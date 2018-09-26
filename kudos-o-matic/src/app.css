@@ -9,7 +9,17 @@
 }
 
 .page {
-  height: calc(100vh - 55px);
   overflow-y: scroll;
   text-align: center;
+}
+
+@media only screen and (max-width: 768px) {
+  .page {
+    height: calc(100vh - 55px);
+  }
+}
+@media only screen and (min-width: 768px) {
+  .page {
+    margin-top: 84px;
+  }
 }

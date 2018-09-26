@@ -7,7 +7,15 @@ import Header from './Header';
 
 const Transaction = ({ transaction }) => (
   <div
-    style={{ display: 'flex', flexDirection: 'column', paddingBottom: '8px', textAlign: 'initial' }}
+    style={{
+      display: 'flex',
+      flexDirection: 'column',
+      paddingBottom: '4px',
+      paddingTop: '4px',
+      textAlign: 'initial',
+      margin: 'auto',
+      maxWidth: '420px'
+    }}
   >
     <Card style={{ width: '100%' }}>
       <Card.Content>
