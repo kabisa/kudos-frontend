@@ -1,18 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-class PrivateRoute extends Component {
-  render() {
-    const { component: ProtectedComponent, loggedIn, ...rest } = this.props;
-
-    if (loggedIn) {
-      return <Route {...rest} render={props => <ProtectedComponent {...props} />} />;
-    }
-    return <Redirect to="/login" />;
+const PrivateRoute = ({ component: ProtectedComponent, loggedIn, ...rest }) => {
+  if (loggedIn) {
+    return <Route {...rest} render={props => <ProtectedComponent {...props} />} />;
   }
-}
+  return <Redirect to="/login" />;
+};
 
 PrivateRoute.propTypes = {
   component: PropTypes.func.isRequired,
