@@ -11,7 +11,7 @@ import { FeedPage } from './modules/feed';
 import { SettingsPage } from './modules/settings';
 import { StatisticsPage } from './modules/statistics';
 import { NotificationsPage } from './modules/notifications';
-import { UserPage, setToken } from './modules/user';
+import { UserPage, setToken, getUserInfo } from './modules/user';
 import routes from './routes';
 
 import 'react-toastify/dist/ReactToastify.min.css';
@@ -20,6 +20,7 @@ import 'react-toastify/dist/ReactToastify.min.css';
 const token = localStorage.getItem(config.localStorageToken);
 if (token) {
   store.dispatch(setToken(token));
+  store.dispatch(getUserInfo());
 }
 
 const App = () => (

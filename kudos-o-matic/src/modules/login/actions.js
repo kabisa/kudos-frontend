@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify';
 
 import c from './constants';
-import { setToken } from '../user';
+import { setToken, getUserInfo } from '../user';
 import { loginService, resetPasswordService } from './services';
 
 export function login(username, password) {
@@ -15,6 +15,7 @@ export function login(username, password) {
       const data = await loginService(username, password);
       dispatch(setToken(data.token));
       dispatch(success(data));
+      dispatch(getUserInfo());
     } catch (error) {
       dispatch(failure(error.toString()));
     }

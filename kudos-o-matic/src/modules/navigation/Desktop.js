@@ -1,36 +1,60 @@
 import React from 'react';
-import { Button, Container, Menu, Segment } from 'semantic-ui-react';
+import { Container, Menu, Icon, Image, Dropdown } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { NavLink, Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { logout } from '../user';
 
-export default () => {
-  const fixed = false;
-  return (
-    <div style={{ position: 'fixed', top: 0, width: '100%' }}>
-      <Segment inverted textAlign="center" style={{ padding: '1em 0em' }} vertical>
-        <Menu
-          fixed={fixed ? 'top' : null}
-          inverted={!fixed}
-          pointing={!fixed}
-          secondary={!fixed}
-          size="large"
-        >
-          <Container>
-            <Menu.Item as="a" active>
-              Kudos-o-Matic
-            </Menu.Item>
-            <Menu.Item as="a">Goals</Menu.Item>
-            <Menu.Item as="a">Group</Menu.Item>
-            <Menu.Item as="a">Careers</Menu.Item>
-            <Menu.Item position="right">
-              <Button as="a" inverted={!fixed}>
-                Log in
-              </Button>
-              <Button as="a" inverted={!fixed} primary={fixed} style={{ marginLeft: '0.5em' }}>
-                Sign Up
-              </Button>
-            </Menu.Item>
-          </Container>
-        </Menu>
-      </Segment>
-    </div>
-  );
+import routes from '../../routes';
+
+const DesktopNavigation = ({ url, name, logout: _logout }) => (
+  <div style={{ position: 'fixed', top: 0, width: '100%' }}>
+    <Menu fixed="top" inverted size="large" style={{ height: '62.84px' }}>
+      <Container>
+        <NavLink to={routes.feedPath} className="item">
+          Home
+        </NavLink>
+        <Menu.Item position="right">
+          <Image src={url} size="mini" circular />
+        </Menu.Item>
+        <Dropdown item simple text={name}>
+          <Dropdown.Menu>
+            <Link to={routes.userPath} className="item" style={{ color: 'black' }}>
+              Profile
+            </Link>
+            <Dropdown.Divider />
+            <Dropdown.Item onClick={() => _logout()}>
+              <Icon name="log out" />
+              Log out
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      </Container>
+    </Menu>
+  </div>
+);
+
+DesktopNavigation.propTypes = {
+  url: PropTypes.string,
+  name: PropTypes.string,
+  logout: PropTypes.func.isRequired
 };
+
+DesktopNavigation.defaultProps = {
+  url: '',
+  name: ''
+};
+
+const mapStateToProps = state => ({
+  url: state.user.data ? state.user.data.avatar_url : null,
+  name: state.user.data ? `${state.user.data.first_name} ${state.user.data.last_name}` : null
+});
+
+const mapDispatchToProps = {
+  logout
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DesktopNavigation);

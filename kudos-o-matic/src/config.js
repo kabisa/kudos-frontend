@@ -4,6 +4,7 @@ export default {
   urlLogin: '/login',
   urlResetPassword: '/reset-password',
   urlTransactions: '/transactions',
+  urlUserInfo: '/users/2/',
 
   localStorageToken: 'token'
 };
