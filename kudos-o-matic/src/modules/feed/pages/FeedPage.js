@@ -10,7 +10,9 @@ import { getTransactions } from '../actions';
 
 export class FeedPage extends Component {
   componentWillMount() {
-    this.props.getTransactions();
+    if (this.props.transactions.length === 0) {
+      this.props.getTransactions();
+    }
   }
 
   render() {
