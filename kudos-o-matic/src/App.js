@@ -7,7 +7,7 @@ import store from './store';
 import { LOCALSTORAGE_TOKEN } from './config';
 import { PrivateRoute } from './utils';
 import { LoginPage, ForgotPasswordPage } from './modules/login';
-import { FeedPage } from './modules/feed';
+import { FeedPage, AddTransactionPage } from './modules/feed';
 import { SettingsPage } from './modules/settings';
 import { StatisticsPage } from './modules/statistics';
 import { NotificationsPage } from './modules/notifications';
@@ -33,6 +33,7 @@ const App = () => (
           <PrivateRoute path={routes.PATH_NOTIFICATIONS} exact component={NotificationsPage} />
           <PrivateRoute path={routes.PATH_STATISTICS} exact component={StatisticsPage} />
           <PrivateRoute path={routes.PATH_USER} exact component={UserPage} />
+          <PrivateRoute path={routes.PATH_ADD_TRANSACTION} component={AddTransactionPage} />
           <Route path={routes.PATH_LOGIN} component={LoginPage} />
           <Route path={routes.PATH_FORGOT_PASSWORD} component={ForgotPasswordPage} />
         </Switch>

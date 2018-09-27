@@ -4,5 +4,6 @@ export const PATH_LOGIN = '/login';
 export const PATH_SETTINGS = '/settings';
 export const PATH_STATISTICS = '/statistics';
 export const PATH_FEED = '/';
+export const PATH_ADD_TRANSACTION = '/transactions/add';
 export const PATH_NOTIFICATIONS = '/notifications';
 export const PATH_USER = '/user';

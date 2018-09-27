@@ -12,7 +12,6 @@
  */
 const jsonServer = require('json-server');
 const faker = require('faker');
-const express = require('express');
 
 // Functions
 
@@ -68,7 +67,6 @@ const middlewares = jsonServer.defaults();
 // Middleware
 
 server.use(middlewares);
-server.use(express.static('public'));
 server.use(jsonServer.bodyParser);
 server.use((req, res, next) => {
   // Request delay
@@ -100,6 +98,17 @@ server.post('/login', (req, res) => {
   } else {
     res.sendStatus(401);
   }
+});
+
+server.get('/users/query', (req, res) => {
+  const retList = [];
+  let users = generateUsers();
+  for (let i = 0; i < 3; i += 1) {
+    const j = Math.floor(Math.random() * 7);
+    retList.push(users.pop(j));
+  }
+
+  res.jsonp(retList);
 });
 
 server.use(router);
