@@ -4,7 +4,7 @@ import { HashRouter, Route, Switch } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
 import store from './store';
-import config from './config';
+import { LOCALSTORAGE_TOKEN } from './config';
 import { PrivateRoute } from './utils';
 import { LoginPage, ForgotPasswordPage } from './modules/login';
 import { FeedPage } from './modules/feed';
@@ -17,7 +17,7 @@ import * as routes from './routes';
 import 'react-toastify/dist/ReactToastify.min.css';
 
 // Check for user token
-const token = localStorage.getItem(config.localStorageToken);
+const token = localStorage.getItem(LOCALSTORAGE_TOKEN);
 if (token) {
   store.dispatch(setToken(token));
   store.dispatch(getUserInfo());

@@ -1,6 +1,6 @@
-import config from '../../config';
+import { API_BASE_URL, API_TRANSACTIONS } from '../../config';
 import axios from '../../axios';
 
 export function getTransactionService() {
-  return axios.get(config.apiUrl + config.urlTransactions).then(resp => resp.data);
+  return axios.get(API_BASE_URL + API_TRANSACTIONS).then(resp => resp.data);
 }

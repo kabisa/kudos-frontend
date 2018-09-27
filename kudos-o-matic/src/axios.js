@@ -1,8 +1,8 @@
 import axios from 'axios';
-import config from './config';
+import { API_BASE_URL } from './config';
 
 const instance = axios.create({
-  baseURL: config.apiUrl
+  baseURL: API_BASE_URL
 });
 
 instance.defaults.headers.common = {
