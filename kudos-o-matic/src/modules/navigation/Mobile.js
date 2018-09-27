@@ -2,7 +2,7 @@ import React from 'react';
 import { Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
-import routes from '../../routes';
+import * as routes from '../../routes';
 
 import './style.css';
 
@@ -13,60 +13,60 @@ export default () => {
   return (
     <div className="bottom-navigation">
       {/* Settings */}
-      {path !== routes.settingsPath && (
-        <Link to={routes.settingsPath} className="bottom-item">
+      {path !== routes.PATH_SETTINGS && (
+        <Link to={routes.PATH_SETTINGS} className="bottom-item">
           <Icon name="setting" size="large" className="bottom-icon" />
         </Link>
       )}
-      {path === routes.settingsPath && (
+      {path === routes.PATH_SETTINGS && (
         <div className="bottom-item">
           <Icon color={activeColor} name="setting" size="large" className="bottom-icon" />
         </div>
       )}
 
       {/* Statistics */}
-      {path !== routes.statsPath && (
-        <Link to={routes.statsPath} className="bottom-item">
+      {path !== routes.PATH_STATISTICS && (
+        <Link to={routes.PATH_STATISTICS} className="bottom-item">
           <Icon name="chart bar" size="large" className="bottom-icon" />
         </Link>
       )}
-      {path === routes.statsPath && (
+      {path === routes.PATH_STATISTICS && (
         <div className="bottom-item">
           <Icon color={activeColor} name="chart bar" size="large" className="bottom-icon" />
         </div>
       )}
 
       {/* Feed */}
-      {path !== routes.feedPath && (
-        <Link to={routes.feedPath} className="bottom-item">
+      {path !== routes.PATH_FEED && (
+        <Link to={routes.PATH_FEED} className="bottom-item">
           <Icon name="heart outline" size="large" className="bottom-icon" />
         </Link>
       )}
-      {path === routes.feedPath && (
+      {path === routes.PATH_FEED && (
         <div className="bottom-item">
           <Icon color={activeColor} name="heart" size="large" className="bottom-icon" />
         </div>
       )}
 
       {/* Notifications */}
-      {path !== routes.notificationsPath && (
-        <Link to={routes.notificationsPath} className="bottom-item">
+      {path !== routes.PATH_NOTIFICATIONS && (
+        <Link to={routes.PATH_NOTIFICATIONS} className="bottom-item">
           <Icon name="bell outline" size="large" className="bottom-icon" />
         </Link>
       )}
-      {path === routes.notificationsPath && (
+      {path === routes.PATH_NOTIFICATIONS && (
         <div className="bottom-item">
           <Icon color={activeColor} name="bell" size="large" className="bottom-icon" />
         </div>
       )}
 
       {/* User */}
-      {path !== routes.userPath && (
-        <Link to={routes.userPath} className="bottom-item">
+      {path !== routes.PATH_USER && (
+        <Link to={routes.PATH_USER} className="bottom-item">
           <Icon name="user outline" size="large" className="bottom-icon" />
         </Link>
       )}
-      {path === routes.userPath && (
+      {path === routes.PATH_USER && (
         <div className="bottom-item">
           <Icon color={activeColor} name="user" size="large" className="bottom-icon" />
         </div>

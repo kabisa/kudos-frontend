@@ -5,7 +5,7 @@ import { Button, Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
 import { Link } from 'react-router-dom';
 
 import { forgotPassword } from '../actions';
-import routes from '../../../routes';
+import { PATH_LOGIN } from '../../../routes';
 
 import './style.css';
 
@@ -59,7 +59,7 @@ export class LoginPage extends Component {
               </Segment>
             </Form>
             <Message>
-              <Link to={routes.loginPath}>Back</Link>
+              <Link to={PATH_LOGIN}>Back</Link>
             </Message>
           </Grid.Column>
         </Grid>

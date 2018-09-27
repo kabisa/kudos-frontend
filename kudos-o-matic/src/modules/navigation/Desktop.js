@@ -5,13 +5,13 @@ import { NavLink, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { logout } from '../user';
 
-import routes from '../../routes';
+import { PATH_FEED, PATH_USER } from '../../routes';
 
 const DesktopNavigation = ({ url, name, logout: _logout }) => (
   <div style={{ position: 'fixed', top: 0, width: '100%' }}>
     <Menu fixed="top" inverted size="large" style={{ height: '62.84px' }}>
       <Container>
-        <NavLink to={routes.feedPath} className="item">
+        <NavLink to={PATH_FEED} className="item">
           Home
         </NavLink>
         <Menu.Item position="right">
@@ -19,7 +19,7 @@ const DesktopNavigation = ({ url, name, logout: _logout }) => (
         </Menu.Item>
         <Dropdown item simple text={name}>
           <Dropdown.Menu>
-            <Link to={routes.userPath} className="item" style={{ color: 'black' }}>
+            <Link to={PATH_USER} className="item" style={{ color: 'black' }}>
               Profile
             </Link>
             <Dropdown.Divider />
