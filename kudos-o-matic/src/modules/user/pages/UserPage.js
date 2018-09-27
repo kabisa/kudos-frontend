@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button } from 'semantic-ui-react';
+import { Button, Image } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
 import { Navigation } from '../../navigation';
@@ -20,10 +20,16 @@ export class UserPage extends Component {
   }
 
   render() {
+    const { avatarUrl, name, location } = this.props;
     return (
       <div style={{ height: '100%' }}>
-        <div className="page">
-          <Button color="orange" onClick={this.logout} style={{ margin: 'auto', display: 'block' }}>
+        <div className="page flex">
+          <div>
+            <Image src={avatarUrl} circular style={{ margin: 'auto', paddingTop: '2rem' }} />
+            <h2 style={{ marginBottom: 0 }}>{name}</h2>
+            <span style={{ color: 'grey' }}>{location}</span>
+          </div>
+          <Button color="red" onClick={this.logout} style={{ margin: 'auto', display: 'block' }}>
             Log out
           </Button>
         </div>
@@ -35,10 +41,17 @@ export class UserPage extends Component {
 }
 
 UserPage.propTypes = {
-  logout: PropTypes.func.isRequired
+  logout: PropTypes.func.isRequired,
+  avatarUrl: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  location: PropTypes.string.isRequired
 };
 
-const mapStateToProps = () => ({});
+const mapStateToProps = state => ({
+  avatarUrl: state.user.data ? state.user.data.avatar_url : '',
+  location: state.user.data ? state.user.data.location : '',
+  name: state.user.data ? `${state.user.data.first_name} ${state.user.data.last_name}` : ''
+});
 
 const mapDispatchToProps = { logout };
 

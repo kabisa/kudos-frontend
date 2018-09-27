@@ -45,7 +45,8 @@ function generateUsers() {
       last_name: faker.name.lastName(),
       email: faker.internet.email(),
       avatar_url: faker.internet.avatar(),
-      description: faker.hacker.phrase()
+      description: faker.hacker.phrase(),
+      location: faker.address.state()
     });
   }
   return users;

@@ -47,7 +47,7 @@ export class LoginPage extends Component {
           verticalAlign="middle"
         >
           <Grid.Column style={{ maxWidth: 450 }}>
-            <Header as="h2" color="teal" textAlign="center">
+            <Header as="h2" color="blue" textAlign="center">
               Log-in to your account
             </Header>
             <Form size="large" error onSubmit={this.onSubmit}>
@@ -74,7 +74,7 @@ export class LoginPage extends Component {
                   onChange={this.handleChange}
                 />
 
-                <Button color="teal" loading={loading} fluid size="large">
+                <Button color="blue" loading={loading} fluid size="large">
                   Login
                 </Button>
 
