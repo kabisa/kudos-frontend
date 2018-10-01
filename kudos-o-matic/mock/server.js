@@ -41,7 +41,7 @@ function generateTransactions() {
         name: faker.name.findName(),
         avatar_url: faker.internet.avatar()
       },
-      receivers: generateUsers().splice(0, 3),
+      receivers: generateUsers().splice(0, Math.floor(Math.random() * 9)),
       message: faker.hacker.phrase(),
       kudos: Math.floor(Math.random() * 50),
       comments: Math.floor(Math.random() * 50),

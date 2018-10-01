@@ -4,18 +4,29 @@ import { Image } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import moment from 'moment-twitter';
 
-const Header = ({ url, name, createdOn, kudos }) => {
+const Header = ({ authorUrl, createdOn, kudos, receivers }) => {
   const timestamp = moment(createdOn);
+
+  const receiversList = receivers.map(user => <Image key={user.id} src={user.avatar_url} avatar />);
+
   return (
     <div style={{ display: 'flex', alignItems: 'center' }}>
-      <Image src={url} avatar />
-      <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '4px' }}>
-        <span>{name}</span>
-        <span style={{ fontWeight: '300', fontSize: '12px', lineHeight: 'initial' }}>
-          Gave {kudos} kudos
-        </span>
+      <div style={{ width: '45px' }}>
+        <span>{kudos} ₭</span>
       </div>
-      <span style={{ fontWeight: '300', fontSize: '12px', marginLeft: 'auto' }}>
+      <div style={{ marginLeft: '12px', display: 'flex', flexFlow: 'wrap', maxWidth: '12em' }}>
+        <Image src={authorUrl} avatar />
+        {receiversList}
+      </div>
+      <span
+        style={{
+          fontWeight: '300',
+          fontSize: '12px',
+          marginLeft: 'auto',
+          width: '65px',
+          textAlign: 'right'
+        }}
+      >
         {timestamp.twitter()} ago
       </span>
     </div>
@@ -23,10 +34,11 @@ const Header = ({ url, name, createdOn, kudos }) => {
 };
 
 Header.propTypes = {
-  url: PropTypes.string.isRequired,
+  authorUrl: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   createdOn: PropTypes.string.isRequired,
-  kudos: PropTypes.number.isRequired
+  kudos: PropTypes.number.isRequired,
+  receivers: PropTypes.array.isRequired
 };
 
 export default Header;

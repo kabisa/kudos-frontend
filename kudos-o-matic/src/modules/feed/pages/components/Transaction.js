@@ -21,19 +21,20 @@ const Transaction = ({ transaction }) => (
       <Card.Content>
         <Card.Header>
           <Header
-            url={transaction.author.avatar_url}
             name={transaction.author.name}
+            receivers={transaction.receivers}
+            authorUrl={transaction.author.avatar_url}
             createdOn={transaction.created_on}
             kudos={transaction.kudos}
           />
         </Card.Header>
-        <Card.Description>{transaction.message}</Card.Description>
+        <Card.Description style={{ marginTop: '1em' }}>{transaction.message}</Card.Description>
       </Card.Content>
       <Card.Content extra style={{ padding: '4px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-around' }}>
           <ActionButton icon="heart outline" text={transaction.likes} />
           <ActionButton icon="comment outline" text={transaction.comments} />
-          <ActionButton icon="share" text="Share" />
+          {/* <ActionButton icon="share" text="Share" /> */}
         </div>
       </Card.Content>
     </Card>
