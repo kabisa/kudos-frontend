@@ -25,7 +25,7 @@ export class UserPage extends Component {
       <div style={{ height: '100%' }}>
         <div className="page flex">
           <div>
-            <Image src={avatarUrl} circular style={{ margin: 'auto', paddingTop: '2rem' }} />
+            <Image src={avatarUrl} circular style={{ margin: 'auto', marginTop: '2rem' }} />
             <h2 style={{ marginBottom: 0 }}>{name}</h2>
             <span style={{ color: 'grey' }}>{location}</span>
           </div>
