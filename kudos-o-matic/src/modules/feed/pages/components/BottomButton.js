@@ -2,23 +2,23 @@ import React from 'react';
 import { Button, Icon } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
-import './ActionButton.css';
+import './BottomButton.css';
 
-const ActionButton = ({ color, icon, text }) => (
+const BottomButton = ({ color, icon, text }) => (
   <Button size="mini" basic color={color} className="button-action">
     <Icon name={icon} />
     {text}
   </Button>
 );
 
-ActionButton.propTypes = {
+BottomButton.propTypes = {
   color: PropTypes.string,
   icon: PropTypes.string.isRequired,
   text: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
 };
 
-ActionButton.defaultProps = {
+BottomButton.defaultProps = {
   color: null
 };
 
-export default ActionButton;
+export default BottomButton;

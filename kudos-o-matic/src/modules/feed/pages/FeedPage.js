@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Loader, Button } from 'semantic-ui-react';
+import { Loader, Button, Responsive } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 import { TransactionProp } from '../../../proptypes';
@@ -26,9 +26,11 @@ export class FeedPage extends Component {
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <Link to={PATH_ADD_TRANSACTION}>
-          <Button circular icon="plus" className="add-button" primary size="huge" />
-        </Link>
+        <Responsive maxWidth={Responsive.onlyMobile.maxWidth}>
+          <Link to={PATH_ADD_TRANSACTION}>
+            <Button circular icon="plus" className="add-button" primary size="huge" />
+          </Link>
+        </Responsive>
 
         <div className="page">
           {isLoading && <Loader active>Loading</Loader>}
