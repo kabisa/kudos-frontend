@@ -8,3 +8,30 @@
   right: 1em;
   bottom: 4em;
 }
+
+.kudo-progress {
+  height: 50px;
+  /* background-color: lightgray; */
+  align-items: center;
+  display: flex;
+  width: 90%;
+  margin: auto;
+}
+
+.kudo-progress-bar {
+  width: 50%;
+  margin-top: 22px;
+  height: 15px;
+  border-radius: 100px 0 0 100px;
+  background-color: #2185d0;
+  margin: 0 auto;
+}
+
+.kudo-progress-bar-negative {
+  width: 50%;
+  margin-top: 22px;
+  height: 15px;
+  border-radius: 0 100px 100px 0;
+  background-color: rgb(194, 229, 247);
+  margin: 0 auto;
+}

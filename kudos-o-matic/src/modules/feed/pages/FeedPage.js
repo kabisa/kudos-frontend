@@ -21,6 +21,7 @@ export class FeedPage extends Component {
 
   render() {
     const { isLoading, isFailed, transactions } = this.props;
+    const progress = 10;
 
     const Transactions = transactions.map(item => <Transaction transaction={item} key={item.id} />);
 
@@ -33,6 +34,10 @@ export class FeedPage extends Component {
         </Responsive>
 
         <div className="page">
+          <div className="kudo-progress">
+            <div className="kudo-progress-bar" style={{ width: `${progress}%` }} />
+            <div className="kudo-progress-bar-negative" style={{ width: `${100 - progress}%` }} />
+          </div>
           {isLoading && <Loader active>Loading</Loader>}
           {!isLoading &&
             isFailed && (
