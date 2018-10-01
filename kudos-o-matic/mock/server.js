@@ -15,26 +15,6 @@ const faker = require('faker');
 
 // Functions
 
-function generateTransactions() {
-  const transactions = [];
-  for (let id = 0; id < 25; id += 1) {
-    transactions.push({
-      id,
-      author: {
-        id: Math.floor(Math.random() * 10),
-        name: faker.name.findName(),
-        avatar_url: faker.internet.avatar()
-      },
-      message: faker.hacker.phrase(),
-      kudos: Math.floor(Math.random() * 50),
-      comments: Math.floor(Math.random() * 50),
-      likes: Math.floor(Math.random() * 50),
-      created_on: faker.date.recent()
-    });
-  }
-  return transactions;
-}
-
 function generateUsers() {
   const users = [];
   for (let id = 0; id < 10; id += 1) {
@@ -49,6 +29,27 @@ function generateUsers() {
     });
   }
   return users;
+}
+
+function generateTransactions() {
+  const transactions = [];
+  for (let id = 0; id < 25; id += 1) {
+    transactions.push({
+      id,
+      author: {
+        id: Math.floor(Math.random() * 10),
+        name: faker.name.findName(),
+        avatar_url: faker.internet.avatar()
+      },
+      receivers: generateUsers().splice(0, 3),
+      message: faker.hacker.phrase(),
+      kudos: Math.floor(Math.random() * 50),
+      comments: Math.floor(Math.random() * 50),
+      likes: Math.floor(Math.random() * 50),
+      created_on: faker.date.recent()
+    });
+  }
+  return transactions;
 }
 
 function isAuthorized(req) {
