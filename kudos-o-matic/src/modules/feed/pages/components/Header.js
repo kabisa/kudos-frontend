@@ -3,6 +3,7 @@ import React from 'react';
 import { Image } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import moment from 'moment-twitter';
+import { UserProp } from '../../../../proptypes';
 
 const Header = ({ authorUrl, createdOn, kudos, receivers }) => {
   const timestamp = moment(createdOn);
@@ -35,10 +36,9 @@ const Header = ({ authorUrl, createdOn, kudos, receivers }) => {
 
 Header.propTypes = {
   authorUrl: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
   createdOn: PropTypes.string.isRequired,
   kudos: PropTypes.number.isRequired,
-  receivers: PropTypes.array.isRequired
+  receivers: PropTypes.arrayOf(UserProp).isRequired
 };
 
 export default Header;
