@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Form, Button } from 'semantic-ui-react';
 
@@ -9,12 +8,24 @@ import UserDropdown from './components/UserDropdown';
 export class AddTransactionPage extends Component {
   constructor(props) {
     super(props);
-
+    this.state = {
+      amount: 0
+    };
     this.onSubmit = this.onSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleDropdownChange = this.handleDropdownChange.bind(this);
   }
 
-  onSubmit(values) {
-    console.log(values);
+  onSubmit() {
+    console.log(this.state);
+  }
+
+  handleChange(e, { name, value }) {
+    this.setState({ [name]: value });
+  }
+
+  handleDropdownChange(value) {
+    this.setState({ receivers: value });
   }
 
   render() {
@@ -25,26 +36,28 @@ export class AddTransactionPage extends Component {
             <Form.Field>
               <label htmlFor="input-kudos">
                 Kudos Amount
-                <input id="input-kudos" placeholder="Kudos" type="number" />
+                <Form.Input
+                  id="input-kudos"
+                  onChange={this.handleChange}
+                  placeholder="Kudos"
+                  name="amount"
+                  type="number"
+                />
               </label>
             </Form.Field>
-            {/* <Form.Dropdown
-              placeholder="Select receivers"
-              fluid
-              multiple
-              search
-              selection
-              options={countryOptions}
-              label="Receivers"
-            /> */}
             <Form.Field>
               <label htmlFor="input-receivers">
                 Receivers
-                <UserDropdown id="input-receivers" />
+                <UserDropdown id="input-receivers" onChange={this.handleDropdownChange} />
               </label>
             </Form.Field>
 
-            <Form.TextArea label="Message" placeholder="Enter your message" />
+            <Form.TextArea
+              label="Message"
+              placeholder="Enter your message"
+              name="message"
+              onChange={this.handleChange}
+            />
             <Button type="submit" primary>
               Submit
             </Button>
@@ -56,7 +69,7 @@ export class AddTransactionPage extends Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = () => ({});
 
 const mapDispatchToProps = {};
 

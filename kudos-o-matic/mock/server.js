@@ -102,7 +102,7 @@ server.post('/login', (req, res) => {
 
 server.get('/users/query', (req, res) => {
   const retList = [];
-  let users = generateUsers();
+  const users = generateUsers();
   for (let i = 0; i < 3; i += 1) {
     const j = Math.floor(Math.random() * 7);
     retList.push(users.pop(j));

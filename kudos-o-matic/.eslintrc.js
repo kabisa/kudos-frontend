@@ -7,6 +7,8 @@ module.exports = {
     'react/prefer-stateless-function': ['warn'],
     'import/prefer-default-export': ['off'],
     'react/destructuring-assignment': ['off'],
+    'jsx-a11y/label-has-associated-control': ['off'],
+    'jsx-a11y/label-has-for': ['off'],
   },
   env: {
     browser: true

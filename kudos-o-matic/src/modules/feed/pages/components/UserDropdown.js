@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Dropdown } from 'semantic-ui-react';
+import PropTypes from 'prop-types';
 
 import axios from '../../../../axios';
 import { API_USER_SEARCH } from '../../../../config';
@@ -9,7 +10,6 @@ class DropdownRemote extends Component {
     super(props);
     this.state = {
       isFetching: false,
-      searchQuery: null,
       value: [],
       options: []
     };
@@ -21,15 +21,16 @@ class DropdownRemote extends Component {
 
   handleChange(e, { value }) {
     this.setState({ value });
+    this.props.onChange(value);
   }
 
   handleSearchChange(e, { searchQuery }) {
-    this.setState({ searchQuery });
-    this.fetchOptions();
+    this.fetchOptions(searchQuery);
   }
 
-  fetchOptions() {
+  fetchOptions(searchQuery) {
     this.setState({ isFetching: true });
+    console.log(searchQuery);
 
     axios.get(API_USER_SEARCH).then(resp => {
       const options = [];
@@ -69,5 +70,9 @@ class DropdownRemote extends Component {
     );
   }
 }
+
+DropdownRemote.propTypes = {
+  onChange: PropTypes.func.isRequired
+};
 
 export default DropdownRemote;
