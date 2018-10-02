@@ -8,6 +8,7 @@ export const API_RESET_PASSWORD = '/reset-password';
 export const API_TRANSACTIONS = '/transactions';
 export const API_USER_INFO = '/users/2/';
 export const API_USER_SEARCH = '/users/query';
+export const API_GOAL_PROGRESS = '/goals/next';
 
 /**
  * LocalStorage constants

@@ -112,6 +112,12 @@ server.get('/users/query', (req, res) => {
   res.jsonp(retList);
 });
 
+server.get('/goals/next', (req, res) => {
+  res.jsonp({
+    percentage: 35
+  });
+});
+
 server.use(router);
 server.listen(3001, '0.0.0.0', () => {
   console.log('JSON Server is running');
