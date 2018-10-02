@@ -16,8 +16,9 @@ Running the project on android or IOS requires their respective emulators.:fire:
 
 ```shell
 $ git clone https://github.com/kabisa/kudos-frontend.git
-$ cd kudos-frontend/kudos-o-matic
+$ cd kudos-frontend/
 $ ./bin/setup.sh
+$ cd kudos-o-matic
 $ yarn start
 ```
 
@@ -26,14 +27,16 @@ $ yarn start
 ```shell
 $ git clone https://github.com/kabisa/kudos-frontend.git
 $ cd kudos-frontend
-$ docker build -f docker/dev/web/Dockerfile -t kudos-frontend .
+$ docker build -f docker/dev/mock/Dockerfile -t kudos-frontend:mock .
+$ docker build -f docker/dev/web/Dockerfile -t kudos-frontend:app .
+$ docker run -p 3001:3001 --rm -d kudos-frontend:mock
 $ docker run -it \
     -v /code/node_modules \
     -v ${PWD}/kudos-o-matic:/code \
     -p 3000:3000 \
     -p 3001:3001 \
     --rm \
-    kudos-frontend
+    kudos-frontend:app
 ```
 
 ## :computer: Run on emulators
