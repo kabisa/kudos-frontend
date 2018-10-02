@@ -14,7 +14,7 @@ export default () => {
     <div className="bottom-navigation">
       {/* Settings */}
       {path !== routes.PATH_SETTINGS && (
-        <Link to={routes.PATH_SETTINGS} className="bottom-item">
+        <Link to={routes.PATH_SETTINGS} replace className="bottom-item">
           <Icon name="setting" size="large" className="bottom-icon" />
         </Link>
       )}
@@ -26,7 +26,7 @@ export default () => {
 
       {/* Statistics */}
       {path !== routes.PATH_STATISTICS && (
-        <Link to={routes.PATH_STATISTICS} className="bottom-item">
+        <Link to={routes.PATH_STATISTICS} replace className="bottom-item">
           <Icon name="chart bar" size="large" className="bottom-icon" />
         </Link>
       )}
@@ -38,7 +38,7 @@ export default () => {
 
       {/* Feed */}
       {path !== routes.PATH_FEED && (
-        <Link to={routes.PATH_FEED} className="bottom-item">
+        <Link to={routes.PATH_FEED} replace className="bottom-item">
           <Icon name="heart outline" size="large" className="bottom-icon" />
         </Link>
       )}
@@ -50,7 +50,7 @@ export default () => {
 
       {/* Notifications */}
       {path !== routes.PATH_NOTIFICATIONS && (
-        <Link to={routes.PATH_NOTIFICATIONS} className="bottom-item">
+        <Link to={routes.PATH_NOTIFICATIONS} replace className="bottom-item">
           <Icon name="bell outline" size="large" className="bottom-icon" />
         </Link>
       )}
@@ -62,7 +62,7 @@ export default () => {
 
       {/* User */}
       {path !== routes.PATH_USER && (
-        <Link to={routes.PATH_USER} className="bottom-item">
+        <Link to={routes.PATH_USER} replace className="bottom-item">
           <Icon name="user outline" size="large" className="bottom-icon" />
         </Link>
       )}

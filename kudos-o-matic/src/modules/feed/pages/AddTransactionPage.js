@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Form, Button } from 'semantic-ui-react';
+import { Redirect } from 'react-router-dom';
 
 import { Navigation } from '../../navigation';
 import UserDropdown from './components/UserDropdown';
+import { PATH_FEED } from '../../../routes';
 
 export class AddTransactionPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      amount: 0
+      amount: 0,
+      done: false
     };
     this.onSubmit = this.onSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -18,6 +21,7 @@ export class AddTransactionPage extends Component {
 
   onSubmit() {
     console.log(this.state);
+    this.setState({ done: true });
   }
 
   handleChange(e, { name, value }) {
@@ -29,6 +33,11 @@ export class AddTransactionPage extends Component {
   }
 
   render() {
+    const { done } = this.state;
+    if (done) {
+      return <Redirect to={PATH_FEED} push={false} />;
+    }
+
     return (
       <div className="page flex">
         <div style={{ padding: '2em' }}>

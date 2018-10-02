@@ -59,7 +59,9 @@ export class LoginPage extends Component {
               </Segment>
             </Form>
             <Message>
-              <Link to={PATH_LOGIN}>Back</Link>
+              <Link to={PATH_LOGIN} replace>
+                Back
+              </Link>
             </Message>
           </Grid.Column>
         </Grid>

@@ -36,7 +36,7 @@ export class LoginPage extends Component {
     const { username, password } = this.state;
 
     if (isLoggedIn) {
-      return <Redirect to={PATH_FEED} />;
+      return <Redirect to={PATH_FEED} push={false} />;
     }
 
     return (
