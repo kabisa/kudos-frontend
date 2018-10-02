@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card } from 'semantic-ui-react';
 
-import { TransactionProp } from '../../../../proptypes';
+import { TransactionProp } from '../../../../../proptypes';
 import BottomButton from './BottomButton';
 import Header from './Header';
 

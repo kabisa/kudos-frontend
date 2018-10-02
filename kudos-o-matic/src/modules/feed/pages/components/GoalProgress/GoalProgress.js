@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { PATH_STATISTICS } from '../../../../routes';
-import { getGoalProgress } from '../../actions';
+import { PATH_STATISTICS } from '../../../../../routes';
+import { getGoalProgress } from '../../../actions';
+
+import './GoalProgress.css';
 
 export class GoalProgress extends Component {
   componentWillMount() {

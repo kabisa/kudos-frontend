@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Loader, Button, Responsive } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
+import { Loader } from 'semantic-ui-react';
 
 import { TransactionProp } from '../../../proptypes';
 import { Navigation } from '../../navigation';
-import { Transaction, GoalProgress } from './components';
+import { Transaction, GoalProgress, ActionButton } from './components';
 import { getTransactions } from '../actions';
-import { PATH_ADD_TRANSACTION } from '../../../routes';
-
-import './FeedPage.css';
 
 export class FeedPage extends Component {
   componentWillMount() {
@@ -26,11 +22,7 @@ export class FeedPage extends Component {
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <Responsive maxWidth={Responsive.onlyMobile.maxWidth}>
-          <Link to={PATH_ADD_TRANSACTION}>
-            <Button circular icon="plus" className="add-button" primary size="huge" />
-          </Link>
-        </Responsive>
+        <ActionButton />
 
         <div className="page">
           <GoalProgress />
