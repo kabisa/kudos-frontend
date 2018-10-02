@@ -16,6 +16,7 @@
   display: flex;
   width: 90%;
   margin: auto;
+  max-width: 420px;
 }
 
 .kudo-progress-bar {

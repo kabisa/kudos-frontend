@@ -50,6 +50,7 @@ export class LoginPage extends Component {
             <Header as="h2" color="blue" textAlign="center">
               Log-in to your account
             </Header>
+            <p style={{ color: 'red' }}>username:password</p>
             <Form size="large" error onSubmit={this.onSubmit}>
               <Segment stacked>
                 <Form.Input

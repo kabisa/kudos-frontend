@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
+import { PATH_STATISTICS } from '../../../../routes';
 import { getGoalProgress } from '../../actions';
 
 export class GoalProgress extends Component {
@@ -14,17 +16,17 @@ export class GoalProgress extends Component {
 
     if (!goalPercentageSuccess) {
       return (
-        <div className="kudo-progress">
+        <Link className="kudo-progress" to={PATH_STATISTICS}>
           <div className="kudo-progress-bar-loading" />
-        </div>
+        </Link>
       );
     }
 
     return (
-      <div className="kudo-progress">
+      <Link className="kudo-progress" to={PATH_STATISTICS}>
         <div className="kudo-progress-bar" style={{ width: `${goalPercentage}%` }} />
         <div className="kudo-progress-bar-negative" style={{ width: `${100 - goalPercentage}%` }} />
-      </div>
+      </Link>
     );
   }
 }

@@ -39,7 +39,7 @@ export class AddTransactionPage extends Component {
     }
 
     return (
-      <div className="page flex">
+      <div className="page flex" style={{ justifyContent: 'center' }}>
         <div style={{ padding: '2em' }}>
           <Form onSubmit={this.onSubmit}>
             <Form.Field>
