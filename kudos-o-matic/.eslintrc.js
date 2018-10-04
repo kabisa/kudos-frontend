@@ -11,6 +11,7 @@ module.exports = {
     'jsx-a11y/label-has-for': ['off'],
   },
   env: {
-    browser: true
+    browser: true,
+    jest: true
   }
 };
