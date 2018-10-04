@@ -7,7 +7,7 @@ import { logout } from '../user';
 
 import { PATH_FEED, PATH_USER } from '../../routes';
 
-const DesktopNavigation = ({ url, name, logout: _logout }) => (
+export const DesktopNavigation = ({ url, name, logout: _logout }) => (
   <div style={{ position: 'fixed', top: 0, width: '100%' }}>
     <Menu fixed="top" inverted size="large" style={{ height: '62.84px' }}>
       <Container>

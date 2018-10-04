@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-const PrivateRoute = ({ component: ProtectedComponent, loggedIn, ...rest }) => {
+export const PrivateRoute = ({ component: ProtectedComponent, loggedIn, ...rest }) => {
   if (loggedIn) {
     return <Route {...rest} render={props => <ProtectedComponent {...props} />} />;
   }

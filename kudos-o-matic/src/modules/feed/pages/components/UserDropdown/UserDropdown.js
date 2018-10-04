@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Dropdown } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
-import axios from '../../../../axios';
-import { API_USER_SEARCH } from '../../../../config';
+import axios from '../../../../../axios';
+import { API_USER_SEARCH } from '../../../../../config';
 
 class DropdownRemote extends Component {
   constructor(props) {

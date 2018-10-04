@@ -9,7 +9,7 @@ import { PATH_LOGIN } from '../../../routes';
 
 import './style.css';
 
-export class LoginPage extends Component {
+export class ForgotPasswordPage extends Component {
   constructor(props) {
     super(props);
 
@@ -70,7 +70,7 @@ export class LoginPage extends Component {
   }
 }
 
-LoginPage.propTypes = {
+ForgotPasswordPage.propTypes = {
   loading: PropTypes.bool.isRequired,
   forgotPassword: PropTypes.func.isRequired
 };
@@ -84,4 +84,4 @@ const mapDispatchToProps = { forgotPassword };
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(LoginPage);
+)(ForgotPasswordPage);

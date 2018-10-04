@@ -4,7 +4,7 @@ import { Form, Button } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
 
 import { Navigation } from '../../navigation';
-import UserDropdown from './components/UserDropdown';
+import UserDropdown from './components/UserDropdown/UserDropdown';
 import { PATH_FEED } from '../../../routes';
 
 export class AddTransactionPage extends Component {
