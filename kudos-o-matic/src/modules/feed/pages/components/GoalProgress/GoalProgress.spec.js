@@ -2,7 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
 
-import { GoalProgress } from '../GoalProgress';
+import { GoalProgress } from './GoalProgress';
 
 function setup() {
   const props = {

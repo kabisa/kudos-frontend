@@ -1,9 +1,10 @@
-import React from 'react';
 /* eslint react/jsx-one-expression-per-line: off */
+import React from 'react';
 import { Image } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import moment from 'moment-twitter';
-import { UserProp } from '../../../../../proptypes';
+
+import { UserProp } from '../../../../../../proptypes';
 
 const Header = ({ authorUrl, createdOn, kudos, receivers }) => {
   const timestamp = moment(createdOn);

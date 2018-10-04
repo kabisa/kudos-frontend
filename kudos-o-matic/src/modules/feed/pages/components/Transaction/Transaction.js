@@ -2,8 +2,8 @@ import React from 'react';
 import { Card } from 'semantic-ui-react';
 
 import { TransactionProp } from '../../../../../proptypes';
-import BottomButton from './BottomButton';
-import Header from './Header';
+import BottomButton from './BottomButton/BottomButton';
+import Header from './Header/Header';
 
 const Transaction = ({ transaction }) => (
   <div
