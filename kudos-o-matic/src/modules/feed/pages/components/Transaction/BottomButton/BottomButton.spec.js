@@ -17,17 +17,22 @@ function setup() {
   };
 }
 
-it('should render self and subcomponents', () => {
+describe('BottomButton', () => {
   const { enzymeWrapper } = setup();
+  it('should render self and subcomponents', () => {
+    expect(enzymeWrapper.find('button').hasClass('button-action')).toBe(true);
+  });
 
-  expect(enzymeWrapper.find('button').hasClass('button-action')).toBe(true);
+  it('should have a button text', () => {
+    expect(enzymeWrapper.find('button').text()).toBe('test');
+  });
 
-  expect(
-    enzymeWrapper
-      .find('button')
-      .find('i')
-      .hasClass('heart icon')
-  ).toBe(true);
-
-  expect(enzymeWrapper.find('button').text()).toBe('test');
+  it('should have an icon', () => {
+    expect(
+      enzymeWrapper
+        .find('button')
+        .find('i')
+        .hasClass('heart icon')
+    ).toBe(true);
+  });
 });

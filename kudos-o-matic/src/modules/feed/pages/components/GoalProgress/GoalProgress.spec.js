@@ -22,24 +22,30 @@ function setup() {
   };
 }
 
-it('should render self and subcomponents', () => {
+describe('GoalProgress', () => {
   const { enzymeWrapper } = setup();
 
-  expect(enzymeWrapper.find('a').hasClass('kudo-progress')).toBe(true);
+  it('should render self and subcomponents', () => {
+    expect(enzymeWrapper.find('a').hasClass('kudo-progress')).toBe(true);
+  });
 
-  expect(
-    enzymeWrapper
-      .find('a')
-      .find('div')
-      .first()
-      .hasClass('kudo-progress-bar')
-  ).toBe(true);
+  it('should have a positive progress bar', () => {
+    expect(
+      enzymeWrapper
+        .find('a')
+        .find('div')
+        .first()
+        .hasClass('kudo-progress-bar')
+    ).toBe(true);
+  });
 
-  expect(
-    enzymeWrapper
-      .find('a')
-      .find('div')
-      .last()
-      .hasClass('kudo-progress-bar-negative')
-  ).toBe(true);
+  it('should have a negative progress bar', () => {
+    expect(
+      enzymeWrapper
+        .find('a')
+        .find('div')
+        .last()
+        .hasClass('kudo-progress-bar-negative')
+    ).toBe(true);
+  });
 });

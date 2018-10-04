@@ -29,17 +29,21 @@ function setup() {
   };
 }
 
-it('should render self and subcomponents', () => {
+describe('Header', () => {
   const { enzymeWrapper } = setup();
+  it('should render self and subcomponents', () => {
+    expect(enzymeWrapper.isEmptyRender()).toBe(false);
+  });
 
-  expect(enzymeWrapper.isEmptyRender()).toBe(false);
-  expect(
-    enzymeWrapper
-      .find('div')
-      .find('div')
-      .first()
-      .find('span')
-      .first()
-      .text()
-  ).toBe('10 ₭');
+  it('should show the kudo amount', () => {
+    expect(
+      enzymeWrapper
+        .find('div')
+        .find('div')
+        .first()
+        .find('span')
+        .first()
+        .text()
+    ).toBe('10 ₭');
+  });
 });
