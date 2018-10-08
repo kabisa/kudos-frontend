@@ -3,7 +3,7 @@ import { Card } from 'semantic-ui-react';
 
 import { TransactionProp } from '../../../../../proptypes';
 import CommentButton from './CommentButton/CommentButton';
-import LikeButton from './LikeButton/LikeButton';
+import { LikeButton } from './LikeButton';
 import Header from './Header/Header';
 
 const Transaction = ({ transaction }) => (
