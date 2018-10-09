@@ -15,6 +15,7 @@ import { UserPage, setToken, getUserInfo } from './modules/user';
 import * as routes from './routes';
 
 import 'react-toastify/dist/ReactToastify.min.css';
+import { ChooseTeamPage } from './modules/choose-team';
 
 // Check for user token
 const token = localStorage.getItem(LOCALSTORAGE_TOKEN);
@@ -34,6 +35,7 @@ const App = () => (
           <PrivateRoute path={routes.PATH_STATISTICS} exact component={StatisticsPage} />
           <PrivateRoute path={routes.PATH_USER} exact component={UserPage} />
           <PrivateRoute path={routes.PATH_ADD_TRANSACTION} component={AddTransactionPage} />
+          <PrivateRoute path={routes.PATH_CHOOSE_TEAM} component={ChooseTeamPage} />
           <Route path={routes.PATH_LOGIN} component={LoginPage} />
           <Route path={routes.PATH_FORGOT_PASSWORD} component={ForgotPasswordPage} />
         </Switch>
