@@ -48,6 +48,7 @@ class DropdownRemote extends Component {
 
   render() {
     const { options, isFetching, value } = this.state;
+    const { error } = this.props;
 
     const noResultsMessage = options.length === 0 ? 'Start typing for results.' : 'No results.';
 
@@ -56,6 +57,7 @@ class DropdownRemote extends Component {
         fluid
         selection
         multiple
+        error={error}
         search
         options={options}
         value={value}
@@ -72,7 +74,8 @@ class DropdownRemote extends Component {
 }
 
 DropdownRemote.propTypes = {
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
+  error: PropTypes.bool.isRequired
 };
 
 export default DropdownRemote;
