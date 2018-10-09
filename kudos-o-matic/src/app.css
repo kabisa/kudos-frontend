@@ -27,11 +27,6 @@
   }
 }
 
-.page-with-toolbar {
-  margin-top: 55px;
-  height: calc(100vh - 55px);
-}
-
 .flex {
   display: flex;
   flex-direction: column;
