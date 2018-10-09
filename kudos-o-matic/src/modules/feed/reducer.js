@@ -54,7 +54,10 @@ const likeTransactionBegin = (state, action) =>
   updateObject(state, {
     likeTransactionLoading: true,
     transactions: updateItemInArray(state.transactions, action.payload.transactionId, item =>
-      updateObject(item, { liked: !item.liked })
+      updateObject(item, {
+        liked: !item.liked,
+        likes: item.liked ? item.likes - 1 : item.likes + 1
+      })
     )
   });
 
@@ -68,7 +71,10 @@ const likeTransactionError = (state, action) =>
     likeTransactionLoading: false,
     likeTransactionError: action.payload.error,
     transactions: updateItemInArray(state.transactions, action.payload.transactionId, item =>
-      updateObject(item, { liked: !item.liked })
+      updateObject(item, {
+        liked: !item.liked,
+        likes: item.liked ? item.likes - 1 : item.likes + 1
+      })
     )
   });
 
