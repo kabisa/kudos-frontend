@@ -7,3 +7,4 @@ export const PATH_FEED = '/';
 export const PATH_ADD_TRANSACTION = '/transactions/add';
 export const PATH_NOTIFICATIONS = '/notifications';
 export const PATH_USER = '/user';
+export const PATH_CHOOSE_TEAM = '/choose-team';
