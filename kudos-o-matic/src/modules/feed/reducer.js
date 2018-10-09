@@ -50,17 +50,27 @@ const getGoalPercentageError = (state, action) =>
 /**
  * Like transaction
  */
-const likeTransactionBegin = state => updateObject(state, { likeTransactionLoading: true });
-
-const likeTransactionSuccess = (state, action) =>
+const likeTransactionBegin = (state, action) =>
   updateObject(state, {
-    transactions: updateItemInArray(state.transactions, action.payload.id, item =>
+    likeTransactionLoading: true,
+    transactions: updateItemInArray(state.transactions, action.payload.transactionId, item =>
       updateObject(item, { liked: !item.liked })
     )
   });
 
+const likeTransactionSuccess = state =>
+  updateObject(state, {
+    likeTransactionLoading: false
+  });
+
 const likeTransactionError = (state, action) =>
-  updateObject(state, { likeTransactionLoading: false, likeTransactionError: action.payload });
+  updateObject(state, {
+    likeTransactionLoading: false,
+    likeTransactionError: action.payload.error,
+    transactions: updateItemInArray(state.transactions, action.payload.transactionId, item =>
+      updateObject(item, { liked: !item.liked })
+    )
+  });
 
 const handlers = {};
 handlers[constants.GET_TRANSACTIONS_BEGIN] = getTransactionsBegin;

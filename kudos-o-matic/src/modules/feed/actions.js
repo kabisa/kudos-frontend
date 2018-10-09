@@ -47,15 +47,18 @@ export function getGoalProgress() {
  * @param {Boolean} liked is the transaction being liked or not.
  */
 export function likeTransaction(transactionId, liked) {
-  const begin = () => ({ type: c.LIKE_TRANSACTION_BEGIN });
-  const success = data => ({ type: c.LIKE_TRANSACTION_SUCCESS, payload: data });
-  const failure = error => ({ type: c.LIKE_TRANSACTION_FAILURE, payload: error });
+  const begin = () => ({ type: c.LIKE_TRANSACTION_BEGIN, payload: { transactionId } });
+  const success = () => ({ type: c.LIKE_TRANSACTION_SUCCESS });
+  const failure = error => ({
+    type: c.LIKE_TRANSACTION_FAILURE,
+    payload: { error, transactionId }
+  });
 
   return async dispatch => {
     dispatch(begin());
     try {
-      const data = await likeTransactionService(transactionId, liked);
-      dispatch(success(data));
+      await likeTransactionService(transactionId, liked);
+      dispatch(success());
     } catch (error) {
       console.error(error);
       dispatch(failure(error.toString()));

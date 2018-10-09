@@ -9,6 +9,7 @@ module.exports = {
     'react/destructuring-assignment': ['off'],
     'jsx-a11y/label-has-associated-control': ['off'],
     'jsx-a11y/label-has-for': ['off'],
+    'no-console': ['warn', { allow: ['warn', 'error'] }]
   },
   env: {
     browser: true,
