@@ -1,5 +1,5 @@
 import constants from './constants';
-import { createReducer, updateObject } from '../../utils/reduxHelper';
+import { createReducer, updateObject, updateItemInArray } from '../../utils/reduxHelper';
 
 const initialState = {
   getTransactionsLoading: false,
@@ -8,6 +8,9 @@ const initialState = {
   getGoalPercentageLoading: false,
   getGoalPercentageSuccess: false,
   getGoalPercentageError: null,
+  likeTransactionLoading: false,
+  likeTransactionError: null,
+
   goalPercentage: 0,
   transactions: []
 };
@@ -44,6 +47,37 @@ const getGoalPercentageSuccess = (state, action) =>
 const getGoalPercentageError = (state, action) =>
   updateObject(state, { getGoalPercentageLoading: false, getGoalPercentageError: action.payload });
 
+/**
+ * Like transaction
+ */
+const likeTransactionBegin = (state, action) =>
+  updateObject(state, {
+    likeTransactionLoading: true,
+    transactions: updateItemInArray(state.transactions, action.payload.transactionId, item =>
+      updateObject(item, {
+        liked: !item.liked,
+        likes: item.liked ? item.likes - 1 : item.likes + 1
+      })
+    )
+  });
+
+const likeTransactionSuccess = state =>
+  updateObject(state, {
+    likeTransactionLoading: false
+  });
+
+const likeTransactionError = (state, action) =>
+  updateObject(state, {
+    likeTransactionLoading: false,
+    likeTransactionError: action.payload.error,
+    transactions: updateItemInArray(state.transactions, action.payload.transactionId, item =>
+      updateObject(item, {
+        liked: !item.liked,
+        likes: item.liked ? item.likes - 1 : item.likes + 1
+      })
+    )
+  });
+
 const handlers = {};
 handlers[constants.GET_TRANSACTIONS_BEGIN] = getTransactionsBegin;
 handlers[constants.GET_TRANSACTIONS_SUCCESS] = getTransactionsSuccess;
@@ -52,6 +86,10 @@ handlers[constants.GET_TRANSACTIONS_FAILURE] = getTransactionsError;
 handlers[constants.GET_GOAL_PROGRESS_BEGIN] = getGoalPercentageBegin;
 handlers[constants.GET_GOAL_PROGRESS_SUCCESS] = getGoalPercentageSuccess;
 handlers[constants.GET_GOAL_PROGRESS_FAILURE] = getGoalPercentageError;
+
+handlers[constants.LIKE_TRANSACTION_BEGIN] = likeTransactionBegin;
+handlers[constants.LIKE_TRANSACTION_SUCCESS] = likeTransactionSuccess;
+handlers[constants.LIKE_TRANSACTION_FAILURE] = likeTransactionError;
 
 const reducer = createReducer(initialState, handlers);
 

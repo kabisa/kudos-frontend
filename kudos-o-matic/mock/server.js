@@ -46,7 +46,8 @@ function generateTransactions() {
       kudos: Math.floor(Math.random() * 50),
       comments: Math.floor(Math.random() * 50),
       likes: Math.floor(Math.random() * 50),
-      created_on: faker.date.recent()
+      created_on: faker.date.recent(),
+      liked: faker.random.boolean()
     });
   }
   return transactions;
