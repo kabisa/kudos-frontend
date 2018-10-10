@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { shallow } from 'enzyme';
 
 import Transaction from './Transaction';
 
@@ -31,7 +31,7 @@ function setup() {
     }
   };
 
-  const enzymeWrapper = mount(<Transaction {...props} />);
+  const enzymeWrapper = shallow(<Transaction {...props} />);
 
   return {
     props,
