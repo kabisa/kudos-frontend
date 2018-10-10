@@ -1,15 +1,14 @@
 import React from 'react';
 import { mount } from 'enzyme';
 
-import BottomButton from './BottomButton';
+import CommentButton from './CommentButton';
 
 function setup() {
   const props = {
-    icon: 'heart',
-    text: 'test'
+    text: 23
   };
 
-  const enzymeWrapper = mount(<BottomButton {...props} />);
+  const enzymeWrapper = mount(<CommentButton {...props} />);
 
   return {
     props,
@@ -17,14 +16,14 @@ function setup() {
   };
 }
 
-describe('BottomButton', () => {
+describe('CommentButton', () => {
   const { enzymeWrapper } = setup();
   it('should render self and subcomponents', () => {
     expect(enzymeWrapper.find('button').hasClass('button-action')).toBe(true);
   });
 
   it('should have a button text', () => {
-    expect(enzymeWrapper.find('button').text()).toBe('test');
+    expect(enzymeWrapper.find('button').text()).toBe('23');
   });
 
   it('should have an icon', () => {
@@ -32,7 +31,7 @@ describe('BottomButton', () => {
       enzymeWrapper
         .find('button')
         .find('i')
-        .hasClass('heart icon')
+        .hasClass('comment outline')
     ).toBe(true);
   });
 });

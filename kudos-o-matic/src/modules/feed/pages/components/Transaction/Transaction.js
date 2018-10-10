@@ -2,7 +2,8 @@ import React from 'react';
 import { Card } from 'semantic-ui-react';
 
 import { TransactionProp } from '../../../../../proptypes';
-import BottomButton from './BottomButton/BottomButton';
+import CommentButton from './CommentButton/CommentButton';
+import { LikeButton } from './LikeButton';
 import Header from './Header/Header';
 
 const Transaction = ({ transaction }) => (
@@ -32,8 +33,12 @@ const Transaction = ({ transaction }) => (
       </Card.Content>
       <Card.Content extra style={{ padding: '4px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-          <BottomButton icon="heart outline" text={transaction.likes} />
-          <BottomButton icon="comment outline" text={transaction.comments} />
+          <LikeButton
+            transactionId={transaction.id}
+            liked={transaction.liked}
+            likes={transaction.likes}
+          />
+          <CommentButton text={transaction.comments} />
         </div>
       </Card.Content>
     </Card>
