@@ -1,5 +1,6 @@
 import { h, Component } from "preact";
 import { connect } from "preact-redux";
+import { Button } from "semantic-ui-react";
 import I18n from "src/config/i18n";
 import { Page, Main } from "src/components/Page";
 import { Header } from "src/components/Header";
@@ -36,6 +37,7 @@ export class WelcomePage extends Component {
             <strong>{I18n.t("welcome.counter")}</strong>
           </p>
           <Counter value={counter} {...otherProps} />
+          <Button>toest</Button>
         </Main>
       </Page>
     );
@@ -48,4 +50,7 @@ const mapDispatchToProps = dispatch => ({
   onDecrement: () => dispatch({ type: actions.COUNTER_DECREMENT })
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(WelcomePage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(WelcomePage);
