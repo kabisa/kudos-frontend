@@ -1,0 +1,94 @@
+import { h, Component } from "preact";
+import { connect } from "preact-redux";
+import { Page } from "src/components/Page";
+import { Header as Toolbar, BackButton } from "src/components/Header";
+import {
+  Button,
+  Form,
+  Grid,
+  Header,
+  Message,
+  Segment
+} from "semantic-ui-react";
+import { login } from "../actions";
+
+export class ResetPasswordPage extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      username: "",
+      password: ""
+    };
+
+    this.onSubmit = this.onSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  onSubmit() {
+    const { username, password } = this.state;
+    this.props.login(username, password);
+  }
+
+  handleChange(e, { name, value }) {
+    this.setState({ [name]: value });
+  }
+
+  render() {
+    const { loading, error } = this.props;
+
+    return (
+      <Page>
+        <Toolbar>
+          <BackButton />
+          <h1>Reset password</h1>
+        </Toolbar>
+        <div className="main-form">
+          <Grid
+            textAlign="center"
+            style={{ height: "100%", width: "100%", margin: "auto" }}
+            verticalAlign="middle"
+          >
+            <Grid.Column style={{ maxWidth: 450 }}>
+              <Header as="h2" color="teal" textAlign="center">
+                Reset password
+              </Header>
+              <Form size="large" onSubmit={this.onSubmit}>
+                <Segment stacked>
+                  <Form.Input
+                    fluid
+                    icon="user"
+                    name="username"
+                    error={error}
+                    iconPosition="left"
+                    placeholder="E-mail address"
+                    onChange={this.handleChange}
+                  />
+                  <Button color="teal" loading={loading} fluid size="large">
+                    Reset password
+                  </Button>
+                </Segment>
+              </Form>
+              <Message>
+                <div onClick={() => window.history.back()}>Back</div>
+              </Message>
+            </Grid.Column>
+          </Grid>
+        </div>
+      </Page>
+    );
+  }
+}
+
+const mapStateToProps = state => ({
+  loading: state.login.loginLoading,
+  // isLoggedIn: state.user.token != null,
+  error: state.login.loginError !== null
+});
+
+const mapDispatchToProps = { login };
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ResetPasswordPage);

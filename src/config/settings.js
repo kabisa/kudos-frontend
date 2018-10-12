@@ -1,4 +1,5 @@
-const envSpecificSettings = require(`./settings.${process.env.NODE_ENV}.json`);
-const defaults = require("./settings.default.json");
+const envSpecificSettings = require(`./settings.${process.env.NODE_ENV}.js`)
+  .default;
+const defaults = require("./settings.default.js").default;
 
-export default Object.assign({}, defaults, envSpecificSettings);
+export default { ...defaults, ...envSpecificSettings };

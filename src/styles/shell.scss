@@ -1,32 +1,44 @@
-@import '../../node_modules/semantic-ui-css/semantic.css';
-@import '../../node_modules/maji/css/maji-base';
+@import "../../node_modules/semantic-ui-css/semantic.css";
+@import "../../node_modules/maji/css/maji-base";
 
 ///////////////////////////////////////////////////////////
 //
 // Global settings for the project
 //
 ///////////////////////////////////////////////////////////
-@import 'settings/general';
-@import 'settings/typography';
+@import "settings/general";
+@import "settings/typography";
 
 ///////////////////////////////////////////////////////////
 //
 // Globally available tooling
 //
 ///////////////////////////////////////////////////////////
-@import 'tools/mixins';
+@import "tools/mixins";
 
 ///////////////////////////////////////////////////////////
 //
 // High-level styles
 //
 ///////////////////////////////////////////////////////////
-@import 'generic/reset';
-@import 'generic/box-sizing';
+@import "generic/reset";
+@import "generic/box-sizing";
 
 ///////////////////////////////////////////////////////////
 //
 // Bare, unclassed Elements
 //
 ///////////////////////////////////////////////////////////
-@import 'elements/base';
+@import "elements/base";
+
+body > div,
+body > div > div,
+body > div > div > div.main-form {
+    height: 100%;
+}
+
+div.main-form {
+    width: 98%;
+    margin: auto;
+    height: 100vh;
+}

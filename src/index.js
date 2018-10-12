@@ -7,7 +7,7 @@ import "src/config/sentry";
 import store from "./store";
 
 const renderApp = function() {
-  const App = require("./containers/App").default;
+  const App = require("./App").default;
   const root = document.querySelector("#maji-app");
 
   root.innerHTML = "";
