@@ -1,8 +1,7 @@
 import { h, Component } from "preact";
 import { connect } from "preact-redux";
 import PropTypes from "prop-types";
-import { Page, Main } from "src/components/Page";
-import { Header as Toolbar, BackButton } from "src/components/Header";
+import { Toolbar } from "../../../components/navigation";
 
 import {
   Button,
@@ -47,11 +46,8 @@ export class LoginPage extends Component {
     const { username, password } = this.state;
 
     return (
-      <Page>
-        <Toolbar>
-          <BackButton />
-          <h1>Reset password</h1>
-        </Toolbar>
+      <div>
+        <Toolbar text="Sign up" />
         <div className="main-form">
           <Grid
             textAlign="center"
@@ -106,7 +102,7 @@ export class LoginPage extends Component {
             </Grid.Column>
           </Grid>
         </div>
-      </Page>
+      </div>
     );
   }
 }

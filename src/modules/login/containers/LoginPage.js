@@ -1,6 +1,10 @@
 import { h, Component } from "preact";
 import { connect } from "preact-redux";
-import { PATH_REGISTER, PATH_FORGOT_PASSWORD } from "../../../routes";
+import {
+  PATH_REGISTER,
+  PATH_FORGOT_PASSWORD,
+  PATH_FEED
+} from "../../../routes";
 import {
   Button,
   Form,
@@ -9,6 +13,7 @@ import {
   Message,
   Segment
 } from "semantic-ui-react";
+import { route } from "preact-router";
 import { login } from "../actions";
 
 export class LoginPage extends Component {
@@ -19,6 +24,11 @@ export class LoginPage extends Component {
       username: "",
       password: ""
     };
+
+    // Check if the user is already logged in.
+    if (props.isLoggedIn) {
+      route(PATH_FEED, true);
+    }
 
     this.onSubmit = this.onSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -60,6 +70,7 @@ export class LoginPage extends Component {
                   placeholder="E-mail address"
                   value={username}
                   onChange={this.handleChange}
+                  autoFocus="on"
                 />
                 <Form.Input
                   fluid
@@ -105,7 +116,7 @@ export class LoginPage extends Component {
 
 const mapStateToProps = state => ({
   loading: state.login.loginLoading,
-  // isLoggedIn: state.user.token != null,
+  isLoggedIn: state.user.token != null,
   error: state.login.loginError !== null
 });
 
