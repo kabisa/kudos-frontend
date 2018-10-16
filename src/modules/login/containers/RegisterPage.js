@@ -12,14 +12,8 @@ import {
   Segment
 } from "semantic-ui-react";
 import { login } from "../actions";
-import {
-  PATH_REGISTER,
-  PATH_FORGOT_PASSWORD,
-  PATH_FEED,
-  PATH_LOGIN
-} from "../../../routes";
 
-export class LoginPage extends Component {
+export class RegisterPage extends Component {
   constructor(props) {
     super(props);
 
@@ -107,7 +101,7 @@ export class LoginPage extends Component {
   }
 }
 
-LoginPage.propTypes = {
+RegisterPage.propTypes = {
   login: PropTypes.func.isRequired,
 
   loading: PropTypes.bool.isRequired,
@@ -124,4 +118,4 @@ const mapDispatchToProps = { login };
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(LoginPage);
+)(RegisterPage);
