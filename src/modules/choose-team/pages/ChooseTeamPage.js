@@ -3,8 +3,8 @@ import { connect } from "preact-redux";
 import { Divider } from "semantic-ui-react";
 import PropTypes from "prop-types";
 
-import Toolbar from "../../navigation/Toolbar";
-import { PATH_FEED, PATH_LOGIN } from "../../../routes";
+import { Toolbar } from "../../../components/navigation";
+import { PATH_LOGIN } from "../../../routes";
 import InviteItem from "./components/Invite";
 import TeamRow from "./components/TeamRow";
 import { route } from "preact-router";
@@ -22,7 +22,7 @@ export class ChooseTeamPage extends Component {
   render() {
     return (
       <div>
-        <Toolbar to={PATH_FEED} text="Choose a group" />
+        <Toolbar text="Choose a group" />
         <div className="flex" style={{ paddingTop: "75px" }}>
           <InviteItem />
           <Divider />
