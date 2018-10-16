@@ -1,5 +1,5 @@
 import { h } from "preact";
-import { Button, Card, Image } from "semantic-ui-react";
+import { Button } from "semantic-ui-react";
 
 export const Invite = () => (
   // <Card style={{ margin: "auto" }}>

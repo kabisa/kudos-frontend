@@ -18,7 +18,7 @@ export class FeedPage extends Component {
       route(PATH_LOGIN, true);
     }
 
-    if (this.props.transactions.length === 0) {
+    if (this.props.transactions.length < 5) {
       setTimeout(() => {
         this.props.getTransactions();
       });

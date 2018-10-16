@@ -15,6 +15,7 @@ import * as routes from "./routes";
 import { AddTransactionPage } from "./modules/feed/pages/AddTransactionPage";
 import ResetPasswordPage from "./modules/user/pages/ResetPasswordPage";
 import { ChooseTeamPage } from "./modules/choose-team";
+import { CommentPage } from "./modules/comments";
 
 const Router = PageTransitionSupport.augmentRouter(PreactRouter, history);
 
@@ -28,6 +29,7 @@ const App = () => (
     <AddTransactionPage path={routes.PATH_ADD_TRANSACTION} />
     <ResetPasswordPage path={routes.PATH_RESET_PASSWORD} />
     <ChooseTeamPage path={routes.PATH_CHOOSE_TEAM} />
+    <CommentPage path="/comments/:comment" />
 
     <ForgotPasswordPage path={routes.PATH_FORGOT_PASSWORD} />
     <RegisterPage path={routes.PATH_REGISTER} />

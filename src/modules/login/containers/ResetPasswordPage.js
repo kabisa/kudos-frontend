@@ -78,7 +78,6 @@ export class ResetPasswordPage extends Component {
 
 const mapStateToProps = state => ({
   loading: state.login.loginLoading,
-  // isLoggedIn: state.user.token != null,
   error: state.login.loginError !== null
 });
 

@@ -38,7 +38,10 @@ const Transaction = ({ transaction }) => (
             liked={transaction.liked}
             likes={transaction.likes}
           />
-          <CommentButton text={transaction.comments} />
+          <CommentButton
+            transactionId={transaction.id}
+            text={transaction.comments}
+          />
         </div>
       </Card.Content>
     </Card>

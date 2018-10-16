@@ -3,14 +3,7 @@ import { connect } from "preact-redux";
 import PropTypes from "prop-types";
 import { Toolbar } from "../../../components/navigation";
 
-import {
-  Button,
-  Form,
-  Grid,
-  Header,
-  Message,
-  Segment
-} from "semantic-ui-react";
+import { Button, Form, Grid, Message } from "semantic-ui-react";
 import { login } from "../actions";
 
 export class RegisterPage extends Component {
@@ -19,7 +12,8 @@ export class RegisterPage extends Component {
 
     this.state = {
       username: "",
-      password: ""
+      password: "",
+      confirm_password: ""
     };
 
     this.onSubmit = this.onSubmit.bind(this);
@@ -49,50 +43,60 @@ export class RegisterPage extends Component {
             verticalAlign="middle"
           >
             <Grid.Column style={{ maxWidth: 450 }}>
-              <Header as="h2" color="blue" textAlign="center">
-                Register a new account
-              </Header>
-              <p style={{ color: "red" }}>username:password</p>
-              <Form size="large" error onSubmit={this.onSubmit}>
-                <Segment stacked>
-                  <Form.Input
-                    fluid
-                    error={error}
-                    icon="user"
-                    name="username"
-                    iconPosition="left"
-                    placeholder="E-mail address"
-                    value={username}
-                    onChange={this.handleChange}
-                  />
-                  <Form.Input
-                    fluid
-                    error={error}
-                    icon="lock"
-                    name="password"
-                    iconPosition="left"
-                    placeholder="Password"
-                    type="password"
-                    value={password}
-                    onChange={this.handleChange}
-                  />
+              <Form
+                size="large"
+                error
+                onSubmit={this.onSubmit}
+                style={{ textAlign: "left" }}
+              >
+                <Form.Input
+                  label="Email address"
+                  fluid
+                  error={error}
+                  icon="user"
+                  name="username"
+                  iconPosition="left"
+                  placeholder="E-mail address"
+                  value={username}
+                  onChange={this.handleChange}
+                />
+                <Form.Input
+                  label="Password"
+                  fluid
+                  error={error}
+                  icon="lock"
+                  name="password"
+                  iconPosition="left"
+                  placeholder="Password"
+                  type="password"
+                  value={password}
+                  onChange={this.handleChange}
+                />
+                <Form.Input
+                  label="Confirm password"
+                  fluid
+                  error={error}
+                  icon="lock"
+                  name="confirm_password"
+                  iconPosition="left"
+                  placeholder="Password"
+                  type="password"
+                  value={password}
+                  onChange={this.handleChange}
+                />
 
-                  <Button color="blue" loading={loading} fluid size="large">
-                    Sign up
-                  </Button>
+                <Button color="blue" loading={loading} fluid size="large">
+                  Sign up
+                </Button>
 
-                  {error && (
-                    <Message
-                      error={error}
-                      header="Unable to register"
-                      content="Please make sure you entered your credentials correctly."
-                    />
-                  )}
-                </Segment>
+                {error && (
+                  <Message
+                    error={error}
+                    header="Unable to register"
+                    content="Please make sure you entered your credentials correctly."
+                  />
+                )}
               </Form>
-              <Message>
-                <div onClick={() => window.history.back()}>Back</div>
-              </Message>
             </Grid.Column>
           </Grid>
         </div>

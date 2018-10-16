@@ -1,5 +1,6 @@
 import c from "./constants";
 import {
+  getTransactionsService,
   getTransactionService,
   getGoalProgressService,
   likeTransactionService
@@ -19,7 +20,30 @@ export function getTransactions() {
   return async dispatch => {
     dispatch(begin());
     try {
-      const data = await getTransactionService();
+      const data = await getTransactionsService();
+      dispatch(success(data));
+    } catch (error) {
+      console.error(error);
+      dispatch(failure(error.toString()));
+    }
+  };
+}
+
+/**
+ * Get a single transactions.
+ */
+export function getTransaction(id) {
+  const begin = () => ({ type: c.GET_TRANSACTION_BEGIN });
+  const success = data => ({ type: c.GET_TRANSACTION_SUCCESS, payload: data });
+  const failure = error => ({
+    type: c.GET_TRANSACTION_FAILURE,
+    payload: error
+  });
+
+  return async dispatch => {
+    dispatch(begin());
+    try {
+      const data = await getTransactionService(id);
       dispatch(success(data));
     } catch (error) {
       console.error(error);

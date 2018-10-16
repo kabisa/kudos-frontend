@@ -1,9 +1,15 @@
 import settings from "../../config/settings";
 import axios from "../../axios";
 
-export function getTransactionService() {
+export function getTransactionsService() {
   return axios
     .get(settings.API_BASE_URL + settings.API_TRANSACTIONS)
+    .then(resp => resp.data);
+}
+
+export function getTransactionService(id) {
+  return axios
+    .get(settings.API_BASE_URL + settings.API_TRANSACTIONS + "/" + id)
     .then(resp => resp.data);
 }
 
