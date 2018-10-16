@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import { Navigation } from "../../../components/navigation";
 import { logout } from "../actions";
 import { route } from "preact-router";
-import { PATH_LOGIN } from "../../../routes";
+import { PATH_LOGIN, PATH_RESET_PASSWORD } from "../../../routes";
 
 export class UserPage extends Component {
   constructor(props) {
@@ -28,7 +28,10 @@ export class UserPage extends Component {
     const { avatarUrl, name, location } = this.props;
     return (
       <div style={{ height: "100%" }}>
-        <div className="page flex">
+        <div
+          className="page flex"
+          style={{ padding: "2em", justifyContent: "space-between" }}
+        >
           <div>
             <Image
               src={avatarUrl}
@@ -38,13 +41,25 @@ export class UserPage extends Component {
             <h2 style={{ marginBottom: 0 }}>{name}</h2>
             <span style={{ color: "grey" }}>{location}</span>
           </div>
-          <Button
-            color="red"
-            onClick={this.logout}
-            style={{ margin: "auto", display: "block" }}
-          >
-            Log out
-          </Button>
+          <div>
+            <a href={`${PATH_RESET_PASSWORD}?transition=slideup`}>
+              <Button
+                color="orange"
+                // onClick={this.logout}
+                style={{ margin: "auto", display: "block", width: "100%" }}
+              >
+                Reset password
+              </Button>
+            </a>
+            <br />
+            <Button
+              color="red"
+              onClick={this.logout}
+              style={{ margin: "auto", display: "block", width: "100%" }}
+            >
+              Log out
+            </Button>
+          </div>
         </div>
 
         <Navigation />

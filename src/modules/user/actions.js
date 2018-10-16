@@ -1,5 +1,5 @@
 import c from "./constants";
-import { getUserInfoService } from "./services";
+import * as services from "./services";
 import settings from "../../config/settings";
 import { route } from "preact-router";
 import { PATH_LOGIN } from "../../routes";
@@ -48,7 +48,32 @@ export const getUserInfo = () => {
   return async dispatch => {
     dispatch(begin());
     try {
-      const data = await getUserInfoService();
+      const data = await services.getUserInfoService();
+      dispatch(success(data));
+    } catch (error) {
+      dispatch(failure(error.toString()));
+    }
+  };
+};
+
+/**
+ * Gets the user info from the backend.
+ */
+export const resetPassword = (oldPassword, newPassword) => {
+  const begin = () => ({ type: c.USER_RESET_PASSWORD_BEGIN });
+  const success = data => ({
+    type: c.USER_RESET_PASSWORD_SUCCESS,
+    payload: data
+  });
+  const failure = error => ({
+    type: c.USER_RESET_PASSWORD_FAILURE,
+    payload: error
+  });
+
+  return async dispatch => {
+    dispatch(begin());
+    try {
+      const data = await services.resetPassword(oldPassword, newPassword);
       dispatch(success(data));
     } catch (error) {
       dispatch(failure(error.toString()));
