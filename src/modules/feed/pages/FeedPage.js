@@ -19,7 +19,9 @@ export class FeedPage extends Component {
     }
 
     if (this.props.transactions.length === 0) {
-      this.props.getTransactions();
+      setTimeout(() => {
+        this.props.getTransactions();
+      });
     }
   }
 
