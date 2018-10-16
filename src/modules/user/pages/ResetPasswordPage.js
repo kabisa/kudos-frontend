@@ -56,8 +56,13 @@ export class ResetPasswordPage extends Component {
             verticalAlign="middle"
           >
             <Grid.Column style={{ maxWidth: 450, padding: "2em" }}>
-              <Form size="large" onSubmit={this.onSubmit}>
+              <Form
+                size="large"
+                onSubmit={this.onSubmit}
+                style={{ textAlign: "left" }}
+              >
                 <Form.Input
+                  label="Current password"
                   fluid
                   icon="lock"
                   name="old_password"
@@ -68,6 +73,7 @@ export class ResetPasswordPage extends Component {
                   onChange={this.handleChange}
                 />
                 <Form.Input
+                  label="New password"
                   fluid
                   icon="lock"
                   name="new_password_confirm"
@@ -78,6 +84,7 @@ export class ResetPasswordPage extends Component {
                   onChange={this.handleChange}
                 />
                 <Form.Input
+                  label="Confirm new password"
                   fluid
                   icon="lock"
                   name="new_password"

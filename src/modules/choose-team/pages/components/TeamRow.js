@@ -5,10 +5,10 @@ import { PATH_FEED } from "../../../../routes";
 
 export default () => (
   <div style={{ width: "290px", margin: "auto" }}>
-    <h2 style={{ display: "inline" }}>Kabisa</h2>
+    <p style={{ display: "inline", lineHeight: "36px" }}>Kabisa</p>
     <a href={PATH_FEED}>
-      <Button color="green" style={{ float: "right" }}>
-        Join
+      <Button color="green" size="small" style={{ float: "right" }}>
+        Switch
       </Button>
     </a>
   </div>

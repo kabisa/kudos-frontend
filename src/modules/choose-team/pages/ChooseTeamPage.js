@@ -23,9 +23,13 @@ export class ChooseTeamPage extends Component {
     return (
       <div>
         <Toolbar text="Choose a group" />
-        <div className="flex" style={{ paddingTop: "75px" }}>
+        <div className="flex" style={{ padding: "75px 2em 0 2em" }}>
+          <h2>Your invites</h2>
+          <InviteItem />
+          <InviteItem />
           <InviteItem />
           <Divider />
+          <h2>Your teams</h2>
           <TeamRow />
         </div>
       </div>
