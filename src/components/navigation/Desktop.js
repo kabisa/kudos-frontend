@@ -10,7 +10,7 @@ export const DesktopNavigation = ({ url, name, logout: _logout }) => (
   <div style={{ position: "fixed", top: 0, width: "100%" }}>
     <Menu fixed="top" inverted size="large" style={{ height: "62.84px" }}>
       <Container>
-        <a href={PATH_FEED} className="item">
+        <a href={`#${PATH_FEED}`} className="item">
           Home
         </a>
         <Menu.Item position="right">
@@ -18,7 +18,11 @@ export const DesktopNavigation = ({ url, name, logout: _logout }) => (
         </Menu.Item>
         <Dropdown item simple text={name}>
           <Dropdown.Menu>
-            <a href={PATH_USER} className="item" style={{ color: "black" }}>
+            <a
+              href={`#${PATH_USER}`}
+              className="item"
+              style={{ color: "black" }}
+            >
               Profile
             </a>
             <Dropdown.Divider />

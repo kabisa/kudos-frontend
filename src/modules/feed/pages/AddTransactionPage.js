@@ -1,10 +1,12 @@
 import { h, Component } from "preact";
+import PropTypes from "prop-types";
 import { connect } from "preact-redux";
 import { Form, Button } from "semantic-ui-react";
 
-import { Navigation } from "../../../components/navigation";
+import { Toolbar } from "../../../components/navigation";
 import UserDropdown from "./components/UserDropdown/UserDropdown";
-import { PATH_FEED } from "../../../routes";
+import { PATH_FEED, PATH_LOGIN } from "../../../routes";
+import { route } from "preact-router";
 
 export class AddTransactionPage extends Component {
   constructor(props) {
@@ -18,13 +20,18 @@ export class AddTransactionPage extends Component {
       receiversError: false,
       messageError: false
     };
+
+    // Check login
+    if (!props.isLoggedIn) {
+      route(PATH_LOGIN, true);
+    }
+
     this.onSubmit = this.onSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
   }
 
   onSubmit() {
-    console.log(this.state);
     // Validation
     if (this.state.amount === 0) {
       this.setState({ amountError: true });
@@ -44,7 +51,9 @@ export class AddTransactionPage extends Component {
     }
     this.setState({ messageError: false });
 
+    // TODO hook up with backend.
     this.setState({ done: true });
+    route(PATH_FEED);
   }
 
   handleChange(e, { name, value }) {
@@ -56,15 +65,24 @@ export class AddTransactionPage extends Component {
   }
 
   render() {
-    const { done, amountError, receiversError, messageError } = this.state;
-    // if (done) {
-    //   return <Redirect to={PATH_FEED} push={false} />;
-    // }
-
+    const { amountError, receiversError, messageError } = this.state;
     return (
-      <div className="page flex" style={{ justifyContent: "center" }}>
-        <div style={{ padding: "2em" }}>
-          <Form onSubmit={this.onSubmit}>
+      <div
+        className="flex"
+        style={{ justifyContent: "center", textAlign: "center" }}
+      >
+        <Toolbar text="Create a transaction" />
+        <div
+          style={{
+            padding: "2em",
+            display: "flex",
+            height: "100vh"
+          }}
+        >
+          <Form
+            onSubmit={this.onSubmit}
+            style={{ margin: "auto", width: "100%" }}
+          >
             <Form.Field>
               <label htmlFor="input-kudos">
                 Kudos Amount
@@ -97,19 +115,23 @@ export class AddTransactionPage extends Component {
               onChange={this.handleChange}
               error={messageError}
             />
-            <Button type="submit" primary>
+            <Button type="submit" primary style={{ width: "100%" }}>
               Submit
             </Button>
           </Form>
         </div>
-        <Navigation />
       </div>
     );
   }
 }
 
-const mapStateToProps = () => ({});
+AddTransactionPage.propTypes = {
+  isLoggedIn: PropTypes.bool.isRequired
+};
 
+const mapStateToProps = state => ({
+  isLoggedIn: state.user.token !== null
+});
 const mapDispatchToProps = {};
 
 export default connect(

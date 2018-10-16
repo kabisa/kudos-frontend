@@ -5,10 +5,17 @@ import PropTypes from "prop-types";
 
 import { Navigation } from "../../../components/navigation";
 import { logout } from "../actions";
+import { route } from "preact-router";
+import { PATH_LOGIN } from "../../../routes";
 
 export class UserPage extends Component {
   constructor(props) {
     super(props);
+
+    // Check login
+    if (!props.isLoggedIn) {
+      route(PATH_LOGIN, true);
+    }
 
     this.logout = this.logout.bind(this);
   }
@@ -50,7 +57,8 @@ UserPage.propTypes = {
   logout: PropTypes.func.isRequired,
   avatarUrl: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  location: PropTypes.string.isRequired
+  location: PropTypes.string.isRequired,
+  isLoggedIn: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -58,7 +66,8 @@ const mapStateToProps = state => ({
   location: state.user.data ? state.user.data.location : "",
   name: state.user.data
     ? `${state.user.data.first_name} ${state.user.data.last_name}`
-    : ""
+    : "",
+  isLoggedIn: state.user.token !== null
 });
 
 const mapDispatchToProps = { logout };

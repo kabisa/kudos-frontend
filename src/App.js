@@ -12,6 +12,7 @@ import { UserPage } from "./modules/user";
 import { SettingsPage } from "./modules/settings";
 import { StatisticsPage } from "./modules/statistics";
 import * as routes from "./routes";
+import { AddTransactionPage } from "./modules/feed/pages/AddTransactionPage";
 
 const Router = PageTransitionSupport.augmentRouter(PreactRouter, history);
 
@@ -22,6 +23,7 @@ const App = () => (
     <UserPage path={routes.PATH_USER} />
     <StatisticsPage path={routes.PATH_STATISTICS} />
     <SettingsPage path={routes.PATH_SETTINGS} />
+    <AddTransactionPage path={routes.PATH_ADD_TRANSACTION} />
 
     <ResetPasswordPage path={routes.PATH_FORGOT_PASSWORD} />
     <RegisterPage path={routes.PATH_REGISTER} />

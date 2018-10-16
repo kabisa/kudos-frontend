@@ -6,10 +6,10 @@ import FastClick from "fastclick";
 import "src/config/sentry";
 import store from "./store";
 import settings from "./config/settings";
-// import
+import { route } from "preact-router";
 
 import { getUserInfo, setToken } from "./modules/user/actions";
-import { PATH_LOGIN } from "./routes";
+import { PATH_LOGIN, PATH_FEED } from "./routes";
 
 const renderApp = function() {
   const App = require("./App").default;
@@ -21,8 +21,8 @@ const renderApp = function() {
     store.dispatch(setToken(token));
     store.dispatch(getUserInfo());
   } else {
-    if (window.location.hash !== `#${PATH_LOGIN}`) {
-      window.location.hash = PATH_LOGIN;
+    if (!window.location.href.includes(`#${PATH_LOGIN}`)) {
+      route(PATH_LOGIN);
     }
   }
 

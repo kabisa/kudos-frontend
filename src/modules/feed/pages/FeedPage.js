@@ -2,6 +2,7 @@ import { h, Component } from "preact";
 import { connect } from "preact-redux";
 import PropTypes from "prop-types";
 import { Loader } from "semantic-ui-react";
+import { route } from "preact-router";
 
 import { Navigation } from "../../../components/navigation";
 import { Transaction, GoalProgress, ActionButton } from "./components";
@@ -11,12 +12,10 @@ import { PATH_LOGIN } from "../../../routes";
 export class FeedPage extends Component {
   constructor(props) {
     super(props);
-    this.attributes = {
-      transition: "none"
-    };
 
+    // Check login
     if (!props.isLoggedIn) {
-      window.location = `/#${PATH_LOGIN}`;
+      route(PATH_LOGIN, true);
     }
 
     if (this.props.transactions.length === 0) {

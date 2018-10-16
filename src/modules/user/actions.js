@@ -1,6 +1,8 @@
 import c from "./constants";
 import { getUserInfoService } from "./services";
 import settings from "../../config/settings";
+import { route } from "preact-router";
+import { PATH_LOGIN } from "../../routes";
 
 /**
  * Save the token in the state and localstorage.
@@ -11,7 +13,7 @@ export const setToken = token => {
 
   // Save the token in localstorage.
   if (token) {
-    localStorage.setItem(settings.LOCALSTORAGE_TOKEN, JSON.stringify(token));
+    localStorage.setItem(settings.LOCALSTORAGE_TOKEN, token);
   }
 
   return dispatch => {
@@ -31,7 +33,7 @@ export const logout = () => {
   return dispatch => {
     dispatch(setToken(null));
     dispatch(logoutAction);
-    window.location.reload();
+    route(PATH_LOGIN, true);
   };
 };
 
