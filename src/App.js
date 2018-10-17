@@ -3,17 +3,14 @@ import { Router as PreactRouter } from "preact-router";
 
 import { history } from "src/support/history";
 import { PageTransitionSupport } from "maji";
-import LoginPage from "src/modules/login/containers/LoginPage";
-import { default as ForgotPasswordPage } from "src/modules/login/containers/ResetPasswordPage";
-import RegisterPage from "src/modules/login/containers/RegisterPage";
-import { FeedPage } from "./modules/feed";
+import * as routes from "./routes";
+
+import { LoginPage, ForgotPasswordPage, RegisterPage } from "src/modules/login";
+import { FeedPage, AddTransactionPage } from "./modules/feed";
 import { NotificationsPage } from "./modules/notifications";
-import { UserPage } from "./modules/user";
+import { UserPage, ResetPasswordPage } from "./modules/user";
 import { SettingsPage } from "./modules/settings";
 import { StatisticsPage } from "./modules/statistics";
-import * as routes from "./routes";
-import { AddTransactionPage } from "./modules/feed/pages/AddTransactionPage";
-import ResetPasswordPage from "./modules/user/pages/ResetPasswordPage";
 import { ChooseTeamPage } from "./modules/choose-team";
 import { CommentPage } from "./modules/comments";
 

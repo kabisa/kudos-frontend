@@ -4,7 +4,7 @@ import { connect } from "preact-redux";
 import { Form, Button } from "semantic-ui-react";
 
 import { Toolbar } from "../../../components/navigation";
-import UserDropdown from "./components/UserDropdown/UserDropdown";
+import { UserDropdown } from "./components";
 import { PATH_FEED, PATH_LOGIN } from "../../../routes";
 import { route } from "preact-router";
 

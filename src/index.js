@@ -9,7 +9,7 @@ import settings from "./config/settings";
 import { route } from "preact-router";
 
 import { getUserInfo, setToken } from "./modules/user/actions";
-import { PATH_LOGIN, PATH_FEED } from "./routes";
+import { PATH_LOGIN } from "./routes";
 
 const renderApp = function() {
   const App = require("./App").default;
