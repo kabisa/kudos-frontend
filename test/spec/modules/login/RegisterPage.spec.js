@@ -1,5 +1,5 @@
 import { h, render } from "preact";
-import { RegisterPage } from "src/modules/login/containers/RegisterPage";
+import { RegisterPage } from "src/modules/login/pages/RegisterPage";
 
 describe("RegisterPage", function() {
   let scratch, mount;
@@ -15,8 +15,6 @@ describe("RegisterPage", function() {
 
   it("renders the correct text", function() {
     mount(<RegisterPage />);
-    expect(scratch.querySelector("h2").textContent).to.be.eq(
-      "Register a new account"
-    );
+    expect(scratch.getElementsByClassName("input").length).to.be.eq(3);
   });
 });

@@ -1,5 +1,5 @@
 import { h, render } from "preact";
-import { LoginPage } from "src/modules/login/containers/LoginPage";
+import { LoginPage } from "src/modules/login/pages/LoginPage";
 
 describe("LoginPage", function() {
   let scratch, mount;
