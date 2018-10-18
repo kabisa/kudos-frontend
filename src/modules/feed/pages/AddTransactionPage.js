@@ -2,15 +2,19 @@ import { h, Component } from "preact";
 import PropTypes from "prop-types";
 import { connect } from "preact-redux";
 import { Form, Button } from "semantic-ui-react";
+import { route } from "preact-router";
 
 import { Toolbar } from "../../../components/navigation";
 import { UserDropdown } from "./components";
 import { PATH_FEED, PATH_LOGIN } from "../../../routes";
-import { route } from "preact-router";
+import { setEditTransaction } from "../actions";
+
+import s from "./AddTransactionPage.scss";
 
 export class AddTransactionPage extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       amount: 0,
       done: false,
@@ -18,8 +22,14 @@ export class AddTransactionPage extends Component {
       message: "",
       amountError: false,
       receiversError: false,
-      messageError: false
+      messageError: false,
     };
+
+    if (props.transaction) {
+      this.state.message = props.transaction.message;
+      this.state.amount = props.transaction.kudos;
+      this.state.receivers = props.transaction.receivers;
+    }
 
     // Check login
     if (!props.isLoggedIn) {
@@ -29,6 +39,10 @@ export class AddTransactionPage extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
+  }
+
+  componentWillUnmount() {
+    this.props.setEditTransaction(null);
   }
 
   onSubmit() {
@@ -66,23 +80,14 @@ export class AddTransactionPage extends Component {
 
   render() {
     const { amountError, receiversError, messageError } = this.state;
+    const { transaction } = this.props;
     return (
-      <div
-        className="flex"
-        style={{ justifyContent: "center", textAlign: "center" }}
-      >
-        <Toolbar text="Create a transaction" />
-        <div
-          style={{
-            padding: "2em",
-            display: "flex",
-            height: "100vh"
-          }}
-        >
-          <Form
-            onSubmit={this.onSubmit}
-            style={{ margin: "auto", width: "100%" }}
-          >
+      <div className={s.root}>
+        <Toolbar
+          text={transaction ? "Edit transaction" : "Create transaction"}
+        />
+        <div className={s.page}>
+          <Form onSubmit={this.onSubmit} className={s.form}>
             <Form.Field>
               <label htmlFor="input-kudos">
                 Kudos Amount
@@ -94,9 +99,11 @@ export class AddTransactionPage extends Component {
                   name="amount"
                   type="number"
                   min="0"
+                  value={this.state.amount}
                 />
               </label>
             </Form.Field>
+
             <Form.Field>
               <label htmlFor="input-receivers">
                 Receivers
@@ -104,6 +111,7 @@ export class AddTransactionPage extends Component {
                   id="input-receivers"
                   onChange={this.handleDropdownChange}
                   error={receiversError}
+                  value={this.state.receivers}
                 />
               </label>
             </Form.Field>
@@ -114,9 +122,11 @@ export class AddTransactionPage extends Component {
               name="message"
               onChange={this.handleChange}
               error={messageError}
+              value={this.state.message}
             />
-            <Button type="submit" primary style={{ width: "100%" }}>
-              Submit
+
+            <Button type="submit" primary className={s.submit_button}>
+              {transaction ? "Update" : "Create"}
             </Button>
           </Form>
         </div>
@@ -126,13 +136,19 @@ export class AddTransactionPage extends Component {
 }
 
 AddTransactionPage.propTypes = {
-  isLoggedIn: PropTypes.bool.isRequired
+  isLoggedIn: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
-  isLoggedIn: state.user.token !== null
+  isLoggedIn: state.user.token !== null,
+  transaction: state.feed.transactions.find(
+    item => item.id === state.feed.editTransaction
+  ),
 });
-const mapDispatchToProps = {};
+
+const mapDispatchToProps = {
+  setEditTransaction,
+};
 
 export default connect(
   mapStateToProps,

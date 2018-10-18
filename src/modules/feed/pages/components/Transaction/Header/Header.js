@@ -2,20 +2,29 @@ import { h, Component } from "preact";
 import { connect } from "preact-redux";
 import { Image, Dropdown } from "semantic-ui-react";
 import moment from "moment-twitter";
+import { route } from "preact-router";
 
-import { removeTransaction } from "../../../../actions";
+import { PATH_ADD_TRANSACTION } from "../../../../../../routes";
+
+import { removeTransaction, setEditTransaction } from "../../../../actions";
 
 export class Header extends Component {
   constructor(props) {
     super(props);
 
     this.remove = this.remove.bind(this);
+    this.edit = this.edit.bind(this);
   }
 
   remove() {
-    if (confirm("Are you sure you want to remove this transaction?")) {
+    if (window.confirm("Are you sure you want to remove this transaction?")) {
       this.props.removeTransaction(this.props.transaction.id);
     }
+  }
+
+  edit() {
+    this.props.setEditTransaction(this.props.transaction.id);
+    route(PATH_ADD_TRANSACTION);
   }
 
   render() {
@@ -36,7 +45,7 @@ export class Header extends Component {
             marginLeft: "12px",
             display: "flex",
             flexFlow: "wrap",
-            maxWidth: "12em"
+            maxWidth: "12em",
           }}
         >
           <Image src={authorUrl} avatar />
@@ -49,7 +58,7 @@ export class Header extends Component {
             marginLeft: "auto",
             width: "65px",
             textAlign: "right",
-            paddingRight: "8px"
+            paddingRight: "8px",
           }}
         >
           {timestamp.twitter()} ago
@@ -61,7 +70,11 @@ export class Header extends Component {
           style={{ color: "grey" }}
         >
           <Dropdown.Menu>
-            <Dropdown.Item icon="pencil alternate" text="Edit" />
+            <Dropdown.Item
+              icon="pencil alternate"
+              text="Edit"
+              onClick={this.edit}
+            />
             <Dropdown.Item icon="trash" text="Remove" onClick={this.remove} />
           </Dropdown.Menu>
         </Dropdown>
@@ -73,7 +86,8 @@ export class Header extends Component {
 const mapStateToProps = () => ({});
 
 const mapDispatchToProps = {
-  removeTransaction
+  removeTransaction,
+  setEditTransaction,
 };
 
 export default connect(

@@ -6,7 +6,7 @@ import { PATH_STATISTICS } from "../../../../../routes";
 import { getGoalProgress } from "../../../actions";
 
 export class GoalProgress extends Component {
-  componentWillMount() {
+  componentDidMount() {
     this.props.getGoalProgress();
   }
 
@@ -43,20 +43,20 @@ GoalProgress.propTypes = {
   getGoalProgress: PropTypes.func.isRequired,
 
   goalPercentage: PropTypes.number,
-  goalPercentageSuccess: PropTypes.bool.isRequired
+  goalPercentageSuccess: PropTypes.bool.isRequired,
 };
 
 GoalProgress.defaultProps = {
-  goalPercentage: 0
+  goalPercentage: 0,
 };
 
 const mapStateToProps = state => ({
   goalPercentage: state.feed.goalPercentage,
-  goalPercentageSuccess: state.feed.getGoalPercentageSuccess
+  goalPercentageSuccess: state.feed.getGoalPercentageSuccess,
 });
 
 const mapDispatchToProps = {
-  getGoalProgress
+  getGoalProgress,
 };
 
 export default connect(

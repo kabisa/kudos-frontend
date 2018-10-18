@@ -2,7 +2,7 @@ import constants from "./constants";
 import {
   createReducer,
   updateObject,
-  updateItemInArray
+  updateItemInArray,
 } from "../../support/redux";
 
 const initialState = {
@@ -26,7 +26,8 @@ const initialState = {
   likeTransactionError: null,
 
   goalPercentage: 0,
-  transactions: []
+  editTransaction: null,
+  transactions: [],
 };
 
 /**
@@ -40,13 +41,13 @@ const getTransactionsSuccess = (state, action) =>
     getTransactionsLoading: false,
     getTransactionsError: null,
     getTransactionsSuccess: true,
-    transactions: action.payload
+    transactions: action.payload,
   });
 
 const getTransactionsError = (state, action) =>
   updateObject(state, {
     getTransactionsLoading: false,
-    getTransactionsError: action.payload
+    getTransactionsError: action.payload,
   });
 
 /**
@@ -61,7 +62,7 @@ const getTransactionSuccess = (state, action) => {
       getTransactionLoading: false,
       getTransactionError: null,
       getTransactionSuccess: true,
-      transactions: [...state.transactions, action.payload]
+      transactions: [...state.transactions, action.payload],
     });
   }
 };
@@ -69,7 +70,7 @@ const getTransactionSuccess = (state, action) => {
 const getTransactionError = (state, action) =>
   updateObject(state, {
     getTransactionLoading: false,
-    getTransactionError: action.payload
+    getTransactionError: action.payload,
   });
 
 /**
@@ -83,13 +84,13 @@ const getGoalPercentageSuccess = (state, action) =>
     getGoalPercentageLoading: false,
     getGoalPercentageError: null,
     getGoalPercentageSuccess: true,
-    goalPercentage: action.payload.percentage
+    goalPercentage: action.payload.percentage,
   });
 
 const getGoalPercentageError = (state, action) =>
   updateObject(state, {
     getGoalPercentageLoading: false,
-    getGoalPercentageError: action.payload
+    getGoalPercentageError: action.payload,
   });
 
 /**
@@ -105,13 +106,13 @@ const removeTransactionSuccess = (state, action) =>
     removeTransactionSuccess: true,
     transactions: state.transactions.filter(
       transaction => transaction.id !== action.payload.transactionId
-    )
+    ),
   });
 
 const removeTransactionError = (state, action) =>
   updateObject(state, {
     removeTransactionLoading: false,
-    removeTransactionError: action.payload
+    removeTransactionError: action.payload,
   });
 
 /**
@@ -126,14 +127,14 @@ const likeTransactionBegin = (state, action) =>
       item =>
         updateObject(item, {
           liked: !item.liked,
-          likes: item.liked ? item.likes - 1 : item.likes + 1
+          likes: item.liked ? item.likes - 1 : item.likes + 1,
         })
-    )
+    ),
   });
 
 const likeTransactionSuccess = state =>
   updateObject(state, {
-    likeTransactionLoading: false
+    likeTransactionLoading: false,
   });
 
 const likeTransactionError = (state, action) =>
@@ -146,9 +147,14 @@ const likeTransactionError = (state, action) =>
       item =>
         updateObject(item, {
           liked: !item.liked,
-          likes: item.liked ? item.likes - 1 : item.likes + 1
+          likes: item.liked ? item.likes - 1 : item.likes + 1,
         })
-    )
+    ),
+  });
+
+const setEditTransaction = (state, action) =>
+  updateObject(state, {
+    editTransaction: action.payload.transactionId,
   });
 
 const handlers = {};
@@ -171,6 +177,8 @@ handlers[constants.GET_GOAL_PROGRESS_FAILURE] = getGoalPercentageError;
 handlers[constants.LIKE_TRANSACTION_BEGIN] = likeTransactionBegin;
 handlers[constants.LIKE_TRANSACTION_SUCCESS] = likeTransactionSuccess;
 handlers[constants.LIKE_TRANSACTION_FAILURE] = likeTransactionError;
+
+handlers[constants.SET_EDIT_TRANSACTION] = setEditTransaction;
 
 const reducer = createReducer(initialState, handlers);
 
