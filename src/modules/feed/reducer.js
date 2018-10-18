@@ -14,6 +14,10 @@ const initialState = {
   getTransactionSuccess: false,
   getTransactionError: null,
 
+  removeTransactionLoading: false,
+  removeTransactionSuccess: false,
+  removeTransactionError: null,
+
   getGoalPercentageLoading: false,
   getGoalPercentageSuccess: false,
   getGoalPercentageError: null,
@@ -89,6 +93,28 @@ const getGoalPercentageError = (state, action) =>
   });
 
 /**
+ * Remove transaction
+ */
+const removeTransactionBegin = state =>
+  updateObject(state, { removeTransactionLoading: true });
+
+const removeTransactionSuccess = (state, action) =>
+  updateObject(state, {
+    removeTransactionLoading: false,
+    removeTransactionError: null,
+    removeTransactionSuccess: true,
+    transactions: state.transactions.filter(
+      transaction => transaction.id !== action.payload.transactionId
+    )
+  });
+
+const removeTransactionError = (state, action) =>
+  updateObject(state, {
+    removeTransactionLoading: false,
+    removeTransactionError: action.payload
+  });
+
+/**
  * Like transaction
  */
 const likeTransactionBegin = (state, action) =>
@@ -133,6 +159,10 @@ handlers[constants.GET_TRANSACTIONS_FAILURE] = getTransactionsError;
 handlers[constants.GET_TRANSACTION_BEGIN] = getTransactionBegin;
 handlers[constants.GET_TRANSACTION_SUCCESS] = getTransactionSuccess;
 handlers[constants.GET_TRANSACTION_FAILURE] = getTransactionError;
+
+handlers[constants.REMOVE_TRANSACTION_BEGIN] = removeTransactionBegin;
+handlers[constants.REMOVE_TRANSACTION_SUCCESS] = removeTransactionSuccess;
+handlers[constants.REMOVE_TRANSACTION_FAILURE] = removeTransactionError;
 
 handlers[constants.GET_GOAL_PROGRESS_BEGIN] = getGoalPercentageBegin;
 handlers[constants.GET_GOAL_PROGRESS_SUCCESS] = getGoalPercentageSuccess;

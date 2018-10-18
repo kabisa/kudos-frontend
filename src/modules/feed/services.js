@@ -28,8 +28,19 @@ export function likeTransactionService(transactionId, liked) {
   return axios
     .patch(
       `${settings.API_BASE_URL}${settings.API_TRANSACTIONS}/${transactionId}/`,
-      { liked },
-      { headers: { "Content-Type": "application/json", token: "123" } }
+      { liked }
+    )
+    .then(resp => resp.data);
+}
+
+/**
+ * Remove transaction service
+ * @param {Number} transactionId the id of the transaction to be removed.
+ */
+export function removeTransactionService(transactionId) {
+  return axios
+    .delete(
+      `${settings.API_BASE_URL}${settings.API_TRANSACTIONS}/${transactionId}/`
     )
     .then(resp => resp.data);
 }

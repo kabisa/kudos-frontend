@@ -1,10 +1,5 @@
 import c from "./constants";
-import {
-  getTransactionsService,
-  getTransactionService,
-  getGoalProgressService,
-  likeTransactionService
-} from "./services";
+import * as services from "./services";
 
 /**
  * Gets all current transactions.
@@ -20,7 +15,7 @@ export function getTransactions() {
   return async dispatch => {
     dispatch(begin());
     try {
-      const data = await getTransactionsService();
+      const data = await services.getTransactionsService();
       dispatch(success(data));
     } catch (error) {
       console.error(error);
@@ -43,7 +38,7 @@ export function getTransaction(id) {
   return async dispatch => {
     dispatch(begin());
     try {
-      const data = await getTransactionService(id);
+      const data = await services.getTransactionService(id);
       dispatch(success(data));
     } catch (error) {
       console.error(error);
@@ -69,7 +64,7 @@ export function getGoalProgress() {
   return async dispatch => {
     dispatch(begin());
     try {
-      const data = await getGoalProgressService();
+      const data = await services.getGoalProgressService();
       dispatch(success(data));
     } catch (error) {
       console.error(error);
@@ -97,7 +92,34 @@ export function likeTransaction(transactionId, liked) {
   return async dispatch => {
     dispatch(begin());
     try {
-      await likeTransactionService(transactionId, liked);
+      await services.likeTransactionService(transactionId, liked);
+      dispatch(success());
+    } catch (error) {
+      console.error(error);
+      dispatch(failure(error.toString()));
+    }
+  };
+}
+
+/**
+ * Remove a transaction.
+ * @param {Number} transactionId The id of the transaction.
+ */
+export function removeTransaction(transactionId) {
+  const begin = () => ({ type: c.REMOVE_TRANSACTION_BEGIN });
+  const success = () => ({
+    type: c.REMOVE_TRANSACTION_SUCCESS,
+    payload: { transactionId }
+  });
+  const failure = error => ({
+    type: c.REMOVE_TRANSACTION_FAILURE,
+    payload: { error }
+  });
+
+  return async dispatch => {
+    dispatch(begin());
+    try {
+      await services.removeTransactionService(transactionId);
       dispatch(success());
     } catch (error) {
       console.error(error);
