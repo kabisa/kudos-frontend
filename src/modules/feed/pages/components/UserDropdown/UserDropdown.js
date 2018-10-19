@@ -10,8 +10,15 @@ class DropdownRemote extends Component {
     super(props);
     this.state = {
       isFetching: false,
-      value: [],
-      options: []
+      options: props.value.map(user => ({
+        image: {
+          avatar: true,
+          src: user.avatar_url,
+        },
+        text: user.first_name + " " + user.last_name,
+        value: user.id,
+      })),
+      value: props.value.map(user => user.id),
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -38,7 +45,7 @@ class DropdownRemote extends Component {
         options.push({
           text: `${item.first_name} ${item.last_name}`,
           value: item.id,
-          image: { avatar: true, src: item.avatar_url }
+          image: { avatar: true, src: item.avatar_url },
         });
       });
 
@@ -76,7 +83,7 @@ class DropdownRemote extends Component {
 
 DropdownRemote.propTypes = {
   onChange: PropTypes.func.isRequired,
-  error: PropTypes.bool.isRequired
+  error: PropTypes.bool.isRequired,
 };
 
 export default DropdownRemote;

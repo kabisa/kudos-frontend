@@ -19,13 +19,7 @@ const Transaction = ({ transaction }) => (
     <Card style={{ width: "100%" }}>
       <Card.Content>
         <Card.Header>
-          <Header
-            name={transaction.author.name}
-            receivers={transaction.receivers}
-            authorUrl={transaction.author.avatar_url}
-            createdOn={transaction.created_on}
-            kudos={transaction.kudos}
-          />
+          <Header transaction={transaction} />
         </Card.Header>
         <Card.Description style={{ marginTop: "1em" }}>
           {transaction.message}
