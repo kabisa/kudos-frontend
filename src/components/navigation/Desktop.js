@@ -2,19 +2,23 @@ import { h } from "preact";
 import { Container, Menu, Icon, Image, Dropdown } from "semantic-ui-react";
 import { connect } from "preact-redux";
 import PropTypes from "prop-types";
-import { logout } from "../../modules/user/actions";
 
+import { logout } from "../../modules/user/actions";
 import { PATH_FEED, PATH_USER } from "../../routes";
 
+import s from "./Desktop.scss";
+
 export const DesktopNavigation = ({ url, name, logout: _logout }) => (
-  <div style={{ position: "fixed", top: 0, width: "100%" }}>
-    <Menu fixed="top" inverted size="large" style={{ height: "62.84px" }}>
+  <div className={s.root}>
+    <Menu fixed="top" inverted size="large" className={s.menu}>
       <Container>
         <a href={`#${PATH_FEED}`} className="item">
           Home
         </a>
         <Menu.Item position="right">
-          <Image src={url} size="mini" circular />
+          <a href={PATH_USER}>
+            <Image src={url} size="mini" circular />
+          </a>
         </Menu.Item>
         <Dropdown item simple text={name}>
           <Dropdown.Menu>

@@ -1,0 +1,33 @@
+.image {
+    margin: auto !important;
+}
+
+.name {
+    margin-bottom: 0;
+}
+
+.sub_text {
+    color: grey;
+}
+
+.button_wrapper {
+    display: block;
+}
+
+.button {
+    margin: auto !important;
+    display: block;
+    margin-top: 1em !important;
+}
+
+@media only screen and (max-width: 768px) {
+    .button {
+        width: 100%;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .button {
+        width: 150px !important;
+    }
+}

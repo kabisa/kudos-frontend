@@ -1,7 +1,7 @@
 import { h, Component } from "preact";
 import { connect } from "preact-redux";
 import PropTypes from "prop-types";
-import { Button, Form, Grid, Message } from "semantic-ui-react";
+import { Button, Form, Grid, Message, Responsive } from "semantic-ui-react";
 
 import { Toolbar } from "../../../components/navigation";
 import { login } from "../actions";
@@ -95,6 +95,12 @@ export class RegisterPage extends Component {
                   />
                 )}
               </Form>
+
+              <Responsive minWidth={Responsive.onlyTablet.minWidth}>
+                <Message className={s.back}>
+                  <div onClick={() => window.history.back()}>Back</div>
+                </Message>
+              </Responsive>
             </Grid.Column>
           </Grid>
         </div>
