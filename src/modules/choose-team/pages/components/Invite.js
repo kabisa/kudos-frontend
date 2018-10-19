@@ -1,13 +1,15 @@
 import { h } from "preact";
 import { Button } from "semantic-ui-react";
 
+import s from "./style.scss";
+
 export const Invite = () => (
-  <div style={{ width: "290px", margin: "auto", paddingBottom: "1em" }}>
-    <p style={{ display: "inline", lineHeight: "28px" }}>Kabisa</p>
-    <Button color="green" size="small" style={{ float: "right" }}>
+  <div className={s.root}>
+    <p className={s.text}>Kabisa</p>
+    <Button color="green" size="small" className={s.button}>
       Accept
     </Button>
-    <Button color="orange" size="small" style={{ float: "right" }}>
+    <Button color="orange" size="small" className={s.button}>
       Decline
     </Button>
   </div>

@@ -63,11 +63,11 @@ export const resetPassword = (oldPassword, newPassword) => {
   const begin = () => ({ type: c.USER_RESET_PASSWORD_BEGIN });
   const success = data => ({
     type: c.USER_RESET_PASSWORD_SUCCESS,
-    payload: data
+    payload: data,
   });
   const failure = error => ({
     type: c.USER_RESET_PASSWORD_FAILURE,
-    payload: error
+    payload: error,
   });
 
   return async dispatch => {

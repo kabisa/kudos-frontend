@@ -26,15 +26,15 @@ const plugins = [
     template: "src/index.html",
     useCordova,
     inject: false,
-    minify: false
+    minify: false,
   }),
   new Clean(["dist"], { verbose: false, exclude: [".keep"] }),
   new webpack.optimize.CommonsChunkPlugin({
-    name: "vendor"
+    name: "vendor",
   }),
   extractShellCss,
   extractOtherCss,
-  new SpriteLoaderPlugin()
+  new SpriteLoaderPlugin(),
 ];
 
 if (isProd) {
@@ -70,8 +70,8 @@ const entryPoints = function() {
 const postcssLoader = {
   loader: "postcss-loader",
   options: {
-    plugins: () => [require("autoprefixer")]
-  }
+    plugins: () => [require("autoprefixer")],
+  },
 };
 
 /**
@@ -95,12 +95,12 @@ const majiAliases = (function() {
 module.exports = {
   entry: {
     app: entryPoints("./src/index.js"),
-    vendor: ["preact", "preact-router"]
+    vendor: ["preact", "preact-router"],
   },
   output: {
     path: out,
     filename: "[name].[hash].js",
-    publicPath: "./"
+    publicPath: "./",
   },
   module: {
     rules: [
@@ -109,22 +109,22 @@ module.exports = {
         include: path.resolve(__dirname, "src/assets"),
         exclude: path.resolve(__dirname, "src/assets/icons"),
         options: {
-          name: "[name]-[hash].[ext]"
+          name: "[name]-[hash].[ext]",
         },
-        loader: "file-loader"
+        loader: "file-loader",
       },
       {
         test: /\.jsx?$/,
         exclude: exclusions,
         loader: "babel-loader",
-        options: babel
+        options: babel,
       },
       { test: /\.yml$/, loader: "json-loader!yaml-loader" },
       {
         test: /\.scss$/,
         loader: isProd
           ? extractOtherCss.extract({
-              use: ["css-loader?modules", postcssLoader, "sass-loader"]
+              use: ["css-loader?modules", postcssLoader, "sass-loader"],
             })
           : [
               "style-loader",
@@ -132,21 +132,21 @@ module.exports = {
                 loader: "css-loader",
                 options: {
                   modules: true,
-                  localIdentName: "[path][name]__[local]--[hash:base64:5]"
-                }
+                  localIdentName: "[path][name]__[local]--[hash:base64:5]",
+                },
               },
               postcssLoader,
-              "sass-loader"
+              "sass-loader",
             ],
-        exclude: /shell.scss$/
+        exclude: /shell.scss$/,
       },
       {
         test: /shell.scss$/,
         loader: isProd
           ? extractShellCss.extract({
-              use: ["css-loader", postcssLoader, "sass-loader"]
+              use: ["css-loader", postcssLoader, "sass-loader"],
             })
-          : ["style-loader", "css-loader", postcssLoader, "sass-loader"]
+          : ["style-loader", "css-loader", postcssLoader, "sass-loader"],
       },
       // {
       //   test: /\.svg$/,
@@ -158,22 +158,22 @@ module.exports = {
       // },
       {
         test: /\.jpe?g$|\.gif$|\.ico$|\.png$|\.svg$/,
-        use: "file-loader?name=[name].[ext]?[hash]"
+        use: "file-loader?name=[name].[ext]?[hash]",
       },
       {
         test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: "url-loader?limit=10000&mimetype=application/font-woff"
+        loader: "url-loader?limit=10000&mimetype=application/font-woff",
       },
       {
         test: /\.(ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: "file-loader"
+        loader: "file-loader",
       },
       {
         test: /\.otf(\?.*)?$/,
         use:
-          "file-loader?name=/fonts/[name].  [ext]&mimetype=application/font-otf"
-      }
-    ]
+          "file-loader?name=/fonts/[name].  [ext]&mimetype=application/font-otf",
+      },
+    ],
   },
   resolve: {
     alias: Object.assign(
@@ -181,12 +181,12 @@ module.exports = {
         react: "preact-compat",
         "react-dom": "preact-compat",
         src: path.resolve(__dirname, "./src"),
-        config: path.resolve(__dirname, "./config")
+        config: path.resolve(__dirname, "./config"),
       },
       majiAliases
     ),
-    symlinks: false
+    symlinks: false,
   },
   devtool: isProd ? "source-map" : "eval",
-  plugins
+  plugins,
 };

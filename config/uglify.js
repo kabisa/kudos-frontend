@@ -1,6 +1,6 @@
 module.exports = {
   output: {
-    comments: false
+    comments: false,
   },
   compress: {
     unused: true,
@@ -13,7 +13,7 @@ module.exports = {
     join_vars: true,
     evaluate: true,
     drop_debugger: true,
-    drop_console: false
+    drop_console: false,
   },
-  sourceMap: true
+  sourceMap: true,
 };

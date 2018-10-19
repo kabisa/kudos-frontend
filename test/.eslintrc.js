@@ -1,11 +1,11 @@
 module.exports = {
   env: {
-    mocha: true
+    mocha: true,
   },
   globals: {
     expect: true,
     should: true,
     assert: true,
-    sinon: true
-  }
+    sinon: true,
+  },
 };

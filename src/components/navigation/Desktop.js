@@ -40,23 +40,23 @@ export const DesktopNavigation = ({ url, name, logout: _logout }) => (
 DesktopNavigation.propTypes = {
   url: PropTypes.string,
   name: PropTypes.string,
-  logout: PropTypes.func.isRequired
+  logout: PropTypes.func.isRequired,
 };
 
 DesktopNavigation.defaultProps = {
   url: "",
-  name: ""
+  name: "",
 };
 
 const mapStateToProps = state => ({
   url: state.user.data ? state.user.data.avatar_url : null,
   name: state.user.data
     ? `${state.user.data.first_name} ${state.user.data.last_name}`
-    : null
+    : null,
 });
 
 const mapDispatchToProps = {
-  logout
+  logout,
 };
 
 export default connect(

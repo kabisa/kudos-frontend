@@ -6,5 +6,5 @@ module.exports = {
       .assert.title("kudos")
       .assert.containsText("h2", "Log-in to your account")
       .end();
-  }
+  },
 };

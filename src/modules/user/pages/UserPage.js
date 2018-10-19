@@ -73,7 +73,7 @@ UserPage.propTypes = {
   avatarUrl: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   location: PropTypes.string.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired
+  isLoggedIn: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -82,7 +82,7 @@ const mapStateToProps = state => ({
   name: state.user.data
     ? `${state.user.data.first_name} ${state.user.data.last_name}`
     : "",
-  isLoggedIn: state.user.token !== null
+  isLoggedIn: state.user.token !== null,
 });
 
 const mapDispatchToProps = { logout };

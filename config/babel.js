@@ -7,13 +7,13 @@ module.exports = {
       "env",
       {
         targets: {
-          browsers: supportedBrowsers
+          browsers: supportedBrowsers,
         },
         modules: false,
         loose: true,
-        useBuiltIns: true
-      }
-    ]
+        useBuiltIns: true,
+      },
+    ],
   ],
-  plugins: [["transform-react-jsx", { pragma: "h" }]]
+  plugins: [["transform-react-jsx", { pragma: "h" }]],
 };

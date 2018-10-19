@@ -10,5 +10,5 @@ export default {
   API_USER_SEARCH: "/users/query",
   API_GOAL_PROGRESS: "/goals/next",
 
-  LOCALSTORAGE_TOKEN: "token"
+  LOCALSTORAGE_TOKEN: "token",
 };

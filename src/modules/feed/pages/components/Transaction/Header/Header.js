@@ -5,8 +5,9 @@ import moment from "moment-twitter";
 import { route } from "preact-router";
 
 import { PATH_ADD_TRANSACTION } from "../../../../../../routes";
-
 import { removeTransaction, setEditTransaction } from "../../../../actions";
+
+import s from "./Header.scss";
 
 export class Header extends Component {
   constructor(props) {
@@ -36,38 +37,20 @@ export class Header extends Component {
     ));
 
     return (
-      <div style={{ display: "flex", alignItems: "center" }}>
-        <div style={{ width: "45px" }}>
+      <div className={s.root}>
+        <div className={s.kudo_amount}>
           <span>{kudos} ₭</span>
         </div>
-        <div
-          style={{
-            marginLeft: "12px",
-            display: "flex",
-            flexFlow: "wrap",
-            maxWidth: "12em",
-          }}
-        >
+        <div className={s.image_wrapper}>
           <Image src={authorUrl} avatar />
           {receiversList}
         </div>
-        <span
-          style={{
-            fontWeight: "300",
-            fontSize: "12px",
-            marginLeft: "auto",
-            width: "65px",
-            textAlign: "right",
-            paddingRight: "8px",
-          }}
-        >
-          {timestamp.twitter()} ago
-        </span>
+        <span className={s.timestamp}>{timestamp.twitter()} ago</span>
         <Dropdown
           item
           icon="ellipsis vertical"
           direction="left"
-          style={{ color: "grey" }}
+          className={s.dropdown}
         >
           <Dropdown.Menu>
             <Dropdown.Item

@@ -8,16 +8,16 @@ module.exports = {
     "selector-pseudo-class-no-unknown": [
       true,
       {
-        ignorePseudoClasses: ["global"]
-      }
+        ignorePseudoClasses: ["global"],
+      },
     ],
     "plugin/no-unsupported-browser-features": [
       true,
       {
         browsers: supportedBrowsers,
         severity: "warning",
-        ignore: ["font-unicode-range", "css-resize", "css-appearance"]
-      }
-    ]
-  }
+        ignore: ["font-unicode-range", "css-resize", "css-appearance"],
+      },
+    ],
+  },
 };

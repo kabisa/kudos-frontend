@@ -13,7 +13,7 @@ export class ResetPasswordPage extends Component {
       old_password: "",
       new_password: "",
       new_password_confirm: "",
-      error_confirm: false
+      error_confirm: false,
     };
 
     this.onSubmit = this.onSubmit.bind(this);
@@ -107,7 +107,7 @@ export class ResetPasswordPage extends Component {
 }
 
 const mapStateToProps = state => ({
-  isLoggedIn: state.user.token != null
+  isLoggedIn: state.user.token != null,
 });
 
 const mapDispatchToProps = { resetPassword };

@@ -2,10 +2,10 @@ import { h, Component } from "preact";
 import PropTypes from "prop-types";
 import { connect } from "preact-redux";
 import { Button } from "semantic-ui-react";
+import { route } from "preact-router";
 
 import { PATH_CHOOSE_TEAM } from "../../../routes";
 import { Navigation } from "../../../components/navigation";
-import { route } from "preact-router";
 import { PATH_LOGIN } from "../../../routes";
 
 export class SettingsPage extends Component {
@@ -39,12 +39,13 @@ export class SettingsPage extends Component {
     );
   }
 }
+
 SettingsPage.propTypes = {
-  isLoggedIn: PropTypes.bool.isRequired
+  isLoggedIn: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
-  isLoggedIn: state.user.token !== null
+  isLoggedIn: state.user.token !== null,
 });
 
 const mapDispatchToProps = {};

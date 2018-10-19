@@ -8,6 +8,8 @@ import { PATH_LOGIN } from "../../../routes";
 import { Invite, TeamRow } from "./components";
 import { route } from "preact-router";
 
+import s from "./ChooseTeamPage.scss";
+
 export class ChooseTeamPage extends Component {
   constructor(props) {
     super(props);
@@ -22,7 +24,7 @@ export class ChooseTeamPage extends Component {
     return (
       <div>
         <Toolbar text="Choose a group" />
-        <div className="flex" style={{ padding: "75px 2em 0 2em" }}>
+        <div className={s.page}>
           <h2>Your invites</h2>
           <Invite />
           <Invite />
@@ -37,11 +39,11 @@ export class ChooseTeamPage extends Component {
 }
 
 ChooseTeamPage.propTypes = {
-  isLoggedIn: PropTypes.bool.isRequired
+  isLoggedIn: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
-  isLoggedIn: state.user.token !== null
+  isLoggedIn: state.user.token !== null,
 });
 
 const mapDispatchToProps = {};

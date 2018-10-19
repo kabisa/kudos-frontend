@@ -13,7 +13,7 @@ const Transaction = ({ transaction }) => (
       paddingTop: "4px",
       textAlign: "initial",
       margin: "auto",
-      maxWidth: "420px"
+      maxWidth: "420px",
     }}
   >
     <Card style={{ width: "100%" }}>
