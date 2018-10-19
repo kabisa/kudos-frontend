@@ -9,6 +9,8 @@ import { Toolbar } from "../../../components/navigation";
 import { PATH_LOGIN } from "../../../routes";
 import { getTransaction } from "../../feed/actions";
 
+import s from "./CommentPage.scss";
+
 export class CommentPage extends Component {
   constructor(props) {
     super(props);
@@ -30,17 +32,10 @@ export class CommentPage extends Component {
 
     if (!transaction) {
       return (
-        <div
-          className="flex"
-          style={{ justifyContent: "center", textAlign: "center" }}
-        >
+        <div className={s.root}>
           <Toolbar text=" Comments" />
-          <div className="flex" style={{ padding: "75px 2em 0 2em" }}>
-            <Dimmer
-              active
-              inverted
-              style={{ height: "3em", position: "initial" }}
-            >
+          <div className={s.page}>
+            <Dimmer active inverted className={s.dimmer}>
               <Loader inverted />
             </Dimmer>
           </div>
@@ -50,15 +45,9 @@ export class CommentPage extends Component {
 
     const timestamp = moment(transaction.created_on);
     return (
-      <div
-        className="flex"
-        style={{ justifyContent: "center", textAlign: "center" }}
-      >
+      <div className={s.root}>
         <Toolbar text="Comments" />
-        <div
-          className="flex"
-          style={{ padding: "75px 2em 0 2em", textAlign: "left" }}
-        >
+        <div className={s.left_page}>
           <Feed>
             <Feed.Event>
               <Feed.Label image="https://s3.amazonaws.com/uifaces/faces/twitter/exentrich/128.jpg" />

@@ -1,6 +1,5 @@
 import { h, Component } from "preact";
 import { connect } from "preact-redux";
-import { Toolbar } from "../../../components/navigation";
 import {
   Button,
   Form,
@@ -9,7 +8,11 @@ import {
   Message,
   Segment,
 } from "semantic-ui-react";
+
+import { Toolbar } from "../../../components/navigation";
 import { login } from "../actions";
+
+import s from "./style.scss";
 
 export class ResetPasswordPage extends Component {
   constructor(props) {
@@ -40,12 +43,8 @@ export class ResetPasswordPage extends Component {
       <div>
         <Toolbar text="Forgot password" />
         <div className="main-form">
-          <Grid
-            textAlign="center"
-            style={{ height: "100%", width: "100%", margin: "auto" }}
-            verticalAlign="middle"
-          >
-            <Grid.Column style={{ maxWidth: 450 }}>
+          <Grid textAlign="center" className={s.grid} verticalAlign="middle">
+            <Grid.Column className={s.column}>
               <Header as="h2" color="teal" textAlign="center">
                 Reset password
               </Header>

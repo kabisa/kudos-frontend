@@ -1,10 +1,13 @@
 import { h, Component } from "preact";
 import PropTypes from "prop-types";
 import { connect } from "preact-redux";
-import { Navigation } from "../../../components/navigation";
 import { route } from "preact-router";
-import { PATH_LOGIN } from "../../../routes";
 import { Feed, Icon } from "semantic-ui-react";
+
+import { Navigation } from "../../../components/navigation";
+import { PATH_LOGIN } from "../../../routes";
+
+import s from "./NotificationsPage.scss";
 
 export class NotificationsPage extends Component {
   constructor(props) {
@@ -15,10 +18,11 @@ export class NotificationsPage extends Component {
       route(PATH_LOGIN, true);
     }
   }
+
   render() {
     return (
       <div>
-        <div style={{ padding: "2em" }}>
+        <div className={s.page}>
           <Feed>
             <Feed.Event>
               <Feed.Label>
@@ -57,7 +61,7 @@ export class NotificationsPage extends Component {
                 <img src="https://s3.amazonaws.com/uifaces/faces/twitter/exentrich/128.jpg" />
               </Feed.Label>
               <Feed.Content>
-                <Feed.Summary style={{ fontWeight: "initial" }}>
+                <Feed.Summary className={s.normal_font}>
                   <Feed.User>Elliot Fu</Feed.User> added you as a friend
                   <Feed.Date>1 Hour Ago</Feed.Date>
                 </Feed.Summary>
@@ -73,7 +77,7 @@ export class NotificationsPage extends Component {
                 <img src="https://s3.amazonaws.com/uifaces/faces/twitter/exentrich/128.jpg" />
               </Feed.Label>
               <Feed.Content>
-                <Feed.Summary style={{ fontWeight: "initial" }}>
+                <Feed.Summary className={s.normal_font}>
                   <Feed.User>Elliot Fu</Feed.User> added you as a friend
                   <Feed.Date>1 Hour Ago</Feed.Date>
                 </Feed.Summary>

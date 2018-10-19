@@ -1,10 +1,12 @@
 import { h, Component } from "preact";
 import { connect } from "preact-redux";
 import PropTypes from "prop-types";
-import { Toolbar } from "../../../components/navigation";
-
 import { Button, Form, Grid, Message } from "semantic-ui-react";
+
+import { Toolbar } from "../../../components/navigation";
 import { login } from "../actions";
+
+import s from "./style.scss";
 
 export class RegisterPage extends Component {
   constructor(props) {
@@ -37,17 +39,13 @@ export class RegisterPage extends Component {
       <div>
         <Toolbar text="Sign up" />
         <div className="main-form">
-          <Grid
-            textAlign="center"
-            style={{ height: "100%", width: "100%", margin: "auto" }}
-            verticalAlign="middle"
-          >
-            <Grid.Column style={{ maxWidth: 450 }}>
+          <Grid textAlign="center" className={s.grid} verticalAlign="middle">
+            <Grid.Column className={s.column}>
               <Form
                 size="large"
                 error
                 onSubmit={this.onSubmit}
-                style={{ textAlign: "left" }}
+                className={s.text_left}
               >
                 <Form.Input
                   label="Email address"
