@@ -23,6 +23,15 @@ export class NotificationsPage extends Component {
     return (
       <div>
         <div className={s.page}>
+          <h1
+            style={{
+              color: "red",
+              width: "100%",
+              textAlign: "center",
+            }}
+          >
+            Under development
+          </h1>
           <Feed>
             <Feed.Event>
               <Feed.Label>

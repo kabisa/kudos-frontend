@@ -18,7 +18,15 @@ export class StatisticsPage extends Component {
   render() {
     return (
       <div>
-        <p>StatisticsPage</p>
+        <h1
+          style={{
+            color: "red",
+            width: "100%",
+            textAlign: "center",
+          }}
+        >
+          Under development
+        </h1>{" "}
         <Navigation />
       </div>
     );

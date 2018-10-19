@@ -7,6 +7,7 @@ import {
   Header,
   Message,
   Segment,
+  Responsive,
 } from "semantic-ui-react";
 
 import { Toolbar } from "../../../components/navigation";
@@ -64,9 +65,11 @@ export class ResetPasswordPage extends Component {
                   </Button>
                 </Segment>
               </Form>
-              <Message>
-                <div onClick={() => window.history.back()}>Back</div>
-              </Message>
+              <Responsive minWidth={Responsive.onlyTablet.minWidth}>
+                <Message className={s.back}>
+                  <div onClick={() => window.history.back()}>Back</div>
+                </Message>
+              </Responsive>
             </Grid.Column>
           </Grid>
         </div>

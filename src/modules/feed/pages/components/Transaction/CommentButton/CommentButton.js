@@ -1,14 +1,18 @@
 import { h } from "preact";
 import { Button, Icon } from "semantic-ui-react";
+import { route } from "preact-router";
 import PropTypes from "prop-types";
 
 const CommentButton = ({ transactionId, text }) => (
-  <a href={`/comments/${transactionId}`}>
-    <Button size="mini" basic className="button-action">
-      <Icon name="comment outline" />
-      {text}
-    </Button>
-  </a>
+  <Button
+    size="mini"
+    basic
+    className="button-action"
+    onClick={() => route(`/comments/${transactionId}`)}
+  >
+    <Icon name="comment outline" />
+    {text}
+  </Button>
 );
 
 CommentButton.propTypes = {

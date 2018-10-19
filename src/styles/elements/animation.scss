@@ -1,0 +1,24 @@
+$animation-duration: 0ms;
+
+.maji-page-animation-none {
+    backface-visibility: hidden;
+    animation-duration: unset;
+
+    &.maji-page-incoming {
+        animation-name: fadeIn;
+    }
+
+    &.maji-page-outgoing {
+        animation-name: fadeOut;
+    }
+
+    &.maji-page-reverse {
+        &.maji-page-incoming {
+            animation-name: fadeIn;
+        }
+
+        &.maji-page-outgoing {
+            animation-name: fadeOut;
+        }
+    }
+}
