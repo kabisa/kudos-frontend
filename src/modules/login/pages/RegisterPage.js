@@ -13,7 +13,7 @@ export class RegisterPage extends Component {
     this.state = {
       username: "",
       password: "",
-      confirm_password: ""
+      confirm_password: "",
     };
 
     this.onSubmit = this.onSubmit.bind(this);
@@ -109,12 +109,12 @@ RegisterPage.propTypes = {
   login: PropTypes.func.isRequired,
 
   loading: PropTypes.bool.isRequired,
-  error: PropTypes.bool.isRequired
+  error: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
   loading: state.login.loginLoading,
-  error: state.login.loginError !== null
+  error: state.login.loginError !== null,
 });
 
 const mapDispatchToProps = { login };

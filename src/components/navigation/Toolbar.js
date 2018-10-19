@@ -10,7 +10,7 @@ const Toolbar = ({ to, text }) => {
         width: "70px",
         height: "100%",
         display: "flex",
-        color: "black"
+        color: "black",
       }}
     >
       <Icon name="arrow left" size="large" style={{ margin: "auto" }} />
@@ -22,7 +22,7 @@ const Toolbar = ({ to, text }) => {
         width: "70px",
         height: "100%",
         display: "flex",
-        color: "black"
+        color: "black",
       }}
     >
       <Icon name="arrow left" size="large" style={{ margin: "auto" }} />
@@ -41,11 +41,11 @@ const Toolbar = ({ to, text }) => {
 
 Toolbar.propTypes = {
   to: PropTypes.string.isRequired,
-  text: PropTypes.string
+  text: PropTypes.string,
 };
 
 Toolbar.defaultProps = {
-  text: ""
+  text: "",
 };
 
 export default Toolbar;

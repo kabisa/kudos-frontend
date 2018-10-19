@@ -7,7 +7,7 @@ const initialState = {
   getUserInfoLoading: false,
   getUserInfoSuccess: false,
   getUserInfoError: null,
-  data: null
+  data: null,
 };
 
 const setToken = (state, action) =>
@@ -20,12 +20,12 @@ const getUserInfoSuccess = (state, action) =>
   updateObject(state, {
     getUserInfoLoading: false,
     getUserInfoError: null,
-    data: action.payload
+    data: action.payload,
   });
 const getUserInfoFailure = (state, action) =>
   updateObject(state, {
     getUserInfoLoading: false,
-    getUserInfoError: action.payload
+    getUserInfoError: action.payload,
   });
 
 const handlers = {};

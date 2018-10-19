@@ -37,11 +37,11 @@ export class ChooseTeamPage extends Component {
 }
 
 ChooseTeamPage.propTypes = {
-  isLoggedIn: PropTypes.bool.isRequired
+  isLoggedIn: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
-  isLoggedIn: state.user.token !== null
+  isLoggedIn: state.user.token !== null,
 });
 
 const mapDispatchToProps = {};

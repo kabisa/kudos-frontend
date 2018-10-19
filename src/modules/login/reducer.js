@@ -6,7 +6,7 @@ const initialState = {
   loginSuccess: false,
   loginError: null,
   resetPasswordLoading: false,
-  resetPasswordError: null
+  resetPasswordError: null,
 };
 
 /**
@@ -17,7 +17,7 @@ const loginSuccess = state =>
   updateObject(state, {
     loginLoading: false,
     loginError: null,
-    loginSuccess: true
+    loginSuccess: true,
   });
 const loginFailure = (state, action) =>
   updateObject(state, { loginLoading: false, loginError: action.payload });
@@ -32,7 +32,7 @@ const resetPasswordSuccess = state =>
 const resetPasswordFailure = (state, action) =>
   updateObject(state, {
     resetPasswordLoading: false,
-    resetPasswordError: action.payload
+    resetPasswordError: action.payload,
   });
 
 const handlers = {};

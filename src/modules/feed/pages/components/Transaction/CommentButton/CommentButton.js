@@ -13,7 +13,7 @@ const CommentButton = ({ transactionId, text }) => (
 
 CommentButton.propTypes = {
   text: PropTypes.number.isRequired,
-  transactionId: PropTypes.number.isRequired
+  transactionId: PropTypes.number.isRequired,
 };
 
 export default CommentButton;

@@ -7,7 +7,7 @@ import feedReducer from "./modules/feed/reducer";
 const appReducer = combineReducers({
   login: loginReducer,
   user: userReducer,
-  feed: feedReducer
+  feed: feedReducer,
 });
 
 export default appReducer;

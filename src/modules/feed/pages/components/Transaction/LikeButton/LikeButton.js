@@ -23,11 +23,11 @@ LikeButton.propTypes = {
   like: PropTypes.func.isRequired,
   transactionId: PropTypes.number.isRequired,
   liked: PropTypes.bool.isRequired,
-  likes: PropTypes.number.isRequired
+  likes: PropTypes.number.isRequired,
 };
 
 const mapDispatchToProps = {
-  like: likeTransaction
+  like: likeTransaction,
 };
 
 export default connect(

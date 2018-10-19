@@ -57,18 +57,18 @@ FeedPage.propTypes = {
   getTransactions: PropTypes.func.isRequired,
 
   isLoading: PropTypes.bool.isRequired,
-  isFailed: PropTypes.bool.isRequired
+  isFailed: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
   isLoading: state.feed.getTransactionsLoading,
   isFailed: state.feed.getTransactionsError !== null,
   transactions: state.feed.transactions,
-  isLoggedIn: state.user.token !== null
+  isLoggedIn: state.user.token !== null,
 });
 
 const mapDispatchToProps = {
-  getTransactions
+  getTransactions,
 };
 
 export default connect(

@@ -2,11 +2,11 @@ import axios from "axios";
 import settings from "./config/settings";
 
 const instance = axios.create({
-  baseURL: settings.API_BASE_URL
+  baseURL: settings.API_BASE_URL,
 });
 
 instance.defaults.headers.common = {
-  token: "123"
+  token: "123",
 };
 
 instance.interceptors.response.use(

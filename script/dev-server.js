@@ -18,8 +18,8 @@ app.use(
     publicPath: "/",
     stats: {
       colors: true,
-      chunks: false
-    }
+      chunks: false,
+    },
   })
 );
 
@@ -28,7 +28,7 @@ if (liveReload) {
   app.use(
     hotMiddleware(compiler, {
       publicPath: "/",
-      noInfo: true
+      noInfo: true,
     })
   );
 }

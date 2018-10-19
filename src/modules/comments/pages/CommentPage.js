@@ -155,15 +155,15 @@ export class CommentPage extends Component {
 
 CommentPage.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
-  transaction: PropTypes.array
+  transaction: PropTypes.array,
 };
 
 const mapStateToProps = state => ({
   isLoggedIn: state.user.token !== null,
-  transactions: state.feed.transactions
+  transactions: state.feed.transactions,
 });
 const mapDispatchToProps = {
-  getTransaction
+  getTransaction,
 };
 
 export default connect(

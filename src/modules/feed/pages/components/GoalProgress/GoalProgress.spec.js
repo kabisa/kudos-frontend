@@ -7,7 +7,7 @@ import { GoalProgress } from "./GoalProgress";
 function setup() {
   const props = {
     getGoalProgress: jest.fn(() => 50),
-    goalPercentageSuccess: true
+    goalPercentageSuccess: true,
   };
 
   const enzymeWrapper = mount(
@@ -18,7 +18,7 @@ function setup() {
 
   return {
     props,
-    enzymeWrapper
+    enzymeWrapper,
   };
 }
 

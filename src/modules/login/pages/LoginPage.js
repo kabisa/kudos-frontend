@@ -3,7 +3,7 @@ import { connect } from "preact-redux";
 import {
   PATH_REGISTER,
   PATH_FORGOT_PASSWORD,
-  PATH_FEED
+  PATH_FEED,
 } from "../../../routes";
 import {
   Button,
@@ -11,7 +11,7 @@ import {
   Grid,
   Header,
   Message,
-  Segment
+  Segment,
 } from "semantic-ui-react";
 import { route } from "preact-router";
 import { login } from "../actions";
@@ -22,7 +22,7 @@ export class LoginPage extends Component {
 
     this.state = {
       username: "",
-      password: ""
+      password: "",
     };
 
     // Check if the user is already logged in.
@@ -117,7 +117,7 @@ export class LoginPage extends Component {
 const mapStateToProps = state => ({
   loading: state.login.loginLoading,
   isLoggedIn: state.user.token != null,
-  error: state.login.loginError !== null
+  error: state.login.loginError !== null,
 });
 
 const mapDispatchToProps = { login };

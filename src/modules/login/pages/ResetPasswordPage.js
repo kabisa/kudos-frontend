@@ -7,7 +7,7 @@ import {
   Grid,
   Header,
   Message,
-  Segment
+  Segment,
 } from "semantic-ui-react";
 import { login } from "../actions";
 
@@ -17,7 +17,7 @@ export class ResetPasswordPage extends Component {
 
     this.state = {
       username: "",
-      password: ""
+      password: "",
     };
 
     this.onSubmit = this.onSubmit.bind(this);
@@ -78,7 +78,7 @@ export class ResetPasswordPage extends Component {
 
 const mapStateToProps = state => ({
   loading: state.login.loginLoading,
-  error: state.login.loginError !== null
+  error: state.login.loginError !== null,
 });
 
 const mapDispatchToProps = { login };

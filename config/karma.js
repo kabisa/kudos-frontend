@@ -11,25 +11,25 @@ module.exports = function(config) {
     files: ["test/spec/spec_helper.js", "test/spec/**/*.spec.js"],
     exclude: [],
     preprocessors: {
-      "test/spec/**/*.*": ["webpack"]
+      "test/spec/**/*.*": ["webpack"],
     },
     // webpack configuration
     webpack: webpackConfig,
     webpackMiddleware: {
-      noInfo: true
+      noInfo: true,
     },
     reporters: ["mocha", "junit"],
     junitReporter: {
-      outputDir: "reports"
+      outputDir: "reports",
     },
     client: {
       captureConsole: true,
       mocha: {
-        reporter: "html"
-      }
+        reporter: "html",
+      },
     },
     mochaReporter: {
-      showDiff: true
+      showDiff: true,
     },
     port: 9876,
     listenAddress: "localhost",
@@ -41,12 +41,12 @@ module.exports = function(config) {
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
         base: "ChromeHeadless",
-        flags: ["--no-sandbox"]
-      }
+        flags: ["--no-sandbox"],
+      },
     },
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
     singleRun: false,
-    concurrency: Infinity
+    concurrency: Infinity,
   });
 };

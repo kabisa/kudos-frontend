@@ -11,8 +11,8 @@ module.exports = {
     server_path: selenium.path,
     log_path: "reports",
     cli_args: {
-      "webdriver.chrome.driver": chromedriver.path
-    }
+      "webdriver.chrome.driver": chromedriver.path,
+    },
   },
   test_settings: {
     default: {
@@ -22,28 +22,28 @@ module.exports = {
       desiredCapabilities: {
         browserName: "chrome",
         chromeOptions: {
-          args: ["--headless"]
-        }
+          args: ["--headless"],
+        },
       },
       globals: {
-        waitForConditionTimeout: 5000
-      }
+        waitForConditionTimeout: 5000,
+      },
     },
     nonHeadless: {
       desiredCapabilities: {
         browserName: "chrome",
         chromeOptions: {
-          args: ["--default"]
-        }
-      }
+          args: ["--default"],
+        },
+      },
     },
     ci: {
       desiredCapabilities: {
         browserName: "chrome",
         chromeOptions: {
-          args: ["--no-sandbox", "--headless"]
-        }
-      }
-    }
-  }
+          args: ["--no-sandbox", "--headless"],
+        },
+      },
+    },
+  },
 };
