@@ -1,0 +1,21 @@
+.root {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.page {
+    padding: 2em;
+    display: flex;
+    height: 100vh;
+}
+
+.form {
+    margin: auto;
+    width: 100%;
+}
+
+.submit_button {
+    width: 100%;
+}

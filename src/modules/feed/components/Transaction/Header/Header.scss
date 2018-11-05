@@ -1,0 +1,28 @@
+.root {
+    display: flex;
+    align-items: center;
+}
+
+.kudo_amount {
+    width: 45px;
+}
+
+.image_wrapper {
+    margin-left: 12px;
+    display: flex;
+    flex-flow: wrap;
+    max-width: 12em;
+}
+
+.timestamp {
+    font-weight: 300;
+    font-size: 12px;
+    margin-left: auto;
+    width: 65px;
+    text-align: right;
+    padding-right: 8px;
+}
+
+.dropdown {
+    color: grey;
+}

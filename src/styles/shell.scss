@@ -1,0 +1,25 @@
+@import "../../node_modules/semantic-ui-css/semantic.css";
+@import "../../node_modules/maji/css/maji-base";
+@import "elements/base";
+
+body > div,
+body > div > div,
+body > div > div > div.main-form {
+    height: 100%;
+    overflow: auto;
+}
+
+div.main-form {
+    width: 98%;
+    margin: auto;
+    height: 100vh;
+}
+
+.page {
+    text-align: center;
+}
+
+.flex {
+    display: flex;
+    flex-direction: column;
+}

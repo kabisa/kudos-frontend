@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="nl.kabisa.kudos" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>kudos</name>
+    <description />
+    <content src="index.html" />
+    <access origin="*" />
+    <hook src="../node_modules/maji/cordova/hooks/before_platform_add.js" type="before_platform_add" />
+    <preference name="DisallowOverscroll" value="true" />
+    <preference name="Orientation" value="portrait" />
+    <preference name="KeyboardDisplayRequiresUserAction" value="false" />
+    <preference name="KeyboardDisplayRequiresUserAction" value="false" />
+    <preference name="SplashScreen" value="splash" />
+    <preference name="SplashScreenDelay" value="0" />
+    <preference name="android-minSdkVersion" value="21" />
+    <preference name="android-targetSdkVersion" value="24" />
+    <preference name="BackupWebStorage" value="local" />
+    <allow-navigation href="*" />
+    <engine name="android" spec="^7.1.1" />
+    <engine name="ios" spec="^4.5.5" />
+    <plugin name="cordova-plugin-networkactivityindicator" spec="^0.1.1" />
+    <plugin name="cordova-plugin-splashscreen" spec="^4.0.3" />
+    <plugin name="cordova-plugin-whitelist" spec="^1.3.3" />
+</widget>
