@@ -1,13 +1,13 @@
 import gql from "graphql-tag";
 
 export const GET_TRANSACTIONS = gql`
-  query postsConnection {
-    postsConnection(first: 10) {
+  query postsConnection($end: String) {
+    postsConnection(first: 10, after: $end) {
       edges {
         cursor
         node {
           id
-          kudos
+          amount
           message
           receivers {
             name
@@ -16,6 +16,10 @@ export const GET_TRANSACTIONS = gql`
             name
           }
         }
+      }
+      pageInfo {
+        endCursor
+        hasNextPage
       }
     }
   }
@@ -32,7 +36,7 @@ export const GET_USERS = gql`
 
 export const CREATE_POST = gql`
   mutation CreatePost($message: String!, $kudos: Int!, $receivers: [Int]!) {
-    createPost(message: $message, kudos: $kudos, receivers: $receivers) {
+    createPost(message: $message, amount: $kudos, receivers: $receivers) {
       id
     }
   }
