@@ -8,7 +8,7 @@ export const isLoggedIn = () => {
 };
 
 export const auth = () => {
-  if (!isLoggedIn) {
+  if (!isLoggedIn()) {
     route(PATH_LOGIN, true);
   }
 };
