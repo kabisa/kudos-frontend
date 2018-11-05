@@ -1,0 +1,287 @@
+def sendSlack(String buildStatus, String color) {
+  def msg = "${buildStatus}: `${env.JOB_NAME}` #${env.BUILD_NUMBER}:\n${env.BUILD_URL}"
+
+  slackSend(color: color, message: msg, channel: '#mobile-builds-test')
+}
+
+pipeline {
+
+  agent {
+    label 'kabisas-mac-mini'
+  }
+
+  environment {
+    PATH = '/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/rvm/bin/:/Users/jenkins/Library/Android/sdk/platform-tools:/Users/jenkins/Library/Android/sdk/tools:/Users/jenkins/Library/Android/sdk/build-tools/26.0.1:/Users/jenkins/Library/Android/sdk/platform-tools'
+    LC_ALL = 'en_US.UTF-8'
+    FASTLANE_SKIP_UPDATE_CHECK = true
+    MATCH_PASSWORD = credentials('MATCH_PASSWORD')
+    FL_HOCKEY_API_TOKEN = credentials('HOCKEY_API_TOKEN')
+    FL_HOCKEY_PUBLIC_IDENTIFIER_ANDROID = credentials('FL_HOCKEY_PUBLIC_IDENTIFIER_ANDROID')
+    FL_HOCKEY_PUBLIC_IDENTIFIER_IOS = credentials('FL_HOCKEY_PUBLIC_IDENTIFIER_IOS')
+    FASTLANE_USER = credentials('FASTLANE_USER')
+    FASTLANE_PASSWORD = credentials('FASTLANE_PASSWORD')
+
+//    ONLY REQUIRED FOR PRODUCTION
+//    COMMENT LINES BELOW IF ONLY USING HOCKEYAPP
+    /* FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT = 200 */
+    /* ANDROID_JSON_KEY_FILE = credentials('ANDROID_JSON_KEY_FILE') */
+    /* ANDROID_KEY_STORE = credentials('ANDROID_KEY_STORE') */
+    /* ANDROID_KEY_STORE_PASSWORD = credentials('ANDROID_KEY_STORE_PASSWORD') */
+    /* MACMINI_CODESIGN_KEYCHAIN_PASSWORD = credentials('MACMINI_CODESIGN_KEYCHAIN_PASSWORD') */
+    /* MACMINI_LOGIN_KEYCHAIN_PASSWORD = credentials('MACMINI_LOGIN_KEYCHAIN_PASSWORD') */
+  }
+
+  stages {
+    stage("Send slack started") {
+      steps {
+
+        sendSlack('STARTED','#D4DADF')
+
+      }
+    }
+
+    stage("Prepare (installs)") {
+      steps {
+        script {
+          commitMessage = sh(returnStdout: true, script: 'echo "$(git log --format=%B -n 1)"').trim()
+        }
+        sh '''#!/bin/bash -l
+          rvm install $(cat .ruby-version)
+          rvm use $(cat .ruby-version)
+          ruby -v
+
+          gem install -N bundler
+
+          bundle install
+          yarn install
+        '''
+      }
+    }
+
+    stage("Check Store version") {
+      when {
+        allOf {
+          anyOf {
+            branch 'master';branch 'demo';branch 'appstore';
+
+          }
+          expression {
+            commitMessage.contains('DEPLOY_STORE');
+          }
+        }
+      }
+
+      steps {
+
+        sh '''#!/bin/bash -l
+
+          bundle exec fastlane check_version
+
+        '''
+      }
+    }
+
+    stage("Unlock keychain") {
+      when {
+        allOf {
+          anyOf {
+            branch 'master';branch 'demo';branch 'appstore';
+          }
+          expression {
+            commitMessage.contains('DEPLOY_HOCKEY') || commitMessage.contains('DEPLOY_STORE')
+          }
+        }
+      }
+
+      steps {
+        sh '''#!/bin/bash -l
+          security -v list-keychains -d system -s ~/Library/Keychains/codesign.keychain >/dev/null
+          security -v unlock-keychain -p $MACMINI_CODESIGN_KEYCHAIN_PASSWORD ~/Library/Keychains/codesign.keychain >/dev/null
+          security set-keychain-settings -t 3600 -l ~/Library/Keychains/codesign.keychain >/dev/null
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k $MACMINI_LOGIN_KEYCHAIN_PASSWORD /Users/jenkins/Library/Keychains/login.keychain-db >/dev/null
+        '''
+      }
+    }
+
+    stage("Prepare Fastlane") {
+      when {
+        allOf {
+          anyOf {
+            branch 'master';branch 'demo';branch 'appstore';
+          }
+          expression {
+            commitMessage.contains('DEPLOY_HOCKEY') || commitMessage.contains('DEPLOY_STORE')
+          }
+        }
+      }
+
+      steps {
+        script {
+          currUser = sh(returnStdout: true, script: 'whoami').trim()
+          env.ANDROID_SDK_ROOT = "/Users/${currUser}/Library/Android/sdk/"
+          env.ANDROID_HOME = "/Users/${currUser}/Library/Android/sdk/"
+        }
+
+
+        sh '''#!/bin/bash -l
+          mkdir -p fastlane/vault/
+          rm -Rf cordova/platforms/
+
+          cat $ANDROID_JSON_KEY_FILE > fastlane/vault/ANDROID_JSON_KEY_FILE.json
+          cat $ANDROID_KEY_STORE > fastlane/vault/android.jks
+
+          eval $(ssh-agent -s)
+          ssh-add /Users/jenkins/.ssh/id_rsa
+        '''
+
+      }
+    }
+
+    stage("Deploy Android HockeyApp") {
+      when {
+        allOf {
+          anyOf {
+            branch 'master';branch 'demo';branch 'appstore';
+
+          }
+          expression {
+            commitMessage.contains('DEPLOY_HOCKEY');
+          }
+        }
+      }
+
+      environment {
+        APP_ENV =  "development"
+      }
+
+      steps {
+        script {
+          env.APP_ENV = "development"
+        }
+
+        sh '''#!/bin/bash -l
+
+          bundle exec fastlane android_deploy_hockey
+
+        '''
+      }
+    }
+
+    stage("Deploy iOS HockeyApp") {
+      when {
+        allOf {
+          anyOf {
+            branch 'master';branch 'demo';branch 'appstore';
+
+          }
+          expression {
+            commitMessage.contains('DEPLOY_HOCKEY');
+          }
+        }
+      }
+
+      environment {
+        APP_ENV =  "development"
+      }
+
+      steps {
+        script {
+          env.APP_ENV = "development"
+        }
+
+        sh '''#!/bin/bash -l
+
+          bundle exec fastlane ios_deploy_hockey
+
+        '''
+      }
+    }
+
+    stage("Deploy PlayStore") {
+      when {
+        allOf {
+          anyOf {
+            branch 'master';branch 'demo';branch 'appstore';
+
+          }
+          expression {
+            commitMessage.contains('DEPLOY_STORE');
+          }
+        }
+      }
+
+      environment {
+        APP_ENV =  "production"
+      }
+
+      steps {
+        script {
+          env.APP_ENV = "production"
+        }
+
+        sh '''#!/bin/bash -l
+
+          bundle exec fastlane android_deploy_store
+
+        '''
+      }
+    }
+
+    stage("Deploy AppStore") {
+      when {
+        allOf {
+          anyOf {
+            branch 'master';branch 'demo';branch 'appstore';
+
+          }
+          expression {
+            commitMessage.contains('DEPLOY_STORE');
+          }
+        }
+      }
+
+      environment {
+        APP_ENV =  "production"
+      }
+
+      steps {
+        script {
+          env.APP_ENV = "production"
+        }
+
+        sh '''#!/bin/bash -l
+
+          bundle exec fastlane ios_deploy_store
+
+        '''
+      }
+    }
+
+  }
+
+  post {
+    always {
+      echo 'Cleaning up....'
+      sh  '''#!/bin/bash -l
+
+        rm -Rf fastlane/vault/
+
+      '''
+    }
+
+//    Slack notifications
+    success {
+      sendSlack('SUCCESS','#BDFFC3')
+    }
+    unstable {
+      sendSlack('UNSTABLE','#FFFE89')
+    }
+    aborted {
+      sendSlack('UNSTABLE','#FF9FA1')
+    }
+    failure {
+      sendSlack('FAILURE','#FF9FA1')
+    }
+
+  }
+}

@@ -1,0 +1,15 @@
+$LOAD_PATH << '.'
+@fastlane_directory = File.expand_path('./fastlane/helpers')
+
+unless File.directory?(@fastlane_directory)
+  @fastlane_directory = File.expand_path('./helpers')
+end
+
+require "#{@fastlane_directory}/metadata_helper.rb"
+
+helper = Metadata_helper.new
+
+json_key_file "fastlane/vault/GOOGLE_JSON_KEY_FILE.json"
+package_name helper.get_property('app_identifier')
+team_id helper.get_property('team_id')
+app_identifier helper.get_property('app_identifier')
