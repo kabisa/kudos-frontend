@@ -1,6 +1,8 @@
 import { h, Component } from "preact";
+
 import { Navigation } from "../../components/navigation";
 import { auth } from "../../support";
+import { DonutChart } from "./components";
 
 export class StatisticsPage extends Component {
   constructor(props) {
@@ -11,7 +13,7 @@ export class StatisticsPage extends Component {
   render() {
     return (
       <div>
-        <p>StatisticsPage</p>
+        <DonutChart value={50} />
         <Navigation />
       </div>
     );
