@@ -7,7 +7,7 @@ export const GET_TRANSACTIONS = gql`
         cursor
         node {
           id
-          kudos
+          amount
           message
           receivers {
             name
@@ -23,7 +23,7 @@ export const GET_TRANSACTIONS = gql`
 
 export const GET_USERS = gql`
   query Users($name: String) {
-    users(name: $name) {
+    users(findByName: $name) {
       name
       id
     }
@@ -31,8 +31,8 @@ export const GET_USERS = gql`
 `;
 
 export const CREATE_POST = gql`
-  mutation CreatePost($message: String!, $kudos: Int!, $receivers: [Int]!) {
-    createPost(message: $message, kudos: $kudos, receivers: $receivers) {
+  mutation CreatePost($message: String!, $kudos: Int!, $receivers: [ID]!) {
+    createPost(message: $message, amount: $kudos, receivers: $receivers) {
       id
     }
   }
