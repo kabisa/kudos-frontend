@@ -14,7 +14,8 @@
     "lint": "yarn run eslint && yarn run stylelint",
     "eslint": "eslint src/ test/",
     "stylelint": "stylelint 'src/**/*.scss' --fix",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "validate-schema": "get-graphql-schema https://kudo-o-matic-staging.dokku.kabisa.io/graphql > schema.graph     ql && graphql-validator -s ./schema.graphql ./query.graphql"
   },
   "lint-staged": {
     "*.{js,jsx}": [
@@ -49,6 +50,7 @@
     "semantic-ui-react": "^0.82.5"
   },
   "devDependencies": {
+    "@creditkarma/graphql-validator": "^0.5.0",
     "autoprefixer": "^7.1.1",
     "babel-core": "^6.24.1",
     "babel-eslint": "^7.2.3",
@@ -69,6 +71,7 @@
     "eslint-plugin-react": "^7.1.0",
     "extract-text-webpack-plugin": "^2.1.0",
     "file-loader": "^2.0.0",
+    "get-graphql-schema": "^2.1.1",
     "html-webpack-plugin": "^2.28.0",
     "husky": "^0.14.3",
     "json-loader": "^0.5.4",

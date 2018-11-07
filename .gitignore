@@ -14,3 +14,4 @@ cordova/platforms/*
 cordova/plugins/*
 !cordova/platforms/.keep
 !cordova/plugins/.keep
+*.swp
