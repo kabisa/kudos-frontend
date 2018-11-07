@@ -10,7 +10,7 @@ module.exports = {
     __VERSION_NUMBER__: true,
     __BUILD_IDENTIFIER__: true,
   },
-  plugins: ["compat", "prettier", "react"],
+  plugins: ["compat", "prettier", "react", "graphql"],
   extends: ["eslint:recommended", "plugin:react/recommended"],
   parser: "babel-eslint",
   parserOptions: {
@@ -33,5 +33,12 @@ module.exports = {
     "react/prop-types": "off",
     "react/display-name": "off",
     "no-console": "warn",
+    "graphql/template-strings": [
+      "error",
+      {
+        env: "apollo",
+        schemaJson: require("./schema.json"),
+      },
+    ],
   },
 };
