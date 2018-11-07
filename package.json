@@ -15,7 +15,7 @@
     "eslint": "eslint src/ test/",
     "stylelint": "stylelint 'src/**/*.scss' --fix",
     "precommit": "lint-staged",
-    "validate-schema": "apollo queries:check"
+    "queries:check": "apollo queries:check"
   },
   "lint-staged": {
     "*.{js,jsx}": [
@@ -50,6 +50,7 @@
     "semantic-ui-react": "^0.82.5"
   },
   "devDependencies": {
+    "apollo": "^1.9.2",
     "autoprefixer": "^7.1.1",
     "babel-core": "^6.24.1",
     "babel-eslint": "^7.2.3",

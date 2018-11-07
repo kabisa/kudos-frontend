@@ -11,5 +11,5 @@ script:
   - npm run prettier:check
   - npm run eslint
   - npm run stylelint
-  - apollo queries:check
+  - npm run queries:check
   - npm run build
