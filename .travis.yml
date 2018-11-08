@@ -11,5 +11,5 @@ script:
   - npm run prettier:check
   - npm run eslint
   - npm run stylelint
-  - npm run queries:check
+  - npm run queries:check --key service:StefanPahlplatz-1561:6sjSFqP8t1elr9Bxe-_kNg
   - npm run build
