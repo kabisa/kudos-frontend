@@ -6,7 +6,7 @@ git_repo_url: 'git@github.com:kabisa/match-certificates.git'
 ########
 app_version: '1.0.0'
 app_name: 'Kudos-o-Matic'
-app_identifier: 'nl.kabisa.kudos'
+app_identifier: 'nl.kabisa.kudoomatic'
 app_rating_config_path: 'fastlane/ratings_config.json'
 app_icon: 'src/assets/logo/AppStore-1024.png'
 android_app_icon: 'src/assets/logo/PlayStore-512.png'

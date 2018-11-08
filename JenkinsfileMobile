@@ -33,6 +33,16 @@ pipeline {
 
   stages {
     stage("Send slack started") {
+      when {
+        allOf {
+          anyOf {
+            branch 'master';branch 'demo';branch 'appstore';
+          }
+          expression {
+            commitMessage.contains('DEPLOY_HOCKEY') || commitMessage.contains('DEPLOY_STORE')
+          }
+        }
+      }
       steps {
 
         sendSlack('STARTED','#D4DADF')
@@ -41,6 +51,16 @@ pipeline {
     }
 
     stage("Prepare (installs)") {
+      when {
+        allOf {
+          anyOf {
+            branch 'master';branch 'demo';branch 'appstore';
+          }
+          expression {
+            commitMessage.contains('DEPLOY_HOCKEY') || commitMessage.contains('DEPLOY_STORE')
+          }
+        }
+      }
       steps {
         script {
           commitMessage = sh(returnStdout: true, script: 'echo "$(git log --format=%B -n 1)"').trim()
