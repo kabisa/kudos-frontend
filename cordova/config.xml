@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="nl.kabisa.kudos" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget xmlns:android="http://schemas.android.com/apk/res/android" id="nl.kabisa.kudos" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>kudos</name>
     <description />
     <content src="index.html" />
@@ -20,4 +20,20 @@
     <plugin name="cordova-plugin-networkactivityindicator" spec="^0.1.1" />
     <plugin name="cordova-plugin-splashscreen" spec="^4.0.3" />
     <plugin name="cordova-plugin-whitelist" spec="^1.3.3" />
+    <icon src="../src/assets/logo/AppStore-1024.png" />
+    <platform name="ios">
+        <hook src="scripts/target_attributes.rb" type="after_build" />
+        <hook src="scripts/share_schemes.rb" type="after_platform_add" />
+        <icon height="76" src="../src/assets/logo/AppStore-76.png" width="76" />
+        <icon height="120" src="../src/assets/logo/AppStore-120.png" width="120" />
+        <icon height="152" src="../src/assets/logo/AppStore-152.png" width="152" />
+    </platform>
+    <platform name="android">
+        <config-file parent="/manifest" target="AndroidManifest.xml">
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+            <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+        </config-file>
+        <hook src="scripts/prepare_screengrab.rb" type="after_build" />
+    </platform>
 </widget>
