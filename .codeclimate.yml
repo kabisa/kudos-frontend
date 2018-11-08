@@ -7,4 +7,14 @@ ratings:
   - src/**
 
 exclude_paths:
-- !src
+- lib/**
+- bin/**
+- config/**
+- cordova/**
+- dist/**
+- docker/**
+- fastlane/**
+- node_modules/**
+- reports/**
+- script/**
+- test/**
