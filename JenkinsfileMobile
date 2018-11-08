@@ -40,6 +40,11 @@ pipeline {
     }
 
     stage("Prepare (installs)") {
+      when {
+        anyOf {
+          branch 'master';branch 'demo';branch 'appstore';
+        }
+      }
       steps {
         script {
           commitMessage = sh(returnStdout: true, script: 'echo "$(git log --format=%B -n 1)"').trim()
