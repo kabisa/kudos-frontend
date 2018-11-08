@@ -1,8 +1,8 @@
 import gql from "graphql-tag";
 
 export const GET_TRANSACTIONS = gql`
-  query postsConnection {
-    postsConnection(first: 10) {
+  query postsConnection($end: String) {
+    postsConnection(first: 10, after: $end) {
       edges {
         cursor
         node {
@@ -16,6 +16,10 @@ export const GET_TRANSACTIONS = gql`
             name
           }
         }
+      }
+      pageInfo {
+        endCursor
+        hasNextPage
       }
     }
   }
