@@ -44,9 +44,7 @@ pipeline {
         }
       }
       steps {
-
         sendSlack('STARTED','#D4DADF')
-
       }
     }
 

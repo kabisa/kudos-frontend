@@ -1,13 +1,12 @@
 import { h, Component } from "preact";
 import PropTypes from "prop-types";
 import { connect } from "preact-redux";
-import { route } from "preact-router";
 import { Dimmer, Loader, Feed, Icon, Comment, Header } from "semantic-ui-react";
 import moment from "moment-twitter";
 
 import { Toolbar } from "../../../components/navigation";
-import { PATH_LOGIN } from "../../../routes";
 import { getTransaction } from "../../feed/actions";
+import { auth } from "../../../support";
 
 import s from "./CommentPage.scss";
 
@@ -15,10 +14,7 @@ export class CommentPage extends Component {
   constructor(props) {
     super(props);
 
-    // Check login
-    if (!props.isLoggedIn) {
-      route(PATH_LOGIN, true);
-    }
+    auth();
 
     if (!props.transactions.find(item => item.id == props.comment)) {
       props.getTransaction(props.comment);

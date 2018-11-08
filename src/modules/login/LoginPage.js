@@ -21,7 +21,7 @@ class LoginPage extends Component {
   constructor(props) {
     super(props);
 
-    if (isLoggedIn) {
+    if (isLoggedIn()) {
       route(PATH_FEED, true);
     }
 
