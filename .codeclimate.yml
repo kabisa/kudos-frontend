@@ -7,11 +7,4 @@ ratings:
   - src/**
 
 exclude_paths:
-- lib/**
-- dist/**
-- public/**
-- node_modules/**
-- cordova/**
-- bin/**
-- reports/**
-- script/**
+- !src
