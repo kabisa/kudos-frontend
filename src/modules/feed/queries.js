@@ -27,7 +27,7 @@ export const GET_TRANSACTIONS = gql`
 
 export const GET_USERS = gql`
   query Users($name: String) {
-    users(name: $name) {
+    users(findByName: $name) {
       name
       id
     }
@@ -35,7 +35,7 @@ export const GET_USERS = gql`
 `;
 
 export const CREATE_POST = gql`
-  mutation CreatePost($message: String!, $kudos: Int!, $receivers: [Int]!) {
+  mutation CreatePost($message: String!, $kudos: Int!, $receivers: [ID]!) {
     createPost(message: $message, amount: $kudos, receivers: $receivers) {
       id
     }
