@@ -106,14 +106,13 @@ class LoginPage extends Component {
                         Login
                       </Button>
 
-                      {data &&
-                        data.signInUser === null && (
-                          <Message
-                            error={true}
-                            header="Unable to login"
-                            content="Please make sure you entered your credentials correctly."
-                          />
-                        )}
+                      {data && data.signInUser === null && (
+                        <Message
+                          error={true}
+                          header="Unable to login"
+                          content="Please make sure you entered your credentials correctly."
+                        />
+                      )}
                     </Segment>
                   </Form>
                   <Message>

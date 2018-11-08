@@ -11,10 +11,10 @@
     "test:e2e": "NODE_ENV=${NODE_ENV:-test} SERVER_PORT=9091 script/test-e2e.js",
     "prettier:check": "prettier '{,!(node_modules|cordova|dist)/**/}*.js' --list-different",
     "prettier:write": "prettier '{,!(node_modules|cordova|dist)/**/}*.js' --write",
-    "lint": "yarn run eslint && yarn run stylelint",
-    "eslint": "eslint src/ test/",
+    "eslint": "get-graphql-schema https://kudo-o-matic-staging.dokku.kabisa.io/graphql -j > schema.json && eslint src/ test/",
     "stylelint": "stylelint 'src/**/*.scss' --fix",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "queries:check": "apollo queries:check"
   },
   "lint-staged": {
     "*.{js,jsx}": [
@@ -49,6 +49,7 @@
     "semantic-ui-react": "^0.82.5"
   },
   "devDependencies": {
+    "apollo": "^1.9.2",
     "autoprefixer": "^7.1.1",
     "babel-core": "^6.24.1",
     "babel-eslint": "^7.2.3",
@@ -65,10 +66,12 @@
     "css-loader": "^1.0.0",
     "eslint": "^4.3.0",
     "eslint-plugin-compat": "^1.0.4",
+    "eslint-plugin-graphql": "^2.1.1",
     "eslint-plugin-prettier": "^2.1.2",
     "eslint-plugin-react": "^7.1.0",
     "extract-text-webpack-plugin": "^2.1.0",
     "file-loader": "^2.0.0",
+    "get-graphql-schema": "^2.1.1",
     "html-webpack-plugin": "^2.28.0",
     "husky": "^0.14.3",
     "json-loader": "^0.5.4",

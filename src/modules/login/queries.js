@@ -11,8 +11,12 @@ export const MUTATION_LOGIN = gql`
 export const MUTATION_REGISTER = gql`
   mutation CreateUser($name: String!, $email: String!, $password: String!) {
     createUser(
-      name: $name
-      authProvider: { credentials: { email: $email, password: $password } }
+      credentials: {
+        name: $name
+        email: $email
+        password: $password
+        password_confirmation: $password
+      }
     ) {
       token
     }
