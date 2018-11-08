@@ -1,0 +1,364 @@
+fastlane_require 'spaceship'
+
+IOS_TYPES = {
+  appstore: {
+    build: "app-store",
+    gym: "app-store",
+    match: "appstore",
+    profile: "AppStore"
+  },
+  adhoc: {
+    build: "ad-hoc",
+    gym: "ad-hoc",
+    match: "adhoc",
+    profile: "AdHoc"
+  }
+}
+
+before_all do
+  message =  changelog_from_git_commits(commits_count: 1) || "NO COMMIT MESSAGE SPECIFIED"
+  @build_hockey = message.include?('DEPLOY_HOCKEY')
+  @deploy_store = message.include?('DEPLOY_STORE')
+  @release_notes = message.gsub(/DEPLOY_(HOCKEY|STORE)/, '')
+  @branch = git_branch.gsub('origin/', '')
+
+  @cordova_folder = File.expand_path("../cordova")
+  @fastlane_folder = File.expand_path("../fastlane")
+  @root_folder = File.expand_path("../")
+
+  $LOAD_PATH << '.'
+  require File.expand_path('./helpers/metadata_helper.rb')
+  @helper = Metadata_helper.new
+
+  @environment = ENV['APP_ENV']
+
+  @app_identifier = @helper.get_property('app_identifier')
+  @app_version = @helper.get_property('app_version')
+  @android_version = get_android_version(@app_version)
+  @app_name = @helper.get_property('app_name')
+  @team_id = @helper.get_property('team_id')
+
+  update_cordova_config_from_metadata
+
+  @output_dir = File.join(Dir.pwd, "tmp/output")
+
+  @languages = @helper.get_languages
+
+  @ios_type = :adhoc
+  if @deploy_store
+    @ios_type = :appstore
+  end
+  @ios_types = IOS_TYPES[@ios_type]
+
+  @provisioning_profile = @helper.get_property("provisioning_profile").gsub('@ios_type', @ios_types[:profile]).gsub('@app_identifier', @app_identifier)
+  @provisioning_profile_file = @provisioning_profile.gsub(' ', '_')
+
+  Dir.chdir('..') if in_fastlane
+
+end
+
+lane :lane_deploy do
+
+  if @build_hockey || @deploy_store
+    lane_deploy_android
+    # lane_deploy_ios
+  end
+end
+
+lane :android_deploy_hockey do
+  FileUtils.rm_rf("#{@cordova_folder}/platforms/android/build/.", secure: true)
+  FileUtils.rm_rf("#{@cordova_folder}/platforms/android/app/.", secure: true)
+
+  sh("APP_ENV=#{@environment} bin/maji build android")
+
+# Due to different Cordova and/or Gradle versions, the APK can be generated to different locations.
+# This method works around that issue by looking at possible locations.
+  possible_files = [
+      "#{@cordova_folder}/platforms/android/app/build/outputs/apk/debug/app-debug.apk",
+      "#{@cordova_folder}/platforms/android/app/build/outputs/apk/app-debug.apk",
+      "#{@cordova_folder}/platforms/android/build/outputs/apk/android-debug.apk",
+      "#{@cordova_folder}/platforms/android/build/outputs/apk/debug/android-debug.apk"
+  ]
+
+  apk_file = find_build_file(possible_files)
+
+  hockey public_identifier: ENV['FL_HOCKEY_PUBLIC_IDENTIFIER_ANDROID'],
+         apk: apk_file,
+         create_update: true,
+         bundle_version: @android_version,
+         bundle_short_version: @branch,
+         status: '2',
+         notes: @release_notes
+end
+
+lane :android_deploy_store do
+
+  # release procedure for play store here
+  build_signed_apk
+
+  android_screenshots
+
+  supply  track: "production",
+          apk: "#{@cordova_folder}/platforms/android/build/outputs/apk/android-release.apk",
+          json_key: "#{@fastlane_folder}/vault/ANDROID_JSON_KEY_FILE.json",
+          package_name: @app_identifier,
+          metadata_path: "#{@fastlane_folder}/metadata/android/"
+
+end
+
+lane :android_screenshots do
+
+  prepare_android_metadata
+
+  fix_avd_location
+
+  automated_test_emulator_run(
+    ADB_restart: false,
+    AVD_setup_path: "#{@fastlane_folder}/AVD_setup.json",
+    shell_task:"cd #{@root_folder}/ && #{@cordova_folder}/platforms/android/gradlew -p #{@cordova_folder}/platforms/android/ installDebug installDebugAndroidTest && fastlane screengrab"
+  )
+
+  FileUtils.rm_f("#{@fastlane_folder}/metadata/android/screenshots.html")
+
+end
+
+lane :build_signed_apk do
+  sh("APP_ENV=#{@environment} bin/maji build android --release")
+
+  sign_apk(
+    keystore_path: "#{@fastlane_folder}/vault/android.jks",
+    alias: "ANDROID_KEY_STORE",
+    storepass: ENV['ANDROID_KEY_STORE_PASSWORD'],
+    tsa: "http://timestamp.comodoca.com/rfc316",
+    apk_path: "#{@cordova_folder}/platforms/android/build/outputs/apk/android-release-unsigned.apk"
+  )
+
+  zipalign(apk_path: "#{lane_context[SharedValues::SIGNED_APK_PATH]}")
+end
+
+lane :ios_prepare do
+  FileUtils.rm_rf("#{@cordova_folder}/platforms/ios/build/device/.", secure: true)
+  FileUtils.rm_rf("#{@root_folder}/tmp/output/", secure: true)
+  FileUtils.rm_rf("#{@fastlane_folder}/tmp/output/", secure: true)
+
+  # where the signed ipa is placed
+  setup_jenkins(output_directory: @output_dir)
+
+  #Download the profile from apple so we can obtain the profile_uuid of the provisioning profile
+  FileUtils.rm_rf("profiles/", secure: true)
+  FileUtils.mkdir_p("profiles")
+
+  match username: ENV['FASTLANE_USER'],
+        git_url: @helper.get_property("git_repo_url"),
+        type: @ios_types[:match],
+        app_identifier: @app_identifier,
+        team_id: @team_id,
+        force_for_new_devices: :true
+
+  sigh  team_id: @team_id,
+        provisioning_name: "match #{@provisioning_profile}",
+        username: ENV['FASTLANE_USER'],
+        app_identifier: @app_identifier,
+        skip_install: true,
+        adhoc: (@ios_type == :adhoc),
+        ignore_profiles_with_different_name: true,
+        output_path: "#{@fastlane_folder}/profiles"
+
+
+
+  sh("security cms -D -i #{@fastlane_folder}/profiles/#{@provisioning_profile_file}.mobileprovision > #{@fastlane_folder}/profiles/#{@provisioning_profile_file}.plist || true")
+  profile_uuid = sh("/usr/libexec/PlistBuddy -c \"Print :UUID\" #{@fastlane_folder}/profiles/#{@provisioning_profile_file}.plist").chomp
+
+  FileUtils.cp("#{@fastlane_folder}/profiles/#{@provisioning_profile_file}.mobileprovision", "/Users/jenkins/Library/MobileDevice/Provisioning Profiles/#{profile_uuid}.mobileprovision")
+
+  #Build the app for ios
+  sh("APP_ENV=#{@environment} bin/maji build ios -- --codeSignIdentity=\"#{@helper.get_property("codesign_identity")}\" --developmentTeam=\"#{@team_id}\" --packageType=\"#{@ios_types[:build]}\" --provisioningProfile=\"#{profile_uuid}\"")
+
+  # Fixes bug with Cordova. Fastlane thinks the Cordova generated XCode project format is very old.
+  upgrade_super_old_xcode_project(
+    path: "#{@cordova_folder}/platforms/ios/#{@app_name}.xcodeproj",
+    team_id: @team_id
+  )
+
+  #Make sure automatic code signing is disabled, we dont want this.
+  disable_automatic_code_signing(
+    path: "#{@cordova_folder}/platforms/ios/#{@app_name}.xcodeproj",
+    team_id: @team_id
+  )
+
+  # Package and sign the your app.
+  gym scheme: @app_name,
+      project: "#{@cordova_folder}/platforms/ios/#{@app_name}.xcodeproj",
+      export_method: @ios_types[:gym],
+      build_path: @output_dir,
+      output_directory: @output_dir
+
+end
+
+lane :ios_deploy_hockey do
+
+    ios_prepare
+
+    hockey public_identifier: ENV['FL_HOCKEY_PUBLIC_IDENTIFIER_IOS'],
+           ipa: File.join(@output_dir, "#{@app_name}.ipa"),
+           create_update: true,
+           bundle_version: @app_version,
+           bundle_short_version: @branch,
+           status: '1',
+           notes: @release_notes,
+           notify: '0',
+           release_type: @release_type
+
+end
+
+lane :ios_deploy_store do
+
+    ios_prepare
+
+    # release procedure for appstore here
+    # Make sure old screenshots are removed
+    FileUtils.rm_rf("#{@fastlane_folder}/screenshots/*", secure: true)
+
+    ios_screenshots
+
+    ios_deliver
+
+end
+
+lane :ios_deliver do
+  Dir.chdir(@fastlane_folder) do
+
+    deliver ipa: "#{@output_dir}/#{@app_name}.ipa",
+            submit_for_review: false,
+            force: true,
+            username: ENV['FASTLANE_USER'],
+            overwrite_screenshots: true,
+            metadata_path: "#{@fastlane_folder}/metadata/",
+            screenshots_path: "#{@fastlane_folder}/screenshots/",
+            app_icon: "#{@root_folder}/src/assets/logo/AppStore-1024.png"
+  end
+end
+
+lane :ios_screenshots do
+
+  Dir.chdir(@fastlane_folder) do
+    ionic_ios_config_snapshot   ionic_scheme_name: "maji-screen-shots",
+                                ionic_ios_xcode_path: "#{@cordova_folder}/platforms/ios/#{@app_name}.xcodeproj",
+                                ionic_min_target_ios: "11.2"
+
+    FileUtils.cp_r("#{@fastlane_folder}/screenshot_classes/ios/ui-tests/maji-screen-shots/", "#{@fastlane_folder}/ionic/config/ios/ui-tests/")
+
+  end
+
+  # Create screenshots for iOS. Put most of the parameters here since it doesn't always pickup the Snapfile correctly.
+  snapshot   app_identifier: @helper.get_property('app_identifier'),
+             test_target_name: @app_name,
+             devices: @helper.get_property('ios_devices'),
+             languages: @helper.get_languages,
+             output_directory: "#{@fastlane_folder}/screenshots/",
+             project: "#{@cordova_folder}/platforms/ios/#{@app_name}.xcodeproj",
+             scheme: "maji-screen-shots",
+             skip_helper_version_check: true,
+             ios_version: "11.2",
+             localize_simulator: true,
+             output_simulator_logs: false,
+             reinstall_app: true,
+             erase_simulator: true,
+             skip_open_summary: true,
+             number_of_retries: 3,
+             clear_previous_screenshots: true,
+             stop_after_first_error: true,
+             clean: true
+
+  # Fix iPad screenshots being the wrong size (snapshots creates them 1px too small....)
+  sh("python #{@fastlane_folder}/helpers/snapshotresize.py")
+
+end
+
+lane :check_version do
+  Spaceship::Tunes.login(ENV['FASTLANE_USER'], ENV['FASTLANE_PASSWORD'])
+  app = Spaceship::Tunes::Application.find(@app_identifier)
+  unless app.build_trains.versions.empty?
+    versions = app.build_trains.versions.sort_by{|v| Gem::Version.new(v)}
+
+    apple_version = versions.last
+
+    if Gem::Version.new(@app_version) <= Gem::Version.new(apple_version)
+      raise 'The version in your Cordova config is NOT higher than the version in iTunes Connect. Please increment your version. The iTunes Connect version is: ' + apple_version
+    end
+
+  end
+
+end
+
+lane :update_cordova_config_from_metadata do
+  config_location = "#{@cordova_folder}/config.xml"
+  cordova_config = Nokogiri::XML((File.read(config_location)))
+
+  cordova_config.xpath("/*/@id").first.content = @app_identifier
+  cordova_config.xpath("/*/@version").first.content = @app_version
+  cordova_config.xpath("//xmlns:name").first.content = @app_name
+
+  File.write(config_location, cordova_config.to_xml)
+end
+
+def find_build_file(possible_files)
+  possible_files.each do |file|
+      if File.file?(file)
+        return file
+      end
+  end
+
+  raise "NONE of the following build files could be found: " + possible_files.to_s
+end
+
+def get_android_version (config_version)
+  version_splitted = config_version.split "."
+  version_splitted[0] + version_splitted[1].rjust(2, '0') + version_splitted[2].rjust(2, '0')
+end
+
+def fix_avd_location
+  json_file = "#{@fastlane_folder}/AVD_setup.json"
+
+  json = JSON.parse(File.read(json_file))
+
+  json["avd_list"].each do |avd|
+    avd["create_avd_hardware_config_filepath"] = File.expand_path(avd["create_avd_hardware_config_filepath"])
+  end
+
+  File.write(json_file, JSON.pretty_generate(json))
+end
+
+def prepare_android_metadata
+
+  FileUtils.rm_rf("#{@fastlane_folder}/metadata/", secure: true)
+  FileUtils.mkdir_p("#{@fastlane_folder}/metadata/android")
+
+  @languages.each {|lang|
+    FileUtils.mkdir_p("#{@fastlane_folder}/metadata/android/#{lang}/images")
+    FileUtils.mkdir_p("#{@fastlane_folder}/metadata/android/#{lang}/images/phoneScreenshots")
+    FileUtils.mkdir_p("#{@fastlane_folder}/metadata/android/#{lang}/images/sevenInchScreenshots")
+    FileUtils.mkdir_p("#{@fastlane_folder}/metadata/android/#{lang}/images/tenInchScreenshots")
+    FileUtils.mkdir_p("#{@fastlane_folder}/metadata/android/#{lang}/images/tvScreenshots")
+    FileUtils.mkdir_p("#{@fastlane_folder}/metadata/android/#{lang}/images/wearScreenshots")
+    FileUtils.touch("#{@fastlane_folder}/metadata/android/#{lang}/video.txt")
+
+    language_metadata = @helper.get_property("languages")[lang]
+    File.write("#{@fastlane_folder}/metadata/android/#{lang}/title.txt", language_metadata["name"])
+    File.write("#{@fastlane_folder}/metadata/android/#{lang}/short_description.txt", language_metadata["short_description"])
+    File.write("#{@fastlane_folder}/metadata/android/#{lang}/full_description.txt", language_metadata["description"])
+
+    FileUtils.cp(@helper.get_property("android_app_icon"), "#{@fastlane_folder}/metadata/android/#{lang}/images/icon.png")
+    FileUtils.cp(@helper.get_property("feature_graphic"), "#{@fastlane_folder}/metadata/android/#{lang}/images/featureGraphic.png")
+    FileUtils.cp(@helper.get_property("promo_graphic"), "#{@fastlane_folder}/metadata/android/#{lang}/images/promoGraphic.png")
+  }
+
+end
+
+def current_dir
+  File.basename(Dir.getwd)
+end
+
+def in_fastlane
+  current_dir == 'fastlane'
+end

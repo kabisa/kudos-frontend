@@ -7,7 +7,6 @@ node_modules
 dist/*
 !dist/.keep
 .env
-schema.json
 reports/
 
 # cordova stuff
@@ -15,4 +14,19 @@ cordova/platforms/*
 cordova/plugins/*
 !cordova/platforms/.keep
 !cordova/plugins/.keep
+
+# Fastlane stuff
+/fastlane/README.md
+/fastlane/screenshots/
+/fastlane/report.xml
+/fastlane/ionic
+/fastlane/test_servers/
+/fastlane/vault/
+/fastlane/android/
+/fastlane/metadata/
+/Preview.html
+/tmp
+/test_servers
+/.gradle
+/profiles/
 *.swp

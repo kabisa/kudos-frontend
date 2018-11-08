@@ -70,7 +70,7 @@ Prettier can also be run manually using `yarn run prettier` or `yarn run prettie
   - 🍴 Fork this repo!
 
 - **Option 2**
-  - 👯 Clone this repo to your local machine using `https://github.com/kabisa/kudos-frontend.git`
+  - 👯 Clone this repo to your local machine using `https://github.com/kabisa/kudos-frontend.git`.
 
 ### Step 2
 
