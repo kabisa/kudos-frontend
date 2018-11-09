@@ -97,4 +97,3 @@ Prettier can also be run manually using `yarn run prettier` or `yarn run prettie
 
 - **[MIT license](http://opensource.org/licenses/mit-license.php)**
 - Copyright 2018 © <a href="https://www.kabisa.nl/" target="_blank">Kabisa B.V.</a>.
-
