@@ -29,6 +29,7 @@
     "apollo-boost": "^0.1.17",
     "apollo-link-context": "^1.0.9",
     "apollo-link-http": "^1.5.5",
+    "cordova-custom-config": "^5.0.2",
     "graphql": "^14.0.2",
     "graphql-tag": "^2.10.0",
     "history": "^4.6.3",

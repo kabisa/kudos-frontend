@@ -1,9 +1,3 @@
-def sendSlack(String buildStatus, String color) {
-  def msg = "${buildStatus}: `${env.JOB_NAME}` #${env.BUILD_NUMBER}:\n${env.BUILD_URL}"
-
-  slackSend(color: color, message: msg, channel: '#mobile-builds-test')
-}
-
 pipeline {
 
   agent {
@@ -34,7 +28,6 @@ pipeline {
   stages {
     stage("Send slack started") {
       steps {
-        //sendSlack('STARTED','#D4DADF')
         sh 'echo "Started"'
       }
     }
@@ -272,20 +265,5 @@ pipeline {
 
       '''
     }
-
-//    Slack notifications
-    success {
-      sendSlack('SUCCESS','#BDFFC3')
-    }
-    unstable {
-      sendSlack('UNSTABLE','#FFFE89')
-    }
-    aborted {
-      sendSlack('UNSTABLE','#FF9FA1')
-    }
-    failure {
-      sendSlack('FAILURE','#FF9FA1')
-    }
-
   }
 }

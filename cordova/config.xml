@@ -29,11 +29,11 @@
         <icon height="152" src="../src/assets/logo/AppStore-152.png" width="152" />
     </platform>
     <platform name="android">
-        <config-file parent="/manifest" target="AndroidManifest.xml">
+        <custom-config-file parent="/*" target="AndroidManifest.xml">
             <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
             <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
             <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
-        </config-file>
+        </custom-config-file>
         <hook src="scripts/prepare_screengrab.rb" type="after_build" />
     </platform>
 </widget>
