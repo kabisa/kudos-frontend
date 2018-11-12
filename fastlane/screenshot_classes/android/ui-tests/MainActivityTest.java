@@ -1,4 +1,4 @@
-package nl.kabisa.mobilebuildtest;
+package nl.kabisa.kudoomatic;
 
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.web.webdriver.Locator;
@@ -11,7 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import nl.kabisa.mobilebuildtest.MainActivity;
+import nl.kabisa.kudoomatic.MainActivity;
 import tools.fastlane.screengrab.Screengrab;
 import tools.fastlane.screengrab.UiAutomatorScreenshotStrategy;
 import tools.fastlane.screengrab.locale.LocaleTestRule;

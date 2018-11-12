@@ -1,1 +1,1 @@
-export { default as ChooseTeamPage } from "./pages/ChooseTeamPage";
+export { default as ChooseTeamPage } from "./ChooseTeamPage";

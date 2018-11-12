@@ -1,11 +1,11 @@
 import { h, Component } from "preact";
-import { connect } from "preact-redux";
 import { Divider } from "semantic-ui-react";
-import PropTypes from "prop-types";
+import { Query } from "react-apollo";
 
-import { Toolbar } from "../../../components/navigation";
+import { Toolbar } from "../../components/navigation";
 import { Invite, TeamRow } from "./components";
 import { isLoggedIn } from "../../support";
+import { GET_TEAMS } from "./queries";
 
 import s from "./ChooseTeamPage.scss";
 
@@ -26,24 +26,24 @@ export class ChooseTeamPage extends Component {
           <Invite />
           <Divider />
           <h2>Your teams</h2>
-          <TeamRow />
+          <Query query={GET_TEAMS}>
+            {({ loading, error, data }) => {
+              if (loading) return <p>Loading...</p>;
+              if (error) return `Error! ${error.message}`;
+
+              return (
+                <div>
+                  {data.teams.map(team => (
+                    <TeamRow id={team.id} name={team.name} key={team.id} />
+                  ))}
+                </div>
+              );
+            }}
+          </Query>
         </div>
       </div>
     );
   }
 }
 
-ChooseTeamPage.propTypes = {
-  isLoggedIn: PropTypes.bool.isRequired,
-};
-
-const mapStateToProps = state => ({
-  isLoggedIn: state.user.token !== null,
-});
-
-const mapDispatchToProps = {};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ChooseTeamPage);
+export default ChooseTeamPage;

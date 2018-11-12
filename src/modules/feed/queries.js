@@ -35,8 +35,18 @@ export const GET_USERS = gql`
 `;
 
 export const CREATE_POST = gql`
-  mutation CreatePost($message: String!, $kudos: Int!, $receivers: [ID]!) {
-    createPost(message: $message, amount: $kudos, receivers: $receivers) {
+  mutation CreatePost(
+    $message: String!
+    $kudos: Int!
+    $receivers: [ID]!
+    $team_id: ID!
+  ) {
+    createPost(
+      message: $message
+      amount: $kudos
+      receiver_ids: $receivers
+      team_id: $team_id
+    ) {
       id
     }
   }
