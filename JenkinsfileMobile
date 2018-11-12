@@ -172,7 +172,7 @@ pipeline {
 
           }
           expression {
-            commitMessage.contains('DEPLOY_HOCKEY');
+            commitMessage.contains('DEPLOY_HOCKEY_IOS');
           }
         }
       }
