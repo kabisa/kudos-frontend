@@ -4,7 +4,7 @@ import { Query } from "react-apollo";
 
 import { Toolbar } from "../../components/navigation";
 import { Invite, TeamRow } from "./components";
-// import { isLoggedIn } from "../../support";
+import { isLoggedIn } from "../../support";
 import { GET_TEAMS } from "./queries";
 
 import s from "./ChooseTeamPage.scss";
@@ -12,7 +12,7 @@ import s from "./ChooseTeamPage.scss";
 export class ChooseTeamPage extends Component {
   constructor(props) {
     super(props);
-    // isLoggedIn();
+    isLoggedIn();
   }
 
   render() {
