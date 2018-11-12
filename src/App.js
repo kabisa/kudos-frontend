@@ -14,7 +14,7 @@ import { NotificationsPage } from "./modules/notifications";
 import { UserPage } from "./modules/user";
 import { SettingsPage } from "./modules/settings";
 import { StatisticsPage } from "./modules/statistics";
-// import { ChooseTeamPage } from "./modules/choose-team";
+import { ChooseTeamPage } from "./modules/choose-team";
 // import { CommentPage } from "./modules/comments";
 
 const AnimationRouter = PageTransitionSupport.augmentRouter(
@@ -30,7 +30,7 @@ const Routes = [
   <SettingsPage path={routes.PATH_SETTINGS} />,
   <AddTransactionPage path={routes.PATH_ADD_TRANSACTION} />,
   // <ResetPasswordPage path={routes.PATH_RESET_PASSWORD} />,
-  // <ChooseTeamPage path={routes.PATH_CHOOSE_TEAM} />,
+  <ChooseTeamPage path={routes.PATH_CHOOSE_TEAM} />,
   // <CommentPage path="/comments/:comment" />,
 
   <ForgotPasswordPage path={routes.PATH_FORGOT_PASSWORD} />,
