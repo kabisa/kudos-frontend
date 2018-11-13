@@ -7,8 +7,6 @@ checks:
 plugins:
   duplication:
     enabled: true
-  markdownlint:
-    enabled: true
 
 exclude_patterns:
   - lib/**
