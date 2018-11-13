@@ -12,14 +12,22 @@ class ForgotPasswordPage extends Component {
 
     this.state = {
       email: "",
+      success: false,
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.formSubmit = this.formSubmit.bind(this);
+    this.onCompleted = this.onCompleted.bind(this);
   }
 
   handleChange(e, { name, value }) {
     this.setState({ [name]: value });
+  }
+
+  onCompleted(data) {
+    if (data.resetPassword) {
+      this.setState({ success: true });
+    }
   }
 
   formSubmit(e, resetPassword) {
@@ -31,7 +39,10 @@ class ForgotPasswordPage extends Component {
 
   render() {
     return (
-      <Mutation mutation={MUTATION_FORGOT_PASSWORD}>
+      <Mutation
+        mutation={MUTATION_FORGOT_PASSWORD}
+        onCompleted={data => this.onCompleted(data)}
+      >
         {(resetPassword, { error }) => {
           return (
             <FormWrapper toolbar="Forgot password" header="Forgot password">
@@ -59,6 +70,13 @@ class ForgotPasswordPage extends Component {
                       error={true}
                       header="Unable to reset the password."
                       content="Please check your input fields"
+                    />
+                  )}
+
+                  {this.state.success && (
+                    <Message
+                      header="Succesfully reset password"
+                      content="Check your mail for the details."
                     />
                   )}
                 </Segment>
