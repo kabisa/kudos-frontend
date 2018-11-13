@@ -2,7 +2,7 @@
   <img src="https://dovetail.world/wp-content/uploads/2016/09/Logo-Kabisa-e1496142251302.png" height="160"/>
 </p>
 
-[![Build Status](https://travis-ci.org/kabisa/kudos-frontend.svg?branch=master)](https://travis-ci.org/kabisa/kudos-frontend)
+[![CircleCI](https://circleci.com/gh/kabisa/kudos-frontend.svg?style=svg)](https://circleci.com/gh/kabisa/kudos-frontend)
 [![Maintainability](https://api.codeclimate.com/v1/badges/359d3d72f680d535ec5b/maintainability)](https://codeclimate.com/github/kabisa/kudos-frontend/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/359d3d72f680d535ec5b/test_coverage)](https://codeclimate.com/github/kabisa/kudos-frontend/test_coverage)
 
