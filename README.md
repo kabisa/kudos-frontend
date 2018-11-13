@@ -57,7 +57,7 @@ Prettier can also be run manually using `yarn run prettier` or `yarn run prettie
 - Android SDK
 - Android platform tools installed
 - Android platform 10+.
-- `android` and `adb` in your $PATH (add `path/to/android-sdk-macosx/tools` and `path/to/android-sdk-macosx/platform-tools` to your $PATH).
+- `android` and `adb` in your $PATH (add `path/to/android-sdk-macosx/tools` and `path/to/android-sdk-macosx/platform-tools` to your$PATH).
 
 ---
 

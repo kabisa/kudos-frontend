@@ -1,5 +1,5 @@
 import { h, Component } from "preact";
-import { Button, Form, Message, Responsive, Segment } from "semantic-ui-react";
+import { Button, Form, Message, Segment } from "semantic-ui-react";
 import { route } from "preact-router";
 import { Mutation } from "react-apollo";
 
@@ -7,8 +7,7 @@ import { FormWrapper } from "../../components";
 import { PATH_FEED } from "../../routes";
 import settings from "../../config/settings";
 import { MUTATION_REGISTER } from "./queries";
-
-import s from "./style.scss";
+import BackButton from "./BackButton";
 
 class RegisterPage extends Component {
   constructor(props) {
@@ -104,11 +103,7 @@ class RegisterPage extends Component {
                   )}
                 </Segment>
               </Form>
-              <Responsive minWidth={Responsive.onlyTablet.minWidth}>
-                <Message className={s.back}>
-                  <div onClick={() => window.history.back()}>Back</div>
-                </Message>
-              </Responsive>
+              <BackButton />
             </FormWrapper>
           );
         }}
