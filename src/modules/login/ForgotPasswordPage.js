@@ -40,9 +40,9 @@ class ForgotPasswordPage extends Component {
 
   formSubmit(e, createUser) {
     e.preventDefault();
-    const { name, email, password } = this.state;
+    // PLACEHOLDER
     createUser({
-      variables: { name, email, password },
+      variables: { ...this.state },
     });
   }
 

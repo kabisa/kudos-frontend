@@ -42,9 +42,8 @@ class RegisterPage extends Component {
 
   formSubmit(e, createUser) {
     e.preventDefault();
-    const { name, email, password } = this.state;
     createUser({
-      variables: { name, email, password },
+      variables: { ...this.state },
     });
   }
 
