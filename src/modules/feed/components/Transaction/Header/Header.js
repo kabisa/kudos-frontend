@@ -10,7 +10,6 @@ import s from "./Header.scss";
 export class Header extends Component {
   constructor(props) {
     super(props);
-
     this.remove = this.remove.bind(this);
     this.edit = this.edit.bind(this);
   }
@@ -27,7 +26,7 @@ export class Header extends Component {
   }
 
   render() {
-    const { authorUrl, createdOn, kudos, receivers } = this.props.transaction;
+    const { authorUrl, createdOn, amount, receivers } = this.props.transaction;
     const timestamp = moment(createdOn);
 
     const receiversList = receivers.map(user => (
@@ -37,7 +36,7 @@ export class Header extends Component {
     return (
       <div className={s.root}>
         <div className={s.kudo_amount}>
-          <span>{kudos} ₭</span>
+          <span>{amount} ₭</span>
         </div>
         <div className={s.image_wrapper}>
           <Image src={authorUrl} avatar />
