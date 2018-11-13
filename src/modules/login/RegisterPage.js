@@ -1,18 +1,10 @@
 import { h, Component } from "preact";
-import {
-  Button,
-  Form,
-  Grid,
-  Header,
-  Message,
-  Responsive,
-  Segment,
-} from "semantic-ui-react";
+import { Button, Form, Message, Responsive, Segment } from "semantic-ui-react";
 import { route } from "preact-router";
 import { Mutation } from "react-apollo";
 
+import { FormWrapper } from "../../components";
 import { PATH_FEED } from "../../routes";
-import { Toolbar } from "../../components/navigation";
 import settings from "../../config/settings";
 import { MUTATION_REGISTER } from "./queries";
 
@@ -65,73 +57,59 @@ class RegisterPage extends Component {
       >
         {(createUser, { error }) => {
           return (
-            <div>
-              <Toolbar text="Register" />
-              <div className="main-form">
-                <Grid
-                  textAlign="center"
-                  className={s.grid}
-                  verticalAlign="middle"
-                >
-                  <Grid.Column className={s.column}>
-                    <Header as="h2" color="blue" textAlign="center">
-                      Register
-                    </Header>
-                    <Form
-                      size="large"
-                      error={error}
-                      onSubmit={e => this.formSubmit(e, createUser)}
-                    >
-                      <Segment stacked>
-                        <Form.Input
-                          fluid
-                          icon="user"
-                          name="name"
-                          iconPosition="left"
-                          placeholder="Name"
-                          autoFocus="on"
-                          onChange={this.handleChange}
-                        />
-                        <Form.Input
-                          fluid
-                          icon="user"
-                          name="email"
-                          iconPosition="left"
-                          placeholder="E-mail address"
-                          onChange={this.handleChange}
-                        />
-                        <Form.Input
-                          fluid
-                          icon="lock"
-                          name="password"
-                          iconPosition="left"
-                          placeholder="Password"
-                          type="password"
-                          onChange={this.handleChange}
-                        />
+            <FormWrapper toolbar="Register" header="Register">
+              <Form
+                size="large"
+                error={error}
+                onSubmit={e => this.formSubmit(e, createUser)}
+              >
+                <Segment stacked>
+                  <Form.Input
+                    fluid
+                    icon="user"
+                    name="name"
+                    iconPosition="left"
+                    placeholder="Name"
+                    autoFocus="on"
+                    onChange={this.handleChange}
+                  />
+                  <Form.Input
+                    fluid
+                    icon="user"
+                    name="email"
+                    iconPosition="left"
+                    placeholder="E-mail address"
+                    onChange={this.handleChange}
+                  />
+                  <Form.Input
+                    fluid
+                    icon="lock"
+                    name="password"
+                    iconPosition="left"
+                    placeholder="Password"
+                    type="password"
+                    onChange={this.handleChange}
+                  />
 
-                        <Button color="blue" fluid size="large">
-                          Register
-                        </Button>
+                  <Button color="blue" fluid size="large">
+                    Register
+                  </Button>
 
-                        {error && (
-                          <Message
-                            error={true}
-                            header="Unable to register"
-                            content="Please check your input fields"
-                          />
-                        )}
-                      </Segment>
-                    </Form>
-                    <Responsive minWidth={Responsive.onlyTablet.minWidth}>
-                      <Message className={s.back}>
-                        <div onClick={() => window.history.back()}>Back</div>
-                      </Message>
-                    </Responsive>
-                  </Grid.Column>
-                </Grid>
-              </div>
-            </div>
+                  {error && (
+                    <Message
+                      error={true}
+                      header="Unable to register"
+                      content="Please check your input fields"
+                    />
+                  )}
+                </Segment>
+              </Form>
+              <Responsive minWidth={Responsive.onlyTablet.minWidth}>
+                <Message className={s.back}>
+                  <div onClick={() => window.history.back()}>Back</div>
+                </Message>
+              </Responsive>
+            </FormWrapper>
           );
         }}
       </Mutation>
