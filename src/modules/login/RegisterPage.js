@@ -1,13 +1,11 @@
 import { h, Component } from "preact";
 import { Button, Form, Message, Segment } from "semantic-ui-react";
-import { route } from "preact-router";
 import { Mutation } from "react-apollo";
 
 import { FormWrapper } from "../../components";
-import { PATH_FEED } from "../../routes";
-import settings from "../../config/settings";
 import { MUTATION_REGISTER } from "./queries";
 import BackButton from "./BackButton";
+import { loginSuccess } from "./helper";
 
 class RegisterPage extends Component {
   constructor(props) {
@@ -21,7 +19,6 @@ class RegisterPage extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.confirm = this.confirm.bind(this);
-    this.saveUserData = this.saveUserData.bind(this);
     this.formSubmit = this.formSubmit.bind(this);
   }
 
@@ -31,13 +28,8 @@ class RegisterPage extends Component {
 
   confirm(data) {
     if (data.createUser) {
-      this.saveUserData(data.createUser.token);
-      route(PATH_FEED, true);
+      loginSuccess(data.createUser.token);
     }
-  }
-
-  saveUserData(token) {
-    localStorage.setItem(settings.LOCALSTORAGE_TOKEN, token);
   }
 
   formSubmit(e, createUser) {
@@ -110,4 +102,5 @@ class RegisterPage extends Component {
     );
   }
 }
+
 export default RegisterPage;

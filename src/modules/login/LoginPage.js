@@ -5,9 +5,9 @@ import { Mutation } from "react-apollo";
 
 import { MUTATION_LOGIN } from "./queries";
 import { PATH_REGISTER, PATH_FORGOT_PASSWORD, PATH_FEED } from "../../routes";
-import settings from "../../config/settings";
 import { isLoggedIn } from "../../support";
 import { FormWrapper } from "../../components";
+import { loginSuccess } from "./helper";
 
 import s from "./style.scss";
 
@@ -26,7 +26,6 @@ class LoginPage extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.confirm = this.confirm.bind(this);
-    this.saveUserData = this.saveUserData.bind(this);
     this.formSubmit = this.formSubmit.bind(this);
   }
 
@@ -36,13 +35,8 @@ class LoginPage extends Component {
 
   confirm(data) {
     if (data.signInUser) {
-      this.saveUserData(data.signInUser.token);
-      route(PATH_FEED, true);
+      loginSuccess(data.signInUser.token);
     }
-  }
-
-  saveUserData(token) {
-    localStorage.setItem(settings.LOCALSTORAGE_TOKEN, token);
   }
 
   formSubmit(e, signInUser) {
