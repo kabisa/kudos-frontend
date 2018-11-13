@@ -35,7 +35,9 @@ export class StatisticsPage extends Component {
 
               let percentage = 100;
               if (nextGoal) {
-                percentage = nextGoal.amount - currentKudos;
+                percentage =
+                  ((currentKudos - nextGoal.amount) / nextGoal.amount) * 100 +
+                  100;
                 if (percentage < 0) percentage = 0;
                 if (percentage > 100) percentage = 100;
               }
@@ -46,8 +48,11 @@ export class StatisticsPage extends Component {
 
                   <h2>Next goal: {nextGoal ? nextGoal.name : "-"}</h2>
                   <DonutChart value={percentage} />
+                  <p style={{ marginTop: "12px", color: "grey" }}>
+                    {currentKudos}/{nextGoal.amount}₭
+                  </p>
 
-                  <h2 style={{ marginTop: "2em" }}>All goals</h2>
+                  <h2 style={{ marginTop: "1.5em" }}>All goals</h2>
                   <table className={s.goals}>
                     <tr>
                       <th>Name</th> <th>Amount</th> <th>Achieved on</th>
