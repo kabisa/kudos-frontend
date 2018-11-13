@@ -2,7 +2,7 @@ import gql from "graphql-tag";
 
 export const GET_TRANSACTIONS = gql`
   query postsConnection($end: String) {
-    postsConnection(first: 10, after: $end) {
+    postsConnection(first: 10, after: $end, orderBy: "created_at desc") {
       edges {
         cursor
         node {

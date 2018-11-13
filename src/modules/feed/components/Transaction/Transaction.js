@@ -22,7 +22,11 @@ const Transaction = ({ transaction }) => (
           <Header transaction={transaction} />
         </Card.Header>
         <Card.Description style={{ marginTop: "1em" }}>
-          {transaction.message}
+          <strong>{transaction.sender.name}</strong> awarded{" "}
+          <strong>
+            {transaction.receivers.map(item => item.name).join(", ")}
+          </strong>{" "}
+          to <strong>{transaction.amount}₭</strong> for {transaction.message}
         </Card.Description>
       </Card.Content>
       <Card.Content extra style={{ padding: "4px" }}>

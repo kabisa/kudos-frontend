@@ -38,10 +38,7 @@ export class Header extends Component {
         <div className={s.kudo_amount}>
           <span>{amount} ₭</span>
         </div>
-        <div className={s.image_wrapper}>
-          <Image src={authorUrl} avatar />
-          {receiversList}
-        </div>
+        <div className={s.image_wrapper} />
         <span className={s.timestamp}>{timestamp.twitter()} ago</span>
         <Dropdown
           item

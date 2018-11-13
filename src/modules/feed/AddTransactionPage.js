@@ -3,6 +3,7 @@ import { Form, Button } from "semantic-ui-react";
 import { route } from "preact-router";
 import { Mutation } from "react-apollo";
 
+import settings from "../../config/settings";
 import { Toolbar } from "../../components/navigation";
 import { UserDropdown } from "./components";
 import { PATH_FEED } from "../../routes";
@@ -67,6 +68,7 @@ export class AddTransactionPage extends Component {
         message: this.state.message,
         kudos: parseInt(this.state.amount),
         receivers: this.state.receivers,
+        team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
       },
     });
   }
