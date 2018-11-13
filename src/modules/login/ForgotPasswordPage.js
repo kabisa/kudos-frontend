@@ -1,18 +1,10 @@
 import { h, Component } from "preact";
-import {
-  Button,
-  Form,
-  Grid,
-  Header,
-  Message,
-  Segment,
-  Responsive,
-} from "semantic-ui-react";
+import { Button, Form, Message, Segment, Responsive } from "semantic-ui-react";
 import { route } from "preact-router";
 import { Mutation } from "react-apollo";
 
+import { FormWrapper } from "../../components";
 import { PATH_FEED } from "../../routes";
-import { Toolbar } from "../../components/navigation";
 import settings from "../../config/settings";
 import { MUTATION_REGISTER } from "./queries";
 
@@ -63,56 +55,42 @@ class ForgotPasswordPage extends Component {
       >
         {(createUser, { error }) => {
           return (
-            <div>
-              <Toolbar text="Forgot password" />
-              <div className="main-form">
-                <Grid
-                  textAlign="center"
-                  className={s.grid}
-                  verticalAlign="middle"
-                >
-                  <Grid.Column className={s.column}>
-                    <Header as="h2" color="blue" textAlign="center">
-                      Forgot password
-                    </Header>
-                    <h1 style={{ color: "red" }}>TODO</h1>
-                    <Form
-                      size="large"
-                      error={error}
-                      onSubmit={e => this.formSubmit(e, createUser)}
-                    >
-                      <Segment stacked>
-                        <Form.Input
-                          fluid
-                          icon="user"
-                          name="email"
-                          iconPosition="left"
-                          placeholder="E-mail address"
-                          onChange={this.handleChange}
-                        />
+            <FormWrapper toolbar="Forgot password" header="Forgot password">
+              <h1 style={{ color: "red" }}>TODO</h1>
+              <Form
+                size="large"
+                error={error}
+                onSubmit={e => this.formSubmit(e, createUser)}
+              >
+                <Segment stacked>
+                  <Form.Input
+                    fluid
+                    icon="user"
+                    name="email"
+                    iconPosition="left"
+                    placeholder="E-mail address"
+                    onChange={this.handleChange}
+                  />
 
-                        <Button color="blue" fluid size="large">
-                          Reset password
-                        </Button>
+                  <Button color="blue" fluid size="large">
+                    Reset password
+                  </Button>
 
-                        {error && (
-                          <Message
-                            error={true}
-                            header="Unable to register"
-                            content="Please check your input fields"
-                          />
-                        )}
-                      </Segment>
-                    </Form>
-                    <Responsive minWidth={Responsive.onlyTablet.minWidth}>
-                      <Message className={s.back}>
-                        <div onClick={() => window.history.back()}>Back</div>
-                      </Message>
-                    </Responsive>
-                  </Grid.Column>
-                </Grid>
-              </div>
-            </div>
+                  {error && (
+                    <Message
+                      error={true}
+                      header="Unable to register"
+                      content="Please check your input fields"
+                    />
+                  )}
+                </Segment>
+              </Form>
+              <Responsive minWidth={Responsive.onlyTablet.minWidth}>
+                <Message className={s.back}>
+                  <div onClick={() => window.history.back()}>Back</div>
+                </Message>
+              </Responsive>
+            </FormWrapper>
           );
         }}
       </Mutation>

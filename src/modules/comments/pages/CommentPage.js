@@ -10,6 +10,17 @@ import { auth } from "../../../support";
 
 import s from "./CommentPage.scss";
 
+const Loading = () => (
+  <div className={s.root}>
+    <Toolbar text=" Comments" />
+    <div className={s.page}>
+      <Dimmer active inverted className={s.dimmer}>
+        <Loader inverted />
+      </Dimmer>
+    </div>
+  </div>
+);
+
 export class CommentPage extends Component {
   constructor(props) {
     super(props);
@@ -27,16 +38,7 @@ export class CommentPage extends Component {
     );
 
     if (!transaction) {
-      return (
-        <div className={s.root}>
-          <Toolbar text=" Comments" />
-          <div className={s.page}>
-            <Dimmer active inverted className={s.dimmer}>
-              <Loader inverted />
-            </Dimmer>
-          </div>
-        </div>
-      );
+      return <Loading />;
     }
 
     const timestamp = moment(transaction.created_on);
