@@ -1,8 +1,6 @@
-ratings:
-  paths:
-  - src/**
+version: '2'
 
-exclude_paths:
+exclude_patterns:
 - lib/**
 - bin/**
 - config/**
