@@ -2762,7 +2762,6 @@ cordova-create@~1.1.0:
 cordova-custom-config@^5.0.2:
   version "5.0.2"
   resolved "https://registry.yarnpkg.com/cordova-custom-config/-/cordova-custom-config-5.0.2.tgz#43e751d0c9d20845f57ace227c82c26668662eff"
-  integrity sha512-BOlDpmll+CIL+pSFfYrp0ederNCDKvB3X8tDY2EacEvcar/kB2MKs9M5Htv4VTrkfdIbjJtoePD2vaH3apY1Tg==
   dependencies:
     colors "^1.1.2"
     elementtree "^0.1.6"
@@ -3527,7 +3526,6 @@ elementtree@0.1.6:
 elementtree@^0.1.6:
   version "0.1.7"
   resolved "https://registry.yarnpkg.com/elementtree/-/elementtree-0.1.7.tgz#9ac91be6e52fb6e6244c4e54a4ac3ed8ae8e29c0"
-  integrity sha1-mskb5uUvtuYkTE5UpKw+2K6OKcA=
   dependencies:
     sax "1.1.4"
 
@@ -8153,9 +8151,9 @@ plist@2.0.1:
     xmlbuilder "8.2.2"
     xmldom "0.1.x"
 
-plist@^1.2.0:
+plist@^1.2.0, plist@xiangpingmeng/plist.js:
   version "1.2.0"
-  resolved "https://registry.yarnpkg.com/plist/-/plist-1.2.0.tgz#084b5093ddc92506e259f874b8d9b1afb8c79593"
+  resolved "https://codeload.github.com/xiangpingmeng/plist.js/tar.gz/5ccd600b0b7fd3ae204edc9e69c1c30406d07747"
   dependencies:
     base64-js "0.0.8"
     util-deprecate "1.0.2"
@@ -8168,15 +8166,6 @@ plist@^2.1.0:
   dependencies:
     base64-js "1.2.0"
     xmlbuilder "8.2.2"
-    xmldom "0.1.x"
-
-"plist@github:xiangpingmeng/plist.js":
-  version "1.2.0"
-  resolved "https://codeload.github.com/xiangpingmeng/plist.js/tar.gz/5ccd600b0b7fd3ae204edc9e69c1c30406d07747"
-  dependencies:
-    base64-js "0.0.8"
-    util-deprecate "1.0.2"
-    xmlbuilder "4.0.0"
     xmldom "0.1.x"
 
 pluralize@^7.0.0:
@@ -9522,7 +9511,6 @@ sax@0.3.5:
 sax@1.1.4:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.1.4.tgz#74b6d33c9ae1e001510f179a91168588f1aedaa9"
-  integrity sha1-dLbTPJrh4AFRDxeakRaFiPGu2qk=
 
 sax@^1.2.4:
   version "1.2.4"
@@ -10716,7 +10704,6 @@ toposort@^1.0.0:
 tostr@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/tostr/-/tostr-0.1.0.tgz#7239ba1fa807c8100c9532cd231bf041ab779629"
-  integrity sha1-cjm6H6gHyBAMlTLNIxvwQat3lik=
 
 tough-cookie@^2.0.0, tough-cookie@~2.4.3:
   version "2.4.3"
@@ -11428,7 +11415,6 @@ xcode@^0.9.0:
 xcode@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/xcode/-/xcode-1.0.0.tgz#e1f5b1443245ded38c180796df1a10fdeda084ec"
-  integrity sha1-4fWxRDJF3tOMGAeW3xoQ/e2ghOw=
   dependencies:
     pegjs "^0.10.0"
     simple-plist "^0.2.1"
