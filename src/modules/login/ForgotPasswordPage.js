@@ -58,6 +58,7 @@ class ForgotPasswordPage extends Component {
                     name="email"
                     iconPosition="left"
                     placeholder="E-mail address"
+                    value={this.state.email}
                     onChange={this.handleChange}
                   />
 

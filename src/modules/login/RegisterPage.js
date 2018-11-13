@@ -61,6 +61,7 @@ class RegisterPage extends Component {
                     iconPosition="left"
                     placeholder="Name"
                     autoFocus="on"
+                    value={this.state.name}
                     onChange={this.handleChange}
                   />
                   <Form.Input
@@ -69,6 +70,7 @@ class RegisterPage extends Component {
                     name="email"
                     iconPosition="left"
                     placeholder="E-mail address"
+                    value={this.state.email}
                     onChange={this.handleChange}
                   />
                   <Form.Input
@@ -78,6 +80,7 @@ class RegisterPage extends Component {
                     iconPosition="left"
                     placeholder="Password"
                     type="password"
+                    value={this.state.password}
                     onChange={this.handleChange}
                   />
 

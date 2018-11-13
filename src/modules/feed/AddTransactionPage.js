@@ -39,10 +39,6 @@ export class AddTransactionPage extends Component {
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
   }
 
-  // componentWillUnmount() {
-  //   this.props.setEditTransaction(null);
-  // }
-
   onSubmit(createPost) {
     // Validation
     if (this.state.amount == 0) {

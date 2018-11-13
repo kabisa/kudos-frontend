@@ -42,9 +42,13 @@ class LoginPage extends Component {
   formSubmit(e, signInUser) {
     e.preventDefault();
     const { email, password } = this.state;
-    signInUser({
-      variables: { email, password },
-    });
+    if (email && password) {
+      signInUser({
+        variables: { email, password },
+      });
+    } else {
+      window.alert("Please fill out all fields.");
+    }
   }
 
   render() {
@@ -69,6 +73,7 @@ class LoginPage extends Component {
                     iconPosition="left"
                     placeholder="E-mail address"
                     autoFocus="on"
+                    value={this.state.email}
                     onChange={this.handleChange}
                   />
                   <Form.Input
@@ -78,6 +83,7 @@ class LoginPage extends Component {
                     iconPosition="left"
                     placeholder="Password"
                     type="password"
+                    value={this.state.password}
                     onChange={this.handleChange}
                   />
 

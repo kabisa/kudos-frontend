@@ -16,7 +16,7 @@ export default ({ id, name }) => (
       className={s.button}
       onClick={() => {
         localStorage.setItem(settings.TEAM_ID_TOKEN, id);
-        route(PATH_FEED);
+        route(PATH_FEED, true);
       }}
     >
       Choose
