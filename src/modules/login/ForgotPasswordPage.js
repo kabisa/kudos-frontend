@@ -1,12 +1,9 @@
 import { h, Component } from "preact";
 import { Button, Form, Message, Segment } from "semantic-ui-react";
-import { route } from "preact-router";
 import { Mutation } from "react-apollo";
 
 import { FormWrapper } from "../../components";
-import { PATH_FEED } from "../../routes";
-import settings from "../../config/settings";
-import { MUTATION_REGISTER } from "./queries";
+import { MUTATION_FORGOT_PASSWORD } from "./queries";
 import BackButton from "./BackButton";
 
 class ForgotPasswordPage extends Component {
@@ -15,51 +12,44 @@ class ForgotPasswordPage extends Component {
 
     this.state = {
       email: "",
+      success: false,
     };
 
     this.handleChange = this.handleChange.bind(this);
-    this.confirm = this.confirm.bind(this);
-    this.saveUserData = this.saveUserData.bind(this);
     this.formSubmit = this.formSubmit.bind(this);
+    this.onCompleted = this.onCompleted.bind(this);
   }
 
   handleChange(e, { name, value }) {
     this.setState({ [name]: value });
   }
 
-  confirm(data) {
-    if (data.createUser) {
-      this.saveUserData(data.createUser.token);
-      route(PATH_FEED, true);
+  onCompleted(data) {
+    if (data.resetPassword) {
+      this.setState({ success: true });
     }
   }
 
-  saveUserData(token) {
-    localStorage.setItem(settings.LOCALSTORAGE_TOKEN, token);
-  }
-
-  formSubmit(e, createUser) {
+  formSubmit(e, resetPassword) {
     e.preventDefault();
-    // PLACEHOLDER
-    createUser({
-      variables: { ...this.state },
+    resetPassword({
+      variables: { email: this.state.email },
     });
   }
 
   render() {
     return (
       <Mutation
-        mutation={MUTATION_REGISTER}
-        onCompleted={data => this.confirm(data)}
+        mutation={MUTATION_FORGOT_PASSWORD}
+        onCompleted={data => this.onCompleted(data)}
       >
-        {(createUser, { error }) => {
+        {(resetPassword, { error }) => {
           return (
             <FormWrapper toolbar="Forgot password" header="Forgot password">
-              <h1 style={{ color: "red" }}>TODO</h1>
               <Form
                 size="large"
                 error={error}
-                onSubmit={e => this.formSubmit(e, createUser)}
+                onSubmit={e => this.formSubmit(e, resetPassword)}
               >
                 <Segment stacked>
                   <Form.Input
@@ -78,8 +68,15 @@ class ForgotPasswordPage extends Component {
                   {error && (
                     <Message
                       error={true}
-                      header="Unable to register"
+                      header="Unable to reset the password."
                       content="Please check your input fields"
+                    />
+                  )}
+
+                  {this.state.success && (
+                    <Message
+                      header="Succesfully reset password"
+                      content="Check your mail for the details."
                     />
                   )}
                 </Segment>
