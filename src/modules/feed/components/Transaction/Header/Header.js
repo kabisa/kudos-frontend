@@ -1,5 +1,5 @@
 import { h, Component } from "preact";
-import { Image, Dropdown } from "semantic-ui-react";
+import { Dropdown } from "semantic-ui-react";
 import moment from "moment-twitter";
 import { route } from "preact-router";
 
@@ -26,12 +26,8 @@ export class Header extends Component {
   }
 
   render() {
-    const { authorUrl, createdOn, amount, receivers } = this.props.transaction;
+    const { createdOn, amount } = this.props.transaction;
     const timestamp = moment(createdOn);
-
-    const receiversList = receivers.map(user => (
-      <Image key={user.id} src={user.avatar_url} avatar />
-    ));
 
     return (
       <div className={s.root}>
