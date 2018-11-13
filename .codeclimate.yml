@@ -1,12 +1,6 @@
-engines:
-  eslint:
-    enabled: true
+version: '2'
 
-ratings:
-  paths:
-  - src/**
-
-exclude_paths:
+exclude_patterns:
 - lib/**
 - bin/**
 - config/**
