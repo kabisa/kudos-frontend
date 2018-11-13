@@ -1,9 +1,10 @@
 import { h, Component } from "preact";
-import { Divider } from "semantic-ui-react";
+// import { Divider } from "semantic-ui-react";
 import { Query } from "react-apollo";
 
 import { Toolbar } from "../../components/navigation";
-import { Invite, TeamRow } from "./components";
+// import { Invite, TeamRow } from "./components";
+import { TeamRow } from "./components";
 import { isLoggedIn } from "../../support";
 import { GET_TEAMS } from "./queries";
 
@@ -37,11 +38,6 @@ export class ChooseTeamPage extends Component {
       <div>
         <Toolbar text="Choose a group" />
         <div className={s.page}>
-          <h2>Your invites</h2>
-          <Invite />
-          <Invite />
-          <Invite />
-          <Divider />
           <h2>Your teams</h2>
           <TeamList />
         </div>
@@ -51,3 +47,9 @@ export class ChooseTeamPage extends Component {
 }
 
 export default ChooseTeamPage;
+
+// <h2>Your invites</h2>
+// <Invite />
+// <Invite />
+// <Invite />
+// <Divider />

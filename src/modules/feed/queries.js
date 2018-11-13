@@ -51,3 +51,16 @@ export const CREATE_POST = gql`
     }
   }
 `;
+
+export const GET_GOAL_PERCENTAGE = gql`
+  query getGoalPercentage($team_id: ID!) {
+    teamById(id: $team_id) {
+      activeKudosMeter {
+        amount
+      }
+      activeGoals {
+        amount
+      }
+    }
+  }
+`;
