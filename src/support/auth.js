@@ -7,7 +7,8 @@ export const isLoggedIn = () => {
   return localStorage.getItem(settings.LOCALSTORAGE_TOKEN) !== null;
 };
 
-export const hasTeam = () => localStorage.getItem(settings.TEAM_ID_TOKEN);
+export const hasTeam = () =>
+  localStorage.getItem(settings.TEAM_ID_TOKEN) !== null;
 
 export const auth = () => {
   if (!isLoggedIn()) {
