@@ -1,5 +1,6 @@
 import { h } from "preact";
 import { Icon } from "semantic-ui-react";
+import { route } from "preact-router";
 
 import * as routes from "../../routes";
 import s from "./Mobile.scss";
@@ -9,9 +10,9 @@ const IconComponent = ({ path, icon }) => {
   if (current !== path) {
     const link = `${path}?transition=none`;
     return (
-      <a href={link} className={s.bottom_item}>
+      <div onClick={() => route(link, true)} className={s.bottom_item}>
         <Icon name={icon} size="large" className={s.bottom_icon} />
-      </a>
+      </div>
     );
   }
   return (
