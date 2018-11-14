@@ -83,7 +83,7 @@ export class AddTransactionPage extends Component {
   }
 
   onCompleted() {
-    route(PATH_FEED);
+    route(PATH_FEED, true);
   }
 
   render() {
