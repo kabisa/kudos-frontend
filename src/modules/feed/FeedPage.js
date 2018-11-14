@@ -42,6 +42,7 @@ const teamId = localStorage.getItem(settings.TEAM_ID_TOKEN);
 const withQuery = graphql(GET_TRANSACTIONS, {
   options: {
     variables: { team_id: teamId },
+    fetchPolicy: "network-only",
   },
   props: ({ data }) => ({
     data: {
