@@ -24,10 +24,8 @@ class ForgotPasswordPage extends Component {
     this.setState({ [name]: value });
   }
 
-  onCompleted(data) {
-    if (data.resetPassword) {
-      this.setState({ success: true });
-    }
+  onCompleted() {
+    this.setState({ success: true });
   }
 
   formSubmit(e, resetPassword) {
@@ -41,7 +39,7 @@ class ForgotPasswordPage extends Component {
     return (
       <Mutation
         mutation={MUTATION_FORGOT_PASSWORD}
-        onCompleted={data => this.onCompleted(data)}
+        onCompleted={this.onCompleted}
       >
         {(resetPassword, { error }) => {
           return (
@@ -70,7 +68,7 @@ class ForgotPasswordPage extends Component {
                     <Message
                       error={true}
                       header="Unable to reset the password."
-                      content="Please check your input fields"
+                      content="Something went wrong."
                     />
                   )}
 
