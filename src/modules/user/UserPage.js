@@ -20,6 +20,7 @@ export class UserPage extends Component {
     localStorage.clear();
     client.resetStore();
     route(PATH_LOGIN, true);
+    window.location.reload();
   }
 
   render() {

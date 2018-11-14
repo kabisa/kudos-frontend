@@ -13,8 +13,13 @@ export const hasTeam = () =>
 export const auth = () => {
   if (!isLoggedIn()) {
     route(PATH_LOGIN, true);
+    window.location.reload();
+    return false;
   }
   if (!hasTeam()) {
     route(PATH_CHOOSE_TEAM, true);
+    window.location.reload();
+    return false;
   }
+  return true;
 };
