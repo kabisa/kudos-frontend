@@ -1,35 +1,52 @@
-import { h, Component } from "preact";
+import { h } from "preact";
+import { Query } from "react-apollo";
 
+import settings from "../../../../config/settings";
+import { GET_GOAL_PERCENTAGE } from "../../queries";
 import { PATH_STATISTICS } from "../../../../routes";
+import { calculateProgress } from "../../../../support";
 
-export class GoalProgress extends Component {
-  render() {
-    const { goalPercentage, goalPercentageSuccess } = this.props;
+export const GoalProgress = () => (
+  <Query
+    query={GET_GOAL_PERCENTAGE}
+    variables={{
+      team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+    }}
+  >
+    {({ loading, error, data }) => {
+      if (loading || error) {
+        return (
+          <a
+            className="kudo-progress"
+            href={`${PATH_STATISTICS}?transition=none`}
+          >
+            <div className="kudo-progress-bar-loading" />
+          </a>
+        );
+      }
 
-    if (!goalPercentageSuccess) {
+      const percentage = calculateProgress(
+        data.teamById.activeGoals,
+        data.teamById.activeKudosMeter.amount
+      );
+
       return (
         <a
           className="kudo-progress"
           href={`${PATH_STATISTICS}?transition=none`}
         >
-          <div className="kudo-progress-bar-loading" />
+          <div
+            className="kudo-progress-bar"
+            style={{ width: `${percentage}%` }}
+          />{" "}
+          <div
+            className="kudo-progress-bar-negative"
+            style={{ width: `${100 - percentage}%` }}
+          />
         </a>
       );
-    }
-
-    return (
-      <a className="kudo-progress" href={`${PATH_STATISTICS}?transition=none`}>
-        <div
-          className="kudo-progress-bar"
-          style={{ width: `${goalPercentage}%` }}
-        />
-        <div
-          className="kudo-progress-bar-negative"
-          style={{ width: `${100 - goalPercentage}%` }}
-        />
-      </a>
-    );
-  }
-}
+    }}
+  </Query>
+);
 
 export default GoalProgress;

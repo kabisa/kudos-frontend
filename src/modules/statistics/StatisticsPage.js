@@ -3,7 +3,7 @@ import { Query } from "react-apollo";
 
 import settings from "../../config/settings";
 import { Navigation } from "../../components/navigation";
-import { auth } from "../../support";
+import { auth, calculateProgress } from "../../support";
 import { DonutChart } from "./components";
 import { GET_GOALS } from "./queries";
 
@@ -33,14 +33,10 @@ export class StatisticsPage extends Component {
               const currentKudos = data.teamById.activeKudosMeter.amount;
               const nextGoal = goals.find(goal => goal.amount > currentKudos);
 
-              let percentage = 100;
-              if (nextGoal) {
-                percentage =
-                  ((currentKudos - nextGoal.amount) / nextGoal.amount) * 100 +
-                  100;
-                if (percentage < 0) percentage = 0;
-                if (percentage > 100) percentage = 100;
-              }
+              const percentage = calculateProgress(
+                data.teamById.activeGoals,
+                data.teamById.activeKudosMeter.amount
+              );
 
               return (
                 <div>
