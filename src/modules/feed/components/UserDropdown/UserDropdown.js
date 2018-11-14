@@ -16,6 +16,9 @@ class DropdownRemote extends Component {
   }
 
   handleChange(e, { value }) {
+    if (!value) {
+      return;
+    }
     this.setState({ value });
     this.props.onChange(value);
   }
