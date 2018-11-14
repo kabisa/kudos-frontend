@@ -2,6 +2,7 @@ import { h, Component } from "preact";
 import { graphql } from "react-apollo";
 import { Button } from "semantic-ui-react";
 
+import settings from "../../config/settings";
 import { Navigation } from "../../components/navigation";
 import { Transaction, GoalProgress, ActionButton } from "./components";
 import { GET_TRANSACTIONS } from "./queries";
@@ -37,13 +38,20 @@ const RepoList = ({ data: { loading, error, postsConnection, loadMore } }) => {
   );
 };
 
+const teamId = localStorage.getItem(settings.TEAM_ID_TOKEN);
 const withQuery = graphql(GET_TRANSACTIONS, {
+  options: {
+    variables: { team_id: teamId },
+  },
   props: ({ data }) => ({
     data: {
       ...data,
       loadMore: () =>
         data.fetchMore({
-          variables: { end: data.postsConnection.pageInfo.endCursor },
+          variables: {
+            team_id: teamId,
+            end: data.postsConnection.pageInfo.endCursor,
+          },
           updateQuery: (previousResult = {}, { fetchMoreResult = {} }) => {
             const previousPosts = previousResult.postsConnection || {};
             const newPosts = fetchMoreResult.postsConnection || {};
