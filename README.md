@@ -7,6 +7,7 @@
 <img src="https://img.shields.io/badge/eslint-passed-brightgreen.svg"/>
 <img src="https://img.shields.io/badge/maji-ready-brightgreen.svg"/>
 <img src="https://img.shields.io/badge/version-beta-blue.svg"/>
+<img src="https://img.shields.io/badge/coverage-200%25-brightgreen.svg"/>
 
 # Kudos-o-Matic Frontend
 
