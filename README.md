@@ -4,7 +4,9 @@
 
 [![CircleCI](https://circleci.com/gh/kabisa/kudos-frontend.svg?style=svg)](https://circleci.com/gh/kabisa/kudos-frontend)
 [![Maintainability](https://api.codeclimate.com/v1/badges/359d3d72f680d535ec5b/maintainability)](https://codeclimate.com/github/kabisa/kudos-frontend/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/359d3d72f680d535ec5b/test_coverage)](https://codeclimate.com/github/kabisa/kudos-frontend/test_coverage)
+<img src="https://img.shields.io/badge/eslint-passed-brightgreen.svg"/>
+<img src="https://img.shields.io/badge/maji-ready-brightgreen.svg"/>
+<img src="https://img.shields.io/badge/version-beta-blue.svg"/>
 
 # Kudos-o-Matic Frontend
 
