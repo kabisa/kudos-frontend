@@ -5,7 +5,7 @@ import { Mutation } from "react-apollo";
 
 import { MUTATION_LOGIN } from "./queries";
 import { PATH_REGISTER, PATH_FORGOT_PASSWORD, PATH_FEED } from "../../routes";
-import { isLoggedIn } from "../../support";
+import { isLoggedIn, getGraphqlError } from "../../support";
 import { FormWrapper } from "../../components";
 import { loginSuccess } from "./helper";
 
@@ -57,7 +57,7 @@ class LoginPage extends Component {
         mutation={MUTATION_LOGIN}
         onCompleted={data => this.confirm(data)}
       >
-        {(signInUser, { data }) => {
+        {(signInUser, { data, error }) => {
           return (
             <FormWrapper header="Login">
               <Form
@@ -95,7 +95,15 @@ class LoginPage extends Component {
                     <Message
                       error={true}
                       header="Unable to login"
-                      content="Please make sure you entered your credentials correctly."
+                      content="Incorrect username/password."
+                    />
+                  )}
+
+                  {error && (
+                    <Message
+                      error={true}
+                      header="Unable to login"
+                      content={() => getGraphqlError(error)}
                     />
                   )}
                 </Segment>

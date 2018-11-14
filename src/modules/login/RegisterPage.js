@@ -2,6 +2,7 @@ import { h, Component } from "preact";
 import { Button, Form, Message, Segment } from "semantic-ui-react";
 import { Mutation } from "react-apollo";
 
+import { getGraphqlError } from "../../support";
 import { FormWrapper } from "../../components";
 import { MUTATION_REGISTER } from "./queries";
 import BackButton from "./BackButton";
@@ -92,7 +93,7 @@ class RegisterPage extends Component {
                     <Message
                       error={true}
                       header="Unable to register"
-                      content="Please check your input fields"
+                      content={() => getGraphqlError(error)}
                     />
                   )}
                 </Segment>
