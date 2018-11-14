@@ -3,7 +3,7 @@ import { Button, Image } from "semantic-ui-react";
 import { route } from "preact-router";
 
 import { Navigation } from "../../components/navigation";
-import { PATH_LOGIN, PATH_RESET_PASSWORD } from "../../routes";
+import { PATH_LOGIN } from "../../routes";
 import s from "./UserPage.scss";
 import client from "../../apollo";
 import { auth } from "../../support";
@@ -37,14 +37,6 @@ export class UserPage extends Component {
             <span className={s.sub_text}>{location}</span>
           </div>
           <div>
-            <a
-              href={`${PATH_RESET_PASSWORD}?transition=slideup`}
-              className={s.button_wrapper}
-            >
-              <Button color="orange" className={s.button}>
-                Reset password
-              </Button>
-            </a>
             <Button color="red" onClick={this.logout} className={s.button}>
               Log out
             </Button>
@@ -58,3 +50,12 @@ export class UserPage extends Component {
 }
 
 export default UserPage;
+
+// <a
+//   href={`${PATH_RESET_PASSWORD}?transition=slideup`}
+//   className={s.button_wrapper}
+// >
+//   <Button color="orange" className={s.button}>
+//     Reset password
+//   </Button>
+// </a>
