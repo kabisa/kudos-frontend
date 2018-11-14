@@ -8,7 +8,7 @@ const calculateProgress = (goals, current) => {
     if (percentage > 100) percentage = 100;
   }
 
-  return percentage;
+  return parseFloat(percentage).toFixed(1);
 };
 
 export default calculateProgress;
