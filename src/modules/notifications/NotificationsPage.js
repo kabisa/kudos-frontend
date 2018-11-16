@@ -34,7 +34,6 @@ export class NotificationsPage extends Component {
               </Feed.Content>
             </Feed.Event>
           </Feed>
-          <p>{window.location.hash.substring(1).split("?")[0]}</p>
         </div>
         <Navigation />
       </div>

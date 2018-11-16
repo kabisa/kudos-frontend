@@ -2,6 +2,7 @@ import { h } from "preact";
 import { Icon, Responsive } from "semantic-ui-react";
 import PropTypes from "prop-types";
 
+import Desktop from "./Desktop";
 import s from "./Toolbar.scss";
 
 const Toolbar = ({ to, text }) => {
@@ -16,12 +17,17 @@ const Toolbar = ({ to, text }) => {
   );
 
   return (
-    <Responsive maxWidth={Responsive.onlyMobile.maxWidth}>
-      <div className={s.top_navigation}>
-        {backLink}
-        <span className={s.toolbar_text}>{text}</span>
-      </div>
-    </Responsive>
+    <div>
+      <Responsive maxWidth={Responsive.onlyMobile.maxWidth}>
+        <div className={s.top_navigation}>
+          {backLink}
+          <span className={s.toolbar_text}>{text}</span>
+        </div>
+      </Responsive>
+      <Responsive minWidth={Responsive.onlyTablet.minWidth}>
+        <Desktop />
+      </Responsive>
+    </div>
   );
 };
 

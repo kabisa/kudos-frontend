@@ -1,12 +1,25 @@
 import { h, Component } from "preact";
-import { Button, Image } from "semantic-ui-react";
+import { Button } from "semantic-ui-react";
 import { route } from "preact-router";
+import { Query } from "react-apollo";
+import gql from "graphql-tag";
 
 import { Navigation } from "../../components/navigation";
 import { PATH_LOGIN } from "../../routes";
-import s from "./UserPage.scss";
 import client from "../../apollo";
 import { auth } from "../../support";
+
+import s from "./UserPage.scss";
+
+export const GET_USER = gql`
+  query getUser {
+    viewer {
+      self {
+        name
+      }
+    }
+  }
+`;
 
 export class UserPage extends Component {
   constructor(props) {
@@ -24,7 +37,6 @@ export class UserPage extends Component {
   }
 
   render() {
-    const { avatarUrl, name, location } = this.props;
     return (
       <div>
         <div
@@ -32,9 +44,15 @@ export class UserPage extends Component {
           style={{ padding: "2em", justifyContent: "space-between" }}
         >
           <div>
-            <Image src={avatarUrl} circular className={s.image} />
-            <h2 className={s.name}>{name}</h2>
-            <span className={s.sub_text}>{location}</span>
+            <Query query={GET_USER}>
+              {({ data }) => (
+                <div>
+                  <h2 className={s.name}>
+                    {data.viewer ? data.viewer.self.name : "Loading..."}
+                  </h2>
+                </div>
+              )}
+            </Query>
           </div>
           <div>
             <Button color="red" onClick={this.logout} className={s.button}>
@@ -50,12 +68,3 @@ export class UserPage extends Component {
 }
 
 export default UserPage;
-
-// <a
-//   href={`${PATH_RESET_PASSWORD}?transition=slideup`}
-//   className={s.button_wrapper}
-// >
-//   <Button color="orange" className={s.button}>
-//     Reset password
-//   </Button>
-// </a>
