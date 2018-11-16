@@ -1,5 +1,5 @@
 import { h, render } from "preact";
-import { ResetPasswordPage } from "src/modules/user/pages/ResetPasswordPage";
+import ResetPasswordPage from "src/modules/user/ResetPasswordPage";
 
 describe("ResetPasswordPage", function() {
   let scratch, mount;

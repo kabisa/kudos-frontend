@@ -1,5 +1,7 @@
 import { h, render } from "preact";
-import { RegisterPage } from "src/modules/login/pages/RegisterPage";
+import { MockedProvider } from "react-apollo/test-utils";
+
+import RegisterPage from "src/modules/login/RegisterPage";
 
 describe("RegisterPage", function() {
   let scratch, mount;
@@ -14,7 +16,11 @@ describe("RegisterPage", function() {
   });
 
   it("renders the correct text", function() {
-    mount(<RegisterPage />);
+    mount(
+      <MockedProvider>
+        <RegisterPage />
+      </MockedProvider>
+    );
     expect(scratch.getElementsByClassName("input").length).to.be.eq(3);
   });
 });
