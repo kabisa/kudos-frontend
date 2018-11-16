@@ -32,6 +32,19 @@ pipeline {
       }
     }
 
+    stage("Deploy to staging") {
+        when {
+            branch 'master';
+        }
+        steps {
+            sshagent(['kabisa-ci']) {
+                sh "mkdir -p ~/.ssh && ssh-keyscan -H happiness-backend.kabisa.io >> ~/.ssh/known_hosts"
+                sh "docker build -f docker/prod/Dockerfile . -t dokku/kudos-frontend:latest"
+                sh 'docker save dokku/kudos-frontend:latest | ssh dokku@dokku.kabisa.io:kudo-o-matic-frontend-staging "docker load | dokku tags:deploy kudos-frontend latest"'
+            }
+        }
+    }
+
     stage("Prepare (installs)") {
       when {
         anyOf {
