@@ -1,9 +1,7 @@
 import { h, Component } from "preact";
-// import { Divider } from "semantic-ui-react";
 import { Query } from "react-apollo";
 
 import { Toolbar } from "../../components/navigation";
-// import { Invite, TeamRow } from "./components";
 import { TeamRow } from "./components";
 import { isLoggedIn } from "../../support";
 import { GET_TEAMS } from "./queries";
@@ -38,7 +36,7 @@ export class ChooseTeamPage extends Component {
       <div>
         <Toolbar text="Choose a group" />
         <div className={s.page}>
-          <h2>Your teams</h2>
+          <h2 className={s.header}>Your teams</h2>
           <TeamList />
         </div>
       </div>

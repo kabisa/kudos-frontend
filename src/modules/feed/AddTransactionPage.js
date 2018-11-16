@@ -8,6 +8,7 @@ import { Toolbar } from "../../components/navigation";
 import { UserDropdown } from "./components";
 import { PATH_FEED } from "../../routes";
 import { auth } from "../../support";
+import BackButton from "../login/BackButton";
 
 import s from "./AddTransactionPage.scss";
 import { CREATE_POST } from "./queries";
@@ -141,6 +142,7 @@ export class AddTransactionPage extends Component {
                 <Button type="submit" primary className={s.submit_button}>
                   {transaction ? "Update" : "Create"}
                 </Button>
+                <BackButton />
               </Form>
             )}
           </Mutation>
