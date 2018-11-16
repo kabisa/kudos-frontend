@@ -30,7 +30,7 @@ class DropdownRemote extends Component {
           const { value } = this.state;
 
           let options = [];
-          if (!data) {
+          if (data) {
             if (data.users) {
               options = data.users.map(item => ({
                 text: item.name,
