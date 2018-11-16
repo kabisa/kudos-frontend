@@ -36,6 +36,9 @@ pipeline {
         when {
             branch 'master';
         }
+        agent {
+            docker { image 'docker:dind' }
+        }
         steps {
             sshagent(['kabisa-ci']) {
                 sh "mkdir -p ~/.ssh && ssh-keyscan -H happiness-backend.kabisa.io >> ~/.ssh/known_hosts"
