@@ -1,5 +1,7 @@
 import { h, render } from "preact";
-import { ResetPasswordPage } from "src/modules/login/pages/ResetPasswordPage";
+import { MockedProvider } from "react-apollo/test-utils";
+
+import ForgotPasswordPage from "src/modules/login/ForgotPasswordPage";
 
 describe("ResetPasswordPage", function() {
   let scratch, mount;
@@ -14,7 +16,11 @@ describe("ResetPasswordPage", function() {
   });
 
   it("renders the correct text", function() {
-    mount(<ResetPasswordPage />);
-    expect(scratch.querySelector("h2").textContent).to.be.eq("Reset password");
+    mount(
+      <MockedProvider>
+        <ForgotPasswordPage />
+      </MockedProvider>
+    );
+    expect(scratch.querySelector("h2").textContent).to.be.eq("Forgot password");
   });
 });

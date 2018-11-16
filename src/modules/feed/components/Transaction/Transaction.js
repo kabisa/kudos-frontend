@@ -1,6 +1,5 @@
 import { h } from "preact";
 import { Card } from "semantic-ui-react";
-import CommentButton from "./CommentButton/CommentButton";
 import { LikeButton } from "./LikeButton";
 import Header from "./Header/Header";
 
@@ -37,10 +36,6 @@ const Transaction = ({ transaction }) => (
             transactionId={transaction.id}
             liked={transaction.liked}
             likes={transaction.likes}
-          />
-          <CommentButton
-            transactionId={transaction.id}
-            text={transaction.comments}
           />
         </div>
       </Card.Content>

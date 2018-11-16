@@ -1,5 +1,7 @@
 import { h, render } from "preact";
-import { LoginPage } from "src/modules/login/pages/LoginPage";
+import { MockedProvider } from "react-apollo/test-utils";
+
+import LoginPage from "src/modules/login/LoginPage";
 
 describe("LoginPage", function() {
   let scratch, mount;
@@ -14,7 +16,11 @@ describe("LoginPage", function() {
   });
 
   it("has two input elements", function() {
-    mount(<LoginPage />);
+    mount(
+      <MockedProvider>
+        <LoginPage />
+      </MockedProvider>
+    );
     expect(scratch.getElementsByClassName("input").length).to.be.eq(2);
   });
 });
