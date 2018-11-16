@@ -37,4 +37,5 @@ jobs:
       - run: yarn prettier:check
       - run: yarn eslint
       - run: yarn stylelint
+      - run: yarn test:unit
       - run: yarn build

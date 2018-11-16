@@ -16,6 +16,9 @@ class DropdownRemote extends Component {
   }
 
   handleChange(e, { value }) {
+    if (!value) {
+      return;
+    }
     this.setState({ value });
     this.props.onChange(value);
   }
@@ -26,12 +29,15 @@ class DropdownRemote extends Component {
         {({ loading, error, data }) => {
           const { value } = this.state;
 
-          const options = data.users
-            ? data.users.map(item => ({
+          let options = [];
+          if (data) {
+            if (data.users) {
+              options = data.users.map(item => ({
                 text: item.name,
                 value: item.id,
-              }))
-            : [];
+              }));
+            }
+          }
 
           const noResultsMessage =
             options.length === 0 ? "Start typing for results." : "No results.";
@@ -51,6 +57,7 @@ class DropdownRemote extends Component {
               loading={loading}
               labeled
               noResultsMessage={noResultsMessage}
+              id="userdropdown"
             />
           );
         }}
