@@ -54,6 +54,7 @@ class DropdownRemote extends Component {
               loading={loading}
               labeled
               noResultsMessage={noResultsMessage}
+              id="userdropdown"
             />
           );
         }}
