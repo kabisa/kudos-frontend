@@ -1,5 +1,6 @@
 import { h, render } from "preact";
 import ResetPasswordPage from "src/modules/user/ResetPasswordPage";
+import { MockedProvider } from "react-apollo/test-utils";
 
 describe("ResetPasswordPage", function() {
   let scratch, mount;
@@ -14,7 +15,11 @@ describe("ResetPasswordPage", function() {
   });
 
   it("has three input elements", function() {
-    mount(<ResetPasswordPage />);
+    mount(
+      <MockedProvider>
+        <ResetPasswordPage />
+      </MockedProvider>
+    );
     expect(scratch.getElementsByClassName("input").length).to.be.eq(3);
   });
 });

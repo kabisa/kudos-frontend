@@ -3,7 +3,7 @@ import { MockedProvider } from "react-apollo/test-utils";
 
 import ForgotPasswordPage from "src/modules/login/ForgotPasswordPage";
 
-describe("ResetPasswordPage", function() {
+describe("ForgotPasswordPage", function() {
   let scratch, mount;
 
   beforeEach(function() {
