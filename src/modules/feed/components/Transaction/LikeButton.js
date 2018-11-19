@@ -17,40 +17,40 @@ export const MUTATION_TOGGLE_LIKE = gql`
   ${FRAGMENT_POST}
 `;
 
+const updateState = (store, newData) => {
+  const beforeState = store.readQuery({
+    query: GET_TRANSACTIONS,
+  });
+  const afterState = {
+    ...beforeState,
+    postsConnections: {
+      edges: beforeState.postsConnection.edges.map(post => {
+        if (post.id !== newData.id) {
+          return post;
+        }
+
+        return newData;
+      }),
+    },
+  };
+
+  store.writeQuery({
+    query: GET_TRANSACTIONS,
+    data: afterState,
+  });
+};
+
 export const LikeButton = ({ transactionId, liked, likes, post }) => (
   <Mutation
     mutation={MUTATION_TOGGLE_LIKE}
-    update={(cache, { data: { toggleLikePost } }) => {
-      const beforeState = cache.readQuery({
-        query: GET_TRANSACTIONS,
-      });
-      const afterState = {
-        ...beforeState,
-        postsConnections: {
-          edges: beforeState.postsConnection.edges.map(post => {
-            if (post.id !== toggleLikePost.id) {
-              return post;
-            }
-
-            return {
-              ...post,
-              ...toggleLikePost,
-            };
-          }),
-        },
-      };
-
-      cache.writeQuery({
-        query: GET_TRANSACTIONS,
-        data: afterState,
-      });
-    }}
+    update={(cache, { data: { toggleLikePost } }) =>
+      updateState(cache, toggleLikePost)
+    }
   >
     {mutate => (
       <Button
         size="mini"
         basic
-        // loading={loading}
         className="button-action"
         onClick={() =>
           mutate({
@@ -71,37 +71,15 @@ export const LikeButton = ({ transactionId, liked, likes, post }) => (
                     ],
               },
             },
-            update: (proxy, { data: { toggleLikePost } }) => {
-              const beforeState = proxy.readQuery({
-                query: GET_TRANSACTIONS,
-              });
-              const afterState = {
-                ...beforeState,
-                postsConnections: {
-                  edges: beforeState.postsConnection.edges.map(post => {
-                    if (post.id !== toggleLikePost.id) {
-                      return post;
-                    }
-
-                    return toggleLikePost;
-                  }),
-                },
-              };
-
-              proxy.writeQuery({
-                query: GET_TRANSACTIONS,
-                data: afterState,
-              });
-            },
+            update: (proxy, { data: { toggleLikePost } }) =>
+              updateState(proxy, toggleLikePost),
           })
         }
       >
-        {/* {!loading && ( */}
         <Icon
           name={liked ? "heart" : "heart outline"}
           color={liked ? "red" : null}
         />
-        {/* )} */}
         {likes}
       </Button>
     )}
