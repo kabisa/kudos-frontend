@@ -39,6 +39,7 @@ const Transaction = ({ transaction }) => (
             transactionId={transaction.id}
             liked={transaction.votes.some(vote => vote.voter_id === userId)}
             likes={transaction.votes.length}
+            post={transaction}
           />
         </div>
       </Card.Content>
