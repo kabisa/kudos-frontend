@@ -34,7 +34,13 @@ export const DesktopNavigation = ({ logout: _logout }) => (
               <Dropdown
                 item
                 simple
-                text={data.viewer ? data.viewer.self.name : "Loading..."}
+                text={
+                  data
+                    ? data.viewer
+                      ? data.viewer.self.name
+                      : "Loading..."
+                    : null
+                }
               >
                 <Dropdown.Menu>
                   <a

@@ -100,6 +100,7 @@
     "stylelint-no-unsupported-browser-features": "^1.0.0",
     "svg-sprite-loader": "^3.0.3",
     "url-loader": "^1.1.1",
+    "waait": "^1.0.2",
     "webpack": "^2.5.1",
     "webpack-dev-middleware": "^1.11.0",
     "webpack-dev-server": "^2.4.5",
