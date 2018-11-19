@@ -3,7 +3,7 @@ import { Dropdown } from "semantic-ui-react";
 import moment from "moment-twitter";
 import { route } from "preact-router";
 
-import { PATH_ADD_TRANSACTION } from "../../../../../routes";
+import { PATH_ADD_TRANSACTION } from "../../../../routes";
 
 import s from "./Header.scss";
 

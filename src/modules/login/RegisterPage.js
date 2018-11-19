@@ -29,7 +29,7 @@ class RegisterPage extends Component {
 
   confirm(data) {
     if (data.createUser) {
-      loginSuccess(data.createUser.token);
+      loginSuccess(data.createUser);
     }
   }
 

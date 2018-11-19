@@ -9,6 +9,7 @@ import {
   PATH_USER,
   PATH_SETTINGS,
 } from "../../routes";
+import { logout } from "../../support";
 
 import s from "./Desktop.scss";
 
@@ -22,7 +23,7 @@ export const GET_USER = gql`
   }
 `;
 
-export const DesktopNavigation = ({ logout: _logout }) => (
+export const DesktopNavigation = () => (
   <div className={s.root}>
     <Menu fixed="top" inverted size="large" className={s.menu}>
       <Container>
@@ -52,7 +53,7 @@ export const DesktopNavigation = ({ logout: _logout }) => (
                     Settings
                   </a>
                   <Dropdown.Divider />
-                  <Dropdown.Item onClick={() => _logout()}>
+                  <Dropdown.Item onClick={logout}>
                     <Icon name="log out" />
                     Log out
                   </Dropdown.Item>

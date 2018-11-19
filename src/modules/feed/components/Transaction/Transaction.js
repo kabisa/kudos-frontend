@@ -1,7 +1,10 @@
 import { h } from "preact";
 import { Card } from "semantic-ui-react";
-import { LikeButton } from "./LikeButton";
-import Header from "./Header/Header";
+import LikeButton from "./LikeButton";
+import Header from "./Header";
+import settings from "../../../../config/settings";
+
+const userId = localStorage.getItem(settings.USER_ID_TOKEN);
 
 const Transaction = ({ transaction }) => (
   <div
@@ -34,8 +37,8 @@ const Transaction = ({ transaction }) => (
         <div style={{ display: "flex", justifyContent: "space-around" }}>
           <LikeButton
             transactionId={transaction.id}
-            liked={transaction.liked}
-            likes={transaction.likes}
+            liked={transaction.votes.some(vote => vote.voter_id === userId)}
+            likes={transaction.votes.length}
           />
         </div>
       </Card.Content>

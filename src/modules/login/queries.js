@@ -4,6 +4,9 @@ export const MUTATION_LOGIN = gql`
   mutation SignInUser($email: EmailAddress!, $password: String!) {
     signInUser(credentials: { email: $email, password: $password }) {
       token
+      user {
+        id
+      }
     }
   }
 `;
@@ -23,6 +26,9 @@ export const MUTATION_REGISTER = gql`
       }
     ) {
       token
+      user {
+        id
+      }
     }
   }
 `;

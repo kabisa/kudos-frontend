@@ -3,4 +3,5 @@ export default {
   API_BASE_URL: "https://kudo-o-matic-staging.dokku.kabisa.io",
   LOCALSTORAGE_TOKEN: "token",
   TEAM_ID_TOKEN: "team_id",
+  USER_ID_TOKEN: "user_id",
 };
