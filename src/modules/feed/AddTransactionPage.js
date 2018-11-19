@@ -1,5 +1,5 @@
 import { h, Component } from "preact";
-import { Form, Button } from "semantic-ui-react";
+import { Form, Button, Label } from "semantic-ui-react";
 import { route } from "preact-router";
 import { Mutation } from "react-apollo";
 
@@ -109,12 +109,16 @@ export class AddTransactionPage extends Component {
                       id="input-kudos"
                       error={amountError}
                       onChange={this.handleChange}
-                      placeholder="Kudos"
+                      placeholder="Amount of kudos"
                       name="amount"
                       type="number"
                       min="0"
                       value={this.state.amount}
-                    />
+                      labelPosition="left"
+                    >
+                      <Label basic>₭</Label>
+                      <input />
+                    </Form.Input>
                   </label>
                 </Form.Field>
 
