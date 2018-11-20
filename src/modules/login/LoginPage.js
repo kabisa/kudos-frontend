@@ -35,7 +35,7 @@ class LoginPage extends Component {
 
   confirm(data) {
     if (data.signInUser) {
-      loginSuccess(data.signInUser.token);
+      loginSuccess(data.signInUser);
     }
   }
 

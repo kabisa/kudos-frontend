@@ -1,20 +1,34 @@
 import gql from "graphql-tag";
 
+export const FRAGMENT_POST = gql`
+  fragment PostInFeed on Post {
+    id
+    amount
+    message
+    receivers {
+      name
+    }
+    sender {
+      name
+    }
+    votes {
+      voter_id
+    }
+  }
+`;
+
 export const GET_TRANSACTIONS = gql`
-  query postsConnection($end: String) {
-    postsConnection(first: 10, after: $end, orderBy: "created_at desc") {
+  query postsConnection($team_id: ID!, $end: String) {
+    postsConnection(
+      findByTeamId: $team_id
+      first: 10
+      after: $end
+      orderBy: "created_at desc"
+    ) {
       edges {
         cursor
         node {
-          id
-          amount
-          message
-          receivers {
-            name
-          }
-          sender {
-            name
-          }
+          ...PostInFeed
         }
       }
       pageInfo {
@@ -23,6 +37,7 @@ export const GET_TRANSACTIONS = gql`
       }
     }
   }
+  ${FRAGMENT_POST}
 `;
 
 export const GET_USERS = gql`

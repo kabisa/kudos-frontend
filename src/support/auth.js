@@ -1,3 +1,4 @@
+import client from "../apollo";
 import { route } from "preact-router";
 
 import settings from "../config/settings";
@@ -22,4 +23,12 @@ export const auth = () => {
     return false;
   }
   return true;
+};
+
+export const logout = () => {
+  localStorage.clear();
+  client.resetStore();
+
+  route(PATH_LOGIN, true);
+  window.location.reload();
 };
