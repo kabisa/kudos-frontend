@@ -40,7 +40,7 @@ pipeline {
             sshagent(['kabisa-ci']) {
               sh "mkdir -p ~/.ssh && ssh-keyscan -H dokku.kabisa.io >> ~/.ssh/known_hosts"
               sh 'git remote | grep dokku >/dev/null || git remote add dokku dokku@dokku.kabisa.io:kudo-o-matic-frontend-staging'
-              sh 'git push dokku master:master'
+              sh 'git push dokku HEAD:master'
             }
         }
     }
