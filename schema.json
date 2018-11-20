@@ -302,6 +302,20 @@
                   "ofType": null
                 },
                 "defaultValue": null
+              },
+              {
+                "name": "findByTeamId",
+                "description": "Find posts that belong to a team",
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null
               }
             ],
             "type": {

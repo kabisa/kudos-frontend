@@ -3,10 +3,11 @@ import { Button, Icon } from "semantic-ui-react";
 import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
 
-import settings from "../../../../config/settings";
+import settings from "src/config/settings";
 import { GET_TRANSACTIONS, FRAGMENT_POST } from "../../queries";
 
 const userId = localStorage.getItem(settings.USER_ID_TOKEN);
+const teamId = localStorage.getItem(settings.TEAM_ID_TOKEN);
 
 export const MUTATION_TOGGLE_LIKE = gql`
   mutation ToggleLikePost($id: ID!) {
@@ -20,6 +21,7 @@ export const MUTATION_TOGGLE_LIKE = gql`
 const updateState = (store, newData) => {
   const beforeState = store.readQuery({
     query: GET_TRANSACTIONS,
+    variables: { team_id: teamId },
   });
   const afterState = {
     ...beforeState,
@@ -36,7 +38,32 @@ const updateState = (store, newData) => {
 
   store.writeQuery({
     query: GET_TRANSACTIONS,
+    variables: { team_id: teamId },
     data: afterState,
+  });
+};
+
+export const toggleLike = (mutate, transactionId, post) => {
+  mutate({
+    variables: { id: transactionId },
+    optimisticResponse: {
+      __typename: "Mutation",
+      toggleLikePost: {
+        ...post,
+        __typename: "Post",
+        votes: post.votes.some(vote => vote.voter_id === userId)
+          ? [...post.votes]
+          : [
+              ...post.votes,
+              {
+                voter_id: userId,
+                __typename: "Vote",
+              },
+            ],
+      },
+    },
+    update: (proxy, { data: { toggleLikePost } }) =>
+      updateState(proxy, toggleLikePost),
   });
 };
 
@@ -52,29 +79,7 @@ export const LikeButton = ({ transactionId, liked, likes, post }) => (
         size="mini"
         basic
         className="button-action"
-        onClick={() =>
-          mutate({
-            variables: { id: transactionId },
-            optimisticResponse: {
-              __typename: "Mutation",
-              toggleLikePost: {
-                ...post,
-                __typename: "Post",
-                votes: post.votes.some(vote => vote.voter_id === userId)
-                  ? [...post.votes]
-                  : [
-                      ...post.votes,
-                      {
-                        voter_id: userId,
-                        __typename: "Vote",
-                      },
-                    ],
-              },
-            },
-            update: (proxy, { data: { toggleLikePost } }) =>
-              updateState(proxy, toggleLikePost),
-          })
-        }
+        onClick={() => toggleLike(mutate, transactionId, post)}
       >
         <Icon
           name={liked ? "heart" : "heart outline"}
