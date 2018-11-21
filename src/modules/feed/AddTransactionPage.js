@@ -5,13 +5,13 @@ import { Mutation } from "react-apollo";
 
 import settings from "../../config/settings";
 import { Toolbar } from "../../components/navigation";
-import { UserDropdown } from "./components";
+import { UserDropdown, GuidelineInput } from "./components";
 import { PATH_FEED } from "../../routes";
 import { auth } from "../../support";
 import BackButton from "../login/BackButton";
+import { CREATE_POST } from "./queries";
 
 import s from "./AddTransactionPage.scss";
-import { CREATE_POST } from "./queries";
 
 export class AddTransactionPage extends Component {
   constructor(props) {
@@ -38,6 +38,7 @@ export class AddTransactionPage extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
+    this.handleKudoInputChange = this.handleKudoInputChange.bind(this);
   }
 
   onSubmit(createPost) {
@@ -83,6 +84,10 @@ export class AddTransactionPage extends Component {
     this.setState({ receivers: newReceivers });
   }
 
+  handleKudoInputChange(amount) {
+    this.setState({ amount });
+  }
+
   onCompleted() {
     route(PATH_FEED, true);
   }
@@ -102,22 +107,10 @@ export class AddTransactionPage extends Component {
                 onSubmit={() => this.onSubmit(createPost)}
                 className={s.form}
               >
-                <Form.Field>
-                  <label htmlFor="input-kudos">
-                    Kudos Amount
-                    <Form.Input
-                      id="input-kudos"
-                      error={amountError}
-                      onChange={this.handleChange}
-                      placeholder="Kudos"
-                      name="amount"
-                      type="number"
-                      min="0"
-                      value={this.state.amount}
-                    />
-                  </label>
-                </Form.Field>
-
+                <GuidelineInput
+                  amountError={amountError}
+                  handleChange={this.handleKudoInputChange}
+                />
                 <Form.Field>
                   <label htmlFor="input-receivers">
                     Receivers
