@@ -4,13 +4,27 @@ import { Button } from "semantic-ui-react";
 
 import settings from "../../config/settings";
 import { Navigation } from "../../components/navigation";
-import { Transaction, GoalProgress, ActionButton } from "./components";
+import {
+  Transaction,
+  GoalProgress,
+  ActionButton,
+  TransactionLoading,
+} from "./components";
 import { GET_TRANSACTIONS } from "./queries";
 import { auth } from "../../support";
 
 const RepoList = ({ data: { loading, error, postsConnection, loadMore } }) => {
-  if (loading) return <p>Loading...</p>;
   if (error) return <p>Something went wrong.</p>;
+  if (loading) {
+    return (
+      <div>
+        <TransactionLoading />
+        <TransactionLoading />
+        <TransactionLoading />
+        <TransactionLoading />
+      </div>
+    );
+  }
   return (
     <div>
       {postsConnection.edges.map(item => (
