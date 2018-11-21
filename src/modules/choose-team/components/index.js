@@ -1,2 +1,2 @@
-export { default as Invite } from "./Invite";
-export { default as TeamRow } from "./TeamRow";
+export { default as InviteList } from "./InviteList";
+export { default as TeamList } from "./TeamList";
