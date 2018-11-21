@@ -38,42 +38,6 @@ const RepoList = ({ data: { loading, error, postsConnection, loadMore } }) => {
   );
 };
 
-const teamId = localStorage.getItem(settings.TEAM_ID_TOKEN);
-const withQuery = graphql(GET_TRANSACTIONS, {
-  options: {
-    variables: { team_id: teamId },
-    fetchPolicy: "network-only",
-  },
-  props: ({ data }) => ({
-    data: {
-      ...data,
-      loadMore: () =>
-        data.fetchMore({
-          variables: {
-            team_id: teamId,
-            end: data.postsConnection.pageInfo.endCursor,
-          },
-          updateQuery: (previousResult = {}, { fetchMoreResult = {} }) => {
-            const previousPosts = previousResult.postsConnection || {};
-            const newPosts = fetchMoreResult.postsConnection || {};
-            const previousEdges = previousPosts.edges || [];
-            const currentEdges = newPosts.edges || [];
-            return {
-              ...previousResult,
-              postsConnection: {
-                ...previousPosts,
-                edges: [...previousEdges, ...currentEdges],
-                pageInfo: newPosts.pageInfo,
-              },
-            };
-          },
-        }),
-    },
-  }),
-});
-
-const RepoListWithQuery = withQuery(RepoList);
-
 export class FeedPage extends Component {
   constructor(props) {
     super(props);
@@ -81,6 +45,41 @@ export class FeedPage extends Component {
   }
 
   render() {
+    const withQuery = graphql(GET_TRANSACTIONS, {
+      options: {
+        variables: { team_id: localStorage.getItem(settings.TEAM_ID_TOKEN) },
+        fetchPolicy: "network-only",
+      },
+      props: ({ data }) => ({
+        data: {
+          ...data,
+          loadMore: () =>
+            data.fetchMore({
+              variables: {
+                team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+                end: data.postsConnection.pageInfo.endCursor,
+              },
+              updateQuery: (previousResult = {}, { fetchMoreResult = {} }) => {
+                const previousPosts = previousResult.postsConnection || {};
+                const newPosts = fetchMoreResult.postsConnection || {};
+                const previousEdges = previousPosts.edges || [];
+                const currentEdges = newPosts.edges || [];
+                return {
+                  ...previousResult,
+                  postsConnection: {
+                    ...previousPosts,
+                    edges: [...previousEdges, ...currentEdges],
+                    pageInfo: newPosts.pageInfo,
+                  },
+                };
+              },
+            }),
+        },
+      }),
+    });
+
+    const RepoListWithQuery = withQuery(RepoList);
+
     return (
       <div style={{ display: "flex", flexDirection: "column" }}>
         <ActionButton />

@@ -716,6 +716,26 @@
             "deprecationReason": null
           },
           {
+            "name": "guidelines",
+            "description": "All guidelines that belong to the team",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Guideline",
+                  "ofType": null
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "id",
             "description": "The Team ID",
             "args": [],

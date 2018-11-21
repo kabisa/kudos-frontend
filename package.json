@@ -14,7 +14,8 @@
     "eslint": "get-graphql-schema https://kudo-o-matic-staging.dokku.kabisa.io/graphql -j > schema.json && eslint src/ test/",
     "stylelint": "stylelint 'src/**/*.scss' --fix",
     "precommit": "lint-staged",
-    "queries:check": "apollo queries:check"
+    "queries:check": "apollo queries:check",
+    "heroku": "docker build -t kudos-o-matic -f docker/prod/Dockerfile . && docker tag kudos-o-matic registry.heroku.com/kudos-o-matic/web && docker push registry.heroku.com/kudos-o-matic/web && heroku container:release web --app kudos-o-matic"
   },
   "lint-staged": {
     "*.{js,jsx}": [
