@@ -48,7 +48,7 @@
     "redux-freeze": "^0.1.7",
     "redux-thunk": "^2.3.0",
     "semantic-ui-css": "^2.4.0",
-    "semantic-ui-react": "^0.82.5"
+    "semantic-ui-react": "^0.83.0"
   },
   "devDependencies": {
     "apollo": "^1.9.2",
