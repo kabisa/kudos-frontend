@@ -13,7 +13,7 @@ export const GET_TEAMS = gql`
 `;
 
 const TeamList = () => (
-  <Query query={GET_TEAMS} pollInterval={2000}>
+  <Query query={GET_TEAMS} pollInterval={2000} fetchPolicy="network-only">
     {({ loading, error, data }) => {
       if (loading) return <p>Loading...</p>;
       if (error) return `Error! ${error.message}`;
