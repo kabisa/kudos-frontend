@@ -7,7 +7,12 @@ import { Responsive } from "semantic-ui-react";
 
 import * as routes from "./routes";
 
-import { LoginPage, ForgotPasswordPage, RegisterPage } from "./modules/login";
+import {
+  LoginPage,
+  ForgotPasswordPage,
+  RegisterPage,
+  FinishForgotPasswordPage,
+} from "./modules/login";
 import { FeedPage, AddTransactionPage } from "./modules/feed";
 import { NotificationsPage } from "./modules/notifications";
 // import { UserPage, ResetPasswordPage } from "./modules/user";
@@ -33,6 +38,7 @@ const Routes = [
   <ChooseTeamPage path={routes.PATH_CHOOSE_TEAM} />,
   // <CommentPage path="/comments/:comment" />,
 
+  <FinishForgotPasswordPage path={routes.PATH_FINISH_RESET_PASSWORD} />,
   <ForgotPasswordPage path={routes.PATH_FORGOT_PASSWORD} />,
   <RegisterPage path={routes.PATH_REGISTER} />,
   <LoginPage default path={routes.PATH_LOGIN} />,
