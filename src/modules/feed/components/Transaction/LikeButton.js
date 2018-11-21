@@ -1,5 +1,5 @@
 import { h } from "preact";
-import { Button, Icon } from "semantic-ui-react";
+import { Button, Icon, Dropdown } from "semantic-ui-react";
 import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
 
@@ -51,12 +51,16 @@ export const toggleLike = (mutate, transactionId, post) => {
       toggleLikePost: {
         ...post,
         __typename: "Post",
-        votes: post.votes.some(vote => vote.voter_id === userId)
+        votes: post.votes.some(vote => vote.voter.id === userId)
           ? [...post.votes]
           : [
               ...post.votes,
               {
-                voter_id: userId,
+                voter: {
+                  id: userId,
+                  name: "You",
+                  __typename: "User",
+                },
                 __typename: "Vote",
               },
             ],
@@ -68,27 +72,44 @@ export const toggleLike = (mutate, transactionId, post) => {
 };
 
 export const LikeButton = ({ transactionId, liked, likes, post }) => (
-  <Mutation
-    mutation={MUTATION_TOGGLE_LIKE}
-    update={(cache, { data: { toggleLikePost } }) =>
-      updateState(cache, toggleLikePost)
-    }
-  >
-    {mutate => (
-      <Button
-        size="mini"
-        basic
-        className="button-action"
-        onClick={() => toggleLike(mutate, transactionId, post)}
-      >
-        <Icon
-          name={liked ? "heart" : "heart outline"}
-          color={liked ? "red" : null}
-        />
-        {likes}
-      </Button>
-    )}
-  </Mutation>
+  <div>
+    <Mutation
+      mutation={MUTATION_TOGGLE_LIKE}
+      update={(cache, { data: { toggleLikePost } }) =>
+        updateState(cache, toggleLikePost)
+      }
+    >
+      {mutate => (
+        <Button
+          size="mini"
+          basic
+          className="button-action"
+          onClick={() => toggleLike(mutate, transactionId, post)}
+        >
+          <Icon
+            name={liked ? "heart" : "heart outline"}
+            color={liked ? "red" : null}
+          />
+          {likes}
+        </Button>
+      )}
+    </Mutation>
+    <Dropdown
+      trigger={<p>View likes</p>}
+      options={[
+        {
+          key: "1",
+          text: post.votes.length
+            ? post.votes.map(item => item.voter.name).join(", ")
+            : "No likes",
+        },
+      ]}
+      icon={null}
+      basic
+      item
+      lazyLoad
+    />
+  </div>
 );
 
 export default LikeButton;

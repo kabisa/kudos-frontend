@@ -34,8 +34,8 @@ export const MUTATION_REGISTER = gql`
 `;
 
 export const MUTATION_FORGOT_PASSWORD = gql`
-  mutation ResetPassword($email: EmailAddress!) {
-    resetPassword(credentials: { email: $email }) {
+  mutation forgotPassword($email: EmailAddress!) {
+    forgotPassword(credentials: { email: $email }) {
       id
     }
   }

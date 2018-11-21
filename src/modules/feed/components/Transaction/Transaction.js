@@ -37,7 +37,7 @@ const Transaction = ({ transaction }) => (
         <div style={{ display: "flex", justifyContent: "space-around" }}>
           <LikeButton
             transactionId={transaction.id}
-            liked={transaction.votes.some(vote => vote.voter_id === userId)}
+            liked={transaction.votes.some(vote => vote.voter.id === userId)}
             likes={transaction.votes.length}
             post={transaction}
           />
