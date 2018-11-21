@@ -1,5 +1,5 @@
 import { h, Component } from "preact";
-import { Form, Segment } from "semantic-ui-react";
+import { Form, Segment, Label } from "semantic-ui-react";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 
@@ -69,7 +69,11 @@ class GuidelineInput extends Component {
               type="number"
               min="0"
               value={this.state.amount}
-            />
+              labelPosition="left"
+            >
+              <Label basic>₭</Label>
+              <input />
+            </Form.Input>
           </label>
         </Form.Field>
 
