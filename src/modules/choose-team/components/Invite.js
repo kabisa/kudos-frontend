@@ -25,15 +25,15 @@ export const Invite = ({ invite }) => (
     <p className={s.text}>{invite.team.name}</p>
     <ChoiceButton
       inviteId={invite.id}
-      mutation={MUTATION_DECLINE_INVITE}
-      text="Decline"
-      color="orange"
+      mutation={MUTATION_ACCEPT_INVITE}
+      text="Accept"
+      color="green"
     />
     <ChoiceButton
       inviteId={invite.id}
-      mutation={MUTATION_ACCEPT_INVITE}
-      text="Accept"
-      color="red"
+      mutation={MUTATION_DECLINE_INVITE}
+      text="Decline"
+      color="orange"
     />
   </div>
 );
