@@ -3,17 +3,21 @@ import { Form, Segment, Label } from "semantic-ui-react";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 
+import settings from "src/config/settings";
+
 import s from "../../AddTransactionPage.scss";
 
 const KUDO_GUIDELINE_RANGE = 5;
 const GUIDELINE_HIDE_DELAY = 250;
 
 export const GET_GUIDELINES = gql`
-  query Guidelines {
-    guidelines {
-      id
-      kudos
-      name
+  query Guidelines($team_id: ID!) {
+    teamById(id: $team_id) {
+      guidelines {
+        id
+        kudos
+        name
+      }
     }
   }
 `;
@@ -78,7 +82,12 @@ class GuidelineInput extends Component {
         </Form.Field>
 
         {this.state.inputFocus && (
-          <Query query={GET_GUIDELINES}>
+          <Query
+            query={GET_GUIDELINES}
+            variables={{
+              team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+            }}
+          >
             {({ loading, error, data }) => {
               if (loading || error) {
                 return (
@@ -92,7 +101,7 @@ class GuidelineInput extends Component {
               }
               return (
                 <Segment.Group size="tiny" className={s.guidelines}>
-                  {data.guidelines
+                  {data.teamById.guidelines
                     .filter(
                       guideline =>
                         guideline.kudos - KUDO_GUIDELINE_RANGE <
