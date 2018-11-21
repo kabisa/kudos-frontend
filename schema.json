@@ -1127,38 +1127,6 @@
             "deprecationReason": null
           },
           {
-            "name": "votable_id",
-            "description": "The ID of the object that is voted on",
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "ID",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "votable_type",
-            "description": "The object that is voted on",
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "vote_weight",
             "description": "The weight of the vote (e.g. one vote is one like)",
             "args": [],
@@ -1175,15 +1143,15 @@
             "deprecationReason": null
           },
           {
-            "name": "voter_id",
-            "description": "The ID of the object that voted",
+            "name": "votedOn",
+            "description": "The post that the user voted on",
             "args": [],
             "type": {
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "SCALAR",
-                "name": "ID",
+                "kind": "OBJECT",
+                "name": "Post",
                 "ofType": null
               }
             },
@@ -1191,15 +1159,15 @@
             "deprecationReason": null
           },
           {
-            "name": "voter_type",
-            "description": "The object that voted",
+            "name": "voter",
+            "description": "The user that voted on the Post",
             "args": [],
             "type": {
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
+                "kind": "OBJECT",
+                "name": "User",
                 "ofType": null
               }
             },
