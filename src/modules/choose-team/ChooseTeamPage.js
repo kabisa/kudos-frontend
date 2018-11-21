@@ -9,7 +9,7 @@ import { GET_TEAMS } from "./queries";
 import s from "./ChooseTeamPage.scss";
 
 const TeamList = () => (
-  <Query query={GET_TEAMS}>
+  <Query query={GET_TEAMS} pollInterval={2000}>
     {({ loading, error, data }) => {
       if (loading) return <p>Loading...</p>;
       if (error) return `Error! ${error.message}`;
