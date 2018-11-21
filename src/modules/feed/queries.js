@@ -12,7 +12,10 @@ export const FRAGMENT_POST = gql`
       name
     }
     votes {
-      voter_id
+      voter {
+        id
+        name
+      }
     }
   }
 `;
