@@ -18,7 +18,7 @@ export class CreatePost extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
+    this.initialState = {
       amount: 0,
       done: false,
       receivers: [],
@@ -27,6 +27,8 @@ export class CreatePost extends Component {
       receiversError: false,
       messageError: false,
     };
+
+    this.state = this.initialState;
 
     if (props.transaction) {
       this.state.message = props.transaction.message;
@@ -40,6 +42,7 @@ export class CreatePost extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
     this.handleKudoInputChange = this.handleKudoInputChange.bind(this);
+    this.onCompleted = this.onCompleted.bind(this);
   }
 
   onSubmit(createPost) {
@@ -90,6 +93,9 @@ export class CreatePost extends Component {
   }
 
   onCompleted() {
+    this.input.resetState();
+    this.userdropdown.resetState();
+    this.setState(this.initialState);
     route(PATH_FEED, true);
   }
 
@@ -103,11 +109,13 @@ export class CreatePost extends Component {
             <GuidelineInput
               amountError={amountError}
               handleChange={this.handleKudoInputChange}
+              ref={c => (this.input = c)}
             />
             <Form.Field>
               <label htmlFor="input-receivers">
                 Receivers
                 <UserDropdown
+                  ref={c => (this.userdropdown = c)}
                   id="input-receivers"
                   onChange={this.handleDropdownChange}
                   error={receiversError}

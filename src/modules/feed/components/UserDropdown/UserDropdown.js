@@ -11,8 +11,10 @@ class DropdownRemote extends Component {
     this.state = {
       value: [],
     };
+    this.initialState = this.state;
 
     this.handleChange = this.handleChange.bind(this);
+    this.resetState = this.resetState.bind(this);
   }
 
   handleChange(e, { value }) {
@@ -21,6 +23,10 @@ class DropdownRemote extends Component {
     }
     this.setState({ value });
     this.props.onChange(value);
+  }
+
+  resetState() {
+    this.setState(this.initialState);
   }
 
   render() {

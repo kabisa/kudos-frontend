@@ -26,12 +26,18 @@ class GuidelineInput extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      amount: null,
+    };
+    this.initialState = this.state;
+
     this._timeoutID;
 
     this.focusKudoInput = this.focusKudoInput.bind(this);
     this.blurKudoInput = this.blurKudoInput.bind(this);
     this.selectGuideline = this.selectGuideline.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.resetState = this.resetState.bind(this);
   }
 
   handleChange(e, { value }) {
@@ -54,6 +60,10 @@ class GuidelineInput extends Component {
     clearTimeout(this._timeoutID);
     this.setState({ amount, inputFocus: false });
     this.props.handleChange(amount);
+  }
+
+  resetState() {
+    this.setState(this.initialState);
   }
 
   render() {
