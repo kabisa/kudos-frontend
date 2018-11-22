@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { Query } from "react-apollo";
 
 import { GET_USERS } from "../../queries";
+import settings from "src/config/settings";
 
 class DropdownRemote extends Component {
   constructor(props) {
@@ -31,14 +32,17 @@ class DropdownRemote extends Component {
 
   render() {
     return (
-      <Query query={GET_USERS}>
+      <Query
+        query={GET_USERS}
+        variables={{ team_id: localStorage.getItem(settings.TEAM_ID_TOKEN) }}
+      >
         {({ loading, error, data }) => {
           const { value } = this.state;
 
           let options = [];
           if (data) {
-            if (data.users) {
-              options = data.users.map(item => ({
+            if (data.teamById) {
+              options = data.teamById.memberships.map(item => ({
                 text: item.name,
                 value: item.id,
               }));

@@ -44,10 +44,12 @@ export const GET_TRANSACTIONS = gql`
 `;
 
 export const GET_USERS = gql`
-  query Users($name: String) {
-    users(findByName: $name) {
-      name
-      id
+  query Users($team_id: ID!) {
+    teamById(id: $team_id) {
+      memberships {
+        id
+        name
+      }
     }
   }
 `;
