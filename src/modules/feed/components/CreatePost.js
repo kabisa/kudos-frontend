@@ -10,7 +10,7 @@ import GuidelineInput from "./GuidelineInput/GuidelineInput";
 import { PATH_FEED } from "../../../routes";
 import { auth } from "../../../support";
 import BackButton from "../../login/BackButton";
-import { CREATE_POST } from "../queries";
+import { CREATE_POST, GET_GOAL_PERCENTAGE } from "../queries";
 
 import s from "../AddTransactionPage.scss";
 
@@ -103,7 +103,37 @@ export class CreatePost extends Component {
     const { amountError, receiversError, messageError } = this.state;
     const { transaction } = this.props;
     return (
-      <Mutation mutation={CREATE_POST} onCompleted={this.onCompleted}>
+      <Mutation
+        mutation={CREATE_POST}
+        onCompleted={this.onCompleted}
+        update={(cache, { data: postData }) => {
+          const beforeState = cache.readQuery({
+            query: GET_GOAL_PERCENTAGE,
+            variables: {
+              team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+            },
+          });
+          const afterState = {
+            ...beforeState,
+            teamById: {
+              ...beforeState.teamById,
+              activeKudosMeter: {
+                ...beforeState.teamById.activeKudosMeter,
+                amount:
+                  beforeState.teamById.activeKudosMeter.amount +
+                  postData.createPost.amount,
+              },
+            },
+          };
+          cache.writeQuery({
+            query: GET_GOAL_PERCENTAGE,
+            variables: {
+              team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+            },
+            data: afterState,
+          });
+        }}
+      >
         {createPost => (
           <Form onSubmit={() => this.onSubmit(createPost)} className={s.form}>
             <GuidelineInput

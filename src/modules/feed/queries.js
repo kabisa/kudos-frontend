@@ -66,6 +66,7 @@ export const CREATE_POST = gql`
       team_id: $team_id
     ) {
       id
+      amount
     }
   }
 `;
