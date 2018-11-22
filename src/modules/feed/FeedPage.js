@@ -1,6 +1,7 @@
 import { h, Component } from "preact";
-import { graphql } from "react-apollo";
+import { graphql, Query } from "react-apollo";
 import { Button, Grid, Rail, Segment, Responsive } from "semantic-ui-react";
+import ReactPullToRefresh from "react-pull-to-refresh";
 
 import settings from "../../config/settings";
 import { Navigation } from "../../components/navigation";
@@ -104,8 +105,20 @@ export class FeedPage extends Component {
         <ActionButton />
         <div className="page">
           <Responsive maxWidth={Responsive.onlyTablet.maxWidth}>
-            <GoalProgress />
-            <RepoListWithQuery />
+            <Query
+              query={GET_TRANSACTIONS}
+              variables={{
+                team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+              }}
+              fetchPolicy="network-only"
+            >
+              {({ refetch }) => (
+                <ReactPullToRefresh onRefresh={refetch}>
+                  <GoalProgress />
+                  <RepoListWithQuery />
+                </ReactPullToRefresh>
+              )}
+            </Query>
           </Responsive>
           <Responsive minWidth={Responsive.onlyComputer.minWidth}>
             <Grid centered columns={3}>
