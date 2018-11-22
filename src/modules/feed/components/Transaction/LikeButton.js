@@ -4,7 +4,11 @@ import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
 
 import settings from "src/config/settings";
-import { GET_TRANSACTIONS, FRAGMENT_POST } from "../../queries";
+import {
+  GET_TRANSACTIONS,
+  FRAGMENT_POST,
+  GET_GOAL_PERCENTAGE,
+} from "../../queries";
 
 const userId = localStorage.getItem(settings.USER_ID_TOKEN);
 const teamId = localStorage.getItem(settings.TEAM_ID_TOKEN);
@@ -78,6 +82,9 @@ export const LikeButton = ({ transactionId, liked, likes, post }) => (
       update={(cache, { data: { toggleLikePost } }) =>
         updateState(cache, toggleLikePost)
       }
+      refetchQueries={[
+        { query: GET_GOAL_PERCENTAGE, variables: { team_id: teamId } },
+      ]}
     >
       {mutate => (
         <Button
