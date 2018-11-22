@@ -47,7 +47,7 @@ class DropdownRemote extends Component {
               fluid
               selection
               multiple
-              error={error}
+              error={error || this.props.error}
               search
               value={value}
               options={options}

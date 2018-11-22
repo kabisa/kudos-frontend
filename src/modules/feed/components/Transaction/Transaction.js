@@ -1,5 +1,5 @@
 import { h } from "preact";
-import { Card, Modal, Image, Button } from "semantic-ui-react";
+import { Card } from "semantic-ui-react";
 import LikeButton from "./LikeButton";
 import Header from "./Header";
 import settings from "src/config/settings";
