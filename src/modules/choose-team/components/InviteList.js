@@ -23,8 +23,9 @@ export const GET_INVITES = gql`
 const InviteList = () => (
   <Query query={GET_INVITES} pollInterval={2000} fetchPolicy="network-only">
     {({ loading, error, data }) => {
-      if (loading) return <p>Loading...</p>;
-      if (error) return `Error! ${error.message}`;
+      if (loading) return <p style={{ textAlign: "center" }}>Loading...</p>;
+      if (error)
+        return <p style={{ textAlign: "center" }}>Error! {error.message}</p>;
 
       if (!data.viewer.self.teamInvites.length) {
         return <p style={{ textAlign: "center" }}>No invites.</p>;

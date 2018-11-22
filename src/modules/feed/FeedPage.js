@@ -46,7 +46,7 @@ const RepoList = ({ data: { loading, error, postsConnection, loadMore } }) => {
       )}
       {!postsConnection.pageInfo.hasNextPage && (
         <div>
-          <p style={{ lineHeight: "60px" }}>
+          <p style={{ lineHeight: "60px", textAlign: "center" }}>
             You&apos;ve reached the end, congratulations!
           </p>
         </div>

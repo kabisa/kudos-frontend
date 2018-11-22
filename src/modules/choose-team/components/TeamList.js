@@ -5,9 +5,13 @@ import TeamRow from "./TeamRow";
 
 export const GET_TEAMS = gql`
   query getTeams {
-    teams {
-      id
-      name
+    viewer {
+      self {
+        teams {
+          id
+          name
+        }
+      }
     }
   }
 `;
@@ -15,16 +19,17 @@ export const GET_TEAMS = gql`
 const TeamList = () => (
   <Query query={GET_TEAMS} pollInterval={2000} fetchPolicy="network-only">
     {({ loading, error, data }) => {
-      if (loading) return <p>Loading...</p>;
-      if (error) return `Error! ${error.message}`;
-
-      if (!data.teams.length) {
-        return <p>No teams.</p>;
+      if (loading) return <p style={{ textAlign: "center" }}>Loading...</p>;
+      if (error)
+        return <p style={{ textAlign: "center" }}>Error! {error.message}</p>;
+      const teams = data.viewer.self.teams;
+      if (!teams.length) {
+        return <p style={{ textAlign: "center" }}>No teams.</p>;
       }
 
       return (
         <div>
-          {data.teams.map(team => (
+          {teams.map(team => (
             <TeamRow id={team.id} name={team.name} key={team.id} />
           ))}
         </div>
