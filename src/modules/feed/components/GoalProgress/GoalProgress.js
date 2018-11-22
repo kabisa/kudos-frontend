@@ -6,6 +6,16 @@ import { GET_GOAL_PERCENTAGE } from "../../queries";
 import { PATH_STATISTICS } from "../../../../routes";
 import { calculateProgress } from "../../../../support";
 
+export const ProgressBar = ({ percentage }) => (
+  <a className="kudo-progress" href={`${PATH_STATISTICS}?transition=none`}>
+    <div className="kudo-progress-bar" style={{ width: `${percentage}%` }} />{" "}
+    <div
+      className="kudo-progress-bar-negative"
+      style={{ width: `${100 - percentage}%` }}
+    />
+  </a>
+);
+
 export const GoalProgress = () => (
   <Query
     query={GET_GOAL_PERCENTAGE}
@@ -30,21 +40,7 @@ export const GoalProgress = () => (
         data.teamById.activeKudosMeter.amount
       );
 
-      return (
-        <a
-          className="kudo-progress"
-          href={`${PATH_STATISTICS}?transition=none`}
-        >
-          <div
-            className="kudo-progress-bar"
-            style={{ width: `${percentage}%` }}
-          />{" "}
-          <div
-            className="kudo-progress-bar-negative"
-            style={{ width: `${100 - percentage}%` }}
-          />
-        </a>
-      );
+      return <ProgressBar percentage={percentage} />;
     }}
   </Query>
 );

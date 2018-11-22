@@ -77,7 +77,9 @@ export const GET_GOAL_PERCENTAGE = gql`
         amount
       }
       activeGoals {
+        id
         amount
+        name
       }
     }
   }

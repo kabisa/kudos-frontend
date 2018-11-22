@@ -1,5 +1,10 @@
 const calculateProgress = (goals, current) => {
-  const nextGoal = goals.find(goal => goal.amount > current);
+  let nextGoal;
+  if (Array.isArray(goals)) {
+    nextGoal = goals.find(goal => goal.amount > current);
+  } else {
+    nextGoal = goals;
+  }
 
   let percentage = 100;
   if (nextGoal) {

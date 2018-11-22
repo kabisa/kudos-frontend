@@ -2,7 +2,6 @@ import { h } from "preact";
 import { Icon, Responsive } from "semantic-ui-react";
 import PropTypes from "prop-types";
 
-import Desktop from "./Desktop";
 import s from "./Toolbar.scss";
 
 const Toolbar = ({ to, text }) => {
@@ -23,9 +22,6 @@ const Toolbar = ({ to, text }) => {
           {backLink}
           <span className={s.toolbar_text}>{text}</span>
         </div>
-      </Responsive>
-      <Responsive minWidth={Responsive.onlyTablet.minWidth}>
-        <Desktop />
       </Responsive>
     </div>
   );

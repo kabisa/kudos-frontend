@@ -1,6 +1,6 @@
 import { h, Component } from "preact";
 import { graphql } from "react-apollo";
-import { Button } from "semantic-ui-react";
+import { Button, Grid, Segment, Rail, Responsive } from "semantic-ui-react";
 
 import settings from "../../config/settings";
 import { Navigation } from "../../components/navigation";
@@ -9,6 +9,8 @@ import {
   GoalProgress,
   ActionButton,
   TransactionLoading,
+  LeftRail,
+  RightRail,
 } from "./components";
 import { GET_TRANSACTIONS } from "./queries";
 import { auth } from "../../support";
@@ -95,11 +97,31 @@ export class FeedPage extends Component {
     const RepoListWithQuery = withQuery(RepoList);
 
     return (
-      <div style={{ display: "flex", flexDirection: "column" }}>
+      <div
+        style={{ display: "flex", flexDirection: "column", overflow: "hidden" }}
+      >
         <ActionButton />
         <div className="page">
-          <GoalProgress />
-          <RepoListWithQuery />
+          <Responsive maxWidth={Responsive.onlyTablet.maxWidth}>
+            <GoalProgress />
+            <RepoListWithQuery />
+          </Responsive>
+          <Responsive minWidth={Responsive.onlyComputer.minWidth}>
+            <Grid centered columns={3}>
+              <Grid.Column style={{ padding: 0 }}>
+                <GoalProgress style={{ height: "16px" }} />
+                <div style={{ marginTop: "18px" }}>
+                  <RepoListWithQuery />
+                </div>
+                <Rail position="left">
+                  <LeftRail />
+                </Rail>
+                <Rail position="right">
+                  <RightRail />
+                </Rail>
+              </Grid.Column>
+            </Grid>
+          </Responsive>
         </div>
         <Navigation />
       </div>
