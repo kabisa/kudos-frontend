@@ -10,7 +10,6 @@ export const GET_INVITES = gql`
       self {
         teamInvites {
           id
-          sentAt
           team {
             name
           }

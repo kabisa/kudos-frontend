@@ -103,9 +103,9 @@ export class FeedPage extends Component {
         style={{ display: "flex", flexDirection: "column", overflow: "hidden" }}
       >
         <div className="page">
-          <ActionButton />
           <Responsive maxWidth={Responsive.onlyTablet.maxWidth}>
-            <Query
+            <ActionButton />
+            {/* <Query
               query={GET_TRANSACTIONS}
               variables={{
                 team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
@@ -113,12 +113,12 @@ export class FeedPage extends Component {
               fetchPolicy="network-only"
             >
               {({ refetch }) => (
-                <ReactPullToRefresh onRefresh={refetch}>
-                  <GoalProgress />
-                  <RepoListWithQuery />
-                </ReactPullToRefresh>
+                // <ReactPullToRefresh onRefresh={refetch}>
+                // </ReactPullToRefresh>
               )}
-            </Query>
+            </Query> */}
+            <GoalProgress />
+            <RepoListWithQuery />
           </Responsive>
           <Responsive minWidth={Responsive.onlyComputer.minWidth}>
             <Grid centered columns={3}>
