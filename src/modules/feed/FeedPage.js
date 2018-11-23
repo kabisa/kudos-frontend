@@ -103,6 +103,7 @@ export class FeedPage extends Component {
         style={{ display: "flex", flexDirection: "column", overflow: "hidden" }}
       >
         <div className="page">
+          <ActionButton />
           <Responsive maxWidth={Responsive.onlyTablet.maxWidth}>
             <Query
               query={GET_TRANSACTIONS}
@@ -113,8 +114,6 @@ export class FeedPage extends Component {
             >
               {({ refetch }) => (
                 <ReactPullToRefresh onRefresh={refetch}>
-                  <ActionButton />
-
                   <GoalProgress />
                   <RepoListWithQuery />
                 </ReactPullToRefresh>
