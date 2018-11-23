@@ -46,7 +46,7 @@ export const GET_TRANSACTIONS = gql`
 export const GET_USERS = gql`
   query Users($team_id: ID!) {
     teamById(id: $team_id) {
-      memberships {
+      users {
         id
         name
       }

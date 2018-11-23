@@ -42,7 +42,7 @@ class DropdownRemote extends Component {
           let options = [];
           if (data) {
             if (data.teamById) {
-              options = data.teamById.memberships.map(item => ({
+              options = data.teamById.users.map(item => ({
                 text: item.name,
                 value: item.id,
               }));
