@@ -20,12 +20,14 @@ const mocks = [
               {
                 id: "1",
                 team: {
+                  id: "1",
                   name: "Team 1",
                 },
               },
               {
                 id: "2",
                 team: {
+                  id: "2",
                   name: "Team 2",
                 },
               },

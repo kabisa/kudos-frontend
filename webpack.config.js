@@ -148,14 +148,6 @@ module.exports = {
             })
           : ["style-loader", "css-loader", postcssLoader, "sass-loader"],
       },
-      // {
-      //   test: /\.svg$/,
-      //   include: path.resolve(__dirname, "src/assets/icons"),
-      //   loader: "svg-sprite-loader",
-      //   options: {
-      //     extract: true
-      //   }
-      // },
       {
         test: /\.jpe?g$|\.gif$|\.ico$|\.png$|\.svg$/,
         use: "file-loader?name=[name].[ext]?[hash]",
@@ -172,6 +164,10 @@ module.exports = {
         test: /\.otf(\?.*)?$/,
         use:
           "file-loader?name=/fonts/[name].  [ext]&mimetype=application/font-otf",
+      },
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"],
       },
     ],
   },
