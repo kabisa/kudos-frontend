@@ -11,6 +11,7 @@ export const GET_INVITES = gql`
         teamInvites {
           id
           team {
+            id
             name
           }
         }
