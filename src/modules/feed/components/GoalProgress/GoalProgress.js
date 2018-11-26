@@ -1,20 +1,12 @@
 import { h } from "preact";
 import { Query } from "react-apollo";
+import { Line } from "rc-progress";
 
 import settings from "../../../../config/settings";
 import { GET_GOAL_PERCENTAGE } from "../../queries";
 import { PATH_STATISTICS } from "../../../../routes";
 import { calculateProgress } from "../../../../support";
-
-export const ProgressBar = ({ percentage }) => (
-  <div className="kudo-progress">
-    <div className="kudo-progress-bar" style={{ width: `${percentage}%` }} />{" "}
-    <div
-      className="kudo-progress-bar-negative"
-      style={{ width: `${100 - percentage}%` }}
-    />
-  </div>
-);
+import { colors } from "../../../statistics/Statistics";
 
 export const GoalProgress = () => (
   <Query
@@ -43,7 +35,20 @@ export const GoalProgress = () => (
 
       return (
         <a href={`${PATH_STATISTICS}?transition=none`}>
-          <ProgressBar percentage={percentage} />
+          <div
+            style={{
+              width: "90%",
+              margin: "auto",
+              height: "3em",
+              paddingTop: "14px",
+            }}
+          >
+            <Line
+              percent={percentage}
+              strokeWidth={3}
+              strokeColor={colors[Math.round(percentage)]}
+            />
+          </div>
         </a>
       );
     }}

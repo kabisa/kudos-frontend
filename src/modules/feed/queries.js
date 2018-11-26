@@ -83,6 +83,7 @@ export const GET_GOAL_PERCENTAGE = gql`
         id
         amount
         name
+        achieved_on
       }
     }
   }
