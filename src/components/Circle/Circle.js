@@ -1,6 +1,6 @@
 import { h } from "preact";
 import { Circle } from "rc-progress";
-import s from "./circle.scss";
+import s from "./Circle.scss";
 
 const CustomCircle = ({ percent, text, strokeColor }) => (
   <div className={s.wrapper}>
