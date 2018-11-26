@@ -1,7 +1,6 @@
 import { h, render } from "preact";
 import { MockedProvider } from "react-apollo/test-utils";
 import wait from "waait";
-import * as d from "dom-testing-library";
 
 import GoalProgress from "src/modules/feed/components/GoalProgress/GoalProgress";
 import { GET_GOAL_PERCENTAGE } from "src/modules/feed/queries";

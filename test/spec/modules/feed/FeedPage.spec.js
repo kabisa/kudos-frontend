@@ -1,7 +1,6 @@
 import { h, render } from "preact";
 import { MockedProvider } from "react-apollo/test-utils";
 import wait from "waait";
-import * as d from "dom-testing-library";
 
 import { FeedPage } from "src/modules/feed";
 import { GET_TRANSACTIONS } from "src/modules/feed/queries";
