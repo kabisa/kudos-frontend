@@ -12,6 +12,10 @@ export const hasTeam = () =>
   localStorage.getItem(settings.TEAM_ID_TOKEN) !== null;
 
 export const auth = () => {
+  if (settings.environment === "test") {
+    return true;
+  }
+
   if (!isLoggedIn()) {
     route(PATH_LOGIN, true);
     window.location.reload();

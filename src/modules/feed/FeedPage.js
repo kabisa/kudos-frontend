@@ -1,7 +1,6 @@
 import { h, Component } from "preact";
-import { graphql, Query } from "react-apollo";
+import { graphql } from "react-apollo";
 import { Button, Grid, Rail, Segment, Responsive } from "semantic-ui-react";
-import ReactPullToRefresh from "react-pull-to-refresh";
 
 import settings from "../../config/settings";
 import { Navigation } from "../../components/navigation";
