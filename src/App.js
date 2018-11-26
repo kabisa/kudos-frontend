@@ -4,6 +4,8 @@ import { Router as PreactRouter } from "preact-router";
 import { history } from "src/support/history";
 import { PageTransitionSupport } from "maji";
 import { Responsive } from "semantic-ui-react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import * as routes from "./routes";
 
@@ -44,14 +46,26 @@ const Routes = [
   <LoginPage default path={routes.PATH_LOGIN} />,
 ];
 
+const ToastWrapper = () => (
+  <ToastContainer
+    bodyClassName="toast-body"
+    toastClassName="toast"
+    autoClose={4000}
+    pauseOnVisibilityChange={false}
+    pauseOnHover
+  />
+);
+
 const App = () => (
   <div>
     <Responsive minWidth={Responsive.onlyTablet.minWidth}>
       <PreactRouter history={history}>{Routes}</PreactRouter>
+      <ToastWrapper />
     </Responsive>
 
     <Responsive maxWidth={Responsive.onlyMobile.maxWidth}>
       <AnimationRouter history={history}>{Routes}</AnimationRouter>
+      <ToastWrapper />
     </Responsive>
   </div>
 );

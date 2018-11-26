@@ -5,8 +5,7 @@ import { Line } from "rc-progress";
 import settings from "../../../../config/settings";
 import { GET_GOAL_PERCENTAGE } from "../../queries";
 import { PATH_STATISTICS } from "../../../../routes";
-import { calculateProgress } from "../../../../support";
-import { colors } from "../../../statistics/Statistics";
+import { calculateProgress, getStrokeColor } from "../../../../support";
 
 export const GoalProgress = () => (
   <Query
@@ -46,7 +45,7 @@ export const GoalProgress = () => (
             <Line
               percent={percentage}
               strokeWidth={3}
-              strokeColor={colors[Math.round(percentage)]}
+              strokeColor={getStrokeColor(percentage)}
             />
           </div>
         </a>

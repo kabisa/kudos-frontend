@@ -4,11 +4,10 @@ import { Query } from "react-apollo";
 import moment from "moment";
 import { Divider } from "semantic-ui-react";
 import gql from "graphql-tag";
-import chroma from "chroma-js";
 
 import { Circle } from "src/components";
 import settings from "src/config/settings";
-import { calculateProgress } from "src/support";
+import { calculateProgress, getStrokeColor } from "src/support";
 
 export const GET_GOAL_PERCENTAGE = gql`
   query getGoals($team_id: ID!) {
@@ -25,8 +24,6 @@ export const GET_GOAL_PERCENTAGE = gql`
     }
   }
 `;
-
-export const colors = chroma.scale(["#767676", "#2185D0"]).colors(100);
 
 const Statistics = ({ lineSize = 4 }) => (
   <div>
@@ -57,7 +54,7 @@ const Statistics = ({ lineSize = 4 }) => (
             <Circle
               percent={percentage}
               text={`${percentage}%`}
-              strokeColor={colors[Math.round(percentage - 1)]}
+              strokeColor={getStrokeColor(percentage)}
             />
 
             <div style={{ paddingTop: "1em" }}>
@@ -65,6 +62,7 @@ const Statistics = ({ lineSize = 4 }) => (
                 .sort((goal1, goal2) => goal1.amount - goal2.amount)
                 .map(goal => {
                   const percentage = calculateProgress(goal, currentKudos);
+
                   return (
                     <div key={goal.id} style={{ height: "84px" }}>
                       <Divider />
@@ -72,7 +70,7 @@ const Statistics = ({ lineSize = 4 }) => (
                       <Line
                         percent={percentage}
                         strokeWidth={lineSize}
-                        strokeColor={colors[Math.round(percentage - 1)]}
+                        strokeColor={getStrokeColor(percentage)}
                       />
                       <span style={{ color: "grey", marginTop: "16px" }}>
                         {!goal.achieved_on &&

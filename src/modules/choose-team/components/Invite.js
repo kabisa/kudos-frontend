@@ -28,6 +28,8 @@ export const Invite = ({ invite }) => (
       mutation={MUTATION_ACCEPT_INVITE}
       text="Accept"
       color="green"
+      teamId={invite.team.id}
+      accept
     />
     <ChoiceButton
       inviteId={invite.id}
