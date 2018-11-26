@@ -27,6 +27,7 @@ export const GoalProgress = () => (
       if (loading || error) {
         return (
           <a
+            id="kudo-progress-loading"
             className="kudo-progress"
             href={`${PATH_STATISTICS}?transition=none`}
           >
