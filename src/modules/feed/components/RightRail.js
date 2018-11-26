@@ -39,19 +39,21 @@ export default () => (
             <DonutChart value={percentage} />
 
             <div style={{ paddingTop: "2em" }}>
-              {goals.map(goal => {
-                const percentage = calculateProgress(goal, currentKudos);
-                return (
-                  <div key={goal.id} style={{ height: "84px" }}>
-                    <Divider />
-                    <p>{goal.name}</p>
-                    <ProgressBar percentage={percentage} />
-                    <span style={{ color: "grey", marginTop: "16px" }}>
-                      {currentKudos} / {goal.amount}₭
-                    </span>
-                  </div>
-                );
-              })}
+              {goals
+                .sort((goal1, goal2) => goal1.amount - goal2.amount)
+                .map(goal => {
+                  const percentage = calculateProgress(goal, currentKudos);
+                  return (
+                    <div key={goal.id} style={{ height: "84px" }}>
+                      <Divider />
+                      <p>{goal.name}</p>
+                      <ProgressBar percentage={percentage} />
+                      <span style={{ color: "grey", marginTop: "16px" }}>
+                        {currentKudos} / {goal.amount}₭
+                      </span>
+                    </div>
+                  );
+                })}
             </div>
           </div>
         );

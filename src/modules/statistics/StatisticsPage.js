@@ -53,13 +53,15 @@ export class StatisticsPage extends Component {
                     <tr>
                       <th>Name</th> <th>Amount</th> <th>Achieved on</th>
                     </tr>
-                    {goals.map(goal => (
-                      <tr key={goal.id}>
-                        <td>{goal.name}</td>
-                        <td>{goal.amount}</td>
-                        <td>{goal.achieved_on ? goal.achieved_on : "-"}</td>
-                      </tr>
-                    ))}
+                    {goals
+                      .sort((goal1, goal2) => goal1.amount - goal2.amount)
+                      .map(goal => (
+                        <tr key={goal.id}>
+                          <td>{goal.name}</td>
+                          <td>{goal.amount}</td>
+                          <td>{goal.achieved_on ? goal.achieved_on : "-"}</td>
+                        </tr>
+                      ))}
                   </table>
                 </div>
               );
