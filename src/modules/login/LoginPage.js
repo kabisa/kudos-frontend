@@ -60,7 +60,8 @@ class LoginPage extends Component {
   formSubmit(e, signInUser) {
     e.preventDefault();
     this.setState({ error: null });
-    const { email, password } = this.state;
+    let { email, password } = this.state;
+    email = email.trim();
 
     if (!email || !password) {
       this.setState({ error: ERROR_INCOMPLETE });
