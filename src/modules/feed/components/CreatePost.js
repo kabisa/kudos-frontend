@@ -86,6 +86,16 @@ export class CreatePost extends Component {
       return;
     }
 
+    if (message.length > settings.MAX_POST_MESSAGE_LENGTH) {
+      this.setState({
+        messageError: true,
+        error: `Message can have a maximum of ${
+          settings.MAX_POST_MESSAGE_LENGTH
+        } characters.`,
+      });
+      return;
+    }
+
     createPost({
       variables: {
         message: this.state.message,

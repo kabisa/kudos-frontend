@@ -5,6 +5,7 @@ export default {
   // Backend settings.
   MIN_PASSWORD_LENGTH: 8,
   MIN_POST_MESSAGE_LENGTH: 4,
+  MAX_POST_MESSAGE_LENGTH: 140,
 
   // Network settings.
   API_BASE_URL: "https://kudo-o-matic-staging.dokku.kabisa.io",
