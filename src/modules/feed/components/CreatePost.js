@@ -128,7 +128,6 @@ export class CreatePost extends Component {
       <Mutation
         mutation={CREATE_POST}
         onCompleted={this.onCompleted}
-        onError={data => this.setState({ error: data })}
         update={(cache, { data: postData }) => {
           const beforeState = cache.readQuery({
             query: GET_GOAL_PERCENTAGE,
@@ -206,7 +205,7 @@ export class CreatePost extends Component {
 
               {displayError && (
                 <Message negative>
-                  <Message.Header>Coulnd&apos;t create post</Message.Header>
+                  <Message.Header>Couldn&apos;t create post</Message.Header>
                   <p>{displayError}</p>
                 </Message>
               )}
