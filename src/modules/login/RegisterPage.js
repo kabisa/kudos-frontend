@@ -1,12 +1,41 @@
 import { h, Component } from "preact";
 import { Button, Form, Message, Segment } from "semantic-ui-react";
 import { Mutation } from "react-apollo";
+import gql from "graphql-tag";
 
-import { getGraphqlError } from "../../support";
+import {
+  getGraphqlError,
+  validateEmail,
+  ERROR_INCOMPLETE,
+  ERROR_INVALID_EMAIL,
+  ERROR_SHORT_PASSWORD,
+} from "../../support";
 import { FormWrapper } from "../../components";
-import { MUTATION_REGISTER } from "./queries";
 import BackButton from "./BackButton";
 import { loginSuccess } from "./helper";
+import settings from "src/config/settings";
+
+export const MUTATION_REGISTER = gql`
+  mutation CreateUser(
+    $name: String!
+    $email: EmailAddress!
+    $password: String!
+  ) {
+    createUser(
+      credentials: {
+        name: $name
+        email: $email
+        password: $password
+        password_confirmation: $password
+      }
+    ) {
+      token
+      user {
+        id
+      }
+    }
+  }
+`;
 
 class RegisterPage extends Component {
   constructor(props) {
@@ -16,6 +45,7 @@ class RegisterPage extends Component {
       name: "",
       email: "",
       password: "",
+      error: null,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -35,8 +65,26 @@ class RegisterPage extends Component {
 
   formSubmit(e, createUser) {
     e.preventDefault();
+    const { name, email, password } = this.state;
+    this.setState({ error: null });
+
+    if (!name || !email || !password) {
+      this.setState({ error: ERROR_INCOMPLETE });
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      this.setState({ error: ERROR_INVALID_EMAIL });
+      return;
+    }
+
+    if (password.length < settings.MIN_PASSWORD_LENGTH) {
+      this.setState({ error: ERROR_SHORT_PASSWORD });
+      return;
+    }
+
     createUser({
-      variables: { ...this.state },
+      variables: { name, email, password },
     });
   }
 
@@ -47,6 +95,14 @@ class RegisterPage extends Component {
         onCompleted={data => this.confirm(data)}
       >
         {(createUser, { error }) => {
+          let displayError;
+          if (error) {
+            displayError = getGraphqlError(error);
+          }
+          if (this.state.error) {
+            displayError = this.state.error;
+          }
+
           return (
             <FormWrapper toolbar="Register" header="Register">
               <Form
@@ -54,7 +110,7 @@ class RegisterPage extends Component {
                 error={error}
                 onSubmit={e => this.formSubmit(e, createUser)}
               >
-                <Segment stacked>
+                <Segment>
                   <Form.Input
                     fluid
                     icon="user"
@@ -89,12 +145,11 @@ class RegisterPage extends Component {
                     Register
                   </Button>
 
-                  {error && (
-                    <Message
-                      error={true}
-                      header="Unable to register"
-                      content={() => getGraphqlError(error)}
-                    />
+                  {displayError && (
+                    <Message negative>
+                      <Message.Header>Unable to register</Message.Header>
+                      <p>{displayError}</p>
+                    </Message>
                   )}
                 </Segment>
               </Form>

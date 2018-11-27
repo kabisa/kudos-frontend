@@ -1,10 +1,19 @@
 import { h, Component } from "preact";
+import gql from "graphql-tag";
 import { Button, Form, Message, Segment } from "semantic-ui-react";
 import { Mutation } from "react-apollo";
 
 import { FormWrapper } from "../../components";
-import { MUTATION_FORGOT_PASSWORD } from "./queries";
 import BackButton from "./BackButton";
+import { validateEmail, ERROR_INVALID_EMAIL } from "../../support";
+
+export const MUTATION_FORGOT_PASSWORD = gql`
+  mutation forgotPassword($email: EmailAddress!) {
+    forgotPassword(credentials: { email: $email }) {
+      email
+    }
+  }
+`;
 
 class ForgotPasswordPage extends Component {
   constructor(props) {
@@ -13,6 +22,7 @@ class ForgotPasswordPage extends Component {
     this.state = {
       email: "",
       success: false,
+      error: null,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -30,6 +40,13 @@ class ForgotPasswordPage extends Component {
 
   formSubmit(e, resetPassword) {
     e.preventDefault();
+    const { email } = this.state;
+
+    if (!validateEmail(email)) {
+      this.setState({ error: ERROR_INVALID_EMAIL });
+      return;
+    }
+
     resetPassword({
       variables: { email: this.state.email },
     });
@@ -49,7 +66,7 @@ class ForgotPasswordPage extends Component {
                 error={error}
                 onSubmit={e => this.formSubmit(e, resetPassword)}
               >
-                <Segment stacked>
+                <Segment>
                   <Form.Input
                     fluid
                     icon="user"
@@ -65,11 +82,12 @@ class ForgotPasswordPage extends Component {
                   </Button>
 
                   {error && (
-                    <Message
-                      error={true}
-                      header="Unable to reset the password."
-                      content="Something went wrong."
-                    />
+                    <Message negative>
+                      <Message.Header>
+                        Unable to reset the password
+                      </Message.Header>
+                      <p>Something went wrong.</p>
+                    </Message>
                   )}
 
                   {this.state.success && (
