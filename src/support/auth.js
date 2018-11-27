@@ -29,6 +29,19 @@ export const auth = () => {
   return true;
 };
 
+export const authAllowNoTeam = () => {
+  if (settings.environment === "test") {
+    return true;
+  }
+
+  if (!isLoggedIn()) {
+    route(PATH_LOGIN, true);
+    window.location.reload();
+    return false;
+  }
+  return true;
+};
+
 export const logout = () => {
   localStorage.clear();
   client.resetStore();

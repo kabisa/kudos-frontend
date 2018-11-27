@@ -58,7 +58,7 @@ class ForgotPasswordPage extends Component {
         mutation={MUTATION_FORGOT_PASSWORD}
         onCompleted={this.onCompleted}
       >
-        {(resetPassword, { error }) => {
+        {(resetPassword, { error, loading }) => {
           return (
             <FormWrapper toolbar="Forgot password" header="Forgot password">
               <Form
@@ -77,7 +77,13 @@ class ForgotPasswordPage extends Component {
                     onChange={this.handleChange}
                   />
 
-                  <Button color="blue" fluid size="large">
+                  <Button
+                    color="blue"
+                    fluid
+                    size="large"
+                    loading={loading}
+                    disabled={loading}
+                  >
                     Reset password
                   </Button>
 

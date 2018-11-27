@@ -90,7 +90,7 @@ class FinishForgotPasswordPage extends Component {
           onCompleted={data => this.onCompleted(data)}
           onError={() => this.setState({ error: DEFAULT_ERROR })}
         >
-          {(mutation, { error }) => (
+          {(mutation, { error, loading }) => (
             <div>
               <Form
                 size="large"
@@ -118,7 +118,13 @@ class FinishForgotPasswordPage extends Component {
                     value={this.state.password_confirm}
                     onChange={this.handleChange}
                   />
-                  <Button color="blue" fluid size="large">
+                  <Button
+                    color="blue"
+                    fluid
+                    size="large"
+                    loading={loading}
+                    disabled={loading}
+                  >
                     Reset password
                   </Button>
 

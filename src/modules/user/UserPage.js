@@ -4,7 +4,7 @@ import { Query } from "react-apollo";
 import gql from "graphql-tag";
 
 import { Navigation } from "../../components/navigation";
-import { auth, logout } from "../../support";
+import { authAllowNoTeam, logout } from "../../support";
 
 import s from "./UserPage.scss";
 
@@ -21,7 +21,7 @@ export const GET_USER = gql`
 export class UserPage extends Component {
   constructor(props) {
     super(props);
-    auth();
+    authAllowNoTeam();
   }
 
   render() {

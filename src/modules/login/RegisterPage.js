@@ -94,7 +94,7 @@ class RegisterPage extends Component {
         mutation={MUTATION_REGISTER}
         onCompleted={data => this.confirm(data)}
       >
-        {(createUser, { error }) => {
+        {(createUser, { error, loading }) => {
           let displayError;
           if (error) {
             displayError = getGraphqlError(error);
@@ -141,7 +141,13 @@ class RegisterPage extends Component {
                     onChange={this.handleChange}
                   />
 
-                  <Button color="blue" fluid size="large">
+                  <Button
+                    color="blue"
+                    fluid
+                    size="large"
+                    loading={loading}
+                    disabled={loading}
+                  >
                     Register
                   </Button>
 

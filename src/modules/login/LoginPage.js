@@ -84,7 +84,7 @@ class LoginPage extends Component {
         mutation={MUTATION_LOGIN}
         onCompleted={data => this.confirm(data)}
       >
-        {(signInUser, { data, error }) => {
+        {(signInUser, { data, error, loading }) => {
           let displayError;
           if (error) {
             displayError = getGraphqlError(error);
@@ -121,7 +121,13 @@ class LoginPage extends Component {
                     onChange={this.handleChange}
                   />
 
-                  <Button color="blue" fluid size="large">
+                  <Button
+                    color="blue"
+                    fluid
+                    size="large"
+                    loading={loading}
+                    disabled={loading}
+                  >
                     Login
                   </Button>
 
