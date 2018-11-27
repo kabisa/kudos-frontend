@@ -1,14 +1,15 @@
 import { h, Component } from "preact";
-import { Form, Button } from "semantic-ui-react";
+import { Form, Button, Message } from "semantic-ui-react";
 import { route } from "preact-router";
 import { Mutation } from "react-apollo";
 import PropTypes from "prop-types";
+import { toast } from "react-toastify";
 
 import settings from "../../../config/settings";
 import UserDropdown from "./UserDropdown/UserDropdown";
 import GuidelineInput from "./GuidelineInput/GuidelineInput";
 import { PATH_FEED } from "../../../routes";
-import { auth } from "../../../support";
+import { auth, getGraphqlError } from "../../../support";
 import BackButton from "../../login/BackButton";
 import { CREATE_POST, GET_GOAL_PERCENTAGE } from "../queries";
 
@@ -26,6 +27,7 @@ export class CreatePost extends Component {
       amountError: false,
       receiversError: false,
       messageError: false,
+      error: null,
     };
 
     this.state = this.initialState;
@@ -46,24 +48,43 @@ export class CreatePost extends Component {
   }
 
   onSubmit(createPost) {
-    // Validation
-    if (this.state.amount == 0) {
-      this.setState({ amountError: true });
-      return;
-    }
-    this.setState({ amountError: false });
+    const { amount, receivers, message } = this.state;
+    this.setState({
+      amountError: false,
+      receiversError: false,
+      messageError: false,
+      error: null,
+    });
 
-    if (this.state.receivers.length === 0) {
-      this.setState({ receiversError: true });
+    if (amount == 0) {
+      this.setState({
+        amountError: true,
+        error: "Amount can't be empty or 0.",
+      });
       return;
     }
-    this.setState({ receiversError: false });
 
-    if (this.state.message.length === 0) {
-      this.setState({ messageError: true });
+    if (receivers.length === 0) {
+      this.setState({
+        receiversError: true,
+        error: "You must select at least one receiver.",
+      });
       return;
     }
-    this.setState({ messageError: false });
+
+    if (message.length < settings.MIN_POST_MESSAGE_LENGTH) {
+      if (message.length === 0) {
+        this.setState({ messageError: true, error: "Message can't be blank." });
+        return;
+      }
+      this.setState({
+        messageError: true,
+        error: `Message must be at least ${
+          settings.MIN_POST_MESSAGE_LENGTH
+        } characters.`,
+      });
+      return;
+    }
 
     createPost({
       variables: {
@@ -93,6 +114,7 @@ export class CreatePost extends Component {
   }
 
   onCompleted() {
+    toast.success("Post created succesfully!");
     this.input.resetState();
     this.userdropdown.resetState();
     this.setState(this.initialState);
@@ -106,6 +128,7 @@ export class CreatePost extends Component {
       <Mutation
         mutation={CREATE_POST}
         onCompleted={this.onCompleted}
+        onError={data => this.setState({ error: data })}
         update={(cache, { data: postData }) => {
           const beforeState = cache.readQuery({
             query: GET_GOAL_PERCENTAGE,
@@ -134,41 +157,63 @@ export class CreatePost extends Component {
           });
         }}
       >
-        {createPost => (
-          <Form onSubmit={() => this.onSubmit(createPost)} className={s.form}>
-            <GuidelineInput
-              amountError={amountError}
-              handleChange={this.handleKudoInputChange}
-              ref={c => (this.input = c)}
-            />
-            <Form.Field>
-              <label htmlFor="input-receivers">
-                Receivers
-                <UserDropdown
-                  ref={c => (this.userdropdown = c)}
-                  id="input-receivers"
-                  onChange={this.handleDropdownChange}
-                  error={receiversError}
-                  value={this.state.receivers}
-                />
-              </label>
-            </Form.Field>
+        {(createPost, { loading, error }) => {
+          let displayError;
+          if (error) {
+            displayError = getGraphqlError(error);
+          }
+          if (this.state.error) {
+            displayError = this.state.error;
+          }
+          return (
+            <Form onSubmit={() => this.onSubmit(createPost)} className={s.form}>
+              <GuidelineInput
+                amountError={amountError}
+                handleChange={this.handleKudoInputChange}
+                ref={c => (this.input = c)}
+              />
+              <Form.Field>
+                <label htmlFor="input-receivers">
+                  Receivers
+                  <UserDropdown
+                    ref={c => (this.userdropdown = c)}
+                    id="input-receivers"
+                    onChange={this.handleDropdownChange}
+                    error={receiversError}
+                    value={this.state.receivers}
+                  />
+                </label>
+              </Form.Field>
 
-            <Form.TextArea
-              label="Message"
-              placeholder="Enter your message"
-              name="message"
-              onChange={this.handleChange}
-              error={messageError}
-              value={this.state.message}
-            />
+              <Form.TextArea
+                label="Message"
+                placeholder="Enter your message"
+                name="message"
+                onChange={this.handleChange}
+                error={messageError}
+                value={this.state.message}
+              />
 
-            <Button type="submit" primary className={s.submit_button}>
-              {transaction ? "Update" : "Create"}
-            </Button>
-            {this.props.back && <BackButton />}
-          </Form>
-        )}
+              <Button
+                type="submit"
+                primary
+                className={s.submit_button}
+                loading={loading}
+                disabled={loading}
+              >
+                {transaction ? "Update" : "Create"}
+              </Button>
+
+              {displayError && (
+                <Message negative>
+                  <Message.Header>Coulnd&apos;t create post</Message.Header>
+                  <p>{displayError}</p>
+                </Message>
+              )}
+              {this.props.back && <BackButton />}
+            </Form>
+          );
+        }}
       </Mutation>
     );
   }
