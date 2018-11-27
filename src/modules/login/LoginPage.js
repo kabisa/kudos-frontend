@@ -2,14 +2,31 @@ import { h, Component } from "preact";
 import { Button, Form, Message, Segment } from "semantic-ui-react";
 import { route } from "preact-router";
 import { Mutation } from "react-apollo";
+import gql from "graphql-tag";
 
-import { MUTATION_LOGIN } from "./queries";
 import { PATH_REGISTER, PATH_FORGOT_PASSWORD, PATH_FEED } from "../../routes";
-import { isLoggedIn, getGraphqlError } from "../../support";
+import {
+  isLoggedIn,
+  getGraphqlError,
+  validateEmail,
+  ERROR_INCOMPLETE,
+  ERROR_INVALID_EMAIL,
+} from "../../support";
 import { FormWrapper } from "../../components";
 import { loginSuccess } from "./helper";
 
 import s from "./style.scss";
+
+export const MUTATION_LOGIN = gql`
+  mutation SignInUser($email: EmailAddress!, $password: String!) {
+    signInUser(credentials: { email: $email, password: $password }) {
+      token
+      user {
+        id
+      }
+    }
+  }
+`;
 
 class LoginPage extends Component {
   constructor(props) {
@@ -22,6 +39,7 @@ class LoginPage extends Component {
     this.state = {
       email: "",
       password: "",
+      error: null,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -41,14 +59,22 @@ class LoginPage extends Component {
 
   formSubmit(e, signInUser) {
     e.preventDefault();
+    this.setState({ error: null });
     const { email, password } = this.state;
-    if (email && password) {
-      signInUser({
-        variables: { email, password },
-      });
-    } else {
-      window.alert("Please fill out all fields.");
+
+    if (!email || !password) {
+      this.setState({ error: ERROR_INCOMPLETE });
+      return;
     }
+
+    if (!validateEmail(email)) {
+      this.setState({ error: ERROR_INVALID_EMAIL });
+      return;
+    }
+
+    signInUser({
+      variables: { email, password },
+    });
   }
 
   render() {
@@ -58,6 +84,13 @@ class LoginPage extends Component {
         onCompleted={data => this.confirm(data)}
       >
         {(signInUser, { data, error }) => {
+          let displayError;
+          if (error) {
+            displayError = getGraphqlError(error);
+          }
+          if (this.state.error) {
+            displayError = this.state.error;
+          }
           return (
             <FormWrapper header="Login">
               <Form
@@ -65,7 +98,7 @@ class LoginPage extends Component {
                 error
                 onSubmit={e => this.formSubmit(e, signInUser)}
               >
-                <Segment stacked>
+                <Segment>
                   <Form.Input
                     fluid
                     icon="user"
@@ -99,12 +132,11 @@ class LoginPage extends Component {
                     />
                   )}
 
-                  {error && (
-                    <Message
-                      error={true}
-                      header="Unable to login"
-                      content={() => getGraphqlError(error)}
-                    />
+                  {displayError && (
+                    <Message negative>
+                      <Message.Header>Unable to login</Message.Header>
+                      <p>{displayError}</p>
+                    </Message>
                   )}
                 </Segment>
               </Form>
