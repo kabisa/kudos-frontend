@@ -5,7 +5,13 @@ import { Mutation } from "react-apollo";
 
 import settings from "src/config/settings";
 import { Navigation, Toolbar } from "../../components/navigation";
-import { auth, getGraphqlError } from "../../support";
+import {
+  auth,
+  getGraphqlError,
+  getMultipleEmails,
+  ERROR_EMAIL_PARSE,
+  ERROR_EMAIL_BLANK,
+} from "../../support";
 
 import s from "./style.scss";
 
@@ -40,14 +46,16 @@ export class InvitePage extends Component {
     this.setState({ error: null });
     const { emails } = this.state;
     if (emails.length === 0) {
-      this.setState({ error: "Emails can't be empty." });
+      this.setState({ error: ERROR_EMAIL_BLANK });
       return;
     }
 
-    const list = emails.match(
-      /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi
-    );
-    console.log(list);
+    const list = getMultipleEmails(emails);
+
+    if (!list) {
+      this.setState({ error: ERROR_EMAIL_PARSE });
+      return;
+    }
 
     mutate({
       variables: {
@@ -62,14 +70,7 @@ export class InvitePage extends Component {
       <div id="root">
         <Toolbar text="Invite members" />
         <div className="main-form">
-          <div
-            style={{
-              paddingTop: "75px",
-              paddingLeft: "2em",
-              paddingRight: "2em",
-              textAlign: "center",
-            }}
-          >
+          <div className={s.page}>
             <Mutation mutation={MUTATION_CREATE_INVITE}>
               {(createInvite, { error, loading }) => {
                 let displayError;
@@ -80,7 +81,7 @@ export class InvitePage extends Component {
                   displayError = this.state.error;
                 }
                 return (
-                  <Form>
+                  <Form style={{ maxWidth: "420px", margin: "auto" }}>
                     <Form.Field>
                       <TextArea
                         name="emails"
@@ -101,7 +102,7 @@ export class InvitePage extends Component {
                     </Button>
                     {displayError && (
                       <Message negative>
-                        <Message.Header>Unable to register</Message.Header>
+                        <Message.Header>Unable to send invites</Message.Header>
                         <p>{displayError}</p>
                       </Message>
                     )}

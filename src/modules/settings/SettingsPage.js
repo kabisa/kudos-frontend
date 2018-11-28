@@ -21,7 +21,7 @@ export class SettingsPage extends Component {
           style={{ padding: "2em", justifyContent: "space-between" }}
         >
           <div style={{ display: "grid" }}>
-            <h2>Settings</h2>
+            <h2 className={s.name}>Settings</h2>
             <a href={PATH_INVITE}>
               <Button color="blue" className={s.button}>
                 Invite

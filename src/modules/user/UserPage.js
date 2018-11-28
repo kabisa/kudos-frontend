@@ -31,14 +31,12 @@ export class UserPage extends Component {
           className="page flex"
           style={{ padding: "2em", justifyContent: "space-between" }}
         >
-          <div>
+          <div style={{ display: "grid" }}>
             <Query query={GET_USER}>
               {({ data }) => (
-                <div>
-                  <h2 className={s.name}>
-                    {data.viewer ? data.viewer.self.name : "Loading..."}
-                  </h2>
-                </div>
+                <h2 className={s.name}>
+                  {data.viewer ? data.viewer.self.name : "Loading..."}
+                </h2>
               )}
             </Query>
           </div>

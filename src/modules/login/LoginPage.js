@@ -10,7 +10,7 @@ import {
   getGraphqlError,
   validateEmail,
   ERROR_INCOMPLETE,
-  ERROR_INVALID_EMAIL,
+  ERROR_EMAIL_INVALID,
 } from "../../support";
 import { FormWrapper } from "../../components";
 import { loginSuccess } from "./helper";
@@ -69,7 +69,7 @@ class LoginPage extends Component {
     }
 
     if (!validateEmail(email)) {
-      this.setState({ error: ERROR_INVALID_EMAIL });
+      this.setState({ error: ERROR_EMAIL_INVALID });
       return;
     }
 

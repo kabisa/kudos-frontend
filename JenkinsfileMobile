@@ -169,8 +169,8 @@ pipeline {
           env.APP_ENV = "development"
         }
 
+        sh 'rvm install "ruby-2.3.6"'
         sh '''#!/bin/bash -l
-
           bundle exec fastlane android_deploy_hockey
 
         '''

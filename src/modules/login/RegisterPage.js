@@ -7,7 +7,7 @@ import {
   getGraphqlError,
   validateEmail,
   ERROR_INCOMPLETE,
-  ERROR_INVALID_EMAIL,
+  ERROR_EMAIL_INVALID,
   ERROR_SHORT_PASSWORD,
 } from "../../support";
 import { FormWrapper } from "../../components";
@@ -74,7 +74,7 @@ class RegisterPage extends Component {
     }
 
     if (!validateEmail(email)) {
-      this.setState({ error: ERROR_INVALID_EMAIL });
+      this.setState({ error: ERROR_EMAIL_INVALID });
       return;
     }
 

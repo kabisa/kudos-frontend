@@ -9,7 +9,15 @@ import settings from "../../../config/settings";
 import UserDropdown from "./UserDropdown/UserDropdown";
 import GuidelineInput from "./GuidelineInput/GuidelineInput";
 import { PATH_FEED } from "../../../routes";
-import { auth, getGraphqlError } from "../../../support";
+import {
+  auth,
+  getGraphqlError,
+  ERROR_AMOUNT_BLANK,
+  ERROR_MESSAGE_BLANK,
+  ERROR_RECEIVERS_BLANK,
+  ERROR_MESSAGE_MIN_LENGTH,
+  ERROR_MESSAGE_MAX_LENGTH,
+} from "../../../support";
 import BackButton from "../../login/BackButton";
 import { CREATE_POST, GET_GOAL_PERCENTAGE } from "../queries";
 
@@ -59,7 +67,7 @@ export class CreatePost extends Component {
     if (amount == 0) {
       this.setState({
         amountError: true,
-        error: "Amount can't be empty or 0.",
+        error: ERROR_AMOUNT_BLANK,
       });
       return;
     }
@@ -67,21 +75,19 @@ export class CreatePost extends Component {
     if (receivers.length === 0) {
       this.setState({
         receiversError: true,
-        error: "You must select at least one receiver.",
+        error: ERROR_RECEIVERS_BLANK,
       });
       return;
     }
 
     if (message.length < settings.MIN_POST_MESSAGE_LENGTH) {
       if (message.length === 0) {
-        this.setState({ messageError: true, error: "Message can't be blank." });
+        this.setState({ messageError: true, error: ERROR_MESSAGE_BLANK });
         return;
       }
       this.setState({
         messageError: true,
-        error: `Message must be at least ${
-          settings.MIN_POST_MESSAGE_LENGTH
-        } characters.`,
+        error: ERROR_MESSAGE_MIN_LENGTH,
       });
       return;
     }
@@ -89,9 +95,7 @@ export class CreatePost extends Component {
     if (message.length > settings.MAX_POST_MESSAGE_LENGTH) {
       this.setState({
         messageError: true,
-        error: `Message can have a maximum of ${
-          settings.MAX_POST_MESSAGE_LENGTH
-        } characters.`,
+        error: ERROR_MESSAGE_MAX_LENGTH,
       });
       return;
     }
