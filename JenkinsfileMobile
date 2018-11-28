@@ -26,18 +26,18 @@ pipeline {
   }
 
   stages {
-    stage("Deploy to staging") {
-        when {
-            branch 'master';
-        }
-        steps {
-            sshagent(['kabisa-ci']) {
-              sh "mkdir -p ~/.ssh && ssh-keyscan -H dokku.kabisa.io >> ~/.ssh/known_hosts"
-              sh 'git remote | grep dokku >/dev/null || git remote add dokku dokku@dokku.kabisa.io:kudo-o-matic-frontend-staging'
-              sh 'git push dokku HEAD:refs/head/master -f'
-            }
-        }
-    }
+    /* stage("Deploy to staging") { */
+    /*     when { */
+    /*         branch 'master'; */
+    /*     } */
+    /*     steps { */
+    /*         sshagent(['kabisa-ci']) { */
+    /*           sh "mkdir -p ~/.ssh && ssh-keyscan -H dokku.kabisa.io >> ~/.ssh/known_hosts" */
+    /*           sh 'git remote | grep dokku >/dev/null || git remote add dokku dokku@dokku.kabisa.io:kudo-o-matic-frontend-staging' */
+    /*           sh 'git push dokku HEAD:refs/head/master -f' */
+    /*         } */
+    /*     } */
+    /* } */
 
     stage("Prepare (installs)") {
       when {
@@ -164,6 +164,7 @@ pipeline {
         }
 
         sh '''#!/bin/bash -l
+          BUNDLE_GEMFILE=.gemfile
           bundle exec fastlane android_deploy_hockey
 
         '''
