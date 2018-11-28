@@ -94,7 +94,6 @@ export const LikeButton = ({ transactionId, liked, post }) => {
         width: "95%",
         display: "flex",
         alignItems: "center",
-        justifyContent: "space-between",
       }}
     >
       <div style={{ display: "flex" }}>
@@ -114,21 +113,25 @@ export const LikeButton = ({ transactionId, liked, post }) => {
         >
           {mutate => (
             <Button
-              basic={liked}
+              basic
+              icon
               size="mini"
               onClick={() => toggleLike(mutate, transactionId, post)}
-              icon
               labelPosition="left"
             >
-              <Icon name={liked ? "thumbs up outline" : "thumbs up"} />
+              <Icon
+                name={liked ? "thumbs up" : "thumbs up outline"}
+                color={liked ? "blue" : null}
+              />
               <p>+1₭</p>
             </Button>
           )}
         </Mutation>
-        <p style={{ margin: "auto", paddingLeft: "4px" }}>{message}</p>
       </div>
       <Dropdown
-        trigger={<p style={{ margin: "auto" }}>View likes</p>}
+        trigger={
+          <p style={{ margin: "auto", paddingLeft: "4px" }}>{message}</p>
+        }
         options={[
           {
             key: "1",

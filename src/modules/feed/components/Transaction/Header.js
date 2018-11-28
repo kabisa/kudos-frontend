@@ -26,13 +26,13 @@ export class Header extends Component {
   }
 
   render() {
-    const { createdOn, amount } = this.props.transaction;
+    const { createdOn, amount, votes } = this.props.transaction;
     const timestamp = moment(createdOn);
 
     return (
       <div className={s.root}>
         <div className={s.kudo_amount}>
-          <span>{amount} ₭</span>
+          <span>{amount + votes.length} ₭</span>
         </div>
         <div className={s.image_wrapper} />
         <span className={s.timestamp}>{timestamp.twitter()} ago</span>
