@@ -49,11 +49,10 @@ pipeline {
         script {
           commitMessage = sh(returnStdout: true, script: 'echo "$(git log --format=%B -n 1)"').trim()
         }
-        sh 'rvm install ruby-2.3.6'
-        sh 'rvm use ruby-2.3.6'
-        sh 'ruby -v'
-
         sh '''#!/bin/bash -l
+         rvm install $(cat .ruby-version)
+         rvm use $(cat .ruby-version)
+         ruby -v
 
           gem install -N bundler
 
