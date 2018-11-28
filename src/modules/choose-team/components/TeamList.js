@@ -20,8 +20,7 @@ const TeamList = () => (
   <Query query={GET_TEAMS} pollInterval={2000} fetchPolicy="network-only">
     {({ loading, error, data }) => {
       if (loading) return <p style={{ textAlign: "center" }}>Loading...</p>;
-      if (error)
-        return <p style={{ textAlign: "center" }}>Error! {error.message}</p>;
+      if (error) return <p style={{ textAlign: "center" }} />;
       const teams = data.viewer.self.teams;
       if (!teams.length) {
         return <p style={{ textAlign: "center" }}>No teams.</p>;
