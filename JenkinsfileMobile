@@ -2,7 +2,6 @@ pipeline {
 
   agent {
     label 'kabisas-mac-mini'
-    docker { image 'ruby:2.3' }
   }
 
   environment {
@@ -58,7 +57,7 @@ pipeline {
 
           gem install -N bundler
 
-          bundle install
+          bundle install --gemfile=.gemfile
           yarn install
         '''
       }
