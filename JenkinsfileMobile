@@ -56,7 +56,7 @@ pipeline {
 
           gem install -N bundler
 
-          bundle install --gemfile=.gemfile
+          bundle install 
           yarn install
         '''
       }
@@ -164,7 +164,6 @@ pipeline {
         }
 
         sh '''#!/bin/bash -l
-          BUNDLE_GEMFILE=.gemfile
           bundle exec fastlane android_deploy_hockey
 
         '''
