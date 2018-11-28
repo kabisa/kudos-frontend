@@ -169,6 +169,14 @@ export class CreatePost extends Component {
             data: afterState,
           });
         }}
+        refetchQueries={[
+          {
+            query: GET_GOAL_PERCENTAGE,
+            variables: {
+              team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+            },
+          },
+        ]}
       >
         {(createPost, { loading, error }) => {
           let displayError;

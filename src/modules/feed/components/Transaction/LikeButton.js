@@ -83,7 +83,12 @@ export const LikeButton = ({ transactionId, liked, likes, post }) => (
         updateState(cache, toggleLikePost)
       }
       refetchQueries={[
-        { query: GET_GOAL_PERCENTAGE, variables: { team_id: teamId } },
+        {
+          query: GET_GOAL_PERCENTAGE,
+          variables: {
+            team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+          },
+        },
       ]}
     >
       {mutate => (
