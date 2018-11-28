@@ -20,6 +20,7 @@
   "lint-staged": {
     "*.{js,jsx}": [
       "prettier --write",
+      "yarn eslint",
       "git add"
     ],
     "*.scss": [

@@ -5,7 +5,7 @@ import { Mutation } from "react-apollo";
 
 import { FormWrapper } from "../../components";
 import BackButton from "./BackButton";
-import { validateEmail, ERROR_INVALID_EMAIL } from "../../support";
+import { validateEmail, ERROR_EMAIL_INVALID } from "../../support";
 
 export const MUTATION_FORGOT_PASSWORD = gql`
   mutation forgotPassword($email: EmailAddress!) {
@@ -43,7 +43,7 @@ class ForgotPasswordPage extends Component {
     const { email } = this.state;
 
     if (!validateEmail(email)) {
-      this.setState({ error: ERROR_INVALID_EMAIL });
+      this.setState({ error: ERROR_EMAIL_INVALID });
       return;
     }
 
