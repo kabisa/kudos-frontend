@@ -26,8 +26,8 @@ export class Header extends Component {
   }
 
   render() {
-    const { createdOn, amount, votes } = this.props.transaction;
-    const timestamp = moment(createdOn);
+    const { createdAt, amount, votes } = this.props.transaction;
+    const timestamp = moment(createdAt);
 
     return (
       <div className={s.root}>

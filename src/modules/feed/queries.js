@@ -5,6 +5,7 @@ export const FRAGMENT_POST = gql`
     id
     amount
     message
+    createdAt
     receivers {
       name
     }
