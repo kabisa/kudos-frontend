@@ -2,6 +2,7 @@ pipeline {
 
   agent {
     label 'kabisas-mac-mini'
+    docker { image 'ruby:2.3' }
   }
 
   environment {
