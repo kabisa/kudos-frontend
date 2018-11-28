@@ -75,53 +75,75 @@ export const toggleLike = (mutate, transactionId, post) => {
   });
 };
 
-export const LikeButton = ({ transactionId, liked, likes, post }) => (
-  <div>
-    <Mutation
-      mutation={MUTATION_TOGGLE_LIKE}
-      update={(cache, { data: { toggleLikePost } }) =>
-        updateState(cache, toggleLikePost)
-      }
-      refetchQueries={[
-        {
-          query: GET_GOAL_PERCENTAGE,
-          variables: {
-            team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
-          },
-        },
-      ]}
+export const LikeButton = ({ transactionId, liked, post }) => {
+  let message = "";
+
+  if (post.votes.length) {
+    message += `+${post.votes.length}₭ by ${
+      liked ? "you" : post.votes[0].voter.name
+    }`;
+  }
+
+  if (post.votes.length > 1) {
+    message += ` and ${post.votes.length - 1} others.`;
+  }
+
+  return (
+    <div
+      style={{
+        width: "95%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+      }}
     >
-      {mutate => (
-        <Button
-          size="mini"
-          basic
-          className="button-action"
-          onClick={() => toggleLike(mutate, transactionId, post)}
+      <div style={{ display: "flex" }}>
+        <Mutation
+          mutation={MUTATION_TOGGLE_LIKE}
+          update={(cache, { data: { toggleLikePost } }) =>
+            updateState(cache, toggleLikePost)
+          }
+          refetchQueries={[
+            {
+              query: GET_GOAL_PERCENTAGE,
+              variables: {
+                team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+              },
+            },
+          ]}
         >
-          <Icon
-            name={liked ? "heart" : "heart outline"}
-            color={liked ? "red" : null}
-          />
-          {likes}
-        </Button>
-      )}
-    </Mutation>
-    <Dropdown
-      trigger={<p>View likes</p>}
-      options={[
-        {
-          key: "1",
-          text: post.votes.length
-            ? post.votes.map(item => item.voter.name).join(", ")
-            : "No likes",
-        },
-      ]}
-      icon={null}
-      basic
-      item
-      lazyLoad
-    />
-  </div>
-);
+          {mutate => (
+            <Button
+              basic={liked}
+              size="mini"
+              onClick={() => toggleLike(mutate, transactionId, post)}
+              icon
+              labelPosition="left"
+            >
+              <Icon name={liked ? "thumbs up outline" : "thumbs up"} />
+              <p>+1₭</p>
+            </Button>
+          )}
+        </Mutation>
+        <p style={{ margin: "auto", paddingLeft: "4px" }}>{message}</p>
+      </div>
+      <Dropdown
+        trigger={<p style={{ margin: "auto" }}>View likes</p>}
+        options={[
+          {
+            key: "1",
+            text: post.votes.length
+              ? post.votes.map(item => item.voter.name).join(", ")
+              : "No likes",
+          },
+        ]}
+        icon={null}
+        basic
+        item
+        lazyLoad
+      />
+    </div>
+  );
+};
 
 export default LikeButton;
