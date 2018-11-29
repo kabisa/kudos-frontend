@@ -1,7 +1,7 @@
 import { h, Component } from "preact";
 import { graphql } from "react-apollo";
 import { Button, Grid, Rail, Segment, Responsive } from "semantic-ui-react";
-
+import { PullToRefresh } from "../../components";
 import settings from "../../config/settings";
 import { Navigation } from "../../components/navigation";
 import {
@@ -59,6 +59,15 @@ export class FeedPage extends Component {
   constructor(props) {
     super(props);
     auth();
+    PullToRefresh.init({
+      mainElement: "body",
+      onRefresh: function() {
+        window.location.reload();
+      },
+      shouldPullToRefresh: function() {
+        return document.getElementsByClassName("page")[0].scrollTop === 0;
+      },
+    });
   }
 
   render() {
