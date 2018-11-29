@@ -127,6 +127,7 @@ class LikeButton extends Component {
           display: "flex",
           alignItems: "center",
         }}
+        data-testid="post-like-button"
       >
         <div style={{ display: "flex" }}>
           <Mutation
@@ -163,6 +164,7 @@ class LikeButton extends Component {
         <p
           style={{ margin: "auto", marginLeft: "4px", width: "auto" }}
           onClick={this.show}
+          data-testid="post-voters-message"
         >
           {message}
         </p>

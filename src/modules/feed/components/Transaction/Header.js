@@ -32,10 +32,12 @@ export class Header extends Component {
     return (
       <div className={s.root}>
         <div className={s.kudo_amount}>
-          <span>{amount + votes.length} ₭</span>
+          <span data-testid="post-amount">{amount + votes.length} ₭</span>
         </div>
         <div className={s.image_wrapper} />
-        <span className={s.timestamp}>{timestamp.twitter()} ago</span>
+        <span data-testid="post-timestamp" className={s.timestamp}>
+          {timestamp.twitter()} ago
+        </span>
       </div>
     );
   }

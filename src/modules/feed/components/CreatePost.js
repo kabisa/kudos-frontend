@@ -207,7 +207,11 @@ export class CreatePost extends Component {
             displayError = this.state.error;
           }
           return (
-            <Form onSubmit={() => this.onSubmit(createPost)} className={s.form}>
+            <Form
+              onSubmit={() => this.onSubmit(createPost)}
+              className={s.form}
+              data-testid="create-post-form"
+            >
               <GuidelineInput
                 amountError={amountError}
                 handleChange={this.handleKudoInputChange}
@@ -238,6 +242,7 @@ export class CreatePost extends Component {
               <Button
                 type="submit"
                 primary
+                data-testid="create-post-button"
                 className={s.submit_button}
                 loading={loading}
                 disabled={loading}

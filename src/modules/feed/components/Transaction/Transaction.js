@@ -24,13 +24,15 @@ const Transaction = ({ transaction }) => (
           <Header transaction={transaction} />
         </Card.Header>
         <Card.Description style={{ marginTop: "1em" }}>
-          <strong>{transaction.sender.name}</strong> gave{" "}
-          <strong>{transaction.amount}₭ </strong>
-          to{" "}
-          <strong>
-            {transaction.receivers.map(item => item.name).join(", ")}
-          </strong>{" "}
-          for {transaction.message}
+          <div data-testid="post-message">
+            <strong>{transaction.sender.name}</strong> gave{" "}
+            <strong>{transaction.amount}₭ </strong>
+            to{" "}
+            <strong>
+              {transaction.receivers.map(item => item.name).join(", ")}
+            </strong>{" "}
+            for {transaction.message}
+          </div>
         </Card.Description>
       </Card.Content>
       <Card.Content extra style={{ padding: "4px" }}>
