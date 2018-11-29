@@ -1,5 +1,5 @@
 import { h, Component } from "preact";
-import { Dropdown } from "semantic-ui-react";
+// import { Dropdown } from "semantic-ui-react";
 import moment from "moment-twitter";
 import { route } from "preact-router";
 
@@ -36,24 +36,25 @@ export class Header extends Component {
         </div>
         <div className={s.image_wrapper} />
         <span className={s.timestamp}>{timestamp.twitter()} ago</span>
-        <Dropdown
-          item
-          icon="ellipsis vertical"
-          direction="left"
-          className={s.dropdown}
-        >
-          <Dropdown.Menu>
-            <Dropdown.Item
-              icon="pencil alternate"
-              text="Edit"
-              onClick={this.edit}
-            />
-            <Dropdown.Item icon="trash" text="Remove" onClick={this.remove} />
-          </Dropdown.Menu>
-        </Dropdown>
       </div>
     );
   }
 }
 
 export default Header;
+
+// <Dropdown
+//   item
+//   icon="ellipsis vertical"
+//   direction="left"
+//   className={s.dropdown}
+// >
+//   <Dropdown.Menu>
+//     <Dropdown.Item
+//       icon="pencil alternate"
+//       text="Edit"
+//       onClick={this.edit}
+//     />
+//     <Dropdown.Item icon="trash" text="Remove" onClick={this.remove} />
+//   </Dropdown.Menu>
+// </Dropdown>
