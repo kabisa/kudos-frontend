@@ -1,7 +1,8 @@
-import { h } from "preact";
-import { Button, Icon, Dropdown } from "semantic-ui-react";
+import { h, Component } from "preact";
+import { Button, Icon, Segment } from "semantic-ui-react";
 import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
+import enhanceWithClickOutside from "react-click-outside";
 
 import settings from "src/config/settings";
 import {
@@ -75,78 +76,112 @@ export const toggleLike = (mutate, transactionId, post) => {
   });
 };
 
-export const LikeButton = ({ transactionId, liked, post }) => {
-  let message = "";
+class LikeButton extends Component {
+  constructor(props) {
+    super(props);
 
-  if (post.votes.length) {
-    message += `+${post.votes.length}₭ by ${
-      liked ? "you" : post.votes[0].voter.name
-    }`;
+    this.state = {
+      showLikes: false,
+    };
+
+    this.hide = this.hide.bind(this);
+    this.show = this.show.bind(this);
   }
 
-  if (post.votes.length > 1) {
-    message += ` and ${post.votes.length - 1} others.`;
+  handleClickOutside() {
+    this.hide();
   }
 
-  return (
-    <div
-      style={{
-        width: "95%",
-        display: "flex",
-        alignItems: "center",
-      }}
-    >
-      <div style={{ display: "flex" }}>
-        <Mutation
-          mutation={MUTATION_TOGGLE_LIKE}
-          update={(cache, { data: { toggleLikePost } }) =>
-            updateState(cache, toggleLikePost)
-          }
-          refetchQueries={[
-            {
-              query: GET_GOAL_PERCENTAGE,
-              variables: {
-                team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+  hide() {
+    this.setState({ showLikes: false });
+  }
+
+  show() {
+    this.setState({ showLikes: true });
+  }
+
+  render() {
+    const { transactionId, liked, post } = this.props;
+
+    console.log(post);
+    const allLikes = post.votes.length
+      ? post.votes.map(item => item.voter.name).join(", ")
+      : "No likes";
+    let message = "";
+
+    if (post.votes.length) {
+      message += `+${post.votes.length}₭ by ${
+        liked ? "you" : post.votes[0].voter.name
+      }`;
+    }
+
+    if (post.votes.length > 1) {
+      message += ` and ${post.votes.length - 1} other${
+        post.votes.length - 1 > 1 ? "s" : ""
+      }. `;
+    }
+
+    return (
+      <div
+        style={{
+          width: "95%",
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <div style={{ display: "flex" }}>
+          <Mutation
+            mutation={MUTATION_TOGGLE_LIKE}
+            update={(cache, { data: { toggleLikePost } }) =>
+              updateState(cache, toggleLikePost)
+            }
+            refetchQueries={[
+              {
+                query: GET_GOAL_PERCENTAGE,
+                variables: {
+                  team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+                },
               },
-            },
-          ]}
+            ]}
+          >
+            {mutate => (
+              <Button
+                basic
+                icon
+                size="mini"
+                onClick={() => toggleLike(mutate, transactionId, post)}
+                labelPosition="left"
+              >
+                <Icon
+                  name={liked ? "thumbs up" : "thumbs up outline"}
+                  color={liked ? "blue" : null}
+                />
+                <p>+1₭</p>
+              </Button>
+            )}
+          </Mutation>
+        </div>
+        <p
+          style={{ margin: "auto", marginLeft: "4px", width: "auto" }}
+          onClick={this.show}
         >
-          {mutate => (
-            <Button
-              basic
-              icon
-              size="mini"
-              onClick={() => toggleLike(mutate, transactionId, post)}
-              labelPosition="left"
-            >
-              <Icon
-                name={liked ? "thumbs up" : "thumbs up outline"}
-                color={liked ? "blue" : null}
-              />
-              <p>+1₭</p>
-            </Button>
-          )}
-        </Mutation>
+          {message}
+        </p>
+        {this.state.showLikes && (
+          <Segment
+            style={{
+              position: "absolute",
+              zIndex: "1",
+              top: "100px",
+              left: "102px",
+            }}
+          >
+            {allLikes}
+          </Segment>
+        )}
       </div>
-      <Dropdown
-        trigger={
-          <p style={{ margin: "auto", paddingLeft: "4px" }}>{message}</p>
-        }
-        options={[
-          {
-            key: "1",
-            text: post.votes.length
-              ? post.votes.map(item => item.voter.name).join(", ")
-              : "No likes",
-          },
-        ]}
-        icon={null}
-        basic
-        item
-        lazyLoad
-      />
-    </div>
-  );
-};
+    );
+  }
+}
 
-export default LikeButton;
+export default enhanceWithClickOutside(LikeButton);
