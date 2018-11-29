@@ -103,7 +103,6 @@ class LikeButton extends Component {
   render() {
     const { transactionId, liked, post } = this.props;
 
-    console.log(post);
     const allLikes = post.votes.length
       ? post.votes.map(item => item.voter.name).join(", ")
       : "No likes";

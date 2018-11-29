@@ -55,25 +55,6 @@ export const GET_USERS = gql`
   }
 `;
 
-export const CREATE_POST = gql`
-  mutation CreatePost(
-    $message: String!
-    $kudos: Int!
-    $receivers: [ID]!
-    $team_id: ID!
-  ) {
-    createPost(
-      message: $message
-      amount: $kudos
-      receiver_ids: $receivers
-      team_id: $team_id
-    ) {
-      id
-      amount
-    }
-  }
-`;
-
 export const GET_GOAL_PERCENTAGE = gql`
   query getGoalPercentage($team_id: ID!) {
     teamById(id: $team_id) {

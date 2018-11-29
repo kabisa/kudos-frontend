@@ -4,6 +4,7 @@ import { route } from "preact-router";
 import { Mutation } from "react-apollo";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
+import gql from "graphql-tag";
 
 import settings from "../../../config/settings";
 import UserDropdown from "./UserDropdown/UserDropdown";
@@ -19,9 +20,28 @@ import {
   ERROR_MESSAGE_MAX_LENGTH,
 } from "../../../support";
 import BackButton from "../../login/BackButton";
-import { CREATE_POST, GET_GOAL_PERCENTAGE } from "../queries";
+import { GET_GOAL_PERCENTAGE } from "../queries";
 
 import s from "../AddTransactionPage.scss";
+
+export const CREATE_POST = gql`
+  mutation CreatePost(
+    $message: String!
+    $kudos: Int!
+    $receivers: [ID]!
+    $team_id: ID!
+  ) {
+    createPost(
+      message: $message
+      amount: $kudos
+      receiver_ids: $receivers
+      team_id: $team_id
+    ) {
+      id
+      amount
+    }
+  }
+`;
 
 export class CreatePost extends Component {
   constructor(props) {

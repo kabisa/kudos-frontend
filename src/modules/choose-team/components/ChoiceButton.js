@@ -35,9 +35,6 @@ const ChoiceButton = ({ mutation, inviteId, text, color, accept, teamId }) => (
         data: newState,
       });
     }}
-    onCompleted={() => {
-      console.log("here");
-    }}
   >
     {(mutate, { loading }) => {
       if (loading) {
