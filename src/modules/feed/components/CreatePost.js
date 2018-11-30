@@ -10,6 +10,7 @@ import settings from "../../../config/settings";
 import UserDropdown from "./UserDropdown/UserDropdown";
 import GuidelineInput from "./GuidelineInput/GuidelineInput";
 import { PATH_FEED } from "../../../routes";
+import client from "src/apollo";
 import {
   auth,
   getGraphqlError,
@@ -20,7 +21,7 @@ import {
   ERROR_MESSAGE_MAX_LENGTH,
 } from "../../../support";
 import BackButton from "../../login/BackButton";
-import { GET_GOAL_PERCENTAGE } from "../queries";
+import { GET_GOAL_PERCENTAGE, GET_USERS } from "../queries";
 
 import s from "../AddTransactionPage.scss";
 
@@ -29,12 +30,14 @@ export const CREATE_POST = gql`
     $message: String!
     $kudos: Int!
     $receivers: [ID]!
+    $virtual_receivers: [String]!
     $team_id: ID!
   ) {
     createPost(
       message: $message
       amount: $kudos
       receiver_ids: $receivers
+      null_receivers: $virtual_receivers
       team_id: $team_id
     ) {
       id
@@ -120,11 +123,31 @@ export class CreatePost extends Component {
       return;
     }
 
+    const users = client.readQuery({
+      query: GET_USERS,
+      variables: {
+        team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+      },
+    }).teamById.users;
+
+    const realReceivers = [];
+    const virtualReceivers = [];
+
+    users.map(user => {
+      if (!receivers.includes(user.id)) return;
+      if (parseInt(user.id) <= 0) {
+        virtualReceivers.push(user.name);
+      } else {
+        realReceivers.push(user.id);
+      }
+    });
+
     createPost({
       variables: {
-        message: this.state.message,
-        kudos: parseInt(this.state.amount),
-        receivers: this.state.receivers,
+        message: message,
+        kudos: parseInt(amount),
+        receivers: realReceivers,
+        virtual_receivers: virtualReceivers,
         team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
       },
     });
@@ -139,8 +162,7 @@ export class CreatePost extends Component {
       this.setState({ receivers: [] });
       return;
     }
-    const newReceivers = value.map(item => parseInt(item));
-    this.setState({ receivers: newReceivers });
+    this.setState({ receivers: value });
   }
 
   handleKudoInputChange(amount) {
