@@ -98,7 +98,7 @@ class ForgotPasswordPage extends Component {
 
                   {this.state.success && (
                     <Message
-                      header="Succesfully reset password"
+                      header="Reset password instructions sent"
                       content="Check your mail for the details."
                     />
                   )}

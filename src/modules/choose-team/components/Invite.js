@@ -12,6 +12,7 @@ export const MUTATION_ACCEPT_INVITE = gql`
     }
   }
 `;
+
 export const MUTATION_DECLINE_INVITE = gql`
   mutation DeclineInvite($team_invite_id: ID!) {
     declineInvite(team_invite_id: $team_invite_id) {

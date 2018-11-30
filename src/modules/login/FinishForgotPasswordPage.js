@@ -4,6 +4,7 @@ import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
 import { PATH_LOGIN } from "../../routes";
 import { route } from "preact-router";
+import { toast } from "react-toastify";
 
 import { FormWrapper } from "../../components";
 import BackButton from "./BackButton";
@@ -52,6 +53,7 @@ class FinishForgotPasswordPage extends Component {
   onCompleted(data) {
     if (data.newPassword) {
       route(PATH_LOGIN, true);
+      toast.info("Successfully reset password!");
     } else {
       this.setState({ error: DEFAULT_ERROR });
     }
