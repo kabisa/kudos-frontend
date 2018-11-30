@@ -61,7 +61,7 @@ lane :lane_deploy do
 
   if @build_hockey || @deploy_store
     lane_deploy_android
-    # lane_deploy_ios
+    lane_deploy_ios
   end
 end
 
