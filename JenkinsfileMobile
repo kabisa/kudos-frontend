@@ -26,19 +26,6 @@ pipeline {
   }
 
   stages {
-    /* stage("Deploy to staging") { */
-    /*     when { */
-    /*         branch 'master'; */
-    /*     } */
-    /*     steps { */
-    /*         sshagent(['kabisa-ci']) { */
-    /*           sh "mkdir -p ~/.ssh && ssh-keyscan -H dokku.kabisa.io >> ~/.ssh/known_hosts" */
-    /*           sh 'git remote | grep dokku >/dev/null || git remote add dokku dokku@dokku.kabisa.io:kudo-o-matic-frontend-staging' */
-    /*           sh 'git push dokku HEAD:refs/head/master -f' */
-    /*         } */
-    /*     } */
-    /* } */
-
     stage("Prepare (installs)") {
       when {
         anyOf {
@@ -178,7 +165,7 @@ pipeline {
 
           }
           expression {
-            commitMessage.contains('DEPLOY_HOCKEY_IOS');
+            commitMessage.contains('DEPLOY_HOCKEY');
           }
         }
       }
