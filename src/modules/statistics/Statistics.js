@@ -45,10 +45,11 @@ const Statistics = () => (
           );
         }
         const currentKudos = data.teamById.activeKudosMeter.amount;
-        const goals = data.teamById.activeGoals;
-        const nextGoal = goals
-          .reverse()
-          .find(goal => goal.amount > currentKudos);
+        const goals = data.teamById.activeGoals.sort(
+          (goal1, goal2) => goal1.amount - goal2.amount
+        );
+
+        let nextGoal = goals.find(goal => goal.amount > currentKudos);
 
         const percentage = parseInt(calculateProgress(goals, currentKudos));
         const height = parseInt(calculateProgress(goals, currentKudos, 70));
@@ -129,7 +130,7 @@ const Statistics = () => (
                             style={{
                               position: "absolute",
                               zIndex: "10",
-                              width: "45px",
+                              width: "50px",
                               height: "2px",
                               marginTop: `${30 + (70 - height)}px`,
                               backgroundColor: "black",

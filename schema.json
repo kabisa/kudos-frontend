@@ -1891,10 +1891,10 @@
             "description": "Create a team invite",
             "args": [
               {
-                "name": "email",
+                "name": "emails",
                 "description": null,
                 "type": {
-                  "kind": "NON_NULL",
+                  "kind": "LIST",
                   "name": null,
                   "ofType": {
                     "kind": "SCALAR",
@@ -1908,21 +1908,21 @@
                 "name": "team_id",
                 "description": null,
                 "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "ID",
-                    "ofType": null
-                  }
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
                 },
                 "defaultValue": null
               }
             ],
             "type": {
-              "kind": "OBJECT",
-              "name": "TeamInvite",
-              "ofType": null
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "TeamInvite",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -1933,7 +1933,7 @@
             "args": [
               {
                 "name": "message",
-                "description": null,
+                "description": "The reason you are giving kudos",
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
@@ -1947,7 +1947,7 @@
               },
               {
                 "name": "amount",
-                "description": null,
+                "description": "The amount of kudos you want to give",
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
@@ -1961,7 +1961,7 @@
               },
               {
                 "name": "receiver_ids",
-                "description": null,
+                "description": "The existing users",
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
@@ -1978,8 +1978,22 @@
                 "defaultValue": null
               },
               {
+                "name": "null_receivers",
+                "description": "The non-existing users",
+                "type": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null
+              },
+              {
                 "name": "team_id",
-                "description": null,
+                "description": "The team the post belongs to",
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
@@ -2001,6 +2015,29 @@
             "deprecationReason": null
           },
           {
+            "name": "createTeam",
+            "description": "Create a new team",
+            "args": [
+              {
+                "name": "name",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Team",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "createUser",
             "description": "Create a new user",
             "args": [
@@ -2008,13 +2045,9 @@
                 "name": "credentials",
                 "description": null,
                 "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "INPUT_OBJECT",
-                    "name": "AUTH_PROVIDER_SIGNUP_INPUT",
-                    "ofType": null
-                  }
+                  "kind": "INPUT_OBJECT",
+                  "name": "AUTH_PROVIDER_SIGNUP_INPUT",
+                  "ofType": null
                 },
                 "defaultValue": null
               }
@@ -2062,13 +2095,9 @@
                 "name": "credentials",
                 "description": null,
                 "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "INPUT_OBJECT",
-                    "name": "AUTH_PROVIDER_EMAIL_INPUT",
-                    "ofType": null
-                  }
+                  "kind": "INPUT_OBJECT",
+                  "name": "AUTH_PROVIDER_EMAIL_INPUT",
+                  "ofType": null
                 },
                 "defaultValue": null
               }
@@ -2089,13 +2118,9 @@
                 "name": "reset_password_token",
                 "description": null,
                 "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
                 },
                 "defaultValue": null
               },
@@ -2103,13 +2128,9 @@
                 "name": "password",
                 "description": null,
                 "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
                 },
                 "defaultValue": null
               },
@@ -2117,13 +2138,52 @@
                 "name": "password_confirmation",
                 "description": null,
                 "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "User",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "resetPassword",
+            "description": "Reset password if user wants a new password",
+            "args": [
+              {
+                "name": "current_password",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "new_password",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "new_password_confirmation",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
                 },
                 "defaultValue": null
               }
@@ -2241,13 +2301,9 @@
             "name": "name",
             "description": null,
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "defaultValue": null
           },
@@ -2255,13 +2311,9 @@
             "name": "email",
             "description": null,
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "EmailAddress",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "EmailAddress",
+              "ofType": null
             },
             "defaultValue": null
           },
@@ -2269,13 +2321,9 @@
             "name": "password",
             "description": null,
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "defaultValue": null
           },
@@ -2283,13 +2331,9 @@
             "name": "password_confirmation",
             "description": null,
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "defaultValue": null
           }
