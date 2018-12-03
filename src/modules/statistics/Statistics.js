@@ -26,7 +26,16 @@ export const GET_GOAL_PERCENTAGE = gql`
 
 const Statistics = () => (
   <div>
-    <h2 style={{ paddingTop: "1em", margin: 0, color: "grey" }}>₭udometer</h2>
+    <h2
+      style={{
+        paddingTop: "1em",
+        margin: 0,
+        color: "grey",
+        display: "relative",
+      }}
+    >
+      ₭udometer
+    </h2>
     <h4 style={{ marginTop: "0.6rem" }}>{moment().format("MMMM Do, YYYY")}</h4>
 
     <Query
