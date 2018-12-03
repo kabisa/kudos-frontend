@@ -3,6 +3,7 @@ import { Button } from "semantic-ui-react";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 
+import { PATH_RESET_PASSWORD } from "../../routes";
 import { Navigation } from "../../components/navigation";
 import { authAllowNoTeam, logout } from "../../support";
 
@@ -40,7 +41,12 @@ export class UserPage extends Component {
               )}
             </Query>
           </div>
-          <div>
+          <div style={{ display: "contents" }}>
+            <a href={PATH_RESET_PASSWORD}>
+              <Button color="blue" className={s.button}>
+                Reset password
+              </Button>
+            </a>
             <Button color="red" onClick={logout} className={s.button}>
               Log out
             </Button>

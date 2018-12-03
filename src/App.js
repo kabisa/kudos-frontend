@@ -17,8 +17,7 @@ import {
 } from "./modules/login";
 import { FeedPage, AddTransactionPage } from "./modules/feed";
 import { NotificationsPage } from "./modules/notifications";
-// import { UserPage, ResetPasswordPage } from "./modules/user";
-import { UserPage } from "./modules/user";
+import { UserPage, ResetPasswordPage } from "./modules/user";
 import { SettingsPage, InvitePage } from "./modules/settings";
 import { StatisticsPage } from "./modules/statistics";
 import { ChooseTeamPage } from "./modules/choose-team";
@@ -37,7 +36,7 @@ const Routes = [
   <SettingsPage path={routes.PATH_SETTINGS} />,
   <InvitePage path={routes.PATH_INVITE} />,
   <AddTransactionPage path={routes.PATH_ADD_TRANSACTION} />,
-  // <ResetPasswordPage path={routes.PATH_RESET_PASSWORD} />,
+  <ResetPasswordPage path={routes.PATH_RESET_PASSWORD} />,
   <ChooseTeamPage path={routes.PATH_CHOOSE_TEAM} />,
   // <CommentPage path="/comments/:comment" />,
 

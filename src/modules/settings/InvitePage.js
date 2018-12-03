@@ -2,6 +2,7 @@ import { h, Component } from "preact";
 import { Button, Form, TextArea, Message } from "semantic-ui-react";
 import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
+import { toast } from "react-toastify";
 
 import settings from "src/config/settings";
 import { Navigation, Toolbar } from "../../components/navigation";
@@ -31,6 +32,7 @@ export class InvitePage extends Component {
       emails: "",
       error: null,
     };
+    this.initialState = this.state;
 
     auth();
 
@@ -71,7 +73,13 @@ export class InvitePage extends Component {
         <Toolbar text="Invite members" />
         <div className="main-form">
           <div className={s.page}>
-            <Mutation mutation={MUTATION_CREATE_INVITE}>
+            <Mutation
+              mutation={MUTATION_CREATE_INVITE}
+              onCompleted={() => {
+                this.setState(this.initialState);
+                toast.info("Invites sent succesfully!");
+              }}
+            >
               {(createInvite, { error, loading }) => {
                 let displayError;
                 if (error) {
