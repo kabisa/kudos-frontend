@@ -16,8 +16,8 @@ import {
 import s from "./style.scss";
 
 export const MUTATION_CREATE_INVITE = gql`
-  mutation CreateInvite($email: EmailAddress!, $team_id: ID!) {
-    createInvite(email: $email, team_id: $team_id) {
+  mutation CreateInvite($emails: [EmailAddress], $team_id: ID!) {
+    createInvite(emails: $emails, team_id: $team_id) {
       id
     }
   }
@@ -59,7 +59,7 @@ export class InvitePage extends Component {
 
     mutate({
       variables: {
-        email: list,
+        emails: list,
         team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
       },
     });
