@@ -7,7 +7,13 @@ import s from "./Rail.scss";
 export default () => (
   <Segment
     className={s.rail}
-    style={{ height: "80%", maxHeight: "640px", overflow: "auto" }}
+    style={{
+      height: "80%",
+      maxHeight: "755px",
+      overflow: "auto",
+      top: "86px",
+      marginLeft: "22px",
+    }}
   >
     <Statistics />
   </Segment>

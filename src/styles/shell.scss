@@ -2,6 +2,12 @@
 @import "../../node_modules/maji/css/maji-base";
 @import "elements/base";
 
+@media only screen and (min-width: 1200px) {
+    .ui.container {
+        width: 1075px;
+    }
+}
+
 body > div,
 body > div > div,
 body > div > div > div.main-form {

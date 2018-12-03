@@ -117,17 +117,17 @@ export class FeedPage extends Component {
           </Responsive>
           <Responsive minWidth={Responsive.onlyComputer.minWidth}>
             <Grid centered columns={3}>
-              <Grid.Column style={{ padding: 0 }}>
+              <Grid.Column style={{ padding: 0, maxWidth: "420px" }}>
                 <Segment style={{ maxWidth: "420px", margin: "auto" }}>
                   <CreatePost />
                 </Segment>
                 <div style={{ marginTop: "18px" }}>
                   <RepoListWithQuery />
                 </div>
-                <Rail position="left">
+                <Rail attached position="left" style={{ marginRight: "22px" }}>
                   <LeftRail />
                 </Rail>
-                <Rail position="right">
+                <Rail attached position="right">
                   <RightRail />
                 </Rail>
               </Grid.Column>
