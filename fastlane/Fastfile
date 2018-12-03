@@ -133,7 +133,7 @@ lane :build_signed_apk do
     apk_path: "#{@cordova_folder}/platforms/android/build/outputs/apk/android-release-unsigned.apk"
   )
 
-  zipalign(apk_path: "#{lane_context[SharedValues::SIGNED_APK_PATH]}")
+  ipalign(apk_path: "#{lane_context[SharedValues::SIGNED_APK_PATH]}")
 end
 
 lane :ios_prepare do
@@ -166,32 +166,32 @@ lane :ios_prepare do
 
 
 
-  sh("security cms -D -i #{@fastlane_folder}/profiles/#{@provisioning_profile_file}.mobileprovision > #{@fastlane_folder}/profiles/#{@provisioning_profile_file}.plist || true")
-  profile_uuid = sh("/usr/libexec/PlistBuddy -c \"Print :UUID\" #{@fastlane_folder}/profiles/#{@provisioning_profile_file}.plist").chomp
+          sh("security cms -D -i #{@fastlane_folder}/profiles/#{@provisioning_profile_file}.mobileprovision > #{@fastlane_folder}/profiles/#{@provisioning_profile_file}.plist || true")
+          profile_uuid = sh("/usr/libexec/PlistBuddy -c \"Print :UUID\" #{@fastlane_folder}/profiles/#{@provisioning_profile_file}.plist").chomp
 
-  FileUtils.cp("#{@fastlane_folder}/profiles/#{@provisioning_profile_file}.mobileprovision", "/Users/jenkins/Library/MobileDevice/Provisioning Profiles/#{profile_uuid}.mobileprovision")
+          FileUtils.cp("#{@fastlane_folder}/profiles/#{@provisioning_profile_file}.mobileprovision", "/Users/jenkins/Library/MobileDevice/Provisioning Profiles/#{profile_uuid}.mobileprovision")
 
-  #Build the app for ios
-  sh("APP_ENV=#{@environment} bin/maji build ios -- --codeSignIdentity=\"#{@helper.get_property("codesign_identity")}\" --developmentTeam=\"#{@team_id}\" --packageType=\"#{@ios_types[:build]}\" --provisioningProfile=\"#{profile_uuid}\"")
+          #Build the app for ios
+          sh("APP_ENV=#{@environment} bin/maji build ios -- --codeSignIdentity=\"#{@helper.get_property("codesign_identity")}\" --developmentTeam=\"#{@team_id}\" --packageType=\"#{@ios_types[:build]}\" --provisioningProfile=\"#{profile_uuid}\"")
 
-  # Fixes bug with Cordova. Fastlane thinks the Cordova generated XCode project format is very old.
-  upgrade_super_old_xcode_project(
-    path: "#{@cordova_folder}/platforms/ios/#{@app_name}.xcodeproj",
-    team_id: @team_id
-  )
+          # Fixes bug with Cordova. Fastlane thinks the Cordova generated XCode project format is very old.
+          upgrade_super_old_xcode_project(
+            path: "#{@cordova_folder}/platforms/ios/#{@app_name}.xcodeproj",
+            team_id: @team_id
+          )
 
-  #Make sure automatic code signing is disabled, we dont want this.
-  disable_automatic_code_signing(
-    path: "#{@cordova_folder}/platforms/ios/#{@app_name}.xcodeproj",
-    team_id: @team_id
-  )
+          #Make sure automatic code signing is disabled, we dont want this.
+          disable_automatic_code_signing(
+            path: "#{@cordova_folder}/platforms/ios/#{@app_name}.xcodeproj",
+            team_id: @team_id
+          )
 
-  # Package and sign the your app.
-  gym scheme: @app_name,
-      project: "#{@cordova_folder}/platforms/ios/#{@app_name}.xcodeproj",
-      export_method: @ios_types[:gym],
-      build_path: @output_dir,
-      output_directory: @output_dir
+          # Package and sign the your app.
+          gym scheme: @app_name,
+              project: "#{@cordova_folder}/platforms/ios/#{@app_name}.xcodeproj",
+              export_method: @ios_types[:gym],
+              build_path: @output_dir,
+              output_directory: @output_dir
 
 end
 
