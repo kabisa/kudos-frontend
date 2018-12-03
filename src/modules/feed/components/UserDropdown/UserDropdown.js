@@ -3,6 +3,7 @@ import { Dropdown } from "semantic-ui-react";
 import PropTypes from "prop-types";
 import { Query } from "react-apollo";
 
+import client from "src/apollo";
 import { GET_USERS } from "../../queries";
 import settings from "src/config/settings";
 
@@ -16,10 +17,14 @@ class DropdownRemote extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.resetState = this.resetState.bind(this);
+    this.handleAddition = this.handleAddition.bind(this);
   }
 
   handleChange(e, { value }) {
     if (!value) {
+      return;
+    }
+    if (value.some(item => isNaN(parseInt(item)))) {
       return;
     }
     this.setState({ value });
@@ -30,11 +35,57 @@ class DropdownRemote extends Component {
     this.setState(this.initialState);
   }
 
+  handleAddition(e, { value }) {
+    const oldState = client.readQuery({
+      query: GET_USERS,
+      variables: {
+        team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+      },
+    });
+
+    const id = (
+      oldState.teamById.users.reduce(
+        (min, user) => (parseInt(user.id) < min ? parseInt(user.id) : min),
+        parseInt(oldState.teamById.users[0].id)
+      ) - 1
+    ).toString();
+
+    const newState = {
+      ...oldState,
+      teamById: {
+        ...oldState.teamById,
+        users: [
+          ...oldState.teamById.users,
+          {
+            id,
+            name: value,
+            virtual: true,
+            __typename: "User",
+          },
+        ],
+      },
+    };
+
+    client.writeQuery({
+      query: GET_USERS,
+      variables: {
+        team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+      },
+      data: newState,
+    });
+
+    const updatedState = { value: [...this.state.value, id] };
+    this.setState(updatedState);
+    this.handleChange(null, updatedState);
+  }
+
   render() {
     return (
       <Query
         query={GET_USERS}
-        variables={{ team_id: localStorage.getItem(settings.TEAM_ID_TOKEN) }}
+        variables={{
+          team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+        }}
       >
         {({ loading, error, data }) => {
           const { value } = this.state;
@@ -49,25 +100,23 @@ class DropdownRemote extends Component {
             }
           }
 
-          const noResultsMessage =
-            options.length === 0 ? "Start typing for results." : "No results.";
-
           return (
             <Dropdown
+              id="userdropdown"
+              placeholder="Receivers"
               fluid
               selection
               multiple
-              error={error || this.props.error}
+              allowAdditions
               search
+              labeled
               value={value}
               options={options}
-              placeholder="Receivers"
-              onChange={this.handleChange}
               disabled={loading}
               loading={loading}
-              labeled
-              noResultsMessage={noResultsMessage}
-              id="userdropdown"
+              error={error || this.props.error}
+              onAddItem={this.handleAddition}
+              onChange={this.handleChange}
             />
           );
         }}
