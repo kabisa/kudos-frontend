@@ -1,6 +1,6 @@
 import { h, Component } from "preact";
 import { graphql } from "react-apollo";
-import { Button, Grid, Rail, Segment, Responsive } from "semantic-ui-react";
+import { Icon, Grid, Rail, Segment, Responsive } from "semantic-ui-react";
 import { PullToRefresh } from "../../components";
 import settings from "../../config/settings";
 import { Navigation } from "../../components/navigation";
@@ -34,15 +34,14 @@ const RepoList = ({ data: { loading, error, postsConnection, loadMore } }) => {
         <Transaction transaction={item.node} key={item.id} />
       ))}
       {postsConnection.pageInfo.hasNextPage && (
-        <Button
-          loading={loading}
-          size="huge"
-          color="blue"
-          fluid
-          onClick={() => loadMore()}
-        >
-          Load more...
-        </Button>
+        <div style={{ height: "120px", display: "flex" }}>
+          <Icon
+            name="arrow down"
+            size="large"
+            onClick={() => loadMore()}
+            style={{ margin: "auto" }}
+          />
+        </div>
       )}
       {!postsConnection.pageInfo.hasNextPage && (
         <div>
@@ -113,18 +112,6 @@ export class FeedPage extends Component {
         <div className="page">
           <Responsive maxWidth={Responsive.onlyTablet.maxWidth}>
             <ActionButton />
-            {/* <Query
-              query={GET_TRANSACTIONS}
-              variables={{
-                team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
-              }}
-              fetchPolicy="network-only"
-            >
-              {({ refetch }) => (
-                // <ReactPullToRefresh onRefresh={refetch}>
-                // </ReactPullToRefresh>
-              )}
-            </Query> */}
             <GoalProgress />
             <RepoListWithQuery />
           </Responsive>

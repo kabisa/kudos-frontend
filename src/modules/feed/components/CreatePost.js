@@ -170,7 +170,7 @@ export class CreatePost extends Component {
   }
 
   onCompleted() {
-    toast.success("Post created succesfully!");
+    toast.info("Post created succesfully!");
     this.input.resetState();
     this.userdropdown.resetState();
     this.setState(this.initialState);
