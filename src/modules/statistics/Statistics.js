@@ -180,7 +180,7 @@ const Statistics = () => (
                           style={{
                             width: "30px",
                             height: "30px",
-                            marginTop: "23px",
+                            marginTop: "34px",
                             position: "absolute",
                             backgroundColor: "#2490d5",
                             borderRadius: "6px",
