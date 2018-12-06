@@ -4,6 +4,12 @@
     padding: 75px 2em 0;
 }
 
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
 .header {
     text-align: center;
 }
+
