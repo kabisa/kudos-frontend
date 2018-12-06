@@ -20,8 +20,7 @@ import { NotificationsPage } from "./modules/notifications";
 import { UserPage, ResetPasswordPage } from "./modules/user";
 import { SettingsPage, InvitePage } from "./modules/settings";
 import { StatisticsPage } from "./modules/statistics";
-import { ChooseTeamPage } from "./modules/choose-team";
-// import { CommentPage } from "./modules/comments";
+import { ChooseTeamPage, CreateTeamPage } from "./modules/choose-team";
 
 const AnimationRouter = PageTransitionSupport.augmentRouter(
   PreactRouter,
@@ -38,6 +37,7 @@ const Routes = [
   <AddTransactionPage path={routes.PATH_ADD_TRANSACTION} />,
   <ResetPasswordPage path={routes.PATH_RESET_PASSWORD} />,
   <ChooseTeamPage path={routes.PATH_CHOOSE_TEAM} />,
+  <CreateTeamPage path={routes.PATH_CREATE_TEAM} />,
   // <CommentPage path="/comments/:comment" />,
 
   <FinishForgotPasswordPage path={routes.PATH_FINISH_RESET_PASSWORD} />,

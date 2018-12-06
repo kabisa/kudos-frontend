@@ -1,26 +1,36 @@
 import { h, Component } from "preact";
-import { Divider, Segment, Responsive } from "semantic-ui-react";
+import { Divider, Segment, Responsive, Button } from "semantic-ui-react";
+import { route } from "preact-router";
 
+import { PATH_CREATE_TEAM } from "../../routes";
 import { Navigation } from "../../components/navigation";
 import { TeamList, InviteList } from "./components";
-import { isLoggedIn } from "../../support";
+import { authAllowNoTeam } from "../../support";
 
 import s from "./ChooseTeamPage.scss";
 
 const Content = () => (
-  <div>
+  <div className={s.container}>
     <h2 className={s.header}>Your invites</h2>
     <InviteList />
     <Divider />
     <h2 className={s.header}>Your teams</h2>
     <TeamList />
+    <Divider horizontal>Or</Divider>
+    <Button
+      color="blue"
+      style={{ margin: "auto" }}
+      onClick={() => route(PATH_CREATE_TEAM)}
+    >
+      Create team
+    </Button>
   </div>
 );
 
 export class ChooseTeamPage extends Component {
   constructor(props) {
     super(props);
-    isLoggedIn();
+    authAllowNoTeam();
   }
 
   render() {
