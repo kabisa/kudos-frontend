@@ -10,7 +10,7 @@ const CustomCircle = ({
   strokeColor,
 }) => (
   <div className={s.wrapper}>
-    {currentKudos && (
+    {currentKudos != null && (
       <span className={s.title} style={{ color: "grey" }}>
         <h2 style={{ color: "rgba(0, 0, 0, 0.85)" }}>{currentKudos}₭</h2>of{" "}
         {neededKudos}₭ for {goal}

@@ -6,9 +6,10 @@ import { toast } from "react-toastify";
 import { route } from "preact-router";
 
 import settings from "../../config/settings";
-import { auth, getGraphqlError, ERROR_NAME_BLANK } from "../../support";
+import { getGraphqlError, ERROR_NAME_BLANK } from "../../support";
 import { Navigation, Toolbar } from "../../components/navigation";
 import { PATH_FEED } from "../../routes";
+import { authAllowNoTeam } from "../../support";
 
 import s from "../user/UserPage.scss";
 
@@ -36,7 +37,7 @@ class CreateTeamPage extends Component {
 
     this.initialState = this.state;
 
-    auth();
+    authAllowNoTeam();
 
     this.createTeam = this.createTeam.bind(this);
     this.handleChange = this.handleChange.bind(this);
