@@ -27,11 +27,11 @@ import s from "../AddTransactionPage.scss";
 
 export const CREATE_POST = gql`
   mutation CreatePost(
-    $message: String!
-    $kudos: Int!
-    $receivers: [ID]!
-    $virtual_receivers: [String]!
-    $team_id: ID!
+    $message: String
+    $kudos: Int
+    $receivers: [ID]
+    $virtual_receivers: [String]
+    $team_id: ID
   ) {
     createPost(
       message: $message
