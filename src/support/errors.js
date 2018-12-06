@@ -25,3 +25,4 @@ export const ERROR_PASSWORD_BLANK = "Password can't be blank.";
 export const ERROR_PASSWORD_CONFIRMATION_BLANK =
   "Password confirmation can't be blank.";
 export const ERROR_PASSWORD_MATCH = "Password don't match.";
+export const ERROR_NAME_BLANK = "Name can't be blank.";
