@@ -8,8 +8,7 @@ export default () => (
   <Segment
     className={s.rail}
     style={{
-      height: "80%",
-      maxHeight: "755px",
+      height: "755px",
       overflow: "auto",
       top: "86px",
       marginLeft: "22px",
