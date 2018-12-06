@@ -1,5 +1,5 @@
 import { h, Component } from "preact";
-import { Button, Form, TextArea, Message } from "semantic-ui-react";
+import { Button, Form, Message } from "semantic-ui-react";
 import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
 import { toast } from "react-toastify";
@@ -90,15 +90,23 @@ export class InvitePage extends Component {
                 }
                 return (
                   <Form style={{ maxWidth: "420px", margin: "auto" }}>
-                    <Form.Field>
-                      <TextArea
-                        name="emails"
-                        label="Email addresses"
-                        placeholder="info@example.com..."
-                        value={this.state.emails}
-                        onChange={this.handleChange}
-                      />
-                    </Form.Field>
+                    <Form.TextArea
+                      name="emails"
+                      label="Email addresses"
+                      placeholder="info@example.com..."
+                      value={this.state.emails}
+                      onChange={this.handleChange}
+                    />
+                    <p style={{ color: "grey" }}>
+                      Enter the email addresses of the users you would like to
+                      invite. They should be separated by a comma or semicolon.
+                      The following formats can be used:
+                    </p>
+                    <ul style={{ color: "grey" }}>
+                      <li>john@example.com</li>
+                      <li>John Doe &lt;john@example.com&gt;</li>
+                      <li>&quot;John Doe&quot; &lt;john@example.com&gt;</li>
+                    </ul>
                     <Button
                       className={s.button}
                       color="blue"
