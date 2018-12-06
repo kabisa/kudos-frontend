@@ -371,7 +371,7 @@ listeners can take over.
     iconRefreshing: "&hellip;",
     instructionsPullToRefresh: "Pull down to refresh",
     instructionsReleaseToRefresh: "Release to refresh",
-    instructionsRefreshing: "Refreshing",
+    instructionsRefreshing: "",
     refreshTimeout: 500,
     getMarkup: function() {
       return _ptrMarkup;
