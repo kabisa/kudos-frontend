@@ -48,6 +48,7 @@ export class Header extends Component {
           <span data-testid="post-amount">{amount + votes.length} ₭</span>
         </div>
         <div className={s.image_wrapper}>
+          <Image src={this.props.transaction.sender.avatar} avatar />
           {this.props.transaction.receivers.map(user => (
             <Image key={user.id} src={user.avatar} avatar />
           ))}

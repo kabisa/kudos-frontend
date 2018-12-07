@@ -14,6 +14,7 @@ export const FRAGMENT_POST = gql`
     sender {
       id
       name
+      avatar
     }
     votes {
       voter {
