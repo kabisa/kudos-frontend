@@ -44,7 +44,7 @@ export class UserPage extends Component {
           <div style={{ display: "contents" }}>
             <a href={PATH_RESET_PASSWORD}>
               <Button color="blue" className={s.button}>
-                Reset password
+                Change password
               </Button>
             </a>
             <Button color="red" onClick={logout} className={s.button}>

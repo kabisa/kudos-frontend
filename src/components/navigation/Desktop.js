@@ -3,7 +3,12 @@ import { Container, Menu, Icon, Dropdown } from "semantic-ui-react";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 
-import { PATH_FEED, PATH_USER, PATH_SETTINGS } from "../../routes";
+import {
+  PATH_FEED,
+  PATH_USER,
+  PATH_INVITE,
+  PATH_CHOOSE_TEAM,
+} from "../../routes";
 import { logout } from "../../support";
 
 import s from "./Desktop.scss";
@@ -37,16 +42,27 @@ export const DesktopNavigation = () => (
                     className="item"
                     style={{ color: "black" }}
                   >
+                    <Icon name="user" />
                     Profile
                   </a>
+                  <Dropdown.Divider />
                   <a
-                    href={`#${PATH_SETTINGS}`}
+                    href={`#${PATH_INVITE}`}
                     className="item"
                     style={{ color: "black" }}
                   >
-                    Settings
+                    <Icon name="send" />
+                    Invite members
                   </a>
                   <Dropdown.Divider />
+                  <a
+                    href={`#${PATH_CHOOSE_TEAM}`}
+                    className="item"
+                    style={{ color: "black" }}
+                  >
+                    <Icon name="exchange" />
+                    Switch team
+                  </a>
                   <Dropdown.Item onClick={logout}>
                     <Icon name="log out" />
                     Log out
