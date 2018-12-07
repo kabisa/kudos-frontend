@@ -71,6 +71,7 @@ class ForgotPasswordPage extends Component {
                     fluid
                     icon="user"
                     name="email"
+                    type="email"
                     iconPosition="left"
                     placeholder="E-mail address"
                     value={this.state.email}

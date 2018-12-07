@@ -104,6 +104,7 @@ class LoginPage extends Component {
                     fluid
                     icon="user"
                     name="email"
+                    type="email"
                     iconPosition="left"
                     placeholder="E-mail address"
                     autoFocus="on"
