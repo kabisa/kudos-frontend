@@ -7,9 +7,12 @@ export const FRAGMENT_POST = gql`
     message
     createdAt
     receivers {
+      id
+      avatar
       name
     }
     sender {
+      id
       name
     }
     votes {
