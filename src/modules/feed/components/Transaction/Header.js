@@ -41,11 +41,6 @@ export class Header extends Component {
     const { createdAt, amount, votes } = this.props.transaction;
     const timestamp = moment(createdAt);
 
-    const Avatars = this.props.transaction.receivers.map(user => (
-      <Image key={user.id} src={user.avatar} avatar />
-    ));
-    console.log(Avatars);
-
     return (
       <div className={s.root}>
         <div className={s.kudo_amount}>
@@ -57,7 +52,9 @@ export class Header extends Component {
           ))}
         </div>
         <span data-testid="post-timestamp" className={s.timestamp}>
-          {timestamp.twitter()} ago
+          {!timestamp.twitter().includes("/")
+            ? `${timestamp.twitter()} ago`
+            : timestamp.twitter()}
         </span>
         {localStorage.getItem(settings.USER_ID_TOKEN) ===
           this.props.transaction.sender.id && (
