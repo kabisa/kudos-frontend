@@ -4,6 +4,7 @@ import moment from "moment-twitter";
 import { route } from "preact-router";
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
+import { toast } from "react-toastify";
 
 import settings from "../../../../config/settings";
 import { GET_TRANSACTIONS } from "../../queries";
@@ -75,6 +76,7 @@ export class Header extends Component {
                     },
                   },
                 ]}
+                onCompleted={() => toast.info("Post succesfully removed!")}
               >
                 {mutate => (
                   <Dropdown.Item
