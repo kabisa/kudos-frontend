@@ -128,35 +128,6 @@ pipeline {
       }
     }
 
-    stage("Deploy Android HockeyApp") {
-      when {
-        allOf {
-          anyOf {
-            branch 'master';branch 'demo';branch 'appstore';
-
-          }
-          expression {
-            commitMessage.contains('DEPLOY_HOCKEY');
-          }
-        }
-      }
-
-      environment {
-        APP_ENV =  "development"
-      }
-
-      steps {
-        script {
-          env.APP_ENV = "development"
-        }
-
-        sh '''#!/bin/bash -l
-          bundle exec fastlane android_deploy_hockey
-
-        '''
-      }
-    }
-
     stage("Deploy iOS HockeyApp") {
       when {
         allOf {
@@ -182,6 +153,35 @@ pipeline {
         sh '''#!/bin/bash -l
 
           bundle exec fastlane ios_deploy_hockey
+
+        '''
+      }
+    }
+
+    stage("Deploy Android HockeyApp") {
+      when {
+        allOf {
+          anyOf {
+            branch 'master';branch 'demo';branch 'appstore';
+
+          }
+          expression {
+            commitMessage.contains('DEPLOY_HOCKEY');
+          }
+        }
+      }
+
+      environment {
+        APP_ENV =  "development"
+      }
+
+      steps {
+        script {
+          env.APP_ENV = "development"
+        }
+
+        sh '''#!/bin/bash -l
+          bundle exec fastlane android_deploy_hockey
 
         '''
       }
