@@ -9,7 +9,7 @@ import {
   PATH_INVITE,
   PATH_CHOOSE_TEAM,
 } from "../../routes";
-import { logout } from "../../support";
+import { logout, isAdmin } from "../../support";
 
 import s from "./Desktop.scss";
 
@@ -46,15 +46,17 @@ export const DesktopNavigation = () => (
                     Profile
                   </a>
                   <Dropdown.Divider />
-                  <a
-                    href={`#${PATH_INVITE}`}
-                    className="item"
-                    style={{ color: "black" }}
-                  >
-                    <Icon name="send" />
-                    Invite members
-                  </a>
-                  <Dropdown.Divider />
+                  {isAdmin() && (
+                    <a
+                      href={`#${PATH_INVITE}`}
+                      className="item"
+                      style={{ color: "black" }}
+                    >
+                      <Icon name="send" />
+                      Invite members
+                    </a>
+                  )}
+                  {isAdmin() && <Dropdown.Divider />}
                   <a
                     href={`#${PATH_CHOOSE_TEAM}`}
                     className="item"

@@ -7,7 +7,7 @@ import settings from "../../../config/settings";
 
 import s from "./style.scss";
 
-export default ({ id, name }) => (
+export default ({ id, name, role }) => (
   <div className={s.root}>
     <p className={s.text}>{name}</p>
     <Button
@@ -16,6 +16,7 @@ export default ({ id, name }) => (
       className={s.button}
       onClick={() => {
         localStorage.setItem(settings.TEAM_ID_TOKEN, id);
+        localStorage.setItem(settings.ROLE_TOKEN, role);
         route(PATH_FEED, true);
       }}
     >

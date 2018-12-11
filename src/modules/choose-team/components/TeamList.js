@@ -7,9 +7,13 @@ export const GET_TEAMS = gql`
   query getTeams {
     viewer {
       self {
-        teams {
+        memberships {
           id
-          name
+          role
+          team {
+            id
+            name
+          }
         }
       }
     }
@@ -21,15 +25,20 @@ const TeamList = () => (
     {({ loading, error, data }) => {
       if (loading) return <p style={{ textAlign: "center" }}>Loading...</p>;
       if (error) return <p style={{ textAlign: "center" }} />;
-      const teams = data.viewer.self.teams;
-      if (!teams.length) {
+      const memberships = data.viewer.self.memberships;
+      if (!memberships.length) {
         return <p style={{ textAlign: "center" }}>No teams.</p>;
       }
 
       return (
         <div>
-          {teams.map(team => (
-            <TeamRow id={team.id} name={team.name} key={team.id} />
+          {memberships.map(membership => (
+            <TeamRow
+              id={membership.team.id}
+              name={membership.team.name}
+              role={membership.role}
+              key={membership.id}
+            />
           ))}
         </div>
       );

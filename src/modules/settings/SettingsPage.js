@@ -3,7 +3,7 @@ import { Button } from "semantic-ui-react";
 
 import { PATH_CHOOSE_TEAM, PATH_INVITE } from "../../routes";
 import { Navigation } from "../../components/navigation";
-import { auth } from "../../support";
+import { auth, isAdmin } from "../../support";
 
 import s from "./style.scss";
 
@@ -22,11 +22,13 @@ export class SettingsPage extends Component {
         >
           <div style={{ display: "grid" }}>
             <h2 className={s.name}>Settings</h2>
-            <a href={PATH_INVITE}>
-              <Button color="blue" className={s.button}>
-                Invite
-              </Button>
-            </a>
+            {isAdmin() && (
+              <a href={PATH_INVITE}>
+                <Button color="blue" className={s.button}>
+                  Invite
+                </Button>
+              </a>
+            )}
             <a href={PATH_CHOOSE_TEAM}>
               <Button color="orange" className={s.button}>
                 Switch team
