@@ -171,6 +171,12 @@ lane :ios_prepare do
 
         FileUtils.cp("#{@fastlane_folder}/profiles/#{@provisioning_profile_file}.mobileprovision", "/Users/jenkins/Library/MobileDevice/Provisioning Profiles/#{profile_uuid}.mobileprovision")
 
+        update_project_provisioning(
+          xcodeproj: "#{@cordova_folder}/platforms/ios/#{@app_name}.xcodeproj",
+          profile: "/Users/bv/Library/MobileDevice/Provisioning Profiles/#{profile_uuid}.mobileprovision",
+          build_configuration: "Release"
+        )
+
         # Build the app for ios
         sh("APP_ENV=#{@environment} bin/maji build ios -- --codeSignIdentity=\"#{@helper.get_property("codesign_identity")}\" --developmentTeam=\"#{@team_id}\" --packageType=\"#{@ios_types[:build]}\" --provisioningProfile=\"#{profile_uuid}\"")
 
