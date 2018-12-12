@@ -152,6 +152,7 @@ pipeline {
 
         sh '''#!/bin/bash -l
 
+          bundle exec fastlane register_ios_devices 
           bundle exec fastlane ios_deploy_hockey
 
         '''
