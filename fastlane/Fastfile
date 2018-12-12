@@ -57,6 +57,17 @@ before_all do
 
 end
 
+lane :register_ios_devices do
+  register_devices(
+    team_id: @team_id,
+    devices: {
+      # adapt this hash to the new devices you want to register. Previously registered devices are unaffected
+      "Joery Vreijsen iPhone 6s" => "4ef95ffd6355880dc8f2985ea8cbc560c195fb32",
+      "Andy Maes iPhone 7" => "9924b848d9d70f9d8772aef4c5c8d209ca173426"
+    }
+  )
+end
+
 lane :lane_deploy do
 
   if @build_hockey || @deploy_store
