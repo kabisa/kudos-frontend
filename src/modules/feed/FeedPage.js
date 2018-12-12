@@ -121,7 +121,12 @@ export class FeedPage extends Component {
                 <Segment style={{ maxWidth: "420px", margin: "auto" }}>
                   <CreatePost />
                 </Segment>
-                <div style={{ marginTop: "18px" }}>
+                <div
+                  style={{
+                    marginTop: "18px",
+                    "-webkit-overflow-scrolling": "touch",
+                  }}
+                >
                   <RepoListWithQuery />
                 </div>
                 <Rail attached position="left" style={{ marginRight: "22px" }}>

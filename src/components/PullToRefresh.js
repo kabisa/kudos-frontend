@@ -321,6 +321,7 @@
   align-items: flex-end;
   align-content: stretch;
   z-index: 100;
+  position: relative;
 }
 .__PREFIX__box {
   padding: 10px;
