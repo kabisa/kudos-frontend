@@ -303,7 +303,7 @@
   };
 
   var _ptrMarkup =
-    '\n<div class="__PREFIX__box">\n  <div class="__PREFIX__content">\n    <div class="__PREFIX__icon"></div>\n    <div class="__PREFIX__text"></div>\n  </div>\n</div>\n';
+    '\n<div class="__PREFIX__box" style="z-index: 100;">\n  <div class="__PREFIX__content" style="z-index: 100;">\n    <div class="__PREFIX__icon" style="z-index: 100;"></div>\n    <div class="__PREFIX__text" style="z-index: 100;"></div>\n  </div>\n</div>\n';
 
   var _ptrStyles = `
 .__PREFIX__ptr {
