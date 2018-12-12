@@ -16,7 +16,9 @@ export class StatisticsPage extends Component {
     return (
       <div>
         <div className={s.root}>
-          <Statistics lineSize={2} />
+          <div style={{ paddingBottom: "2em" }}>
+            <Statistics lineSize={2} />
+          </div>
         </div>
         <Navigation />
       </div>

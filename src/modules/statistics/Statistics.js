@@ -73,7 +73,7 @@ const Statistics = () => (
               goal={nextGoal ? nextGoal.name : "-"}
             />
 
-            <div style={{ paddingTop: "3em", position: "sticky" }}>
+            <div style={{ paddingTop: "3em", position: "relative" }}>
               {goals
                 .sort((goal1, goal2) => goal2.amount - goal1.amount)
                 .map((goal, index) => {
