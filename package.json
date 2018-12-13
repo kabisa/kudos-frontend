@@ -69,7 +69,7 @@
     "chai": "^3.5.0",
     "chromedriver": "^2.35.0",
     "clean-webpack-plugin": "^0.1.16",
-    "cordova": "^7.0.1",
+    "cordova": "^8.1.2",
     "cross-spawn": "^6.0.4",
     "css-loader": "^1.0.1",
     "dom-testing-library": "^3.12.4",
