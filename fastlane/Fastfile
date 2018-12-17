@@ -192,6 +192,7 @@ lane :ios_prepare do
         )
 
         # Build the app for ios
+        sh "rm -rf cordova/platforms/ios"
         sh("APP_ENV=#{@environment} bin/maji build ios -- --codeSignIdentity=\"#{@helper.get_property("codesign_identity")}\" --developmentTeam=\"#{@team_id}\" --packageType=\"#{@ios_types[:build]}\" --provisioningProfile=\"#{profile_uuid}\"")
 
         # Fixes bug with Cordova. Fastlane thinks the Cordova generated XCode project format is very old.

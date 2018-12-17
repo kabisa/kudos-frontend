@@ -37,18 +37,18 @@ pipeline {
           commitMessage = sh(returnStdout: true, script: 'echo "$(git log --format=%B -n 1)"').trim()
         }
         sh '''#!/bin/bash -l
-         rvm install $(cat .ruby-version)
-         rvm use $(cat .ruby-version)
-         ruby -v
+            rm -rf cordova/node_modules
+            echo `pwd`
+                rvm install $(cat .ruby-version)
+                rvm use $(cat .ruby-version)
+                ruby -v
 
-          gem install -N bundler
+                gem install -N bundler
 
-          bundle install 
-          rm -rf cordova/node_modules
-          rm -rf cordova/platforms/ios
-          yarn install
-          cd cordova && npm install
-          cd ..
+                bundle install 
+                yarn install
+                cd cordova && npm install
+                cd ..
         '''
       }
     }
