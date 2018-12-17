@@ -45,6 +45,7 @@ pipeline {
 
           bundle install 
           rm -rf cordova/node_modules
+          rm -rf cordova/platforms/ios
           yarn install
         '''
       }
