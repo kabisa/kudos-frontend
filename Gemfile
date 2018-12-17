@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 ruby '2.4.3'
 
 group :development do
-  gem 'fastlane'
+  gem 'fastlane', '~> 2.112.0.beta.20181216200018'
   gem 'xcodeproj'
 
   gem 'nokogiri'
