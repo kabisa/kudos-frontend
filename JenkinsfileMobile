@@ -47,6 +47,8 @@ pipeline {
           rm -rf cordova/node_modules
           rm -rf cordova/platforms/ios
           yarn install
+          cd cordova && npm install
+          cd ..
         '''
       }
     }
