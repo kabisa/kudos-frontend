@@ -44,6 +44,7 @@ pipeline {
           gem install -N bundler
 
           bundle install 
+          rm -rf node_modules
           yarn install
         '''
       }
