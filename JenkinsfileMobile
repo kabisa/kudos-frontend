@@ -44,7 +44,7 @@ pipeline {
           gem install -N bundler
 
           bundle install 
-          rm -rf node_modules
+          rm -rf cordova/node_modules
           yarn install
         '''
       }
