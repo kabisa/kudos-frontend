@@ -43,12 +43,12 @@ class DropdownRemote extends Component {
       },
     });
 
-    const id = (
-      oldState.teamById.users.reduce(
-        (min, user) => (parseInt(user.id) < min ? parseInt(user.id) : min),
-        parseInt(oldState.teamById.users[0].id)
-      ) - 1
-    ).toString();
+    let id = "0";
+    oldState.teamById.users.forEach(item => {
+      if (parseInt(item.id) >= parseInt(id)) {
+        id = (parseInt(item.id) + 1).toString();
+      }
+    });
 
     const newState = {
       ...oldState,
@@ -59,7 +59,7 @@ class DropdownRemote extends Component {
           {
             id,
             name: value,
-            virtual: true,
+            virtualUser: true,
             __typename: "User",
           },
         ],

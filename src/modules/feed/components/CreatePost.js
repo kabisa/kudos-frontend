@@ -134,8 +134,10 @@ export class CreatePost extends Component {
     const virtualReceivers = [];
 
     users.map(user => {
+      console.log(user);
+
       if (!receivers.includes(user.id)) return;
-      if (parseInt(user.id) <= 0) {
+      if (user.virtualUser) {
         virtualReceivers.push(user.name);
       } else {
         realReceivers.push(user.id);
@@ -158,6 +160,7 @@ export class CreatePost extends Component {
   }
 
   handleDropdownChange(value) {
+    console.log(value);
     if (!value) {
       this.setState({ receivers: [] });
       return;
