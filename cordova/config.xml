@@ -9,7 +9,7 @@
     <preference name="Orientation" value="portrait" />
     <preference name="KeyboardDisplayRequiresUserAction" value="false" />
     <preference name="KeyboardDisplayRequiresUserAction" value="false" />
-    <preference name="SplashScreen" value="splash" />
+    <preference name="SplashScreen" value="none" />
     <preference name="SplashScreenDelay" value="0" />
     <preference name="FadeSplashScreen" value="false" />
     <preference name="FadeSplashScreenDuration" value="0" />
