@@ -64,7 +64,11 @@ export class FeedPage extends Component {
         window.location.reload();
       },
       shouldPullToRefresh: function() {
-        return document.getElementsByClassName("page")[0].scrollTop === 0;
+        try {
+          return document.getElementsByClassName("page")[0].scrollTop === 0;
+        } catch (error) {
+          return false;
+        }
       },
     });
   }

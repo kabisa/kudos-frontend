@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 
 import settings from "../../config/settings";
 import {
-  auth,
+  authAllowNoTeam,
   ERROR_PASSWORD_BLANK,
   ERROR_PASSWORD_CONFIRMATION_BLANK,
   ERROR_PASSWORD_MATCH,
@@ -53,7 +53,7 @@ class ResetPasswordPage extends Component {
 
     this.initialState = this.state;
 
-    auth();
+    authAllowNoTeam();
 
     this.resetPassword = this.resetPassword.bind(this);
     this.handleChange = this.handleChange.bind(this);

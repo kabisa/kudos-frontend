@@ -3,6 +3,7 @@ import { Icon } from "semantic-ui-react";
 import { route } from "preact-router";
 
 import * as routes from "../../routes";
+import settings from "../../config/settings";
 import s from "./Mobile.scss";
 
 const IconComponent = ({ path, icon }) => {
@@ -22,12 +23,21 @@ const IconComponent = ({ path, icon }) => {
   );
 };
 
-export default () => (
-  <div className={s.bottom_navigation}>
-    <IconComponent path={routes.PATH_SETTINGS} icon="settings" />
-    <IconComponent path={routes.PATH_STATISTICS} icon="chart bar" />
-    <IconComponent path={routes.PATH_FEED} icon="heart outline" />
-    <IconComponent path={routes.PATH_NOTIFICATIONS} icon="bell" />
-    <IconComponent path={routes.PATH_USER} icon="user" />
-  </div>
-);
+export default () => {
+  const isLoggedIn = localStorage.getItem(settings.TEAM_ID_TOKEN);
+  return (
+    <div className={s.bottom_navigation}>
+      <IconComponent path={routes.PATH_SETTINGS} icon="settings" />
+      {isLoggedIn && (
+        <IconComponent path={routes.PATH_STATISTICS} icon="chart bar" />
+      )}
+      {isLoggedIn && (
+        <IconComponent path={routes.PATH_FEED} icon="heart outline" />
+      )}
+      {isLoggedIn && (
+        <IconComponent path={routes.PATH_NOTIFICATIONS} icon="bell" />
+      )}
+      <IconComponent path={routes.PATH_USER} icon="user" />
+    </div>
+  );
+};
