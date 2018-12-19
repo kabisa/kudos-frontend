@@ -1,11 +1,8 @@
 import { h } from "preact";
 import { Button } from "semantic-ui-react";
-import { route } from "preact-router";
-
-import { PATH_FEED } from "../../../routes";
-import settings from "../../../config/settings";
 
 import s from "./style.scss";
+import { selectTeam } from "../utils";
 
 export default ({ id, name, role }) => (
   <div className={s.root}>
@@ -14,11 +11,7 @@ export default ({ id, name, role }) => (
       color="green"
       size="small"
       className={s.button}
-      onClick={() => {
-        localStorage.setItem(settings.TEAM_ID_TOKEN, id);
-        localStorage.setItem(settings.ROLE_TOKEN, role);
-        route(PATH_FEED, true);
-      }}
+      onClick={() => selectTeam(id, role)}
     >
       Choose
     </Button>
