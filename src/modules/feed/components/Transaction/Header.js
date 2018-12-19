@@ -54,9 +54,7 @@ export class Header extends Component {
           ))}
         </div>
         <span data-testid="post-timestamp" className={s.timestamp}>
-          {!timestamp.twitter().includes("/")
-            ? `${timestamp.twitter()} ago`
-            : timestamp.twitter()}
+          {timestamp.fromNow()}
         </span>
         {localStorage.getItem(settings.USER_ID_TOKEN) ===
           this.props.transaction.sender.id && (
