@@ -1,5 +1,5 @@
 import { h, Component } from "preact";
-import { Button } from "semantic-ui-react";
+import { Button, Image } from "semantic-ui-react";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 
@@ -14,6 +14,7 @@ export const GET_USER = gql`
     viewer {
       self {
         name
+        avatar
       }
     }
   }
@@ -35,9 +36,28 @@ export class UserPage extends Component {
           <div style={{ display: "grid" }}>
             <Query query={GET_USER}>
               {({ data }) => (
-                <h2 className={s.name}>
-                  {data.viewer ? data.viewer.self.name : "Loading..."}
-                </h2>
+                <div>
+                  <h2 className={s.name}>
+                    {data.viewer ? data.viewer.self.name : "Loading..."}
+                  </h2>
+                  <Image
+                    src={data.viewer ? data.viewer.self.avatar : null}
+                    size="tiny"
+                    avatar
+                    style={{ marginTop: "2em", marginBottom: "1em" }}
+                  />
+                  <span style={{ display: "block", marginBottom: "2em" }}>
+                    To change your avatar go to{" "}
+                    <a
+                      href="https://nl.gravatar.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      gravatar.com
+                    </a>
+                    .
+                  </span>
+                </div>
               )}
             </Query>
           </div>
