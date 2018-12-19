@@ -31,9 +31,7 @@ export default () => {
       {isLoggedIn && (
         <IconComponent path={routes.PATH_STATISTICS} icon="chart bar" />
       )}
-      {isLoggedIn && (
-        <IconComponent path={routes.PATH_FEED} icon="heart outline" />
-      )}
+      {isLoggedIn && <IconComponent path={routes.PATH_FEED} icon="home" />}
       {isLoggedIn && (
         <IconComponent path={routes.PATH_NOTIFICATIONS} icon="bell" />
       )}
