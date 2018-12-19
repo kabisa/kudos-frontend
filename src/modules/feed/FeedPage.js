@@ -6,8 +6,6 @@ import settings from "../../config/settings";
 import { Navigation } from "../../components/navigation";
 import {
   Transaction,
-  GoalProgress,
-  ActionButton,
   TransactionLoading,
   LeftRail,
   RightRail,
@@ -67,7 +65,7 @@ export class FeedPage extends Component {
         try {
           return document.getElementsByClassName("page")[0].scrollTop === 0;
         } catch (error) {
-          return false;
+          return true;
         }
       },
     });
@@ -115,8 +113,9 @@ export class FeedPage extends Component {
       >
         <div className="page">
           <Responsive maxWidth={Responsive.onlyTablet.maxWidth}>
-            <ActionButton />
-            <GoalProgress />
+            <div style={{ padding: "1em" }}>
+              <CreatePost />
+            </div>
             <RepoListWithQuery />
           </Responsive>
           <Responsive minWidth={Responsive.onlyComputer.minWidth}>
