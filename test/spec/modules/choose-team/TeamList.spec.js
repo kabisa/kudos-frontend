@@ -16,14 +16,22 @@ const mocks = [
       data: {
         viewer: {
           self: {
-            teams: [
+            memberships: [
               {
                 id: "1",
-                name: "Team 1",
+                role: "admin",
+                team: {
+                  id: "2",
+                  name: "Team 1",
+                },
               },
               {
                 id: "2",
-                name: "Team 2",
+                role: "admin",
+                team: {
+                  id: "2",
+                  name: "Team 2",
+                },
               },
             ],
           },

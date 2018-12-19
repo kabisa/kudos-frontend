@@ -81,7 +81,5 @@ describe("FeedPage", function() {
     );
 
     await wait(0);
-
-    expect(scratch.getElementsByClassName("kudo-progress")[0]).to.be.visible;
   });
 });

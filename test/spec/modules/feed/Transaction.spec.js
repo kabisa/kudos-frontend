@@ -72,7 +72,7 @@ describe("Transaction", () => {
   it("renders the timestamp", () => {
     mountPostWithVotes(mount);
     expect(d.getByTestId(scratch, "post-timestamp").innerHTML).to.be.equals(
-      "1s ago"
+      "a few seconds ago"
     );
   });
 
