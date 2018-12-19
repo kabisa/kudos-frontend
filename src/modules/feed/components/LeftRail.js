@@ -17,7 +17,7 @@ const GET_INFO = gql`
 `;
 
 export default () => (
-  <Segment className={s.rail} style={{ top: "86px" }}>
+  <Segment className={s.rail} style={{ top: "0" }}>
     <Query query={GET_INFO}>
       {({ loading, error, data }) => {
         if (loading) return "Loading...";

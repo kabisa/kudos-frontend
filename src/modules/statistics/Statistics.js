@@ -90,7 +90,7 @@ const Statistics = () => (
                               ? "#2490d5"
                               : "lightgrey",
                             borderRadius: "6px",
-                            zIndex: "5",
+                            // zIndex: "5",
                             color: goal.achieved_on ? "white" : null,
                           }}
                         >
@@ -100,7 +100,7 @@ const Statistics = () => (
                               position: "absolute",
                               left: "6.5px",
                               marginTop: "4.5px",
-                              zIndex: "5",
+                              // zIndex: "5",
                             }}
                           />
                         </div>
@@ -138,7 +138,7 @@ const Statistics = () => (
                           <div
                             style={{
                               position: "absolute",
-                              zIndex: "10",
+                              // zIndex: "10",
                               width: "50px",
                               height: "2px",
                               marginTop: `${30 + (70 - height)}px`,
@@ -192,7 +192,7 @@ const Statistics = () => (
                               position: "absolute",
                               left: "6.5px",
                               marginTop: "5.5px",
-                              zIndex: "5",
+                              // zIndex: "5",
                               color: "white",
                             }}
                           />

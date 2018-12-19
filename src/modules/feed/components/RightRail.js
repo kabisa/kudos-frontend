@@ -10,7 +10,7 @@ export default () => (
     style={{
       height: "755px",
       overflow: "auto",
-      top: "86px",
+      top: "0",
       marginLeft: "22px",
     }}
   >
