@@ -120,7 +120,6 @@ pipeline {
 
         sh '''#!/bin/bash -l
           mkdir -p fastlane/vault/
-          rm -Rf cordova/platforms/
 
           cat $ANDROID_JSON_KEY_FILE > fastlane/vault/ANDROID_JSON_KEY_FILE.json
           cat $ANDROID_KEY_STORE > fastlane/vault/android.jks
