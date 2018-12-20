@@ -149,8 +149,6 @@ lane :build_signed_apk do
 end
 
 lane :ios_prepare do
-  sh("rm -r cordova/ && git checkout cordova")
-
   FileUtils.rm_rf("#{@root_folder}/tmp/output/", secure: true)
   FileUtils.rm_rf("#{@fastlane_folder}/tmp/output/", secure: true)
 

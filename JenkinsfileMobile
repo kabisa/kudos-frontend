@@ -37,7 +37,7 @@ pipeline {
           commitMessage = sh(returnStdout: true, script: 'echo "$(git log --format=%B -n 1)"').trim()
         }
         sh '''#!/bin/bash -l
-            rm -rf cordova/node_modules
+            rm -r cordova/ && git checkout cordova
             echo `pwd`
                 rvm install $(cat .ruby-version)
                 rvm use $(cat .ruby-version)
