@@ -150,6 +150,7 @@ end
 
 lane :ios_prepare do
   FileUtils.rm_rf("#{@cordova_folder}/platforms/ios", secure: true)
+  FileUtils.rm_rf("#{@cordova_folder}/plugins", secure: true)
   FileUtils.rm_rf("#{@root_folder}/tmp/output/", secure: true)
   FileUtils.rm_rf("#{@fastlane_folder}/tmp/output/", secure: true)
 
