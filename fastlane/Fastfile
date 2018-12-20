@@ -63,7 +63,7 @@ lane :register_ios_devices do
     devices: {
       # adapt this hash to the new devices you want to register. Previously registered devices are unaffected
       "Joery Vreijsen iPhone 6s" => "4ef95ffd6355880dc8f2985ea8cbc560c195fb32",
-      "Ralph Deguelle iPhone XS" => "00008020-000154190188002e",
+      "Ralph Deguelle iPhone XS (A1920/A2097/A2098/A2100)" => "00008020-000154190188002e",
       "Egon" => "332cc12b28a7e9d22913e557b998ffd88e2e3b22",
       "Andy Maes iPhone 7" => "9924b848d9d70f9d8772aef4c5c8d209ca173426"
     }
