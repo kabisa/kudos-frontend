@@ -10,6 +10,7 @@ import {
   LeftRail,
   RightRail,
   CreatePost,
+  GoalProgress,
 } from "./components";
 import { GET_TRANSACTIONS } from "./queries";
 import { auth } from "../../support";
@@ -114,6 +115,7 @@ export class FeedPage extends Component {
         <div className="page">
           <Responsive maxWidth={Responsive.onlyTablet.maxWidth}>
             <div style={{ padding: "1em" }}>
+              <GoalProgress />
               <CreatePost />
             </div>
             <RepoListWithQuery />

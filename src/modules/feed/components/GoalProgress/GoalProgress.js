@@ -1,11 +1,14 @@
 import { h } from "preact";
 import { Query } from "react-apollo";
 import { Line } from "rc-progress";
+import { Icon } from "semantic-ui-react";
 
 import settings from "../../../../config/settings";
 import { GET_GOAL_PERCENTAGE } from "../../queries";
 import { PATH_STATISTICS } from "../../../../routes";
 import { calculateProgress, getStrokeColor } from "../../../../support";
+
+import s from "./GoalProgress.scss";
 
 export const GoalProgress = () => (
   <Query
@@ -34,19 +37,27 @@ export const GoalProgress = () => (
 
       return (
         <a href={`${PATH_STATISTICS}?transition=none`}>
-          <div
-            style={{
-              width: "90%",
-              margin: "auto",
-              height: "3em",
-              paddingTop: "14px",
-            }}
-          >
+          <div className={s.root}>
+            {/* Lock icons */}
+            <div
+              className={s.lock_container}
+              style={{ backgroundColor: getStrokeColor(percentage) }}
+            >
+              <Icon name="lock open" className={s.lock} />
+            </div>
             <Line
               percent={percentage}
               strokeWidth={3}
+              strokeLinecap="square"
+              className={s.line}
               strokeColor={getStrokeColor(percentage)}
             />
+            <div
+              className={s.lock_container}
+              style={{ backgroundColor: getStrokeColor(percentage) }}
+            >
+              <Icon name="lock" className={s.lock} />
+            </div>
           </div>
         </a>
       );
