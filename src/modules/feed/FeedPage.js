@@ -1,6 +1,13 @@
 import { h, Component } from "preact";
 import { graphql } from "react-apollo";
-import { Icon, Grid, Rail, Segment, Responsive } from "semantic-ui-react";
+import {
+  Icon,
+  Grid,
+  Rail,
+  Segment,
+  Responsive,
+  Divider,
+} from "semantic-ui-react";
 import { PullToRefresh } from "../../components";
 import settings from "../../config/settings";
 import { Navigation } from "../../components/navigation";
@@ -116,6 +123,7 @@ export class FeedPage extends Component {
           <Responsive maxWidth={Responsive.onlyTablet.maxWidth}>
             <div style={{ padding: "1em" }}>
               <GoalProgress />
+              <Divider />
               <CreatePost />
             </div>
             <RepoListWithQuery />
