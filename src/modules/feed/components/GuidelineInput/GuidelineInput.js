@@ -91,7 +91,7 @@ class GuidelineInput extends Component {
           </label>
         </Form.Field>
 
-        {this.state.inputFocus && (
+        {this.state.inputFocus && this.state.amount && (
           <Query
             query={GET_GUIDELINES}
             variables={{
