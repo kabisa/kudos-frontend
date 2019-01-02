@@ -126,6 +126,7 @@ export class FeedPage extends Component {
               <Divider />
               <CreatePost />
             </div>
+            <Divider style={{ marginBottom: "2px", marginTop: "0px" }} />
             <RepoListWithQuery />
           </Responsive>
           <Responsive minWidth={Responsive.onlyComputer.minWidth}>
