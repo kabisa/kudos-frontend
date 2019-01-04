@@ -1,6 +1,13 @@
 import { h, Component } from "preact";
 import { graphql } from "react-apollo";
-import { Icon, Grid, Rail, Segment, Responsive } from "semantic-ui-react";
+import {
+  Icon,
+  Grid,
+  Rail,
+  Segment,
+  Responsive,
+  Divider,
+} from "semantic-ui-react";
 import { PullToRefresh } from "../../components";
 import settings from "../../config/settings";
 import { Navigation } from "../../components/navigation";
@@ -10,6 +17,7 @@ import {
   LeftRail,
   RightRail,
   CreatePost,
+  GoalProgress,
 } from "./components";
 import { GET_TRANSACTIONS } from "./queries";
 import { auth } from "../../support";
@@ -114,8 +122,11 @@ export class FeedPage extends Component {
         <div className="page">
           <Responsive maxWidth={Responsive.onlyTablet.maxWidth}>
             <div style={{ padding: "1em" }}>
+              <GoalProgress />
+              <Divider />
               <CreatePost />
             </div>
+            <Divider style={{ marginBottom: "2px", marginTop: "0px" }} />
             <RepoListWithQuery />
           </Responsive>
           <Responsive minWidth={Responsive.onlyComputer.minWidth}>

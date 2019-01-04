@@ -1,0 +1,22 @@
+.root {
+    margin: auto;
+    height: 3em;
+    padding-top: 8px;
+}
+
+.lock_container {
+    width: 30px !important;
+    height: 30px;
+    display: inline-block;
+    border-radius: 6px;
+    color: white;
+}
+
+.lock {
+    margin-left: 5.5px !important;
+    margin-top: 4.5px !important;
+}
+
+.line {
+    width: calc(100vw - 90px);
+}
