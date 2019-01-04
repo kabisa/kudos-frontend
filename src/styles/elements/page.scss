@@ -2,6 +2,7 @@
     .page {
         height: calc(100vh - 55px);
         overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
     }
 
     .page::-webkit-scrollbar {
