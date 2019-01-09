@@ -21,6 +21,7 @@
     <platform name="ios">
         <hook src="scripts/target_attributes.rb" type="after_build" />
         <hook src="scripts/share_schemes.rb" type="after_platform_add" />
+        <icon height="40" src="../src/assets/logo/AppStore-40.png" width="40" />
         <icon height="76" src="../src/assets/logo/AppStore-76.png" width="76" />
         <icon height="120" src="../src/assets/logo/AppStore-120.png" width="120" />
         <icon height="152" src="../src/assets/logo/AppStore-152.png" width="152" />
