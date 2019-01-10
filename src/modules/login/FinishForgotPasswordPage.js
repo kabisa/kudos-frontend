@@ -20,11 +20,13 @@ const MUTATION_NEW_PASSWORD = gql`
     $password_confirmation: String!
   ) {
     newPassword(
-      reset_password_token: $reset_password_token
+      resetPasswordToken: $reset_password_token
       password: $password
-      password_confirmation: $password_confirmation
+      passwordConfirmation: $password_confirmation
     ) {
-      id
+      user {
+        id
+      }
     }
   }
 `;

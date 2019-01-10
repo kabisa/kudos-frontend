@@ -29,19 +29,21 @@ export const CREATE_POST = gql`
   mutation CreatePost(
     $message: String
     $kudos: Int
-    $receivers: [ID]
-    $virtual_receivers: [String]
+    $receivers: [ID!]
+    $virtual_receivers: [String!]
     $team_id: ID
   ) {
     createPost(
       message: $message
       amount: $kudos
-      receiver_ids: $receivers
-      null_receivers: $virtual_receivers
-      team_id: $team_id
+      receiverIds: $receivers
+      nullReceivers: $virtual_receivers
+      teamId: $team_id
     ) {
-      id
-      amount
+      post {
+        id
+        amount
+      }
     }
   }
 `;

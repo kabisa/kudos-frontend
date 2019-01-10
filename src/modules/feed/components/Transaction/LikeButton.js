@@ -16,8 +16,10 @@ const teamId = localStorage.getItem(settings.TEAM_ID_TOKEN);
 
 export const MUTATION_TOGGLE_LIKE = gql`
   mutation ToggleLikePost($id: ID!) {
-    toggleLikePost(post_id: $id) {
-      ...PostInFeed
+    toggleLikePost(postId: $id) {
+      post {
+        ...PostInFeed
+      }
     }
   }
   ${FRAGMENT_POST}
@@ -30,8 +32,8 @@ const updateState = (store, newData) => {
   });
   const afterState = {
     ...beforeState,
-    postsConnections: {
-      edges: beforeState.postsConnection.edges.map(post => {
+    posts: {
+      edges: beforeState.posts.edges.map(post => {
         if (post.id !== newData.id) {
           return post;
         }
@@ -54,21 +56,23 @@ export const toggleLike = (mutate, transactionId, post) => {
     optimisticResponse: {
       __typename: "Mutation",
       toggleLikePost: {
-        ...post,
-        __typename: "Post",
-        votes: post.votes.some(vote => vote.voter.id === userId)
-          ? [...post.votes]
-          : [
-              ...post.votes,
-              {
-                voter: {
-                  id: userId,
-                  name: "You",
-                  __typename: "User",
+        post: {
+          ...post,
+          __typename: "Post",
+          votes: post.votes.some(vote => vote.voter.id === userId)
+            ? [...post.votes]
+            : [
+                ...post.votes,
+                {
+                  voter: {
+                    id: userId,
+                    name: "You",
+                    __typename: "User",
+                  },
+                  __typename: "Vote",
                 },
-                __typename: "Vote",
-              },
-            ],
+              ],
+        },
       },
     },
     update: (proxy, { data: { toggleLikePost } }) =>

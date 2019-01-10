@@ -22,7 +22,7 @@ import {
 import { GET_TRANSACTIONS } from "./queries";
 import { auth } from "../../support";
 
-const RepoList = ({ data: { loading, error, postsConnection, loadMore } }) => {
+const RepoList = ({ data: { loading, error, teamById, loadMore } }) => {
   if (error) return <p>Something went wrong.</p>;
   if (loading) {
     return (
@@ -34,12 +34,14 @@ const RepoList = ({ data: { loading, error, postsConnection, loadMore } }) => {
       </div>
     );
   }
+
+  const posts = teamById.posts;
   return (
     <div>
-      {postsConnection.edges.map(item => (
+      {posts.edges.map(item => (
         <Transaction transaction={item.node} key={item.id} />
       ))}
-      {postsConnection.pageInfo.hasNextPage && (
+      {posts.pageInfo.hasNextPage && (
         <div style={{ height: "120px", display: "flex" }}>
           <Icon
             name="arrow down"
@@ -49,7 +51,7 @@ const RepoList = ({ data: { loading, error, postsConnection, loadMore } }) => {
           />
         </div>
       )}
-      {!postsConnection.pageInfo.hasNextPage && (
+      {!posts.pageInfo.hasNextPage && (
         <div>
           <p style={{ lineHeight: "60px", textAlign: "center" }}>
             You&apos;ve reached the end, congratulations!
@@ -92,16 +94,16 @@ export class FeedPage extends Component {
             data.fetchMore({
               variables: {
                 team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
-                end: data.postsConnection.pageInfo.endCursor,
+                end: data.teamById.posts.pageInfo.endCursor,
               },
               updateQuery: (previousResult = {}, { fetchMoreResult = {} }) => {
-                const previousPosts = previousResult.postsConnection || {};
-                const newPosts = fetchMoreResult.postsConnection || {};
+                const previousPosts = previousResult.posts || {};
+                const newPosts = fetchMoreResult.posts || {};
                 const previousEdges = previousPosts.edges || [];
                 const currentEdges = newPosts.edges || [];
                 return {
                   ...previousResult,
-                  postsConnection: {
+                  posts: {
                     ...previousPosts,
                     edges: [...previousEdges, ...currentEdges],
                     pageInfo: newPosts.pageInfo,

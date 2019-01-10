@@ -27,21 +27,18 @@ export const FRAGMENT_POST = gql`
 
 export const GET_TRANSACTIONS = gql`
   query postsConnection($team_id: ID!, $end: String) {
-    postsConnection(
-      findByTeamId: $team_id
-      first: 10
-      after: $end
-      orderBy: "created_at desc"
-    ) {
-      edges {
-        cursor
-        node {
-          ...PostInFeed
+    teamById(id: $team_id) {
+      posts(first: 10, after: $end, orderBy: "created_at desc") {
+        edges {
+          cursor
+          node {
+            ...PostInFeed
+          }
         }
-      }
-      pageInfo {
-        endCursor
-        hasNextPage
+        pageInfo {
+          endCursor
+          hasNextPage
+        }
       }
     }
   }
@@ -70,7 +67,7 @@ export const GET_GOAL_PERCENTAGE = gql`
         id
         amount
         name
-        achieved_on
+        achievedOn
       }
     }
   }

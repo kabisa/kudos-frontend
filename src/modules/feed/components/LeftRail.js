@@ -8,10 +8,8 @@ import s from "./Rail.scss";
 const GET_INFO = gql`
   query GetInfo {
     viewer {
-      self {
-        name
-        email
-      }
+      name
+      email
     }
   }
 `;
@@ -23,7 +21,7 @@ export default () => (
         if (loading) return "Loading...";
         if (error) return `Error! ${error.message}`;
 
-        return <h3>Hello {data.viewer.self.name}</h3>;
+        return <h3>Hello {data.viewer.name}</h3>;
       }}
     </Query>
   </Segment>

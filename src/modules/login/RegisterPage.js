@@ -16,22 +16,24 @@ import { loginSuccess } from "./helper";
 import settings from "src/config/settings";
 
 export const MUTATION_REGISTER = gql`
-  mutation CreateUser(
+  mutation SignUpUser(
     $name: String!
     $email: EmailAddress!
     $password: String!
   ) {
-    createUser(
+    signUpUser(
       credentials: {
         name: $name
         email: $email
         password: $password
-        password_confirmation: $password
+        passwordConfirmation: $password
       }
     ) {
-      token
-      user {
-        id
+      authenticateData {
+        token
+        user {
+          id
+        }
       }
     }
   }
@@ -58,12 +60,12 @@ class RegisterPage extends Component {
   }
 
   confirm(data) {
-    if (data.createUser) {
-      loginSuccess(data.createUser);
+    if (data.signUpUser.authenticateData) {
+      loginSuccess(data.signUpUser.authenticateData);
     }
   }
 
-  formSubmit(e, createUser) {
+  formSubmit(e, signUpUser) {
     e.preventDefault();
     const { name, email, password } = this.state;
     this.setState({ error: null });
@@ -83,7 +85,7 @@ class RegisterPage extends Component {
       return;
     }
 
-    createUser({
+    signUpUser({
       variables: { name, email, password },
     });
   }
@@ -94,7 +96,7 @@ class RegisterPage extends Component {
         mutation={MUTATION_REGISTER}
         onCompleted={data => this.confirm(data)}
       >
-        {(createUser, { error, loading }) => {
+        {(signUpUser, { error, loading }) => {
           let displayError;
           if (error) {
             displayError = getGraphqlError(error);
@@ -108,7 +110,7 @@ class RegisterPage extends Component {
               <Form
                 size="large"
                 error={error}
-                onSubmit={e => this.formSubmit(e, createUser)}
+                onSubmit={e => this.formSubmit(e, signUpUser)}
               >
                 <Segment>
                   <Form.Input
