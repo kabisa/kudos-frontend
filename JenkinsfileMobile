@@ -61,7 +61,7 @@ pipeline {
 
           }
           expression {
-            commitMessage.contains('DEPLOY_STORE');
+            commitMessage.contains('DEPLOY_STORE_IOS');
           }
         }
       }
@@ -83,7 +83,7 @@ pipeline {
             branch 'master';branch 'demo';branch 'appstore';
           }
           expression {
-            commitMessage.contains('DEPLOY_HOCKEY') || commitMessage.contains('DEPLOY_STORE')
+            commitMessage.contains('DEPLOY_HOCKEY') || commitMessage.contains('DEPLOY_STORE_IOS')
           }
         }
       }
@@ -229,7 +229,7 @@ pipeline {
 
           }
           expression {
-            commitMessage.contains('DEPLOY_STORE');
+            commitMessage.contains('DEPLOY_STORE_IOS');
           }
         }
       }
