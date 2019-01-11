@@ -14,9 +14,11 @@ import { authAllowNoTeam } from "../../support";
 import s from "../user/UserPage.scss";
 
 export const MUTATION_CREATE_TEAM = gql`
-  mutation CreateTeam($name: String) {
+  mutation CreateTeam($name: String!) {
     createTeam(name: $name) {
-      id
+      team {
+        id
+      }
     }
   }
 `;
@@ -83,7 +85,10 @@ class CreateTeamPage extends Component {
               mutation={MUTATION_CREATE_TEAM}
               onCompleted={({ createTeam }) => {
                 this.setState(this.initialState);
-                localStorage.setItem(settings.TEAM_ID_TOKEN, createTeam.id);
+                localStorage.setItem(
+                  settings.TEAM_ID_TOKEN,
+                  createTeam.team.id
+                );
                 toast.info("Team created succesfully!");
                 route(PATH_FEED, true);
               }}

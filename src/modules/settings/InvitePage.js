@@ -17,9 +17,11 @@ import {
 import s from "./style.scss";
 
 export const MUTATION_CREATE_INVITE = gql`
-  mutation CreateInvite($emails: [EmailAddress], $team_id: ID!) {
-    createInvite(emails: $emails, team_id: $team_id) {
-      id
+  mutation CreateInvite($emails: [EmailAddress!]!, $team_id: ID!) {
+    createTeamInvite(emails: $emails, teamId: $team_id) {
+      teamInvites {
+        id
+      }
     }
   }
 `;

@@ -14,7 +14,9 @@ import s from "./Header.scss";
 
 export const MUTATION_TOGGLE_LIKE = gql`
   mutation RemovePost($id: ID!) {
-    deletePost(id: $id)
+    deletePost(id: $id) {
+      postId
+    }
   }
 `;
 

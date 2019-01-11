@@ -20,9 +20,11 @@ import s from "./style.scss";
 export const MUTATION_LOGIN = gql`
   mutation SignInUser($email: EmailAddress!, $password: String!) {
     signInUser(credentials: { email: $email, password: $password }) {
-      token
-      user {
-        id
+      authenticateData {
+        token
+        user {
+          id
+        }
       }
     }
   }
@@ -52,8 +54,8 @@ class LoginPage extends Component {
   }
 
   confirm(data) {
-    if (data.signInUser) {
-      loginSuccess(data.signInUser);
+    if (data.signInUser.authenticateData) {
+      loginSuccess(data.signInUser.authenticateData);
     }
   }
 
@@ -84,7 +86,7 @@ class LoginPage extends Component {
         mutation={MUTATION_LOGIN}
         onCompleted={data => this.confirm(data)}
       >
-        {(signInUser, { data, error, loading }) => {
+        {(signInUser, { error, loading }) => {
           let displayError;
           if (error) {
             displayError = getGraphqlError(error);
@@ -131,14 +133,6 @@ class LoginPage extends Component {
                   >
                     Login
                   </Button>
-
-                  {data && data.signInUser === null && (
-                    <Message
-                      error={true}
-                      header="Unable to login"
-                      content="Incorrect username/password."
-                    />
-                  )}
 
                   {displayError && (
                     <Message negative>

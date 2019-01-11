@@ -7,13 +7,11 @@ import Invite from "./Invite";
 export const GET_INVITES = gql`
   query getInvites {
     viewer {
-      self {
-        teamInvites {
+      teamInvites {
+        id
+        team {
           id
-          team {
-            id
-            name
-          }
+          name
         }
       }
     }
@@ -26,13 +24,13 @@ const InviteList = () => (
       if (loading) return <p style={{ textAlign: "center" }}>Loading...</p>;
       if (error) return <p style={{ textAlign: "center" }} />;
 
-      if (!data.viewer.self.teamInvites.length) {
+      if (!data.viewer.teamInvites.length) {
         return <p style={{ textAlign: "center" }}>No invites.</p>;
       }
 
       return (
         <div>
-          {data.viewer.self.teamInvites.map(invite => (
+          {data.viewer.teamInvites.map(invite => (
             <Invite key={invite.id} invite={invite} />
           ))}
         </div>

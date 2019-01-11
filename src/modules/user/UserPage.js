@@ -12,10 +12,8 @@ import s from "./UserPage.scss";
 export const GET_USER = gql`
   query getUser {
     viewer {
-      self {
-        name
-        avatar
-      }
+      name
+      avatar
     }
   }
 `;
@@ -38,10 +36,10 @@ export class UserPage extends Component {
               {({ data }) => (
                 <div>
                   <h2 className={s.name}>
-                    {data.viewer ? data.viewer.self.name : "Loading..."}
+                    {data.viewer ? data.viewer.name : "Loading..."}
                   </h2>
                   <Image
-                    src={data.viewer ? data.viewer.self.avatar : null}
+                    src={data.viewer ? data.viewer.avatar : null}
                     size="tiny"
                     avatar
                     style={{ marginTop: "2em", marginBottom: "1em" }}

@@ -24,11 +24,13 @@ export const MUTATION_RESET_PASSWORD = gql`
     $new_password_confirmation: String
   ) {
     resetPassword(
-      current_password: $current_password
-      new_password: $new_password
-      new_password_confirmation: $new_password_confirmation
+      currentPassword: $current_password
+      newPassword: $new_password
+      newPasswordConfirmation: $new_password_confirmation
     ) {
-      id
+      user {
+        id
+      }
     }
   }
 `;

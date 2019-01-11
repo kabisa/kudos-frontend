@@ -6,17 +6,21 @@ import ChoiceButton from "./ChoiceButton";
 import s from "./style.scss";
 
 export const MUTATION_ACCEPT_INVITE = gql`
-  mutation AcceptInvite($team_invite_id: ID!) {
-    acceptInvite(team_invite_id: $team_invite_id) {
-      id
+  mutation AcceptTeamInvite($team_invite_id: ID!) {
+    acceptTeamInvite(teamInviteId: $team_invite_id) {
+      teamInvite {
+        id
+      }
     }
   }
 `;
 
 export const MUTATION_DECLINE_INVITE = gql`
-  mutation DeclineInvite($team_invite_id: ID!) {
-    declineInvite(team_invite_id: $team_invite_id) {
-      id
+  mutation DeclineTeamInvite($team_invite_id: ID!) {
+    declineTeamInvite(teamInviteId: $team_invite_id) {
+      teamInvite {
+        id
+      }
     }
   }
 `;

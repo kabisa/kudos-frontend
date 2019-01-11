@@ -16,9 +16,7 @@ import s from "./Desktop.scss";
 export const GET_USER = gql`
   query getUser {
     viewer {
-      self {
-        name
-      }
+      name
     }
   }
 `;
@@ -34,7 +32,7 @@ export const DesktopNavigation = () => (
               <Dropdown
                 item
                 simple
-                text={data.viewer ? data.viewer.self.name : "Loading..."}
+                text={data.viewer ? data.viewer.name : "Loading..."}
               >
                 <Dropdown.Menu>
                   <a

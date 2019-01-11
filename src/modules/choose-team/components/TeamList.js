@@ -9,14 +9,12 @@ import { selectTeam } from "../utils";
 export const GET_TEAMS = gql`
   query getTeams {
     viewer {
-      self {
-        memberships {
+      memberships {
+        id
+        role
+        team {
           id
-          role
-          team {
-            id
-            name
-          }
+          name
         }
       }
     }
@@ -28,7 +26,7 @@ const TeamList = () => (
     {({ loading, error, data }) => {
       if (loading) return <p style={{ textAlign: "center" }}>Loading...</p>;
       if (error) return <p style={{ textAlign: "center" }} />;
-      const memberships = data.viewer.self.memberships;
+      const memberships = data.viewer.memberships;
       if (!memberships.length) {
         return <p style={{ textAlign: "center" }}>No teams.</p>;
       }

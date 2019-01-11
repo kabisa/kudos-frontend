@@ -15,7 +15,7 @@ export const GET_GOAL_PERCENTAGE = gql`
         id
         name
         amount
-        achieved_on
+        achievedOn
       }
       activeKudosMeter {
         amount
@@ -86,16 +86,16 @@ const Statistics = () => (
                             width: "30px",
                             height: "30px",
                             position: "absolute",
-                            backgroundColor: goal.achieved_on
+                            backgroundColor: goal.achievedOn
                               ? "#2490d5"
                               : "lightgrey",
                             borderRadius: "6px",
                             // zIndex: "5",
-                            color: goal.achieved_on ? "white" : null,
+                            color: goal.achievedOn ? "white" : null,
                           }}
                         >
                           <Icon
-                            name={goal.achieved_on ? "lock open" : "lock"}
+                            name={goal.achievedOn ? "lock open" : "lock"}
                             style={{
                               position: "absolute",
                               left: "6.5px",
@@ -112,7 +112,7 @@ const Statistics = () => (
                             height: "70px",
                             marginTop: "30px",
                             position: "absolute",
-                            backgroundColor: goal.achieved_on
+                            backgroundColor: goal.achievedOn
                               ? "#2490d5"
                               : "lightgrey",
                             marginLeft: "9px",
@@ -165,11 +165,11 @@ const Statistics = () => (
                           marginBottom: "0px",
                         }}
                       >
-                        {!goal.achieved_on &&
+                        {!goal.achievedOn &&
                           `${currentKudos} / ${goal.amount}₭`}
-                        {goal.achieved_on &&
+                        {goal.achievedOn &&
                           `Achieved on ${moment(
-                            goal.achieved_on,
+                            goal.achievedOn,
                             "YYYY-MM-DD"
                           ).format("DD MMM, YYYY")}`}
                       </span>
