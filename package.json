@@ -11,7 +11,7 @@
     "test:e2e": "NODE_ENV=test SERVER_PORT=9091 script/test-e2e.js",
     "prettier:check": "prettier '{,!(node_modules|cordova|dist)/**/}*.js' --list-different",
     "prettier:write": "prettier '{,!(node_modules|cordova|dist)/**/}*.js' --write",
-    "eslint": "get-graphql-schema http://localhost:3000/graphql -j > schema.json && eslint src/ test/",
+    "eslint": "get-graphql-schema https://kudo-o-matic-staging.dokku.kabisa.io/graphql -j > schema.json && eslint src/ test/",
     "stylelint": "stylelint 'src/**/*.scss' --fix",
     "precommit": "lint-staged",
     "queries:check": "apollo queries:check",
