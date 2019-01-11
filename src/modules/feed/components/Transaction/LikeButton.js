@@ -33,7 +33,7 @@ const updateState = (store, newData) => {
   const afterState = {
     ...beforeState,
     posts: {
-      edges: beforeState.posts.edges.map(post => {
+      edges: beforeState.teamById.posts.edges.map(post => {
         if (post.id !== newData.id) {
           return post;
         }
@@ -73,6 +73,7 @@ export const toggleLike = (mutate, transactionId, post) => {
                 },
               ],
         },
+        __typename: "ToggleLikePostMutationPayload",
       },
     },
     update: (proxy, { data: { toggleLikePost } }) =>
