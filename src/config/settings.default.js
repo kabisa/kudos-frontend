@@ -8,7 +8,7 @@ export default {
   MAX_POST_MESSAGE_LENGTH: 140,
 
   // Network settings.
-  API_BASE_URL: "http://localhost:3000",
+  API_BASE_URL: "https://kudo-o-matic-staging.dokku.kabisa.io",
 
   // localStorage settings.
   LOCALSTORAGE_TOKEN: "token",
