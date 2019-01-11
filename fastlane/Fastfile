@@ -145,7 +145,7 @@ lane :build_signed_apk do
     apk_path: "#{@cordova_folder}/platforms/android/build/outputs/apk/android-release-unsigned.apk"
   )
 
-  ipalign(apk_path: "#{lane_context[SharedValues::SIGNED_APK_PATH]}")
+  zipalign(apk_path: "#{lane_context[SharedValues::SIGNED_APK_PATH]}")
 end
 
 lane :ios_prepare do
