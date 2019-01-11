@@ -90,27 +90,33 @@ export class FeedPage extends Component {
       props: ({ data }) => ({
         data: {
           ...data,
-          loadMore: () =>
+          loadMore: () => {
             data.fetchMore({
               variables: {
                 team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
                 end: data.teamById.posts.pageInfo.endCursor,
               },
               updateQuery: (previousResult = {}, { fetchMoreResult = {} }) => {
-                const previousPosts = previousResult.posts || {};
-                const newPosts = fetchMoreResult.posts || {};
-                const previousEdges = previousPosts.edges || [];
-                const currentEdges = newPosts.edges || [];
+                const previousPosts = previousResult.teamById || {};
+                const newPosts = fetchMoreResult.teamById || {};
+
+                const previousEdges = previousPosts.posts.edges || [];
+                const currentEdges = newPosts.posts.edges || [];
+
                 return {
                   ...previousResult,
-                  posts: {
+                  teamById: {
                     ...previousPosts,
-                    edges: [...previousEdges, ...currentEdges],
-                    pageInfo: newPosts.pageInfo,
+                    posts: {
+                      ...previousPosts.posts,
+                      edges: [...previousEdges, ...currentEdges],
+                      pageInfo: newPosts.posts.pageInfo,
+                    },
                   },
                 };
               },
-            }),
+            });
+          },
         },
       }),
     });
