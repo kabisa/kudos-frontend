@@ -9,6 +9,10 @@ import { PATH_LOGIN } from "./routes";
 
 import "./styles/shell.scss";
 
+import "./assets/icons/favicon.ico";
+import "./assets/icons/favicon-32x32.png";
+import "./assets/icons/favicon-16x16.png";
+
 const renderApp = function() {
   const App = require("./App").default;
   const root = document.querySelector("#maji-app");
