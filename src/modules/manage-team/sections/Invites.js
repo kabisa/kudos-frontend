@@ -101,7 +101,7 @@ export class InviteSection extends Component {
           mutation={MUTATION_CREATE_INVITE}
           onCompleted={() => {
             this.setState(this.initialState);
-            toast.info("Invites sent succesfully!");
+            toast.info("Invites sent successfully!");
           }}
           refetchQueries={[
             {
@@ -121,7 +121,7 @@ export class InviteSection extends Component {
               displayError = this.state.error;
             }
             return (
-              <Form>
+              <Form onSubmit={() => this.sendInvites(createInvite)}>
                 <p style={{ color: "grey" }}>
                   Enter the email addresses of the users you would like to
                   invite. They should be separated by a comma or semicolon. The
@@ -144,7 +144,7 @@ export class InviteSection extends Component {
                   color="blue"
                   loading={loading}
                   disabled={loading}
-                  onClick={() => this.sendInvites(createInvite)}
+                  type="submit"
                 >
                   Invite
                 </Button>

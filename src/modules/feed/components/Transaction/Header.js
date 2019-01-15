@@ -77,7 +77,7 @@ export class Header extends Component {
                     },
                   },
                 ]}
-                onCompleted={() => toast.info("Post succesfully removed!")}
+                onCompleted={() => toast.info("Post successfully removed!")}
               >
                 {mutate => (
                   <Dropdown.Item

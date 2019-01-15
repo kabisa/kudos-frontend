@@ -146,7 +146,7 @@ class ResetPasswordPage extends Component {
               mutation={MUTATION_RESET_PASSWORD}
               onCompleted={() => {
                 this.setState(this.initialState);
-                toast.info("Password reset succesfully!");
+                toast.info("Password reset successfully!");
               }}
             >
               {(resetPassword, { error, loading }) => {

@@ -79,7 +79,7 @@ export class InvitePage extends Component {
               mutation={MUTATION_CREATE_INVITE}
               onCompleted={() => {
                 this.setState(this.initialState);
-                toast.info("Invites sent succesfully!");
+                toast.info("Invites sent successfully!");
               }}
             >
               {(createInvite, { error, loading }) => {

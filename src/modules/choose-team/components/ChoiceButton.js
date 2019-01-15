@@ -55,9 +55,9 @@ const ChoiceButton = ({ mutation, inviteId, text, color, accept, teamId }) => (
             if (accept) {
               localStorage.setItem(settings.TEAM_ID_TOKEN, teamId);
               route(PATH_FEED, true);
-              toast.info("Invite succesfully accepted!");
+              toast.info("Invite successfully accepted!");
             } else {
-              toast.info("Invite succesfully declined!");
+              toast.info("Invite successfully declined!");
             }
           }}
         >

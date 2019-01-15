@@ -89,7 +89,7 @@ class CreateTeamPage extends Component {
                   settings.TEAM_ID_TOKEN,
                   createTeam.team.id
                 );
-                toast.info("Team created succesfully!");
+                toast.info("Team created successfully!");
                 route(PATH_FEED, true);
               }}
             >
