@@ -6,8 +6,8 @@ import gql from "graphql-tag";
 import {
   PATH_FEED,
   PATH_USER,
-  PATH_INVITE,
   PATH_CHOOSE_TEAM,
+  PATH_MANAGE_TEAM,
 } from "../../routes";
 import { logout, isAdmin } from "../../support";
 
@@ -46,12 +46,12 @@ export const DesktopNavigation = () => (
                   <Dropdown.Divider />
                   {isAdmin() && (
                     <a
-                      href={`#${PATH_INVITE}`}
+                      href={`#${PATH_MANAGE_TEAM}`}
                       className="item"
                       style={{ color: "black" }}
                     >
                       <Icon name="send" />
-                      Invite members
+                      Manage team
                     </a>
                   )}
                   {isAdmin() && <Dropdown.Divider />}

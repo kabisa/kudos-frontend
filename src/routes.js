@@ -12,3 +12,4 @@ export const PATH_USER = "/user";
 export const PATH_CHOOSE_TEAM = "/choose-team";
 export const PATH_INVITE = "/invite";
 export const PATH_CREATE_TEAM = "/create-team";
+export const PATH_MANAGE_TEAM = "/manage-team";
