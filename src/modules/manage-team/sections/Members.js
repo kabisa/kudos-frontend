@@ -13,6 +13,7 @@ export class MemberSection extends Component {
           </Header.Content>
         </Header>
         <Divider />
+        {/* <Query ></Query> */}
       </div>
     );
   }

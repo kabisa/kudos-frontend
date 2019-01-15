@@ -20,7 +20,7 @@ export class ManageTeamPage extends Component {
 
     auth(true);
 
-    this.state = { activeItem: "guidelines" };
+    this.state = { activeItem: "kudometer" };
 
     this.handleItemClick = this.handleItemClick.bind(this);
   }
