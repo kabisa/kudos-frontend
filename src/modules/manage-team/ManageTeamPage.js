@@ -20,7 +20,7 @@ export class ManageTeamPage extends Component {
 
     auth(true);
 
-    this.state = { activeItem: "general" };
+    this.state = { activeItem: "invites" };
 
     this.handleItemClick = this.handleItemClick.bind(this);
   }

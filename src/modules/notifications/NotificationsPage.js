@@ -1,5 +1,4 @@
 import { h, Component } from "preact";
-import { Feed, Icon } from "semantic-ui-react";
 
 import { Navigation } from "../../components/navigation";
 import { auth } from "../../support";
@@ -16,24 +15,9 @@ export class NotificationsPage extends Component {
     return (
       <div>
         <div className={s.page}>
-          <Feed>
-            <Feed.Event>
-              <Feed.Label>
-                <img src="https://s3.amazonaws.com/uifaces/faces/twitter/exentrich/128.jpg" />
-              </Feed.Label>
-              <Feed.Content>
-                <Feed.Summary>
-                  <Feed.User>Elliot Fu</Feed.User> added you as a friend
-                  <Feed.Date>1 Hour Ago</Feed.Date>
-                </Feed.Summary>
-                <Feed.Meta>
-                  <Feed.Like>
-                    <Icon name="like" />4 Likes
-                  </Feed.Like>
-                </Feed.Meta>
-              </Feed.Content>
-            </Feed.Event>
-          </Feed>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <h2 style={{ margin: "auto" }}>Work in progress</h2>
+          </div>
         </div>
         <Navigation />
       </div>
