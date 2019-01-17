@@ -138,7 +138,7 @@ export class FeedPage extends Component {
             <RepoListWithQuery />
           </Responsive>
           <Responsive minWidth={Responsive.onlyComputer.minWidth}>
-            <Grid centered columns={3}>
+            <Grid centered columns={3} style={{ minHeight: "57em" }}>
               <Grid.Column style={{ padding: 0, maxWidth: "420px" }}>
                 <Segment style={{ maxWidth: "420px", margin: "auto" }}>
                   <CreatePost />
