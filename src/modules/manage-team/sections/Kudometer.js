@@ -66,6 +66,16 @@ export const GET_KUDOMETERS = gql`
   }
 `;
 
+export const UPDATE_GOAL = gql`
+  mutation UpdateGoal($name: String!, $amount: Int!, $goalId: ID!) {
+    updateGoal(name: $name, amount: $amount, goalId: $goalId) {
+      goal {
+        id
+      }
+    }
+  }
+`;
+
 export class KudometerSection extends Component {
   constructor(props) {
     super(props);
@@ -76,6 +86,10 @@ export class KudometerSection extends Component {
       goalKudos: "",
       goalName: "",
       error: null,
+      editingGoal: false,
+      editGoalName: null,
+      editGoalKudos: null,
+      editGoalId: null,
     };
     this.initialState = this.state;
 
@@ -260,10 +274,20 @@ export class KudometerSection extends Component {
                     <h1>Goals for Kudometer {this.state.selected.name}</h1>
 
                     <Mutation
-                      mutation={CREATE_GOAL}
+                      mutation={
+                        this.state.editingGoal ? UPDATE_GOAL : CREATE_GOAL
+                      }
                       onCompleted={() => {
-                        this.setState({ goalName: "", goalKudos: null });
-                        toast.info("Goal created successfully!");
+                        toast.info(
+                          this.state.editingGoal
+                            ? "Goal updated successfully!"
+                            : "Goal created successfully!"
+                        );
+                        this.setState({
+                          goalName: "",
+                          goalKudos: null,
+                          editingGoal: false,
+                        });
                       }}
                       refetchQueries={[
                         {
@@ -276,7 +300,7 @@ export class KudometerSection extends Component {
                         },
                       ]}
                     >
-                      {(createGoal, { error, loading }) => {
+                      {(mutate, { error, loading }) => {
                         let displayError;
                         if (error) {
                           displayError = getGraphqlError(error);
@@ -288,13 +312,21 @@ export class KudometerSection extends Component {
                         return (
                           <Form
                             onSubmit={() =>
-                              createGoal({
-                                variables: {
-                                  name: this.state.goalName,
-                                  amount: parseFloat(this.state.goalKudos),
-                                  kudometer: this.state.selected.id,
-                                },
-                              })
+                              this.state.editingGoal
+                                ? mutate({
+                                    variables: {
+                                      name: this.state.editGoalName,
+                                      amount: this.state.editGoalKudos,
+                                      goalId: this.state.editGoalId,
+                                    },
+                                  })
+                                : mutate({
+                                    variables: {
+                                      name: this.state.goalName,
+                                      amount: parseFloat(this.state.goalKudos),
+                                      kudometer: this.state.selected.id,
+                                    },
+                                  })
                             }
                           >
                             <Form.Group widths="equal">
@@ -302,20 +334,36 @@ export class KudometerSection extends Component {
                                 fluid
                                 required
                                 label="Name"
-                                name="goalName"
+                                name={
+                                  this.state.editingGoal
+                                    ? "editGoalName"
+                                    : "goalName"
+                                }
                                 placeholder="Name"
-                                value={this.state.goalName}
+                                value={
+                                  this.state.editingGoal
+                                    ? this.state.editGoalName
+                                    : this.state.goalName
+                                }
                                 onChange={this.handleChange}
                               />
                               <Form.Input
                                 fluid
                                 required
                                 label="Kudos"
-                                name="goalKudos"
+                                name={
+                                  this.state.editingGoal
+                                    ? "editGoalKudos"
+                                    : "goalKudos"
+                                }
                                 type="number"
                                 min="100"
                                 placeholder="Kudos"
-                                value={this.state.goalKudos}
+                                value={
+                                  this.state.editingGoal
+                                    ? this.state.editGoalKudos
+                                    : this.state.goalKudos
+                                }
                                 onChange={this.handleChange}
                               />
                             </Form.Group>
@@ -325,8 +373,20 @@ export class KudometerSection extends Component {
                               disabled={loading}
                               type="submit"
                             >
-                              Create goal
+                              {this.state.editingGoal
+                                ? "Update goal"
+                                : "Create goal"}
                             </Button>
+                            {this.state.editingGoal && (
+                              <Button
+                                color="orange"
+                                onClick={() =>
+                                  this.setState({ editingGoal: false })
+                                }
+                              >
+                                Cancel
+                              </Button>
+                            )}
                             {displayError && (
                               <Message negative>
                                 <Message.Header>
@@ -354,6 +414,19 @@ export class KudometerSection extends Component {
                             <Table.Cell>{goal.name}</Table.Cell>
                             <Table.Cell>{goal.amount}</Table.Cell>
                             <Table.Cell>
+                              <Button
+                                color="yellow"
+                                icon="pencil"
+                                size="tiny"
+                                onClick={() =>
+                                  this.setState({
+                                    editingGoal: true,
+                                    editGoalName: goal.name,
+                                    editGoalKudos: goal.amount,
+                                    editGoalId: goal.id,
+                                  })
+                                }
+                              />
                               <Mutation
                                 mutation={DELETE_GOAL}
                                 onCompleted={() => {
