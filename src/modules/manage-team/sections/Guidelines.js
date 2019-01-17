@@ -84,7 +84,7 @@ export class GuidelineSection extends Component {
     mutate({
       variables: {
         name: this.state.description,
-        kudos: parseFloat(this.state.kudos),
+        kudos: parseInt(this.state.kudos),
         team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
       },
     });

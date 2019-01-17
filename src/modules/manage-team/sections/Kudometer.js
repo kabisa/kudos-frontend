@@ -316,14 +316,16 @@ export class KudometerSection extends Component {
                                 ? mutate({
                                     variables: {
                                       name: this.state.editGoalName,
-                                      amount: this.state.editGoalKudos,
+                                      amount: parseInt(
+                                        this.state.editGoalKudos
+                                      ),
                                       goalId: this.state.editGoalId,
                                     },
                                   })
                                 : mutate({
                                     variables: {
                                       name: this.state.goalName,
-                                      amount: parseFloat(this.state.goalKudos),
+                                      amount: parseInt(this.state.goalKudos),
                                       kudometer: this.state.selected.id,
                                     },
                                   })
