@@ -96,7 +96,7 @@ export class GuidelineSection extends Component {
       variables: {
         guideline: this.state.editId,
         name: this.state.editDescription,
-        kudos: this.state.editKudos,
+        kudos: parseInt(this.state.editKudos),
       },
     });
   }
