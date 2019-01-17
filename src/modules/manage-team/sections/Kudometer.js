@@ -243,7 +243,7 @@ export class KudometerSection extends Component {
                                     onClick={() => {
                                       if (
                                         window.confirm(
-                                          "Are you sure you want to remove this kudometer?"
+                                          "REMOVING A KUDOMETER WILL REMOVE ALL RELATED POSTS! Are you sure you want to remove this kudometer?"
                                         )
                                       ) {
                                         deleteKudometer({

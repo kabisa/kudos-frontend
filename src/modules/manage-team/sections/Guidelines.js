@@ -240,6 +240,24 @@ export class GuidelineSection extends Component {
                               document
                                 .getElementById("management-container")
                                 .scrollIntoView();
+                              const items = document.getElementsByTagName(
+                                "input"
+                              );
+
+                              for (let item of items) {
+                                item.style =
+                                  "border-radius: 9px; border: solid 6px; border-color: #FBBD08;";
+                              }
+                              setTimeout(function() {
+                                const items = document.getElementsByTagName(
+                                  "input"
+                                );
+
+                                for (let item of items) {
+                                  item.style =
+                                    "border-radius: null; border: null; border-color: null;";
+                                }
+                              }, 1000);
                             }}
                           />
                           <Mutation
@@ -293,4 +311,5 @@ export class GuidelineSection extends Component {
     );
   }
 }
+
 export default GuidelineSection;
