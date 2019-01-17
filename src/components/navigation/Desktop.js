@@ -50,7 +50,7 @@ export const DesktopNavigation = () => (
                       className="item"
                       style={{ color: "black" }}
                     >
-                      <Icon name="send" />
+                      <Icon name="settings" />
                       Manage team
                     </a>
                   )}

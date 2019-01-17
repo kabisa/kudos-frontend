@@ -115,7 +115,7 @@ export class KudometerSection extends Component {
     return (
       <div>
         <Header as="h2">
-          <Icon name="settings" />
+          <Icon name="flag outline" />
           <Header.Content>
             Kudometers
             <Header.Subheader>Manage kudometers</Header.Subheader>

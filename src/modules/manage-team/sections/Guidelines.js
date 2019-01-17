@@ -106,7 +106,7 @@ export class GuidelineSection extends Component {
     return (
       <div>
         <Header as="h2">
-          <Icon name="settings" />
+          <Icon name="list" />
           <Header.Content>
             Guidelines
             <Header.Subheader>Manage guidelines</Header.Subheader>

@@ -98,7 +98,7 @@ export class InviteSection extends Component {
     return (
       <div>
         <Header as="h2">
-          <Icon name="settings" />
+          <Icon name="paper plane" />
           <Header.Content>
             Invites
             <Header.Subheader>Manage invites</Header.Subheader>

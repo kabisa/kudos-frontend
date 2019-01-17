@@ -69,7 +69,7 @@ export class GeneralSection extends Component {
             id: localStorage.getItem(settings.TEAM_ID_TOKEN),
           }}
         >
-          {({ loading, error, data }) => {
+          {({ loading, error, data, refetch }) => {
             if (loading) return "Loading...";
             if (error) return `Error! ${error.message}`;
             return (
@@ -78,15 +78,8 @@ export class GeneralSection extends Component {
                 onCompleted={() => {
                   toast.info("Team successfully updated!");
                   this.setState({ name: "" });
+                  refetch();
                 }}
-                refetchQueries={[
-                  {
-                    query: GET_TEAM_NAME,
-                    variables: {
-                      team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
-                    },
-                  },
-                ]}
               >
                 {(mutate, { loading }) => {
                   return (

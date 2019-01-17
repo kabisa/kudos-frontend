@@ -56,7 +56,7 @@ export class MemberSection extends Component {
     return (
       <div>
         <Header as="h2">
-          <Icon name="settings" />
+          <Icon name="users" />
           <Header.Content>
             Members
             <Header.Subheader>Manage team members</Header.Subheader>
