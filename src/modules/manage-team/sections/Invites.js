@@ -31,6 +31,14 @@ export const MUTATION_CREATE_INVITE = gql`
   }
 `;
 
+export const MUTATION_DELETE_INVITE = gql`
+  mutation DeleteTeamInvite($id: ID!) {
+    deleteTeamInvite(teamInviteId: $id) {
+      teamInviteId
+    }
+  }
+`;
+
 export const QUERY_GET_INVITES = gql`
   query getInvites($team_id: ID!) {
     teamById(id: $team_id) {
@@ -174,6 +182,7 @@ export class InviteSection extends Component {
                     <Table.HeaderCell>Send at</Table.HeaderCell>
                     <Table.HeaderCell>Email</Table.HeaderCell>
                     <Table.HeaderCell>Status</Table.HeaderCell>
+                    <Table.HeaderCell>Actions</Table.HeaderCell>
                   </Table.Row>
                 </Table.Header>
 
@@ -195,6 +204,46 @@ export class InviteSection extends Component {
                           {item.acceptedAt && "Accepted"}
                           {item.declinedAt && "Declined"}
                           {!item.declinedAt && !item.acceptedAt && "Pending"}
+                        </Table.Cell>
+                        <Table.Cell>
+                          <Mutation
+                            mutation={MUTATION_DELETE_INVITE}
+                            onCompleted={() => {
+                              toast.info("Invite removed successfully!");
+                            }}
+                            refetchQueries={[
+                              {
+                                query: QUERY_GET_INVITES,
+                                variables: {
+                                  team_id: localStorage.getItem(
+                                    settings.TEAM_ID_TOKEN
+                                  ),
+                                },
+                              },
+                            ]}
+                          >
+                            {(deleteInvite, { loading }) => {
+                              return (
+                                <Button
+                                  color="red"
+                                  icon="trash"
+                                  size="tiny"
+                                  loading={loading}
+                                  onClick={() => {
+                                    if (
+                                      window.confirm(
+                                        "Are you sure you want to remove this invite?"
+                                      )
+                                    ) {
+                                      deleteInvite({
+                                        variables: { id: item.id },
+                                      });
+                                    }
+                                  }}
+                                />
+                              );
+                            }}
+                          </Mutation>
                         </Table.Cell>
                       </Table.Row>
                     );
