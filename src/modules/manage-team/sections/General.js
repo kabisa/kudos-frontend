@@ -24,6 +24,34 @@ export const UPDATE_TEAM = gql`
 `;
 
 export class GeneralSection extends Component {
+  constructor(props) {
+    super(props);
+
+    this.updateTeam = this.updateTeam.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(e, { name, value }) {
+    this.setState({ [name]: value });
+  }
+
+  updateTeam(mutate) {
+    mutate({
+      variables: {
+        name: this.state.name,
+        team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+      },
+      refetchQueries: [
+        {
+          query: GET_TEAM_NAME,
+          variables: {
+            team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+          },
+        },
+      ],
+    });
+  }
+
   render() {
     return (
       <div>
@@ -49,6 +77,7 @@ export class GeneralSection extends Component {
                 mutation={UPDATE_TEAM}
                 onCompleted={() => {
                   toast.info("Team successfully updated!");
+                  this.setState({ name: "" });
                 }}
                 refetchQueries={[
                   {
@@ -61,36 +90,28 @@ export class GeneralSection extends Component {
               >
                 {(mutate, { loading }) => {
                   return (
-                    <Form
-                      onSubmit={() =>
-                        mutate({
-                          variables: {
-                            name: this.state.name,
-                            team_id: localStorage.getItem(
-                              settings.TEAM_ID_TOKEN
-                            ),
-                          },
-                        })
-                      }
-                    >
-                      <Form.Input
-                        fluid
-                        label="Team name"
-                        placeholder="Team name"
-                        name="name"
-                        required
-                        value={this.state.name || data.teamById.name}
-                        onChange={this.handleChange}
-                      />
-                      <Button
-                        color="blue"
-                        loading={loading}
-                        disabled={loading}
-                        type="submit"
-                      >
-                        Update
-                      </Button>
-                    </Form>
+                    <div>
+                      <h1>{data.teamById.name}</h1>
+                      <Form onSubmit={() => this.updateTeam(mutate)}>
+                        <Form.Input
+                          fluid
+                          label="New team name"
+                          placeholder="Team name"
+                          name="name"
+                          required
+                          value={this.state.name}
+                          onChange={this.handleChange}
+                        />
+                        <Button
+                          color="blue"
+                          loading={loading}
+                          disabled={loading}
+                          type="submit"
+                        >
+                          Update
+                        </Button>
+                      </Form>
+                    </div>
                   );
                 }}
               </Mutation>
