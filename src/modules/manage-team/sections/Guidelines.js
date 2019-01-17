@@ -156,7 +156,7 @@ export class GuidelineSection extends Component {
                     type="number"
                     min="1"
                     max="1000"
-                    name={editing ? "editKudos" : "editKudos"}
+                    name={editing ? "editKudos" : "kudos"}
                     required
                     value={editing ? this.state.editKudos : this.state.kudos}
                     onChange={this.handleChange}
