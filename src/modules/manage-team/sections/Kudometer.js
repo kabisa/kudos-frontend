@@ -168,6 +168,14 @@ export class KudometerSection extends Component {
           {({ loading, error, data }) => {
             if (loading) return "Loading...";
             if (error) return `Error! ${error.message}`;
+
+            const kudometer = this.state.selected
+              ? data.teamById.kudosMeters.find(
+                  kudometer => kudometer.id === this.state.selected.id
+                )
+              : null;
+            const goals = kudometer ? kudometer.goals : [];
+
             return (
               <div>
                 <Table celled>
@@ -186,6 +194,7 @@ export class KudometerSection extends Component {
                           <Table.Cell>
                             <Button
                               color="blue"
+                              size="tiny"
                               onClick={() =>
                                 this.setState({
                                   selected: item,
@@ -215,6 +224,7 @@ export class KudometerSection extends Component {
                                   <Button
                                     color="red"
                                     icon="trash"
+                                    size="tiny"
                                     loading={loading}
                                     onClick={() => {
                                       if (
@@ -225,6 +235,12 @@ export class KudometerSection extends Component {
                                         deleteKudometer({
                                           variables: { id: item.id },
                                         });
+                                        if (
+                                          this.state.selected &&
+                                          this.state.selected.id === item.id
+                                        ) {
+                                          this.setState({ selected: null });
+                                        }
                                       }
                                     }}
                                   />
@@ -268,6 +284,7 @@ export class KudometerSection extends Component {
                         if (this.state.error) {
                           displayError = this.state.error;
                         }
+
                         return (
                           <Form
                             onSubmit={() =>
@@ -332,55 +349,52 @@ export class KudometerSection extends Component {
                         </Table.Row>
                       </Table.Header>
                       <Table.Body>
-                        {data.teamById.kudosMeters
-                          .find(
-                            kudometer => kudometer.id === this.state.selected.id
-                          )
-                          .goals.map(goal => (
-                            <Table.Row key={goal.id}>
-                              <Table.Cell>{goal.name}</Table.Cell>
-                              <Table.Cell>{goal.amount}</Table.Cell>
-                              <Table.Cell>
-                                <Mutation
-                                  mutation={DELETE_GOAL}
-                                  onCompleted={() => {
-                                    toast.info("Goal removed successfully!");
-                                  }}
-                                  refetchQueries={[
-                                    {
-                                      query: GET_KUDOMETERS,
-                                      variables: {
-                                        team_id: localStorage.getItem(
-                                          settings.TEAM_ID_TOKEN
-                                        ),
-                                      },
+                        {goals.map(goal => (
+                          <Table.Row key={goal.id}>
+                            <Table.Cell>{goal.name}</Table.Cell>
+                            <Table.Cell>{goal.amount}</Table.Cell>
+                            <Table.Cell>
+                              <Mutation
+                                mutation={DELETE_GOAL}
+                                onCompleted={() => {
+                                  toast.info("Goal removed successfully!");
+                                }}
+                                refetchQueries={[
+                                  {
+                                    query: GET_KUDOMETERS,
+                                    variables: {
+                                      team_id: localStorage.getItem(
+                                        settings.TEAM_ID_TOKEN
+                                      ),
                                     },
-                                  ]}
-                                >
-                                  {(deleteGoal, { loading }) => {
-                                    return (
-                                      <Button
-                                        color="red"
-                                        icon="trash"
-                                        loading={loading}
-                                        onClick={() => {
-                                          if (
-                                            window.confirm(
-                                              "Are you sure you want to remove this kudometer?"
-                                            )
-                                          ) {
-                                            deleteGoal({
-                                              variables: { id: goal.id },
-                                            });
-                                          }
-                                        }}
-                                      />
-                                    );
-                                  }}
-                                </Mutation>
-                              </Table.Cell>
-                            </Table.Row>
-                          ))}
+                                  },
+                                ]}
+                              >
+                                {(deleteGoal, { loading }) => {
+                                  return (
+                                    <Button
+                                      color="red"
+                                      icon="trash"
+                                      size="tiny"
+                                      loading={loading}
+                                      onClick={() => {
+                                        if (
+                                          window.confirm(
+                                            "Are you sure you want to remove this kudometer?"
+                                          )
+                                        ) {
+                                          deleteGoal({
+                                            variables: { id: goal.id },
+                                          });
+                                        }
+                                      }}
+                                    />
+                                  );
+                                }}
+                              </Mutation>
+                            </Table.Cell>
+                          </Table.Row>
+                        ))}
                       </Table.Body>
                     </Table>
                   </div>

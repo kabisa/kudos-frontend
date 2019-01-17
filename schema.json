@@ -166,7 +166,18 @@
           {
             "name": "guidelines",
             "description": "All guidelines that belong to the team",
-            "args": [],
+            "args": [
+              {
+                "name": "orderBy",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": "\"kudos asc\""
+              }
+            ],
             "type": {
               "kind": "NON_NULL",
               "name": null,
@@ -206,7 +217,18 @@
           {
             "name": "kudosMeters",
             "description": "All KudosMeters that belong to the team",
-            "args": [],
+            "args": [
+              {
+                "name": "orderBy",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": "\"created_at desc\""
+              }
+            ],
             "type": {
               "kind": "NON_NULL",
               "name": null,
@@ -230,7 +252,18 @@
           {
             "name": "memberships",
             "description": "The members of the team",
-            "args": [],
+            "args": [
+              {
+                "name": "orderBy",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": "\"name\""
+              }
+            ],
             "type": {
               "kind": "NON_NULL",
               "name": null,
@@ -353,7 +386,18 @@
           {
             "name": "teamInvites",
             "description": "The invites send by the team",
-            "args": [],
+            "args": [
+              {
+                "name": "orderBy",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": "\"sent_at desc\""
+              }
+            ],
             "type": {
               "kind": "NON_NULL",
               "name": null,
@@ -896,7 +940,18 @@
           {
             "name": "goals",
             "description": "The goals that belong to the KudosMeter",
-            "args": [],
+            "args": [
+              {
+                "name": "orderBy",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": "\"amount asc\""
+              }
+            ],
             "type": {
               "kind": "NON_NULL",
               "name": null,
@@ -2435,7 +2490,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "SCALAR",
-                    "name": "ID",
+                    "name": "Int",
                     "ofType": null
                   }
                 },
@@ -2517,7 +2572,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "SCALAR",
-                    "name": "String",
+                    "name": "ID",
                     "ofType": null
                   }
                 },

@@ -20,7 +20,7 @@ export class ManageTeamPage extends Component {
 
     auth(true);
 
-    this.state = { activeItem: "kudometer" };
+    this.state = { activeItem: "general" };
 
     this.handleItemClick = this.handleItemClick.bind(this);
   }
@@ -35,6 +35,7 @@ export class ManageTeamPage extends Component {
       <div>
         <div className={s.page}>
           <Segment
+            id="management-container"
             style={{
               width: "60em",
               margin: "auto",
