@@ -71,11 +71,11 @@ export class ManageTeamPage extends Component {
                     active={activeItem === "kudometer"}
                     onClick={this.handleItemClick}
                   />
-                  <Menu.Item
+                  {/* <Menu.Item
                     name="integrations"
                     active={activeItem === "integrations"}
                     onClick={this.handleItemClick}
-                  />
+                  /> */}
                 </Menu>
               </Grid.Column>
 
