@@ -35,6 +35,9 @@ const plugins = [
   extractShellCss,
   extractOtherCss,
   new SpriteLoaderPlugin(),
+  new webpack.DefinePlugin({
+    API_BASE_URL_ENV: JSON.stringify(process.env.API_BASE_URL),
+  }),
 ];
 
 if (isProd) {
