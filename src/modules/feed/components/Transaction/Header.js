@@ -44,6 +44,9 @@ export class Header extends Component {
     const { createdAt, amount, votes } = this.props.transaction;
     const timestamp = moment(createdAt);
 
+    const allowNormalEdit =
+      moment.duration(timestamp.diff(moment())).asMinutes() * -1 <= 15;
+
     return (
       <div className={s.root}>
         <div className={s.kudo_amount}>
@@ -58,8 +61,10 @@ export class Header extends Component {
         <span data-testid="post-timestamp" className={s.timestamp}>
           {timestamp.fromNow()}
         </span>
-        {localStorage.getItem(settings.USER_ID_TOKEN) ===
-          this.props.transaction.sender.id && (
+        {((localStorage.getItem(settings.USER_ID_TOKEN) ===
+          this.props.transaction.sender.id &&
+          allowNormalEdit) ||
+          localStorage.getItem(settings.ROLE_TOKEN) === "admin") && (
           <Dropdown
             item
             icon="ellipsis vertical"

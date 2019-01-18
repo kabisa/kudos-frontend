@@ -76,10 +76,21 @@ export class MemberSection extends Component {
                 <Table celled>
                   <Table.Header>
                     <Table.Row>
-                      <Table.HeaderCell>Name</Table.HeaderCell>
+                      <Table.HeaderCell
+                        style={{
+                          textOverflow: "ellipsis",
+                          overflow: "hidden",
+                          whiteSpace: "nowrap",
+                          maxWidth: "13rem",
+                        }}
+                      >
+                        Name
+                      </Table.HeaderCell>
                       <Table.HeaderCell>Email</Table.HeaderCell>
                       <Table.HeaderCell>Role</Table.HeaderCell>
-                      <Table.HeaderCell>Actions</Table.HeaderCell>
+                      <Table.HeaderCell style={{ width: "10em" }}>
+                        Actions
+                      </Table.HeaderCell>
                     </Table.Row>
                   </Table.Header>
 
