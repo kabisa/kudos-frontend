@@ -27,8 +27,9 @@ pipeline {
 
   stages {
     stage("Prepare (installs)") {
+      when {
         anyOf {
-          branch 'master';branch 'develop';branch 'appstore';
+          branch 'master';branch 'demo';branch 'appstore';
         }
       }
       steps {
@@ -44,7 +45,7 @@ pipeline {
 
                 gem install -N bundler
 
-                bundle install 
+                bundle install
                 yarn install
                 cd cordova && npm install
                 cd ..
@@ -52,26 +53,11 @@ pipeline {
       }
     }
 
-    stage("Prepare environment") {
-      when {
-        branch 'develop'
-      }
-      steps {
-        API_BASE_URL = credentials('API_BASE_URL_DEV')
-      }
-     when {
-       branch 'master'
-     }
-     steps {
-       API_BASE_URL = credentials('API_BASE_URL_MASTER')
-     }
-    }
-
     stage("Check Store version") {
       when {
         allOf {
           anyOf {
-            branch 'master';branch 'develop';branch 'appstore';
+            branch 'master';branch 'demo';branch 'appstore';
 
           }
           expression {
@@ -94,7 +80,7 @@ pipeline {
       when {
         allOf {
           anyOf {
-            branch 'master';branch 'develop';branch 'appstore';
+            branch 'master';branch 'demo';branch 'appstore';
           }
           expression {
             commitMessage.contains('DEPLOY_HOCKEY') || commitMessage.contains('DEPLOY_IOS_STORE')
@@ -116,7 +102,7 @@ pipeline {
       when {
         allOf {
           anyOf {
-            branch 'master';branch 'develop';branch 'appstore';
+            branch 'master';branch 'demo';branch 'appstore';
           }
           expression {
             commitMessage.contains('DEPLOY_HOCKEY') || commitMessage.contains('DEPLOY_STORE')
@@ -149,7 +135,7 @@ pipeline {
       when {
         allOf {
           anyOf {
-            branch 'master';branch 'develop';branch 'appstore';
+            branch 'master';branch 'demo';branch 'appstore';
 
           }
           expression {
@@ -169,7 +155,7 @@ pipeline {
 
         sh '''#!/bin/bash -l
 
-          bundle exec fastlane register_ios_devices 
+          bundle exec fastlane register_ios_devices
           bundle exec fastlane ios_deploy_hockey
 
         '''
@@ -180,7 +166,7 @@ pipeline {
       when {
         allOf {
           anyOf {
-            branch 'master';branch 'develop';branch 'appstore';
+            branch 'master';branch 'demo';branch 'appstore';
 
           }
           expression {
@@ -209,7 +195,7 @@ pipeline {
       when {
         allOf {
           anyOf {
-            branch 'master';branch 'develop';branch 'appstore';
+            branch 'master';branch 'demo';branch 'appstore';
 
           }
           expression {
@@ -239,7 +225,7 @@ pipeline {
       when {
         allOf {
           anyOf {
-            branch 'master';branch 'develop';branch 'appstore';
+            branch 'master';branch 'demo';branch 'appstore';
 
           }
           expression {
