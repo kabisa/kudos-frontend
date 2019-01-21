@@ -52,19 +52,22 @@ pipeline {
       }
     }
 
-    stage("Prepare environment") {
+    stage("Prepare development") {
          when {
            branch 'develop'
          }
          steps {
            API_BASE_URL = credentials('API_BASE_URL_DEV')
          }
-         when {
-           branch 'master'
-         }
-         steps {
-           API_BASE_URL = credentials('API_BASE_URL_MASTER')
-         }
+     }
+
+     stage("Prepare master") {
+      when {
+         branch 'master'
+       }
+       steps {
+         API_BASE_URL = credentials('API_BASE_URL_MASTER')
+       }
      }
 
     stage("Check Store version") {
@@ -278,3 +281,4 @@ pipeline {
     }
   }
 
+}
