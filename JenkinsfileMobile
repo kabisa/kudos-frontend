@@ -23,6 +23,19 @@ pipeline {
     ANDROID_KEY_STORE_PASSWORD = credentials('ANDROID_KEY_STORE_PASSWORD')
     MACMINI_CODESIGN_KEYCHAIN_PASSWORD = credentials('MACMINI_CODESIGN_KEYCHAIN_PASSWORD')
     MACMINI_LOGIN_KEYCHAIN_PASSWORD = credentials('MACMINI_LOGIN_KEYCHAIN_PASSWORD')
+
+    when {
+      branch 'develop'
+    }
+    environment {
+      API_BASE_URL = credentials('API_BASE_URL_DEVELOP')
+    }
+    when {
+      branch 'master'
+    }
+    environment {
+      API_BASE_URL = credentials('API_BASE_URL_MASTER')
+    }
   }
 
   stages {
@@ -50,24 +63,6 @@ pipeline {
                 cd cordova && npm install
                 cd ..
         '''
-      }
-    }
-
-    stage("Prepare develop") {
-      when {
-        branch 'develop'
-      }
-      environment {
-        API_BASE_URL = credentials('API_BASE_URL_DEVELOP')
-      }
-    }
-
-    stage("Prepare master") {
-      when {
-        branch 'master'
-      }
-      environment {
-        API_BASE_URL = credentials('API_BASE_URL_MASTER')
       }
     }
 
