@@ -23,26 +23,15 @@ pipeline {
     ANDROID_KEY_STORE_PASSWORD = credentials('ANDROID_KEY_STORE_PASSWORD')
     MACMINI_CODESIGN_KEYCHAIN_PASSWORD = credentials('MACMINI_CODESIGN_KEYCHAIN_PASSWORD')
     MACMINI_LOGIN_KEYCHAIN_PASSWORD = credentials('MACMINI_LOGIN_KEYCHAIN_PASSWORD')
-
-    when {
-      branch 'develop'
-    }
-    environment {
-      API_BASE_URL = credentials('API_BASE_URL_DEVELOP')
-    }
-    when {
-      branch 'master'
-    }
-    environment {
-      API_BASE_URL = credentials('API_BASE_URL_MASTER')
-    }
+    API_BASE_URL_DEVELOP = credentials('API_BASE_URL_DEVELOP')
+    API_BASE_URL_MASTER = credentials('API_BASE_URL_MASTER')
   }
 
   stages {
     stage("Prepare (installs)") {
       when {
         anyOf {
-          branch 'master';branch 'demo';branch 'appstore';
+          branch 'master';branch 'develop';branch 'appstore';
         }
       }
       steps {
@@ -66,11 +55,29 @@ pipeline {
       }
     }
 
+    stage("Prepare develop") {
+      when {
+        branch 'develop'
+      }
+      steps {
+        API_BASE_URL = ${env.API_BASE_URL_DEVELOP}
+      }
+    }
+
+    stage("Prepare master") {
+      when {
+        branch 'master'
+      }
+      steps {
+        API_BASE_URL = ${env.API_BASE_URL_MASTER}
+      }
+    }
+
     stage("Check Store version") {
       when {
         allOf {
           anyOf {
-            branch 'master';branch 'demo';branch 'appstore';
+            branch 'master';branch 'develop';branch 'appstore';
 
           }
           expression {
@@ -93,7 +100,7 @@ pipeline {
       when {
         allOf {
           anyOf {
-            branch 'master';branch 'demo';branch 'appstore';
+            branch 'master';branch 'develop';branch 'appstore';
           }
           expression {
             commitMessage.contains('DEPLOY_HOCKEY') || commitMessage.contains('DEPLOY_IOS_STORE')
@@ -115,7 +122,7 @@ pipeline {
       when {
         allOf {
           anyOf {
-            branch 'master';branch 'demo';branch 'appstore';
+            branch 'master';branch 'develop';branch 'appstore';
           }
           expression {
             commitMessage.contains('DEPLOY_HOCKEY') || commitMessage.contains('DEPLOY_STORE')
@@ -148,7 +155,7 @@ pipeline {
       when {
         allOf {
           anyOf {
-            branch 'master';branch 'demo';branch 'appstore';
+            branch 'master';branch 'develop';branch 'appstore';
 
           }
           expression {
@@ -179,7 +186,7 @@ pipeline {
       when {
         allOf {
           anyOf {
-            branch 'master';branch 'demo';branch 'appstore';
+            branch 'master';branch 'develop';branch 'appstore';
 
           }
           expression {
@@ -208,7 +215,7 @@ pipeline {
       when {
         allOf {
           anyOf {
-            branch 'master';branch 'demo';branch 'appstore';
+            branch 'master';branch 'develop';branch 'appstore';
 
           }
           expression {
@@ -238,7 +245,7 @@ pipeline {
       when {
         allOf {
           anyOf {
-            branch 'master';branch 'demo';branch 'appstore';
+            branch 'master';branch 'develop';branch 'appstore';
 
           }
           expression {
