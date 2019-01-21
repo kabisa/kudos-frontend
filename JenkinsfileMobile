@@ -57,7 +57,7 @@ pipeline {
       when {
         branch 'develop'
       }
-      steps {
+      environment {
         API_BASE_URL = credentials('API_BASE_URL_DEVELOP')
       }
     }
@@ -66,7 +66,7 @@ pipeline {
       when {
         branch 'master'
       }
-      steps {
+      environment {
         API_BASE_URL = credentials('API_BASE_URL_MASTER')
       }
     }
