@@ -27,9 +27,8 @@ pipeline {
 
   stages {
     stage("Prepare (installs)") {
-      when {
         anyOf {
-          branch 'master';branch 'demo';branch 'appstore';
+          branch 'master';branch 'develop';branch 'appstore';
         }
       }
       steps {
@@ -53,11 +52,26 @@ pipeline {
       }
     }
 
+    stage("Prepare environment") {
+      when {
+        branch 'develop'
+      }
+      steps {
+        API_BASE_URL = credentials('API_BASE_URL_DEV')
+      }
+     when {
+       branch 'master'
+     }
+     steps {
+       API_BASE_URL = credentials('API_BASE_URL_MASTER')
+     }
+    }
+
     stage("Check Store version") {
       when {
         allOf {
           anyOf {
-            branch 'master';branch 'demo';branch 'appstore';
+            branch 'master';branch 'develop';branch 'appstore';
 
           }
           expression {
@@ -80,7 +94,7 @@ pipeline {
       when {
         allOf {
           anyOf {
-            branch 'master';branch 'demo';branch 'appstore';
+            branch 'master';branch 'develop';branch 'appstore';
           }
           expression {
             commitMessage.contains('DEPLOY_HOCKEY') || commitMessage.contains('DEPLOY_IOS_STORE')
@@ -102,7 +116,7 @@ pipeline {
       when {
         allOf {
           anyOf {
-            branch 'master';branch 'demo';branch 'appstore';
+            branch 'master';branch 'develop';branch 'appstore';
           }
           expression {
             commitMessage.contains('DEPLOY_HOCKEY') || commitMessage.contains('DEPLOY_STORE')
@@ -135,7 +149,7 @@ pipeline {
       when {
         allOf {
           anyOf {
-            branch 'master';branch 'demo';branch 'appstore';
+            branch 'master';branch 'develop';branch 'appstore';
 
           }
           expression {
@@ -166,7 +180,7 @@ pipeline {
       when {
         allOf {
           anyOf {
-            branch 'master';branch 'demo';branch 'appstore';
+            branch 'master';branch 'develop';branch 'appstore';
 
           }
           expression {
@@ -195,7 +209,7 @@ pipeline {
       when {
         allOf {
           anyOf {
-            branch 'master';branch 'demo';branch 'appstore';
+            branch 'master';branch 'develop';branch 'appstore';
 
           }
           expression {
@@ -225,7 +239,7 @@ pipeline {
       when {
         allOf {
           anyOf {
-            branch 'master';branch 'demo';branch 'appstore';
+            branch 'master';branch 'develop';branch 'appstore';
 
           }
           expression {
@@ -263,4 +277,3 @@ pipeline {
       '''
     }
   }
-}
