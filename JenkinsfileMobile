@@ -27,7 +27,6 @@ pipeline {
 
   stages {
     stage("Prepare (installs)") {
-      when {
         anyOf {
           branch 'master';branch 'demo';branch 'appstore';
         }
@@ -50,6 +49,21 @@ pipeline {
                 cd cordova && npm install
                 cd ..
         '''
+      }
+    }
+
+    stage("Prepare environment") {
+      when {
+        branch 'develop'
+      }
+      steps {
+        API_BASE_URL = credentials('API_BASE_URL_DEV')
+      }
+      when {
+        branch 'master'
+      }
+      steps {
+        API_BASE_URL = credentials('API_BASE_URL_MASTER')
       }
     }
 
