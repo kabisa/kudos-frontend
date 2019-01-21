@@ -60,7 +60,7 @@ pipeline {
         branch 'develop'
       }
       steps {
-        API_BASE_URL = ${env.API_BASE_URL_DEVELOP}
+        sh "API_BASE_URL=${env.API_BASE_URL_DEVELOP}"
       }
     }
 
@@ -69,7 +69,7 @@ pipeline {
         branch 'master'
       }
       steps {
-        API_BASE_URL = ${env.API_BASE_URL_MASTER}
+        sh "API_BASE_URL=${env.API_BASE_URL_MASTER}"
       }
     }
 
