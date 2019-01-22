@@ -26,6 +26,7 @@ export const MUTATION_LOGIN = gql`
           id
         }
       }
+      errors
     }
   }
 `;
@@ -56,6 +57,9 @@ class LoginPage extends Component {
   confirm(data) {
     if (data.signInUser.authenticateData) {
       loginSuccess(data.signInUser.authenticateData);
+    } else {
+      this.setState({ error: data.signInUser.errors });
+      return;
     }
   }
 

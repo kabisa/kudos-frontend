@@ -10,7 +10,7 @@ export default {
   MAX_POST_MESSAGE_LENGTH: 140,
 
   // Network settings.
-  API_BASE_URL: `${API_BASE_URL_ENV}`,
+  API_BASE_URL: "http://localhost:3000",
 
   // localStorage settings.
   LOCALSTORAGE_TOKEN: "token",
