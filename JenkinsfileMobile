@@ -55,6 +55,24 @@ pipeline {
       }
     }
 
+    stage("Prepare develop") {
+      when {
+        branch 'develop'
+      }
+      steps {
+        sh "export API_BASE_URL=${env.API_BASE_URL_DEVELOP}"
+      }
+    }
+
+    stage("Prepare master") {
+          when {
+            branch 'master'
+          }
+          steps {
+            sh "export API_BASE_URL=${env.API_BASE_URL_MASTER}"
+          }
+        }
+
     stage("Check Store version") {
       when {
         allOf {
