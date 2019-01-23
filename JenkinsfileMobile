@@ -60,7 +60,7 @@ pipeline {
         branch 'develop'
       }
       environment {
-        API_BASE_URL = "https://kudo-o-matic-staging.dokku.kabisa.io"
+        API_BASE_URL = "${env.API_BASE_URL_DEVELOP}"
       }
       steps{
         echo " API_BASE_URL is ${env.API_BASE_URL}"
@@ -68,16 +68,16 @@ pipeline {
     }
 
     stage("Prepare master") {
-          when {
-            branch 'master'
-          }
-          environment {
-            API_BASE_URL = "${env.API_BASE_URL_MASTER}"
-          }
-          steps{
-            echo " API_BASE_URL is ${env.API_BASE_URL}"
-          }
-        }
+      when {
+        branch 'master'
+      }
+      environment {
+        API_BASE_URL = "${env.API_BASE_URL_MASTER}"
+      }
+      steps{
+        echo " API_BASE_URL is ${env.API_BASE_URL}"
+      }
+    }
 
     stage("Check Store version") {
       when {
