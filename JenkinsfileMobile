@@ -59,8 +59,8 @@ pipeline {
       when {
         branch 'develop'
       }
-      steps {
-        sh "export API_BASE_URL=${env.API_BASE_URL_DEVELOP}"
+      environment {
+        API_BASE_URL = ${env.API_BASE_URL_DEVELOP}"
       }
     }
 
@@ -68,8 +68,8 @@ pipeline {
           when {
             branch 'master'
           }
-          steps {
-            sh "export API_BASE_URL=${env.API_BASE_URL_MASTER}"
+          environment {
+            API_BASE_URL = ${env.API_BASE_URL_MASTER}"
           }
         }
 
