@@ -62,6 +62,9 @@ pipeline {
       environment {
         API_BASE_URL = "${env.API_BASE_URL_DEVELOP}"
       }
+      steps{
+        echo " API_BASE_URL is ${env.API_BASE_URL}"
+      }
     }
 
     stage("Prepare master") {
@@ -70,6 +73,9 @@ pipeline {
           }
           environment {
             API_BASE_URL = "${env.API_BASE_URL_MASTER}"
+          }
+          steps{
+            echo " API_BASE_URL is ${env.API_BASE_URL}"
           }
         }
 
