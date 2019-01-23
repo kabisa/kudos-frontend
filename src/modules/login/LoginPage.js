@@ -56,7 +56,7 @@ class LoginPage extends Component {
   }
 
   confirm(data) {
-    console.log(settings.API_BASE_URL);
+    console.log("Dit is de url:" + settings.API_BASE_URL);
     if (data.signInUser.authenticateData) {
       loginSuccess(data.signInUser.authenticateData);
     } else {
