@@ -2,6 +2,7 @@ import { h, Component } from "preact";
 import { Button, Image } from "semantic-ui-react";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
+import { ON_MOBILE_DEVICE } from "src/config/settings.js";
 
 import { PATH_RESET_PASSWORD } from "../../routes";
 import { Navigation } from "../../components/navigation";
@@ -46,14 +47,27 @@ export class UserPage extends Component {
                   />
                   <span style={{ display: "block", marginBottom: "2em" }}>
                     To change your avatar go to{" "}
-                    <a
-                      href="https://nl.gravatar.com/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      gravatar.com
-                    </a>
-                    .
+                    {ON_MOBILE_DEVICE() ? (
+                      <a
+                        onClick={() => {
+                          cordova.InAppBrowser.open(
+                            "https://nl.gravatar.com/",
+                            "_system"
+                          );
+                        }}
+                      >
+                        {" "}
+                        gravatar.com{" "}
+                      </a>
+                    ) : (
+                      <a
+                        href="https://nl.gravatar.com/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        gravatar.com
+                      </a>
+                    )}
                   </span>
                 </div>
               )}
