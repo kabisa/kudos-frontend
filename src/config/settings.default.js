@@ -11,6 +11,8 @@ export default {
 
   // Network settings.
   API_BASE_URL: `${API_BASE_URL_ENV}`,
+  API_BASE_URL_DEVELOP: `${API_BASE_URL_DEVELOP_ENV}`,
+  API_BASE_URL_MASTER: `${API_BASE_URL_MASTER_ENV}`,
 
   // localStorage settings.
   LOCALSTORAGE_TOKEN: "token",

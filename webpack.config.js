@@ -36,7 +36,9 @@ const plugins = [
   extractOtherCss,
   new SpriteLoaderPlugin(),
   new webpack.DefinePlugin({
-    API_BASE_URL_ENV: JSON.stringify(process.env.API_BASE_URL)
+    API_BASE_URL_ENV: JSON.stringify(process.env.API_BASE_URL),
+    API_BASE_URL_DEVELOP_ENV: JSON.stringify(process.env.API_BASE_URL_DEVELOP),
+    API_BASE_URL_MASTER_ENV: JSON.stringify(process.env.API_BASE_URL_MASTER),
   }),
 ];
 

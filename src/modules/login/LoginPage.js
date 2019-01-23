@@ -92,7 +92,9 @@ class LoginPage extends Component {
         onCompleted={data => this.confirm(data)}
       >
         {(signInUser, { error, loading }) => {
-          console.log("Dit is de url:" + settings.API_BASE_URL);
+          console.log("Dit is de url: " + settings.API_BASE_URL);
+          console.log("Dit is de dev url: " + settings.API_BASE_URL_DEVELOP);
+          console.log("Dit is de master url: " + settings.API_BASE_URL_MASTER);
           let displayError;
           if (error) {
             displayError = getGraphqlError(error);
