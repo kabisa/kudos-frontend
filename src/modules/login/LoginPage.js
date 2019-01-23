@@ -56,7 +56,6 @@ class LoginPage extends Component {
   }
 
   confirm(data) {
-    console.log("Dit is de url:" + settings.API_BASE_URL);
     if (data.signInUser.authenticateData) {
       loginSuccess(data.signInUser.authenticateData);
     } else {
@@ -93,6 +92,7 @@ class LoginPage extends Component {
         onCompleted={data => this.confirm(data)}
       >
         {(signInUser, { error, loading }) => {
+          console.log("Dit is de url:" + settings.API_BASE_URL);
           let displayError;
           if (error) {
             displayError = getGraphqlError(error);
