@@ -1,3 +1,12 @@
+def config = [
+    develop: [
+        apiBaseUrl: "API_BASE_URL_DEVELOP"
+    ],
+    master: [
+        apiBaseUrl: "API_BASE_URL_MASTER"
+    ]
+]
+
 pipeline {
 
   agent {
@@ -15,6 +24,8 @@ pipeline {
     FASTLANE_USER = credentials('FASTLANE_USER')
     FASTLANE_PASSWORD = credentials('FASTLANE_PASSWORD')
 
+    API_BASE_URL = credentials("${config.get(env.BRANCH_NAME, config.develop).apiBaseUrl}")
+
 //    ONLY REQUIRED FOR PRODUCTION
 //    COMMENT LINES BELOW IF ONLY USING HOCKEYAPP
     //FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT = 200
@@ -23,8 +34,6 @@ pipeline {
     ANDROID_KEY_STORE_PASSWORD = credentials('ANDROID_KEY_STORE_PASSWORD')
     MACMINI_CODESIGN_KEYCHAIN_PASSWORD = credentials('MACMINI_CODESIGN_KEYCHAIN_PASSWORD')
     MACMINI_LOGIN_KEYCHAIN_PASSWORD = credentials('MACMINI_LOGIN_KEYCHAIN_PASSWORD')
-    API_BASE_URL_DEVELOP = credentials('API_BASE_URL_DEVELOP')
-    API_BASE_URL_MASTER = credentials('API_BASE_URL_MASTER')
   }
 
   stages {
@@ -51,31 +60,8 @@ pipeline {
                 yarn install
                 cd cordova && npm install
                 cd ..
+                env
         '''
-      }
-    }
-
-    stage("Prepare develop") {
-      when {
-        branch 'develop'
-      }
-      environment {
-        API_BASE_URL = "${env.API_BASE_URL_DEVELOP}"
-      }
-      steps{
-        echo " API_BASE_URL is ${env.API_BASE_URL}"
-      }
-    }
-
-    stage("Prepare master") {
-      when {
-        branch 'master'
-      }
-      environment {
-        API_BASE_URL = "${env.API_BASE_URL_MASTER}"
-      }
-      steps{
-        echo " API_BASE_URL is ${env.API_BASE_URL}"
       }
     }
 
