@@ -16,6 +16,7 @@ import { FormWrapper } from "../../components";
 import { loginSuccess } from "./helper";
 
 import s from "./style.scss";
+import settings from "src/config/settings";
 
 export const MUTATION_LOGIN = gql`
   mutation SignInUser($email: EmailAddress!, $password: String!) {
@@ -55,6 +56,7 @@ class LoginPage extends Component {
   }
 
   confirm(data) {
+    console.log(settings.API_BASE_URL);
     if (data.signInUser.authenticateData) {
       loginSuccess(data.signInUser.authenticateData);
     } else {

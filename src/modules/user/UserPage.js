@@ -24,7 +24,6 @@ export class UserPage extends Component {
     super(props);
     authAllowNoTeam();
   }
-
   render() {
     return (
       <div>
