@@ -60,7 +60,7 @@ pipeline {
         branch 'develop'
       }
       environment {
-        API_BASE_URL = "${env.API_BASE_URL_DEVELOP}"
+        API_BASE_URL = "https://kudo-o-matic-staging.dokku.kabisa.io"
       }
       steps{
         echo " API_BASE_URL is ${env.API_BASE_URL}"
