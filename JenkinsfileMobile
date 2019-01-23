@@ -1,9 +1,9 @@
 def config = [
     develop: [
-        apiBaseUrl: "API_BASE_URL_DEVELOP"
+        appContext: "develop"
     ],
     master: [
-        apiBaseUrl: "API_BASE_URL_MASTER"
+        appContext: "master"
     ]
 ]
 
@@ -24,7 +24,7 @@ pipeline {
     FASTLANE_USER = credentials('FASTLANE_USER')
     FASTLANE_PASSWORD = credentials('FASTLANE_PASSWORD')
 
-    API_BASE_URL = credentials("${config.get(env.BRANCH_NAME, config.develop).apiBaseUrl}")
+    APP_CONTEXT = credentials("${config.get(env.BRANCH_NAME, config.develop).appContext}")
 
 //    ONLY REQUIRED FOR PRODUCTION
 //    COMMENT LINES BELOW IF ONLY USING HOCKEYAPP
