@@ -1,3 +1,12 @@
+def config = [
+    develop: [
+        appContext: "develop"
+    ],
+    master: [
+        appContext: "master"
+    ]
+]
+
 pipeline {
 
   agent {
@@ -15,12 +24,14 @@ pipeline {
     FASTLANE_USER = credentials('FASTLANE_USER')
     FASTLANE_PASSWORD = credentials('FASTLANE_PASSWORD')
 
+    APP_CONTEXT = "${config.get(env.BRANCH_NAME, config.develop).appContext}"
+
 //    ONLY REQUIRED FOR PRODUCTION
 //    COMMENT LINES BELOW IF ONLY USING HOCKEYAPP
     //FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT = 200
     //ANDROID_JSON_KEY_FILE = credentials('ANDROID_JSON_KEY_FILE')
     //ANDROID_KEY_STORE = credentials('ANDROID_KEY_STORE')
-    //ANDROID_KEY_STORE_PASSWORD = credentials('ANDROID_KEY_STORE_PASSWORD')
+    ANDROID_KEY_STORE_PASSWORD = credentials('ANDROID_KEY_STORE_PASSWORD')
     MACMINI_CODESIGN_KEYCHAIN_PASSWORD = credentials('MACMINI_CODESIGN_KEYCHAIN_PASSWORD')
     MACMINI_LOGIN_KEYCHAIN_PASSWORD = credentials('MACMINI_LOGIN_KEYCHAIN_PASSWORD')
   }
@@ -29,7 +40,7 @@ pipeline {
     stage("Prepare (installs)") {
       when {
         anyOf {
-          branch 'master';branch 'demo';branch 'appstore';
+          branch 'master';branch 'develop';branch 'appstore';
         }
       }
       steps {
@@ -45,10 +56,11 @@ pipeline {
 
                 gem install -N bundler
 
-                bundle install 
+                bundle install
                 yarn install
                 cd cordova && npm install
                 cd ..
+                env
         '''
       }
     }
@@ -57,7 +69,7 @@ pipeline {
       when {
         allOf {
           anyOf {
-            branch 'master';branch 'demo';branch 'appstore';
+            branch 'master';branch 'develop';branch 'appstore';
 
           }
           expression {
@@ -80,7 +92,7 @@ pipeline {
       when {
         allOf {
           anyOf {
-            branch 'master';branch 'demo';branch 'appstore';
+            branch 'master';branch 'develop';branch 'appstore';
           }
           expression {
             commitMessage.contains('DEPLOY_HOCKEY') || commitMessage.contains('DEPLOY_IOS_STORE')
@@ -102,7 +114,7 @@ pipeline {
       when {
         allOf {
           anyOf {
-            branch 'master';branch 'demo';branch 'appstore';
+            branch 'master';branch 'develop';branch 'appstore';
           }
           expression {
             commitMessage.contains('DEPLOY_HOCKEY') || commitMessage.contains('DEPLOY_STORE')
@@ -135,7 +147,7 @@ pipeline {
       when {
         allOf {
           anyOf {
-            branch 'master';branch 'demo';branch 'appstore';
+            branch 'master';branch 'develop';branch 'appstore';
 
           }
           expression {
@@ -155,7 +167,7 @@ pipeline {
 
         sh '''#!/bin/bash -l
 
-          bundle exec fastlane register_ios_devices 
+          bundle exec fastlane register_ios_devices
           bundle exec fastlane ios_deploy_hockey
 
         '''
@@ -166,7 +178,7 @@ pipeline {
       when {
         allOf {
           anyOf {
-            branch 'master';branch 'demo';branch 'appstore';
+            branch 'master';branch 'develop';branch 'appstore';
 
           }
           expression {
@@ -195,7 +207,7 @@ pipeline {
       when {
         allOf {
           anyOf {
-            branch 'master';branch 'demo';branch 'appstore';
+            branch 'master';branch 'develop';branch 'appstore';
 
           }
           expression {
@@ -225,7 +237,7 @@ pipeline {
       when {
         allOf {
           anyOf {
-            branch 'master';branch 'demo';branch 'appstore';
+            branch 'master';branch 'develop';branch 'appstore';
 
           }
           expression {

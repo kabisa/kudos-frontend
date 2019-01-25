@@ -9,6 +9,7 @@ module.exports = {
     process: true,
     __VERSION_NUMBER__: true,
     __BUILD_IDENTIFIER__: true,
+    cordova: true,
   },
   plugins: ["compat", "prettier", "react", "graphql"],
   extends: ["eslint:recommended", "plugin:react/recommended"],

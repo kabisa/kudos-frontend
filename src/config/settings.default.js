@@ -1,3 +1,8 @@
+/* eslint-disable */
+
+import * as development from "./settings.development";
+import * as production from "./settings.production";
+
 export default {
   // App settings.
   defaultLocale: "en-US",
@@ -8,7 +13,10 @@ export default {
   MAX_POST_MESSAGE_LENGTH: 140,
 
   // Network settings.
-  API_BASE_URL: "https://kudos.backend.kabisa.io",
+  API_BASE_URL:
+    process.env.APP_CONTEXT_ENV === "develop"
+      ? development.default.apiBaseUrl
+      : production.default.apiBaseUrl,
 
   // localStorage settings.
   LOCALSTORAGE_TOKEN: "token",
