@@ -4,7 +4,7 @@ codesign_identity: 'iPhone Distribution: Kabisa BV (9H6JXDUXPW)'
 team_id: '9H6JXDUXPW'
 git_repo_url: 'git@github.com:kabisa/match-certificates.git'
 ########
-app_version: '2.1.0'
+app_version: '2.2.0'
 app_name: 'Kudos-o-Matic'
 app_identifier: 'nl.kabisa.kudometer'
 app_rating_config_path: 'fastlane/ratings_config.json'
