@@ -3,6 +3,8 @@
 import * as development from "./settings.development";
 import * as production from "./settings.production";
 
+console.log("Loading config for " + process.env.APP_CONTEXT_ENV);
+
 export default {
   // App settings.
   defaultLocale: "en-US",
@@ -14,7 +16,7 @@ export default {
 
   // Network settings.
   API_BASE_URL:
-    process.env.APP_CONTEXT_ENV === "develop"
+    process.env.APP_CONTEXT_ENV === "development"
       ? development.default.apiBaseUrl
       : production.default.apiBaseUrl,
 
