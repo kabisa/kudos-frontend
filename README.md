@@ -12,6 +12,8 @@
 
 > The Kudos-o-Matic front end project. This is a cordova/react based application that supports Android, IOS and Web. For the quickest way to get the application running check [DockerHub](https://hub.docker.com/r/stefan314/kudos-frontend/) :whale:!
 
+Backend: https://github.com/kabisa/kudo-o-matic
+
 ## :bulb: Getting started
 
 - Make sure you have fulfilled the [prerequisites](#prerequisites)
@@ -99,4 +101,3 @@ Prettier can also be run manually using `yarn run prettier` or `yarn run prettie
 
 - **[MIT license](http://opensource.org/licenses/mit-license.php)**
 - Copyright 2018 © <a href="https://www.kabisa.nl/" target="_blank">Kabisa B.V.</a>.
-
