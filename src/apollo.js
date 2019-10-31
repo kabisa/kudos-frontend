@@ -9,7 +9,7 @@ const client = new ApolloClient({
   uri: `${settings.API_BASE_URL}/graphql`,
   cache: new InMemoryCache(),
   headers: {
-    Authorization: tokenIsUsable(token) ? `Bearer ${token}` : "",
+    Authorization: tokenIsUsable(token, new Date()) ? `Bearer ${token}` : "",
   },
 });
 
