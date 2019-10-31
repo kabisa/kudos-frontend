@@ -3,9 +3,13 @@ import { route } from "preact-router";
 
 import settings from "../config/settings";
 import { PATH_LOGIN, PATH_CHOOSE_TEAM, PATH_FEED } from "../routes";
+import { tokenIsUsable } from "./tokenIsUsable";
 
 export const isLoggedIn = () => {
-  return localStorage.getItem(settings.LOCALSTORAGE_TOKEN) !== null;
+  return tokenIsUsable(
+    localStorage.getItem(settings.LOCALSTORAGE_TOKEN),
+    new Date()
+  );
 };
 
 export const hasTeam = () =>
