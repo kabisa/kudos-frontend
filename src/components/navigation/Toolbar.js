@@ -1,4 +1,4 @@
-import { h } from "preact";
+import React from "react";
 import { Icon, Responsive } from "semantic-ui-react";
 import PropTypes from "prop-types";
 
@@ -10,6 +10,7 @@ const Toolbar = ({ to, text }) => {
       <Icon name="arrow left" size="large" className={s.icon} />
     </a>
   ) : (
+      // eslint-disable-next-line no-restricted-globals
     <div onClick={() => history.back()} className={s.back_link}>
       <Icon name="arrow left" size="large" className={s.icon} />
     </div>

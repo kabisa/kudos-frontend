@@ -1,4 +1,4 @@
-import { h } from "preact";
+import React from "react";
 import { Container, Menu, Icon, Dropdown } from "semantic-ui-react";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
@@ -32,7 +32,7 @@ export const DesktopNavigation = () => (
               <Dropdown
                 item
                 simple
-                text={data.viewer ? data.viewer.name : "Loading..."}
+                text={data && data.viewer ? data.viewer.name : "Loading..."}
               >
                 <Dropdown.Menu>
                   <a

@@ -1,4 +1,4 @@
-import { h } from "preact";
+import React from 'react';
 import { Grid, Header } from "semantic-ui-react";
 
 import { Toolbar } from "./navigation";

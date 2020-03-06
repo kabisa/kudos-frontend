@@ -1,4 +1,4 @@
-import { h, Component } from "preact";
+import React, { Component } from "react";
 import {
   Header,
   Icon,
@@ -11,8 +11,8 @@ import {
 import gql from "graphql-tag";
 import { toast } from "react-toastify";
 import { Mutation, Query } from "react-apollo";
-import settings from "src/config/settings";
-import { getGraphqlError } from "src/support";
+import settings from "../../../config/settings";
+import { getGraphqlError } from "../../../support";
 
 export const DELETE_KUDOMETER = gql`
   mutation DeleteKudometer($id: ID!) {

@@ -1,45 +1,39 @@
-import { h, render } from "preact";
-import { route } from "preact-router";
-import { ApolloProvider } from "react-apollo";
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+import * as serviceWorker from "./serviceWorker";
+import { Redirect } from "react-router-dom";
+import { ApolloProvider } from "@apollo/react-hooks";
 import client from "./apollo";
 
-import "src/config/sentry";
-import settings from "./config/settings";
+import settings from "./config/sentry";
 import { PATH_LOGIN } from "./routes";
-
 import "./styles/shell.scss";
-
-import "./assets/icons/favicon.ico";
-import "./assets/icons/favicon-32x32.png";
-import "./assets/icons/favicon-16x16.png";
+import "semantic-ui-css/semantic.min.css"
 
 const renderApp = function() {
-  const App = require("./App").default;
-  const root = document.querySelector("#maji-app");
+  const root = document.getElementById("root");
 
   // Check for user token
   const token = localStorage.getItem(settings.LOCALSTORAGE_TOKEN);
-  if (!token) {
-    if (!window.location.href.includes(`#${PATH_LOGIN}`)) {
-      route(PATH_LOGIN, true);
-    }
+  if (!token && !
+    !window.location.href.includes(`#${PATH_LOGIN}`)) {
+    console.log("redirecting to login");
+    // return <Redirect to={PATH_LOGIN} />;
   }
 
   root.innerHTML = "";
-  render(
+  ReactDOM.render(
     <ApolloProvider client={client}>
-      <App />
+      <App/>
     </ApolloProvider>,
-    root
+    root,
   );
 };
 
 renderApp();
 
-if (process.env.NODE_ENV !== "production") {
-  require("preact/devtools");
-
-  if (module.hot) {
-    module.hot.accept();
-  }
-}
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: https://bit.ly/CRA-PWA
+serviceWorker.register();

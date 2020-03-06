@@ -1,4 +1,4 @@
-import { h, Component } from "preact";
+import React, { Component } from "react";
 import { Button, Form, Message, Segment } from "semantic-ui-react";
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
@@ -13,7 +13,7 @@ import {
 import { FormWrapper } from "../../components";
 import BackButton from "./BackButton";
 import { loginSuccess } from "./helper";
-import settings from "src/config/settings";
+import settings from "../../config/settings";
 
 export const MUTATION_REGISTER = gql`
   mutation SignUpUser(

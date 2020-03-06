@@ -1,6 +1,6 @@
-import { h, Component } from "preact";
+import React, { Component } from "react";
 import { Form, Button, Message } from "semantic-ui-react";
-import { route } from "preact-router";
+import { Redirect } from "react-router-dom";
 import { Mutation } from "react-apollo";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
@@ -10,7 +10,7 @@ import settings from "../../../config/settings";
 import UserDropdown from "./UserDropdown/UserDropdown";
 import GuidelineInput from "./GuidelineInput/GuidelineInput";
 import { PATH_FEED } from "../../../routes";
-import client from "src/apollo";
+import client from "../../../apollo";
 import {
   auth,
   getGraphqlError,
@@ -89,7 +89,7 @@ export class CreatePost extends Component {
       error: null,
     });
 
-    if (amount == 0) {
+    if (amount === 0) {
       this.setState({
         amountError: true,
         error: ERROR_AMOUNT_BLANK,
@@ -135,8 +135,9 @@ export class CreatePost extends Component {
     const realReceivers = [];
     const virtualReceivers = [];
 
-    users.map(user => {
+    users.map((user) => {
       if (!receivers.includes(user.id)) return;
+
       if (user.virtualUser) {
         virtualReceivers.push(user.name);
       } else {
@@ -176,7 +177,7 @@ export class CreatePost extends Component {
     this.input.resetState();
     this.userdropdown.resetState();
     this.setState(this.initialState);
-    route(PATH_FEED, true);
+    return <Redirect to={PATH_FEED} />
   }
 
   render() {

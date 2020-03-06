@@ -1,4 +1,4 @@
-import { h, Component } from "preact";
+import React, { Component } from "react";
 import gql from "graphql-tag";
 import { Button, Form, Message, Segment } from "semantic-ui-react";
 import { Mutation } from "react-apollo";

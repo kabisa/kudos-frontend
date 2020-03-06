@@ -1,4 +1,4 @@
-import { h, Component } from "preact";
+import React, { Component } from "react";
 import { Grid, Menu, Segment } from "semantic-ui-react";
 
 import { Navigation } from "../../components/navigation";

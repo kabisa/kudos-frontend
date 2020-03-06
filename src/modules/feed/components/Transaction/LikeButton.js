@@ -1,10 +1,10 @@
-import { h, Component } from "preact";
+import React, { Component } from "react";
 import { Button, Icon, Segment } from "semantic-ui-react";
 import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
 import enhanceWithClickOutside from "react-click-outside";
 
-import settings from "src/config/settings";
+import settings from "../../../../config/settings";
 import {
   GET_TRANSACTIONS,
   FRAGMENT_POST,

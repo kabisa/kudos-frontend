@@ -1,10 +1,9 @@
-import { h, Component } from "preact";
+import React, { Component } from "react";
 import { Button, Form, Message } from "semantic-ui-react";
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
 import { toast } from "react-toastify";
-import { route } from "preact-router";
-
+import { Redirect } from "react-router-dom"
 import settings from "../../config/settings";
 import { getGraphqlError, ERROR_NAME_BLANK } from "../../support";
 import { Navigation, Toolbar } from "../../components/navigation";
@@ -90,7 +89,7 @@ class CreateTeamPage extends Component {
                   createTeam.team.id
                 );
                 toast.info("Team created successfully!");
-                route(PATH_FEED, true);
+                return <Redirect to={PATH_FEED} />;
               }}
             >
               {(createTeam, { error, loading }) => {
@@ -110,7 +109,7 @@ class CreateTeamPage extends Component {
                       name="name"
                       iconPosition="left"
                       placeholder="Team name"
-                      error={state.error_name}
+                      error={this.state.error_name}
                       value={this.state.name}
                       onChange={this.handleChange}
                     />

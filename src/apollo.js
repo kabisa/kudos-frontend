@@ -5,7 +5,7 @@ import { logout } from "./support/auth";
 const token = localStorage.getItem(settings.LOCALSTORAGE_TOKEN);
 
 const onError = ({ networkError }) => {
-  if (networkError && networkError.statusCode == 401) {
+  if (networkError && networkError.statusCode === 401) {
     logout();
   }
 };

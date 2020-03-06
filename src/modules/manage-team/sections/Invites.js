@@ -1,4 +1,4 @@
-import { h, Component } from "preact";
+import React, { Component } from "react";
 import {
   Header,
   Icon,
@@ -12,7 +12,7 @@ import * as moment from "moment";
 import gql from "graphql-tag";
 import { Mutation, Query } from "react-apollo";
 import { toast } from "react-toastify";
-import settings from "src/config/settings";
+import settings from "../../../config/settings";
 
 import {
   getGraphqlError,

@@ -1,4 +1,4 @@
-import { h, Component } from "preact";
+import React, { Component } from "react";
 import { Header, Icon, Divider } from "semantic-ui-react";
 
 export class IntegrationSections extends Component {

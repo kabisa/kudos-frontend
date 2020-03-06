@@ -1,4 +1,4 @@
-import { h, Component } from "preact";
+import React, { Component } from "react";
 import { Button, Form, Message } from "semantic-ui-react";
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
@@ -47,6 +47,7 @@ class ResetPasswordPage extends Component {
     };
 
     this.state = {
+      current_error: undefined,
       current_password: "",
       new_password: "",
       new_password_confirmation: "",
@@ -167,7 +168,7 @@ class ResetPasswordPage extends Component {
                       iconPosition="left"
                       type="password"
                       placeholder="Current password"
-                      error={state.error_current}
+                      error={this.state.error_current}
                       value={this.state.current_password}
                       onChange={this.handleChange}
                     />
@@ -179,7 +180,7 @@ class ResetPasswordPage extends Component {
                       iconPosition="left"
                       type="password"
                       placeholder="New password"
-                      error={state.error_new}
+                      error={this.state.error_new}
                       value={this.state.new_password}
                       onChange={this.handleChange}
                     />
@@ -191,7 +192,7 @@ class ResetPasswordPage extends Component {
                       iconPosition="left"
                       type="password"
                       placeholder="Confirm new password"
-                      error={state.error_new_confirm}
+                      error={this.state.error_new_confirm}
                       value={this.state.new_password_confirmation}
                       onChange={this.handleChange}
                     />

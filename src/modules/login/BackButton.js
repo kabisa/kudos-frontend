@@ -1,4 +1,4 @@
-import { h } from "preact";
+import React from "react";
 import { Message, Responsive } from "semantic-ui-react";
 import s from "./style.scss";
 

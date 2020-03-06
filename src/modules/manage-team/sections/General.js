@@ -1,8 +1,8 @@
-import { h, Component } from "preact";
+import React, { Component } from "react";
 import { Header, Icon, Divider, Button, Form } from "semantic-ui-react";
 import gql from "graphql-tag";
 import { toast } from "react-toastify";
-import settings from "src/config/settings";
+import settings from "../../../config/settings";
 import { Mutation, Query } from "react-apollo";
 
 export const GET_TEAM_NAME = gql`

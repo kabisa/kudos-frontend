@@ -1,4 +1,4 @@
-import { h } from "preact";
+import React from "react";
 import { Button, Responsive } from "semantic-ui-react";
 
 import { PATH_ADD_TRANSACTION } from "../../../../routes";

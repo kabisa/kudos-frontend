@@ -1,103 +1,68 @@
-<p align="center">
-  <img src="https://dovetail.world/wp-content/uploads/2016/09/Logo-Kabisa-e1496142251302.png" height="160"/>
-</p>
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-[![CircleCI](https://circleci.com/gh/kabisa/kudos-frontend.svg?style=svg)](https://circleci.com/gh/kabisa/kudos-frontend)
-[![Maintainability](https://api.codeclimate.com/v1/badges/359d3d72f680d535ec5b/maintainability)](https://codeclimate.com/github/kabisa/kudos-frontend/maintainability)
-<img src="https://img.shields.io/badge/eslint-passed-brightgreen.svg"/>
-<img src="https://img.shields.io/badge/maji-ready-brightgreen.svg"/>
-<img src="https://img.shields.io/badge/version-beta-blue.svg"/>
+## Available Scripts
 
-# Kudos-o-Matic Frontend
+In the project directory, you can run:
 
-> The Kudos-o-Matic front end project. This is a cordova/react based application that supports Android, IOS and Web. For the quickest way to get the application running check [DockerHub](https://hub.docker.com/r/stefan314/kudos-frontend/) :whale:!
+### `yarn start`
 
-Backend: https://github.com/kabisa/kudo-o-matic
+Runs the app in the development mode.<br />
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-## :bulb: Getting started
+The page will reload if you make edits.<br />
+You will also see any lint errors in the console.
 
-- Make sure you have fulfilled the [prerequisites](#prerequisites)
-- Running `yarn install` will hook you up with everything you need
+### `yarn test`
 
-## :zap: Development workflow
+Launches the test runner in the interactive watch mode.<br />
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-- While developing you can run a local server using `bin/maji start`. This will start a server on http://localhost:9090.
-- To create a static HTML5 app build, run `bin/maji build`. The app will be built into the `dist/` directory.
-- To run the app on a connected mobile device, run `bin/maji run <platform>`.
-- To build a Cordova app, run `bin/maji build <platform>`.
-- To run Javascript tests, run `bin/maji test --watch`. This will start a Karma server with Phantomjs and will continuously watch your Javascript files and run tests on changes.
-- To run integration specs, run `bin/maji test --integration`.
-- To run all tests, run `bin/maji test`.
+### `yarn build`
 
-## :wrench: Code formatting
+Builds the app for production to the `build` folder.<br />
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-Code is formatted by [Prettier](https://github.com/prettier/prettier).
-A git commit hook is automatically installed that will format your code when you commit.
-Prettier can also be run manually using `yarn run prettier` or `yarn run prettier -- --write`.
+The build is minified and the filenames include the hashes.<br />
+Your app is ready to be deployed!
 
-## :computer: Packaging native apps / running on your device
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-- Make sure you have fulfilled the platform specific [prerequisites](#prerequisites) for the platform you're targeting.
-- Running `bin/maji run` with the target platform as parameter, e.g. `bin/maji run ios` will launch the app on your connected iPhone, while `bin/maji run android` will launch the app on your connected Android device. Specifying `-e` on the `maji run` command will launch the app on the iOS Simulator or Android Emulator.
+### `yarn eject`
 
----
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-## Prerequisites
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-### General
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-- Node.js >=8 + NPM, for the build system
-- Yarn >= 1, for package management
-- Chrome v59.x or higher to run the tests headless
-- Java 8 (or higher) to run the end-to-end tests (it powers the selenium server)
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-### :iphone: iOS
+## Learn More
 
-- XCode
-- iOS SDK
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-### :phone: Android
+To learn React, check out the [React documentation](https://reactjs.org/).
 
-- Android SDK
-- Android platform tools installed
-- Android platform 10+.
-- `android` and `adb` in your $PATH (add `path/to/android-sdk-macosx/tools` and `path/to/android-sdk-macosx/platform-tools` to your$PATH).
+### Code Splitting
 
----
+This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
 
-## :wrench: Contributing
+### Analyzing the Bundle Size
 
-> To get started...
+This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
 
-### Step 1
+### Making a Progressive Web App
 
-- **Option 1**
+This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
 
-  - 🍴 Fork this repo!
+### Advanced Configuration
 
-- **Option 2**
-  - 👯 Clone this repo to your local machine using `https://github.com/kabisa/kudos-frontend.git`.
+This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
 
-### Step 2
+### Deployment
 
-- **HACK AWAY!** 🔨🔨🔨
+This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
 
-### Step 3
+### `yarn build` fails to minify
 
-- 🔃 Create a new pull request using <a href="https://github.com/kabisa/kudos-frontend/pulls" target="_blank">`https://github.com/kabisa/kudos-frontend/pulls`</a>.
-
-## :hearts: Team
-
-|            <a href="https://www.linkedin.com/in/stefanpahlplatz/" target="_blank">**Stefan Pahlplatz**</a>             |
-| :--------------------------------------------------------------------------------------------------------------------: |
-| [![Stefan Pahlplatz](https://avatars1.githubusercontent.com/u/23485653?s=200&v=4)](https://github.com/StefanPahlplatz) |
-|             <a href="https://github.com/StefanPahlplatz" target="_blank">`github.com/stefanpahlplatz`</a>              |
-
----
-
-## :anchor: License
-
-[![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
-
-- **[MIT license](http://opensource.org/licenses/mit-license.php)**
-- Copyright 2018 © <a href="https://www.kabisa.nl/" target="_blank">Kabisa B.V.</a>.
+This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify

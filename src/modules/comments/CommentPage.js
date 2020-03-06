@@ -1,4 +1,4 @@
-import { h, Component } from "preact";
+import React, { Component } from "react";
 import { Dimmer, Loader, Feed, Icon, Header, Comment } from "semantic-ui-react";
 import moment from "moment-twitter";
 

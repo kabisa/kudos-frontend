@@ -1,4 +1,4 @@
-import { h } from "preact";
+import React from "react";
 import { Card, Placeholder } from "semantic-ui-react";
 
 const TransactionLoading = () => (

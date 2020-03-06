@@ -1,12 +1,12 @@
-import { h } from "preact";
+import React from "react";
 import { Query } from "react-apollo";
 import moment from "moment";
 import { Icon } from "semantic-ui-react";
 import gql from "graphql-tag";
 
-import { Circle } from "src/components";
-import settings from "src/config/settings";
-import { calculateProgress, getStrokeColor } from "src/support";
+import { Circle } from "../../components/Circle";
+import settings from "../../config/settings";
+import { calculateProgress, getStrokeColor } from "../../support";
 
 export const GET_GOAL_PERCENTAGE = gql`
   query getGoals($team_id: ID!) {

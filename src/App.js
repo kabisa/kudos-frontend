@@ -1,12 +1,8 @@
-/* eslint-disable react/jsx-key */
-import { h } from "preact";
-import { Router as PreactRouter } from "preact-router";
-import { history } from "src/support/history";
-import { PageTransitionSupport } from "maji";
+import React from "react";
 import { Responsive } from "semantic-ui-react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import * as routes from "./routes";
 
 import {
@@ -22,31 +18,7 @@ import { SettingsPage, InvitePage } from "./modules/settings";
 import { StatisticsPage } from "./modules/statistics";
 import { ChooseTeamPage, CreateTeamPage } from "./modules/choose-team";
 import ManageTeamPage from "./modules/manage-team/ManageTeamPage";
-
-const AnimationRouter = PageTransitionSupport.augmentRouter(
-  PreactRouter,
-  history
-);
-
-const Routes = [
-  <FeedPage exact path={routes.PATH_FEED} />,
-  <NotificationsPage path={routes.PATH_NOTIFICATIONS} />,
-  <UserPage path={routes.PATH_USER} />,
-  <StatisticsPage path={routes.PATH_STATISTICS} />,
-  <SettingsPage path={routes.PATH_SETTINGS} />,
-  <InvitePage path={routes.PATH_INVITE} />,
-  <AddTransactionPage path={routes.PATH_ADD_TRANSACTION} />,
-  <ResetPasswordPage path={routes.PATH_RESET_PASSWORD} />,
-  <ChooseTeamPage path={routes.PATH_CHOOSE_TEAM} />,
-  <CreateTeamPage path={routes.PATH_CREATE_TEAM} />,
-  <ManageTeamPage path={routes.PATH_MANAGE_TEAM} />,
-  // <CommentPage path="/comments/:comment" />,
-
-  <FinishForgotPasswordPage path={routes.PATH_FINISH_RESET_PASSWORD} />,
-  <ForgotPasswordPage path={routes.PATH_FORGOT_PASSWORD} />,
-  <RegisterPage path={routes.PATH_REGISTER} />,
-  <LoginPage default path={routes.PATH_LOGIN} />,
-];
+import { PATH_LOGIN } from "./routes";
 
 const ToastWrapper = () => (
   <ToastContainer
@@ -58,18 +30,63 @@ const ToastWrapper = () => (
   />
 );
 
-const App = () => (
-  <div>
-    <Responsive minWidth={Responsive.onlyTablet.minWidth}>
-      <PreactRouter history={history}>{Routes}</PreactRouter>
-      <ToastWrapper />
-    </Responsive>
-
-    <Responsive maxWidth={Responsive.onlyMobile.maxWidth}>
-      <AnimationRouter history={history}>{Routes}</AnimationRouter>
-      <ToastWrapper />
-    </Responsive>
-  </div>
-);
+function App() {
+  return (
+    <div>
+      <Responsive>
+        <Router>
+          <Switch>
+            <Route path={PATH_LOGIN}>
+              <LoginPage/>
+            </Route>
+            <Route path={routes.PATH_NOTIFICATIONS}>
+              <NotificationsPage/>
+            </Route>
+            <Route path={routes.PATH_USER}>
+              <UserPage/>
+            </Route>
+            <Route path={routes.PATH_STATISTICS}>
+              <StatisticsPage/>,
+            </Route>
+            <Route path={routes.PATH_SETTINGS}>
+              <SettingsPage/>
+            </Route>
+            <Route path={routes.PATH_INVITE}>
+              <InvitePage/>
+            </Route>
+            <Route path={routes.PATH_ADD_TRANSACTION}>
+              <AddTransactionPage/>
+            </Route>
+            <Route path={routes.PATH_RESET_PASSWORD}>
+              <ResetPasswordPage/>
+            </Route>
+            <Route path={routes.PATH_CHOOSE_TEAM}>
+              <ChooseTeamPage/>
+            </Route>
+            <Route path={routes.PATH_CREATE_TEAM}>
+              <CreateTeamPage/>
+            </Route>
+            <Route path={routes.PATH_MANAGE_TEAM}>
+              <ManageTeamPage/>
+            </Route>
+            <Route path={routes.PATH_FINISH_RESET_PASSWORD}>
+              <FinishForgotPasswordPage/>
+            </Route>
+            <Route path={routes.PATH_FORGOT_PASSWORD}>
+              <ForgotPasswordPage/>
+            </Route>
+            <Route path={routes.PATH_REGISTER}>
+              <RegisterPage/>
+            </Route>
+            <Route path={routes.PATH_FEED}>
+              <FeedPage/>
+            </Route>
+          </Switch>
+        </Router>
+        <ToastWrapper/>
+      </Responsive>
+    </div>
+  );
+}
 
 export default App;

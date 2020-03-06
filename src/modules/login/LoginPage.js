@@ -1,10 +1,10 @@
-import { h, Component } from "preact";
-import { Button, Form, Message, Segment } from "semantic-ui-react";
-import { route } from "preact-router";
+import React, { Component } from "react";
+import { Button, Form, GridColumn, Message, Segment } from "semantic-ui-react";
+import { withRouter } from "react-router-dom";
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
 
-import { PATH_REGISTER, PATH_FORGOT_PASSWORD, PATH_FEED } from "../../routes";
+import { PATH_REGISTER, PATH_FORGOT_PASSWORD, PATH_FEED, PATH_CHOOSE_TEAM } from "../../routes";
 import {
   isLoggedIn,
   getGraphqlError,
@@ -36,7 +36,8 @@ class LoginPage extends Component {
     super(props);
 
     if (isLoggedIn()) {
-      route(PATH_FEED, true);
+      console.log('logged in');
+      this.props.history.push(PATH_CHOOSE_TEAM)
     }
 
     this.state = {
@@ -57,6 +58,7 @@ class LoginPage extends Component {
   confirm(data) {
     if (data.signInUser.authenticateData) {
       loginSuccess(data.signInUser.authenticateData);
+      this.props.history.push(PATH_CHOOSE_TEAM)
     } else {
       this.setState({ error: data.signInUser.errors });
       return;
@@ -99,13 +101,14 @@ class LoginPage extends Component {
             displayError = this.state.error;
           }
           return (
+
             <FormWrapper header="Login">
-              <Form
-                size="large"
-                error
-                onSubmit={e => this.formSubmit(e, signInUser)}
-              >
-                <Segment>
+              <Segment>
+                <Form
+                  size="large"
+                  error
+                  onSubmit={e => this.formSubmit(e, signInUser)}
+                >
                   <Form.Input
                     fluid
                     icon="user"
@@ -129,9 +132,9 @@ class LoginPage extends Component {
                   />
 
                   <Button
+                    type="submit"
                     color="blue"
                     fluid
-                    size="large"
                     loading={loading}
                     disabled={loading}
                   >
@@ -144,18 +147,18 @@ class LoginPage extends Component {
                       <p>{displayError}</p>
                     </Message>
                   )}
-                </Segment>
-              </Form>
-              <Message>
-                <div className={s.message}>
-                  <a href={PATH_REGISTER} className={s.left}>
-                    Sign Up
-                  </a>
-                  <a href={PATH_FORGOT_PASSWORD} className={s.right}>
-                    Forgot password?
-                  </a>
-                </div>
-              </Message>
+                </Form>
+                <Message>
+                  <div className={s.message}>
+                    <a href={PATH_REGISTER} className={s.left}>
+                      Sign Up
+                    </a>
+                    <a href={PATH_FORGOT_PASSWORD} className={s.right}>
+                      Forgot password?
+                    </a>
+                  </div>
+                </Message>
+              </Segment>
             </FormWrapper>
           );
         }}
@@ -164,4 +167,4 @@ class LoginPage extends Component {
   }
 }
 
-export default LoginPage;
+export default withRouter(LoginPage);

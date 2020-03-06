@@ -1,4 +1,4 @@
-import { h, Component } from "preact";
+import React, { Component } from "react";
 import { Button } from "semantic-ui-react";
 
 import { PATH_CHOOSE_TEAM, PATH_INVITE } from "../../routes";

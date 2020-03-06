@@ -1,4 +1,4 @@
-import { h, Component } from "preact";
+import React, { Component } from "react";
 import { graphql } from "react-apollo";
 import {
   Icon,
@@ -6,7 +6,7 @@ import {
   Rail,
   Segment,
   Responsive,
-  Divider,
+  Divider, GridColumn,
 } from "semantic-ui-react";
 import { PullToRefresh } from "../../components";
 import settings from "../../config/settings";
@@ -138,8 +138,8 @@ export class FeedPage extends Component {
             <RepoListWithQuery />
           </Responsive>
           <Responsive minWidth={Responsive.onlyComputer.minWidth}>
-            <Grid centered columns={3} style={{ minHeight: "57em" }}>
-              <Grid.Column style={{ padding: 0, maxWidth: "420px" }}>
+            <Grid centered columns={1} style={{ minHeight: "57em" }}>
+              <GridColumn style={{ padding: 0, maxWidth: "420px" }}>
                 <Segment style={{ maxWidth: "420px", margin: "auto" }}>
                   <CreatePost />
                 </Segment>
@@ -157,7 +157,7 @@ export class FeedPage extends Component {
                 <Rail attached position="right">
                   <RightRail />
                 </Rail>
-              </Grid.Column>
+              </GridColumn>
             </Grid>
           </Responsive>
         </div>

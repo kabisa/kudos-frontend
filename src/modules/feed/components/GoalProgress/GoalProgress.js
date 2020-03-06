@@ -1,4 +1,4 @@
-import { h } from "preact";
+import React from "react";
 import { Query } from "react-apollo";
 import { Line } from "rc-progress";
 import { Icon } from "semantic-ui-react";

@@ -14,7 +14,7 @@ export default {
 
   // Network settings.
   API_BASE_URL:
-    process.env.APP_CONTEXT_ENV === "develop"
+    process.env.NODE_ENV === "development"
       ? development.default.apiBaseUrl
       : production.default.apiBaseUrl,
 

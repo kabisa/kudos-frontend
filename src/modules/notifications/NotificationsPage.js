@@ -1,4 +1,4 @@
-import { h, Component } from "preact";
+import React, { Component } from "react";
 
 import { Navigation } from "../../components/navigation";
 import { auth } from "../../support";

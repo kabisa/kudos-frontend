@@ -1,6 +1,6 @@
-import { h, Component } from "preact";
+import React, { Component } from "react";
 import { Divider, Segment, Responsive, Button } from "semantic-ui-react";
-import { route } from "preact-router";
+import { Redirect } from "react-router-dom";
 
 import { PATH_CREATE_TEAM } from "../../routes";
 import { Navigation } from "../../components/navigation";
@@ -20,7 +20,7 @@ const Content = () => (
     <Button
       color="blue"
       style={{ margin: "auto" }}
-      onClick={() => route(PATH_CREATE_TEAM)}
+      onClick={() => { return <Redirect to={PATH_CREATE_TEAM} />}}
     >
       Create team
     </Button>

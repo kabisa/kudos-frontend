@@ -1,4 +1,4 @@
-import { h, Component } from "preact";
+import React, { Component } from "react";
 
 import { Toolbar } from "../../components/navigation";
 import { CreatePost } from "./components";

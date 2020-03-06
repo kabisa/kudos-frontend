@@ -1,4 +1,4 @@
-import settings from "src/config/settings";
+import settings from "../config/settings";
 
 export const ERROR_AMOUNT_BLANK = "Amount can't be empty or 0.";
 

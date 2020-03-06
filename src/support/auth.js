@@ -1,66 +1,57 @@
 import client from "../apollo";
-import { route } from "preact-router";
-
+import React from "react";
+import {Redirect} from "react-router-dom";
 import settings from "../config/settings";
-import { PATH_LOGIN, PATH_CHOOSE_TEAM, PATH_FEED } from "../routes";
+import {PATH_LOGIN, PATH_CHOOSE_TEAM, PATH_FEED} from "../routes";
 
 export const isLoggedIn = () => {
-  return localStorage.getItem(settings.LOCALSTORAGE_TOKEN) !== null;
+    return localStorage.getItem(settings.LOCALSTORAGE_TOKEN) !== null;
 };
 
 export const hasTeam = () =>
-  localStorage.getItem(settings.TEAM_ID_TOKEN) !== null;
+    localStorage.getItem(settings.TEAM_ID_TOKEN) !== null;
 
 export const auth = (teamAdmin = false) => {
-  if (settings.environment === "test") {
-    return true;
-  }
-
-  if (!isLoggedIn()) {
-    route(PATH_LOGIN, true);
-    window.location.reload();
-    return false;
-  }
-  if (!hasTeam()) {
-    route(PATH_CHOOSE_TEAM, true);
-    window.location.reload();
-    return false;
-  }
-  if (teamAdmin) {
-    if (!isTeamAdmin()) {
-      route(PATH_FEED, true);
-      window.location.reload();
-      return false;
+    if (settings.environment === "test") {
+        return true;
     }
-  }
-  return true;
+
+    if (!isLoggedIn()) {
+        return <Redirect to={PATH_LOGIN}/>;
+    }
+    if (!hasTeam()) {
+        return <Redirect to={PATH_CHOOSE_TEAM}/>;
+    }
+    if (teamAdmin) {
+        if (!isTeamAdmin()) {
+            return <Redirect to={PATH_FEED}/>;
+        }
+    }
+    return true;
 };
 
 export const authAllowNoTeam = () => {
-  if (settings.environment === "test") {
-    return true;
-  }
+    if (settings.environment === "test") {
+        return true;
+    }
 
-  if (!isLoggedIn()) {
-    route(PATH_LOGIN, true);
-    window.location.reload();
-    return false;
-  }
-  return true;
+    if (!isLoggedIn()) {
+        return <Redirect to={PATH_LOGIN}/>;
+    }
+    return true;
 };
 
 export const isTeamAdmin = () => {
-  return localStorage.getItem(settings.ROLE_TOKEN) === "admin";
+    return localStorage.getItem(settings.ROLE_TOKEN) === "admin";
 };
 
 export const authIsTeamAdmin = () => {
-  return localStorage.getItem(settings.ROLE_TOKEN) === "admin";
+    return localStorage.getItem(settings.ROLE_TOKEN) === "admin";
 };
 
 export const logout = () => {
-  localStorage.clear();
-  client.resetStore();
+    localStorage.clear();
+    client.resetStore();
 
-  route(PATH_LOGIN, true);
-  window.location.reload();
+    return <Redirect to={PATH_LOGIN}/>;
 };

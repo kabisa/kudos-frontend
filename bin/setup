@@ -1,3 +1,0 @@
-#!/usr/bin/env node
-const spawn = require("cross-spawn");
-spawn.sync("yarn", ["install"], { stdio: "inherit" });

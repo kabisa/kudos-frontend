@@ -1,9 +1,9 @@
-import { h, Component } from "preact";
+import React, { Component } from "react";
 import { Form, Segment, Label } from "semantic-ui-react";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 
-import settings from "src/config/settings";
+import settings from "../../../../config/settings";
 
 import s from "../../AddTransactionPage.scss";
 
@@ -31,6 +31,7 @@ class GuidelineInput extends Component {
     };
     this.initialState = this.state;
 
+    // eslint-disable-next-line no-unused-expressions
     this._timeoutID;
 
     this.focusKudoInput = this.focusKudoInput.bind(this);

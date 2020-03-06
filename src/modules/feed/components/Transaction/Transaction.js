@@ -1,8 +1,8 @@
-import { h } from "preact";
+import React from "react";
 import { Card } from "semantic-ui-react";
 import LikeButton from "./LikeButton";
 import Header from "./Header";
-import settings from "src/config/settings";
+import settings from "../../../../config/settings";
 
 const userId = localStorage.getItem(settings.USER_ID_TOKEN);
 

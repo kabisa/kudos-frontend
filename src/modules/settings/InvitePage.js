@@ -1,10 +1,10 @@
-import { h, Component } from "preact";
+import React, { Component } from "react";
 import { Button, Form, Message } from "semantic-ui-react";
 import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
 import { toast } from "react-toastify";
 
-import settings from "src/config/settings";
+import settings from "../../config/settings";
 import { Navigation, Toolbar } from "../../components/navigation";
 import {
   auth,

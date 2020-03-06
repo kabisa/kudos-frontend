@@ -1,6 +1,6 @@
-import { h } from "preact";
+import React from "react";
 import { Icon } from "semantic-ui-react";
-import { route } from "preact-router";
+import { Link } from "react-router-dom";
 
 import * as routes from "../../routes";
 import settings from "../../config/settings";
@@ -11,9 +11,9 @@ const IconComponent = ({ path, icon }) => {
   if (current !== path) {
     const link = `${path}?transition=none`;
     return (
-      <div onClick={() => route(link, true)} className={s.bottom_item}>
+      <Link to={link} className={s.bottom_item}>
         <Icon name={icon} size="large" className={s.bottom_icon} />
-      </div>
+      </Link>
     );
   }
   return (

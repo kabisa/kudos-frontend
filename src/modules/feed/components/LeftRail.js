@@ -1,4 +1,4 @@
-import { h } from "preact";
+import React from "react";
 import { Segment } from "semantic-ui-react";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";

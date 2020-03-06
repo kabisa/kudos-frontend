@@ -1,11 +1,11 @@
-import { h, Component } from "preact";
+import React, { Component } from "react";
 import { Dropdown } from "semantic-ui-react";
 import PropTypes from "prop-types";
 import { Query } from "react-apollo";
 
-import client from "src/apollo";
+import client from "../../../././../apollo";
 import { GET_USERS } from "../../queries";
-import settings from "src/config/settings";
+import settings from "../../../../config/settings";
 
 class DropdownRemote extends Component {
   constructor(props) {

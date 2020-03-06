@@ -1,8 +1,8 @@
-import { h, Component } from "preact";
+import React, { Component } from "react";
 import { Button, Image } from "semantic-ui-react";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
-import { ON_MOBILE_DEVICE } from "src/config/settings.js";
+import { ON_MOBILE_DEVICE } from "../../config/settings.js";
 
 import { PATH_RESET_PASSWORD } from "../../routes";
 import { Navigation } from "../../components/navigation";
@@ -24,6 +24,7 @@ export class UserPage extends Component {
     super(props);
     authAllowNoTeam();
   }
+
   render() {
     return (
       <div>
@@ -36,37 +37,21 @@ export class UserPage extends Component {
               {({ data }) => (
                 <div>
                   <h2 className={s.name}>
-                    {data.viewer ? data.viewer.name : "Loading..."}
+                    {data && data.viewer ? data.viewer.name : "Loading..."}
                   </h2>
                   <Image
-                    src={data.viewer ? data.viewer.avatar : null}
+                    src={data && data.viewer ? data.viewer.avatar : null}
                     size="tiny"
                     avatar
                     style={{ marginTop: "2em", marginBottom: "1em" }}
                   />
                   <span style={{ display: "block", marginBottom: "2em" }}>
                     To change your avatar go to{" "}
-                    {ON_MOBILE_DEVICE() ? (
-                      <a
-                        onClick={() => {
-                          cordova.InAppBrowser.open(
-                            "https://nl.gravatar.com/",
-                            "_system"
-                          );
-                        }}
-                      >
-                        {" "}
-                        gravatar.com{" "}
-                      </a>
-                    ) : (
-                      <a
-                        href="https://nl.gravatar.com/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        gravatar.com
-                      </a>
-                    )}
+                    <a
+                      href="https://nl.gravatar.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >gravatar.com</a>
                   </span>
                 </div>
               )}
@@ -84,7 +69,7 @@ export class UserPage extends Component {
           </div>
         </div>
 
-        <Navigation />
+        <Navigation/>
       </div>
     );
   }
