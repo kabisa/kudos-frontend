@@ -26,6 +26,7 @@ export const UPDATE_TEAM = gql`
 export class GeneralSection extends Component {
   constructor(props) {
     super(props);
+    this.state = {};
 
     this.updateTeam = this.updateTeam.bind(this);
     this.handleChange = this.handleChange.bind(this);

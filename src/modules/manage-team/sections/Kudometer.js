@@ -81,15 +81,15 @@ export class KudometerSection extends Component {
     super(props);
 
     this.state = {
-      name: null,
-      selected: null,
+      name: undefined,
+      selected: undefined,
       goalKudos: "",
       goalName: "",
-      error: null,
+      error: undefined,
       editingGoal: false,
-      editGoalName: null,
-      editGoalKudos: null,
-      editGoalId: null,
+      editGoalName: undefined,
+      editGoalKudos: undefined,
+      editGoalId: undefined,
     };
     this.initialState = this.state;
 

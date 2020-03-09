@@ -59,14 +59,14 @@ export class GuidelineSection extends Component {
     super(props);
 
     this.state = {
-      kudos: null,
+      kudos: 0,
       description: "",
-      error: null,
+      error: undefined,
 
       editing: false,
       editDescription: "",
-      editKudos: null,
-      editId: null,
+      editKudos: 0,
+      editId: "",
     };
     this.initialState = this.state;
 

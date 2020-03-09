@@ -39,7 +39,7 @@ const RepoList = ({ data: { loading, error, teamById, loadMore } }) => {
   return (
     <div>
       {posts.edges.map(item => (
-        <Transaction transaction={item.node} key={item.id} />
+        <Transaction transaction={item.node} key={item.node.id} />
       ))}
       {posts.pageInfo.hasNextPage && (
         <div style={{ height: "120px", display: "flex" }}>
@@ -146,7 +146,7 @@ export class FeedPage extends Component {
                 <div
                   style={{
                     marginTop: "18px",
-                    "-webkit-overflow-scrolling": "touch",
+                    "WebkitOverflowScrolling": "touch",
                   }}
                 >
                   <RepoListWithQuery />

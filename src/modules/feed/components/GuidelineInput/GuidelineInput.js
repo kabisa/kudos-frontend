@@ -27,7 +27,7 @@ class GuidelineInput extends Component {
     super(props);
 
     this.state = {
-      amount: null,
+      amount: '',
     };
     this.initialState = this.state;
 

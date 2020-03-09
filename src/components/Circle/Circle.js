@@ -21,7 +21,6 @@ const CustomCircle = ({
       strokeWidth="12"
       trailWidth="12"
       strokeLinecap="butt"
-      initialAnimate
       strokeColor={strokeColor}
     />
   </div>
