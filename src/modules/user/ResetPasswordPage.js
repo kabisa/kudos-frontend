@@ -3,7 +3,7 @@ import { Button, Form, Message } from "semantic-ui-react";
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
 import { toast } from "react-toastify";
-
+import {withRouter} from "react-router-dom";
 import settings from "../../config/settings";
 import {
   authAllowNoTeam,
@@ -16,6 +16,7 @@ import {
 import { Navigation, Toolbar } from "../../components/navigation";
 
 import s from "./UserPage.module.scss";
+import { PATH_FEED } from "../../routes";
 
 export const MUTATION_RESET_PASSWORD = gql`
   mutation ResetPassword(
@@ -148,6 +149,7 @@ class ResetPasswordPage extends Component {
               onCompleted={() => {
                 this.setState(this.initialState);
                 toast.info("Password reset successfully!");
+                this.props.history.push(PATH_FEED)
               }}
             >
               {(resetPassword, { error, loading }) => {
@@ -225,4 +227,4 @@ class ResetPasswordPage extends Component {
   }
 }
 
-export default ResetPasswordPage;
+export default withRouter(ResetPasswordPage);

@@ -62,7 +62,7 @@ export class UserPage extends Component {
                 Change password
               </Button>
             </a>
-            <Button color="red" onClick={logout(this.props.history)} className={s.button}>
+            <Button color="red" onClick={() => logout(this.props.history)} className={s.button}>
               Log out
             </Button>
           </div>
