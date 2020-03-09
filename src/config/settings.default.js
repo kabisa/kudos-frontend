@@ -1,8 +1,3 @@
-/* eslint-disable */
-
-import * as development from "./settings.development";
-import * as production from "./settings.production";
-
 export default {
   // App settings.
   defaultLocale: "en-US",
@@ -14,9 +9,7 @@ export default {
 
   // Network settings.
   API_BASE_URL:
-    process.env.NODE_ENV === "development"
-      ? development.default.apiBaseUrl
-      : production.default.apiBaseUrl,
+    process.env.API_BASE_URL ? process.env.API_BASE_URL : "http://localhost:3000",
 
   // localStorage settings.
   LOCALSTORAGE_TOKEN: "token",
