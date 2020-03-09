@@ -11,8 +11,9 @@ import {
   GuidelineSection,
   MemberSection,
   KudometerSection,
-  IntegrationSection,
 } from "./sections";
+import {Switch, Route, withRouter} from "react-router-dom";
+import { PATH_MANAGE_TEAM } from "../../routes";
 
 export class ManageTeamPage extends Component {
   constructor(props) {
@@ -27,6 +28,7 @@ export class ManageTeamPage extends Component {
 
   handleItemClick(e, { name }) {
     this.setState({ activeItem: name });
+    this.props.history.push(name)
   }
 
   render() {
@@ -71,21 +73,33 @@ export class ManageTeamPage extends Component {
                     active={activeItem === "kudometer"}
                     onClick={this.handleItemClick}
                   />
-                  {/* <Menu.Item
-                    name="integrations"
-                    active={activeItem === "integrations"}
-                    onClick={this.handleItemClick}
-                  /> */}
                 </Menu>
               </Grid.Column>
 
               <Grid.Column stretched width={12}>
-                {activeItem === "general" && <GeneralSection />}
-                {activeItem === "invites" && <InviteSection />}
-                {activeItem === "guidelines" && <GuidelineSection />}
-                {activeItem === "members" && <MemberSection />}
-                {activeItem === "kudometer" && <KudometerSection />}
-                {activeItem === "integrations" && <IntegrationSection />}
+                <Switch>
+                  <Route path={`${PATH_MANAGE_TEAM}/general`}>
+                    <GeneralSection />
+                  </Route>
+                  <Route path={`${PATH_MANAGE_TEAM}/invites`}>
+                    <InviteSection />
+                  </Route>
+                  <Route path={`${PATH_MANAGE_TEAM}/guidelines`}>
+                    <GuidelineSection />
+                  </Route>
+                  <Route path={`${PATH_MANAGE_TEAM}/members`}>
+                    <MemberSection />
+                  </Route>
+                  <Route path={`${PATH_MANAGE_TEAM}/kudometer`}>
+                    <KudometerSection />
+                  </Route>
+                </Switch>
+                {/*/!*{activeItem === "general" && <GeneralSection />}*!/*/}
+                {/*{activeItem === "invites" && <InviteSection />}*/}
+                {/*{activeItem === "guidelines" && <GuidelineSection />}*/}
+                {/*{activeItem === "members" && <MemberSection />}*/}
+                {/*{activeItem === "kudometer" && <KudometerSection />}*/}
+                {/*{activeItem === "integrations" && <IntegrationSection />}*/}
               </Grid.Column>
             </Grid>
           </Segment>
@@ -95,4 +109,5 @@ export class ManageTeamPage extends Component {
     );
   }
 }
-export default ManageTeamPage;
+
+export default withRouter(ManageTeamPage);

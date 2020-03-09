@@ -19,7 +19,7 @@ import {
   CreatePost,
   GoalProgress,
 } from "./components";
-import { GET_TRANSACTIONS } from "./queries";
+import { GET_POSTS } from "./queries";
 import { auth } from "../../support";
 
 const RepoList = ({ data: { loading, error, teamById, loadMore } }) => {
@@ -82,7 +82,7 @@ export class FeedPage extends Component {
   }
 
   render() {
-    const withQuery = graphql(GET_TRANSACTIONS, {
+    const withQuery = graphql(GET_POSTS, {
       options: {
         variables: { team_id: localStorage.getItem(settings.TEAM_ID_TOKEN) },
         fetchPolicy: "network-only",

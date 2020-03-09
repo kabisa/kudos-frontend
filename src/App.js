@@ -37,7 +37,7 @@ const AuthenticatedRoute = ({ component: Component, ...rest }) => (
       ? <Component {...props} />
       : <Redirect to='/login' />
   )} />
-)
+);
 
 function App() {
   return (
@@ -53,7 +53,6 @@ function App() {
             <AuthenticatedRoute path={routes.PATH_STATISTICS} component={StatisticsPage} />
             <AuthenticatedRoute path={routes.PATH_SETTINGS} component={SettingsPage} />
             <AuthenticatedRoute path={routes.PATH_INVITE} component={InvitePage} />
-            <AuthenticatedRoute path={routes.PATH_ADD_TRANSACTION} component={AddTransactionPage} />
             <AuthenticatedRoute path={routes.PATH_CHOOSE_TEAM} component={ChooseTeamPage} />
             <AuthenticatedRoute path={routes.PATH_CREATE_TEAM} component={CreateTeamPage} />
             <AuthenticatedRoute path={routes.PATH_MANAGE_TEAM} component={ManageTeamPage} />
@@ -69,8 +68,8 @@ function App() {
             <Route path={routes.PATH_REGISTER} >
               <RegisterPage/>
             </Route>
-            <AuthenticatedRoute path={routes.PATH_FEED} component={FeedPage}>
-            </AuthenticatedRoute>
+            <AuthenticatedRoute path={routes.PATH_FEED} component={FeedPage} />
+            <AuthenticatedRoute path={routes.PATH_ADD_TRANSACTION} component={AddTransactionPage} />
           </Switch>
         </Router>
         <ToastWrapper/>

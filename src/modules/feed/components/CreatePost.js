@@ -21,7 +21,7 @@ import {
   ERROR_MESSAGE_MAX_LENGTH,
 } from "../../../support";
 import BackButton from "../../login/BackButton";
-import { GET_GOAL_PERCENTAGE, GET_USERS } from "../queries";
+import { GET_GOAL_PERCENTAGE, GET_POSTS, GET_USERS } from "../queries";
 
 import s from "../AddTransactionPage.module.scss";
 
@@ -135,7 +135,7 @@ export class CreatePost extends Component {
     const realReceivers = [];
     const virtualReceivers = [];
 
-    users.map((user) => {
+    users.forEach((user) => {
       if (!receivers.includes(user.id)) return;
 
       if (user.virtualUser) {
@@ -153,6 +153,10 @@ export class CreatePost extends Component {
         virtual_receivers: virtualReceivers,
         team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
       },
+      refetchQueries: [{
+        query: GET_POSTS,
+        variables: { team_id: localStorage.getItem(settings.TEAM_ID_TOKEN) },
+      }],
     });
   }
 
@@ -177,7 +181,7 @@ export class CreatePost extends Component {
     this.input.resetState();
     this.userdropdown.resetState();
     this.setState(this.initialState);
-    return <Redirect to={PATH_FEED} />
+    return <Redirect to={PATH_FEED}/>;
   }
 
   render() {
@@ -281,7 +285,7 @@ export class CreatePost extends Component {
                   <p>{displayError}</p>
                 </Message>
               )}
-              {this.props.back && <BackButton />}
+              {this.props.back && <BackButton/>}
             </Form>
           );
         }}

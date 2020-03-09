@@ -25,7 +25,7 @@ export const FRAGMENT_POST = gql`
   }
 `;
 
-export const GET_TRANSACTIONS = gql`
+export const GET_POSTS = gql`
   query postsConnection($team_id: ID!, $end: String) {
     teamById(id: $team_id) {
       posts(first: 10, after: $end, orderBy: "created_at desc") {

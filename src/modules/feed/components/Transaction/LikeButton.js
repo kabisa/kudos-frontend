@@ -6,7 +6,7 @@ import enhanceWithClickOutside from "react-click-outside";
 
 import settings from "../../../../config/settings";
 import {
-  GET_TRANSACTIONS,
+  GET_POSTS,
   FRAGMENT_POST,
   GET_GOAL_PERCENTAGE,
 } from "../../queries";
@@ -27,7 +27,7 @@ export const MUTATION_TOGGLE_LIKE = gql`
 
 const updateState = (store, newData) => {
   const beforeState = store.readQuery({
-    query: GET_TRANSACTIONS,
+    query: GET_POSTS,
     variables: { team_id: teamId },
   });
   const afterState = {
@@ -44,7 +44,7 @@ const updateState = (store, newData) => {
   };
 
   store.writeQuery({
-    query: GET_TRANSACTIONS,
+    query: GET_POSTS,
     variables: { team_id: teamId },
     data: afterState,
   });

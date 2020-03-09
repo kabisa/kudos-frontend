@@ -2,7 +2,7 @@ import React from "react";
 import { Container, Menu, Icon, Dropdown } from "semantic-ui-react";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
-import  {withRouter} from "react-router-dom"
+import { Link, withRouter } from "react-router-dom";
 
 import {
   PATH_FEED,
@@ -36,34 +36,34 @@ export const DesktopNavigation = ({history}) => (
                 text={data && data.viewer ? data.viewer.name : "Loading..."}
               >
                 <Dropdown.Menu>
-                  <a
-                    onClick={() => history.push(PATH_USER)}
+                  <Link
+                    to={PATH_USER}
                     className="item"
                     style={{ color: "black" }}
                   >
                     <Icon name="user" />
                     Profile
-                  </a>
+                  </Link>
                   <Dropdown.Divider />
                   {isAdmin() && (
-                    <a
-                      onClick={() => history.push(PATH_MANAGE_TEAM)}
+                    <Link
+                      to={PATH_MANAGE_TEAM + '/general'}
                       className="item"
                       style={{ color: "black" }}
                     >
                       <Icon name="settings" />
                       Manage team
-                    </a>
+                    </Link>
                   )}
                   {isAdmin() && <Dropdown.Divider />}
-                  <a
-                    onClick={() => history.push(PATH_CHOOSE_TEAM)}
+                  <Link
+                    to={PATH_CHOOSE_TEAM}
                     className="item"
                     style={{ color: "black" }}
                   >
                     <Icon name="exchange" />
                     Switch team
-                  </a>
+                  </Link>
                   <Dropdown.Item onClick={() => logout(history)}>
                     <Icon name="log out" />
                     Log out

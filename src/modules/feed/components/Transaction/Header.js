@@ -6,7 +6,7 @@ import gql from "graphql-tag";
 import {toast} from "react-toastify";
 import {Redirect} from "react-dom";
 import settings from "../../../../config/settings";
-import {GET_TRANSACTIONS} from "../../queries";
+import {GET_POSTS} from "../../queries";
 import {PATH_ADD_TRANSACTION} from "../../../../routes";
 
 import s from "./Header.module.scss";
@@ -75,7 +75,7 @@ export class Header extends Component {
                                 mutation={MUTATION_TOGGLE_LIKE}
                                 refetchQueries={[
                                     {
-                                        query: GET_TRANSACTIONS,
+                                        query: GET_POSTS,
                                         variables: {
                                             team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
                                         },

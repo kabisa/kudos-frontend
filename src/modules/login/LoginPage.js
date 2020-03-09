@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import { Button, Form, GridColumn, Message, Segment } from "semantic-ui-react";
+import { Button, Form, Message, Segment } from "semantic-ui-react";
 import { withRouter } from "react-router-dom";
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
 
-import { PATH_REGISTER, PATH_FORGOT_PASSWORD, PATH_FEED, PATH_CHOOSE_TEAM } from "../../routes";
+import { PATH_REGISTER, PATH_FORGOT_PASSWORD, PATH_CHOOSE_TEAM } from "../../routes";
 import {
   isLoggedIn,
   getGraphqlError,
@@ -36,7 +36,6 @@ class LoginPage extends Component {
     super(props);
 
     if (isLoggedIn()) {
-      console.log('logged in');
       this.props.history.push(PATH_CHOOSE_TEAM)
     }
 
@@ -58,6 +57,7 @@ class LoginPage extends Component {
   confirm(data) {
     if (data.signInUser.authenticateData) {
       loginSuccess(data.signInUser.authenticateData);
+
       this.props.history.push(PATH_CHOOSE_TEAM)
     } else {
       this.setState({ error: data.signInUser.errors });
