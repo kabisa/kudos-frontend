@@ -3,7 +3,7 @@ import { Grid, Header } from "semantic-ui-react";
 
 import { Toolbar } from "./navigation";
 
-import s from "./FormWrapper.scss";
+import s from "./FormWrapper.module.scss";
 
 export const FormWrapper = ({ children, toolbar, header }) => (
   <div>

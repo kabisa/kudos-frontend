@@ -10,7 +10,7 @@ import { Navigation, Toolbar } from "../../components/navigation";
 import { PATH_FEED } from "../../routes";
 import { authAllowNoTeam } from "../../support";
 
-import s from "../user/UserPage.scss";
+import s from "../user/UserPage.module.scss";
 
 export const MUTATION_CREATE_TEAM = gql`
   mutation CreateTeam($name: String!) {

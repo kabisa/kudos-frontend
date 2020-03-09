@@ -23,7 +23,7 @@ import {
 import BackButton from "../../login/BackButton";
 import { GET_GOAL_PERCENTAGE, GET_USERS } from "../queries";
 
-import s from "../AddTransactionPage.scss";
+import s from "../AddTransactionPage.module.scss";
 
 export const CREATE_POST = gql`
   mutation CreatePost(

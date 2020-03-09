@@ -9,7 +9,7 @@ import settings from "../../../../config/settings";
 import {GET_TRANSACTIONS} from "../../queries";
 import {PATH_ADD_TRANSACTION} from "../../../../routes";
 
-import s from "./Header.scss";
+import s from "./Header.module.scss";
 
 export const MUTATION_TOGGLE_LIKE = gql`
   mutation RemovePost($id: ID!) {

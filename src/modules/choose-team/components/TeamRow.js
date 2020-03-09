@@ -1,12 +1,12 @@
 import React from "react";
 import { Button, GridRow, GridColumn } from "semantic-ui-react";
 import {PropTypes} from "prop-types"
-import s from "./style.scss";
+import s from "./ChooseTeam.module.scss";
 import { selectTeam } from "../utils";
 import { PATH_FEED } from "../../../routes";
 
 const TeamRow = ({ history, id, name, role }) => (
-  <GridRow>
+  <GridRow textAlign='center'>
     <GridColumn>
       <p className={s.text}>{name}</p>
     </GridColumn>

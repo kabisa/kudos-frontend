@@ -49,9 +49,8 @@ export const authIsTeamAdmin = () => {
     return localStorage.getItem(settings.ROLE_TOKEN) === "admin";
 };
 
-export const logout = () => {
+export const logout = (history) => {
     localStorage.clear();
     client.resetStore();
-
-    return <Redirect to={PATH_LOGIN}/>;
+    history.push(PATH_LOGIN)
 };

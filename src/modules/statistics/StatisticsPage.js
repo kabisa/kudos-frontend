@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { Navigation } from "../../components/navigation";
 import { auth } from "../../support";
 
-import s from "./style.scss";
+import s from "./Statistics.module.scss";
 import Statistics from "./Statistics";
 
 export class StatisticsPage extends Component {

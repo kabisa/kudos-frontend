@@ -7,7 +7,7 @@ import { Navigation } from "../../components/navigation";
 import { TeamList, InviteList } from "./components";
 import { authAllowNoTeam } from "../../support";
 
-import s from "./ChooseTeamPage.scss";
+import s from "./ChooseTeamPage.module.scss";
 
 const Content = () => (
   <div className={s.container}>
@@ -19,7 +19,7 @@ const Content = () => (
     <Divider horizontal>Or</Divider>
     <Button
       color="blue"
-      style={{ margin: "auto" }}
+      style={{ margin: "auto"  }}
       onClick={() => { return <Redirect to={PATH_CREATE_TEAM} />}}
     >
       Create team

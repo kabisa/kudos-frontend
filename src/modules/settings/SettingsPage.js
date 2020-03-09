@@ -5,7 +5,7 @@ import { PATH_CHOOSE_TEAM, PATH_INVITE } from "../../routes";
 import { Navigation } from "../../components/navigation";
 import { auth, isAdmin } from "../../support";
 
-import s from "./style.scss";
+import s from "./Settings.module.scss";
 
 export class SettingsPage extends Component {
   constructor(props) {

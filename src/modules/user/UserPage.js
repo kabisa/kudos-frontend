@@ -2,13 +2,12 @@ import React, { Component } from "react";
 import { Button, Image } from "semantic-ui-react";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
-import { ON_MOBILE_DEVICE } from "../../config/settings.js";
 
 import { PATH_RESET_PASSWORD } from "../../routes";
 import { Navigation } from "../../components/navigation";
 import { authAllowNoTeam, logout } from "../../support";
-
-import s from "./UserPage.scss";
+import { withRouter } from "react-router-dom";
+import s from "./UserPage.module.scss";
 
 export const GET_USER = gql`
   query getUser {
@@ -63,7 +62,7 @@ export class UserPage extends Component {
                 Change password
               </Button>
             </a>
-            <Button color="red" onClick={logout} className={s.button}>
+            <Button color="red" onClick={logout(this.props.history)} className={s.button}>
               Log out
             </Button>
           </div>
@@ -75,4 +74,4 @@ export class UserPage extends Component {
   }
 }
 
-export default UserPage;
+export default withRouter(UserPage);

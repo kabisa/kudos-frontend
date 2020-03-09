@@ -15,7 +15,7 @@ import {
 } from "../../support";
 import { Navigation, Toolbar } from "../../components/navigation";
 
-import s from "./UserPage.scss";
+import s from "./UserPage.module.scss";
 
 export const MUTATION_RESET_PASSWORD = gql`
   mutation ResetPassword(

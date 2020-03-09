@@ -4,7 +4,7 @@ import { Grid, Menu, Segment } from "semantic-ui-react";
 import { Navigation } from "../../components/navigation";
 import { auth } from "../../support";
 
-import s from "../feed/AddTransactionPage.scss";
+import s from "../feed/AddTransactionPage.module.scss";
 import {
   GeneralSection,
   InviteSection,

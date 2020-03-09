@@ -4,7 +4,7 @@ import { Toolbar } from "../../components/navigation";
 import { CreatePost } from "./components";
 import { auth } from "../../support";
 
-import s from "./AddTransactionPage.scss";
+import s from "./AddTransactionPage.module.scss";
 
 export class AddTransactionPage extends Component {
   constructor(props) {

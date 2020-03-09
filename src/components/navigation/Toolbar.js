@@ -2,7 +2,7 @@ import React from "react";
 import { Icon, Responsive } from "semantic-ui-react";
 import PropTypes from "prop-types";
 
-import s from "./Toolbar.scss";
+import s from "./Toolbar.module.scss";
 
 const Toolbar = ({ to, text }) => {
   const backLink = to ? (

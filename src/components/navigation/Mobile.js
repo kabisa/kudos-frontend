@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 import * as routes from "../../routes";
 import settings from "../../config/settings";
-import s from "./Mobile.scss";
+import s from "./Mobile.module.scss";
 
 const IconComponent = ({ path, icon }) => {
   const current = window.location.hash.substring(1).split("?")[0];

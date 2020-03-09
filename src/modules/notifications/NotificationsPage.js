@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { Navigation } from "../../components/navigation";
 import { auth } from "../../support";
 
-import s from "./NotificationsPage.scss";
+import s from "./NotificationsPage.module.scss";
 
 export class NotificationsPage extends Component {
   constructor(props) {

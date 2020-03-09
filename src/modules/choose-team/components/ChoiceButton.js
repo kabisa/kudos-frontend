@@ -7,7 +7,7 @@ import settings from "../../../config/settings";
 import {PATH_FEED} from "../../../routes";
 import {GET_INVITES} from "./InviteList";
 
-import s from "./style.scss";
+import s from "./ChooseTeam.module.scss";
 
 const ChoiceButton = ({mutation, inviteId, text, color, accept, teamId}) => (
     <Mutation

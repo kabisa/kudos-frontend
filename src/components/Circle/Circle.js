@@ -1,6 +1,6 @@
 import React from "react";
 import { Circle } from "rc-progress";
-import s from "./Circle.scss";
+import s from "./Circle.module.scss";
 
 const CustomCircle = ({
   percent,

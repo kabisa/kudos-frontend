@@ -8,7 +8,7 @@ import { GET_GOAL_PERCENTAGE } from "../../queries";
 import { PATH_STATISTICS } from "../../../../routes";
 import { calculateProgress, getStrokeColor } from "../../../../support";
 
-import s from "./GoalProgress.scss";
+import s from "./GoalProgress.module.scss";
 
 export const GoalProgress = () => (
   <Query

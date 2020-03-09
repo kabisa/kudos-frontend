@@ -15,7 +15,7 @@ import {
 import { FormWrapper } from "../../components";
 import { loginSuccess } from "./helper";
 
-import s from "./style.scss";
+import s from "./LoginPage.module.scss";
 
 export const MUTATION_LOGIN = gql`
   mutation SignInUser($email: EmailAddress!, $password: String!) {

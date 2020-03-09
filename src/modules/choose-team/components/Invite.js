@@ -3,7 +3,7 @@ import gql from "graphql-tag";
 
 import ChoiceButton from "./ChoiceButton";
 
-import s from "./style.scss";
+import s from "./ChooseTeam.module.scss";
 
 export const MUTATION_ACCEPT_INVITE = gql`
   mutation AcceptTeamInvite($team_invite_id: ID!) {

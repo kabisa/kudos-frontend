@@ -14,7 +14,7 @@ import {
   ERROR_EMAIL_BLANK,
 } from "../../support";
 
-import s from "./style.scss";
+import s from "./Settings.module.scss";
 
 export const MUTATION_CREATE_INVITE = gql`
   mutation CreateInvite($emails: [EmailAddress!]!, $team_id: ID!) {

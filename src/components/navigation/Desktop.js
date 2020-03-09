@@ -2,6 +2,7 @@ import React from "react";
 import { Container, Menu, Icon, Dropdown } from "semantic-ui-react";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
+import  {withRouter} from "react-router-dom"
 
 import {
   PATH_FEED,
@@ -11,7 +12,7 @@ import {
 } from "../../routes";
 import { logout, isAdmin } from "../../support";
 
-import s from "./Desktop.scss";
+import s from "./Desktop.module.scss";
 
 export const GET_USER = gql`
   query getUser {
@@ -21,11 +22,11 @@ export const GET_USER = gql`
   }
 `;
 
-export const DesktopNavigation = () => (
+export const DesktopNavigation = ({history}) => (
   <div className={s.root}>
     <Menu fixed="top" inverted size="large" className={s.menu}>
       <Container>
-        <Menu.Item href={`#${PATH_FEED}`}>Home</Menu.Item>
+        <Menu.Item onClick={() => history.push(PATH_FEED)}>Home</Menu.Item>
         <Menu.Menu position="right">
           <Query query={GET_USER}>
             {({ data }) => (
@@ -36,7 +37,7 @@ export const DesktopNavigation = () => (
               >
                 <Dropdown.Menu>
                   <a
-                    href={`#${PATH_USER}`}
+                    onClick={() => history.push(PATH_USER)}
                     className="item"
                     style={{ color: "black" }}
                   >
@@ -46,7 +47,7 @@ export const DesktopNavigation = () => (
                   <Dropdown.Divider />
                   {isAdmin() && (
                     <a
-                      href={`#${PATH_MANAGE_TEAM}`}
+                      onClick={() => history.push(PATH_MANAGE_TEAM)}
                       className="item"
                       style={{ color: "black" }}
                     >
@@ -56,14 +57,14 @@ export const DesktopNavigation = () => (
                   )}
                   {isAdmin() && <Dropdown.Divider />}
                   <a
-                    href={`#${PATH_CHOOSE_TEAM}`}
+                    onClick={() => history.push(PATH_CHOOSE_TEAM)}
                     className="item"
                     style={{ color: "black" }}
                   >
                     <Icon name="exchange" />
                     Switch team
                   </a>
-                  <Dropdown.Item onClick={logout}>
+                  <Dropdown.Item onClick={() => logout(history)}>
                     <Icon name="log out" />
                     Log out
                   </Dropdown.Item>
@@ -77,4 +78,4 @@ export const DesktopNavigation = () => (
   </div>
 );
 
-export default DesktopNavigation;
+export default withRouter(DesktopNavigation);

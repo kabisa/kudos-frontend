@@ -1,6 +1,6 @@
 import React from "react";
 import { Message, Responsive } from "semantic-ui-react";
-import s from "./style.scss";
+import s from "./LoginPage.module.scss";
 
 const BackButton = () => (
   <Responsive minWidth={Responsive.onlyTablet.minWidth}>

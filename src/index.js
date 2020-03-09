@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import { Redirect } from "react-router-dom";
 import { ApolloProvider } from "@apollo/react-hooks";
 import client from "./apollo";
 
