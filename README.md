@@ -25,7 +25,7 @@ Backend: https://github.com/kabisa/kudo-o-matic
 
 - Running `yarn install` will hook you up with everything you'll need
 - `yarn start` will start the development server on http://localhost:9090.
-- To create a static HTML5 app build, run `yarn build`. The app will be built into the `build/` directory.
+- To create a static HTML5 app build, run `yarn build`. The app will be built into the `dist/` directory.
 - To run all tests, run `yarn test`.
 
 ## Code formatting
