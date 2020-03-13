@@ -1,23 +1,23 @@
-import React from "react";
-import { Icon, Responsive } from "semantic-ui-react";
+import React from 'react';
+import { Button, Icon, Responsive } from 'semantic-ui-react';
 
-import s from "./Toolbar.module.scss";
+import s from './Toolbar.module.scss';
 
 export interface Props {
-  to?: string,
-  text: string
+  to?: string;
+  text: string;
 }
 
-const Toolbar: React.FC<Props> = (props) => {
+function Toolbar(props: Props): React.ReactElement {
   const backLink = props.to ? (
     <a href={props.to} className={s.back_link}>
       <Icon name="arrow left" size="large" className={s.icon} />
     </a>
   ) : (
-      // eslint-disable-next-line no-restricted-globals
-    <div onClick={() => history.back()} className={s.back_link}>
+  // eslint-disable-next-line no-restricted-globals
+    <Button icon onClick={() => history.back()} className={s.back_link}>
       <Icon name="arrow left" size="large" className={s.icon} />
-    </div>
+    </Button>
   );
 
   return (
@@ -30,6 +30,6 @@ const Toolbar: React.FC<Props> = (props) => {
       </Responsive>
     </div>
   );
-};
+}
 
 export default Toolbar;

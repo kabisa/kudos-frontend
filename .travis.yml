@@ -6,6 +6,5 @@ cache:
     - node_modules
 script:
   - yarn build
-  - yarn prettier --check "./src/**/*.?(tsx|js|scss)"
-  - yarn eslint ./src --ext .js,.jsx,.ts,.tsx
+  - yarn eslint:check
   - yarn test

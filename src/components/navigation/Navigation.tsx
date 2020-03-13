@@ -1,7 +1,7 @@
-import React from "react";
-import { Responsive } from "semantic-ui-react";
-import MobileNavigation from "./Mobile";
-import Desktop from "./Desktop";
+import React from 'react';
+import { Responsive } from 'semantic-ui-react';
+import MobileNavigation from './Mobile';
+import Desktop from './Desktop';
 
 export default () => (
   <div>

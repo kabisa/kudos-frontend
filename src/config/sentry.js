@@ -6,8 +6,8 @@ if (Settings.sentryDsn) {
     environment: process.env.NODE_ENV,
     release: "1",
     tags: {
-      revision: "1",
-    },
+      revision: "1"
+    }
   }).install();
 } else {
   if (process.env.NODE_ENV === "production") {

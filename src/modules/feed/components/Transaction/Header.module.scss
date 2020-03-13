@@ -1,28 +1,28 @@
 .root {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .kudo_amount {
-    width: 4rem;
+  width: 4rem;
 }
 
 .image_wrapper {
-    margin-left: 12px;
-    display: flex;
-    flex-flow: wrap;
-    max-width: 12em;
+  margin-left: 12px;
+  display: flex;
+  flex-flow: wrap;
+  max-width: 12em;
 }
 
 .timestamp {
-    font-weight: 300;
-    font-size: 12px;
-    margin-left: auto;
-    width: 80px;
-    text-align: right;
-    padding-right: 8px;
+  font-weight: 300;
+  font-size: 12px;
+  margin-left: auto;
+  width: 80px;
+  text-align: right;
+  padding-right: 8px;
 }
 
 .dropdown {
-    color: grey;
+  color: grey;
 }

@@ -10,6 +10,7 @@
     "@types/history": "^4.7.5",
     "@types/jest": "^25.1.4",
     "@types/node": "^13.9.0",
+    "@types/node-sass": "^4.11.0",
     "@types/react": "^16.9.23",
     "@types/react-click-outside": "^3.0.3",
     "@types/react-dom": "^16.9.5",
@@ -17,6 +18,8 @@
     "apollo-boost": "^0.4.7",
     "chroma-js": "^2.1.0",
     "graphql": "^14.6.0",
+    "graphql-tag": "^2.10.3",
+    "history": "^4.10.1",
     "moment": "^2.24.0",
     "moment-twitter": "^0.2.0",
     "node-sass": "^4.13.1",
@@ -38,7 +41,9 @@
     "start": "env NODE_ENV=development PORT=9090 react-scripts start",
     "build": "react-scripts build && mv build dist",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint:check": "eslint ./src --ext .js,.jsx,.ts,.tsx ./",
+    "lint:run": "eslint ./src --ext .js,.jsx,.ts,.tsx --fix"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -60,12 +65,9 @@
     "@typescript-eslint/parser": "^2.23.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-typescript": "^7.0.0",
-    "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.15.1",
-    "eslint-plugin-react-hooks": "^1.7.0",
-    "prettier": "^1.19.1"
+    "eslint-plugin-react-hooks": "^1.7.0"
   }
 }

@@ -1,63 +1,61 @@
-import React from "react";
-import gql from "graphql-tag";
+import React from 'react';
+import gql from 'graphql-tag';
 
-import ChoiceButton from "./ChoiceButton";
+import ChoiceButton from './ChoiceButton';
 
-import s from "./ChooseTeam.module.scss";
+import s from './ChooseTeam.module.scss';
 
 export const MUTATION_ACCEPT_INVITE = gql`
-  mutation AcceptTeamInvite($team_invite_id: ID!) {
-    acceptTeamInvite(teamInviteId: $team_invite_id) {
-      teamInvite {
-        id
-      }
+    mutation AcceptTeamInvite($team_invite_id: ID!) {
+        acceptTeamInvite(teamInviteId: $team_invite_id) {
+            teamInvite {
+                id
+            }
+        }
     }
-  }
 `;
 
 export const MUTATION_DECLINE_INVITE = gql`
-  mutation DeclineTeamInvite($team_invite_id: ID!) {
-    declineTeamInvite(teamInviteId: $team_invite_id) {
-      teamInvite {
-        id
-      }
+    mutation DeclineTeamInvite($team_invite_id: ID!) {
+        declineTeamInvite(teamInviteId: $team_invite_id) {
+            teamInvite {
+                id
+            }
+        }
     }
-  }
 `;
 
-export interface Invite {
+export interface InviteModel {
+  id: string;
+  team: {
     id: string;
-    team: {
-        id: string
-        name: string
-
-    }
+    name: string;
+  };
 }
 
 export interface Props {
-    invite: Invite;
+  invite: InviteModel;
 }
 
-
-export const Invite: React.FC<Props> = ({invite}) => (
+export function Invite(props: Props): React.ReactElement {
+  return (
     <div className={s.root}>
-        <p className={s.text}>{invite.team.name}</p>
-        <ChoiceButton
-            inviteId={invite.id}
-            mutation={MUTATION_ACCEPT_INVITE}
-            text="Accept"
-            color="green"
-            teamId={invite.team.id}
-            accept
-        />
-        <ChoiceButton
-            inviteId={invite.id}
-            mutation={MUTATION_DECLINE_INVITE}
-            text="Decline"
-            color="orange"
-            teamId={invite.team.id}
-        />
+      <p className={s.text}>{props.invite.team.name}</p>
+      <ChoiceButton
+        inviteId={props.invite.id}
+        mutation={MUTATION_ACCEPT_INVITE}
+        text="Accept"
+        color="green"
+        teamId={props.invite.team.id}
+        accept
+      />
+      <ChoiceButton
+        inviteId={props.invite.id}
+        mutation={MUTATION_DECLINE_INVITE}
+        text="Decline"
+        color="orange"
+        teamId={props.invite.team.id}
+      />
     </div>
-);
-
-export default Invite;
+  );
+}

@@ -1,148 +1,145 @@
-import React, {ChangeEvent, Component} from "react";
-import {Button, Divider, Form, Header, Icon} from "semantic-ui-react";
-import gql from "graphql-tag";
-import {toast} from "react-toastify";
-import settings from "../../../config/settings";
-import {Mutation, Query} from "react-apollo";
+/* eslint-disable no-shadow */
+import React, { ChangeEvent, Component } from 'react';
+import {
+  Button, Divider, Form, Header, Icon,
+} from 'semantic-ui-react';
+import gql from 'graphql-tag';
+import { toast } from 'react-toastify';
+import { Mutation, Query } from 'react-apollo';
+import settings from '../../../config/settings';
 
 export const GET_TEAM_NAME = gql`
-  query GetTeamName($id: ID!) {
-    teamById(id: $id) {
-      name
+    query GetTeamName($id: ID!) {
+        teamById(id: $id) {
+            name
+        }
     }
-  }
 `;
 
 export const UPDATE_TEAM = gql`
-  mutation UpdateTeam($name: String!, $team_id: ID!) {
-    updateTeam(name: $name, teamId: $team_id) {
-      team {
-        id
-      }
+    mutation UpdateTeam($name: String!, $team_id: ID!) {
+        updateTeam(name: $name, teamId: $team_id) {
+            team {
+                id
+            }
+        }
     }
-  }
 `;
 
 export interface GetTeamNameResult {
-    teamById: {
-        name: string
-    }
+  teamById: {
+    name: string;
+  };
 }
 
 export interface UpdateTeamParameters {
-    name: string;
-    team_id: number;
+  name: string;
+  team_id: number;
 }
 
 export interface UpdateTeamResult {
-    team: {
-        id: string
-    }
+  team: {
+    id: string;
+  };
 }
 
-export interface Props {
-}
+export interface Props {}
 
 export interface State {
-    name: string
+  name: string;
 }
 
-export class GeneralSection extends Component <Props, State> {
-    constructor(props: Props) {
-        super(props);
-        this.state = {
-            name: ""
-        };
+export class GeneralSection extends Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      name: '',
+    };
 
-        this.updateTeam = this.updateTeam.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-    }
+    this.updateTeam = this.updateTeam.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
 
-    handleChange(e: ChangeEvent, {name, value}: any) {
-        // @ts-ignore
-        this.setState({[name]: value});
-    }
+  handleChange(e: ChangeEvent, { name, value }: any) {
+    // @ts-ignore
+    this.setState({ [name]: value });
+  }
 
-    updateTeam(mutate: any) {
-        mutate({
-            variables: {
-                name: this.state.name,
-                team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
-            },
-            refetchQueries: [
-                {
-                    query: GET_TEAM_NAME,
-                    variables: {
-                        team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
-                    },
-                },
-            ],
-        });
-    }
+  updateTeam(mutate: any) {
+    mutate({
+      variables: {
+        name: this.state.name,
+        team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+      },
+      refetchQueries: [
+        {
+          query: GET_TEAM_NAME,
+          variables: {
+            team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+          },
+        },
+      ],
+    });
+  }
 
-    render() {
-        return (
-            <div>
-                <Header as="h2">
-                    <Icon name="settings"/>
-                    <Header.Content>
-                        General
-                        <Header.Subheader>Manage your team settings</Header.Subheader>
-                    </Header.Content>
-                </Header>
-                <Divider/>
-                <Query<GetTeamNameResult>
-                    query={GET_TEAM_NAME}
-                    variables={{
-                        id: localStorage.getItem(settings.TEAM_ID_TOKEN),
-                    }}
-                >
-                    {({loading, error, data, refetch}) => {
-                        if (loading || !data) return <span>"Loading..."</span>;
-                        if (error) return <span>`Error! ${error.message}`</span>;
+  render() {
+    return (
+      <div>
+        <Header as="h2">
+          <Icon name="settings" />
+          <Header.Content>
+            General
+            <Header.Subheader>Manage your team settings</Header.Subheader>
+          </Header.Content>
+        </Header>
+        <Divider />
+        <Query<GetTeamNameResult>
+          query={GET_TEAM_NAME}
+          variables={{
+            id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+          }}
+        >
+          {({
+            loading, error, data, refetch,
+          }) => {
+            if (loading || !data) return <span>Loading...</span>;
+            if (error) return <span>`Error! ${error.message}`</span>;
 
-                        return (
-                            <Mutation<UpdateTeamResult, UpdateTeamParameters>
-                                mutation={UPDATE_TEAM}
-                                onCompleted={() => {
-                                    toast.info("Team successfully updated!");
-                                    this.setState({name: ""});
-                                    refetch();
-                                }}
-                            >
-                                {(mutate, {loading}) => {
-                                    return (
-                                        <div>
-                                            <h1>{data.teamById.name}</h1>
-                                            <Form onSubmit={() => this.updateTeam(mutate)}>
-                                                <Form.Input
-                                                    fluid
-                                                    label="New team name"
-                                                    placeholder="Team name"
-                                                    name="name"
-                                                    required
-                                                    value={this.state.name}
-                                                    onChange={this.handleChange}
-                                                />
-                                                <Button
-                                                    color="blue"
-                                                    loading={loading}
-                                                    disabled={loading}
-                                                    type="submit"
-                                                >
-                                                    Update
-                                                </Button>
-                                            </Form>
-                                        </div>
-                                    );
-                                }}
-                            </Mutation>
-                        );
-                    }}
-                </Query>
-            </div>
-        );
-    }
+            return (
+              <Mutation<UpdateTeamResult, UpdateTeamParameters>
+                mutation={UPDATE_TEAM}
+                onCompleted={() => {
+                  toast.info('Team successfully updated!');
+                  this.setState({ name: '' });
+                  refetch();
+                }}
+              >
+                {(mutate, { loading }) => (
+                  <div>
+                    <h1>{data.teamById.name}</h1>
+                    <Form onSubmit={() => this.updateTeam(mutate)}>
+                      <Form.Input
+                        fluid
+                        label="New team name"
+                        placeholder="Team name"
+                        name="name"
+                        required
+                        value={this.state.name}
+                        onChange={this.handleChange}
+                      />
+                      <Button color="blue" loading={loading} disabled={loading} type="submit">
+                        Update
+                      </Button>
+                    </Form>
+                  </div>
+                )}
+              </Mutation>
+            );
+          }}
+        </Query>
+      </div>
+    );
+  }
 }
 
 export default GeneralSection;

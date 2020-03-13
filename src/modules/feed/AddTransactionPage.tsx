@@ -1,29 +1,25 @@
-import React, {Component} from "react";
+import React from 'react';
 
-import {Toolbar} from "../../components/navigation";
-import {CreatePost} from "./components";
+import { Toolbar } from '../../components/navigation';
+import { CreatePost } from './components';
 
-import s from "./AddTransactionPage.module.scss";
-
+import s from './AddTransactionPage.module.scss';
 
 export interface Props {
-    transaction: any;
+  transaction: any;
 }
 
-export class AddTransactionPage extends Component <Props> {
-    render() {
-        const {transaction} = this.props;
-        return (
-            <div className={s.root}>
-                <Toolbar
-                    text={transaction ? "Edit transaction" : "Create transaction"}
-                />
-                <div className={s.page}>
-                    <CreatePost back={true}/>
-                </div>
-            </div>
-        );
-    }
+export function AddTransactionPage(props: Props): React.ReactElement {
+  const { transaction } = props;
+
+  return (
+    <div className={s.root}>
+      <Toolbar text={transaction ? 'Edit transaction' : 'Create transaction'} />
+      <div className={s.page}>
+        <CreatePost back />
+      </div>
+    </div>
+  );
 }
 
 export default AddTransactionPage;

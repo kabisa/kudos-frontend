@@ -1,34 +1,34 @@
 .button {
-    margin: auto !important;
-    display: block;
-    margin-top: 1em !important;
+  margin: auto !important;
+  display: block;
+  margin-top: 1em !important;
 }
 
 .name {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 @media only screen and (max-width: 768px) {
-    .button {
-        width: 100%;
-    }
+  .button {
+    width: 100%;
+  }
 }
 
 @media only screen and (min-width: 768px) {
-    .button {
-        width: 170px !important;
-    }
+  .button {
+    width: 170px !important;
+  }
 }
 
 .page {
-    padding-top: 75px !important;
-    padding-left: 2em;
-    padding-right: 2em;
-    text-align: center;
+  padding-top: 75px !important;
+  padding-left: 2em;
+  padding-right: 2em;
+  text-align: center;
 }
 
 @media only screen and (min-width: 768px) {
-    .page {
-        padding-top: 120px !important;
-    }
+  .page {
+    padding-top: 120px !important;
+  }
 }

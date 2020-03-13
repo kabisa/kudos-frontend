@@ -1,1 +1,1 @@
-export { default as ManageTeamPage } from "./ManageTeamPage";
+export { default as ManageTeamPage } from './ManageTeamPage';

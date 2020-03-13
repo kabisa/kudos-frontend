@@ -1,35 +1,35 @@
 .donutchart-track {
-    fill: transparent;
-    stroke: #dae2e5;
-    stroke-width: 26;
+  fill: transparent;
+  stroke: #dae2e5;
+  stroke-width: 26;
 }
 
 .donutchart-indicator {
-    fill: transparent;
-    stroke: rgb(36, 144, 213);
-    stroke-width: 26;
-    stroke-dasharray: 0 10000;
-    transition: stroke-dasharray 0.3s ease;
+  fill: transparent;
+  stroke: rgb(36, 144, 213);
+  stroke-width: 26;
+  stroke-dasharray: 0;
+  transition: stroke-dasharray 0.3s ease;
 }
 
 .donutchart {
-    margin: 0 auto;
-    border-radius: 50%;
-    display: block;
+  margin: 0 auto;
+  border-radius: 50%;
+  display: block;
 }
 
 .donutchart-text {
-    fill: rgb(36, 144, 213);
+  fill: rgb(36, 144, 213);
 }
 
 .donutchart-text-val {
-    font-size: 22px;
+  font-size: 22px;
 }
 
 .donutchart-text-percent {
-    font-size: 14px;
+  font-size: 14px;
 }
 
 .donutchart-text-label {
-    font-size: 9px;
+  font-size: 9px;
 }

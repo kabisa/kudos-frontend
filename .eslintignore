@@ -6,4 +6,8 @@ dist
 coverage
 
 .idea
-.circleci
+
+src/__tests__
+src/assets
+src/config
+src/serviceWorker.js

@@ -1,29 +1,29 @@
 .root {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
 }
 
 .page {
-    padding: 2em;
-    display: flex;
-    height: 100vh;
+  padding: 2em;
+  display: flex;
+  height: 100vh;
 }
 
 .form {
-    margin: auto;
-    width: 100%;
-    max-width: 32em !important;
+  margin: auto;
+  width: 100%;
+  max-width: 32em !important;
 }
 
 .submit_button {
-    width: 100%;
+  width: 100%;
 }
 
 .guidelines {
-    position: absolute !important;
-    z-index: 10;
-    width: 100%;
-    margin-top: -14px !important;
+  position: absolute !important;
+  z-index: 10;
+  width: 100%;
+  margin-top: -14px !important;
 }

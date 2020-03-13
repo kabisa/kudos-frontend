@@ -23,7 +23,7 @@
     state: "pending",
     timeout: null,
     distResisted: 0,
-    supportsPassive: false,
+    supportsPassive: false
   };
 
   try {
@@ -31,7 +31,7 @@
       get passive() {
         // eslint-disable-line getter-return
         _shared.supportsPassive = true;
-      },
+      }
     });
   } catch (e) {
     // do nothing
@@ -123,7 +123,7 @@
   var _ptr = {
     setupDOM: setupDOM,
     onReset: onReset,
-    update: update,
+    update: update
   };
 
   var _setupEvents = function() {
@@ -278,7 +278,7 @@
 
     var _passiveSettings = _shared.supportsPassive
       ? {
-          passive: _shared.passive || false,
+          passive: _shared.passive || false
         }
       : undefined;
 
@@ -298,7 +298,7 @@
         window.removeEventListener("touchend", _onTouchEnd);
         window.removeEventListener("touchmove", _onTouchMove, _passiveSettings);
         window.removeEventListener("scroll", _onScroll);
-      },
+      }
     };
   };
 
@@ -389,7 +389,7 @@ listeners can take over.
     },
     shouldPullToRefresh: function() {
       return !window.scrollY;
-    },
+    }
   };
 
   var _methods = ["mainElement", "ptrElement", "triggerElement"];
@@ -461,8 +461,8 @@ listeners can take over.
       setupEvents: _setupEvents,
       setupDOM: _ptr.setupDOM,
       onReset: _ptr.onReset,
-      update: _ptr.update,
-    },
+      update: _ptr.update
+    }
   };
 
   return index;

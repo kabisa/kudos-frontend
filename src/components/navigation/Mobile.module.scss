@@ -1,28 +1,28 @@
 .bottom_navigation {
-    width: 100%;
-    height: 55px;
-    background-color: white;
-    bottom: 0;
-    z-index: 5;
-    position: fixed;
-    display: flex;
-    flex-direction: row;
-    -webkit-box-shadow: 0 21px 24px 20px rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 0 21px 24px 20px rgba(0, 0, 0, 0.75);
-    box-shadow: 0 -5px 15px -9px rgba(0,0,0,0.75);
-    justify-content: space-around;
-    margin-bottom: constant(safe-area-inset-bottom);
-    margin-bottom: env(safe-area-inset-bottom);
+  width: 100%;
+  height: 55px;
+  background-color: white;
+  bottom: 0;
+  z-index: 5;
+  position: fixed;
+  display: flex;
+  flex-direction: row;
+  -webkit-box-shadow: 0 21px 24px 20px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0 21px 24px 20px rgba(0, 0, 0, 0.75);
+  box-shadow: 0 -5px 15px -9px rgba(0, 0, 0, 0.75);
+  justify-content: space-around;
+  margin-bottom: constant(safe-area-inset-bottom);
+  margin-bottom: env(safe-area-inset-bottom);
 }
 
 .bottom_item {
-    flex-basis: 20%;
-    display: flex;
-    justify-content: center;
-    cursor: pointer;
+  flex-basis: 20%;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
 }
 
 .bottom_icon {
-    margin: auto !important;
-    color: black !important;
+  margin: auto !important;
+  color: black !important;
 }

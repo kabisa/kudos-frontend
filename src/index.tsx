@@ -1,24 +1,24 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "./App";
-import * as serviceWorker from "./serviceWorker";
-import {ApolloProvider} from "@apollo/react-hooks";
-import client from "./apollo";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { ApolloProvider } from '@apollo/react-hooks';
+import App from './App';
+import * as serviceWorker from './serviceWorker';
+import client from './apollo';
 
-import "./styles/shell.scss";
-import "semantic-ui-css/semantic.min.css"
+import './styles/shell.scss';
+import 'semantic-ui-css/semantic.min.css';
 
-const renderApp = function () {
-    const root = document.getElementById("root");
+const renderApp = () => {
+  const root = document.getElementById('root');
 
-    // @ts-ignore
-    root.innerHTML = "";
-    ReactDOM.render(
-        <ApolloProvider client={client}>
-            <App/>
-        </ApolloProvider>,
-        root,
-    );
+  // @ts-ignore
+  root.innerHTML = '';
+  ReactDOM.render(
+    <ApolloProvider client={client}>
+      <App />
+    </ApolloProvider>,
+    root,
+  );
 };
 
 renderApp();
