@@ -9,7 +9,7 @@ export interface Props {
   history: History;
   id: string;
   name: string;
-  role: string;
+  userRole: string;
 }
 
 function TeamRow(props: Props) {
@@ -23,7 +23,7 @@ function TeamRow(props: Props) {
           color="green"
           size="small"
           onClick={() => {
-            selectTeam(props.id, props.role);
+            selectTeam(props.id, props.userRole);
             props.history.push(PATH_FEED);
           }}
         >

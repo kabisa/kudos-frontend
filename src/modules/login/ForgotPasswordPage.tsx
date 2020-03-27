@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import {
   Button, Form, Message, Segment,
 } from 'semantic-ui-react';
-import { Mutation } from 'react-apollo';
+import { Mutation } from '@apollo/react-components';
 
 import { FormWrapper } from '../../components';
 import BackButton from './BackButton';
@@ -30,6 +30,7 @@ export interface Props {}
 export interface State {
   email: string;
   success: boolean;
+  error: string;
 }
 
 type ForgotPasswordMutationCallback = (props: any) => Promise<any>;
@@ -41,6 +42,7 @@ class ForgotPasswordPage extends Component<Props, State> {
     this.state = {
       email: '',
       success: false,
+      error: '',
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -62,6 +64,7 @@ class ForgotPasswordPage extends Component<Props, State> {
     const { email } = this.state;
 
     if (!validateEmail(email)) {
+      this.setState({ error: 'Invalid email address' });
       return;
     }
 
@@ -76,12 +79,14 @@ class ForgotPasswordPage extends Component<Props, State> {
         <Mutation<ForgotPasswordResult, ForgotPasswordParameters>
           mutation={MUTATION_FORGOT_PASSWORD}
           onCompleted={this.onCompleted}
+          onError={(error) => this.setState({ error: error.message })}
         >
           {(resetPassword, { error, loading }: any) => (
             <div>
-              <Form size="large" error={error} onSubmit={(e) => this.formSubmit(e, resetPassword)}>
+              <Form size="large" error={!!error} onSubmit={(e) => this.formSubmit(e, resetPassword)}>
                 <Segment>
                   <Form.Input
+                    data-testid="email-input"
                     fluid
                     icon="user"
                     name="email"
@@ -92,14 +97,21 @@ class ForgotPasswordPage extends Component<Props, State> {
                     onChange={this.handleChange}
                   />
 
-                  <Button color="blue" fluid size="large" loading={loading} disabled={loading}>
+                  <Button
+                    data-testid="submit-button"
+                    color="blue"
+                    fluid
+                    size="large"
+                    loading={loading}
+                    disabled={loading}
+                  >
                     Reset password
                   </Button>
 
-                  {error && (
+                  {this.state.error && (
                   <Message negative>
                     <Message.Header>Unable to reset the password</Message.Header>
-                    <p>Something went wrong.</p>
+                    <p>{this.state.error}</p>
                   </Message>
                   )}
 

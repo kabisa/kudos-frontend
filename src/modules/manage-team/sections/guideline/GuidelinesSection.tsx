@@ -4,7 +4,7 @@ import {
   Divider, Header, Icon, Table,
 } from 'semantic-ui-react';
 import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import settings from '../../../../config/settings';
 import { EditGuideline } from './EditGuideline';
 import { Guideline } from './Guideline';
@@ -87,25 +87,7 @@ class GuidelineSection extends Component<Props, State> {
   editGuideline(id: number, kudos: number, description: string) {
     this.editGuidelineRef.current?.setEditState(id, String(kudos), description);
 
-    document
-      .getElementById('management-container')
-            ?.scrollIntoView();
-    const items = document.getElementsByTagName(
-      'input',
-    );
-
-    for (const item of items) {
-      item.style.borderRadius = '9px; border: solid 6px; border-color: #FBBD08;';
-    }
-    setTimeout(() => {
-      const items = document.getElementsByTagName(
-        'input',
-      );
-
-      for (const item of items) {
-        item.style.borderRadius = ' null; border: null; border-color: null;';
-      }
-    }, 1000);
+    document.getElementById('management-container')?.scrollIntoView();
   }
 
 
@@ -129,8 +111,12 @@ class GuidelineSection extends Component<Props, State> {
           variables={{ team_id: localStorage.getItem(settings.TEAM_ID_TOKEN) }}
         >
           {({ loading, error, data }) => {
-            if (loading || !data) return <p>Loading...</p>;
+            if (loading) return <p>Loading...</p>;
             if (error) return <p>Error! {error.message}</p>;
+
+            if (!data || !data.teamById) {
+              return <p>No guidelines available</p>;
+            }
             return (
               <Table celled compact>
                 <Table.Header>
@@ -144,6 +130,7 @@ class GuidelineSection extends Component<Props, State> {
                 <Table.Body>
                   {data.teamById.guidelines.map((item) => (
                     <Guideline
+                      data-testid="guideline-row"
                       key={item.id}
                       id={item.id}
                       kudos={item.kudos}

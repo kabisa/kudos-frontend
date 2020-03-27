@@ -52,26 +52,31 @@ export class ManageTeamPage extends Component<Props, State> {
               <Grid.Column width={4}>
                 <Menu fluid vertical tabular>
                   <Menu.Item
+                    data-testid="general-button"
                     name="general"
                     active={activeItem === 'general'}
                     onClick={this.handleItemClick}
                   />
                   <Menu.Item
+                    data-testid="invite-button"
                     name="invites"
                     active={activeItem === 'invites'}
                     onClick={this.handleItemClick}
                   />
                   <Menu.Item
+                    data-testid="guideline-button"
                     name="guidelines"
                     active={activeItem === 'guidelines'}
                     onClick={this.handleItemClick}
                   />
                   <Menu.Item
+                    data-testid="member-button"
                     name="members"
                     active={activeItem === 'members'}
                     onClick={this.handleItemClick}
                   />
                   <Menu.Item
+                    data-testid="kudometer-button"
                     name="kudometer"
                     active={activeItem === 'kudometer'}
                     onClick={this.handleItemClick}

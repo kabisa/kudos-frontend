@@ -16,6 +16,7 @@ module.exports = {
         "react/destructuring-assignment": 0,
         "import/prefer-default-export": 0,
         "react/jsx-one-expression-per-line": 0,
-        "max-len": ["error", {"code": 120}]
+        "max-len": ["error", {"code": 120}],
+        "react/button-has-type": 0,
     }
 };

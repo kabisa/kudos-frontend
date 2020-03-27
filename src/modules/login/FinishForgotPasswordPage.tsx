@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
   Button, Form, Message, Segment,
 } from 'semantic-ui-react';
-import { Mutation } from 'react-apollo';
+import { Mutation } from '@apollo/react-components';
 import gql from 'graphql-tag';
 import { withRouter } from 'react-router-dom';
 import { History } from 'history';
@@ -16,7 +16,7 @@ const DEFAULT_ERROR = 'Something went wrong.';
 const PASSWORD_ERROR = "Passwords don't match.";
 const EMPTY_ERROR = "Fields can't be empty.";
 
-const MUTATION_NEW_PASSWORD = gql`
+export const MUTATION_NEW_PASSWORD = gql`
     mutation NewPassword($reset_password_token: String!, $password: String!, $password_confirmation: String!) {
         newPassword(
             resetPasswordToken: $reset_password_token
@@ -117,18 +117,18 @@ class FinishForgotPasswordPage extends Component<Props, State> {
         <Mutation<NewPasswordResult, NewPasswordParameters>
           mutation={MUTATION_NEW_PASSWORD}
           onCompleted={(data) => this.onCompleted(data)}
-          onError={() => this.setState({ error: DEFAULT_ERROR })}
+          onError={(error) => this.setState({ error: error.message })}
         >
           {(mutation, { error, loading }) => (
             <div>
               <Form
                 size="large"
-                                // @ts-ignore
-                error={error}
+                error={!!error}
                 onSubmit={(e) => this.formSubmit(e, mutation)}
               >
                 <Segment>
                   <Form.Input
+                    data-testid="password-input"
                     fluid
                     icon="lock"
                     name="password"
@@ -148,7 +148,14 @@ class FinishForgotPasswordPage extends Component<Props, State> {
                     value={this.state.passwordConfirm}
                     onChange={this.handleChange}
                   />
-                  <Button color="blue" fluid size="large" loading={loading} disabled={loading}>
+                  <Button
+                    data-testid="submit-button"
+                    color="blue"
+                    fluid
+                    size="large"
+                    loading={loading}
+                    disabled={loading}
+                  >
                     Reset password
                   </Button>
 

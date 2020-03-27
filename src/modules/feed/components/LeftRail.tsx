@@ -1,11 +1,11 @@
 import React from 'react';
 import { Segment } from 'semantic-ui-react';
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import gql from 'graphql-tag';
 
 import s from './Rail.module.scss';
 
-const GET_INFO = gql`
+export const GET_INFO = gql`
     query GetInfo {
         viewer {
             name
@@ -25,10 +25,10 @@ export default () => (
   <Segment className={s.rail} style={{ top: '0' }}>
     <Query<GetInfoResult> query={GET_INFO}>
       {({ loading, error, data }) => {
-        if (loading || !data) return <p> Loading... </p>;
+        if (loading) return <p> Loading... </p>;
         if (error) return <p> Error! {error.message} </p>;
 
-        return <h3>Hello {data.viewer.name}</h3>;
+        return <h3>Hello {(data && data.viewer) ? data.viewer.name : '-'}</h3>;
       }}
     </Query>
   </Segment>

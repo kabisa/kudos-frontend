@@ -1,6 +1,6 @@
 import React from 'react';
 import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import { Invite, InviteModel } from './Invite';
 
 export const GET_INVITES = gql`
@@ -36,7 +36,7 @@ const InviteList = () => (
       return (
         <div>
           {data.viewer.teamInvites.map((invite) => (
-            <Invite key={invite.id} invite={invite} />
+            <Invite data-testid="kudo-invite" key={invite.id} invite={invite} />
           ))}
         </div>
       );

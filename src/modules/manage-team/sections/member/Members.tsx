@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { Divider, Header, Icon, Table } from 'semantic-ui-react';
 import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import settings from '../../../../config/settings';
 import { MemberRow } from './MemberRow';
 
@@ -76,7 +76,7 @@ export interface State {
   // Future state vars go here
 }
 
-export class MemberSection extends Component<Props, State> {
+export default class MemberSection extends Component<Props, State> {
   userId: string;
 
   constructor(props: Props) {
@@ -101,8 +101,8 @@ export class MemberSection extends Component<Props, State> {
           variables={{ id: localStorage.getItem(settings.TEAM_ID_TOKEN) }}
         >
           {({ loading, error, data, refetch }) => {
-            if (loading || !data) return <p> Loading... </p>;
-            if (error) return <p>Error! ${error.message} </p>;
+            if (loading) return <p> Loading... </p>;
+            if (error) return <p>Error! {error.message} </p>;
 
             return (
               <div>
@@ -126,9 +126,9 @@ export class MemberSection extends Component<Props, State> {
                   </Table.Header>
 
                   <Table.Body>
-                    {data.teamById.memberships.map((item) => (
+                    {(data && data.teamById && data.teamById.memberships) ? data.teamById.memberships.map((item) => (
                       <MemberRow key={item.id} membership={item} refetch={refetch} />
-                    ))}
+                    )) : <Table.Row>No memberships available</Table.Row>}
                   </Table.Body>
                 </Table>
               </div>
@@ -139,5 +139,3 @@ export class MemberSection extends Component<Props, State> {
     );
   }
 }
-
-export default MemberSection;

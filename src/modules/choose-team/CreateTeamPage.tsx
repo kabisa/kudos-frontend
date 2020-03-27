@@ -1,6 +1,6 @@
 import React, { ChangeEvent, Component } from 'react';
 import { Button, Form, Message } from 'semantic-ui-react';
-import { Mutation } from 'react-apollo';
+import { Mutation } from '@apollo/react-components';
 import gql from 'graphql-tag';
 import { toast } from 'react-toastify';
 import { withRouter } from 'react-router-dom';
@@ -128,6 +128,7 @@ class CreateTeamPage extends Component<Props, State> {
                 return (
                   <Form style={{ maxWidth: '420px', margin: 'auto' }}>
                     <Form.Input
+                      data-testid="create-team-input"
                       label="Team name"
                       fluid
                       icon="tag"
@@ -139,6 +140,7 @@ class CreateTeamPage extends Component<Props, State> {
                       onChange={this.handleChange}
                     />
                     <Button
+                      data-testid="create-team-button"
                       className={s.button}
                       color="blue"
                       loading={loading}

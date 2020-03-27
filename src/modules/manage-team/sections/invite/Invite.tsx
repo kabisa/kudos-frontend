@@ -1,11 +1,14 @@
 import React from 'react';
-import { Button, Confirm, Table } from 'semantic-ui-react';
+import {
+  Button, Popup, Table,
+} from 'semantic-ui-react';
 import moment from 'moment';
-import { Mutation } from 'react-apollo';
+import { Mutation } from '@apollo/react-components';
 import { toast } from 'react-toastify';
+import gql from 'graphql-tag';
 import settings from '../../../../config/settings';
 import {
-  DeleteInviteParameters, InviteModel, MUTATION_DELETE_INVITE, QUERY_GET_INVITES,
+  InviteModel, QUERY_GET_INVITES,
 } from './InvitesSection';
 
 export interface InviteProps {
@@ -13,100 +16,75 @@ export interface InviteProps {
   key: number;
 }
 
-export interface InviteState {
-  showDialog: boolean;
+export const MUTATION_DELETE_INVITE = gql`
+    mutation DeleteTeamInvite($id: ID!) {
+        deleteTeamInvite(teamInviteId: $id) {
+            teamInviteId
+        }
+    }
+`;
+
+export interface DeleteInviteParameters {
+  id: number;
 }
 
-export class Invite extends React.Component<InviteProps, InviteState> {
-  deleteMutation: any;
-
-  constructor(props: InviteProps) {
-    super(props);
-
-    this.state = {
-      showDialog: false,
-    };
-
-    this.showConfirmDialog = this.showConfirmDialog.bind(this);
-    this.closeConfirmDialog = this.closeConfirmDialog.bind(this);
-    this.deleteInvite = this.deleteInvite.bind(this);
+export function Invite(props: InviteProps): React.ReactElement {
+  let rowClassName = '';
+  if (props.invite.declinedAt) {
+    rowClassName = 'negative';
+  } else if (props.invite.acceptedAt) {
+    rowClassName = 'positive';
   }
 
-  showConfirmDialog(deleteMutation: any) {
-    this.deleteMutation = deleteMutation;
-    this.setState({
-      showDialog: true,
-    });
-  }
-
-  closeConfirmDialog() {
-    this.setState({
-      showDialog: false,
-    });
-  }
-
-  deleteInvite() {
-    this.closeConfirmDialog();
-    this.deleteMutation({
-      variables: { id: this.props.invite.id },
-    });
-  }
-
-
-  render() {
-    let rowClassName = '';
-    if (this.props.invite.declinedAt) {
-      rowClassName = 'negative';
-    } else if (this.props.invite.acceptedAt) {
-      rowClassName = 'positive';
-    }
-
-
-    return (
-      <Table.Row key={this.props.invite.id} className={rowClassName}>
-        <Table.Cell>{moment(this.props.invite.sentAt).format('YYYY-MM-DD')}</Table.Cell>
-        <Table.Cell>{this.props.invite.email}</Table.Cell>
-        <Table.Cell>
-          {this.props.invite.acceptedAt && 'Accepted'}
-          {this.props.invite.declinedAt && 'Declined'}
-          {!this.props.invite.declinedAt && !this.props.invite.acceptedAt && 'Pending'}
-        </Table.Cell>
-        <Table.Cell>
-          <Mutation<DeleteInviteParameters>
-            mutation={MUTATION_DELETE_INVITE}
-            onCompleted={() => {
-              toast.info('Invite removed successfully!');
-            }}
-            refetchQueries={[
-              {
-                query: QUERY_GET_INVITES,
-                variables: {
-                  team_id: localStorage.getItem(
-                    settings.TEAM_ID_TOKEN,
-                  ),
-                },
+  return (
+    <Table.Row key={props.invite.id} className={rowClassName}>
+      <Table.Cell>{moment(props.invite.sentAt).format('YYYY-MM-DD')}</Table.Cell>
+      <Table.Cell>{props.invite.email}</Table.Cell>
+      <Table.Cell>
+        {props.invite.acceptedAt && 'Accepted'}
+        {props.invite.declinedAt && 'Declined'}
+        {!props.invite.declinedAt && !props.invite.acceptedAt && 'Pending'}
+      </Table.Cell>
+      <Table.Cell>
+        <Mutation<DeleteInviteParameters>
+          mutation={MUTATION_DELETE_INVITE}
+          onCompleted={() => {
+            toast.info('Invite removed successfully!');
+          }}
+          refetchQueries={[
+            {
+              query: QUERY_GET_INVITES,
+              variables: {
+                team_id: localStorage.getItem(
+                  settings.TEAM_ID_TOKEN,
+                ),
               },
-            ]}
-          >
-            {(deleteInvite, { loading }) => (
-              <Button
-                color="red"
-                icon="trash"
-                size="tiny"
-                loading={loading}
-                onClick={() => { this.showConfirmDialog(deleteInvite); }}
-              />
-            )}
-          </Mutation>
-        </Table.Cell>
-        <Confirm
-          size="tiny"
-          open={this.state.showDialog}
-          onConfirm={this.deleteInvite}
-          onCancel={this.closeConfirmDialog}
-        />
-      </Table.Row>
-
-    );
-  }
+            },
+          ]}
+        >
+          {(deleteInvite, { loading }) => (
+            <Popup
+              trigger={
+                <Button data-testid="delete-button" size="tiny" color="red" loading={loading} icon="trash" />
+                    }
+              content={(
+                <Button
+                  data-testid="confirm-delete-button"
+                  color="red"
+                  content="Confirm deletion"
+                  onClick={() => {
+                    deleteInvite({
+                      variables: { id: props.invite.id },
+                    });
+                  }}
+                />
+                    )}
+              on="click"
+              position="top right"
+            />
+          )}
+        </Mutation>
+      </Table.Cell>
+    </Table.Row>
+  );
 }

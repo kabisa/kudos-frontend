@@ -2,9 +2,9 @@ import React, { ChangeEvent, Component, FormEvent } from 'react';
 import {
   Button, Form, Message, Segment,
 } from 'semantic-ui-react';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { History } from 'history';
-import { Mutation } from 'react-apollo';
+import { Mutation } from '@apollo/react-components';
 import gql from 'graphql-tag';
 
 import { GraphQLError } from 'graphql';
@@ -119,21 +119,20 @@ class LoginPage extends Component<Props, State> {
     return (
       <Mutation<LoginResult, LoginParameters>
         mutation={MUTATION_LOGIN}
+        onError={(error) => this.setState({ error: error.message })}
         onCompleted={(data) => this.confirm(data)}
       >
         {(signInUser, { error, loading }) => {
           let displayError;
-          if (error) {
-            displayError = getGraphqlError(error);
-          }
           if (this.state.error) {
             displayError = this.state.error;
           }
           return (
             <FormWrapper header="Login">
               <Segment>
-                <Form size="large" error onSubmit={(e) => this.formSubmit(e, signInUser)}>
+                <Form size="large" error={!!error} onSubmit={(e) => this.formSubmit(e, signInUser)}>
                   <Form.Input
+                    data-testid="email-input"
                     fluid
                     icon="user"
                     name="email"
@@ -145,6 +144,7 @@ class LoginPage extends Component<Props, State> {
                     onChange={this.handleChange}
                   />
                   <Form.Input
+                    data-testid="password-input"
                     fluid
                     icon="lock"
                     name="password"
@@ -155,7 +155,14 @@ class LoginPage extends Component<Props, State> {
                     onChange={this.handleChange}
                   />
 
-                  <Button type="submit" color="blue" fluid loading={loading} disabled={loading}>
+                  <Button
+                    data-testid="submit-button"
+                    type="submit"
+                    color="blue"
+                    fluid
+                    loading={loading}
+                    disabled={loading}
+                  >
                     Login
                   </Button>
 
@@ -168,12 +175,12 @@ class LoginPage extends Component<Props, State> {
                 </Form>
                 <Message>
                   <div className={s.message}>
-                    <a href={PATH_REGISTER} className={s.left}>
+                    <Link data-testid="sign-up-button" to={PATH_REGISTER} className={s.left}>
                       Sign Up
-                    </a>
-                    <a href={PATH_FORGOT_PASSWORD} className={s.right}>
+                    </Link>
+                    <Link data-testid="forgot-button" to={PATH_FORGOT_PASSWORD} className={s.right}>
                       Forgot password?
-                    </a>
+                    </Link>
                   </div>
                 </Message>
               </Segment>

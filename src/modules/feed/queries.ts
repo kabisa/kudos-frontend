@@ -56,16 +56,18 @@ export const GET_POSTS = gql`
 `;
 
 export interface GetPostsResult {
-  posts: {
-    edges: {
-      cursor: number;
-      node: FragmentPostResult;
-    }[];
-    pageInfo: {
-      hasNextPage: boolean;
-      endCursor: number;
+  teamById: {
+    posts: {
+      edges: {
+        cursor: number;
+        node: FragmentPostResult;
+      }[];
+      pageInfo: {
+        hasNextPage: boolean;
+        endCursor: number;
+      };
     };
-  };
+  }
 }
 
 export const GET_USERS = gql`

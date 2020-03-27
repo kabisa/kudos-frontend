@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from 'react';
-import { Mutation } from 'react-apollo';
+import { Mutation } from '@apollo/react-components';
 import { toast } from 'react-toastify';
 import { Button, Form, Message } from 'semantic-ui-react';
 import settings from '../../../../config/settings';
@@ -112,6 +112,7 @@ export class EditGuideline extends React.Component<EditGuidelineProps, EditGuide
             >
               <Form.Group widths="equal">
                 <Form.Input
+                  data-testid="kudo-input"
                   fluid
                   label="Amount of kudos"
                   placeholder="Kudos"
@@ -124,6 +125,7 @@ export class EditGuideline extends React.Component<EditGuidelineProps, EditGuide
                   onChange={this.handleChange}
                 />
                 <Form.Input
+                  data-testid="description-input"
                   fluid
                   required
                   label="Description"
@@ -133,11 +135,11 @@ export class EditGuideline extends React.Component<EditGuidelineProps, EditGuide
                   onChange={this.handleChange}
                 />
               </Form.Group>
-              <Button color="blue" loading={loading} disabled={loading} type="submit">
+              <Button data-testid="submit-button" color="blue" loading={loading} disabled={loading} type="submit">
                 {this.state.editing ? 'Update guideline' : 'Create guideline'}
               </Button>
               {this.state.editing && (
-              <Button color="orange" onClick={() => { this.setState({ editing: false }); }}>
+              <Button data-testid="cancel-button" color="orange" onClick={() => { this.setState({ editing: false }); }}>
                 Cancel
               </Button>
               )}

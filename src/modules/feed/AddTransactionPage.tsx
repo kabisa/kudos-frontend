@@ -9,7 +9,7 @@ export interface Props {
   transaction: any;
 }
 
-export function AddTransactionPage(props: Props): React.ReactElement {
+export default function AddTransactionPage(props: Props): React.ReactElement {
   const { transaction } = props;
 
   return (
@@ -21,5 +21,3 @@ export function AddTransactionPage(props: Props): React.ReactElement {
     </div>
   );
 }
-
-export default AddTransactionPage;

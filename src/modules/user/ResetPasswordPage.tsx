@@ -1,6 +1,6 @@
 import React, { ChangeEvent, Component } from 'react';
 import { Button, Form, Message } from 'semantic-ui-react';
-import { Mutation } from 'react-apollo';
+import { Mutation } from '@apollo/react-components';
 import gql from 'graphql-tag';
 import { toast } from 'react-toastify';
 import { withRouter } from 'react-router-dom';
@@ -9,7 +9,7 @@ import settings from '../../config/settings';
 import {
   ERROR_PASSWORD_BLANK,
   ERROR_PASSWORD_CONFIRMATION_BLANK,
-  ERROR_PASSWORD_MATCH,
+  ERROR_PASSWORD_MATCH, ERROR_PASSWORD_NEW_BLANK,
   ERROR_SHORT_PASSWORD,
   getGraphqlError,
 } from '../../support';
@@ -98,7 +98,7 @@ class ResetPasswordPage extends Component<Props, State> {
       return false;
     }
     if (!newPassword) {
-      this.setState({ error: ERROR_PASSWORD_BLANK, error_new: true });
+      this.setState({ error: ERROR_PASSWORD_NEW_BLANK, error_new: true });
       return false;
     }
     if (!newPasswordConfirmation) {
@@ -177,10 +177,11 @@ class ResetPasswordPage extends Component<Props, State> {
                 return (
                   <Form style={{ maxWidth: '420px', margin: 'auto' }}>
                     <Form.Input
+                      data-testid="current-password-input"
                       label="Current password"
                       fluid
                       icon="lock"
-                      name="current_password"
+                      name="currentPassword"
                       iconPosition="left"
                       type="password"
                       placeholder="Current password"
@@ -189,10 +190,11 @@ class ResetPasswordPage extends Component<Props, State> {
                       onChange={this.handleChange}
                     />
                     <Form.Input
+                      data-testid="new-password-input"
                       label="New password"
                       fluid
                       icon="lock"
-                      name="new_password"
+                      name="newPassword"
                       iconPosition="left"
                       type="password"
                       placeholder="New password"
@@ -201,10 +203,11 @@ class ResetPasswordPage extends Component<Props, State> {
                       onChange={this.handleChange}
                     />
                     <Form.Input
+                      data-testid="confirm-password-input"
                       label="Confirm new password"
                       fluid
                       icon="lock"
-                      name="new_password_confirmation"
+                      name="newPasswordConfirmation"
                       iconPosition="left"
                       type="password"
                       placeholder="Confirm new password"
@@ -213,6 +216,7 @@ class ResetPasswordPage extends Component<Props, State> {
                       onChange={this.handleChange}
                     />
                     <Button
+                      data-testid="reset-password-button"
                       className={s.button}
                       color="blue"
                       loading={loading}

@@ -15,16 +15,17 @@ export interface ContentProps {
   history: History;
 }
 
-function Content(props: ContentProps): React.ReactElement {
+export function Content(props: ContentProps): React.ReactElement {
   return (
     <div className={s.container}>
       <h2 className={s.header}>Your invites</h2>
-      <InviteList />
+      <InviteList data-testid="invite-list" />
       <Divider />
       <h2 className={s.header}>Your teams</h2>
-      <TeamList />
+      <TeamList data-testid="personal-team-list" />
       <Divider horizontal>Or</Divider>
       <Button
+        data-testid="create-team"
         color="blue"
         style={{ margin: 'auto' }}
         onClick={() => {

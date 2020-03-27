@@ -14,6 +14,7 @@ export interface TransactionProps {
 function Transaction(props: TransactionProps) {
   return (
     <div
+      data-testid="kudo-transaction"
       style={{
         display: 'flex',
         flexDirection: 'column',
@@ -27,23 +28,25 @@ function Transaction(props: TransactionProps) {
       <Card style={{ width: '100%' }}>
         <Card.Content>
           <Card.Header>
-            <Header transaction={props.transaction} />
+            <Header data-testid="post-header" transaction={props.transaction} />
           </Card.Header>
           <Card.Description style={{ marginTop: '1em' }}>
-            <div data-testid="post-message">
-              <strong>{props.transaction.sender.name}</strong> gave{' '}
-              <strong>{props.transaction.amount}₭ </strong>
-              to <strong>{props.transaction.receivers.map((item) => item.name).join(', ')}</strong> for{' '}
-              {props.transaction.message}
+            <div data-test="post-message">
+              <strong data-testid="sender-name">{props.transaction.sender.name} </strong> gave{' '}
+              <strong data-testid="kudo-amount">{props.transaction.amount}₭ </strong>
+              to{' '}
+              <strong data-testid="post-receivers">
+                {props.transaction.receivers.map((item) => item.name).join(', ')}
+              </strong>
+              {' '}for{' '}<span data-testid="post-message">{props.transaction.message}</span>
             </div>
           </Card.Description>
         </Card.Content>
         <Card.Content extra style={{ padding: '4px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-around' }}>
             <LikeButton
-              transactionId={props.transaction.id}
+              data-testid="like-button"
               liked={props.transaction.votes.some((vote) => vote.voter.id === userId)}
-              likes={props.transaction.votes.length}
               post={props.transaction}
             />
           </div>

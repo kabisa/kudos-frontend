@@ -2,7 +2,7 @@ import React, { ChangeEvent, Component, FormEvent } from 'react';
 import {
   Button, Form, Message, Segment,
 } from 'semantic-ui-react';
-import { Mutation } from 'react-apollo';
+import { Mutation } from '@apollo/react-components';
 import gql from 'graphql-tag';
 import { History } from 'history';
 import { withRouter } from 'react-router-dom';
@@ -10,7 +10,6 @@ import {
   ERROR_EMAIL_INVALID,
   ERROR_INCOMPLETE,
   ERROR_SHORT_PASSWORD,
-  getGraphqlError,
   validateEmail,
 } from '../../support';
 import { FormWrapper } from '../../components';
@@ -117,13 +116,11 @@ class RegisterPage extends Component<Props, State> {
     return (
       <Mutation<RegisterResult, RegisterParameters>
         mutation={MUTATION_REGISTER}
+        onError={(error) => this.setState({ error: error.message })}
         onCompleted={(data) => this.confirm(data)}
       >
         {(signUpUser, { error, loading }: any) => {
           let displayError;
-          if (error) {
-            displayError = getGraphqlError(error);
-          }
           if (this.state.error) {
             displayError = this.state.error;
           }
@@ -131,8 +128,9 @@ class RegisterPage extends Component<Props, State> {
           return (
             <FormWrapper toolbar="Register" header="Register">
               <Segment>
-                <Form size="large" error={error} onSubmit={(e) => this.formSubmit(e, signUpUser)}>
+                <Form size="large" error={!!error} onSubmit={(e) => this.formSubmit(e, signUpUser)}>
                   <Form.Input
+                    data-testid="name-input"
                     fluid
                     icon="user"
                     name="name"
@@ -143,6 +141,7 @@ class RegisterPage extends Component<Props, State> {
                     onChange={this.handleChange}
                   />
                   <Form.Input
+                    data-testid="email-input"
                     fluid
                     icon="user"
                     name="email"
@@ -153,6 +152,7 @@ class RegisterPage extends Component<Props, State> {
                     onChange={this.handleChange}
                   />
                   <Form.Input
+                    data-testid="password-input"
                     fluid
                     icon="lock"
                     name="password"
@@ -163,7 +163,14 @@ class RegisterPage extends Component<Props, State> {
                     onChange={this.handleChange}
                   />
 
-                  <Button color="blue" fluid size="large" loading={loading} disabled={loading}>
+                  <Button
+                    data-testid="submit-button"
+                    color="blue"
+                    fluid
+                    size="large"
+                    loading={loading}
+                    disabled={loading}
+                  >
                     Register
                   </Button>
 

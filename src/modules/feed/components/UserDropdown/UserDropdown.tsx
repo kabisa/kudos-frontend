@@ -1,6 +1,6 @@
 import React, { Component, PropsWithRef, SyntheticEvent } from 'react';
 import { Dropdown } from 'semantic-ui-react';
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 
 import client from '../../../../apollo';
 import { GET_USERS, GetUsersResult, User } from '../../queries';
@@ -54,7 +54,14 @@ class DropdownRemote extends Component<DropDownProps, DropDownState> {
       },
     });
 
-    let id = '0';
+    const existing = oldState.teamById.users.filter((u: User) => u.name === value);
+    if (existing.length > 0) {
+      return;
+    }
+
+    // Manually searching for an available user id?
+    // Big no no, fix this to create a new user with a mutation and store the result.
+    let id = '-1';
     oldState.teamById.users.forEach((item: User) => {
       const itemId = Number.parseInt(item.id, 10);
       const numberId = Number.parseInt(id, 10);
@@ -117,6 +124,7 @@ class DropdownRemote extends Component<DropDownProps, DropDownState> {
 
           return (
             <Dropdown
+              data-testid="user-dropdown"
               id="userdropdown"
               placeholder="Receivers"
               fluid

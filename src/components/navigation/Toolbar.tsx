@@ -1,21 +1,22 @@
 import React from 'react';
 import { Button, Icon, Responsive } from 'semantic-ui-react';
-
+import { History } from 'history';
+import { Link, withRouter } from 'react-router-dom';
 import s from './Toolbar.module.scss';
 
 export interface Props {
   to?: string;
   text: string;
+  history: History
 }
 
 function Toolbar(props: Props): React.ReactElement {
   const backLink = props.to ? (
-    <a href={props.to} className={s.back_link}>
+    <Link to={props.to} className={s.back_link}>
       <Icon name="arrow left" size="large" className={s.icon} />
-    </a>
+    </Link>
   ) : (
-  // eslint-disable-next-line no-restricted-globals
-    <Button icon onClick={() => history.back()} className={s.back_link}>
+    <Button icon onClick={() => props.history.goBack()} className={s.back_link}>
       <Icon name="arrow left" size="large" className={s.icon} />
     </Button>
   );
@@ -32,4 +33,5 @@ function Toolbar(props: Props): React.ReactElement {
   );
 }
 
-export default Toolbar;
+// @ts-ignore
+export default withRouter(Toolbar);

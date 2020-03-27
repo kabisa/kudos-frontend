@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mutation } from 'react-apollo';
+import { Mutation } from '@apollo/react-components';
 import { toast } from 'react-toastify';
 import { Button } from 'semantic-ui-react';
 import { ALTER_ROLE, AlterRoleParameters, Membership } from './Members';

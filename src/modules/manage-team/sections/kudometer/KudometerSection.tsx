@@ -1,22 +1,21 @@
 /* eslint-disable no-shadow */
 import React, { ChangeEvent, Component } from 'react';
 import {
-  Button, Divider, Form, Header, Icon, Message, Popup, Table,
+  Button, Divider, Form, Header, Icon, Message, Table,
 } from 'semantic-ui-react';
 import { toast } from 'react-toastify';
-import { Mutation, Query } from 'react-apollo';
+import { Mutation, Query } from '@apollo/react-components';
 import settings from '../../../../config/settings';
 import { getGraphqlError } from '../../../../support';
 import {
   CREATE_KUDOMETER,
   CreateKudometerParameters,
-  DELETE_KUDOMETER,
-  DeleteKudometerParameters,
   GET_KUDOMETERS,
   GetKudoMetersResult,
   Kudometer,
 } from './KudometerQuerries';
-import { Goals } from './goals';
+import { Goals } from './goals/Goals';
+import { KudometerRow } from './KudometerRow';
 
 export interface Props {
   // Future props go here
@@ -72,10 +71,7 @@ class KudometerSection extends Component<Props, State> {
     });
   }
 
-  deleteKudometer(deleteKudometer: any, id: string) {
-    // eslint-disable-next-line max-len
-    deleteKudometer({ variables: { id } });
-
+  deleteKudometer(id: string) {
     if (this.state.selected && this.state.selected.id === id) {
       this.setState({
         selected: undefined,
@@ -120,6 +116,7 @@ class KudometerSection extends Component<Props, State> {
             return (
               <Form onSubmit={() => this.createKudometer(createKudometer)}>
                 <Form.Input
+                  data-testid="name-input"
                   fluid
                   required
                   label="Name"
@@ -128,7 +125,7 @@ class KudometerSection extends Component<Props, State> {
                   value={this.state.name}
                   onChange={this.handleChange}
                 />
-                <Button color="blue" loading={loading} disabled={loading} type="submit">
+                <Button data-testid="create-button" color="blue" loading={loading} disabled={loading} type="submit">
                   Create kudometer
                 </Button>
                 {displayError && (
@@ -147,12 +144,8 @@ class KudometerSection extends Component<Props, State> {
           variables={{ team_id: localStorage.getItem(settings.TEAM_ID_TOKEN) }}
         >
           {({ loading, error, data }) => {
-            if (loading || !data) return <p> Loading... </p>;
+            if (loading) return <p> Loading... </p>;
             if (error) return <p> Error! {error.message} </p>;
-
-            const kudometer = this.state.selected
-              ? data.teamById.kudosMeters.find((km) => km.id === this.state.selected?.id) : null;
-            const goals = kudometer ? kudometer.goals : [];
 
             return (
               <div>
@@ -165,57 +158,21 @@ class KudometerSection extends Component<Props, State> {
                   </Table.Header>
 
                   <Table.Body>
-                    {data.teamById.kudosMeters.map((item) => (
-                      <Table.Row key={item.id}>
-                        <Table.Cell>{item.name}</Table.Cell>
-                        <Table.Cell>
-                          <Button
-                            color="blue"
-                            size="tiny"
-                            onClick={() => this.handleViewGoalButtonClick(item)}
-                          >
-                            View goals
-                          </Button>
-                          <Mutation<DeleteKudometerParameters>
-                            mutation={DELETE_KUDOMETER}
-                            onCompleted={() => {
-                              toast.info('Kudometer removed successfully!');
-                            }}
-                            refetchQueries={[
-                              {
-                                query: GET_KUDOMETERS,
-                                variables: {
-                                  team_id: localStorage.getItem(
-                                    settings.TEAM_ID_TOKEN,
-                                  ),
-                                },
-                              },
-                            ]}
-                          >
-                            {(deleteKudometer, { loading }) => (
-                              <Popup
-                                trigger={
-                                  <Button size="tiny" color="red" loading={loading} icon="trash" />
-                                    }
-                                content={(
-                                  <Button
-                                    color="red"
-                                    content="Confirm deletion"
-                                    onClick={() => { this.deleteKudometer(deleteKudometer, item.id); }}
-                                  />
-                                    )}
-                                on="click"
-                                position="top right"
-                              />
-                            )}
-                          </Mutation>
-                        </Table.Cell>
-                      </Table.Row>
-                    ))}
+                    {(data
+                        && data.teamById
+                        && data.teamById.kudosMeters.length > 0) ? data.teamById.kudosMeters.map((item) => (
+                          <KudometerRow
+                            data-testid="goal-row"
+                            key={item.id}
+                            kudometer={item}
+                            viewButtonClickHandler={this.handleViewGoalButtonClick}
+                            deleteKudometerHandler={this.deleteKudometer}
+                          />
+                      )) : <Table.Row>No kudometers available</Table.Row>}
                   </Table.Body>
                 </Table>
 
-                {this.state.selected && <Goals kudometer={this.state.selected} goals={goals} />}
+                {this.state.selected && <Goals kudometer={this.state.selected} />}
               </div>
             );
           }}

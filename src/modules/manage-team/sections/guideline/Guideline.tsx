@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Popup, Table } from 'semantic-ui-react';
-import { Mutation } from 'react-apollo';
+import { Mutation } from '@apollo/react-components';
 import { toast } from 'react-toastify';
 import gql from 'graphql-tag';
 import settings from '../../../../config/settings';
@@ -33,6 +33,7 @@ export function Guideline(props: GuidelineProps): React.ReactElement {
       <Table.Cell>{props.name}</Table.Cell>
       <Table.Cell>
         <Button
+          data-testid="edit-button"
           color="yellow"
           icon="pencil"
           size="tiny"
@@ -55,10 +56,11 @@ export function Guideline(props: GuidelineProps): React.ReactElement {
           {(deleteGuideline, { loading }) => (
             <Popup
               trigger={
-                <Button size="tiny" color="red" loading={loading} icon="trash" />
+                <Button data-testid="delete-button" size="tiny" color="red" loading={loading} icon="trash" />
                   }
               content={(
                 <Button
+                  data-testid="confirm-delete-button"
                   color="red"
                   content="Confirm deletion"
                   onClick={() => {

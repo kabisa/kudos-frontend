@@ -3,7 +3,7 @@ import {
   Button, Icon, Label, Popup,
 } from 'semantic-ui-react';
 import gql from 'graphql-tag';
-import { Mutation } from 'react-apollo';
+import { Mutation } from '@apollo/react-components';
 
 import settings from '../../../../config/settings';
 import {
@@ -86,9 +86,7 @@ export const toggleLike = (mutate: any, transactionId: string, post: FragmentPos
 };
 
 export interface LikeButtonProps {
-  transactionId: string;
   liked: boolean;
-  likes: number;
   post: FragmentPostResult;
 }
 
@@ -97,7 +95,7 @@ export interface LikeButtonState {
 }
 
 function LikeButton(props: LikeButtonProps) {
-  const { transactionId, liked, post } = props;
+  const { liked, post } = props;
 
   const allLikes = post.votes.length ? post.votes.map((item) => item.voter.name).join(', ') : 'No likes';
 
@@ -108,7 +106,6 @@ function LikeButton(props: LikeButtonProps) {
         display: 'flex',
         alignItems: 'center',
       }}
-      data-testid="post-like-button"
     >
       <div style={{ display: 'flex' }}>
         <Mutation<any>
@@ -128,26 +125,26 @@ function LikeButton(props: LikeButtonProps) {
               trigger={(
                 <Button as="div" labelPosition="right">
                   <Button
+                    data-testid="like-button"
                     basic
                     icon
                     size="mini"
-                    onClick={() => toggleLike(mutate, transactionId, post)}
+                    onClick={() => toggleLike(mutate, post.id, post)}
                     labelPosition="left"
                   >
                     <Icon
+                      data-testid="like-icon"
                       name={liked ? 'thumbs up' : 'thumbs up outline'}
                       color={liked ? 'blue' : undefined}
                     />
                     <p>+1₭</p>
                   </Button>
-                  <Label as="a" basic pointing="left">
+                  <Label data-testid="like-amount" as="a" basic pointing="left">
                     {post.votes.length}
                   </Label>
                 </Button>
-                    )}
-              content={(
-                <p>{allLikes}</p>
-                    )}
+              )}
+              content={(<p>{allLikes}</p>)}
             />
           )}
         </Mutation>

@@ -1,5 +1,5 @@
 import { Button, Table } from 'semantic-ui-react';
-import { Mutation } from 'react-apollo';
+import { Mutation } from '@apollo/react-components';
 import { toast } from 'react-toastify';
 import React from 'react';
 import settings from '../../../../config/settings';
@@ -41,6 +41,7 @@ export function MemberRow(props: MemberRowProps) {
           >
             {(mutate, { loading }) => (
               <Button
+                data-testid="deactivate-button"
                 color="red"
                 size="tiny"
                 icon="trash"

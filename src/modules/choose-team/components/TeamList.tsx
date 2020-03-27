@@ -1,10 +1,10 @@
 import React from 'react';
 import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
 
 import { Grid } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import { History } from 'history';
+import { Query } from '@apollo/react-components';
 import TeamRow from './TeamRow';
 import settings from '../../../config/settings';
 import { selectTeam } from '../utils';
@@ -65,10 +65,11 @@ function TeamList(props: Props): React.ReactElement {
           <Grid columns={2} verticalAlign="middle">
             {memberships.map((membership) => (
               <TeamRow
+                data-testid="kudo-teamivite"
                 history={props.history}
                 id={membership.team.id}
                 name={membership.team.name}
-                role={membership.role}
+                userRole={membership.role}
                 key={membership.id}
               />
             ))}

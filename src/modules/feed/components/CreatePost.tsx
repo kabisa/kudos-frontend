@@ -1,15 +1,15 @@
 import React, { Component, FormEvent } from 'react';
 import { Button, Form, Message } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
-import { Mutation } from 'react-apollo';
+import { Mutation } from '@apollo/react-components';
 import { toast } from 'react-toastify';
 import gql from 'graphql-tag';
-
+import { ApolloConsumer } from '@apollo/react-common';
+import ApolloClient from 'apollo-client';
 import settings from '../../../config/settings';
 import UserDropdown from './UserDropdown/UserDropdown';
 import GuidelineInput from './GuidelineInput/GuidelineInput';
 import { PATH_FEED } from '../../../routes';
-import client from '../../../apollo';
 import {
   ERROR_AMOUNT_BLANK,
   ERROR_MESSAGE_BLANK,
@@ -105,7 +105,7 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
     this.onCompleted = this.onCompleted.bind(this);
   }
 
-  onSubmit(createPost: any) {
+  onSubmit(createPost: any, client: ApolloClient<any>) {
     const { amount, receivers, message } = this.state;
     this.setState({
       amountError: false,
@@ -212,118 +212,126 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
     const { amountError, receiversError, messageError } = this.state;
     const { transaction } = this.props;
     return (
-      <Mutation<CreatePostParameters>
-        mutation={CREATE_POST}
-        onCompleted={this.onCompleted}
-        update={(cache, { data: postData }: any) => {
-          const beforeState: any = cache.readQuery({
-            query: GET_GOAL_PERCENTAGE,
-            variables: {
-              team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
-            },
-          });
-          const afterState = {
-            ...beforeState,
-            teamById: {
-              ...beforeState.teamById,
-              activeKudosMeter: {
-                ...beforeState.teamById.activeKudosMeter,
-                amount: beforeState.teamById.activeKudosMeter.amount + postData?.createPost.amount,
+      <ApolloConsumer>
+        {(client) => (
+          <Mutation<CreatePostParameters>
+            mutation={CREATE_POST}
+            onCompleted={this.onCompleted}
+            onError={(error) => this.setState({ error: error.message })}
+            update={(cache, { data: postData }: any) => {
+              const beforeState: any = cache.readQuery({
+                query: GET_GOAL_PERCENTAGE,
+                variables: {
+                  team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+                },
+              });
+              const afterState = {
+                ...beforeState,
+                teamById: {
+                  ...beforeState.teamById,
+                  activeKudosMeter: {
+                    ...beforeState.teamById.activeKudosMeter,
+                    amount: beforeState.teamById.activeKudosMeter.amount + postData?.createPost.amount,
+                  },
+                },
+              };
+              cache.writeQuery({
+                query: GET_GOAL_PERCENTAGE,
+                variables: {
+                  team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+                },
+                data: afterState,
+              });
+            }}
+            refetchQueries={[
+              {
+                query: GET_GOAL_PERCENTAGE,
+                variables: {
+                  team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+                },
               },
-            },
-          };
-          cache.writeQuery({
-            query: GET_GOAL_PERCENTAGE,
-            variables: {
-              team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
-            },
-            data: afterState,
-          });
-        }}
-        refetchQueries={[
-          {
-            query: GET_GOAL_PERCENTAGE,
-            variables: {
-              team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
-            },
-          },
-          {
-            query: GET_POSTS,
-            variables: {
-              team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
-            },
-          },
-        ]}
-      >
-        {(createPost, { loading, error }) => {
-          let displayError;
-          if (error) {
-            displayError = getGraphqlError(error);
-          }
-          if (this.state.error) {
-            displayError = this.state.error;
-          }
-          return (
-            <Form
-              onSubmit={() => this.onSubmit(createPost)}
-              className={s.form}
-              data-testid="create-post-form"
-            >
-              <GuidelineInput
-                amountError={amountError}
-                handleChange={this.handleKudoInputChange}
-                ref={(c) => {
-                  this.guidelineInput = c || undefined;
-                }}
-              />
-              <Form.Field>
-                {/* Suppressed because the linter doesn't pick up on custom controls */}
-                {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-                <label htmlFor="input-receivers">
-                  Receivers
-                  <UserDropdown
+              {
+                query: GET_POSTS,
+                variables: {
+                  team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+                },
+              },
+            ]}
+          >
+            {(createPost, { loading, error }) => {
+              let displayError;
+              if (error) {
+                displayError = getGraphqlError(error);
+              }
+              if (this.state.error) {
+                displayError = this.state.error;
+              }
+              return (
+                <Form
+                  onSubmit={() => this.onSubmit(createPost, client)}
+                  className={s.form}
+                  data-testid="create-post-form"
+                >
+                  <GuidelineInput
+                    data-testid="amount-input"
+                    amountError={amountError}
+                    handleChange={this.handleKudoInputChange}
                     ref={(c) => {
-                      this.userDropdown = c || undefined;
+                      this.guidelineInput = c || undefined;
                     }}
-                    id="input-receivers"
-                    onChange={this.handleDropdownChange}
-                    error={receiversError}
-                    value={this.state.receivers}
                   />
-                </label>
-              </Form.Field>
+                  <Form.Field>
+                    {/* Suppressed because the linter doesn't pick up on custom controls */}
+                    {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+                    <label htmlFor="input-receivers">
+                      Receivers
+                      <UserDropdown
+                        data-testid="receiver-input"
+                        ref={(c) => {
+                          this.userDropdown = c || undefined;
+                        }}
+                        id="input-receivers"
+                        onChange={this.handleDropdownChange}
+                        error={receiversError}
+                        value={this.state.receivers}
+                      />
+                    </label>
+                  </Form.Field>
 
-              <Form.TextArea
-                label="Message"
-                placeholder="Enter your message"
-                name="message"
-                onChange={this.handleChange}
-                error={messageError}
-                value={this.state.message}
-              />
+                  <Form.TextArea
+                    data-testid="message-input"
+                    label="Message"
+                    placeholder="Enter your message"
+                    name="message"
+                    onChange={this.handleChange}
+                    error={messageError}
+                    value={this.state.message}
+                  />
 
-              <Button
-                type="submit"
-                primary
-                data-testid="create-post-button"
-                className={s.submit_button}
-                loading={loading}
-                disabled={loading}
-              >
-                {transaction ? 'Update' : 'Create'}
-              </Button>
+                  <Button
+                    data-testid="submit-button"
+                    type="submit"
+                    primary
+                    className={s.submit_button}
+                    loading={loading}
+                    disabled={loading}
+                  >
+                    {transaction ? 'Update' : 'Create'}
+                  </Button>
 
-              {displayError && (
-              <Message negative>
-                <Message.Header>Couldn&apos;t create post</Message.Header>
-                <p>{displayError}</p>
-              </Message>
-              )}
-              {this.props.back && <BackButton />}
-            </Form>
-          );
-        }}
-      </Mutation>
+                  {displayError && (
+                  <Message negative>
+                    <Message.Header>Couldn&apos;t create post</Message.Header>
+                    <p data-testid="error-message">{displayError}</p>
+                  </Message>
+                  )}
+                  {this.props.back && <BackButton />}
+                </Form>
+              );
+            }}
+          </Mutation>
+        )}
+      </ApolloConsumer>
     );
   }
 }

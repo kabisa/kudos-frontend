@@ -1,14 +1,14 @@
 import React from 'react';
 import { Button, Image } from 'semantic-ui-react';
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import gql from 'graphql-tag';
 
 import { withRouter } from 'react-router-dom';
 import { History } from 'history';
-import { PATH_RESET_PASSWORD } from '../../routes';
 import { Navigation } from '../../components/navigation';
 import { logout } from '../../support';
 import s from './UserPage.module.scss';
+import { PATH_RESET_PASSWORD } from '../../routes';
 
 export const GET_USER = gql`
     query getUser {
@@ -60,11 +60,14 @@ export function UserPage(props: Props): React.ReactElement {
           </Query>
         </div>
         <div style={{ display: 'contents' }}>
-          <a href={PATH_RESET_PASSWORD}>
-            <Button color="blue" className={s.button}>
-              Change password
-            </Button>
-          </a>
+          <Button
+            data-testid="reset-password-btn"
+            color="blue"
+            className={s.button}
+            onClick={() => props.history.push(PATH_RESET_PASSWORD)}
+          >
+            Change password
+          </Button>
           <Button color="red" onClick={() => logout(props.history)} className={s.button}>
             Log out
           </Button>

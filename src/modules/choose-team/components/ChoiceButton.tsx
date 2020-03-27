@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, SemanticCOLORS } from 'semantic-ui-react';
-import { Mutation } from 'react-apollo';
+import { Mutation } from '@apollo/react-components';
 import { toast } from 'react-toastify';
 import { withRouter } from 'react-router-dom';
 import { History } from 'history';

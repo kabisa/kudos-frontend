@@ -1,8 +1,9 @@
 import React from 'react';
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import { Line } from 'rc-progress';
 import { Icon } from 'semantic-ui-react';
 
+import { Link } from 'react-router-dom';
 import settings from '../../../../config/settings';
 import { GET_GOAL_PERCENTAGE } from '../../queries';
 import { PATH_STATISTICS } from '../../../../routes';
@@ -19,9 +20,18 @@ export const GoalProgress = () => (
     }}
   >
     {({ loading, error, data }) => {
-      if (loading || error || !data) {
+      if (error) {
+        return <span>{error.message}</span>;
+      }
+
+      if (loading || !data) {
         return (
-          <a id="kudo-progress-loading" className="kudo-progress" href={`${PATH_STATISTICS}?transition=none`}>
+          <a
+            data-testid="loading"
+            id="kudo-progress-loading"
+            className="kudo-progress"
+            href={`${PATH_STATISTICS}?transition=none`}
+          >
             <div className="kudo-progress-bar-loading" />
           </a>
         );
@@ -31,13 +41,14 @@ export const GoalProgress = () => (
         data.teamById.activeKudosMeter.amount);
 
       return (
-        <a href={`${PATH_STATISTICS}?transition=none`}>
+        <Link to={`${PATH_STATISTICS}`}>
           <div className={s.root}>
             {/* Lock icons */}
             <div className={s.lock_container} style={{ backgroundColor: getStrokeColor(percentage) }}>
-              <Icon name="lock open" className={s.lock} />
+              <Icon data-testid="open-lock" name="lock open" className={s.lock} />
             </div>
             <Line
+              data-testid="progress-line"
               percent={percentage}
               strokeWidth={3}
               strokeLinecap="square"
@@ -45,10 +56,10 @@ export const GoalProgress = () => (
               strokeColor={getStrokeColor(percentage)}
             />
             <div className={s.lock_container} style={{ backgroundColor: getStrokeColor(percentage) }}>
-              <Icon name="lock" className={s.lock} />
+              <Icon data-testid="closed-lock" name="lock" className={s.lock} />
             </div>
           </div>
-        </a>
+        </Link>
       );
     }}
   </Query>

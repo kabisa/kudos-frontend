@@ -1,6 +1,6 @@
 import React, { ChangeEvent, Component } from 'react';
 import { Form, Label, Segment } from 'semantic-ui-react';
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import gql from 'graphql-tag';
 
 import settings from '../../../../config/settings';
@@ -8,7 +8,6 @@ import settings from '../../../../config/settings';
 import s from '../../AddTransactionPage.module.scss';
 
 const KUDO_GUIDELINE_RANGE = 5;
-const GUIDELINE_HIDE_DELAY = 250;
 
 export const GET_GUIDELINES = gql`
     query Guidelines($team_id: ID!) {
@@ -74,7 +73,7 @@ class GuidelineInput extends Component<Props, State> {
   }
 
   blurKudoInput() {
-    this.timeout = setTimeout(() => this.setState({ inputFocus: false }), GUIDELINE_HIDE_DELAY);
+    this.setState({ inputFocus: false });
   }
 
   selectGuideline(amount: string) {
@@ -94,6 +93,7 @@ class GuidelineInput extends Component<Props, State> {
           <label htmlFor="input-kudos">
             Kudos Amount
             <Form.Input
+              data-testid="amount-input"
               id="input-kudos"
               error={this.props.amountError}
               onChange={this.handleChange}
@@ -120,31 +120,40 @@ class GuidelineInput extends Component<Props, State> {
           }}
         >
           {({ loading, error, data }) => {
-            if (loading || error || !data) {
+            if (loading || error) {
               return (
                 <Segment.Group size="tiny" className={s.guidelines}>
                   <Segment>
                     {loading && 'Loading...'}
-                    {error && `Error! ${error.message}`}
+                    {error && error.message}
                   </Segment>
                 </Segment.Group>
               );
             }
+
+            if (!data || !data.teamById || !data.teamById.guidelines) {
+              return (
+                <Segment.Group size="tiny" className={s.guidelines}>
+                  <Segment key={1}>No guidelines available</Segment>
+                </Segment.Group>
+              );
+            }
+
+            // eslint-disable-next-line max-len
+            const filteredGuidlines = data.teamById.guidelines.filter((guideline) => guideline.kudos - KUDO_GUIDELINE_RANGE < (this.state.amount || 0)
+                        && guideline.kudos + KUDO_GUIDELINE_RANGE > (this.state.amount || 0));
+
             return (
               <Segment.Group size="tiny" className={s.guidelines}>
-                {data.teamById.guidelines
-                  .filter(
-                    (guideline) => guideline.kudos - KUDO_GUIDELINE_RANGE < (this.state.amount || 0)
-                                                && guideline.kudos + KUDO_GUIDELINE_RANGE > (this.state.amount || 0),
-                  )
-                  .map((guideline) => (
-                    <Segment
-                      key={guideline.id}
-                      onClick={() => this.selectGuideline(guideline.kudos.toString())}
-                    >
-                      {`${guideline.kudos}: ${guideline.name}`}
-                    </Segment>
-                  ))}
+                {filteredGuidlines.map((guideline) => (
+                  <Segment
+                    data-testid="guideline-row"
+                    key={guideline.id}
+                    onClick={() => this.selectGuideline(guideline.kudos.toString())}
+                  >
+                    {`${guideline.kudos}: ${guideline.name}`}
+                  </Segment>
+                ))}
               </Segment.Group>
             );
           }}

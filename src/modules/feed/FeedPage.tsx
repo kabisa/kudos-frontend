@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
-import { graphql } from 'react-apollo';
 import {
-  Divider, Grid, GridColumn, Icon, Rail, Responsive, Segment,
+  Divider, Grid, GridColumn, Rail, Responsive, Segment,
 } from 'semantic-ui-react';
 import { PullToRefresh } from '../../components';
-import settings from '../../config/settings';
 import { Navigation } from '../../components/navigation';
 import {
-  CreatePost, GoalProgress, LeftRail, RightRail, Transaction, TransactionLoading,
+  CreatePost, GoalProgress, LeftRail, RightRail,
 } from './components';
-import { GET_POSTS, GetPostsResult } from './queries';
+import { GetPostsResult } from './queries';
+import { RepoList } from './RepoList';
 
 export interface Props {
   data: {
@@ -22,45 +21,6 @@ export interface Props {
   };
 }
 
-function RepoList(props: Props): React.ReactElement {
-  if (props.data.error) return <p>Something went wrong.</p>;
-  if (props.data.loading) {
-    return (
-      <div>
-        <TransactionLoading />
-        <TransactionLoading />
-        <TransactionLoading />
-        <TransactionLoading />
-      </div>
-    );
-  }
-
-  const { posts } = props.data.teamById;
-  return (
-    <div>
-      {posts.edges.map((item) => (
-        <Transaction transaction={item.node} key={item.node.id} />
-      ))}
-      {posts.pageInfo.hasNextPage && (
-        <div style={{ height: '120px', display: 'flex' }}>
-          <Icon
-            name="arrow down"
-            size="large"
-            onClick={() => props.data.loadMore()}
-            style={{ margin: 'auto' }}
-          />
-        </div>
-      )}
-      {!posts.pageInfo.hasNextPage && (
-        <div>
-          <p style={{ lineHeight: '60px', textAlign: 'center' }}>
-            You&apos;ve reached the end, congratulations!
-          </p>
-        </div>
-      )}
-    </div>
-  );
-}
 
 export interface FeedPageProps {
   // Future props go here
@@ -89,47 +49,6 @@ export class FeedPage extends Component<FeedPageProps, FeedPageState> {
   }
 
   render() {
-    const withQuery = graphql(GET_POSTS, {
-      options: {
-        variables: { team_id: localStorage.getItem(settings.TEAM_ID_TOKEN) },
-        fetchPolicy: 'network-only',
-      },
-      props: ({ data }: any) => ({
-        data: {
-          ...data,
-          loadMore: () => {
-            data.fetchMore({
-              variables: {
-                team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
-                end: data.teamById.posts.pageInfo.endCursor,
-              },
-              updateQuery: (previousResult: any = {}, { fetchMoreResult = {} }: any) => {
-                const previousPosts = previousResult.teamById || {};
-                const newPosts = fetchMoreResult.teamById || {};
-
-                const previousEdges = previousPosts.posts.edges || [];
-                const currentEdges = newPosts.posts.edges || [];
-
-                return {
-                  ...previousResult,
-                  teamById: {
-                    ...previousPosts,
-                    posts: {
-                      ...previousPosts.posts,
-                      edges: [...previousEdges, ...currentEdges],
-                      pageInfo: newPosts.posts.pageInfo,
-                    },
-                  },
-                };
-              },
-            });
-          },
-        },
-      }),
-    });
-
-    const RepoListWithQuery = withQuery(RepoList);
-
     return (
       <div style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
         <div className="page">
@@ -140,7 +59,7 @@ export class FeedPage extends Component<FeedPageProps, FeedPageState> {
               <CreatePost back={false} />
             </div>
             <Divider style={{ marginBottom: '2px', marginTop: '0px' }} />
-            <RepoListWithQuery />
+            <RepoList />
           </Responsive>
           <Responsive minWidth={Responsive.onlyComputer.minWidth}>
             <Grid centered columns={1} style={{ minHeight: '57em' }}>
@@ -154,13 +73,13 @@ export class FeedPage extends Component<FeedPageProps, FeedPageState> {
                     WebkitOverflowScrolling: 'touch',
                   }}
                 >
-                  <RepoListWithQuery />
+                  <RepoList data-testid="repo-list" />
                 </div>
                 <Rail attached position="left" style={{ marginRight: '22px' }}>
-                  <LeftRail />
+                  <LeftRail data-testid="left-rail" />
                 </Rail>
                 <Rail attached position="right">
-                  <RightRail />
+                  <RightRail data-testid="right-rail" />
                 </Rail>
               </GridColumn>
             </Grid>

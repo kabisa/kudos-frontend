@@ -35,11 +35,42 @@ function mobile(props: MobileProps) {
   const isLoggedIn = localStorage.getItem(settings.TEAM_ID_TOKEN);
   return (
     <div className={s.bottom_navigation}>
-      <IconComponent path={routes.PATH_SETTINGS} icon="settings" history={props.history} />
-      {isLoggedIn && <IconComponent path={routes.PATH_STATISTICS} icon="chart bar" history={props.history} />}
-      {isLoggedIn && <IconComponent path={routes.PATH_FEED} icon="home" history={props.history} />}
-      {isLoggedIn && <IconComponent path={routes.PATH_NOTIFICATIONS} icon="bell" history={props.history} />}
-      <IconComponent path={routes.PATH_USER} icon="user" history={props.history} />
+      <IconComponent
+        data-testid="settings-button"
+        path={routes.PATH_SETTINGS}
+        icon="settings"
+        history={props.history}
+      />
+      {isLoggedIn && (
+      <IconComponent
+        data-testid="statistics-button"
+        path={routes.PATH_STATISTICS}
+        icon="chart bar"
+        history={props.history}
+      />
+      )}
+      {isLoggedIn && (
+      <IconComponent
+        data-testid="home-button"
+        path={routes.PATH_FEED}
+        icon="home"
+        history={props.history}
+      />
+      )}
+      {isLoggedIn && (
+      <IconComponent
+        data-testid="notifications-button"
+        path={routes.PATH_NOTIFICATIONS}
+        icon="bell"
+        history={props.history}
+      />
+      )}
+      <IconComponent
+        data-testid="profile-button"
+        path={routes.PATH_USER}
+        icon="user"
+        history={props.history}
+      />
     </div>
   );
 }

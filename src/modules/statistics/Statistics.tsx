@@ -1,5 +1,5 @@
 import React from 'react';
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import moment from 'moment';
 import { Icon } from 'semantic-ui-react';
 import gql from 'graphql-tag';
@@ -91,7 +91,7 @@ const Statistics = () => (
               {goals
                 .sort((goal1, goal2) => goal2.amount - goal1.amount)
                 .map((goal, index) => (
-                  <div key={goal.id} style={{ height: '100px' }}>
+                  <div data-testid="goal-section" key={goal.id} style={{ height: '100px' }}>
                     <div>
                       {/* Lock icons */}
                       <div
@@ -118,6 +118,7 @@ const Statistics = () => (
 
                       {/* Bars */}
                       <div
+                        data-testid="progress-bar"
                         style={{
                           width: '12px',
                           height: '70px',
@@ -131,6 +132,7 @@ const Statistics = () => (
                       {/* Progress bar */}
                       {nextGoal === goal && (
                       <div
+                        data-testid="next-progress-bar"
                         style={{
                           width: '12px',
                           height: `${70 - (70 - height)}px`,
@@ -172,11 +174,12 @@ const Statistics = () => (
                         marginBottom: '0px',
                       }}
                     >
-                      {!goal.achievedOn && `${currentKudos} / ${goal.amount}₭`}
+                      {!goal.achievedOn
+                      && `${currentKudos} / ${goal.amount}₭`}
                       {goal.achievedOn
-                                                && `Achieved on ${moment(goal.achievedOn, 'YYYY-MM-DD').format(
-                                                  'DD MMM, YYYY',
-                                                )}`}
+                      && `Achieved on ${moment(goal.achievedOn, 'YYYY-MM-DD').format(
+                        'DD MMM, YYYY',
+                      )}`}
                     </span>
 
                     {/* Dot at the bottom */}

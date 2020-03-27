@@ -5,7 +5,7 @@ import {
 } from 'semantic-ui-react';
 import gql from 'graphql-tag';
 import { toast } from 'react-toastify';
-import { Mutation, Query } from 'react-apollo';
+import { Query, Mutation } from '@apollo/react-components';
 import settings from '../../../config/settings';
 
 export const GET_TEAM_NAME = gql`
@@ -49,7 +49,7 @@ export interface State {
   name: string;
 }
 
-export class GeneralSection extends Component<Props, State> {
+export default class GeneralSection extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -75,7 +75,7 @@ export class GeneralSection extends Component<Props, State> {
         {
           query: GET_TEAM_NAME,
           variables: {
-            team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+            id: localStorage.getItem(settings.TEAM_ID_TOKEN),
           },
         },
       ],
@@ -102,8 +102,8 @@ export class GeneralSection extends Component<Props, State> {
           {({
             loading, error, data, refetch,
           }) => {
-            if (loading || !data) return <span>Loading...</span>;
-            if (error) return <span>`Error! ${error.message}`</span>;
+            if (loading) return <p>Loading...</p>;
+            if (error) return <p>Error! {error.message}</p>;
 
             return (
               <Mutation<UpdateTeamResult, UpdateTeamParameters>
@@ -116,9 +116,13 @@ export class GeneralSection extends Component<Props, State> {
               >
                 {(mutate, { loading }) => (
                   <div>
-                    <h1>{data.teamById.name}</h1>
+                    <h1>{(data && data.teamById)
+                      ? data.teamById.name
+                      : '-'}
+                    </h1>
                     <Form onSubmit={() => this.updateTeam(mutate)}>
                       <Form.Input
+                        data-testid="name-input"
                         fluid
                         label="New team name"
                         placeholder="Team name"
@@ -127,7 +131,13 @@ export class GeneralSection extends Component<Props, State> {
                         value={this.state.name}
                         onChange={this.handleChange}
                       />
-                      <Button color="blue" loading={loading} disabled={loading} type="submit">
+                      <Button
+                        data-testid="submit-button"
+                        color="blue"
+                        loading={loading}
+                        disabled={loading}
+                        type="submit"
+                      >
                         Update
                       </Button>
                     </Form>
@@ -141,5 +151,3 @@ export class GeneralSection extends Component<Props, State> {
     );
   }
 }
-
-export default GeneralSection;
