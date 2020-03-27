@@ -26,7 +26,9 @@ export class Goals extends Component<Props, State> {
   }
 
   editGoal(id: string, kudos: number, description: string) {
-    this.editGoalRef.current?.setEditState(id, String(kudos), description);
+    if (this.editGoalRef.current) {
+      this.editGoalRef.current.setEditState(id, String(kudos), description);
+    }
   }
 
   render() {

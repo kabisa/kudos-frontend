@@ -1,4 +1,3 @@
-/* eslint-disable no-shadow,no-restricted-syntax */
 import React, { Component } from 'react';
 import {
   Divider, Header, Icon, Table,
@@ -85,9 +84,15 @@ class GuidelineSection extends Component<Props, State> {
   }
 
   editGuideline(id: number, kudos: number, description: string) {
-    this.editGuidelineRef.current?.setEditState(id, String(kudos), description);
+    if (this.editGuidelineRef.current !== null) {
+      this.editGuidelineRef.current.setEditState(id, String(kudos), description);
+    }
 
-    document.getElementById('management-container')?.scrollIntoView();
+    const container = document.getElementById('management-container');
+
+    if (container) {
+      container.scrollIntoView();
+    }
   }
 
 

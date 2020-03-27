@@ -2,7 +2,7 @@ import React, { Component, PropsWithRef, SyntheticEvent } from 'react';
 import { Dropdown } from 'semantic-ui-react';
 import { Query } from '@apollo/react-components';
 
-import client from '../../../../apollo';
+import client from '../../../../client';
 import { GET_USERS, GetUsersResult, User } from '../../queries';
 import settings from '../../../../config/settings';
 

@@ -67,7 +67,10 @@ export class Header extends Component<Props, State> {
   edit() {
     if (this.props.setEditTransaction) {
       this.props.setEditTransaction(this.props.transaction.id);
-            this.props.history?.push(PATH_ADD_TRANSACTION);
+
+      if (this.props.history) {
+        this.props.history.push(PATH_ADD_TRANSACTION);
+      }
     }
   }
 

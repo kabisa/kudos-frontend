@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { ApolloProvider } from '@apollo/react-hooks';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import client from './apollo';
+import client from './client';
 
 import './styles/shell.scss';
 import 'semantic-ui-css/semantic.min.css';

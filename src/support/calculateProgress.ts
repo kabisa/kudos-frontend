@@ -1,14 +1,14 @@
 import { Goal } from '../modules/manage-team/sections/kudometer/KudometerQuerries';
 
 const calculateProgress = (goals: Goal[], current: number, scale = 100): number => {
-  const sortedGoals = goals.sort((goal1, goal2) => goal1.amount - goal2.amount);
+  goals.sort((goal1, goal2) => goal1.amount - goal2.amount);
   let nextGoal;
   let previousGoalAmount;
-  if (Array.isArray(sortedGoals)) {
-    nextGoal = sortedGoals.find((goal) => goal.amount > current);
-    previousGoalAmount = sortedGoals.reverse().find((goal) => goal.amount <= current)?.amount;
+  if (Array.isArray(goals)) {
+    nextGoal = goals.find((goal) => goal.amount > current);
+    previousGoalAmount = [...goals].reverse().find((goal) => goal.amount <= current)?.amount;
   } else {
-    nextGoal = sortedGoals;
+    nextGoal = goals;
     previousGoalAmount = 0;
   }
 
