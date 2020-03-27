@@ -10,6 +10,7 @@ import { FragmentPostResult, GET_POSTS } from '../../queries';
 import { PATH_ADD_TRANSACTION } from '../../../../routes';
 
 import s from './Header.module.scss';
+import { isTeamAdmin } from '../../../../support';
 
 const moment = require('moment-twitter');
 
@@ -109,7 +110,7 @@ export class Header extends Component<Props, State> {
         </span>
         {((localStorage.getItem(settings.USER_ID_TOKEN) === this.props.transaction.sender.id
             && allowNormalEdit)
-            || localStorage.getItem(settings.ROLE_TOKEN) === 'admin') && (
+            || isTeamAdmin()) && (
             <Dropdown data-testid="post-dropdown" item icon="ellipsis vertical" direction="left" className={s.dropdown}>
               <Dropdown.Menu>
                 <Mutation<ToggleLikeParameters>
