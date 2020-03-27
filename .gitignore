@@ -16,6 +16,7 @@ cordova/plugins/*
 !cordova/plugins/.keep
 
 build/
+coverage/
 
 # Fastlane stuff
 /fastlane/README.md
