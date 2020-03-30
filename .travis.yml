@@ -7,4 +7,4 @@ cache:
 script:
   - yarn build
   - yarn eslint ./src --ext .js,.jsx,.ts,.tsx ./
-  - yarn test
+  - yarn test --coverage
