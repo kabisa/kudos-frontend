@@ -148,7 +148,7 @@ describe('<KudometerSection />', () => {
       await wait(0);
       await wrapper.update();
 
-      expect(findByTestId(wrapper, 'goal-row').length).toBe(2);
+      expect(findByTestId(wrapper, 'kudometer-row').length).toBe(2);
     });
   });
 
@@ -184,23 +184,6 @@ describe('<KudometerSection />', () => {
     });
   });
 
-  it('deselects the selected kudometer', async () => {
-    const component: any = wrapper.find('KudometerSection').instance();
-
-    await act(async () => {
-      component.setState({ selected: { id: '1', name: 'test', goals: [] } });
-
-      await wrapper.update();
-
-      component.handleViewGoalButtonClick({ id: '1', name: 'test', goals: [] });
-
-      await wrapper.update();
-      await wrapper.update();
-
-      expect(component.state.selected).toBe(undefined);
-    });
-  });
-
   it('doesnt call the mutation if the name is empty', async () => {
     await act(async () => {
       findByTestId(wrapper, 'create-button').hostNodes().simulate('click');
@@ -218,11 +201,27 @@ describe('<KudometerSection />', () => {
     await act(async () => {
       expect(component.state.kudometer).toBe(undefined);
 
-      component.handleViewGoalButtonClick({ id: '1' });
+      component.handleViewGoalButtonClick({ id: '1', name: 'Kudometer', goals: [] });
 
       await wrapper.update();
 
       expect(component.state.selected.id).toBe('1');
+    });
+  });
+
+  it('deselects the selected kudometer', async () => {
+    const component: any = wrapper.find('KudometerSection').instance();
+
+    await act(async () => {
+      component.setState({ selected: { id: '1', name: 'test', goals: [] } });
+
+      await wrapper.update();
+
+      component.handleViewGoalButtonClick({ id: '1', name: 'test', goals: [] });
+
+      await wrapper.update();
+
+      expect(component.state.selected).toBe(undefined);
     });
   });
 });

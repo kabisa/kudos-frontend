@@ -7,13 +7,14 @@ export const isLoggedIn = (): boolean => localStorage.getItem(settings.LOCALSTOR
 
 export const isTeamAdmin = (): boolean => localStorage.getItem(settings.ROLE_TOKEN) === 'admin';
 
-export const logout = (history?: History) => {
+export const logout = async (history?: History) => {
   localStorage.clear();
-  client.resetStore();
-  window.location.href = '/login';
-  window.location.reload();
+  await client.resetStore();
 
   if (history) {
     history.push(PATH_LOGIN);
+  } else {
+    window.location.href = '/login';
+    window.location.reload();
   }
 };

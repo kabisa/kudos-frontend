@@ -43,6 +43,8 @@ class KudometerSection extends Component<Props, State> {
 
     this.handleChange = this.handleChange.bind(this);
     this.createKudometer = this.createKudometer.bind(this);
+    this.handleViewGoalButtonClick = this.handleViewGoalButtonClick.bind(this);
+    this.deleteKudometer = this.deleteKudometer.bind(this);
   }
 
   handleChange(e: ChangeEvent, { name, value }: any) {
@@ -162,7 +164,7 @@ class KudometerSection extends Component<Props, State> {
                         && data.teamById
                         && data.teamById.kudosMeters.length > 0) ? data.teamById.kudosMeters.map((item) => (
                           <KudometerRow
-                            data-testid="goal-row"
+                            data-testid="kudometer-row"
                             key={item.id}
                             kudometer={item}
                             viewButtonClickHandler={this.handleViewGoalButtonClick}
