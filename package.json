@@ -50,7 +50,7 @@
     "typescript": "^3.8.3"
   },
   "scripts": {
-    "start": "env NODE_ENV=development PORT=9090 react-scripts start",
+    "start": "PORT=9090 react-scripts start",
     "build": "react-scripts build && mv build dist",
     "test": "react-scripts test --testPathIgnorePatterns=src/config",
     "eject": "react-scripts eject",
