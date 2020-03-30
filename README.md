@@ -30,7 +30,9 @@ Backend: https://github.com/kabisa/kudo-o-matic
 
 ## Code formatting
 
-This is not yet setup
+Code formatting and style are enforced using ESLint.
+You can run the `yarn lint:check` command to run an analysis.
+You can use the ESLint auto fix feature by running `yarn lint:run`
 
 ## Contributing
 
