@@ -8,8 +8,8 @@ export const isLoggedIn = (): boolean => localStorage.getItem(settings.LOCALSTOR
 export const isTeamAdmin = (): boolean => localStorage.getItem(settings.ROLE_TOKEN) === 'admin';
 
 export const logout = async (history?: History) => {
-  localStorage.clear();
   await client.resetStore();
+  localStorage.clear();
 
   if (history) {
     history.push(PATH_LOGIN);
