@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
-import { withMockedProviders } from '../../spec_helper';
+import { findByTestId, withMockedProviders } from '../../spec_helper';
 import CustomCircle from './Circle';
 
 describe('<CustomCircle />', () => {
@@ -15,7 +15,15 @@ describe('<CustomCircle />', () => {
     />));
   });
 
-  it('render the correct text', () => {
-    expect(wrapper.containsMatchingElement(<h2>200₭ od 500₭ for Some goal</h2>));
+  it('renders the correct current kudo amount', () => {
+    const summary = findByTestId(wrapper, 'current-kudos');
+
+    expect(summary.text()).toBe('200₭');
+  });
+
+  it('renders the correct goal', () => {
+    const goal = findByTestId(wrapper, 'goal-kudos');
+
+    expect(goal.text()).toBe('of 500₭ for Some goal');
   });
 });

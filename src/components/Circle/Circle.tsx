@@ -15,8 +15,8 @@ function CustomCircle(props: Props): React.ReactElement {
     <div className={s.wrapper}>
       {props.currentKudos != null && (
         <span className={s.title} style={{ color: 'grey' }}>
-          <h2 style={{ color: 'rgba(0, 0, 0, 0.85)' }}>{props.currentKudos}₭</h2>
-          of {props.neededKudos}₭ for {props.goal}
+          <h2 data-testid="current-kudos" style={{ color: 'rgba(0, 0, 0, 0.85)' }}>{props.currentKudos}₭</h2>
+          <span data-testid="goal-kudos">of {props.neededKudos}₭ for {props.goal}</span>
         </span>
       )}
       <Circle
