@@ -7,7 +7,7 @@ import s from './FormWrapper.module.scss';
 
 export interface Props {
   children: ReactElement;
-  toolbar?: any;
+  toolbar?: string;
   header: string;
 }
 
