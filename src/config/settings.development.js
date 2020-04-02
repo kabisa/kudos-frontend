@@ -1,3 +1,4 @@
 export default {
-  environment: "development"
+  environment: "development",
+  API_BASE_URL: 'http://localhost:3000'
 };
