@@ -65,6 +65,17 @@ const mocks = [
       return {
         data: {
           teamById: {
+            activeKudosMeter: {
+              amount: 20,
+            },
+            activeGoals: [
+              {
+                id: '1',
+                amount: 50,
+                name: 'test',
+                achievedOn: '',
+              },
+            ],
           },
         },
       };

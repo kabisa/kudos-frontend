@@ -37,7 +37,6 @@ describe('<ChoiceButton />', () => {
   beforeEach(() => {
     mutationCalled = false;
     history = createMemoryHistory();
-    jest.resetAllMocks();
 
     wrapper = mount(withMockedProviders(<ChoiceButton
       inviteId="1"
@@ -48,6 +47,11 @@ describe('<ChoiceButton />', () => {
       teamId="1"
       text="button text"
     />, mocks));
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+    jest.resetAllMocks();
   });
 
   it('renders the provided text', () => {
