@@ -75,7 +75,7 @@ describe('<ChoiceButton />', () => {
   });
 
   it('sets the team id if the accept property is true', async () => {
-    const spy = jest.spyOn(window.localStorage.__proto__, 'setItem');
+    const spy = jest.spyOn(Storage.prototype, 'setItem');
 
     await act(async () => {
       wrapper.find('.button').hostNodes().simulate('click');
@@ -108,7 +108,7 @@ describe('<ChoiceButton />', () => {
       text="button text"
     />, mocks));
 
-    const spy = jest.spyOn(window.localStorage.__proto__, 'setItem');
+    const spy = jest.spyOn(Storage.prototype, 'setItem');
 
     await act(async () => {
       wrapper.find('.button').hostNodes().simulate('click');

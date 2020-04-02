@@ -2,8 +2,7 @@ import { loginSuccess, LoginSuccessParams } from './helper';
 
 describe('login helper', () => {
   it('calls localstorage', () => {
-    // eslint-disable-next-line no-proto
-    jest.spyOn(window.localStorage.__proto__, 'setItem');
+    const spy = jest.spyOn(Storage.prototype, 'setItem');
 
     const params: LoginSuccessParams = {
       token: 'fakeToken',
@@ -13,7 +12,7 @@ describe('login helper', () => {
     };
     loginSuccess(params);
 
-    expect(localStorage.setItem).toBeCalledWith('token', 'fakeToken');
-    expect(localStorage.setItem).toBeCalledWith('user_id', '1');
+    expect(spy).toBeCalledWith('token', 'fakeToken');
+    expect(spy).toBeCalledWith('user_id', '1');
   });
 });
