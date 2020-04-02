@@ -42,7 +42,11 @@ const mocks = [
     result: () => {
       mutationCalled = true;
       return {
-        data: {},
+        data: {
+          deleteTeamInvite: {
+            teamInviteId: '1',
+          },
+        },
       };
     },
   },
@@ -54,7 +58,19 @@ const mocks = [
     result: () => {
       queryCalled = true;
       return {
-        data: {},
+        data: {
+          teamById: {
+            teamInvites: [
+              {
+                acceptedAt: '',
+                declinedAt: '',
+                email: 'max@example.com',
+                id: '1',
+                sentAt: '2020-03-01',
+              },
+            ],
+          },
+        },
       };
     },
   },
@@ -65,7 +81,10 @@ describe('<Invite />', () => {
   let wrapper: ReactWrapper;
 
   function setup(invite: InviteModel) {
-    wrapper = mount(withMockedProviders(<Invite invite={invite} key={1} />, mocks));
+    wrapper = mount(withMockedProviders(
+      <table><tbody><Invite invite={invite} key={1} /></tbody></table>,
+      mocks,
+    ));
   }
 
   beforeEach(() => {

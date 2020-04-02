@@ -37,14 +37,25 @@ const mocks = [
   },
 ];
 
+let wrapper: ReactWrapper;
+const refetch = jest.fn();
+const setup = () => {
+  wrapper = mount(withMockedProviders(
+    <table>
+      <tbody>
+        <MemberRow key="1" membership={membership} refetch={refetch} />
+      </tbody>
+    </table>,
+    mocks,
+  ));
+};
+
 describe('<MemberRow />', () => {
   mockLocalstorage('5');
-  let wrapper: ReactWrapper;
-  const refetch = jest.fn();
 
   beforeEach(() => {
     mutationCalled = false;
-    wrapper = mount(withMockedProviders(<MemberRow key="1" membership={membership} refetch={refetch} />, mocks));
+    setup();
   });
 
   it('renders the membership information', () => {
@@ -67,14 +78,14 @@ describe('<MemberRow />', () => {
 
   it('renders the buttons if the membership is not the current user', () => {
     mockLocalstorage('5');
-    wrapper = mount(withMockedProviders(<MemberRow key="1" membership={membership} refetch={refetch} />));
+    setup();
 
     expect(wrapper.find('.button').length).toBe(3);
   });
 
   it('does not render the buttons if the membership is the current user', () => {
     mockLocalstorage('1');
-    wrapper = mount(withMockedProviders(<MemberRow key="1" membership={membership} refetch={refetch} />));
+    setup();
 
     expect(wrapper.find('.button').length).toBe(0);
   });

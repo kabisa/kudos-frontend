@@ -131,7 +131,7 @@ class GuidelineInput extends Component<Props, State> {
               );
             }
 
-            if (!data || !data.teamById || !data.teamById.guidelines) {
+            if (!data || !data.teamById || data.teamById.guidelines.length === 0) {
               return (
                 <Segment.Group size="tiny" className={s.guidelines}>
                   <Segment key={1}>No guidelines available</Segment>

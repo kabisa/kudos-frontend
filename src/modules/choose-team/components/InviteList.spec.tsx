@@ -36,6 +36,15 @@ const mockWithInvites = [
   },
 ];
 
+const mocksWithError = [
+  {
+    request: {
+      query: GET_INVITES,
+    },
+    error: new Error('It broke'),
+  },
+];
+
 const mockWithoutInvites = [
   {
     request: {
@@ -81,6 +90,17 @@ describe('<InviteList />', () => {
 
       expect(findByTestId(wrapper, 'kudo-invite').length).toBe(0);
       expect(wrapper.containsMatchingElement(<p>No invites.</p>)).toBe(true);
+    });
+  });
+
+  it('shows when there is an error', async () => {
+    wrapper = mount(withMockedProviders(<InviteList />, mocksWithError));
+
+    await act(async () => {
+      await wait(0);
+      wrapper.update();
+
+      expect(findByTestId(wrapper, 'error-message').text()).toBe('Network error: It broke');
     });
   });
 });

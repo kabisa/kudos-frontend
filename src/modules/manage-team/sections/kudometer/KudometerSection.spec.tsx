@@ -129,7 +129,7 @@ describe('<KudometerSection />', () => {
       await wait(0);
       await wrapper.update();
 
-      expect(wrapper.containsMatchingElement(<tr>No kudometers available</tr>)).toBe(true);
+      expect(wrapper.containsMatchingElement(<td>No kudometers available</td>)).toBe(true);
     });
   });
 

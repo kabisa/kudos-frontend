@@ -27,7 +27,7 @@ const mocks = [
               acceptedAt: '2020-3-16',
               declinedAt: '',
               email: 'egon@example.com',
-              id: 1,
+              id: 2,
               sentAt: '2020-03-11',
             },
           ],
@@ -44,18 +44,6 @@ const mocksWithError = [
       variables: { team_id: '1' },
     },
     error: new Error('it broke'),
-  },
-];
-
-const mocksWithoutData = [
-  {
-    request: {
-      query: QUERY_GET_INVITES,
-      variables: { team_id: '1' },
-    },
-    result: {
-      data: {},
-    },
   },
 ];
 
@@ -78,16 +66,6 @@ describe('<InviteSection />', () => {
       await wrapper.update();
 
       expect(wrapper.containsMatchingElement(<p>Error! Network error: it broke</p>)).toBe(true);
-    });
-  });
-
-  it('shows when there is no data', async () => {
-    wrapper = mount(withMockedProviders(<InviteSection />, mocksWithoutData));
-    await act(async () => {
-      await wait(0);
-      await wrapper.update();
-
-      expect(wrapper.containsMatchingElement(<p>No invites available</p>)).toBe(true);
     });
   });
 

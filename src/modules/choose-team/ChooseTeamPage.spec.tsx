@@ -9,9 +9,12 @@ describe('<ChooseTeamPage />', () => {
   let wrapper: any;
   let history: MemoryHistory;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     history = createMemoryHistory();
-    wrapper = mount(withMockedProviders(<Content history={history} />));
+
+    await act(async () => {
+      wrapper = mount(withMockedProviders(<Content history={history} />));
+    });
   });
 
   it('renders the invite list', () => {
@@ -27,10 +30,10 @@ describe('<ChooseTeamPage />', () => {
   });
 
   it('navigates to the create team page', async () => {
-    await act(() => {
+    await act(async () => {
       findByTestId(wrapper, 'create-team').hostNodes().simulate('click');
 
-      wrapper.update();
+      await wrapper.update();
 
       expect(history.location.pathname).toBe('/create-team');
     });

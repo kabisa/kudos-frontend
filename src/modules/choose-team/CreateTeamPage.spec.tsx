@@ -2,7 +2,7 @@ import React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 import { act } from 'react-dom/test-utils';
 import {
-  findByTestId, findInputByTestId, wait, withMockedProviders,
+  findByTestId, simulateInputChange, wait, withMockedProviders,
 } from '../../spec_helper';
 import CreateTeamPage, { MUTATION_CREATE_TEAM } from './CreateTeamPage';
 
@@ -50,6 +50,19 @@ describe('<CreateTeamPage />', () => {
     expect(wrapper.containsMatchingElement(<button>Create team</button>)).toBe(true);
   });
 
+  it('handles input correctly', async () => {
+    const component: any = wrapper.find('CreateTeamPage').instance();
+
+    await act(async () => {
+      expect(component.state.name).toBe('');
+
+      simulateInputChange(wrapper, 'name-input', 'name', 'Kabisa');
+      await wrapper.update();
+
+      expect(component.state.name).toBe('Kabisa');
+    });
+  });
+
   it('returns an error if the name is null', async () => {
     await act(async () => {
       findByTestId(wrapper, 'create-team-button').hostNodes().simulate('click');
@@ -62,11 +75,9 @@ describe('<CreateTeamPage />', () => {
   });
 
   it('Sets the loading state', async () => {
+    const component = wrapper.find('CreateTeamPage').instance();
     await act(async () => {
-      const input = findInputByTestId(wrapper, 'create-team-input');
-
-      input.simulate('change', { target: { name: 'name', value: 'Kabisa' } });
-
+      component.setState({ name: 'Kabisa' });
       await wrapper.update();
 
       findByTestId(wrapper, 'create-team-button').hostNodes().simulate('click');
@@ -93,11 +104,9 @@ describe('<CreateTeamPage />', () => {
   });
 
   it('calls the mutation if the name is not null', async () => {
+    const component = wrapper.find('CreateTeamPage').instance();
     await act(async () => {
-      const input = findInputByTestId(wrapper, 'create-team-input');
-
-      input.simulate('change', { target: { name: 'name', value: 'Kabisa' } });
-
+      component.setState({ name: 'Kabisa' });
       await wrapper.update();
 
       findByTestId(wrapper, 'create-team-button').hostNodes().simulate('click');
@@ -113,12 +122,10 @@ describe('<CreateTeamPage />', () => {
   it('sets the team id in local storage if the mutation is successful', async () => {
     // eslint-disable-next-line no-proto
     jest.spyOn(window.localStorage.__proto__, 'setItem');
+    const component = wrapper.find('CreateTeamPage').instance();
 
     await act(async () => {
-      const input = findInputByTestId(wrapper, 'create-team-input');
-
-      input.simulate('change', { target: { name: 'name', value: 'Kabisa' } });
-
+      component.setState({ name: 'Kabisa' });
       await wrapper.update();
 
       findByTestId(wrapper, 'create-team-button').hostNodes().simulate('click');

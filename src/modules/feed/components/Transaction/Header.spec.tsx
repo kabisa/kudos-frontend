@@ -75,7 +75,9 @@ const mocks = [
       queryCalled = true;
       return {
         data: {
-          teamById: {},
+          teamById: {
+            posts: [],
+          },
         },
       };
     },

@@ -27,16 +27,6 @@ const mocksWithError = [
     error: new Error('It broke'),
   },
 ];
-const mocksWithoutData = [
-  {
-    request: {
-      query: GET_INFO,
-    },
-    result: {
-      data: {},
-    },
-  },
-];
 
 let wrapper: ReactWrapper;
 const setup = (mock: any) => {
@@ -70,16 +60,6 @@ describe('<LeftRail />', () => {
       await wrapper.update();
 
       expect(wrapper.containsMatchingElement(<p>Error! Network error: It broke</p>)).toBe(true);
-    });
-  });
-
-  it('should show when there is no data', async () => {
-    setup(mocksWithoutData);
-    await act(async () => {
-      await wait(0);
-      await wrapper.update();
-
-      expect(wrapper.containsMatchingElement(<h3>Hello -</h3>)).toBe(true);
     });
   });
 });

@@ -79,7 +79,7 @@ describe('<InvitePage />', () => {
   });
 
   it('displays an error if the email field is empty', async () => {
-    await act(() => {
+    await act(async () => {
       wrapper.find('.button').hostNodes().simulate('click');
 
       expect(wrapper.containsMatchingElement(<p>Email can&#39;t be blank.</p>));

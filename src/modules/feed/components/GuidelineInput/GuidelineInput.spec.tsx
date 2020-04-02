@@ -57,7 +57,7 @@ const mocksWithoutData = [
       return {
         data: {
           teamById: {
-            guideline: [],
+            guidelines: [],
           },
         },
       };

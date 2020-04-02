@@ -170,7 +170,7 @@ class KudometerSection extends Component<Props, State> {
                             viewButtonClickHandler={this.handleViewGoalButtonClick}
                             deleteKudometerHandler={this.deleteKudometer}
                           />
-                      )) : <Table.Row>No kudometers available</Table.Row>}
+                      )) : <Table.Row><Table.Cell>No kudometers available</Table.Cell></Table.Row>}
                   </Table.Body>
                 </Table>
 

@@ -21,9 +21,12 @@ describe('<UserPage/>', () => {
   let wrapper: ReactWrapper;
   let history:MemoryHistory;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     history = createMemoryHistory();
-    wrapper = mount(withMockedProviders(<UserPage history={history} />, mocks));
+
+    await act(async () => {
+      wrapper = mount(withMockedProviders(<UserPage history={history} />, mocks));
+    });
   });
 
   it('shows the component is loading', () => {

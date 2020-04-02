@@ -18,7 +18,11 @@ const mocks = [
     result: () => {
       mutationCalled = true;
       return {
-        data: {},
+        data: {
+          deleteGoal: {
+            goalId: '1',
+          },
+        },
       };
     },
   },
@@ -30,7 +34,23 @@ const mocks = [
     result: () => {
       queryCalled = true;
       return {
-        data: {},
+        data: {
+          teamById: {
+            kudosMeters: [
+              {
+                id: '1',
+                name: 'Kudometer',
+                goals: [
+                  {
+                    id: '1',
+                    amount: 100,
+                    name: 'Uit eten',
+                  },
+                ],
+              },
+            ],
+          },
+        },
       };
     },
   },
@@ -50,7 +70,13 @@ describe('<GoalRow />', () => {
   beforeEach(() => {
     mutationCalled = false;
     queryCalled = false;
-    wrapper = mount(withMockedProviders(<GoalRow key={goal.id} goal={goal} editGoal={editGoalMock} />, mocks));
+    wrapper = mount(withMockedProviders(
+      <table>
+        <tbody>
+          <GoalRow key={goal.id} goal={goal} editGoal={editGoalMock} />
+        </tbody>
+      </table>, mocks,
+    ));
   });
 
   it('renders all the information', () => {

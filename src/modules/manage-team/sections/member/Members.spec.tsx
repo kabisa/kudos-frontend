@@ -49,19 +49,6 @@ const mocksWithError = [
   },
 ];
 
-const mocksWithoutData = [
-  {
-    request: {
-      query: GET_USERS,
-      variables: { id: '1' },
-    },
-    result: {
-      data: {},
-    },
-  },
-];
-
-
 describe('<Member />', () => {
   mockLocalstorage('1');
   let wrapper: ReactWrapper;
@@ -81,17 +68,6 @@ describe('<Member />', () => {
       await wrapper.update();
 
       expect(wrapper.containsMatchingElement(<p>Error! Network error: something went wrong</p>)).toBe(true);
-    });
-  });
-
-  it('shows when there is no data', async () => {
-    wrapper = mount(withMockedProviders(<MemberSection />, mocksWithoutData));
-
-    await act(async () => {
-      await wait(0);
-      await wrapper.update();
-
-      expect(wrapper.containsMatchingElement(<tr>No memberships available</tr>)).toBe(true);
     });
   });
 

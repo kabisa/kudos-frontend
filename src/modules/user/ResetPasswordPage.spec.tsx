@@ -28,9 +28,12 @@ const mocks = [
 describe('<ResetPasswordPage />', () => {
   let wrapper: ReactWrapper;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     mutationCalled = false;
-    wrapper = mount(withMockedProviders(<ResetPasswordPage />, mocks));
+
+    await act(async () => {
+      wrapper = mount(withMockedProviders(<ResetPasswordPage />, mocks));
+    });
   });
 
   it('has three input elements', () => {

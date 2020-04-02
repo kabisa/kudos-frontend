@@ -26,7 +26,6 @@ export const MUTATION_LOGIN = gql`
                     id
                 }
             }
-            errors
         }
     }
 `;

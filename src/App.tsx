@@ -3,10 +3,9 @@ import { Responsive } from 'semantic-ui-react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {
-  Router, Redirect, Route, Switch,
+  Router, Route, Switch,
 } from 'react-router-dom';
 import * as routes from './routes';
-import { PATH_CHOOSE_TEAM, PATH_LOGIN } from './routes';
 import history from './support/history';
 import {
   FinishForgotPasswordPage, ForgotPasswordPage, LoginPage, RegisterPage,
@@ -30,7 +29,7 @@ function App() {
       <Responsive>
         <Router history={history}>
           <Switch>
-            <Route path={PATH_LOGIN}>
+            <Route path={routes.PATH_LOGIN}>
               <LoginPage />
             </Route>
             <AuthenticatedRoute allowNoTeam path={routes.PATH_NOTIFICATIONS} component={NotificationsPage} />

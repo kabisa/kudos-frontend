@@ -57,7 +57,7 @@ const mocksWithError = [
     request: {
       query: GET_TEAMS,
     },
-    error: new Error('An error'),
+    error: new Error('It broke'),
   },
 ];
 
@@ -103,7 +103,7 @@ describe('<TeamList />', () => {
       await wait(0);
       wrapper.update();
 
-      expect(wrapper.containsMatchingElement(<p>Something went wrong</p>)).toBe(true);
+      expect(wrapper.containsMatchingElement(<p>Network error: It broke</p>)).toBe(true);
     });
   });
 });

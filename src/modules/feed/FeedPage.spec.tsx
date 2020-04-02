@@ -1,5 +1,6 @@
 import React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
+import { act } from 'react-dom/test-utils';
 import {
   findByTestId,
   mockLocalstorage, withMockedProviders,
@@ -13,9 +14,12 @@ const setup = () => {
 };
 
 describe('<FeedPage />', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     mockLocalstorage('1');
-    setup();
+
+    await act(async () => {
+      setup();
+    });
   });
 
   it('should show a create post section', async () => {

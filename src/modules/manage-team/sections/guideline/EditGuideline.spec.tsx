@@ -95,14 +95,11 @@ describe('<EditGuideline/>', () => {
   });
 
   it('calls the create mutation if editing is set to false', async () => {
+    const component = wrapper.find('EditGuideline').instance();
     await act(async () => {
-      simulateInputChange(wrapper, 'kudo-input', 'kudos', 10);
-      simulateInputChange(wrapper, 'description-input', 'description', 'test guideline');
-
+      component.setState({ kudos: 10, description: 'test guideline', editing: false });
       await wrapper.update();
 
-      // It's a form submit so we use the submit event instead of a button click.
-      // https://github.com/enzymejs/enzyme/issues/308
       findByTestId(wrapper, 'submit-button').hostNodes().simulate('submit');
 
       await wait(0);
@@ -113,17 +110,14 @@ describe('<EditGuideline/>', () => {
   });
 
   it('calls the update mutation if editing is set to true', async () => {
+    const component: any = wrapper.find('EditGuideline').instance();
+
     await act(async () => {
-      const component: any = wrapper.find('EditGuideline').instance();
-      component.setEditState('2', '5', 'guideline to be updated');
-
-      simulateInputChange(wrapper, 'kudo-input', 'editKudos', 5);
-      simulateInputChange(wrapper, 'description-input', 'editDescription', 'guideline to be updated');
-
+      component.setState({
+        editId: '2', editKudos: 5, editDescription: 'guideline to be updated', editing: true,
+      });
       await wrapper.update();
 
-      // It's a form submit so we use the submit event instead of a button click.
-      // https://github.com/enzymejs/enzyme/issues/308
       findByTestId(wrapper, 'submit-button').hostNodes().simulate('submit');
 
       await wait(0);
@@ -133,9 +127,25 @@ describe('<EditGuideline/>', () => {
     });
   });
 
-  it('sets its state properly', async () => {
+  it('handles input correctly', async () => {
+    const component: any = wrapper.find('EditGuideline').instance();
     await act(async () => {
-      const component: any = wrapper.find('EditGuideline').instance();
+      expect(component.state.kudos).toBe('');
+      expect(component.state.description).toBe('');
+
+      simulateInputChange(wrapper, 'kudo-input', 'kudos', 10);
+      simulateInputChange(wrapper, 'description-input', 'description', 'Some guideline');
+
+      await wrapper.update();
+
+      expect(component.state.kudos).toBe(10);
+      expect(component.state.description).toBe('Some guideline');
+    });
+  });
+
+  it('sets its state properly', async () => {
+    const component: any = wrapper.find('EditGuideline').instance();
+    await act(async () => {
       component.setEditState('2', '5', 'guideline to be updated');
 
       await wrapper.update();
@@ -148,8 +158,8 @@ describe('<EditGuideline/>', () => {
   });
 
   it('shows a cancel button when editing', async () => {
+    const component: any = wrapper.find('EditGuideline').instance();
     await act(async () => {
-      const component: any = wrapper.find('EditGuideline').instance();
       component.setEditState('2', '5', 'guideline to be updated');
 
       await wait(0);
@@ -168,8 +178,8 @@ describe('<EditGuideline/>', () => {
   });
 
   it('clears the edit state when pressing the cancel buttons', async () => {
+    const component: any = wrapper.find('EditGuideline').instance();
     await act(async () => {
-      const component: any = wrapper.find('EditGuideline').instance();
       component.setEditState('2', '5', 'guideline to be updated');
 
       await wait(0);
@@ -185,18 +195,13 @@ describe('<EditGuideline/>', () => {
   });
 
   it('calls the refetch query', async () => {
+    const component: any = wrapper.find('EditGuideline').instance();
     await act(async () => {
-      simulateInputChange(wrapper, 'kudo-input', 'kudos', 10);
-      simulateInputChange(wrapper, 'description-input', 'description', 'test guideline');
-
+      component.setState({ kudos: 10, description: 'test guideline' });
       await wrapper.update();
 
-      // It's a form submit so we use the submit event instead of a button click.
-      // https://github.com/enzymejs/enzyme/issues/308
       findByTestId(wrapper, 'submit-button').hostNodes().simulate('submit');
 
-      // We have to update the state twice to trigger the refetch query.
-      // https://www.apollographql.com/docs/react/development-testing/testing/
       await wait(0);
       await wrapper.update();
 

@@ -9,9 +9,12 @@ describe('<ManageTeamPage/>', () => {
   let wrapper: ReactWrapper;
   let history: MemoryHistory;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     history = createMemoryHistory();
-    wrapper = mount(withMockedProviders(<ManageTeamPage history={history} />));
+
+    await act(async () => {
+      wrapper = mount(withMockedProviders(<ManageTeamPage history={history} />));
+    });
   });
 
   it('navigates to the general section', async () => {

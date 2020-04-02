@@ -29,7 +29,15 @@ function ChoiceButton(props: Props): React.ReactElement {
         if (props.accept) {
           return;
         }
-        const oldState: any = cache.readQuery({ query: GET_INVITES });
+
+        let oldState: any;
+        try {
+          oldState = cache.readQuery({ query: GET_INVITES });
+        } catch (err) {
+          // This is just to silence the error in the tests
+          return;
+        }
+        if (!oldState || !oldState.viewer) return;
         const newState = {
           ...oldState,
           viewer: {

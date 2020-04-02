@@ -42,7 +42,19 @@ const mocks = [
       return {
         data: {
           teamById: {
-            kudoMeters: [],
+            kudosMeters: [
+              {
+                id: '1',
+                name: 'Kudometer',
+                goals: [
+                  {
+                    id: '1',
+                    amount: 100,
+                    name: 'Uit eten',
+                  },
+                ],
+              },
+            ],
           },
         },
       };
@@ -59,11 +71,19 @@ describe('<KudometerRow />', () => {
   beforeEach(() => {
     mutationCalled = false;
     queryCalled = false;
-    wrapper = mount(withMockedProviders(<KudometerRow
-      kudometer={kudometer}
-      viewButtonClickHandler={viewButtonHandler}
-      deleteKudometerHandler={deleteHandler}
-    />, mocks));
+    wrapper = mount(withMockedProviders(
+      <table>
+        <tbody>
+          <KudometerRow
+            key="1"
+            kudometer={kudometer}
+            viewButtonClickHandler={viewButtonHandler}
+            deleteKudometerHandler={deleteHandler}
+          />
+        </tbody>
+      </table>,
+      mocks,
+    ));
   });
 
   it('shows the kudometer name', () => {

@@ -7,7 +7,7 @@ import {
 } from '../../spec_helper';
 import { RepoList } from './RepoList';
 
-const mocks = [
+const mocks = (hasNextPage: boolean) => [
   {
     request: {
       query: GET_POSTS,
@@ -16,10 +16,13 @@ const mocks = [
     result: {
       data: {
         teamById: {
+          __typename: 'Team',
           posts: {
+            __typename: 'Posts',
             edges: [
               {
-                cursor: 'x',
+                __typename: 'Edge',
+                cursor: '1',
                 node: {
                   __typename: 'Post',
                   id: '1',
@@ -32,6 +35,7 @@ const mocks = [
                       name: 'Stefan',
                       email: 'stefan@example.com',
                       avatar: 'fakeAvatar',
+                      __typename: 'User',
                     },
                   ],
                   sender: {
@@ -39,12 +43,15 @@ const mocks = [
                     name: 'Max',
                     email: 'max@example.com',
                     avatar: 'fakeAvatar',
+                    __typename: 'User',
                   },
                   votes: [
                     {
+                      __typename: 'Vote',
                       voter: {
                         id: '5',
                         name: 'Egon',
+                        __typename: 'Voter',
                       },
                     },
                   ],
@@ -53,67 +60,10 @@ const mocks = [
             ],
             pageInfo: {
               endCursor: '2',
-              hasNextPage: false,
+              hasNextPage,
+              __typename: 'PageInfo',
             },
           },
-        },
-      },
-    },
-  },
-];
-
-const mocksWithNextPage = [
-  {
-    request: {
-      query: GET_POSTS,
-      variables: { team_id: '1' },
-    },
-    result: {
-      data: {
-        teamById: {
-          posts: {
-            edges: [
-              {
-                cursor: 'x',
-                __typename: 'PostEdge',
-                node: {
-                  __typename: 'Post',
-                  id: '1',
-                  amount: 5,
-                  message: 'test message',
-                  createdAt: '2020-03-10',
-                  receivers: [
-                    {
-                      id: '1',
-                      name: 'Stefan',
-                      email: 'stefan@example.com',
-                      avatar: 'fakeAvatarUrl',
-                    },
-                  ],
-                  sender: {
-                    id: '1',
-                    name: 'Max',
-                    email: 'max@example.com',
-                    avatar: 'fakeAvatarUrl',
-                  },
-                  votes: [
-                    {
-                      voter: {
-                        id: '5',
-                        name: 'Egon',
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            pageInfo: {
-              endCursor: 'x',
-              hasNextPage: true,
-            },
-            __typename: 'PostConnection',
-          },
-          __typename: 'Team',
         },
       },
     },
@@ -130,35 +80,19 @@ const mocksWithError = [
   },
 ];
 
-const mocksWithoutData = [
-  {
-    request: {
-      query: GET_POSTS,
-      variables: { team_id: '1' },
-    },
-    result: {
-      data: {},
-    },
-  },
-];
 let wrapper: ReactWrapper;
 
 const setup = (mock: any) => {
-  wrapper = mount(withMockedProviders(<RepoList />, mock));
+  wrapper = mount(withMockedProviders(<RepoList />, mock, undefined, true));
 };
 
 describe('<RepoList />', () => {
   beforeEach(() => {
     mockLocalstorage('1');
-    setup(mocks);
+    setup(mocks(false));
   });
 
   it('should show loading when the query is loading', async () => {
-    expect(wrapper.find('TransactionLoading').length).toBe(4);
-  });
-
-  it('should show loading when there is no data', async () => {
-    setup(mocksWithoutData);
     expect(wrapper.find('TransactionLoading').length).toBe(4);
   });
 
@@ -182,7 +116,7 @@ describe('<RepoList />', () => {
   });
 
   it('should show a load next button when there are more posts', async () => {
-    setup(mocksWithNextPage);
+    setup(mocks(true));
     await act(async () => {
       await wait(0);
       await wrapper.update();

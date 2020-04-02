@@ -33,19 +33,6 @@ const mocks = [
   },
 ];
 
-const noDataMocks = [
-  {
-    request: {
-      query: GET_GUIDELINES,
-      variables: { team_id: '1' },
-    },
-    result: {
-      data: {
-      },
-    },
-  },
-];
-
 const errorMocks = [
   {
     request: {
@@ -79,18 +66,6 @@ describe('<GuidelinesSection />', () => {
       expect(wrapper.containsMatchingElement(<p>Error! Network error: it went wrong</p>)).toBe(true);
     });
   });
-
-  it('shows when there are no guidelines', async () => {
-    wrapper = mount(withMockedProviders(<GuidelineSection />, noDataMocks));
-
-    await act(async () => {
-      await wait(0);
-      await wrapper.update();
-
-      expect(wrapper.containsMatchingElement(<p>No guidelines available</p>)).toBe(true);
-    });
-  });
-
 
   it('shows a row for each guideline ', async () => {
     await act(async () => {

@@ -110,7 +110,7 @@ class CreateTeamPage extends Component<Props, State> {
               {(createTeam, { error, loading }) => (
                 <Form error={!!error} style={{ maxWidth: '420px', margin: 'auto' }}>
                   <Form.Input
-                    data-testid="create-team-input"
+                    data-testid="name-input"
                     label="Team name"
                     fluid
                     icon="tag"

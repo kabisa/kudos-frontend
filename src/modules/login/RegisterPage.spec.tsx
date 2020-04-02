@@ -23,10 +23,12 @@ const mocks = [
       mutationCalled = true;
       return {
         data: {
-          authenticateData: {
-            token: '1',
-            user: {
-              id: '1',
+          signUpUser: {
+            authenticateData: {
+              token: '1',
+              user: {
+                id: '1',
+              },
             },
           },
         },

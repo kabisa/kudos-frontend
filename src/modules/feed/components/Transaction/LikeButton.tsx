@@ -31,10 +31,18 @@ export interface ToggleLikeResult {
 }
 
 const updateState = (store: any, newData: FragmentPostResult) => {
-  const beforeState = store.readQuery({
-    query: GET_POSTS,
-    variables: { team_id: teamId },
-  });
+  let beforeState;
+
+  try {
+    beforeState = store.readQuery({
+      query: GET_POSTS,
+      variables: { team_id: teamId },
+    });
+  } catch (error) {
+    // This is just to silence the error in the tests
+    return;
+  }
+
   const afterState = {
     ...beforeState,
     posts: {

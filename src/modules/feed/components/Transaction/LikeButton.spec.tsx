@@ -7,41 +7,6 @@ import {
 import LikeButton, { MUTATION_TOGGLE_LIKE } from './LikeButton';
 import { FragmentPostResult, GET_GOAL_PERCENTAGE } from '../../queries';
 
-let mutationCalled = false;
-const mocks = [
-  {
-    request: {
-      query: MUTATION_TOGGLE_LIKE,
-      variables: { id: '1' },
-    },
-    result: () => {
-      mutationCalled = true;
-      return {
-        data: {
-          toggleLikePost: {
-            post: {},
-          },
-        },
-      };
-    },
-  },
-  {
-    request: {
-      query: GET_GOAL_PERCENTAGE,
-      variables: { team_id: '1' },
-    },
-    result: () => {
-      mutationCalled = true;
-      return {
-        data: {
-          teamById: {
-          },
-        },
-      };
-    },
-  },
-];
-
 const likedPost: FragmentPostResult = {
   amount: 5,
   createdAt: '2020-03-01',
@@ -68,6 +33,45 @@ const likedPost: FragmentPostResult = {
     },
   ],
 };
+
+let mutationCalled = false;
+const mocks = [
+  {
+    request: {
+      query: MUTATION_TOGGLE_LIKE,
+      variables: { id: '1' },
+    },
+    result: () => {
+      mutationCalled = true;
+      return {
+        data: {
+          toggleLikePost: {
+            post: {
+              ...likedPost,
+              __typename: 'Post',
+            },
+          },
+        },
+      };
+    },
+  },
+  {
+    request: {
+      query: GET_GOAL_PERCENTAGE,
+      variables: { team_id: '1' },
+    },
+    result: () => {
+      mutationCalled = true;
+      return {
+        data: {
+          teamById: {
+          },
+        },
+      };
+    },
+  },
+];
+
 let wrapper: ReactWrapper;
 
 const setup = (liked: boolean, post: FragmentPostResult) => {

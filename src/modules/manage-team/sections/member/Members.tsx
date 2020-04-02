@@ -128,7 +128,7 @@ export default class MemberSection extends Component<Props, State> {
                   <Table.Body>
                     {(data && data.teamById && data.teamById.memberships) ? data.teamById.memberships.map((item) => (
                       <MemberRow key={item.id} membership={item} refetch={refetch} />
-                    )) : <Table.Row>No memberships available</Table.Row>}
+                    )) : <Table.Row><Table.Cell>No memberships available</Table.Cell></Table.Row>}
                   </Table.Body>
                 </Table>
               </div>

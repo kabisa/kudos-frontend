@@ -32,7 +32,9 @@ const mocks = [
             post: {
               id: '1',
               amount: 5,
+              __typename: 'Post',
             },
+            __typename: 'CreatePost',
           },
         },
       };
@@ -48,7 +50,24 @@ const mocks = [
     result: () => {
       goalPercentageQueryCalled = true;
       return {
-        data: {},
+        data: {
+          teamById: {
+            __typename: 'Team',
+            activeKudosMeter: {
+              amount: 1,
+              __typename: 'KudosMeter',
+            },
+            activeGoals: [
+              {
+                achievedOn: '2020-03-01',
+                id: '1',
+                name: 'Goal',
+                amount: 50,
+                __typename: 'Goal',
+              },
+            ],
+          },
+        },
       };
     },
   },
@@ -62,7 +81,58 @@ const mocks = [
     result: () => {
       getPostQueryCalled = true;
       return {
-        data: {},
+        data: {
+          teamById: {
+            __typename: 'Team',
+            posts: {
+              __typename: 'Posts',
+              edges: [
+                {
+                  __typename: 'Edge',
+                  cursor: 'x',
+                  node: {
+                    __typename: 'Post',
+                    id: '1',
+                    amount: 5,
+                    message: 'test message',
+                    createdAt: '2020-03-10',
+                    receivers: [
+                      {
+                        id: '1',
+                        name: 'Stefan',
+                        email: 'stefan@example.com',
+                        avatar: 'fakeAvatar',
+                        __typename: 'User',
+                      },
+                    ],
+                    sender: {
+                      id: '1',
+                      name: 'Max',
+                      email: 'max@example.com',
+                      avatar: 'fakeAvatar',
+                      __typename: 'User',
+                    },
+                    votes: [
+                      {
+                        __typename: 'Vote',
+                        voter: {
+                          id: '5',
+                          name: 'Egon',
+                          __typename: 'Voter',
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+              pageInfo: {
+                endCursor: '2',
+                hasNextPage: false,
+                __typename: 'PageInfo',
+              },
+            },
+          },
+        },
       };
     },
   },

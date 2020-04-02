@@ -49,7 +49,7 @@ const mocks = [
       updateMutationCalled = true;
       return {
         data: {
-          createGoal: {
+          updateGoal: {
             goal: {
               id: '2',
             },
@@ -66,7 +66,23 @@ const mocks = [
       },
     },
     result: () => ({
-      data: {},
+      data: {
+        teamById: {
+          kudosMeters: [
+            {
+              id: '1',
+              name: 'Kudometer',
+              goals: [
+                {
+                  id: '1',
+                  amount: 100,
+                  name: 'Uit eten',
+                },
+              ],
+            },
+          ],
+        },
+      },
     }),
   },
 ];

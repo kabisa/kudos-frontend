@@ -68,13 +68,19 @@ describe('<Guideline />', () => {
   let wrapper: ReactWrapper;
 
   beforeEach(() => {
-    wrapper = mount(withMockedProviders(<Guideline
-      key={guideline.key}
-      name={guideline.name}
-      id={guideline.id}
-      kudos={guideline.kudos}
-      editGuideline={editGuidelineMock}
-    />, mocks));
+    wrapper = mount(withMockedProviders(
+      <table>
+        <tbody>
+          <Guideline
+            key={guideline.key}
+            name={guideline.name}
+            id={guideline.id}
+            kudos={guideline.kudos}
+            editGuideline={editGuidelineMock}
+          />
+        </tbody>
+      </table>, mocks,
+    ));
   });
 
   it('renders the guideline name', () => {
