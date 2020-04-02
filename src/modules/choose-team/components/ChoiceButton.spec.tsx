@@ -75,7 +75,7 @@ describe('<ChoiceButton />', () => {
   });
 
   it('sets the team id if the accept property is true', async () => {
-    jest.spyOn(window.localStorage.__proto__, 'setItem');
+    const spy = jest.spyOn(window.localStorage.__proto__, 'setItem');
 
     await act(async () => {
       wrapper.find('.button').hostNodes().simulate('click');
@@ -83,7 +83,7 @@ describe('<ChoiceButton />', () => {
       await wait(0);
       wrapper.update();
 
-      expect(localStorage.setItem).toBeCalledWith('team_id', '1');
+      expect(spy).toBeCalledWith('team_id', '1');
     });
   });
 
@@ -108,7 +108,7 @@ describe('<ChoiceButton />', () => {
       text="button text"
     />, mocks));
 
-    jest.spyOn(window.localStorage.__proto__, 'setItem');
+    const spy = jest.spyOn(window.localStorage.__proto__, 'setItem');
 
     await act(async () => {
       wrapper.find('.button').hostNodes().simulate('click');
@@ -116,7 +116,7 @@ describe('<ChoiceButton />', () => {
       await wait(0);
       wrapper.update();
 
-      expect(localStorage.setItem).toBeCalledTimes(0);
+      expect(spy).toBeCalledTimes(0);
     });
   });
 });
