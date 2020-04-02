@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { withRouter } from 'react-router-dom';
 import { History } from 'history';
 import settings from '../../config/settings';
-import { ERROR_NAME_BLANK, getGraphqlError } from '../../support';
+import { ERROR_NAME_BLANK } from '../../support';
 import { Navigation, Toolbar } from '../../components/navigation';
 import { PATH_FEED } from '../../routes';
 
@@ -41,52 +41,41 @@ export interface Props {
 export interface State {
   name: string;
   error: string;
-  error_name: string;
 }
 
 class CreateTeamPage extends Component<Props, State> {
-  cleanErrors: {
-    error: string;
-    error_name: string;
-  };
-
   initialState: State;
 
   constructor(props: Props) {
     super(props);
 
-    this.cleanErrors = {
-      error: '',
-      error_name: '',
-    };
-
     this.state = {
       name: '',
-      ...this.cleanErrors,
+      error: '',
     };
 
     this.initialState = this.state;
 
     this.createTeam = this.createTeam.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.checkErrors = this.checkErrors.bind(this);
+    this.hasErrors = this.hasErrors.bind(this);
   }
 
-  checkErrors() {
+  hasErrors() {
     const { name } = this.state;
-    this.setState(this.cleanErrors);
+    this.setState({ error: '' });
 
     if (!name) {
       this.setState({ error: ERROR_NAME_BLANK });
-      return false;
+      return true;
     }
-    return true;
+    return false;
   }
 
   createTeam(mutate: any) {
     const { name } = this.state;
 
-    if (!this.checkErrors()) {
+    if (this.hasErrors()) {
       return;
     }
 
@@ -110,6 +99,7 @@ class CreateTeamPage extends Component<Props, State> {
           <div className={s.page}>
             <Mutation<CreateTeamResult, CreateTeamParameters>
               mutation={MUTATION_CREATE_TEAM}
+              onError={(error) => this.setState({ error: error.message })}
               onCompleted={({ createTeam }) => {
                 this.setState(this.initialState);
                 localStorage.setItem(settings.TEAM_ID_TOKEN, createTeam.team.id);
@@ -117,47 +107,38 @@ class CreateTeamPage extends Component<Props, State> {
                 this.props.history.push(PATH_FEED);
               }}
             >
-              {(createTeam, { error, loading }) => {
-                let displayError;
-                if (error) {
-                  displayError = getGraphqlError(error);
-                }
-                if (this.state.error) {
-                  displayError = this.state.error;
-                }
-                return (
-                  <Form style={{ maxWidth: '420px', margin: 'auto' }}>
-                    <Form.Input
-                      data-testid="create-team-input"
-                      label="Team name"
-                      fluid
-                      icon="tag"
-                      name="name"
-                      iconPosition="left"
-                      placeholder="Team name"
-                      error={this.state.error_name}
-                      value={this.state.name}
-                      onChange={this.handleChange}
-                    />
-                    <Button
-                      data-testid="create-team-button"
-                      className={s.button}
-                      color="blue"
-                      loading={loading}
-                      disabled={loading}
-                      onClick={() => this.createTeam(createTeam)}
-                    >
-                      Create team
-                    </Button>
-                    {displayError && (
+              {(createTeam, { error, loading }) => (
+                <Form error={!!error} style={{ maxWidth: '420px', margin: 'auto' }}>
+                  <Form.Input
+                    data-testid="create-team-input"
+                    label="Team name"
+                    fluid
+                    icon="tag"
+                    name="name"
+                    iconPosition="left"
+                    placeholder="Team name"
+                    error={this.state.error}
+                    value={this.state.name}
+                    onChange={this.handleChange}
+                  />
+                  <Button
+                    data-testid="create-team-button"
+                    className={s.button}
+                    color="blue"
+                    loading={loading}
+                    disabled={loading}
+                    onClick={() => this.createTeam(createTeam)}
+                  >
+                    Create team
+                  </Button>
+                  {this.state.error && (
                     <Message negative>
                       <Message.Header>Unable to create team</Message.Header>
-                      <p>{displayError}</p>
+                      <p data-testid="error-message">{this.state.error}</p>
                     </Message>
-                    )}
-                  </Form>
-                );
-              }}
+                  )}
+                </Form>
+              )}
             </Mutation>
           </div>
         </div>

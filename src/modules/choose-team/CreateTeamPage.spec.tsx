@@ -1,7 +1,6 @@
 import React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 import { act } from 'react-dom/test-utils';
-import { Message } from 'semantic-ui-react';
 import {
   findByTestId, findInputByTestId, wait, withMockedProviders,
 } from '../../spec_helper';
@@ -21,13 +20,26 @@ const mocks = [
   },
 ];
 
+const mocksWithError = [
+  {
+    request: {
+      query: MUTATION_CREATE_TEAM,
+      variables: { name: 'Kabisa' },
+    },
+    error: new Error('It broke'),
+  },
+];
+
+
 describe('<CreateTeamPage />', () => {
   let wrapper: ReactWrapper;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     mutationCalled = false;
 
-    wrapper = mount(withMockedProviders(<CreateTeamPage />, mocks));
+    await act(async () => {
+      wrapper = mount(withMockedProviders(<CreateTeamPage />, mocks));
+    });
   });
 
   it('renders a name field', () => {
@@ -45,7 +57,7 @@ describe('<CreateTeamPage />', () => {
       await wait(0);
       wrapper.update();
 
-      expect(wrapper.find(Message).length).toBe(1);
+      expect(findByTestId(wrapper, 'error-message').text()).toBe('Name can\'t be blank.');
     });
   });
 
@@ -60,6 +72,23 @@ describe('<CreateTeamPage />', () => {
       findByTestId(wrapper, 'create-team-button').hostNodes().simulate('click');
 
       expect(wrapper.find('.loading').length).toBe(1);
+    });
+  });
+
+  it('shows when there is an error', async () => {
+    wrapper = mount(withMockedProviders(<CreateTeamPage />, mocksWithError));
+    const component = wrapper.find('CreateTeamPage').instance();
+
+    await act(async () => {
+      component.setState({ name: 'Kabisa' });
+      await wrapper.update();
+
+      findByTestId(wrapper, 'create-team-button').hostNodes().simulate('click');
+
+      await wait(0);
+      await wrapper.update();
+
+      expect(findByTestId(wrapper, 'error-message').text()).toBe('Network error: It broke');
     });
   });
 
