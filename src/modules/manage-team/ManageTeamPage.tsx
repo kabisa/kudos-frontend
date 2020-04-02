@@ -5,7 +5,7 @@ import { Route, Switch, withRouter } from 'react-router-dom';
 import { History } from 'history';
 import { Navigation } from '../../components/navigation';
 
-import s from '../feed/AddTransactionPage.module.scss';
+import s from '../feed/FeedPage.module.scss';
 import {
   GeneralSection, InviteSection, MemberSection, KudometerSection, GuidelineSection,
 } from './sections';

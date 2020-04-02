@@ -5,7 +5,7 @@ import gql from 'graphql-tag';
 
 import settings from '../../../../config/settings';
 
-import s from '../../AddTransactionPage.module.scss';
+import s from '../../FeedPage.module.scss';
 
 const KUDO_GUIDELINE_RANGE = 5;
 

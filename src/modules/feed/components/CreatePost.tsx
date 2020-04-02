@@ -23,7 +23,7 @@ import {
   FragmentPostResult, GET_GOAL_PERCENTAGE, GET_POSTS, GET_USERS, User,
 } from '../queries';
 
-import s from '../AddTransactionPage.module.scss';
+import s from '../FeedPage.module.scss';
 
 export const CREATE_POST = gql`
     mutation CreatePost($message: String, $kudos: Int, $receivers: [ID!], $virtual_receivers: [String!], $team_id: ID) {

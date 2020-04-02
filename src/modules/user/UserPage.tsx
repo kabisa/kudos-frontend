@@ -68,7 +68,7 @@ export function UserPage(props: Props): React.ReactElement {
           >
             Change password
           </Button>
-          <Button color="red" onClick={() => logout(props.history)} className={s.button}>
+          <Button color="red" onClick={() => logout()} className={s.button}>
             Log out
           </Button>
         </div>
