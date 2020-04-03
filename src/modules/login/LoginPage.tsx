@@ -168,7 +168,7 @@ class LoginPage extends Component<Props, State> {
                   {displayError && (
                   <Message negative>
                     <Message.Header>Unable to login</Message.Header>
-                    <p>{displayError}</p>
+                    <p data-testid="error-message">{displayError}</p>
                   </Message>
                   )}
                 </Form>

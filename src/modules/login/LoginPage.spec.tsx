@@ -126,7 +126,7 @@ describe('<LoginPage />', () => {
       await wait(0);
       await wrapper.update();
 
-      expect(wrapper.containsMatchingElement(<p>Network error: It broke</p>)).toBe(true);
+      expect(findByTestId(wrapper, 'error-message').text()).toBe('Network error: It broke');
     });
   });
 
