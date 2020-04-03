@@ -56,34 +56,25 @@ function ChoiceButton(props: Props): React.ReactElement {
         });
       }}
     >
-      {(mutate, { loading }) => {
-        if (loading) {
-          return (
-            <Button color={props.color} size="small" className={s.button} loading>
-              {props.text}
-            </Button>
-          );
-        }
-
-        return (
-          <Button
-            color={props.color}
-            size="small"
-            className={s.button}
-            onClick={() => {
-              mutate({ variables: { team_invite_id: props.inviteId } });
-              if (props.accept) {
-                localStorage.setItem(settings.TEAM_ID_TOKEN, props.teamId);
-                toast.info('Invite successfully accepted!');
-                props.history.push(PATH_FEED);
-              }
-              toast.info('Invite successfully declined!');
-            }}
-          >
-            {props.text}
-          </Button>
-        );
-      }}
+      {(mutate, { loading }) => (
+        <Button
+          loading={loading}
+          color={props.color}
+          size="small"
+          className={s.button}
+          onClick={() => {
+            mutate({ variables: { team_invite_id: props.inviteId } });
+            if (props.accept) {
+              localStorage.setItem(settings.TEAM_ID_TOKEN, props.teamId);
+              toast.info('Invite successfully accepted!');
+              props.history.push(PATH_FEED);
+            }
+            toast.info('Invite successfully declined!');
+          }}
+        >
+          {props.text}
+        </Button>
+      )}
     </Mutation>
   );
 }
