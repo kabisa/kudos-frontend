@@ -1,6 +1,10 @@
 import { loginSuccess, LoginSuccessParams } from './helper';
 
 describe('login helper', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('calls localstorage', () => {
     const spy = jest.spyOn(Storage.prototype, 'setItem');
 

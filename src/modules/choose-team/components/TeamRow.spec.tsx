@@ -11,6 +11,7 @@ describe('<TeamRow />', () => {
 
   beforeEach(() => {
     history = createMemoryHistory();
+    jest.clearAllMocks();
 
     wrapper = mount(withMockedProviders(
       <TeamRow
@@ -27,28 +28,26 @@ describe('<TeamRow />', () => {
   });
 
   it('sets the team id on button click', async () => {
-    // eslint-disable-next-line no-proto
-    jest.spyOn(window.localStorage.__proto__, 'setItem');
+    const spy = jest.spyOn(Storage.prototype, 'setItem');
 
     await act(async () => {
       wrapper.find('.button').hostNodes().simulate('click');
 
       await wait(0);
 
-      expect(localStorage.setItem).toBeCalledWith('team_id', '1');
+      expect(spy).toBeCalledWith('team_id', '1');
     });
   });
 
   it('sets the user role on button click', async () => {
-    // eslint-disable-next-line no-proto
-    jest.spyOn(window.localStorage.__proto__, 'setItem');
+    const spy = jest.spyOn(Storage.prototype, 'setItem');
 
     await act(async () => {
       wrapper.find('.button').hostNodes().simulate('click');
 
       await wait(0);
 
-      expect(localStorage.setItem).toBeCalledWith('team_role', 'Admin');
+      expect(spy).toBeCalledWith('team_role', 'Admin');
     });
   });
 

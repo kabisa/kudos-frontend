@@ -51,7 +51,6 @@ describe('<ChoiceButton />', () => {
 
   afterEach(() => {
     jest.clearAllMocks();
-    jest.resetAllMocks();
   });
 
   it('renders the provided text', () => {

@@ -36,6 +36,7 @@ describe('<CreateTeamPage />', () => {
 
   beforeEach(async () => {
     mutationCalled = false;
+    jest.clearAllMocks();
 
     await act(async () => {
       wrapper = mount(withMockedProviders(<CreateTeamPage />, mocks));
@@ -120,8 +121,7 @@ describe('<CreateTeamPage />', () => {
   });
 
   it('sets the team id in local storage if the mutation is successful', async () => {
-    // eslint-disable-next-line no-proto
-    jest.spyOn(window.localStorage.__proto__, 'setItem');
+    const spy = jest.spyOn(Storage.prototype, 'setItem');
     const component = wrapper.find('CreateTeamPage').instance();
 
     await act(async () => {
@@ -134,7 +134,7 @@ describe('<CreateTeamPage />', () => {
 
       wrapper.update();
 
-      expect(localStorage.setItem).toBeCalledWith('team_id', '1');
+      expect(spy).toBeCalledWith('team_id', '1');
     });
   });
 });
