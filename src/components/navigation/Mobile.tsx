@@ -6,6 +6,7 @@ import { History } from 'history';
 import * as routes from '../../routes';
 import settings from '../../config/settings';
 import s from './Mobile.module.scss';
+import { Storage } from '../../support/storage';
 
 export interface IconComponentProps {
   path: string;
@@ -32,7 +33,7 @@ export interface MobileProps {
 }
 
 function mobile(props: MobileProps) {
-  const isLoggedIn = localStorage.getItem(settings.TEAM_ID_TOKEN);
+  const isLoggedIn = Storage.getItem(settings.TEAM_ID_TOKEN);
   return (
     <div className={s.bottom_navigation}>
       <IconComponent

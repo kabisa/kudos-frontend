@@ -9,6 +9,7 @@ import {
 import settings from '../../../../config/settings';
 import s from '../../../settings/Settings.module.scss';
 import { QUERY_GET_INVITES } from './InvitesSection';
+import { Storage } from '../../../../support/storage';
 
 export const MUTATION_CREATE_INVITE = gql`
     mutation CreateInvite($emails: [EmailAddress!]!, $team_id: ID!) {
@@ -73,7 +74,7 @@ export class CreateInvite extends Component<Props, State> {
     mutate({
       variables: {
         emails: list,
-        team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+        team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
       },
     });
   }
@@ -90,7 +91,7 @@ export class CreateInvite extends Component<Props, State> {
           {
             query: QUERY_GET_INVITES,
             variables: {
-              team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+              team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
             },
           },
         ]}

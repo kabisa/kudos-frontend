@@ -16,6 +16,7 @@ import {
 } from './KudometerQuerries';
 import { Goals } from './goals/Goals';
 import { KudometerRow } from './KudometerRow';
+import { Storage } from '../../../../support/storage';
 
 export interface Props {
   // Future props go here
@@ -68,7 +69,7 @@ class KudometerSection extends Component<Props, State> {
     mutate({
       variables: {
         name: this.state.name,
-        team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+        team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
       },
     });
   }
@@ -102,7 +103,7 @@ class KudometerSection extends Component<Props, State> {
             {
               query: GET_KUDOMETERS,
               variables: {
-                team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+                team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
               },
             },
           ]}
@@ -143,7 +144,7 @@ class KudometerSection extends Component<Props, State> {
         <Divider />
         <Query<GetKudoMetersResult>
           query={GET_KUDOMETERS}
-          variables={{ team_id: localStorage.getItem(settings.TEAM_ID_TOKEN) }}
+          variables={{ team_id: Storage.getItem(settings.TEAM_ID_TOKEN) }}
         >
           {({ loading, error, data }) => {
             if (loading) return <p> Loading... </p>;

@@ -1,12 +1,9 @@
 import { loginSuccess, LoginSuccessParams } from './helper';
+import { Storage } from '../../support/storage';
 
 describe('login helper', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
   it('calls localstorage', () => {
-    const spy = jest.spyOn(Storage.prototype, 'setItem');
+    Storage.setItem = jest.fn();
 
     const params: LoginSuccessParams = {
       token: 'fakeToken',
@@ -16,7 +13,7 @@ describe('login helper', () => {
     };
     loginSuccess(params);
 
-    expect(spy).toBeCalledWith('token', 'fakeToken');
-    expect(spy).toBeCalledWith('user_id', '1');
+    expect(Storage.setItem).toBeCalledWith('token', 'fakeToken');
+    expect(Storage.setItem).toBeCalledWith('user_id', '1');
   });
 });

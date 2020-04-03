@@ -6,7 +6,7 @@ import {
 import gql from 'graphql-tag';
 import { Query } from '@apollo/react-components';
 import settings from '../../../../config/settings';
-
+import { Storage } from '../../../../support/storage';
 import { Invite } from './Invite';
 import { CreateInvite } from './CreateInvite';
 
@@ -53,7 +53,7 @@ export function InviteSection(): React.ReactElement {
       <Divider />
       <Query<GetInvitesResult>
         query={QUERY_GET_INVITES}
-        variables={{ team_id: localStorage.getItem(settings.TEAM_ID_TOKEN) }}
+        variables={{ team_id: Storage.getItem(settings.TEAM_ID_TOKEN) }}
       >
         {({ loading, error, data }) => {
           if (loading) return <p>Loading...</p>;

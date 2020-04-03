@@ -4,8 +4,9 @@ import LikeButton from './LikeButton';
 import { Header } from './Header';
 import settings from '../../../../config/settings';
 import { FragmentPostResult } from '../../queries';
+import { Storage } from '../../../../support/storage';
 
-const userId = localStorage.getItem(settings.USER_ID_TOKEN);
+const userId = Storage.getItem(settings.USER_ID_TOKEN);
 
 export interface TransactionProps {
   transaction: FragmentPostResult;

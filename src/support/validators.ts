@@ -1,5 +1,6 @@
 /* eslint-disable */
 import settings from "../config/settings";
+import { Storage } from './storage';
 
 export function validateEmail(email: string): boolean {
   // Taken from https://stackoverflow.com/a/46181
@@ -12,9 +13,9 @@ export function getMultipleEmails(emails: string) {
 }
 
 export function isAdmin(): boolean {
-  return localStorage.getItem(settings.ROLE_TOKEN) === "admin";
+  return Storage.getItem(settings.ROLE_TOKEN) === "admin";
 }
 
 export function isModerator(): boolean {
-  return localStorage.getItem(settings.ROLE_TOKEN) === "moderator";
+  return Storage.getItem(settings.ROLE_TOKEN) === "moderator";
 }

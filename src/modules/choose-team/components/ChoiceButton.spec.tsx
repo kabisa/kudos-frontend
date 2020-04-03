@@ -6,6 +6,7 @@ import { act } from 'react-dom/test-utils';
 import { createMemoryHistory, MemoryHistory } from 'history';
 import ChoiceButton from './ChoiceButton';
 import { wait, withMockedProviders } from '../../../spec_helper';
+import { Storage } from '../../../support/storage';
 
 const fakeMutation = gql`
     mutation fakeMutation($team_invite_id: ID!) {
@@ -37,6 +38,7 @@ describe('<ChoiceButton />', () => {
   beforeEach(() => {
     mutationCalled = false;
     history = createMemoryHistory();
+    Storage.setItem = jest.fn();
 
     wrapper = mount(withMockedProviders(<ChoiceButton
       inviteId="1"
@@ -47,10 +49,6 @@ describe('<ChoiceButton />', () => {
       teamId="1"
       text="button text"
     />, mocks));
-  });
-
-  afterEach(() => {
-    jest.clearAllMocks();
   });
 
   it('renders the provided text', () => {
@@ -74,15 +72,13 @@ describe('<ChoiceButton />', () => {
   });
 
   it('sets the team id if the accept property is true', async () => {
-    const spy = jest.spyOn(Storage.prototype, 'setItem');
-
     await act(async () => {
       wrapper.find('.button').hostNodes().simulate('click');
 
       await wait(0);
       wrapper.update();
 
-      expect(spy).toBeCalledWith('team_id', '1');
+      expect(Storage.setItem).toBeCalledWith('team_id', '1');
     });
   });
 
@@ -107,15 +103,13 @@ describe('<ChoiceButton />', () => {
       text="button text"
     />, mocks));
 
-    const spy = jest.spyOn(Storage.prototype, 'setItem');
-
     await act(async () => {
       wrapper.find('.button').hostNodes().simulate('click');
 
       await wait(0);
       wrapper.update();
 
-      expect(spy).toBeCalledTimes(0);
+      expect(Storage.setItem).toBeCalledTimes(0);
     });
   });
 });

@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import gql from 'graphql-tag';
 import settings from '../../../../config/settings';
 import { GET_GUIDELINES } from './GuidelinesSection';
+import { Storage } from '../../../../support/storage';
 
 export const DELETE_GUIDELINE = gql`
     mutation DeleteGuideline($id: ID!) {
@@ -48,7 +49,7 @@ export function Guideline(props: GuidelineProps): React.ReactElement {
             {
               query: GET_GUIDELINES,
               variables: {
-                team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+                team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
               },
             },
           ]}

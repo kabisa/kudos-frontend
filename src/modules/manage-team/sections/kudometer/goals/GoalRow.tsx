@@ -6,6 +6,7 @@ import {
   DELETE_GOAL, DeleteGoalParameters, GET_KUDOMETERS, Goal,
 } from '../KudometerQuerries';
 import settings from '../../../../../config/settings';
+import { Storage } from '../../../../../support/storage';
 
 export interface GoalRowProps {
   key: string,
@@ -39,7 +40,7 @@ export function GoalRow(props: GoalRowProps): React.ReactElement {
             {
               query: GET_KUDOMETERS,
               variables: {
-                team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+                team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
               },
             },
           ]}

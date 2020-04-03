@@ -7,7 +7,7 @@ import { Query } from '@apollo/react-components';
 import settings from '../../../../config/settings';
 import { EditGuideline } from './EditGuideline';
 import { Guideline } from './Guideline';
-
+import { Storage } from '../../../../support/storage';
 
 export const CREATE_GUIDELINE = gql`
     mutation CreateGuideline($name: String!, $kudos: Int!, $team_id: ID!) {
@@ -113,7 +113,7 @@ class GuidelineSection extends Component<Props, State> {
         <Divider />
         <Query<GetGuidelinesResult>
           query={GET_GUIDELINES}
-          variables={{ team_id: localStorage.getItem(settings.TEAM_ID_TOKEN) }}
+          variables={{ team_id: Storage.getItem(settings.TEAM_ID_TOKEN) }}
         >
           {({ loading, error, data }) => {
             if (loading) return <p>Loading...</p>;

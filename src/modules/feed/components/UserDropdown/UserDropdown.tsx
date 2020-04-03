@@ -5,6 +5,7 @@ import { Query } from '@apollo/react-components';
 import client from '../../../../client';
 import { GET_USERS, GetUsersResult, User } from '../../queries';
 import settings from '../../../../config/settings';
+import { Storage } from '../../../../support/storage';
 
 export interface DropDownProps extends PropsWithRef<any> {
   onChange: (value: []) => void;
@@ -50,7 +51,7 @@ class DropdownRemote extends Component<DropDownProps, DropDownState> {
     const oldState = client.readQuery({
       query: GET_USERS,
       variables: {
-        team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+        team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
       },
     });
 
@@ -90,7 +91,7 @@ class DropdownRemote extends Component<DropDownProps, DropDownState> {
     client.writeQuery({
       query: GET_USERS,
       variables: {
-        team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+        team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
       },
       data: newState,
     });
@@ -106,7 +107,7 @@ class DropdownRemote extends Component<DropDownProps, DropDownState> {
       <Query<GetUsersResult>
         query={GET_USERS}
         variables={{
-          team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+          team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
         }}
       >
         {({ loading, error, data }) => {

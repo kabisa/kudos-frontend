@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { Button } from 'semantic-ui-react';
 import { ALTER_ROLE, AlterRoleParameters, Membership } from './Members';
 import settings from '../../../../config/settings';
+import { Storage } from '../../../../support/storage';
 
 export interface AlterRoleButtonProps {
   refetch: () => void;
@@ -30,14 +31,14 @@ export function AlterRoleButton(props: AlterRoleButtonProps): React.ReactElement
       return {
         role: props.membership.role === 'member' ? 'moderator' : 'admin',
         userId: props.membership.user.id,
-        teamId: localStorage.getItem(settings.TEAM_ID_TOKEN),
+        teamId: Storage.getItem(settings.TEAM_ID_TOKEN),
       };
     }
 
     return {
       role: props.membership.role === 'moderator' ? 'member' : 'moderator',
       userId: props.membership.user.id,
-      teamId: localStorage.getItem(settings.TEAM_ID_TOKEN),
+      teamId: Storage.getItem(settings.TEAM_ID_TOKEN),
     };
   }
 

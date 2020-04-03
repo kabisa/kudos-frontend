@@ -8,7 +8,7 @@ import { DocumentNode } from 'graphql';
 import settings from '../../../config/settings';
 import { PATH_FEED } from '../../../routes';
 import { GET_INVITES } from './InviteList';
-
+import { Storage } from '../../../support/storage';
 import s from './ChooseTeam.module.scss';
 
 export interface Props {
@@ -65,7 +65,7 @@ function ChoiceButton(props: Props): React.ReactElement {
           onClick={() => {
             mutate({ variables: { team_invite_id: props.inviteId } });
             if (props.accept) {
-              localStorage.setItem(settings.TEAM_ID_TOKEN, props.teamId);
+              Storage.setItem(settings.TEAM_ID_TOKEN, props.teamId);
               toast.info('Invite successfully accepted!');
               props.history.push(PATH_FEED);
             }

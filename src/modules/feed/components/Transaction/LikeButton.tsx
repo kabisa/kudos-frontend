@@ -9,9 +9,10 @@ import settings from '../../../../config/settings';
 import {
   FRAGMENT_POST, FragmentPostResult, GET_GOAL_PERCENTAGE, GET_POSTS,
 } from '../../queries';
+import { Storage } from '../../../../support/storage';
 
-const userId = localStorage.getItem(settings.USER_ID_TOKEN);
-const teamId = localStorage.getItem(settings.TEAM_ID_TOKEN);
+const userId = Storage.getItem(settings.USER_ID_TOKEN);
+const teamId = Storage.getItem(settings.TEAM_ID_TOKEN);
 
 export const MUTATION_TOGGLE_LIKE = gql`
     mutation ToggleLikePost($id: ID!) {
@@ -123,7 +124,7 @@ function LikeButton(props: LikeButtonProps) {
             {
               query: GET_GOAL_PERCENTAGE,
               variables: {
-                team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+                team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
               },
             },
           ]}

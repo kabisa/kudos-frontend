@@ -8,7 +8,7 @@ import { History } from 'history';
 import settings from '../../../../config/settings';
 import { FragmentPostResult, GET_POSTS } from '../../queries';
 import { PATH_ADD_TRANSACTION } from '../../../../routes';
-
+import { Storage } from '../../../../support/storage';
 import s from './Header.module.scss';
 import { isTeamAdmin } from '../../../../support';
 
@@ -108,7 +108,7 @@ export class Header extends Component<Props, State> {
         <span data-testid="post-timestamp" className={s.timestamp}>
           {timestamp.fromNow()}
         </span>
-        {((localStorage.getItem(settings.USER_ID_TOKEN) === this.props.transaction.sender.id
+        {((Storage.getItem(settings.USER_ID_TOKEN) === this.props.transaction.sender.id
             && allowNormalEdit)
             || isTeamAdmin()) && (
             <Dropdown data-testid="post-dropdown" item icon="ellipsis vertical" direction="left" className={s.dropdown}>
@@ -119,7 +119,7 @@ export class Header extends Component<Props, State> {
                     {
                       query: GET_POSTS,
                       variables: {
-                        team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+                        team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
                       },
                     },
                   ]}

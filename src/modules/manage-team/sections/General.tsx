@@ -7,6 +7,7 @@ import gql from 'graphql-tag';
 import { toast } from 'react-toastify';
 import { Query, Mutation } from '@apollo/react-components';
 import settings from '../../../config/settings';
+import { Storage } from '../../../support/storage';
 
 export const GET_TEAM_NAME = gql`
     query GetTeamName($id: ID!) {
@@ -69,13 +70,13 @@ export default class GeneralSection extends Component<Props, State> {
     mutate({
       variables: {
         name: this.state.name,
-        team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+        team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
       },
       refetchQueries: [
         {
           query: GET_TEAM_NAME,
           variables: {
-            id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+            id: Storage.getItem(settings.TEAM_ID_TOKEN),
           },
         },
       ],
@@ -96,7 +97,7 @@ export default class GeneralSection extends Component<Props, State> {
         <Query<GetTeamNameResult>
           query={GET_TEAM_NAME}
           variables={{
-            id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+            id: Storage.getItem(settings.TEAM_ID_TOKEN),
           }}
         >
           {({

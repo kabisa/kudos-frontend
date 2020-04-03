@@ -5,6 +5,7 @@ import React from 'react';
 import settings from '../../../../config/settings';
 import { DEACTIVATE_USER, DeactivateUserParameters, Membership } from './Members';
 import { AlterRoleButton, AlterRoleButtonMode } from './AlterRoleButton';
+import { Storage } from '../../../../support/storage';
 
 export interface MemberRowProps {
   key: string
@@ -13,7 +14,7 @@ export interface MemberRowProps {
 }
 
 export function MemberRow(props: MemberRowProps) {
-  const userId = localStorage.getItem(settings.USER_ID_TOKEN) || '';
+  const userId = Storage.getItem(settings.USER_ID_TOKEN) || '';
 
   return (
     <Table.Row key={props.membership.id}>

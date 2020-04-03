@@ -7,6 +7,7 @@ import gql from 'graphql-tag';
 import { Circle } from '../../components/Circle';
 import settings from '../../config/settings';
 import { calculateProgress, getStrokeColor } from '../../support';
+import { Storage } from '../../support/storage';
 
 export const GET_GOAL_PERCENTAGE = gql`
     query getGoals($team_id: ID!) {
@@ -57,7 +58,7 @@ const Statistics = () => (
     <Query<GetGoalPercentageResult>
       query={GET_GOAL_PERCENTAGE}
       variables={{
-        team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+        team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
       }}
     >
       {({ loading, error, data }) => {

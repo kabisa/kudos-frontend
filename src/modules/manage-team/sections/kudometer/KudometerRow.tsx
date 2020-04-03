@@ -6,6 +6,7 @@ import {
   DELETE_KUDOMETER, DeleteKudometerParameters, GET_KUDOMETERS, Kudometer,
 } from './KudometerQuerries';
 import settings from '../../../../config/settings';
+import { Storage } from '../../../../support/storage';
 
 export interface KudometerRowProps {
   key: string,
@@ -43,7 +44,7 @@ export function KudometerRow(props: KudometerRowProps): React.ReactElement {
             {
               query: GET_KUDOMETERS,
               variables: {
-                team_id: localStorage.getItem(
+                team_id: Storage.getItem(
                   settings.TEAM_ID_TOKEN,
                 ),
               },

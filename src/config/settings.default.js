@@ -9,7 +9,7 @@ export default {
 
   API_BASE_URL: "http://localhost:3000",
 
-  // localStorage settings.
+  // Storage settings.
   LOCALSTORAGE_TOKEN: "token",
   TEAM_ID_TOKEN: "team_id",
   USER_ID_TOKEN: "user_id",

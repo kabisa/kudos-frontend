@@ -22,7 +22,7 @@ import BackButton from '../../login/BackButton';
 import {
   FragmentPostResult, GET_GOAL_PERCENTAGE, GET_POSTS, GET_USERS, User,
 } from '../queries';
-
+import { Storage } from '../../../support/storage';
 import s from '../FeedPage.module.scss';
 
 export const CREATE_POST = gql`
@@ -153,7 +153,7 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
     const { users } = client.readQuery({
       query: GET_USERS,
       variables: {
-        team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+        team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
       },
     }).teamById;
 
@@ -176,7 +176,7 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
         kudos: Number(amount),
         receivers: realReceivers,
         virtual_receivers: virtualReceivers,
-        team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+        team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
       },
     });
   }
@@ -222,7 +222,7 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
               const beforeState: any = cache.readQuery({
                 query: GET_GOAL_PERCENTAGE,
                 variables: {
-                  team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+                  team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
                 },
               });
               const afterState = {
@@ -238,7 +238,7 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
               cache.writeQuery({
                 query: GET_GOAL_PERCENTAGE,
                 variables: {
-                  team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+                  team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
                 },
                 data: afterState,
               });
@@ -247,13 +247,13 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
               {
                 query: GET_GOAL_PERCENTAGE,
                 variables: {
-                  team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+                  team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
                 },
               },
               {
                 query: GET_POSTS,
                 variables: {
-                  team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+                  team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
                 },
               },
             ]}

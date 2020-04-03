@@ -5,6 +5,7 @@ import {
   findByTestId, simulateInputChange, wait, withMockedProviders,
 } from '../../spec_helper';
 import CreateTeamPage, { MUTATION_CREATE_TEAM } from './CreateTeamPage';
+import { Storage } from '../../support/storage';
 
 let mutationCalled = false;
 const mocks = [
@@ -36,7 +37,7 @@ describe('<CreateTeamPage />', () => {
 
   beforeEach(async () => {
     mutationCalled = false;
-    jest.clearAllMocks();
+    Storage.setItem = jest.fn();
 
     await act(async () => {
       wrapper = mount(withMockedProviders(<CreateTeamPage />, mocks));
@@ -121,7 +122,6 @@ describe('<CreateTeamPage />', () => {
   });
 
   it('sets the team id in local storage if the mutation is successful', async () => {
-    const spy = jest.spyOn(Storage.prototype, 'setItem');
     const component = wrapper.find('CreateTeamPage').instance();
 
     await act(async () => {
@@ -134,7 +134,7 @@ describe('<CreateTeamPage />', () => {
 
       wrapper.update();
 
-      expect(spy).toBeCalledWith('team_id', '1');
+      expect(Storage.setItem).toBeCalledWith('team_id', '1');
     });
   });
 });

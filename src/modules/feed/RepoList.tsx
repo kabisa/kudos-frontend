@@ -4,12 +4,13 @@ import { Icon } from 'semantic-ui-react';
 import { GET_POSTS, GetPostsResult } from './queries';
 import settings from '../../config/settings';
 import { Transaction, TransactionLoading } from './components/Transaction';
+import { Storage } from '../../support/storage';
 
 export function RepoList(): React.ReactElement {
   return (
     <Query <GetPostsResult>
       query={GET_POSTS}
-      variables={{ team_id: localStorage.getItem(settings.TEAM_ID_TOKEN) }}
+      variables={{ team_id: Storage.getItem(settings.TEAM_ID_TOKEN) }}
       fetchPolicy="network-only"
     >
       {({
@@ -18,7 +19,7 @@ export function RepoList(): React.ReactElement {
         function loadMore() {
           fetchMore({
             variables: {
-              team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+              team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
               end: data?.teamById.posts.pageInfo.endCursor,
             },
             updateQuery: (previousResult: any = {}, { fetchMoreResult = {} }: any) => {

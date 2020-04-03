@@ -9,7 +9,7 @@ import settings from '../../config/settings';
 import { ERROR_NAME_BLANK } from '../../support';
 import { Navigation, Toolbar } from '../../components/navigation';
 import { PATH_FEED } from '../../routes';
-
+import { Storage } from '../../support/storage';
 import s from '../user/UserPage.module.scss';
 
 export const MUTATION_CREATE_TEAM = gql`
@@ -102,7 +102,7 @@ class CreateTeamPage extends Component<Props, State> {
               onError={(error) => this.setState({ error: error.message })}
               onCompleted={({ createTeam }) => {
                 this.setState(this.initialState);
-                localStorage.setItem(settings.TEAM_ID_TOKEN, createTeam.team.id);
+                Storage.setItem(settings.TEAM_ID_TOKEN, createTeam.team.id);
                 toast.info('Team created successfully!');
                 this.props.history.push(PATH_FEED);
               }}

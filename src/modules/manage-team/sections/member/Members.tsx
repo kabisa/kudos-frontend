@@ -5,6 +5,7 @@ import gql from 'graphql-tag';
 import { Query } from '@apollo/react-components';
 import settings from '../../../../config/settings';
 import { MemberRow } from './MemberRow';
+import { Storage } from '../../../../support/storage';
 
 export const GET_USERS = gql`
     query GetUsers($id: ID!) {
@@ -82,7 +83,7 @@ export default class MemberSection extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    this.userId = localStorage.getItem(settings.USER_ID_TOKEN) || '';
+    this.userId = Storage.getItem(settings.USER_ID_TOKEN) || '';
   }
 
   render() {
@@ -98,7 +99,7 @@ export default class MemberSection extends Component<Props, State> {
         <Divider />
         <Query<GetUsersResult>
           query={GET_USERS}
-          variables={{ id: localStorage.getItem(settings.TEAM_ID_TOKEN) }}
+          variables={{ id: Storage.getItem(settings.TEAM_ID_TOKEN) }}
         >
           {({ loading, error, data, refetch }) => {
             if (loading) return <p> Loading... </p>;

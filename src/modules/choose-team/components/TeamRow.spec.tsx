@@ -4,6 +4,7 @@ import { act } from 'react-dom/test-utils';
 import { createMemoryHistory, MemoryHistory } from 'history';
 import { wait, withMockedProviders } from '../../../spec_helper';
 import TeamRow from './TeamRow';
+import { Storage } from '../../../support/storage';
 
 describe('<TeamRow />', () => {
   let wrapper: ReactWrapper;
@@ -11,7 +12,7 @@ describe('<TeamRow />', () => {
 
   beforeEach(() => {
     history = createMemoryHistory();
-    jest.clearAllMocks();
+    Storage.setItem = jest.fn();
 
     wrapper = mount(withMockedProviders(
       <TeamRow
@@ -28,26 +29,22 @@ describe('<TeamRow />', () => {
   });
 
   it('sets the team id on button click', async () => {
-    const spy = jest.spyOn(Storage.prototype, 'setItem');
-
     await act(async () => {
       wrapper.find('.button').hostNodes().simulate('click');
 
       await wait(0);
 
-      expect(spy).toBeCalledWith('team_id', '1');
+      expect(Storage.setItem).toBeCalledWith('team_id', '1');
     });
   });
 
   it('sets the user role on button click', async () => {
-    const spy = jest.spyOn(Storage.prototype, 'setItem');
-
     await act(async () => {
       wrapper.find('.button').hostNodes().simulate('click');
 
       await wait(0);
 
-      expect(spy).toBeCalledWith('team_role', 'Admin');
+      expect(Storage.setItem).toBeCalledWith('team_role', 'Admin');
     });
   });
 

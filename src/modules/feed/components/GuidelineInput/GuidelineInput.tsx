@@ -2,7 +2,7 @@ import React, { ChangeEvent, Component } from 'react';
 import { Form, Label, Segment } from 'semantic-ui-react';
 import { Query } from '@apollo/react-components';
 import gql from 'graphql-tag';
-
+import { Storage } from '../../../../support/storage';
 import settings from '../../../../config/settings';
 
 import s from '../../FeedPage.module.scss';
@@ -116,7 +116,7 @@ class GuidelineInput extends Component<Props, State> {
         <Query<GetGuideLinesResult>
           query={GET_GUIDELINES}
           variables={{
-            team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+            team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
           }}
         >
           {({ loading, error, data }) => {

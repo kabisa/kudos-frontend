@@ -11,12 +11,13 @@ import { calculateProgress, getStrokeColor } from '../../../../support';
 
 import s from './GoalProgress.module.scss';
 import { GetGoalPercentageResult } from '../../../statistics/Statistics';
+import { Storage } from '../../../../support/storage';
 
 export const GoalProgress = () => (
   <Query<GetGoalPercentageResult>
     query={GET_GOAL_PERCENTAGE}
     variables={{
-      team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+      team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
     }}
   >
     {({ loading, error, data }) => {

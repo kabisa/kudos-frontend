@@ -5,6 +5,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { onError } from 'apollo-link-error';
 import { logout } from './support';
 import settings from './config/settings';
+import { Storage } from './support/storage';
 
 const handleError = ({ networkError }: any) => {
   if (networkError && networkError.statusCode === 401) {
@@ -16,8 +17,8 @@ const httpLink = new HttpLink({ uri: `${settings.API_BASE_URL}/graphql` });
 const authMiddleware = new ApolloLink((operation, forward) => {
   operation.setContext({
     headers: {
-      Authorization: localStorage.getItem(settings.LOCALSTORAGE_TOKEN)
-        ? `Bearer ${localStorage.getItem(settings.LOCALSTORAGE_TOKEN)}` : '',
+      Authorization: Storage.getItem(settings.LOCALSTORAGE_TOKEN)
+        ? `Bearer ${Storage.getItem(settings.LOCALSTORAGE_TOKEN)}` : '',
     },
   });
 

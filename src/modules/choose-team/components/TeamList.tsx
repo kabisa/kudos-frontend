@@ -9,6 +9,7 @@ import TeamRow from './TeamRow';
 import settings from '../../../config/settings';
 import { selectTeam } from '../utils';
 import { PATH_FEED } from '../../../routes';
+import { Storage } from '../../../support/storage';
 
 export const GET_TEAMS = gql`
     query getTeams {
@@ -55,7 +56,7 @@ function TeamList(props: Props): React.ReactElement {
         const { memberships } = data.viewer;
 
         if (memberships.length === 1) {
-          if (!localStorage.getItem(settings.TEAM_ID_TOKEN)) {
+          if (!Storage.getItem(settings.TEAM_ID_TOKEN)) {
             selectTeam(memberships[0].team.id, memberships[0].role);
             props.history.push(PATH_FEED);
           }

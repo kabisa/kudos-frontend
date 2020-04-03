@@ -8,6 +8,7 @@ import {
 } from '../KudometerQuerries';
 import settings from '../../../../../config/settings';
 import { getGraphqlError } from '../../../../../support';
+import { Storage } from '../../../../../support/storage';
 
 export interface EditGoalProps {
   kudometerId: string;
@@ -104,7 +105,7 @@ export class EditGoal extends React.Component<EditGoalProps, State> {
           {
             query: GET_KUDOMETERS,
             variables: {
-              team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+              team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
             },
           },
         ]}

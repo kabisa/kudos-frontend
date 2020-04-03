@@ -7,6 +7,7 @@ import { getGraphqlError } from '../../../../support';
 import {
   CREATE_GUIDELINE, CreateGuidelineParameters, GET_GUIDELINES, UPDATE_GUIDELINE,
 } from './GuidelinesSection';
+import { Storage } from '../../../../support/storage';
 
 
 export interface EditGuidelineProps {
@@ -61,7 +62,7 @@ export class EditGuideline extends React.Component<EditGuidelineProps, EditGuide
       variables: {
         name: this.state.description,
         kudos: Number(this.state.kudos),
-        team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+        team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
       },
     });
   }
@@ -93,7 +94,7 @@ export class EditGuideline extends React.Component<EditGuidelineProps, EditGuide
           {
             query: GET_GUIDELINES,
             variables: {
-              team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+              team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
             },
           },
         ]}

@@ -1,4 +1,5 @@
 import settings from '../../config/settings';
+import { Storage } from '../../support/storage';
 
 export interface LoginSuccessParams {
   token: string;
@@ -8,6 +9,6 @@ export interface LoginSuccessParams {
 }
 
 export const loginSuccess = (data: LoginSuccessParams) => {
-  localStorage.setItem(settings.LOCALSTORAGE_TOKEN, data.token);
-  localStorage.setItem(settings.USER_ID_TOKEN, data.user.id);
+  Storage.setItem(settings.LOCALSTORAGE_TOKEN, data.token);
+  Storage.setItem(settings.USER_ID_TOKEN, data.user.id);
 };

@@ -10,6 +10,7 @@ import settings from '../../../../config/settings';
 import {
   InviteModel, QUERY_GET_INVITES,
 } from './InvitesSection';
+import { Storage } from '../../../../support/storage';
 
 export interface InviteProps {
   invite: InviteModel;
@@ -55,7 +56,7 @@ export function Invite(props: InviteProps): React.ReactElement {
             {
               query: QUERY_GET_INVITES,
               variables: {
-                team_id: localStorage.getItem(
+                team_id: Storage.getItem(
                   settings.TEAM_ID_TOKEN,
                 ),
               },
