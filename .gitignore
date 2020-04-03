@@ -17,8 +17,7 @@ cordova/plugins/*
 
 build/
 # Allow the coverage report file for sonar cloud
-/coverage/*
-!/coverage/lcov.info
+coverage/
 
 # Fastlane stuff
 /fastlane/README.md
