@@ -9,14 +9,14 @@ export default function AuthenticatedRoute({ allowNoTeam, component: Component, 
       {...rest}
       render={(props) => {
         if (!isLoggedIn()) {
-          return <Redirect to={PATH_LOGIN} />;
+          return <Redirect data-testid="redirect" to={PATH_LOGIN} />;
         }
 
         if (hasTeam() || allowNoTeam) {
-          return <Component {...props} />;
+          return <Component data-testid="component" {...props} />;
         }
 
-        return <Redirect to={PATH_CHOOSE_TEAM} />;
+        return <Redirect data-testid="redirect" to={PATH_CHOOSE_TEAM} />;
       }}
     />
   );
