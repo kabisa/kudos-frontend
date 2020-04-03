@@ -4,9 +4,8 @@ import { Link, withRouter } from 'react-router-dom';
 import { History } from 'history';
 
 import * as routes from '../../routes';
-import settings from '../../config/settings';
 import s from './Mobile.module.scss';
-import { Storage } from '../../support/storage';
+import { Auth } from '../../support';
 
 export interface IconComponentProps {
   path: string;
@@ -33,7 +32,6 @@ export interface MobileProps {
 }
 
 function mobile(props: MobileProps) {
-  const isLoggedIn = Storage.getItem(settings.TEAM_ID_TOKEN);
   return (
     <div className={s.bottom_navigation}>
       <IconComponent
@@ -42,7 +40,7 @@ function mobile(props: MobileProps) {
         icon="settings"
         history={props.history}
       />
-      {isLoggedIn && (
+      {Auth.hasTeam() && (
       <IconComponent
         data-testid="statistics-button"
         path={routes.PATH_STATISTICS}
@@ -50,7 +48,7 @@ function mobile(props: MobileProps) {
         history={props.history}
       />
       )}
-      {isLoggedIn && (
+      {Auth.hasTeam() && (
       <IconComponent
         data-testid="home-button"
         path={routes.PATH_FEED}
@@ -58,7 +56,7 @@ function mobile(props: MobileProps) {
         history={props.history}
       />
       )}
-      {isLoggedIn && (
+      {Auth.hasTeam() && (
       <IconComponent
         data-testid="notifications-button"
         path={routes.PATH_NOTIFICATIONS}

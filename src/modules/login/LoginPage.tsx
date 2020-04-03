@@ -10,7 +10,8 @@ import gql from 'graphql-tag';
 import { GraphQLError } from 'graphql';
 import { PATH_CHOOSE_TEAM, PATH_FORGOT_PASSWORD, PATH_REGISTER } from '../../routes';
 import {
-  ERROR_EMAIL_INVALID, ERROR_INCOMPLETE, getGraphqlError, isLoggedIn, validateEmail,
+  Auth,
+  ERROR_EMAIL_INVALID, ERROR_INCOMPLETE, getGraphqlError, validateEmail,
 } from '../../support';
 import { FormWrapper } from '../../components';
 import { loginSuccess } from './helper';
@@ -61,7 +62,7 @@ class LoginPage extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    if (isLoggedIn()) {
+    if (Auth.isLoggedIn()) {
       this.props.history.push(PATH_CHOOSE_TEAM);
     }
 

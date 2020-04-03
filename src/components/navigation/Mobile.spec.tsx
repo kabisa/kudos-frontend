@@ -2,6 +2,7 @@ import React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 import { findByTestId, mockLocalstorage, withMockedProviders } from '../../spec_helper';
 import Mobile from './Mobile';
+import { Auth } from '../../support';
 
 let wrapper: ReactWrapper;
 const setup = () => {
@@ -35,8 +36,9 @@ describe('<Mobile />', () => {
     expect(findByTestId(wrapper, 'notifications-button').length).toBe(1);
   });
 
-  it('should not have a button to the feed, statistics and notifications page if the user is not logged in', () => {
-    mockLocalstorage('');
+  // eslint-disable-next-line max-len
+  it('should not have a button to the feed, statistics and notifications page if the user doesnt not have a team', () => {
+    Auth.hasTeam = jest.fn(() => false);
     setup();
     expect(findByTestId(wrapper, 'home-button').length).toBe(0);
     expect(findByTestId(wrapper, 'notifications-button').length).toBe(0);
