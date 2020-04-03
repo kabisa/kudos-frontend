@@ -9,7 +9,7 @@ import { Query } from '@apollo/react-components';
 import {
   PATH_CHOOSE_TEAM, PATH_FEED, PATH_MANAGE_TEAM, PATH_USER,
 } from '../../routes';
-import { isAdmin, logout } from '../../support';
+import { isAdmin, Auth } from '../../support';
 
 import s from './Desktop.module.scss';
 
@@ -68,7 +68,7 @@ export function DesktopNavigation(props: Props) {
                       <Icon name="exchange" />
                       Switch team
                     </Link>
-                    <Dropdown.Item data-testid="logout-button" onClick={() => logout()}>
+                    <Dropdown.Item data-testid="logout-button" onClick={() => Auth.logout()}>
                       <Icon name="log out" />
                       Log out
                     </Dropdown.Item>

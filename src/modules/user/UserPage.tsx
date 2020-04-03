@@ -6,7 +6,7 @@ import gql from 'graphql-tag';
 import { withRouter } from 'react-router-dom';
 import { History } from 'history';
 import { Navigation } from '../../components/navigation';
-import { logout } from '../../support';
+import { Auth } from '../../support';
 import s from './UserPage.module.scss';
 import { PATH_RESET_PASSWORD } from '../../routes';
 
@@ -68,7 +68,7 @@ export function UserPage(props: Props): React.ReactElement {
           >
             Change password
           </Button>
-          <Button color="red" onClick={() => logout()} className={s.button}>
+          <Button color="red" onClick={() => Auth.logout()} className={s.button}>
             Log out
           </Button>
         </div>
