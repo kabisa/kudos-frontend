@@ -68,7 +68,7 @@ export function DesktopNavigation(props: Props) {
                       <Icon name="exchange" />
                       Switch team
                     </Link>
-                    <Dropdown.Item data-testid="logout-button" onClick={() => Auth.logout()}>
+                    <Dropdown.Item data-testid="logout-button" onClick={async () => { await Auth.logout(); }}>
                       <Icon name="log out" />
                       Log out
                     </Dropdown.Item>

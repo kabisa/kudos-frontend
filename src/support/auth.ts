@@ -16,5 +16,6 @@ export class Auth {
     Storage.clearAll();
 
     history.push(PATH_LOGIN);
+    window.location.reload();
   };
 }

@@ -7,9 +7,9 @@ import { Auth } from './support';
 import settings from './config/settings';
 import { Storage } from './support/storage';
 
-const handleError = ({ networkError }: any) => {
+const handleError = async ({ networkError }: any) => {
   if (networkError && networkError.statusCode === 401) {
-    Auth.logout();
+    await Auth.logout();
   }
 };
 const httpLink = new HttpLink({ uri: `${settings.API_BASE_URL}/graphql` });
