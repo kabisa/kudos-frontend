@@ -38,7 +38,6 @@ export const ALTER_ROLE = gql`
                 role
                 id
             }
-            errors
         }
     }
 `;
