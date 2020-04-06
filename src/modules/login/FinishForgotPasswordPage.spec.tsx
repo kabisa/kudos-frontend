@@ -1,6 +1,7 @@
 import React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 import { act } from 'react-dom/test-utils';
+import { GraphQLError } from 'graphql';
 import {
   findByTestId, simulateInputChange, wait, withMockedProviders,
 } from '../../spec_helper';
@@ -41,7 +42,9 @@ const mocksWithError = [
         password_confirmation: 'password',
       },
     },
-    error: new Error('It broke'),
+    result: {
+      errors: [new GraphQLError('It broke')],
+    },
   },
 ];
 
@@ -145,7 +148,7 @@ describe('<FinishForgotPasswordPage />', () => {
       await wait(0);
       await wrapper.update();
 
-      expect(wrapper.containsMatchingElement(<p>Network error: It broke</p>)).toBe(true);
+      expect(findByTestId(wrapper, 'error-message').find('p').text()).toBe('It broke');
     });
   });
 });

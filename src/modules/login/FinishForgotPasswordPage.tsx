@@ -11,6 +11,7 @@ import { PATH_LOGIN } from '../../routes';
 
 import { FormWrapper } from '../../components';
 import BackButton from './BackButton';
+import { getGraphqlError } from '../../support';
 
 const DEFAULT_ERROR = 'Something went wrong.';
 const PASSWORD_ERROR = "Passwords don't match.";
@@ -117,7 +118,7 @@ class FinishForgotPasswordPage extends Component<Props, State> {
         <Mutation<NewPasswordResult, NewPasswordParameters>
           mutation={MUTATION_NEW_PASSWORD}
           onCompleted={(data) => this.onCompleted(data)}
-          onError={(error) => this.setState({ error: error.message })}
+          onError={(error) => this.setState({ error: getGraphqlError(error) })}
         >
           {(mutation, { error, loading }) => (
             <div>
@@ -141,7 +142,7 @@ class FinishForgotPasswordPage extends Component<Props, State> {
                   <Form.Input
                     fluid
                     icon="lock"
-                    name="password_confirm"
+                    name="passwordConfirm"
                     type="password"
                     iconPosition="left"
                     placeholder="Confirm password"
@@ -161,6 +162,7 @@ class FinishForgotPasswordPage extends Component<Props, State> {
 
                   {formError && (
                   <Message
+                    data-testid="error-message"
                     negative
                     header="Unable to reset the password."
                     content={this.state.error}

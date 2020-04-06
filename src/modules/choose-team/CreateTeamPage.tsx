@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { withRouter } from 'react-router-dom';
 import { History } from 'history';
 import settings from '../../config/settings';
-import { ERROR_NAME_BLANK } from '../../support';
+import { ERROR_NAME_BLANK, getGraphqlError } from '../../support';
 import { Navigation, Toolbar } from '../../components/navigation';
 import { PATH_FEED } from '../../routes';
 import { Storage } from '../../support/storage';
@@ -99,7 +99,7 @@ class CreateTeamPage extends Component<Props, State> {
           <div className={s.page}>
             <Mutation<CreateTeamResult, CreateTeamParameters>
               mutation={MUTATION_CREATE_TEAM}
-              onError={(error) => this.setState({ error: error.message })}
+              onError={(error) => this.setState({ error: getGraphqlError(error) })}
               onCompleted={({ createTeam }) => {
                 this.setState(this.initialState);
                 Storage.setItem(settings.TEAM_ID_TOKEN, createTeam.team.id);

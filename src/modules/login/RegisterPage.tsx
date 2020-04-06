@@ -9,7 +9,7 @@ import { withRouter } from 'react-router-dom';
 import {
   ERROR_EMAIL_INVALID,
   ERROR_INCOMPLETE,
-  ERROR_SHORT_PASSWORD,
+  ERROR_SHORT_PASSWORD, getGraphqlError,
   validateEmail,
 } from '../../support';
 import { FormWrapper } from '../../components';
@@ -116,7 +116,7 @@ class RegisterPage extends Component<Props, State> {
     return (
       <Mutation<RegisterResult, RegisterParameters>
         mutation={MUTATION_REGISTER}
-        onError={(error) => this.setState({ error: error.message })}
+        onError={(error) => this.setState({ error: getGraphqlError(error) })}
         onCompleted={(data) => this.confirm(data)}
       >
         {(signUpUser, { error, loading }: any) => {
@@ -177,7 +177,7 @@ class RegisterPage extends Component<Props, State> {
                   {displayError && (
                   <Message negative>
                     <Message.Header>Unable to register</Message.Header>
-                    <p>{displayError}</p>
+                    <p data-testid="error-message">{displayError}</p>
                   </Message>
                   )}
                 </Form>

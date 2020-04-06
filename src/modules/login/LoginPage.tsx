@@ -119,7 +119,7 @@ class LoginPage extends Component<Props, State> {
     return (
       <Mutation<LoginResult, LoginParameters>
         mutation={MUTATION_LOGIN}
-        onError={(error) => this.setState({ error: error.message })}
+        onError={(error) => { this.setState({ error: getGraphqlError(error) }); }}
         onCompleted={(data) => this.confirm(data)}
       >
         {(signInUser, { error, loading }) => {

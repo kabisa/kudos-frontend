@@ -7,7 +7,7 @@ import { Mutation } from '@apollo/react-components';
 
 import { FormWrapper } from '../../components';
 import BackButton from './BackButton';
-import { validateEmail } from '../../support';
+import { getGraphqlError, validateEmail } from '../../support';
 
 export const MUTATION_FORGOT_PASSWORD = gql`
     mutation forgotPassword($email: EmailAddress!) {
@@ -79,7 +79,7 @@ class ForgotPasswordPage extends Component<Props, State> {
         <Mutation<ForgotPasswordResult, ForgotPasswordParameters>
           mutation={MUTATION_FORGOT_PASSWORD}
           onCompleted={this.onCompleted}
-          onError={(error) => this.setState({ error: error.message })}
+          onError={(error) => this.setState({ error: getGraphqlError(error) })}
         >
           {(resetPassword, { error, loading }: any) => (
             <div>
@@ -111,7 +111,7 @@ class ForgotPasswordPage extends Component<Props, State> {
                   {this.state.error && (
                   <Message negative>
                     <Message.Header>Unable to reset the password</Message.Header>
-                    <p>{this.state.error}</p>
+                    <p data-testid="error-message">{this.state.error}</p>
                   </Message>
                   )}
 

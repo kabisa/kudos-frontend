@@ -2,6 +2,7 @@ import React from 'react';
 
 import { mount, ReactWrapper } from 'enzyme';
 import { act } from 'react-dom/test-utils';
+import { GraphQLError } from 'graphql';
 import { LoginPage } from './index';
 import {
   findByTestId, simulateInputChange, wait, withMockedProviders,
@@ -45,7 +46,9 @@ const mocksWithError = [
         password: 'password',
       },
     },
-    error: new Error('It broke'),
+    result: {
+      errors: [new GraphQLError('It broke')],
+    },
   },
 ];
 
@@ -126,7 +129,7 @@ describe('<LoginPage />', () => {
       await wait(0);
       await wrapper.update();
 
-      expect(findByTestId(wrapper, 'error-message').text()).toBe('Network error: It broke');
+      expect(findByTestId(wrapper, 'error-message').text()).toBe('It broke');
     });
   });
 
