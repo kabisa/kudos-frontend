@@ -4,9 +4,9 @@ import Raven from "raven-js";
 if (Settings.sentryDsn) {
   Raven.config(Settings.sentryDsn, {
     environment: process.env.NODE_ENV,
-    release: "1",
+    release: process.env.REACT_APP_VERSION,
     tags: {
-      revision: "1"
+      revision: process.env.REACT_APP_GIT_SHA
     }
   }).install();
 } else {
