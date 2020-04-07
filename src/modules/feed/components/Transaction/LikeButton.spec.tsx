@@ -95,8 +95,8 @@ describe('<LikeButton />', () => {
     setup(false, likedPost);
   });
 
-  it('renders the correct like amount', () => {
-    expect(findByTestId(wrapper, 'like-amount').hostNodes().text()).toBe('1');
+  it('renders the correct message', () => {
+    expect(findByTestId(wrapper, 'message').text()).toBe('+1₭ by Max');
   });
 
   it('renders the correct like icon if the post is not liked', () => {
