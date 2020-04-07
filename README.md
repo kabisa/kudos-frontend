@@ -28,6 +28,16 @@ Backend: https://github.com/kabisa/kudo-o-matic
 - To create a static HTML5 app build, run `yarn build`. The app will be built into the `dist/` directory.
 - To run all tests, run `yarn test`.
 
+## Environment variables
+
+Create react app will automatically set NODE_ENV and load the correct configuration based on the way you started the application.
+Running the app with `yarn start` will set the NODE_ENV to 'development' and running `yarn build` will use the production config.
+All environment variables should be prefixed with `REACT_APP_`. Read more about it [here](https://create-react-app.dev/docs/adding-custom-environment-variables/).
+
+### Required environment variables
+
+`REACT_APP_API_BASE_URL`: The URL of the kudo-o-matic backend.    
+
 ## Code formatting
 
 Code formatting and style are enforced using ESLint.
