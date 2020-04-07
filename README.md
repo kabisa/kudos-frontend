@@ -1,92 +1,69 @@
-<p align="center">
-  <img src="https://dovetail.world/wp-content/uploads/2016/09/Logo-Kabisa-e1496142251302.png" height="160"/>
+<p style="text-align: center" >
+  <img alt="Kabisa logo" src="https://fronteers.nl/_img/werkgevers/kabisa-2.png" height="160"/>
 </p>
 
-[![CircleCI](https://circleci.com/gh/kabisa/kudos-frontend.svg?style=svg)](https://circleci.com/gh/kabisa/kudos-frontend)
+[![Build Status](https://travis-ci.org/kabisa/kudos-frontend.svg?branch=master)](https://travis-ci.org/kabisa/kudos-frontend)
 [![Maintainability](https://api.codeclimate.com/v1/badges/359d3d72f680d535ec5b/maintainability)](https://codeclimate.com/github/kabisa/kudos-frontend/maintainability)
-<img src="https://img.shields.io/badge/eslint-passed-brightgreen.svg"/>
-<img src="https://img.shields.io/badge/maji-ready-brightgreen.svg"/>
-<img src="https://img.shields.io/badge/version-beta-blue.svg"/>
+
 
 # Kudos-o-Matic Frontend
 
-> The Kudos-o-Matic front end project. This is a cordova/react based application that supports Android, IOS and Web. For the quickest way to get the application running check [DockerHub](https://hub.docker.com/r/stefan314/kudos-frontend/) :whale:!
+> React PWA app for the Kudo-o-matic platform!
 
 Backend: https://github.com/kabisa/kudo-o-matic
 
-## :bulb: Getting started
+## Quick start guide
 
-- Make sure you have fulfilled the [prerequisites](#prerequisites)
-- Running `yarn install` will hook you up with everything you need
-
-## :zap: Development workflow
-
-- While developing you can run a local server using `bin/maji start`. This will start a server on http://localhost:9090.
-- To create a static HTML5 app build, run `bin/maji build`. The app will be built into the `dist/` directory.
-- To run the app on a connected mobile device, run `bin/maji run <platform>`.
-- To build a Cordova app, run `bin/maji build <platform>`.
-- To run Javascript tests, run `bin/maji test --watch`. This will start a Karma server with Phantomjs and will continuously watch your Javascript files and run tests on changes.
-- To run integration specs, run `bin/maji test --integration`.
-- To run all tests, run `bin/maji test`.
-
-## :wrench: Code formatting
-
-Code is formatted by [Prettier](https://github.com/prettier/prettier).
-A git commit hook is automatically installed that will format your code when you commit.
-Prettier can also be run manually using `yarn run prettier` or `yarn run prettier -- --write`.
-
-## :computer: Packaging native apps / running on your device
-
-- Make sure you have fulfilled the platform specific [prerequisites](#prerequisites) for the platform you're targeting.
-- Running `bin/maji run` with the target platform as parameter, e.g. `bin/maji run ios` will launch the app on your connected iPhone, while `bin/maji run android` will launch the app on your connected Android device. Specifying `-e` on the `maji run` command will launch the app on the iOS Simulator or Android Emulator.
-
----
-
-## Prerequisites
-
-### General
+### Prerequisites
 
 - Node.js >=8 + NPM, for the build system
 - Yarn >= 1, for package management
 - Chrome v59.x or higher to run the tests headless
 - Java 8 (or higher) to run the end-to-end tests (it powers the selenium server)
 
-### :iphone: iOS
+## Development workflow
 
-- XCode
-- iOS SDK
+- Running `yarn install` will hook you up with everything you'll need
+- `yarn start` will start the development server on http://localhost:9090.
+- To create a static HTML5 app build, run `yarn build`. The app will be built into the `dist/` directory.
+- To run all tests, run `yarn test`.
 
-### :phone: Android
+## Environment variables
 
-- Android SDK
-- Android platform tools installed
-- Android platform 10+.
-- `android` and `adb` in your $PATH (add `path/to/android-sdk-macosx/tools` and `path/to/android-sdk-macosx/platform-tools` to your$PATH).
+Create react app will automatically set NODE_ENV and load the correct configuration based on the way you started the application.
+Running the app with `yarn start` will set the NODE_ENV to 'development' and running `yarn build` will use the production config.
+All environment variables should be prefixed with `REACT_APP_`. Read more about it [here](https://create-react-app.dev/docs/adding-custom-environment-variables/).
 
----
+### Required environment variables
 
-## :wrench: Contributing
+`REACT_APP_API_BASE_URL`: The URL of the kudo-o-matic backend.    
 
-> To get started...
+## Code formatting
+
+Code formatting and style are enforced using ESLint.
+You can run the `yarn lint:check` command to run an analysis.
+You can use the ESLint auto fix feature by running `yarn lint:run`
+
+## Contributing
 
 ### Step 1
 
 - **Option 1**
 
-  - 🍴 Fork this repo!
+  - Fork this repo
 
 - **Option 2**
-  - 👯 Clone this repo to your local machine using `https://github.com/kabisa/kudos-frontend.git`.
+  - Clone this repo to your local machine using `https://github.com/kabisa/kudos-frontend.git`.
 
 ### Step 2
 
-- **HACK AWAY!** 🔨🔨🔨
+- **HACK AWAY!**
 
 ### Step 3
 
-- 🔃 Create a new pull request using <a href="https://github.com/kabisa/kudos-frontend/pulls" target="_blank">`https://github.com/kabisa/kudos-frontend/pulls`</a>.
+- Create a new pull request using <a href="https://github.com/kabisa/kudos-frontend/pulls" target="_blank">`https://github.com/kabisa/kudos-frontend/pulls`</a>.
 
-## :hearts: Team
+## Team
 
 |            <a href="https://www.linkedin.com/in/stefanpahlplatz/" target="_blank">**Stefan Pahlplatz**</a>             |
 | :--------------------------------------------------------------------------------------------------------------------: |
@@ -95,7 +72,7 @@ Prettier can also be run manually using `yarn run prettier` or `yarn run prettie
 
 ---
 
-## :anchor: License
+## License
 
 [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
 

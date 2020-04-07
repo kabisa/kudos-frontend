@@ -1,0 +1,19 @@
+dist: trusty
+language: node_js
+node_js:
+  - 8
+cache:
+  directories:
+    - node_modules
+
+addons:
+  sonarcloud:
+    organization: "kabisa"
+    token:
+      secure: "aqL4vKiuUSXm5d9jlyq6clpsJGeDvHyKv+7uRpfSNrG2MUpHo9HqcUo8jhtio0guvovVjriXzmYxT5PzLROJu7eCk8J8nQ3FtDBRcYpH7EcodIZBr2r2bZ+VIeon9QPcBM2aWbL3aLWTBI5wJ2qG0lplfI7k/OTou5pVGYHEvIC+t7WjzNla41VXa2KxtFmSyDO3eFnI1VBWR1FcDE2I2cpf9eU5yNT2cVioE7tFzP2+oyVAb51RL6ptXK/rANOiLqmk4GDA9xfjvktsqRjn/l+9t1I+1RUbtxsjuP/fIqxC80dUbWIj5DtjdFHbmanjxSoKDZbeHtdNyKNen7ttIHlGhSLqqEe2nZ3Bc0XMvjzTGzXgfB2opVoss3PrUEkZj9wRKvLfIYndCoI2PsPjrQgwXVUohKYFj42NUH99o2VyspjZF+Ik4AqT9/y/LZ2cffRTHkpJEARnMPRY01K2xYjiy/bT2X/1clEt/ltSDfxQTDbQYs2ohzjtypBOLAf1/sfZFepyWJVE/LHT+Fq5IddqxIMofs++U13ywOrgISkCLMPOHstREICLzWSAdLF+M66zFHSeXg3f3Feqq1JUOoTdI8pa33yUca/xoeRgXGVTSRumRReUaF4qiOoP55oC7+CiF2AFzGIps/OIAIukIy2yr07FHc1khkb11uOzZPY=" # encrypted value of your token
+
+script:
+  - yarn build
+  - yarn eslint ./src --ext .js,.jsx,.ts,.tsx ./
+  - yarn test --coverage
+  - sonar-scanner

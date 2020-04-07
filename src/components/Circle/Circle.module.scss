@@ -1,0 +1,13 @@
+.title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.wrapper {
+  width: 215px;
+  height: 215px;
+  margin: auto;
+  position: relative;
+}

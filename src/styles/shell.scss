@@ -1,33 +1,29 @@
-@import "../../node_modules/semantic-ui-css/semantic.css";
-@import "../../node_modules/maji/css/maji-base";
 @import "elements/base";
 
 @media only screen and (min-width: 1200px) {
-    .ui.container {
-        width: 1075px;
-    }
+  .ui.container {
+    width: 1075px;
+  }
 }
 
-body > div,
-body > div > div,
 body > div > div > div.main-form {
-    height: 100%;
-    overflow: auto;
+  height: 100%;
+  overflow: auto;
 }
 
 div.main-form {
-    width: 98%;
-    margin: auto;
-    height: 100vh;
+  width: 98%;
+  margin: auto;
+  height: 100vh;
 }
 
 .page {
-    padding-top: constant(safe-area-inset-top); /* iOS 11.0 */
-    padding-top: env(safe-area-inset-top); /* iOS 11.2 */
-    text-align: center;
+  padding-top: constant(safe-area-inset-top); /* iOS 11.0 */
+  padding-top: env(safe-area-inset-top); /* iOS 11.2 */
+  text-align: center;
 }
 
 .flex {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
