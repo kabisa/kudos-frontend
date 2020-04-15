@@ -1,0 +1,32 @@
+.guideline_input_active {
+  input {
+    border-color: #85b7d9 !important;
+
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border-bottom: none !important;
+  }
+
+  button {
+    border-bottom-right-radius: 0 !important;
+  }
+
+}
+
+.field {
+  margin-bottom: 1em !important;
+}
+
+
+.guidelines {
+  border-color: #85b7d9 !important;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+  border-top: none !important;
+  position: absolute !important;
+  z-index: 10;
+  width: 100%;
+  margin-top: -14px !important;
+  max-height: 300px;
+  overflow: auto;
+}

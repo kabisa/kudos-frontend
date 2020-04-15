@@ -91,18 +91,18 @@ describe('<GuidelineInput />', () => {
     });
   });
 
-  it('sets the focus on focus event', async () => {
+  it('shows the guidelines on focus', async () => {
     const component: any = wrapper.find('GuidelineInput').instance();
 
     await act(async () => {
-      expect(component.state.inputFocus).toBe(false);
+      expect(component.state.showGuidelines).toBe(false);
 
       // @ts-ignore
       findByTestId(wrapper, 'amount-input').find('input').prop('onFocus')();
 
       await wrapper.update();
 
-      expect(component.state.inputFocus).toBe(true);
+      expect(component.state.showGuidelines).toBe(true);
     });
   });
 
@@ -110,27 +110,28 @@ describe('<GuidelineInput />', () => {
     const component: any = wrapper.find('GuidelineInput').instance();
 
     await act(async () => {
-      component.setState({ inputFocus: true });
+      component.setState({ showGuidelines: true });
 
       // @ts-ignore
       findByTestId(wrapper, 'amount-input').find('input').prop('onBlur')();
 
       await wrapper.update();
+      await wait(500);
 
-      expect(component.state.inputFocus).toBe(false);
+      expect(component.state.showGuidelines).toBe(false);
     });
   });
 
-  it('calls the mutation is the input is focused and amount is not empty', async () => {
+  it('calls the mutation if the input is focused and amount is not empty', async () => {
     const component = wrapper.find('GuidelineInput').instance();
 
     await act(async () => {
-      component.setState({ amount: '5', inputFocus: false });
+      component.setState({ amount: '5', showGuidelines: false });
       await wrapper.update();
 
       expect(queryCalled).toBe(false);
 
-      component.setState({ amount: '5', inputFocus: true });
+      component.setState({ amount: '5', showGuidelines: true });
 
       await wait(0);
       await wrapper.update();
@@ -147,7 +148,7 @@ describe('<GuidelineInput />', () => {
 
     const component = wrapper.find('GuidelineInput').instance();
     await act(async () => {
-      component.setState({ amount: '10', inputFocus: true });
+      component.setState({ amount: '10', showGuidelines: true });
 
       await wrapper.update();
 
@@ -166,7 +167,7 @@ describe('<GuidelineInput />', () => {
 
     const component = wrapper.find('GuidelineInput').instance();
     await act(async () => {
-      component.setState({ amount: '10', inputFocus: true });
+      component.setState({ amount: '10', showGuidelines: true });
 
       await wrapper.update();
 
@@ -181,7 +182,7 @@ describe('<GuidelineInput />', () => {
   it('Shows when the query is loading', async () => {
     const component = wrapper.find('GuidelineInput').instance();
     await act(async () => {
-      component.setState({ amount: '10', inputFocus: true });
+      component.setState({ amount: '10', showGuidelines: true });
 
       // Update the state twice to first set the new variables and then fire the query
       await wrapper.update();
@@ -194,7 +195,7 @@ describe('<GuidelineInput />', () => {
   it('renders a segment for each guideline', async () => {
     const component = wrapper.find('GuidelineInput').instance();
     await act(async () => {
-      component.setState({ amount: '10', inputFocus: true });
+      component.setState({ amount: '10', showGuidelines: true });
 
       await wrapper.update();
 
@@ -205,10 +206,23 @@ describe('<GuidelineInput />', () => {
     });
   });
 
+  it('it shows the guidelines when the button is clicked', async () => {
+    await act(async () => {
+      findByTestId(wrapper, 'guidelines-button').hostNodes().simulate('click');
+
+      await wrapper.update();
+
+      await wait(0);
+      await wrapper.update();
+
+      expect(findByTestId(wrapper, 'guideline-row').hostNodes().length).toBe(2);
+    });
+  });
+
   it('should set the correct amount when a guideline is clicked', async () => {
     const component: any = wrapper.find('GuidelineInput').instance();
     await act(async () => {
-      component.setState({ amount: '14', inputFocus: true });
+      component.setState({ amount: '14', showGuidelines: true });
 
       await wrapper.update();
 
@@ -220,7 +234,7 @@ describe('<GuidelineInput />', () => {
 
       await wrapper.update();
 
-      expect(component.state.inputFocus).toBe(false);
+      expect(component.state.showGuidelines).toBe(false);
       expect(component.state.amount).toBe('15');
     });
   });
