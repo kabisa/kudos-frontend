@@ -37,12 +37,18 @@ All environment variables should be prefixed with `REACT_APP_`. Read more about 
 ### Required environment variables
 
 `REACT_APP_API_BASE_URL`: The URL of the kudo-o-matic backend.    
+`REACT_APP_SLACK_CLIENT_ID`: The ID of the Slack app.
 
 ## Code formatting
 
 Code formatting and style are enforced using ESLint.
 You can run the `yarn lint:check` command to run an analysis.
 You can use the ESLint auto fix feature by running `yarn lint:run`
+
+## Slack integration
+
+In order to use the slack features when developing you need to set the `SLACK_CLIENT_ID` in the development settings.
+See the [back-end docs](https://github.com/kabisa/kudo-o-matic/blob/develop/docs/SLACK_INTEGRATION.md) for more information.  
 
 ## Contributing
 
