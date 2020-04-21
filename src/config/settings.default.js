@@ -13,5 +13,7 @@ export default {
   LOCALSTORAGE_TOKEN: "token",
   TEAM_ID_TOKEN: "team_id",
   USER_ID_TOKEN: "user_id",
-  ROLE_TOKEN: "team_role"
+  ROLE_TOKEN: "team_role",
+
+  SLACK_CLIENT_ID: "",
 };

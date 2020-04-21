@@ -11,7 +11,7 @@ import {
 } from './sections';
 
 import { PATH_MANAGE_TEAM } from '../../routes';
-import IntegrationSections from "./sections/Integrations";
+import IntegrationSections from './sections/Integrations';
 
 export interface Props {
   history: History;
@@ -83,10 +83,10 @@ export class ManageTeamPage extends Component<Props, State> {
                     onClick={this.handleItemClick}
                   />
                   <Menu.Item
-                      data-testid="integration-button"
-                      name="integrations"
-                      active={activeItem === 'integrations'}
-                      onClick={this.handleItemClick}
+                    data-testid="integration-button"
+                    name="integrations"
+                    active={activeItem === 'integrations'}
+                    onClick={this.handleItemClick}
                   />
                 </Menu>
               </Grid.Column>
@@ -109,7 +109,7 @@ export class ManageTeamPage extends Component<Props, State> {
                     <KudometerSection />
                   </Route>
                   <Route path={`${PATH_MANAGE_TEAM}/integrations`}>
-                    <IntegrationSections />
+                    <IntegrationSections history={this.props.history} />
                   </Route>
                 </Switch>
               </Grid.Column>

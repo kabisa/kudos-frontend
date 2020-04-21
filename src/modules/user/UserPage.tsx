@@ -20,7 +20,7 @@ export const GET_USER = gql`
             name
             avatar
             slackId
-            unlockToken
+            slackRegistrationToken
         }
     }
 `;
@@ -30,7 +30,7 @@ export interface GetUserResult {
     name: string;
     avatar: string;
     slackId: string;
-    unlockToken: string;
+    slackRegistrationToken: string;
   };
 }
 
@@ -72,26 +72,26 @@ export function UserPage(props: Props): React.ReactElement {
                     </a>
                   </span>
                   {data && data.viewer.slackId ? (
-                    <span>Your account is connected to slack!</span>
+                    <Header>Your account is connected to slack!</Header>
                   ) : (
                     <Segment className={s.segment} compact>
-                      <Header>You're account is not yet connect to slack but don't worry, connecting is
+                      <Header>You&amp;re account is not yet connect to slack but don&amp;t worry, connecting is
                         easy!
                       </Header>
                       <List ordered>
                         <List.Item>Copy this command:
                           <Segment
-                            onClick={() => copyCode(data.viewer.unlockToken)}
+                            onClick={() => copyCode(data.viewer.slackRegistrationToken)}
                             className={s.code}
                             compact
                             placeholder
                           >
-                            /register {data.viewer.unlockToken}
+                            /register {data.viewer.slackRegistrationToken}
                             <Icon name="copy" />
                           </Segment>
                         </List.Item>
                         <List.Item>Go to slack and use the command</List.Item>
-                        <List.Item>Thats it, you're all set!</List.Item>
+                        <List.Item>Thats it, you&amp;re all set! (You may need to refresh this page)</List.Item>
                       </List>
                     </Segment>
                   )}
