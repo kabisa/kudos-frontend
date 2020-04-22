@@ -53,12 +53,13 @@ export function UserPage(props: Props): React.ReactElement {
       <div className="page flex" style={{ padding: '2em', justifyContent: 'space-between' }}>
         <div style={{ display: 'grid', justifyContent: 'center' }}>
           <Query<GetUserResult> query={GET_USER}>
-            {({ data }) => {
+            {({ loading, data }) => {
+              if (loading) return <span data-testid="loading">Loading...</span>;
               if (!data || !data.viewer) return <span>Something went wrong</span>;
 
               return (
                 <div>
-                  <h2 className={s.name}>{data && data.viewer ? data.viewer.name : 'Loading...'}</h2>
+                  <h2 className={s.name}>{data.viewer.name}</h2>
                   <Image
                     src={data && data.viewer ? data.viewer.avatar : null}
                     size="tiny"
@@ -72,9 +73,9 @@ export function UserPage(props: Props): React.ReactElement {
                     </a>
                   </span>
                   {data && data.viewer.slackId ? (
-                    <Header>Your account is connected to slack!</Header>
+                    <Header data-testid="slack-connected">Your account is connected to slack!</Header>
                   ) : (
-                    <Segment className={s.segment} compact>
+                    <Segment data-testid="register-slack" className={s.segment} compact>
                       <Header>You&amp;re account is not yet connect to slack but don&amp;t worry, connecting is
                         easy!
                       </Header>
