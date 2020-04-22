@@ -9,7 +9,7 @@ import settings from '../../../config/settings';
 
 const queryString = require('query-string');
 
-const GET_TEAM_INTEGRATIONS = gql`
+export const GET_TEAM_INTEGRATIONS = gql`
     query GetTeamIntegrations($id: ID!) {
         teamById(id: $id) {
             slackTeamId
@@ -34,12 +34,8 @@ export default class IntegrationsSection extends React.Component<IntegrationsSec
       + `client_id=${settings.SLACK_CLIENT_ID}&`
       + '&scope=chat:write,commands,incoming-webhook,chat:write.public&user_scope=reactions:read';
 
-  queryParams: any;
-
   constructor(props: IntegrationsSectionProps) {
     super(props);
-
-    console.log(this.props);
 
     const parsed = queryString.parse(this.props.history.location.search);
     const { auth } = parsed;
@@ -68,8 +64,8 @@ export default class IntegrationsSection extends React.Component<IntegrationsSec
           }}
         >
           {({ loading, error, data }) => {
-            if (loading) return <span>Loading...</span>;
-            if (error) return <span>{error.message}</span>;
+            if (loading) return <span data-testid="loading">Loading...</span>;
+            if (error) return <span data-testid="error">{error.message}</span>;
             if (!data) return <span>Something went wrong</span>;
 
             if (data.teamById.slackTeamId) {
@@ -90,7 +86,7 @@ export default class IntegrationsSection extends React.Component<IntegrationsSec
                 <p>Afterwards every Slack user (including you) should link their account kudo-o-matic account
                   by visiting their profile page.
                 </p>
-                <a href={this.slackUrl}><img
+                <a data-testid="slack-button" href={this.slackUrl}><img
                   alt="Add to Slack"
                   height="40"
                   width="139"
