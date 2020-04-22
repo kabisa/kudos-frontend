@@ -22,6 +22,8 @@ export interface State {
 }
 
 export class ManageTeamPage extends Component<Props, State> {
+  sections: string[] = ['general', 'guidelines', 'invites', 'members', 'kudometers', 'integrations'];
+
   constructor(props: Props) {
     super(props);
 
@@ -52,42 +54,15 @@ export class ManageTeamPage extends Component<Props, State> {
             <Grid>
               <Grid.Column width={4}>
                 <Menu fluid vertical tabular>
-                  <Menu.Item
-                    data-testid="general-button"
-                    name="general"
-                    active={activeItem === 'general'}
-                    onClick={this.handleItemClick}
-                  />
-                  <Menu.Item
-                    data-testid="invite-button"
-                    name="invites"
-                    active={activeItem === 'invites'}
-                    onClick={this.handleItemClick}
-                  />
-                  <Menu.Item
-                    data-testid="guideline-button"
-                    name="guidelines"
-                    active={activeItem === 'guidelines'}
-                    onClick={this.handleItemClick}
-                  />
-                  <Menu.Item
-                    data-testid="member-button"
-                    name="members"
-                    active={activeItem === 'members'}
-                    onClick={this.handleItemClick}
-                  />
-                  <Menu.Item
-                    data-testid="kudometer-button"
-                    name="kudometer"
-                    active={activeItem === 'kudometer'}
-                    onClick={this.handleItemClick}
-                  />
-                  <Menu.Item
-                    data-testid="integration-button"
-                    name="integrations"
-                    active={activeItem === 'integrations'}
-                    onClick={this.handleItemClick}
-                  />
+                  {this.sections.map((section) => (
+                    <Menu.Item
+                      key={section}
+                      data-testid={`${section}-button`}
+                      name={section}
+                      active={activeItem === section}
+                      onClick={this.handleItemClick}
+                    />
+                  ))}
                 </Menu>
               </Grid.Column>
 
@@ -105,7 +80,7 @@ export class ManageTeamPage extends Component<Props, State> {
                   <Route path={`${PATH_MANAGE_TEAM}/members`}>
                     <MemberSection />
                   </Route>
-                  <Route path={`${PATH_MANAGE_TEAM}/kudometer`}>
+                  <Route path={`${PATH_MANAGE_TEAM}/kudometers`}>
                     <KudometerSection />
                   </Route>
                   <Route path={`${PATH_MANAGE_TEAM}/integrations`}>
