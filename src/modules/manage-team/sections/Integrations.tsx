@@ -29,10 +29,7 @@ export interface IntegrationsSectionProps {
 
 
 export default class IntegrationsSection extends React.Component<IntegrationsSectionProps, any> {
-  slackUrl = 'https://slack.com/oauth/v2/authorize?'
-      + `state=${Storage.getItem(settings.TEAM_ID_TOKEN)}&`
-      + `client_id=${settings.SLACK_CLIENT_ID}&`
-      + '&scope=chat:write,commands,incoming-webhook,chat:write.public&user_scope=reactions:read';
+  slackConnectUrl = `${settings.API_BASE_URL}/auth/slack/${Storage.getItem(settings.TEAM_ID_TOKEN)}`;
 
   constructor(props: IntegrationsSectionProps) {
     super(props);
@@ -86,7 +83,7 @@ export default class IntegrationsSection extends React.Component<IntegrationsSec
                 <p>Afterwards every Slack user (including you) should link their account kudo-o-matic account
                   by visiting their profile page.
                 </p>
-                <a data-testid="slack-button" href={this.slackUrl}><img
+                <a data-testid="slack-button" href={this.slackConnectUrl}><img
                   alt="Add to Slack"
                   height="40"
                   width="139"
