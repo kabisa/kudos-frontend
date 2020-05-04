@@ -69,7 +69,7 @@ export default class IntegrationsSection extends React.Component<IntegrationsSec
               return (
                 <div>
                   <Header as="h5">Slack integration</Header>
-                  <p>Your team is already connected to slack! <br />
+                  <p>Your team is already connected to Slack! <br />
                     To disable it remove the app from your workspace.
                   </p>
                 </div>
@@ -79,8 +79,8 @@ export default class IntegrationsSection extends React.Component<IntegrationsSec
             return (
               <div>
                 <Header as="h5">Slack integration</Header>
-                <p> To enable slack integration add the app to your workspace using the button below.</p>
-                <p>Afterwards every Slack user (including you) should link their account kudo-o-matic account
+                <p> To enable Slack integration add the app to your workspace using the button below.</p>
+                <p>Afterwards every Slack user (including you) should link their account Kudo-O-Matic account
                   by visiting their profile page.
                 </p>
                 <a data-testid="slack-button" href={this.slackConnectUrl}><img

@@ -44,9 +44,18 @@
 }
 
 .code {
-  display: inline !important;
-  padding: 2px !important;
-  min-height: auto !important;
+  display: inline;
+  padding: 8px;
+  margin-left: 8px;
+  background-color: #eee;
+  border: 1px solid #999;
+  border-radius: 0.28571429rem;
+  min-height: 35px;
+  font-family: Monaco, monospace;
+  font-size: 0.8rem;
+}
+
+.copy_button {
   margin-left: 8px !important;
 }
 

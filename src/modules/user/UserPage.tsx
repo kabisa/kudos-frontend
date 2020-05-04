@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Button, Header, Icon, Image, List, Segment,
+  Button, Header, Image, List, Segment,
 } from 'semantic-ui-react';
 import { Query } from '@apollo/react-components';
 import gql from 'graphql-tag';
@@ -76,23 +76,27 @@ export function UserPage(props: Props): React.ReactElement {
                     <Header data-testid="slack-connected">Your account is connected to slack!</Header>
                   ) : (
                     <Segment data-testid="register-slack" className={s.segment} compact>
-                      <Header>You&amp;re account is not yet connect to slack but don&amp;t worry, connecting is
+                      <Header>You&#39;re account is not yet connect to Slack but don&#39;t worry, connecting is
                         easy!
                       </Header>
                       <List ordered>
                         <List.Item>Copy this command:
-                          <Segment
-                            onClick={() => copyCode(data.viewer.slackRegistrationToken)}
+                          <div
                             className={s.code}
-                            compact
-                            placeholder
                           >
                             /register {data.viewer.slackRegistrationToken}
-                            <Icon name="copy" />
-                          </Segment>
+                            <Button
+                              className={s.copy_button}
+                              onClick={() => copyCode(data.viewer.slackRegistrationToken)}
+                              icon="copy"
+                              size="mini"
+                              color="grey"
+                              compact
+                            />
+                          </div>
                         </List.Item>
                         <List.Item>Go to slack and use the command</List.Item>
-                        <List.Item>Thats it, you&amp;re all set! (You may need to refresh this page)</List.Item>
+                        <List.Item>Thats it, you&#39;re all set! (You may need to refresh this page)</List.Item>
                       </List>
                     </Segment>
                   )}
