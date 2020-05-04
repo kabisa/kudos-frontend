@@ -3,5 +3,4 @@
 export default {
   environment: "production",
   API_BASE_URL: process.env.REACT_APP_API_BASE_URL,
-  SLACK_CLIENT_ID: process.env.REACT_APP_SLACK_CLIENT_ID
 };
