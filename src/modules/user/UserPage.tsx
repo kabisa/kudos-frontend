@@ -76,7 +76,7 @@ export function UserPage(props: Props): React.ReactElement {
                     <Header data-testid="slack-connected">Your account is connected to slack!</Header>
                   ) : (
                     <Segment data-testid="register-slack" className={s.segment} compact>
-                      <Header>You&#39;re account is not yet connect to Slack but don&#39;t worry, connecting is
+                      <Header>You&#39;re account is not yet connected to Slack but don&#39;t worry, connecting is
                         easy!
                       </Header>
                       <List ordered>

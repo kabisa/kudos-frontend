@@ -37,7 +37,6 @@ All environment variables should be prefixed with `REACT_APP_`. Read more about 
 ### Required environment variables
 
 `REACT_APP_API_BASE_URL`: The URL of the kudo-o-matic backend.    
-`REACT_APP_SLACK_CLIENT_ID`: The ID of the Slack app.
 
 ## Code formatting
 
