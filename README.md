@@ -44,6 +44,11 @@ Code formatting and style are enforced using ESLint.
 You can run the `yarn lint:check` command to run an analysis.
 You can use the ESLint auto fix feature by running `yarn lint:run`
 
+## Slack integration
+
+In order to use the slack features when developing you need to set the `SLACK_CLIENT_ID` in the development settings.
+See the [back-end docs](https://github.com/kabisa/kudo-o-matic/blob/develop/docs/SLACK_INTEGRATION.md) for more information.  
+
 ## Contributing
 
 ### Step 1
