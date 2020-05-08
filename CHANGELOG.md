@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 ### Added
+- Allow kudometer names to be changed [PR](https://github.com/kabisa/kudos-frontend/pull/75), [Pivotal issue](https://www.pivotaltracker.com/story/show/161506981)
+- Allow the active kudometer to be changed [PR](https://github.com/kabisa/kudos-frontend/pull/75), [Pivotal issue](https://www.pivotaltracker.com/story/show/163294940)
 - Integrations section to team management page [PR](https://github.com/kabisa/kudos-frontend/pull/72), [Pivotal issue](https://www.pivotaltracker.com/story/show/172309004)
 - Slack register section to user profile page [PR](https://github.com/kabisa/kudos-frontend/pull/72), [Pivotal issue](https://www.pivotaltracker.com/story/show/172308999)
 ### Fixed
