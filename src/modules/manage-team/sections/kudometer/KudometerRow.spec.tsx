@@ -5,15 +5,20 @@ import {
   findByTestId, mockLocalstorage, wait, withMockedProviders,
 } from '../../../../spec_helper';
 import { KudometerRow } from './KudometerRow';
-import { DELETE_KUDOMETER, GET_KUDOMETERS, Kudometer } from './KudometerQuerries';
+import {
+  DELETE_KUDOMETER, GET_KUDOMETERS, Kudometer, SET_ACTIVE_KUDOS_METER,
+} from './KudometerQuerries';
+import { GET_GOAL_PERCENTAGE } from '../../../feed/queries';
 
-const kudometer: Kudometer = {
+const getKudometer = (isActive: boolean): Kudometer => ({
   id: '1',
   name: 'First kudometer',
   goals: [],
-};
+  isActive,
+});
 
 let mutationCalled = false;
+let makeActiveMutationCalled = false;
 let queryCalled = false;
 const mocks = [
   {
@@ -34,6 +39,40 @@ const mocks = [
   },
   {
     request: {
+      query: GET_GOAL_PERCENTAGE,
+      variables: { team_id: '1' },
+    },
+    result: {
+      data: {
+        teamById: {
+          activeKudosMeter: {
+            amount: 10,
+          },
+          activeGoals: [],
+        },
+      },
+    },
+  },
+  {
+    request: {
+      query: SET_ACTIVE_KUDOS_METER,
+      variables: { team_id: '1', kudos_meter_id: '1' },
+    },
+    result: () => {
+      makeActiveMutationCalled = true;
+      return {
+        data: {
+          setActiveKudosMeter: {
+            kudosMeter: {
+              id: '1',
+            },
+          },
+        },
+      };
+    },
+  },
+  {
+    request: {
       query: GET_KUDOMETERS,
       variables: { team_id: '1' },
     },
@@ -46,6 +85,7 @@ const mocks = [
               {
                 id: '1',
                 name: 'Kudometer',
+                isActive: true,
                 goals: [
                   {
                     id: '1',
@@ -62,28 +102,37 @@ const mocks = [
   },
 ];
 
+let wrapper: ReactWrapper;
+const viewButtonHandler = jest.fn();
+const deleteHandler = jest.fn();
+const editHandler = jest.fn();
+
+
+const setup = (kudometer: Kudometer) => {
+  mutationCalled = false;
+  makeActiveMutationCalled = false;
+  queryCalled = false;
+  wrapper = mount(withMockedProviders(
+    <table>
+      <tbody>
+        <KudometerRow
+          key="1"
+          kudometer={kudometer}
+          viewButtonClickHandler={viewButtonHandler}
+          deleteKudometerHandler={deleteHandler}
+          edit={editHandler}
+        />
+      </tbody>
+    </table>,
+    mocks,
+  ));
+};
+
 describe('<KudometerRow />', () => {
   mockLocalstorage('1');
-  let wrapper: ReactWrapper;
-  const viewButtonHandler = jest.fn();
-  const deleteHandler = jest.fn();
 
   beforeEach(() => {
-    mutationCalled = false;
-    queryCalled = false;
-    wrapper = mount(withMockedProviders(
-      <table>
-        <tbody>
-          <KudometerRow
-            key="1"
-            kudometer={kudometer}
-            viewButtonClickHandler={viewButtonHandler}
-            deleteKudometerHandler={deleteHandler}
-          />
-        </tbody>
-      </table>,
-      mocks,
-    ));
+    setup(getKudometer(false));
   });
 
   it('shows the kudometer name', () => {
@@ -129,6 +178,53 @@ describe('<KudometerRow />', () => {
       await wrapper.update();
 
       expect(queryCalled).toBe(true);
+    });
+  });
+
+  it('has a edit button', () => {
+    expect(findByTestId(wrapper, 'edit-button').hostNodes().length).toBe(1);
+  });
+
+  it('calls the edit function', async () => {
+    findByTestId(wrapper, 'edit-button').hostNodes().simulate('click');
+
+    expect(editHandler).toBeCalledTimes(1);
+  });
+
+  describe('make active button', () => {
+    it('is not disabled if the kudometer is not active', () => {
+      const button = findByTestId(wrapper, 'set-active-button').find('Button');
+      expect(button.prop('disabled')).toBe(false);
+    });
+
+    it('the text says make active if the kudometer is not active', () => {
+      const button = findByTestId(wrapper, 'set-active-button').find('Button');
+      expect(button.text()).toBe('Set as active');
+    });
+
+    it('is disabled if the kudometer is active', () => {
+      setup(getKudometer(true));
+
+      const button = findByTestId(wrapper, 'set-active-button').find('Button');
+      expect(button.prop('disabled')).toBe(true);
+    });
+
+    it('the text says already active if the kudometer is active', () => {
+      setup(getKudometer(true));
+
+      const button = findByTestId(wrapper, 'set-active-button').find('Button');
+      expect(button.text()).toBe('Already active');
+    });
+
+    it('calls the mutation', async () => {
+      await act(async () => {
+        findByTestId(wrapper, 'set-active-button').hostNodes().simulate('click');
+
+        await wait(0);
+        await wrapper.update();
+
+        expect(makeActiveMutationCalled).toBe(true);
+      });
     });
   });
 });
