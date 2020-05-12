@@ -27,7 +27,15 @@ export class ManageTeamPage extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    this.state = { activeItem: 'general' };
+    const location = props.history.location.pathname;
+    const path = location.substr(location.lastIndexOf('/') + 1, location.length);
+
+    if (this.sections.indexOf(path) !== -1) {
+      this.state = { activeItem: path };
+    } else {
+      this.state = { activeItem: 'general' };
+    }
+
 
     this.handleItemClick = this.handleItemClick.bind(this);
   }
