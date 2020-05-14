@@ -45,9 +45,17 @@ You can run the `yarn lint:check` command to run an analysis.
 You can use the ESLint auto fix feature by running `yarn lint:run`
 
 ## Slack integration
-
-In order to use the slack features when developing you need to set the `SLACK_CLIENT_ID` in the development settings.
+The frontend application requires no special action to make the Slack integration work.
 See the [back-end docs](https://github.com/kabisa/kudo-o-matic/blob/develop/docs/SLACK_INTEGRATION.md) for more information.  
+
+## CI and deployment
+The project is build using [GitHub actions](https://github.com/kabisa/kudos-frontend/actions) with every commit.
+See the .github directory for the configuration file.
+
+The project is hosted on [Netlify](https://app.netlify.com/teams/kabisa/sites) and deployed using commit hooks.
+The following environments exist:
+- [Staging](https://kudos.develop.kabisa.io/)
+- [Production](https://kudos.kabisa.io/) 
 
 ## Contributing
 
@@ -66,7 +74,7 @@ See the [back-end docs](https://github.com/kabisa/kudo-o-matic/blob/develop/docs
 
 ### Step 3
 
-- Create a new pull request using <a href="https://github.com/kabisa/kudos-frontend/pulls" target="_blank">`https://github.com/kabisa/kudos-frontend/pulls`</a>.
+- Open a new pull request
 
 ## Team
 
