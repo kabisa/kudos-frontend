@@ -47,6 +47,8 @@ export interface State {
 export class UserPage extends React.Component<Props, State> {
   slackConnectUrl = `${settings.API_BASE_URL}/auth/slack/user/${Storage.getItem(settings.USER_ID_TOKEN)}`;
 
+  slackIconPath = `${process.env.PUBLIC_URL}/assets/slack_logo.png`;
+
   constructor(props: Props) {
     super(props);
 
@@ -86,21 +88,24 @@ export class UserPage extends React.Component<Props, State> {
                     {data && data.viewer.slackId ? (
                       <Header data-testid="slack-connected">Your account is connected to slack!</Header>
                     ) : (
-                      <Segment data-testid="register-slack" className={s.segment} compact>
+                      <Segment textAlign="center" data-testid="register-slack" compact>
                         <Header>You&#39;re account is not yet connected to Slack but don&#39;t worry, connecting is
                           easy!
                         </Header>
                         <div>
                           <p>Simply press the button below and you&#39;re good to go.</p>
-                          <a data-testid="slack-button" href={this.slackConnectUrl}><img
-                            alt="Add to Slack"
-                            height="40"
-                            width="139"
-                            src="https://platform.slack-edge.com/img/add_to_slack.png"
-                            srcSet={'https://platform.slack-edge.com/img/add_to_slack.png 1x'
-                                    + ', https://platform.slack-edge.com/img/add_to_slack@2x.png 2x'}
-                          />
-                          </a>
+                          <Button basic data-testid="slack-button" href={this.slackConnectUrl}>
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                              <img
+                                style={{ marginRight: 8 }}
+                                width={20}
+                                height={20}
+                                src={this.slackIconPath}
+                                alt="Connect account"
+                              />
+                              Connect account
+                            </div>
+                          </Button>
 
                         </div>
                       </Segment>

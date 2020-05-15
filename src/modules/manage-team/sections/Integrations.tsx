@@ -65,16 +65,16 @@ export default class IntegrationsSection extends React.Component<IntegrationsSec
             if (error) return <span data-testid="error">{error.message}</span>;
             if (!data) return <span>Something went wrong</span>;
 
-            // if (data.teamById.slackTeamId) {
-            //   return (
-            //     <div>
-            //       <Header as="h5">Slack integration</Header>
-            //       <p>Your team is already connected to Slack! <br />
-            //         To disable it remove the app from your workspace.
-            //       </p>
-            //     </div>
-            //   );
-            // }
+            if (data.teamById.slackTeamId) {
+              return (
+                <div>
+                  <Header as="h5">Slack integration</Header>
+                  <p>Your team is already connected to Slack! <br />
+                    To disable it remove the app from your workspace.
+                  </p>
+                </div>
+              );
+            }
 
             return (
               <div>
