@@ -109,7 +109,7 @@ class GuidelineInput extends Component<Props, State> {
 
   render() {
     return (
-      <div>
+      <div id="kudos-input-container" className={s.test}>
         <Form.Field className={s.field}>
           <Form.Input
             className={(this.state.showGuidelines) ? s.guideline_input_active : ''}
