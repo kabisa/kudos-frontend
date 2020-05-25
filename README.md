@@ -2,10 +2,9 @@
   <img alt="Kabisa logo" src="https://fronteers.nl/_img/werkgevers/kabisa-2.png" height="160"/>
 </p>
 
-[![Build Status](https://travis-ci.org/kabisa/kudos-frontend.svg?branch=master)](https://travis-ci.org/kabisa/kudos-frontend)
+![Node.js CI](https://github.com/kabisa/kudos-frontend/workflows/Node.js%20CI/badge.svg)
 [![Maintainability](https://api.codeclimate.com/v1/badges/359d3d72f680d535ec5b/maintainability)](https://codeclimate.com/github/kabisa/kudos-frontend/maintainability)
-
-
+[![Test Coverage](https://api.codeclimate.com/v1/badges/359d3d72f680d535ec5b/test_coverage)](https://codeclimate.com/github/kabisa/kudos-frontend/test_coverage)
 # Kudos-o-Matic Frontend
 
 > React PWA app for the Kudo-o-matic platform!
