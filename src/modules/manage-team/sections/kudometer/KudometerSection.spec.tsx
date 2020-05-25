@@ -5,9 +5,10 @@ import {
   findByTestId, mockLocalstorage, simulateInputChange, wait, withMockedProviders,
 } from '../../../../spec_helper';
 import KudometerSection from './KudometerSection';
-import { CREATE_KUDOMETER, GET_KUDOMETERS } from './KudometerQuerries';
+import { CREATE_KUDOMETER, GET_KUDOMETERS, UPDATE_KUDOMETER } from './KudometerQuerries';
 
-let mutationCalled = false;
+let createMutationCalled = false;
+let editMutationCalled = false;
 const mocks = [
   {
     request: {
@@ -18,10 +19,31 @@ const mocks = [
       },
     },
     result: () => {
-      mutationCalled = true;
+      createMutationCalled = true;
       return {
         data: {
           createKudosMeter: {
+            kudosMeter: {
+              id: '1',
+            },
+          },
+        },
+      };
+    },
+  },
+  {
+    request: {
+      query: UPDATE_KUDOMETER,
+      variables: {
+        name: 'Test kudometer',
+        kudos_meter_id: '1',
+      },
+    },
+    result: () => {
+      editMutationCalled = true;
+      return {
+        data: {
+          updateKudosMeter: {
             kudosMeter: {
               id: '1',
             },
@@ -43,11 +65,13 @@ const mocks = [
               id: '1',
               name: 'First kudometer',
               goals: [],
+              isActive: false,
             },
             {
               id: '2',
               name: 'Second kudometer',
               goals: [],
+              isActive: false,
             },
           ],
         },
@@ -67,11 +91,13 @@ const mocks = [
               id: '1',
               name: 'First kudometer',
               goals: [],
+              isActive: false,
             },
             {
               id: '2',
               name: 'Second kudometer',
               goals: [],
+              isActive: false,
             },
           ],
         },
@@ -111,7 +137,8 @@ describe('<KudometerSection />', () => {
 
   beforeEach(() => {
     mockLocalstorage('1');
-    mutationCalled = false;
+    createMutationCalled = false;
+    editMutationCalled = false;
     wrapper = mount(withMockedProviders(<KudometerSection />, mocks));
   });
 
@@ -167,33 +194,100 @@ describe('<KudometerSection />', () => {
     });
   });
 
-  it('calls the create mutation', async () => {
-    const component = wrapper.find('KudometerSection').instance();
+  describe('create kudometer', () => {
+    it('calls the create mutation', async () => {
+      const component = wrapper.find('KudometerSection').instance();
 
-    await act(async () => {
-      component.setState({ name: 'Test kudometer' });
+      await act(async () => {
+        component.setState({ name: 'Test kudometer', editing: false });
 
-      await wrapper.update();
+        await wrapper.update();
 
-      findByTestId(wrapper, 'create-button').hostNodes().simulate('submit');
+        findByTestId(wrapper, 'create-button').hostNodes().simulate('submit');
 
-      await wait(0);
-      await wrapper.update();
+        await wait(0);
+        await wrapper.update();
 
-      expect(mutationCalled).toBe(true);
+        expect(createMutationCalled).toBe(true);
+      });
+    });
+
+    it('doesnt call the mutation if the name is empty', async () => {
+      await act(async () => {
+        findByTestId(wrapper, 'create-button').hostNodes().simulate('click');
+
+        await wait(0);
+        await wrapper.update();
+
+        expect(createMutationCalled).toBe(false);
+      });
     });
   });
 
-  it('doesnt call the mutation if the name is empty', async () => {
-    await act(async () => {
-      findByTestId(wrapper, 'create-button').hostNodes().simulate('click');
+  describe('edit', () => {
+    it('calls the edit mutation', async () => {
+      const component = wrapper.find('KudometerSection').instance();
 
-      await wait(0);
-      await wrapper.update();
+      await act(async () => {
+        component.setState({ name: 'Test kudometer', editing: true, kudometerId: '1' });
 
-      expect(mutationCalled).toBe(false);
+        await wrapper.update();
+
+        findByTestId(wrapper, 'create-button').hostNodes().simulate('submit');
+
+        await wait(0);
+        await wrapper.update();
+
+        expect(editMutationCalled).toBe(true);
+      });
+    });
+
+    it('has a cancel button when editing', async () => {
+      const component = wrapper.find('KudometerSection').instance();
+
+      await act(async () => {
+        component.setState({ editing: true });
+
+        await wait(0);
+        await wrapper.update();
+
+        expect(findByTestId(wrapper, 'cancel-edit-button').hostNodes().length).toBe(1);
+      });
+    });
+
+    it('does not have a cancel button when not editing', async () => {
+      const component = wrapper.find('KudometerSection').instance();
+
+      await act(async () => {
+        component.setState({ editing: false });
+
+        await wait(0);
+        await wrapper.update();
+
+        expect(findByTestId(wrapper, 'cancel-edit-button').hostNodes().length).toBe(0);
+      });
+    });
+
+    it('clears the state when the cancel button is pressed', async () => {
+      const component: any = wrapper.find('KudometerSection').instance();
+
+      await act(async () => {
+        component.setState({ editing: true, name: 'Some name', kudometerId: '1' });
+
+        await wait(0);
+        await wrapper.update();
+
+        findByTestId(wrapper, 'cancel-edit-button').hostNodes().simulate('click');
+
+        await wrapper.update();
+
+        expect(component.state.editing).toBe(false);
+        expect(component.state.name).toBe('');
+        expect(component.state.kudometerId).toBe('');
+      });
     });
   });
+
 
   it('sets the selected kudometer', async () => {
     const component: any = wrapper.find('KudometerSection').instance();

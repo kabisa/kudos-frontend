@@ -13,24 +13,56 @@ const mocks = [
     request: {
       query: GET_USER,
     },
-    result: () => ({ data: { viewer: { name: 'Max', avatar: 'fakeAvatarUrl' } } }),
+    result: () => (
+      {
+        data: {
+          viewer: {
+            name: 'Max',
+            avatar: 'fakeAvatarUrl',
+            slackRegistrationToken: 'token',
+            slackId: '',
+          },
+        },
+      }),
   },
 ];
 
+const mocksWithSlackId = [
+  {
+    request: {
+      query: GET_USER,
+    },
+    result: () => (
+      {
+        data: {
+          viewer: {
+            name: 'Max',
+            avatar: 'fakeAvatarUrl',
+            slackRegistrationToken: 'token',
+            slackId: '1',
+          },
+        },
+      }),
+  },
+];
+
+let wrapper: ReactWrapper;
+let history: MemoryHistory;
+const setup = async (mock: any) => {
+  history = createMemoryHistory();
+
+  await act(async () => {
+    wrapper = mount(withMockedProviders(<UserPage history={history} />, mock));
+  });
+};
+
 describe('<UserPage/>', () => {
-  let wrapper: ReactWrapper;
-  let history:MemoryHistory;
-
   beforeEach(async () => {
-    history = createMemoryHistory();
-
-    await act(async () => {
-      wrapper = mount(withMockedProviders(<UserPage history={history} />, mocks));
-    });
+    await setup(mocks);
   });
 
   it('shows the component is loading', () => {
-    expect(wrapper.containsMatchingElement(<h2>Loading...</h2>)).toBe(true);
+    expect(findByTestId(wrapper, 'loading').length).toBe(1);
   });
 
   it('shows the users name', async () => {
@@ -78,6 +110,25 @@ describe('<UserPage/>', () => {
       wrapper.update();
 
       expect(history.location.pathname).toBe(PATH_RESET_PASSWORD);
+    });
+  });
+
+  it('shows the connect to slack part if the slack id is null', async () => {
+    await act(async () => {
+      await wait(0);
+      await wrapper.update();
+
+      expect(findByTestId(wrapper, 'register-slack').hostNodes().length).toBe(1);
+    });
+  });
+
+  it('shows the user is connected to slack if the slack id is not null', async () => {
+    await setup(mocksWithSlackId);
+    await act(async () => {
+      await wait(0);
+      await wrapper.update();
+
+      expect(findByTestId(wrapper, 'slack-connected').hostNodes().length).toBe(1);
     });
   });
 });

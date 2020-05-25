@@ -27,7 +27,7 @@ describe('<ManageTeamPage/>', () => {
 
   it('navigates to the invites section', async () => {
     await act(async () => {
-      findByTestId(wrapper, 'invite-button').hostNodes().simulate('click');
+      findByTestId(wrapper, 'invites-button').hostNodes().simulate('click');
 
       expect(history.location.pathname).toBe('/invites');
     });
@@ -35,7 +35,7 @@ describe('<ManageTeamPage/>', () => {
 
   it('navigates to the guidelines section', async () => {
     await act(async () => {
-      findByTestId(wrapper, 'guideline-button').hostNodes().simulate('click');
+      findByTestId(wrapper, 'guidelines-button').hostNodes().simulate('click');
 
       expect(history.location.pathname).toBe('/guidelines');
     });
@@ -43,7 +43,7 @@ describe('<ManageTeamPage/>', () => {
 
   it('navigates to the members section', async () => {
     await act(async () => {
-      findByTestId(wrapper, 'member-button').hostNodes().simulate('click');
+      findByTestId(wrapper, 'members-button').hostNodes().simulate('click');
 
       expect(history.location.pathname).toBe('/members');
     });
@@ -51,9 +51,17 @@ describe('<ManageTeamPage/>', () => {
 
   it('navigates to the kudometer section', async () => {
     await act(async () => {
-      findByTestId(wrapper, 'kudometer-button').hostNodes().simulate('click');
+      findByTestId(wrapper, 'kudometers-button').hostNodes().simulate('click');
 
-      expect(history.location.pathname).toBe('/kudometer');
+      expect(history.location.pathname).toBe('/kudometers');
+    });
+  });
+
+  it('navigates to the integrations section', async () => {
+    await act(async () => {
+      findByTestId(wrapper, 'integrations-button').hostNodes().simulate('click');
+
+      expect(history.location.pathname).toBe('/integrations');
     });
   });
 });

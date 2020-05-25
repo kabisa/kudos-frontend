@@ -27,6 +27,7 @@
     "apollo-link-error": "^1.1.12",
     "apollo-link-http": "^1.5.16",
     "chroma-js": "^2.1.0",
+    "copy-to-clipboard": "^3.3.1",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "graphql": "^14.6.0",
@@ -36,6 +37,7 @@
     "moment-twitter": "^0.2.0",
     "node-sass": "^4.13.1",
     "prop-types": "^15.7.2",
+    "query-string": "^6.12.1",
     "raven-js": "^3.27.2",
     "rc-progress": "^2.5.2",
     "react": "^16.13.0",
@@ -73,6 +75,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-copy-to-clipboard": "^4.3.0",
     "@typescript-eslint/eslint-plugin": "^2.19.0",
     "@typescript-eslint/parser": "^2.23.0",
     "eslint": "^6.8.0",
