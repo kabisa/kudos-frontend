@@ -29,7 +29,7 @@ export interface IntegrationsSectionProps {
 
 
 export default class IntegrationsSection extends React.Component<IntegrationsSectionProps, any> {
-  slackConnectUrl = `${settings.API_BASE_URL}/auth/slack/${Storage.getItem(settings.TEAM_ID_TOKEN)}`;
+  slackConnectUrl = `${settings.API_BASE_URL}/auth/slack/team/${Storage.getItem(settings.TEAM_ID_TOKEN)}`;
 
   constructor(props: IntegrationsSectionProps) {
     super(props);
