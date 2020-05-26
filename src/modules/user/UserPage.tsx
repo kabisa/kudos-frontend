@@ -1,19 +1,20 @@
 import React from 'react';
 import {
-  Button, Header, Image, Segment,
+  Button, Image,
 } from 'semantic-ui-react';
-import { Mutation, Query } from '@apollo/react-components';
+import { Query } from '@apollo/react-components';
 import gql from 'graphql-tag';
 
 import { withRouter } from 'react-router-dom';
 import { History } from 'history';
 import { toast } from 'react-toastify';
 import { Navigation } from '../../components/navigation';
-import { Auth, getGraphqlError } from '../../support';
+import { Auth } from '../../support';
 import s from './UserPage.module.scss';
 import settings from '../../config/settings';
 import { Storage } from '../../support/storage';
 import { PATH_RESET_PASSWORD } from '../../routes';
+import { SlackConnectedSegment, SlackDisconnectedSegment } from './SlackSection';
 
 const queryString = require('query-string');
 
@@ -106,59 +107,12 @@ export class UserPage extends React.Component<Props, State> {
                       </a>
                     </span>
                     {data && data.viewer.slackId ? (
-                      <Segment data-testid="slack-connected">
-                        <Header>Your account is connected to slack!</Header>
-                        <p>You can disconnect your Kudo-O-Matic account from Slack by clicking the button below.</p>
-                        <Mutation<DisconnectSlackResult>
-                          mutation={DISCONNECT_SLACK}
-                          refetchQueries={[
-                            { query: GET_USER },
-                          ]}
-                          onCompleted={() => {
-                            toast.info('Disconnected from Slack!');
-                          }}
-                        >
-                          {(disconnectSlack, { error, loading: mutationLoading }) => {
-                            if (error) {
-                              return <p>Something went wrong: {getGraphqlError(error)}</p>;
-                            }
-
-                            return (
-                              <Button
-                                data-testid="disconnect-slack-btn"
-                                color="red"
-                                size="small"
-                                loading={mutationLoading}
-                                onClick={() => disconnectSlack()}
-                              >
-                                Disconnect Slack account
-                              </Button>
-                            );
-                          }}
-                        </Mutation>
-                      </Segment>
+                      <SlackConnectedSegment />
                     ) : (
-                      <Segment textAlign="center" data-testid="register-slack" compact>
-                        <Header>You&#39;re account is not yet connected to Slack but don&#39;t worry, connecting is
-                          easy!
-                        </Header>
-                        <div>
-                          <p>Simply press the button below and you&#39;re good to go.</p>
-                          <Button basic data-testid="connect-slack-btn" href={this.slackConnectUrl}>
-                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                              <img
-                                style={{ marginRight: 8 }}
-                                width={20}
-                                height={20}
-                                src={this.slackIconPath}
-                                alt="Connect account"
-                              />
-                              Connect account
-                            </div>
-                          </Button>
-
-                        </div>
-                      </Segment>
+                      <SlackDisconnectedSegment
+                        slackIconPath={this.slackIconPath}
+                        slackConnectUrl={this.slackConnectUrl}
+                      />
                     )}
                   </div>
                 );
