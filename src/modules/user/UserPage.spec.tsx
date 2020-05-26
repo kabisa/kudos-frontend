@@ -4,10 +4,13 @@ import { mount, ReactWrapper } from 'enzyme';
 import { MemoryHistory } from 'history/createMemoryHistory';
 import { createMemoryHistory } from 'history';
 import { act } from 'react-dom/test-utils';
-import { GET_USER, UserPage } from './UserPage';
-import { findByTestId, wait, withMockedProviders } from '../../spec_helper';
+import { DISCONNECT_SLACK, GET_USER, UserPage } from './UserPage';
+import {
+  findByTestId, mockLocalstorage, wait, withMockedProviders,
+} from '../../spec_helper';
 import { PATH_RESET_PASSWORD } from '../../routes';
 
+let mutationCalled = false;
 const mocks = [
   {
     request: {
@@ -19,11 +22,11 @@ const mocks = [
           viewer: {
             name: 'Max',
             avatar: 'fakeAvatarUrl',
-            slackRegistrationToken: 'token',
             slackId: '',
           },
         },
-      }),
+      }
+    ),
   },
 ];
 
@@ -38,11 +41,44 @@ const mocksWithSlackId = [
           viewer: {
             name: 'Max',
             avatar: 'fakeAvatarUrl',
-            slackRegistrationToken: 'token',
             slackId: '1',
           },
         },
-      }),
+      }
+    ),
+  },
+  {
+    request: {
+      query: DISCONNECT_SLACK,
+    },
+    result: () => {
+      mutationCalled = true;
+      return {
+        data: {
+          disconnectSlack: {
+            user: {
+              id: '1',
+            },
+          },
+        },
+      };
+    },
+  },
+  {
+    request: {
+      query: GET_USER,
+    },
+    result: () => (
+      {
+        data: {
+          viewer: {
+            name: 'Max',
+            avatar: 'fakeAvatarUrl',
+            slackId: null,
+          },
+        },
+      }
+    ),
   },
 ];
 
@@ -50,6 +86,8 @@ let wrapper: ReactWrapper;
 let history: MemoryHistory;
 const setup = async (mock: any) => {
   history = createMemoryHistory();
+  mutationCalled = false;
+  mockLocalstorage('1');
 
   await act(async () => {
     wrapper = mount(withMockedProviders(<UserPage history={history} />, mock));
@@ -75,7 +113,7 @@ describe('<UserPage/>', () => {
     });
   });
 
-  it('doesnt show an image when the query hasnt loaded', () => {
+  it('doesnt show an image when the query hasn\'t loaded', () => {
     expect(wrapper.containsMatchingElement(<img src="fakeAvatarUrl" />)).toBe(false);
   });
 
@@ -113,22 +151,56 @@ describe('<UserPage/>', () => {
     });
   });
 
-  it('shows the connect to slack part if the slack id is null', async () => {
-    await act(async () => {
-      await wait(0);
-      await wrapper.update();
+  describe('not connected to slack', () => {
+    beforeEach(async () => {
+      await setup(mocks);
+    });
 
-      expect(findByTestId(wrapper, 'register-slack').hostNodes().length).toBe(1);
+    it('shows the connect to slack part if the slack id is null', async () => {
+      await act(async () => {
+        await wait(0);
+        await wrapper.update();
+
+        expect(findByTestId(wrapper, 'register-slack').hostNodes().length).toBe(1);
+      });
+    });
+
+    it('has the correct url for the connect button', async () => {
+      await act(async () => {
+        await wait(0);
+        await wrapper.update();
+
+        const btn = findByTestId(wrapper, 'connect-slack-btn').hostNodes();
+
+        expect(btn.prop('href')).toEqual('http://localhost:3000/auth/slack/user/1');
+      });
     });
   });
 
-  it('shows the user is connected to slack if the slack id is not null', async () => {
-    await setup(mocksWithSlackId);
-    await act(async () => {
-      await wait(0);
-      await wrapper.update();
+  describe('connected to slack', () => {
+    beforeEach(async () => {
+      await setup(mocksWithSlackId);
+    });
 
-      expect(findByTestId(wrapper, 'slack-connected').hostNodes().length).toBe(1);
+    it('shows the user is connected to slack if the slack id is not null', async () => {
+      await act(async () => {
+        await wait(0);
+        await wrapper.update();
+
+        expect(findByTestId(wrapper, 'slack-connected').hostNodes().length).toBe(1);
+      });
+    });
+
+    it('calls the disconnect mutation', async () => {
+      await act(async () => {
+        await wait(0);
+        await wrapper.update();
+
+        findByTestId(wrapper, 'disconnect-slack-btn').hostNodes().simulate('click');
+
+        await wait(0);
+        expect(mutationCalled).toBe(true);
+      });
     });
   });
 });
