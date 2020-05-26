@@ -11,7 +11,7 @@ import {
 } from './sections';
 
 import { PATH_MANAGE_TEAM } from '../../routes';
-import IntegrationSections from './sections/Integrations';
+import IntegrationSections from './sections/integrations/Integrations';
 
 export interface Props {
   history: History;
