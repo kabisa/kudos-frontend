@@ -1,13 +1,40 @@
 import React from 'react';
-import { Divider, Header, Icon } from 'semantic-ui-react';
+import {
+  Divider, Header, Icon,
+} from 'semantic-ui-react';
 import gql from 'graphql-tag';
 import { Query } from '@apollo/react-components';
 import { History } from 'history';
 import { toast } from 'react-toastify';
-import { Storage } from '../../../support/storage';
-import settings from '../../../config/settings';
+import { Storage } from '../../../../support/storage';
+import settings from '../../../../config/settings';
+import { SlackSection } from './SlackSection';
 
 const queryString = require('query-string');
+
+export const REMOVE_SLACK = gql`
+    mutation RemoveSlack($teamId: ID!) {
+        removeSlack(teamId: $teamId) {
+            team {
+                id
+            }
+        }
+    }
+`;
+
+export interface RemoveSlackParameters {
+  teamId: string;
+}
+
+export interface RemoveSlackResult {
+  data: {
+    removeSlack: {
+      team: {
+        id: string
+      }
+    }
+  }
+}
 
 export const GET_TEAM_INTEGRATIONS = gql`
     query GetTeamIntegrations($id: ID!) {
@@ -65,34 +92,8 @@ export default class IntegrationsSection extends React.Component<IntegrationsSec
             if (error) return <span data-testid="error">{error.message}</span>;
             if (!data) return <span>Something went wrong</span>;
 
-            if (data.teamById.slackTeamId) {
-              return (
-                <div>
-                  <Header as="h5">Slack integration</Header>
-                  <p>Your team is already connected to Slack! <br />
-                    To disable it remove the app from your workspace.
-                  </p>
-                </div>
-              );
-            }
-
             return (
-              <div>
-                <Header as="h5">Slack integration</Header>
-                <p> To enable Slack integration add the app to your workspace using the button below.</p>
-                <p>Afterwards every Slack user (including you) should link their account Kudo-O-Matic account
-                  by visiting their profile page.
-                </p>
-                <a data-testid="slack-button" href={this.slackConnectUrl}><img
-                  alt="Add to Slack"
-                  height="40"
-                  width="139"
-                  src="https://platform.slack-edge.com/img/add_to_slack.png"
-                  srcSet={'https://platform.slack-edge.com/img/add_to_slack.png 1x'
-                  + ', https://platform.slack-edge.com/img/add_to_slack@2x.png 2x'}
-                />
-                </a>
-              </div>
+              <SlackSection slackId={data.teamById.slackTeamId} slackConnectUrl={this.slackConnectUrl} />
             );
           }}
         </Query>
