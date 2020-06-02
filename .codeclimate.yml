@@ -3,3 +3,16 @@ checks:
   method-lines:
     config:
       threshold: 80
+exclude_patterns:
+  - "spec/"
+  - "!spec/support/helpers"
+  - "config/"
+  - "db/"
+  - "dist/"
+  - "features/"
+  - "**/node_modules/"
+  - "script/"
+  - "**/*.d.ts"
+  - "**/*.spec.tsx"
+  - "**/spec_helper.tsx"
+  - "**/PullToRefresh.js"
