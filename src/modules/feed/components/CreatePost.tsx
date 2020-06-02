@@ -217,6 +217,7 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
         {(client) => (
           <Mutation<CreatePostParameters>
             mutation={CREATE_POST}
+            onError={(error) => this.setState({ error: getGraphqlError(error) })}
             onCompleted={this.onCompleted}
             update={(cache, { data: postData }: any) => {
               const beforeState: any = cache.readQuery({
