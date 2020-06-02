@@ -3,17 +3,17 @@
   "name": "Kudo-o-matic",
   "icons": [
     {
-      "src": "favicon-48x48.ico",
+      "src": "assets/favicon-48x48.ico",
       "sizes": "48x48",
       "type": "image/x-icon"
     },
     {
-      "src": "logo-192x192.png",
+      "src": "assets/logo-192x192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "logo-512x512.png",
+      "src": "assets/logo-512x512.png",
       "type": "image/png",
       "sizes": "512x512"
     }

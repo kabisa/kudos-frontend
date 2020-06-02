@@ -28,9 +28,7 @@ const authMiddleware = new ApolloLink((operation, forward) => {
 const client = new ApolloClient({
   link: ApolloLink.from([
     onError((error) => {
-      if (error && error.networkError) {
-        handleError(error.networkError);
-      }
+      handleError(error);
     }),
     concat(authMiddleware, httpLink),
   ]),

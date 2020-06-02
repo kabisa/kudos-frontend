@@ -12,10 +12,9 @@ export class Auth {
   public static isTeamAdmin = (): boolean => Storage.getItem(settings.ROLE_TOKEN) === 'admin';
 
   public static logout = async () => {
-    await client.resetStore();
+    await client.clearStore();
     Storage.clearAll();
 
     history.push(PATH_LOGIN);
-    window.location.reload();
   };
 }
