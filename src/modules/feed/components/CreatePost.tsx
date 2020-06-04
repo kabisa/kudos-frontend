@@ -1,6 +1,5 @@
 import React, { Component, FormEvent } from 'react';
 import { Button, Form, Message } from 'semantic-ui-react';
-import { Redirect } from 'react-router-dom';
 import { Mutation } from '@apollo/react-components';
 import { toast } from 'react-toastify';
 import gql from 'graphql-tag';
@@ -9,7 +8,6 @@ import ApolloClient from 'apollo-client';
 import settings from '../../../config/settings';
 import UserDropdown from './UserDropdown/UserDropdown';
 import GuidelineInput from './GuidelineInput/GuidelineInput';
-import { PATH_FEED } from '../../../routes';
 import {
   ERROR_AMOUNT_BLANK,
   ERROR_MESSAGE_BLANK,
@@ -69,13 +67,15 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
   initialState: CreatePostState;
 
   // @ts-ignore
-  guidelineInput?: GuidelineInput;
+  guidelineInput: React.RefObject<GuidelineInput>;
 
   // @ts-ignore
-  userDropdown?: UserDropdown;
+  userDropdown: React.RefObject<UserDropdown>;
 
   constructor(props: CreatePostProps) {
     super(props);
+    this.guidelineInput = React.createRef();
+    this.userDropdown = React.createRef();
 
     this.state = {
       amount: '',
@@ -183,12 +183,13 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
 
   onCompleted() {
     toast.info('Post created successfully!');
+    // We use wrapped instance because enhanceWithClickOutside wraps the component.
     // @ts-ignore
-    this.guidelineInput.resetState();
+    // eslint-disable-next-line no-underscore-dangle
+    this.guidelineInput.current.__wrappedInstance.resetState();
     // @ts-ignore
-    this.userDropdown.resetState();
+    this.userDropdown.current.resetState();
     this.setState(this.initialState);
-    return <Redirect to={PATH_FEED} />;
   }
 
   handleDropdownChange(value: string[]) {
@@ -216,8 +217,8 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
         {(client) => (
           <Mutation<CreatePostParameters>
             mutation={CREATE_POST}
-            onCompleted={this.onCompleted}
             onError={(error) => this.setState({ error: getGraphqlError(error) })}
+            onCompleted={this.onCompleted}
             update={(cache, { data: postData }: any) => {
               const beforeState: any = cache.readQuery({
                 query: GET_GOAL_PERCENTAGE,
@@ -276,9 +277,7 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
                     data-testid="amount-input"
                     amountError={amountError}
                     handleChange={this.handleKudoInputChange}
-                    ref={(c) => {
-                      this.guidelineInput = c || undefined;
-                    }}
+                    ref={this.guidelineInput}
                   />
                   <Form.Field>
                     {/* Suppressed because the linter doesn't pick up on custom controls */}
@@ -287,9 +286,7 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
                       Receivers
                       <UserDropdown
                         data-testid="receiver-input"
-                        ref={(c) => {
-                          this.userDropdown = c || undefined;
-                        }}
+                        ref={this.userDropdown}
                         id="input-receivers"
                         onChange={this.handleDropdownChange}
                         error={receiversError}
