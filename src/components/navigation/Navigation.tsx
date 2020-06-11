@@ -5,10 +5,10 @@ import Desktop from './Desktop';
 
 export default () => (
   <div>
-    <Responsive maxWidth={Responsive.onlyMobile.maxWidth}>
+    <Responsive maxWidth={Responsive.onlyTablet.maxWidth}>
       <MobileNavigation />
     </Responsive>
-    <Responsive minWidth={Responsive.onlyTablet.minWidth}>
+    <Responsive minWidth={Responsive.onlyTablet.maxWidth}>
       <Desktop />
     </Responsive>
   </div>

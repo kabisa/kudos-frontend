@@ -96,47 +96,67 @@ export class Header extends Component<Props, State> {
           onCancel={() => this.closeConfirmDialog()}
           onConfirm={this.remove}
         />
-        <div className={s.kudo_amount}>
-          <span data-testid="post-amount">{amount + votes.length}₭</span>
+        <div>
+          <span className={s.kudo_amount} data-testid="post-amount">{amount + votes.length}</span>
+          <span className={s.kudo_symbol}>₭</span>
         </div>
         <div className={s.image_wrapper}>
-          <Image data-testid="sender-avatar" src={this.props.transaction.sender.avatar} avatar />
+          <Image
+            className={s.avatar}
+            data-testid="sender-avatar"
+            src={this.props.transaction.sender.avatar}
+            avatar
+          />
           {this.props.transaction.receivers.map((user) => (
-            <Image data-testid="receiver-avatar" key={user.id} src={user.avatar} avatar />
+            <Image
+              className={s.avatar}
+              data-testid="receiver-avatar"
+              key={user.id}
+              src={user.avatar}
+              avatar
+            />
           ))}
         </div>
-        <span data-testid="post-timestamp" className={s.timestamp}>
-          {timestamp.fromNow()}
-        </span>
-        {((Storage.getItem(settings.USER_ID_TOKEN) === this.props.transaction.sender.id
-            && allowNormalEdit)
-            || Auth.isTeamAdmin()) && (
-            <Dropdown data-testid="post-dropdown" item icon="ellipsis vertical" direction="left" className={s.dropdown}>
-              <Dropdown.Menu>
-                <Mutation<ToggleLikeParameters>
-                  mutation={MUTATION_REMOVE_POST}
-                  refetchQueries={[
-                    {
-                      query: GET_POSTS,
-                      variables: {
-                        team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
-                      },
-                    },
-                  ]}
-                  onCompleted={() => toast.info('Post successfully removed!')}
-                >
-                  {(mutate) => (
-                    <Dropdown.Item
-                      data-testid="delete-button"
-                      icon="trash"
-                      text="Remove"
-                      onClick={() => this.openConfirmDialog(mutate)}
-                    />
-                  )}
-                </Mutation>
-              </Dropdown.Menu>
-            </Dropdown>
-        )}
+        <div>
+          <span data-testid="post-timestamp" className={s.timestamp}>
+            {timestamp.fromNow()}
+          </span>
+          {((Storage.getItem(settings.USER_ID_TOKEN) === this.props.transaction.sender.id
+                        && allowNormalEdit)
+                        || Auth.isTeamAdmin()) && (
+                        <Dropdown
+                          data-testid="post-dropdown"
+                          item
+                          icon="ellipsis vertical"
+                          direction="left"
+                          className={s.dropdown}
+                        >
+                          <Dropdown.Menu>
+                            <Mutation<ToggleLikeParameters>
+                              mutation={MUTATION_REMOVE_POST}
+                              refetchQueries={[
+                                {
+                                  query: GET_POSTS,
+                                  variables: {
+                                    team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
+                                  },
+                                },
+                              ]}
+                              onCompleted={() => toast.info('Post successfully removed!')}
+                            >
+                              {(mutate) => (
+                                <Dropdown.Item
+                                  data-testid="delete-button"
+                                  icon="trash"
+                                  text="Remove"
+                                  onClick={() => this.openConfirmDialog(mutate)}
+                                />
+                              )}
+                            </Mutation>
+                          </Dropdown.Menu>
+                        </Dropdown>
+          )}
+        </div>
       </div>
     );
   }

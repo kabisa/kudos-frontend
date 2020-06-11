@@ -6,6 +6,8 @@ import settings from '../../../../config/settings';
 import { FragmentPostResult } from '../../queries';
 import { Storage } from '../../../../support/storage';
 
+import s from './Transaction.module.scss';
+
 const userId = Storage.getItem(settings.USER_ID_TOKEN);
 
 export interface TransactionProps {
@@ -16,22 +18,12 @@ function Transaction(props: TransactionProps) {
   return (
     <div
       data-testid="kudo-transaction"
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        paddingBottom: '4px',
-        paddingTop: '4px',
-        textAlign: 'initial',
-        margin: 'auto',
-        maxWidth: '420px',
-      }}
+      className={s.transaction}
     >
-      <Card style={{ width: '100%' }}>
+      <Card style={{ width: '100%', height: '100%', borderRadius: 6 }}>
         <Card.Content>
-          <Card.Header>
-            <Header data-testid="post-header" transaction={props.transaction} />
-          </Card.Header>
-          <Card.Description style={{ marginTop: '1em' }}>
+          <Header data-testid="post-header" transaction={props.transaction} />
+          <Card.Description className={s.transaction_text} style={{ marginTop: '1em' }}>
             <div data-test="post-message">
               <strong data-testid="sender-name">{props.transaction.sender.name} </strong> gave{' '}
               <strong data-testid="kudo-amount">{props.transaction.amount}₭ </strong>

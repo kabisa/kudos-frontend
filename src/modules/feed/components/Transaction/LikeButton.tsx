@@ -191,7 +191,9 @@ class LikeButton extends React.Component <LikeButtonProps, LikeButtonState> {
           </Mutation>
         </div>
         <p
-          style={{ margin: 'auto', marginLeft: '4px', width: 'auto' }}
+          style={{
+            margin: 'auto', marginLeft: '4px', width: 'auto', fontSize: 13,
+          }}
           onClick={this.show}
           data-testid="message"
         >

@@ -308,12 +308,11 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
                   <Button
                     data-testid="submit-button"
                     type="submit"
-                    primary
                     className={s.submit_button}
                     loading={loading}
                     disabled={loading}
                   >
-                    {transaction ? 'Update' : 'Create'}
+                    {transaction ? 'Update' : 'DROP YOUR KUDOS HERE'}
                   </Button>
 
                   {displayError && (
