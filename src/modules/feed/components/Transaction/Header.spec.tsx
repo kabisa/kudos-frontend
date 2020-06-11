@@ -95,7 +95,7 @@ describe('<Header />', () => {
   });
 
   it('shows the correct kudo amount', () => {
-    expect(findByTestId(wrapper, 'post-amount').contains('5')).toBe(true);
+    expect(findByTestId(wrapper, 'post-amount').text()).toBe('5');
   });
 
   it('shows the correct timestamp', () => {
