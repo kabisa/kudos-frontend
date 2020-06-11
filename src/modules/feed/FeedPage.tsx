@@ -5,7 +5,7 @@ import {
 import { PullToRefresh } from '../../components';
 import { Navigation } from '../../components/navigation';
 import {
-  CreatePost, GoalProgress, LeftRail, RightRail,
+  CreatePost, LeftRail, RightRail,
 } from './components';
 import { GetPostsResult } from './queries';
 import { RepoList } from './RepoList';
@@ -54,8 +54,6 @@ export class FeedPage extends Component<FeedPageProps, FeedPageState> {
         <div className="page">
           <Responsive maxWidth={Responsive.onlyTablet.maxWidth}>
             <div style={{ padding: '1em' }}>
-              <GoalProgress />
-              <Divider />
               <CreatePost back={false} />
             </div>
             <Divider style={{ marginBottom: '2px', marginTop: '0px' }} />
