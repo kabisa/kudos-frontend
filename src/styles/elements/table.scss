@@ -1,0 +1,25 @@
+table.ui.table {
+  thead {
+    tr {
+      th {
+        background: #DADED2;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      background: #DADED2;
+    }
+
+    tr.positive {
+      background: #DADED2 !important;
+      color: black !important;
+    }
+
+    tr.negative {
+      background: #DADED2 !important;
+      color: black !important;
+    }
+  }
+}

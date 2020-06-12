@@ -6,6 +6,10 @@
   }
 }
 
+body {
+  background: #ECE7DA !important;
+}
+
 body > div > div > div.main-form {
   height: 100%;
   overflow: auto;
@@ -21,9 +25,15 @@ div.main-form {
   padding-top: constant(safe-area-inset-top); /* iOS 11.0 */
   padding-top: env(safe-area-inset-top); /* iOS 11.2 */
   text-align: center;
+  background: #ECE7DA;
 }
 
 .flex {
   display: flex;
   flex-direction: column;
+}
+div.ui.vertical.tabular.menu {
+  a.active.item {
+    background: linear-gradient(0deg, #D46355 0%, #DF867D 100%);
+  }
 }
