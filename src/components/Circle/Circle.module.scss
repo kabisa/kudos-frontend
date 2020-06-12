@@ -6,8 +6,30 @@
 }
 
 .wrapper {
-  width: 215px;
-  height: 215px;
+  width: 240px;
+  height: 240px;
   margin: auto;
   position: relative;
+}
+
+.current {
+  color: #FFFFFF;
+  font-family: Rajdhani, sans-serif;
+  font-size: 40px;
+  font-weight: bold;
+  letter-spacing: 0;
+  line-height: 77px;
+  margin: 0;
+  height: 65px;
+}
+
+.needed {
+  color: #FFFFFF;
+  font-family: Rajdhani, sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 23px;
+  margin: 0;
+  padding-top: 0;
 }

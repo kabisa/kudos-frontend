@@ -34,9 +34,14 @@ export interface Props {
 export function DesktopNavigation(props: Props) {
   return (
     <div className={s.root}>
-      <Menu fixed="top" inverted size="large" className={s.menu}>
+      <Menu inverted fixed="top" size="large" className={s.menu}>
         <Container>
-          <Menu.Item data-testid="home-button" onClick={() => props.history.push(PATH_FEED)}>Home</Menu.Item>
+          <Menu.Item
+            style={{ borderLeft: 'none' }}
+            data-testid="home-button"
+            onClick={() => props.history.push(PATH_FEED)}
+          >Home
+          </Menu.Item>
           <Menu.Menu position="right">
             <Query<GetUserResult> query={GET_USER}>
               {({ data }) => (

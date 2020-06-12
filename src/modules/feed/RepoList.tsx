@@ -68,7 +68,7 @@ export function RepoList(): React.ReactElement {
                 name="arrow down"
                 size="large"
                 onClick={() => loadMore()}
-                style={{ margin: 'auto' }}
+                style={{ margin: 'auto', color: '#FFF' }}
               />
             </div>
             )}

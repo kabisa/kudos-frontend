@@ -2,8 +2,12 @@
   position: fixed;
   top: 0;
   width: 100%;
+  background: #00749A;
 }
 
-.menu {
-  height: 62.84px;
+:global(#root) {
+  .menu {
+    height: 62.84px;
+    background: #00749A;
+  }
 }

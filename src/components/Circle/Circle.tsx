@@ -15,16 +15,20 @@ function CustomCircle(props: Props): React.ReactElement {
     <div className={s.wrapper}>
       {props.currentKudos != null && (
         <span className={s.title} style={{ color: 'grey' }}>
-          <h2 data-testid="current-kudos" style={{ color: 'rgba(0, 0, 0, 0.85)' }}>{props.currentKudos}₭</h2>
-          <span data-testid="goal-kudos">of {props.neededKudos}₭ for {props.goal}</span>
+          <h2 data-testid="current-kudos" className={s.current}>
+            {props.currentKudos}
+            <span style={{ fontSize: '35px', margin: 0, padding: 0 }}>₭</span>
+          </h2>
+          <span data-testid="goal-kudos" className={s.needed}>of {props.neededKudos}₭ for {props.goal}</span>
         </span>
       )}
       <Circle
         percent={props.percent}
-        strokeWidth={12}
-        trailWidth={12}
+        strokeWidth={10}
+        trailWidth={10}
         strokeLinecap="butt"
         strokeColor={props.strokeColor}
+        trailColor="#B2CBC1"
       />
     </div>
   );

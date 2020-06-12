@@ -6,8 +6,10 @@ import gql from 'graphql-tag';
 
 import { Circle } from '../../components/Circle';
 import settings from '../../config/settings';
-import { calculateProgress, getStrokeColor } from '../../support';
+import { calculateProgress } from '../../support';
 import { Storage } from '../../support/storage';
+
+import s from './Statistics.module.scss';
 
 export const GET_GOAL_PERCENTAGE = gql`
     query getGoals($team_id: ID!) {
@@ -42,18 +44,9 @@ export interface ActiveGoal {
 }
 
 const Statistics = () => (
-  <div>
-    <h2
-      style={{
-        paddingTop: '1em',
-        margin: 0,
-        color: 'grey',
-        display: 'relative',
-      }}
-    >
-      ₭udometer
-    </h2>
-    <h4 style={{ marginTop: '0.6rem' }}>{moment().format('MMMM Do, YYYY')}</h4>
+  <div className={s.container}>
+    <h2 className={s.kudo_header}>₭udometer</h2>
+    <h4 style={{ color: '#FFF', marginTop: '0.6rem' }}>{moment().format('MMMM Do, YYYY')}</h4>
 
     <Query<GetGoalPercentageResult>
       query={GET_GOAL_PERCENTAGE}
@@ -78,11 +71,11 @@ const Statistics = () => (
         const percentage = calculateProgress(goals, currentKudos);
         const height = calculateProgress(goals, currentKudos, 70);
         return (
-          <div style={{ marginTop: '2em' }}>
-            <h3>Next goal</h3>
+          <div style={{ color: '#FFF', marginTop: '2em' }}>
+            <h3 className={s.next_goal}>Next goal</h3>
             <Circle
               percent={percentage}
-              strokeColor={getStrokeColor(percentage)}
+              strokeColor="#3899B7"
               currentKudos={currentKudos}
               neededKudos={nextGoal ? nextGoal.amount : 0}
               goal={nextGoal ? nextGoal.name : '-'}
@@ -100,10 +93,8 @@ const Statistics = () => (
                           width: '30px',
                           height: '30px',
                           position: 'absolute',
-                          backgroundColor: goal.achievedOn ? '#2490d5' : 'lightgrey',
-                          borderRadius: '6px',
-                          // zIndex: "5",
-                          color: goal.achievedOn ? 'white' : undefined,
+                          backgroundColor: goal.achievedOn ? '#2490d5' : '#B2CBC1',
+                          borderRadius: '15px',
                         }}
                       >
                         <Icon
@@ -112,7 +103,7 @@ const Statistics = () => (
                             position: 'absolute',
                             left: '6.5px',
                             marginTop: '4.5px',
-                            // zIndex: "5",
+                            color: goal.achievedOn ? 'white' : 'black',
                           }}
                         />
                       </div>
@@ -122,10 +113,10 @@ const Statistics = () => (
                         data-testid="progress-bar"
                         style={{
                           width: '12px',
-                          height: '70px',
-                          marginTop: '30px',
+                          height: '80px',
+                          marginTop: '25px',
                           position: 'absolute',
-                          backgroundColor: goal.achievedOn ? '#2490d5' : 'lightgrey',
+                          backgroundColor: goal.achievedOn ? '#2490d5' : '#B2CBC1',
                           marginLeft: '9px',
                         }}
                       />
@@ -136,7 +127,7 @@ const Statistics = () => (
                         data-testid="next-progress-bar"
                         style={{
                           width: '12px',
-                          height: `${70 - (70 - height)}px`,
+                          height: `${75 - (70 - height)}px`,
                           marginTop: `${30 + (70 - height)}px`,
                           position: 'absolute',
                           backgroundColor: '#2490d5',
@@ -150,27 +141,24 @@ const Statistics = () => (
                       <div
                         style={{
                           position: 'absolute',
-                          // zIndex: "10",
                           width: '50px',
                           height: '2px',
-                          marginTop: `${30 + (70 - height)}px`,
-                          backgroundColor: 'black',
+                          marginTop: `${30 + (70 - height - 8)}px`,
                           marginLeft: '9px',
                         }}
                       >
-                        <p style={{ float: 'right' }}>{percentage}%</p>
+                        <p className={s.current_percentage_text}>{percentage}%</p>
                       </div>
                       )}
                     </div>
 
                     {/* Text */}
                     <h3 style={{ marginBottom: '2px', marginTop: '0px' }}>{goal.amount} ₭</h3>
-                    <p style={{ color: 'grey', marginBottom: '4px' }}>
+                    <p style={{ marginBottom: '4px' }}>
                       [Goal {goals.length - index}] {goal.name}
                     </p>
                     <span
                       style={{
-                        color: 'grey',
                         marginTop: '16px',
                         marginBottom: '0px',
                       }}
@@ -192,20 +180,9 @@ const Statistics = () => (
                         marginTop: '33px',
                         position: 'absolute',
                         backgroundColor: '#2490d5',
-                        borderRadius: '6px',
+                        borderRadius: '15px',
                       }}
-                    >
-                      <Icon
-                        name="dot circle"
-                        style={{
-                          position: 'absolute',
-                          left: '6.5px',
-                          marginTop: '5.5px',
-                          // zIndex: "5",
-                          color: 'white',
-                        }}
-                      />
-                    </div>
+                    />
                     )}
                   </div>
                 ))}

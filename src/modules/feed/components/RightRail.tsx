@@ -5,9 +5,10 @@ import { Statistics } from '../../statistics';
 import s from './Rail.module.scss';
 
 const style = {
-  height: '755px',
+  height: '850px',
   overflow: 'auto',
-  borderRadius: '10px',
+  borderRadius: '18px',
+  background: '#00284A',
 };
 
 export default () => (
