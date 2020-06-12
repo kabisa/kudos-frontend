@@ -30,6 +30,13 @@ export interface FeedPageState {
   // Future state vars go here
 }
 
+const KudoBoard = () => (
+  <div className={s.board_container}>
+    <h2 className={s.board_header}>Shout out messageboard</h2>
+    <RepoList data-testid="repo-list" />
+  </div>
+);
+
 export class FeedPage extends Component<FeedPageProps, FeedPageState> {
   constructor(props: FeedPageProps) {
     super(props);
@@ -57,10 +64,7 @@ export class FeedPage extends Component<FeedPageProps, FeedPageState> {
               <CreatePost back={false} />
             </div>
             <Divider className={s.divider} />
-            <div className={s.board_container}>
-              <h2 className={s.board_header}>Shout out messageboard</h2>
-              <RepoList data-testid="repo-list" />
-            </div>
+            <KudoBoard />
           </Responsive>
           <Responsive minWidth={Responsive.onlyTablet.maxWidth}>
             <Grid centered columns={2} style={{ minHeight: '57em' }}>
@@ -68,10 +72,7 @@ export class FeedPage extends Component<FeedPageProps, FeedPageState> {
                 <Segment className={s.create_post_segment}>
                   <CreatePost back={false} />
                 </Segment>
-                <div className={s.board_container}>
-                  <h2 className={s.board_header}>Shout out messageboard</h2>
-                  <RepoList data-testid="repo-list" />
-                </div>
+                <KudoBoard />
               </GridColumn>
               <GridColumn style={{ padding: 0, maxWidth: '400px', marginLeft: 98 }}>
                 <RightRail data-testid="right-rail" />
