@@ -154,8 +154,8 @@ describe('<Statistics />', () => {
       const achievedProgressBar = findByTestId(wrapper, 'progress-bar').last();
 
       expect(achievedProgressBar.props().style?.backgroundColor).toBe('#2490d5');
-      expect(achievedProgressBar.props().style?.height).toBe('70px');
-      expect(achievedProgressBar.props().style?.marginTop).toBe('30px');
+      expect(achievedProgressBar.props().style?.height).toBe('80px');
+      expect(achievedProgressBar.props().style?.marginTop).toBe('25px');
     });
   });
 
@@ -168,7 +168,7 @@ describe('<Statistics />', () => {
       const partialProgressBar = findByTestId(wrapper, 'next-progress-bar');
 
       expect(partialProgressBar.props().style?.backgroundColor).toBe('#2490d5');
-      expect(partialProgressBar.props().style?.height).toBe('12px');
+      expect(partialProgressBar.props().style?.height).toBe('17px');
       expect(partialProgressBar.props().style?.marginTop).toBe('88px');
     });
   });
