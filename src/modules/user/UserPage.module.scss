@@ -20,27 +20,26 @@
   margin-top: 1em !important;
 }
 
+.page {
+  text-align: center;
+  max-width: 60em;
+  margin: 8em auto auto;
+}
+
 @media only screen and (max-width: 768px) {
   .button {
     width: 100%;
+  }
+
+  div.ui.segment {
+    background: transparent;
+    border: none;
+    box-shadow: none;
   }
 }
 
 @media only screen and (min-width: 768px) {
   .button {
     width: 170px !important;
-  }
-}
-
-.page {
-  padding-top: 75px !important;
-  padding-left: 2em;
-  padding-right: 2em;
-  text-align: center;
-}
-
-@media only screen and (min-width: 768px) {
-  .page {
-    padding-top: 120px !important;
   }
 }

@@ -85,12 +85,7 @@ export class UserPage extends React.Component<Props, State> {
     return (
       <div>
         <div
-          className="page"
-          style={{
-            maxWidth: '60em',
-            margin: 'auto',
-            marginTop: '6em',
-          }}
+          className={s.page}
         >
           <Segment>
             <div style={{ display: 'grid', justifyContent: 'center' }}>
