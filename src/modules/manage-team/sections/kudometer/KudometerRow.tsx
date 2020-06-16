@@ -76,7 +76,7 @@ export function KudometerRow(props: KudometerRowProps): React.ReactElement {
           {(mutation, { loading }) => (
             <Button
               data-testid="set-active-button"
-              color="orange"
+              color="yellow"
               size="tiny"
               loading={loading}
               disabled={props.kudometer.isActive}
@@ -88,7 +88,7 @@ export function KudometerRow(props: KudometerRowProps): React.ReactElement {
         </Mutation>
         <Button
           data-testid="edit-button"
-          color="orange"
+          color="yellow"
           size="tiny"
           icon="pencil"
           onClick={() => { props.edit(props.kudometer); }}
