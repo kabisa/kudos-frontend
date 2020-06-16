@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Header, Segment } from 'semantic-ui-react';
+import { Button, Header } from 'semantic-ui-react';
 import { Mutation } from '@apollo/react-components';
 import { toast } from 'react-toastify';
 import { getGraphqlError } from '../../support';
@@ -7,7 +7,7 @@ import { DISCONNECT_SLACK, DisconnectSlackResult, GET_USER } from './UserPage';
 
 export function SlackConnectedSegment(): React.ReactElement {
   return (
-    <Segment data-testid="slack-connected">
+    <div data-testid="slack-connected">
       <Header>Your account is connected to Slack!</Header>
       <p>You can disconnect your Kudo-O-Matic account from Slack by using the button below.</p>
       <Mutation<DisconnectSlackResult>
@@ -28,7 +28,6 @@ export function SlackConnectedSegment(): React.ReactElement {
             <Button
               data-testid="disconnect-slack-btn"
               color="red"
-              size="small"
               loading={mutationLoading}
               onClick={() => disconnectSlack()}
             >
@@ -37,7 +36,7 @@ export function SlackConnectedSegment(): React.ReactElement {
           );
         }}
       </Mutation>
-    </Segment>
+    </div>
   );
 }
 
