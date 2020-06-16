@@ -55,7 +55,13 @@ export function SlackDisconnectedSegment(props: SlackDisconnectedProps): React.R
       <div>
         <p>Simply press the button below and you&#39;re good to go.</p>
         <Button data-testid="connect-slack-btn" href={props.slackConnectUrl} style={{ background: '#FFF' }}>
-          <div style={{ display: 'flex', alignItems: 'center', background: '#FFF' }}>
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            background: '#FFF',
+          }}
+          >
             <img
               style={{ marginRight: 8 }}
               width={20}

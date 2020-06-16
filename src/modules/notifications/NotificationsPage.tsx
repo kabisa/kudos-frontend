@@ -12,8 +12,12 @@ export function NotificationsPage() {
   return (
     <div>
       <div className={s.page}>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <h2 style={{ margin: 'auto' }}>Work in progress</h2>
+        <div style={{
+          height: '5em', display: 'flex', justifyContent: 'center', flexDirection: 'column',
+        }}
+        >
+          <h2 style={{ margin: 'auto' }}>&ldquo;Work in progress&ldquo;</h2>
+          <h5 style={{ margin: 'auto' }}>- The person who made this empty page, 2018</h5>
         </div>
       </div>
       <Navigation />
