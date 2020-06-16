@@ -22,14 +22,12 @@ function Toolbar(props: Props): React.ReactElement {
   );
 
   return (
-    <div>
-      <Responsive maxWidth={Responsive.onlyMobile.maxWidth}>
-        <div className={s.top_navigation}>
-          {backLink}
-          <span className={s.toolbar_text}>{props.text}</span>
-        </div>
-      </Responsive>
-    </div>
+    <Responsive maxWidth={Responsive.onlyMobile.maxWidth}>
+      <div className={s.top_navigation}>
+        {backLink}
+        <span className={s.toolbar_text}>{props.text}</span>
+      </div>
+    </Responsive>
   );
 }
 

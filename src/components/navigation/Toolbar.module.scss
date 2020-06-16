@@ -1,9 +1,15 @@
-.back_link {
-  width: 70px;
-  height: 100%;
-  display: flex;
-  color: black;
+:global(#root) {
+  .back_link {
+    width: 70px;
+    height: 100%;
+    display: flex;
+    color: white;
+
+    background: transparent;
+    color: white;
+  }
 }
+
 
 .icon {
   margin: auto !important;
@@ -15,10 +21,16 @@
 
 .top_navigation {
   width: 100%;
-  position: absolute;
+  position: static;
   height: 68px;
-  background-color: white;
+  background-color: #00749A;
   z-index: 999;
   display: flex;
   flex-direction: row;
+  margin-bottom: 2rem;
+
+  span {
+    color: white;
+    font-size: 1.2rem;
+  }
 }
