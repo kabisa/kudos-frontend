@@ -48,7 +48,7 @@ export interface SlackDisconnectedProps {
 
 export function SlackDisconnectedSegment(props: SlackDisconnectedProps): React.ReactElement {
   return (
-    <Segment textAlign="center" data-testid="register-slack" compact>
+    <div style={{ textAlign: 'center' }} data-testid="register-slack">
       <Header>You&#39;re account is not yet connected to Slack but don&#39;t worry, connecting is
         easy!
       </Header>
@@ -67,6 +67,6 @@ export function SlackDisconnectedSegment(props: SlackDisconnectedProps): React.R
           </div>
         </Button>
       </div>
-    </Segment>
+    </div>
   );
 }
