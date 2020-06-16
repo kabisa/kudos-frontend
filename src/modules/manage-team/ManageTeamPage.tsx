@@ -49,59 +49,56 @@ export class ManageTeamPage extends Component<Props, State> {
     const { activeItem } = this.state;
     return (
       <div>
-        <div className={s.page}>
+        <div className="page">
           <div
             id="management-container"
             style={{
               width: '60em',
               margin: 'auto',
-              padding: '2em',
-              marginTop: '4em',
+              textAlign: 'left',
             }}
           >
             <Grid>
-              <Grid.Row>
-                <Grid.Column width={4}>
-                  <Segment className={s.menu_segment}>
-                    <Menu fluid vertical tabular>
-                      {this.sections.map((section) => (
-                        <Menu.Item
-                          key={section}
-                          data-testid={`${section}-button`}
-                          name={section}
-                          active={activeItem === section}
-                          onClick={this.handleItemClick}
-                        />
-                      ))}
-                    </Menu>
-                  </Segment>
-                </Grid.Column>
+              <Grid.Column width={4} className={s.column}>
+                <Segment className={s.menu_segment}>
+                  <Menu fluid vertical tabular>
+                    {this.sections.map((section) => (
+                      <Menu.Item
+                        key={section}
+                        data-testid={`${section}-button`}
+                        name={section}
+                        active={activeItem === section}
+                        onClick={this.handleItemClick}
+                      />
+                    ))}
+                  </Menu>
+                </Segment>
+              </Grid.Column>
 
-                <Grid.Column stretched width={12}>
-                  <Segment>
-                    <Switch>
-                      <Route path={`${PATH_MANAGE_TEAM}/general`}>
-                        <GeneralSection />
-                      </Route>
-                      <Route path={`${PATH_MANAGE_TEAM}/invites`}>
-                        <InviteSection />
-                      </Route>
-                      <Route path={`${PATH_MANAGE_TEAM}/guidelines`}>
-                        <GuidelineSection />
-                      </Route>
-                      <Route path={`${PATH_MANAGE_TEAM}/members`}>
-                        <MemberSection />
-                      </Route>
-                      <Route path={`${PATH_MANAGE_TEAM}/kudometers`}>
-                        <KudometerSection />
-                      </Route>
-                      <Route path={`${PATH_MANAGE_TEAM}/integrations`}>
-                        <IntegrationSections history={this.props.history} />
-                      </Route>
-                    </Switch>
-                  </Segment>
-                </Grid.Column>
-              </Grid.Row>
+              <Grid.Column stretched width={12} className={s.column}>
+                <Segment>
+                  <Switch>
+                    <Route path={`${PATH_MANAGE_TEAM}/general`}>
+                      <GeneralSection />
+                    </Route>
+                    <Route path={`${PATH_MANAGE_TEAM}/invites`}>
+                      <InviteSection />
+                    </Route>
+                    <Route path={`${PATH_MANAGE_TEAM}/guidelines`}>
+                      <GuidelineSection />
+                    </Route>
+                    <Route path={`${PATH_MANAGE_TEAM}/members`}>
+                      <MemberSection />
+                    </Route>
+                    <Route path={`${PATH_MANAGE_TEAM}/kudometers`}>
+                      <KudometerSection />
+                    </Route>
+                    <Route path={`${PATH_MANAGE_TEAM}/integrations`}>
+                      <IntegrationSections history={this.props.history} />
+                    </Route>
+                  </Switch>
+                </Segment>
+              </Grid.Column>
             </Grid>
           </div>
         </div>

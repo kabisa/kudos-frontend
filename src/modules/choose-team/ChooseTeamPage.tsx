@@ -45,7 +45,7 @@ export interface Props {
 function ChooseTeamPage(props: Props): React.ReactElement {
   return (
     <div>
-      <div className={s.page}>
+      <div className="page">
         <Responsive minWidth={Responsive.onlyTablet.minWidth}>
           <Segment
             style={{

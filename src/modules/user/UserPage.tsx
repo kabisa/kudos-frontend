@@ -85,10 +85,21 @@ export class UserPage extends React.Component<Props, State> {
     return (
       <div>
         <div
-          className={s.page}
+          className="page"
+          style={{
+            textAlign: 'center',
+            maxWidth: '60em',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+          }}
         >
           <Segment>
-            <div style={{ display: 'grid', justifyContent: 'center' }}>
+            <div style={{
+              display: 'grid',
+              justifyContent: 'center',
+              rowGap: '10px',
+            }}
+            >
               <Query<GetUserResult> query={GET_USER}>
                 {({ loading, data }) => {
                   if (loading) return <span data-testid="loading">Loading...</span>;

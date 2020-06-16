@@ -6,17 +6,10 @@
     text-align: center;
   }
 
-  .page {
-    padding: 2em;
-    display: flex;
-    height: 100vh;
-  }
-
   .container {
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    //background: #ECE7DA;
   }
 
   .create_post_container_mobile {
