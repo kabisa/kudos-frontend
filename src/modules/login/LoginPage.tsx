@@ -173,7 +173,7 @@ class LoginPage extends Component<Props, State> {
                   </Message>
                   )}
                 </Form>
-                <Message>
+                <Message style={{ background: 'transparent' }}>
                   <div className={s.message}>
                     <Link data-testid="sign-up-button" to={PATH_REGISTER} className={s.left}>
                       Sign Up
