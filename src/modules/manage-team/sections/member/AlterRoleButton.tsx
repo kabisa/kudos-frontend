@@ -52,7 +52,7 @@ export function AlterRoleButton(props: AlterRoleButtonProps): React.ReactElement
     >
       {(mutate, { loading }) => (
         <Button
-          color={props.mode === AlterRoleButtonMode.PROMOTE ? 'green' : 'yellow'}
+          color={props.mode === AlterRoleButtonMode.PROMOTE ? 'teal' : 'yellow'}
           size="tiny"
           icon={props.mode === AlterRoleButtonMode.PROMOTE ? 'arrow up' : 'arrow down'}
           loading={loading}

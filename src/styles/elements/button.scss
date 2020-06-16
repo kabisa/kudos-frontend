@@ -2,13 +2,22 @@ button.ui.button.blue {
   background: #5E877D;
 }
 
+button.ui.button.blue:hover {
+  background: #425f58;
+}
+
 button.ui.button.red {
   background: #A33529;
 }
 
-button.ui.button.green {
+button.ui.button.teal {
   background: #2C7990;
 }
+
+button.ui.button.teal:hover {
+  background: #1f5565;
+}
+
 
 button.ui.button.yellow {
   background: #D28D48;
