@@ -4,6 +4,7 @@ import { Mutation } from '@apollo/react-components';
 import { toast } from 'react-toastify';
 import { getGraphqlError } from '../../support';
 import { DISCONNECT_SLACK, DisconnectSlackResult, GET_USER } from './UserPage';
+import s from './UserPage.module.scss';
 
 export function SlackConnectedSegment(): React.ReactElement {
   return (
@@ -28,6 +29,7 @@ export function SlackConnectedSegment(): React.ReactElement {
             <Button
               data-testid="disconnect-slack-btn"
               color="red"
+              className={s.button}
               loading={mutationLoading}
               onClick={() => disconnectSlack()}
             >
@@ -53,7 +55,12 @@ export function SlackDisconnectedSegment(props: SlackDisconnectedProps): React.R
       </Header>
       <div>
         <p>Simply press the button below and you&#39;re good to go.</p>
-        <Button data-testid="connect-slack-btn" href={props.slackConnectUrl} style={{ background: '#FFF' }}>
+        <Button
+          className={s.button}
+          data-testid="connect-slack-btn"
+          href={props.slackConnectUrl}
+          style={{ background: '#FFF' }}
+        >
           <div style={{
             display: 'flex',
             justifyContent: 'center',
