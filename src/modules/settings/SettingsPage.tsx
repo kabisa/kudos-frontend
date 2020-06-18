@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button } from 'semantic-ui-react';
 
+import { Link } from 'react-router-dom';
 import { PATH_CHOOSE_TEAM, PATH_INVITE } from '../../routes';
 import { Navigation } from '../../components/navigation';
 import { isAdmin } from '../../support';
@@ -22,17 +23,17 @@ export function SettingsPage(): React.ReactElement {
         <div style={{ display: 'grid' }}>
           <h2 className={s.name}>Settings</h2>
           {isAdmin() && (
-            <a href={PATH_INVITE}>
+            <Link to={PATH_INVITE}>
               <Button color="blue" className={s.button}>
                 Invite
               </Button>
-            </a>
+            </Link>
           )}
-          <a href={PATH_CHOOSE_TEAM}>
-            <Button color="orange" className={s.button}>
+          <Link to={PATH_CHOOSE_TEAM}>
+            <Button color="teal" className={s.button}>
               Switch team
             </Button>
-          </a>
+          </Link>
         </div>
       </div>
 
