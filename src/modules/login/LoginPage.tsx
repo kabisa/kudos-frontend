@@ -129,7 +129,7 @@ class LoginPage extends Component<Props, State> {
           }
           return (
             <FormWrapper header="Login">
-              <Segment>
+              <Segment padded>
                 <Form size="large" error={!!error} onSubmit={(e) => this.formSubmit(e, signInUser)}>
                   <Form.Input
                     data-testid="email-input"

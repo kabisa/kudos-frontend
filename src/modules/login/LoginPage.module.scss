@@ -12,6 +12,16 @@
   height: 20px;
 }
 
+
+@media only screen and (max-width: 768px) {
+  .message {
+    height: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+}
+
 .text_left {
   text-align: left;
 }

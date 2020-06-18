@@ -16,7 +16,7 @@ import {
   ERROR_RECEIVERS_BLANK,
   getGraphqlError,
 } from '../../../support';
-import BackButton from '../../login/BackButton';
+import BackButton from '../../../components/back-button/BackButton';
 import {
   FragmentPostResult, GET_GOAL_PERCENTAGE, GET_POSTS, GET_USERS, User,
 } from '../queries';

@@ -15,7 +15,7 @@ export function FormWrapper(props: Props) {
   return (
     <div>
       {props.toolbar && <Toolbar text={props.toolbar} />}
-      <div className="main-form">
+      <div className={`main-form ${props.toolbar ? 'main-form-toolbar' : ''}`}>
         <Grid textAlign="center" className={s.grid} verticalAlign="middle" style={{ height: '100%' }}>
           <Grid.Column className={s.column}>
             <Header as="h2" color="blue" textAlign="center">

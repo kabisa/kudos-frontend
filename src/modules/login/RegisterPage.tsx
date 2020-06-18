@@ -13,7 +13,7 @@ import {
   validateEmail,
 } from '../../support';
 import { FormWrapper } from '../../components';
-import BackButton from './BackButton';
+import BackButton from '../../components/back-button/BackButton';
 import { loginSuccess } from './helper';
 import settings from '../../config/settings';
 import { PATH_LOGIN } from '../../routes';

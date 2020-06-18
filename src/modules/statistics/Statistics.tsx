@@ -43,6 +43,8 @@ export interface ActiveGoal {
   achievedOn: string;
 }
 
+const achievedColor = '#3899B7';
+
 const Statistics = () => (
   <div className={s.container}>
     <h2 className={s.kudo_header}>₭udometer</h2>
@@ -75,7 +77,7 @@ const Statistics = () => (
             <h3 className={s.next_goal}>Next goal</h3>
             <Circle
               percent={percentage}
-              strokeColor="#3899B7"
+              strokeColor={achievedColor}
               currentKudos={currentKudos}
               neededKudos={nextGoal ? nextGoal.amount : 0}
               goal={nextGoal ? nextGoal.name : '-'}
@@ -93,7 +95,7 @@ const Statistics = () => (
                           width: '30px',
                           height: '30px',
                           position: 'absolute',
-                          backgroundColor: goal.achievedOn ? '#2490d5' : '#B2CBC1',
+                          backgroundColor: goal.achievedOn ? achievedColor : '#B2CBC1',
                           borderRadius: '15px',
                         }}
                       >
@@ -116,7 +118,7 @@ const Statistics = () => (
                           height: '80px',
                           marginTop: '25px',
                           position: 'absolute',
-                          backgroundColor: goal.achievedOn ? '#2490d5' : '#B2CBC1',
+                          backgroundColor: goal.achievedOn ? achievedColor : '#B2CBC1',
                           marginLeft: '9px',
                         }}
                       />
@@ -130,7 +132,7 @@ const Statistics = () => (
                           height: `${75 - (70 - height)}px`,
                           marginTop: `${30 + (70 - height)}px`,
                           position: 'absolute',
-                          backgroundColor: '#2490d5',
+                          backgroundColor: achievedColor,
                           marginLeft: '9px',
                         }}
                       />
@@ -179,7 +181,7 @@ const Statistics = () => (
                         height: '30px',
                         marginTop: '33px',
                         position: 'absolute',
-                        backgroundColor: '#2490d5',
+                        backgroundColor: achievedColor,
                         borderRadius: '15px',
                       }}
                     />

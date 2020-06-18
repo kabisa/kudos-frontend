@@ -10,15 +10,23 @@ body {
   background: #ECE7DA !important;
 }
 
-body > div > div > div.main-form {
-  height: 100%;
-  overflow: auto;
-}
+//body > div > div > div.main-form {
+//  height: 100%;
+//  overflow: auto;
+//}
 
 div.main-form {
   width: 98%;
   margin: auto;
   height: 100vh;
+}
+
+@media only screen and (max-width: 768px) {
+  div.main-form-toolbar {
+    width: 98%;
+    margin: auto;
+    height: calc(100vh - 68px);
+  }
 }
 
 .page {
