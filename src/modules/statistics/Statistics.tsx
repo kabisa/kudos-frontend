@@ -1,7 +1,6 @@
 import React from 'react';
 import { Query } from '@apollo/react-components';
 import moment from 'moment';
-import { Icon } from 'semantic-ui-react';
 import gql from 'graphql-tag';
 
 import { Circle } from '../../components/Circle';
@@ -10,6 +9,7 @@ import { calculateProgress } from '../../support';
 import { Storage } from '../../support/storage';
 
 import s from './Statistics.module.scss';
+import { GoalSection } from './GoalSection';
 
 export const GET_GOAL_PERCENTAGE = gql`
     query getGoals($team_id: ID!) {
@@ -43,12 +43,13 @@ export interface ActiveGoal {
   achievedOn: string;
 }
 
-const achievedColor = '#3899B7';
+const achievedColor = '#3899b7';
+const defaultColor = '#b2cbc1';
 
 const Statistics = () => (
   <div className={s.container}>
     <h2 className={s.kudo_header}>₭udometer</h2>
-    <h4 style={{ color: '#FFF', marginTop: '0.6rem' }}>{moment().format('MMMM Do, YYYY')}</h4>
+    <h4 className={s.today}>{moment().format('MMMM Do, YYYY')}</h4>
 
     <Query<GetGoalPercentageResult>
       query={GET_GOAL_PERCENTAGE}
@@ -59,7 +60,7 @@ const Statistics = () => (
       {({ loading, error, data }) => {
         if (loading || error || !data) {
           return (
-            <div>
+            <div className={s.circle_container}>
               <h2>Loading...</h2>
               <Circle percent={0} />
             </div>
@@ -73,9 +74,10 @@ const Statistics = () => (
         const percentage = calculateProgress(goals, currentKudos);
         const height = calculateProgress(goals, currentKudos, 70);
         return (
-          <div style={{ color: '#FFF', marginTop: '2em' }}>
+          <div className={s.circle_container}>
             <h3 className={s.next_goal}>Next goal</h3>
             <Circle
+              defaultColor={defaultColor}
               percent={percentage}
               strokeColor={achievedColor}
               currentKudos={currentKudos}
@@ -83,110 +85,22 @@ const Statistics = () => (
               goal={nextGoal ? nextGoal.name : '-'}
             />
 
-            <div style={{ paddingTop: '3em', position: 'relative' }}>
+            <div className={s.goal_container}>
               {goals
                 .sort((goal1, goal2) => goal2.amount - goal1.amount)
                 .map((goal, index) => (
-                  <div data-testid="goal-section" key={goal.id} style={{ height: '100px' }}>
-                    <div>
-                      {/* Lock icons */}
-                      <div
-                        style={{
-                          width: '30px',
-                          height: '30px',
-                          position: 'absolute',
-                          backgroundColor: goal.achievedOn ? achievedColor : '#B2CBC1',
-                          borderRadius: '15px',
-                        }}
-                      >
-                        <Icon
-                          name={goal.achievedOn ? 'lock open' : 'lock'}
-                          style={{
-                            position: 'absolute',
-                            left: '6.5px',
-                            marginTop: '4.5px',
-                            color: goal.achievedOn ? 'white' : 'black',
-                          }}
-                        />
-                      </div>
-
-                      {/* Bars */}
-                      <div
-                        data-testid="progress-bar"
-                        style={{
-                          width: '12px',
-                          height: '80px',
-                          marginTop: '25px',
-                          position: 'absolute',
-                          backgroundColor: goal.achievedOn ? achievedColor : '#B2CBC1',
-                          marginLeft: '9px',
-                        }}
-                      />
-
-                      {/* Progress bar */}
-                      {nextGoal === goal && (
-                      <div
-                        data-testid="next-progress-bar"
-                        style={{
-                          width: '12px',
-                          height: `${75 - (70 - height)}px`,
-                          marginTop: `${30 + (70 - height)}px`,
-                          position: 'absolute',
-                          backgroundColor: achievedColor,
-                          marginLeft: '9px',
-                        }}
-                      />
-                      )}
-
-                      {/* The percentage banner */}
-                      {nextGoal === goal && (
-                      <div
-                        style={{
-                          position: 'absolute',
-                          width: '50px',
-                          height: '2px',
-                          marginTop: `${30 + (70 - height - 8)}px`,
-                          marginLeft: '9px',
-                        }}
-                      >
-                        <p className={s.current_percentage_text}>{percentage}%</p>
-                      </div>
-                      )}
-                    </div>
-
-                    {/* Text */}
-                    <h3 style={{ marginBottom: '2px', marginTop: '0px' }}>{goal.amount} ₭</h3>
-                    <p style={{ marginBottom: '4px' }}>
-                      [Goal {goals.length - index}] {goal.name}
-                    </p>
-                    <span
-                      style={{
-                        marginTop: '16px',
-                        marginBottom: '0px',
-                      }}
-                    >
-                      {!goal.achievedOn
-                      && `${currentKudos} / ${goal.amount}₭`}
-                      {goal.achievedOn
-                      && `Achieved on ${moment(goal.achievedOn, 'YYYY-MM-DD').format(
-                        'DD MMM, YYYY',
-                      )}`}
-                    </span>
-
-                    {/* Dot at the bottom */}
-                    {index === goals.length - 1 && (
-                    <div
-                      style={{
-                        width: '30px',
-                        height: '30px',
-                        marginTop: '33px',
-                        position: 'absolute',
-                        backgroundColor: achievedColor,
-                        borderRadius: '15px',
-                      }}
-                    />
-                    )}
-                  </div>
+                  <GoalSection
+                    key={goal.id}
+                    achievedColor={achievedColor}
+                    currentKudos={currentKudos}
+                    goals={goals}
+                    percentage={percentage}
+                    goal={goal}
+                    nextGoal={nextGoal}
+                    defaultColor={defaultColor}
+                    height={height}
+                    index={index}
+                  />
                 ))}
             </div>
           </div>

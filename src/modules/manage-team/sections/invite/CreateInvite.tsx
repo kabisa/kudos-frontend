@@ -114,11 +114,11 @@ export class CreateInvite extends Component<Props, State> {
                 value={this.state.emails}
                 onChange={this.handleChange}
               />
-              <p style={{ color: 'grey' }}>
+              <p className={s.grey}>
                 Enter the email addresses of the users you would like to invite. They should
                 be separated by a comma or semicolon. The following formats can be used:
               </p>
-              <ul style={{ color: 'grey' }}>
+              <ul className={s.grey}>
                 <li>john@example.com</li>
                 <li>John Doe &lt;john@example.com&gt;</li>
                 <li>&quot;John Doe&quot; &lt;john@example.com&gt;</li>

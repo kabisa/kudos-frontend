@@ -13,3 +13,9 @@
 .header {
   text-align: center;
 }
+
+:global(#root) {
+  .create_button {
+    margin: auto;
+  }
+}

@@ -67,14 +67,14 @@ export class FeedPage extends Component<FeedPageProps, FeedPageState> {
             <KudoBoard />
           </Responsive>
           <Responsive minWidth={Responsive.onlyTablet.maxWidth}>
-            <Grid centered columns={2} style={{ minHeight: '57em' }}>
-              <GridColumn style={{ padding: 0, maxWidth: '480px' }}>
+            <Grid centered columns={2} className={s.grid}>
+              <GridColumn className={s.grid_column}>
                 <Segment className={s.create_post_segment}>
                   <CreatePost back={false} />
                 </Segment>
                 <KudoBoard />
               </GridColumn>
-              <GridColumn style={{ padding: 0, maxWidth: '400px', marginLeft: 98 }}>
+              <GridColumn className={`${s.grid_column} ${s.left_column}`}>
                 <RightRail data-testid="right-rail" />
               </GridColumn>
             </Grid>

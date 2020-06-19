@@ -5,6 +5,7 @@ import { GET_POSTS, GetPostsResult } from './queries';
 import settings from '../../config/settings';
 import { Transaction, TransactionLoading } from './components/Transaction';
 import { Storage } from '../../support/storage';
+import s from './RepoList.module.scss';
 
 export function RepoList(): React.ReactElement {
   return (
@@ -63,18 +64,18 @@ export function RepoList(): React.ReactElement {
               <Transaction transaction={item.node} key={item.node.id} />
             ))}
             {posts.pageInfo.hasNextPage && (
-            <div data-testid="next-page-button" style={{ height: '120px', display: 'flex' }}>
+            <div data-testid="next-page-button" className={s.arrow_container}>
               <Icon
                 name="arrow down"
                 size="large"
                 onClick={() => loadMore()}
-                style={{ margin: 'auto', color: '#FFF' }}
+                className={s.arrow}
               />
             </div>
             )}
             {!posts.pageInfo.hasNextPage && (
             <div>
-              <p style={{ lineHeight: '60px', textAlign: 'center' }}>
+              <p className={s.end_message}>
                 You&apos;ve reached the end, congratulations!
               </p>
             </div>

@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions */
 import React from 'react';
 import {
-  Button, Icon, Segment,
+  Button, Icon,
 } from 'semantic-ui-react';
 import gql from 'graphql-tag';
 import { Mutation } from '@apollo/react-components';
@@ -12,6 +12,7 @@ import {
   FRAGMENT_POST, FragmentPostResult, GET_GOAL_PERCENTAGE, GET_POSTS,
 } from '../../queries';
 import { Storage } from '../../../../support/storage';
+import s from './LikeButton.module.scss';
 
 const userId = Storage.getItem(settings.USER_ID_TOKEN);
 const teamId = Storage.getItem(settings.TEAM_ID_TOKEN);
@@ -105,6 +106,7 @@ export interface LikeButtonState {
   showLikes: boolean;
 }
 
+//  TODO fix all likes container on mobile
 class LikeButton extends React.Component <LikeButtonProps, LikeButtonState> {
   constructor(props: LikeButtonProps) {
     super(props);
@@ -135,6 +137,7 @@ class LikeButton extends React.Component <LikeButtonProps, LikeButtonState> {
     const allLikes = post.votes.length
       ? post.votes.map((item) => item.voter.name).join(', ')
       : 'No likes';
+
     let message = '';
 
     if (post.votes.length) {
@@ -151,14 +154,10 @@ class LikeButton extends React.Component <LikeButtonProps, LikeButtonState> {
 
     return (
       <div
-        style={{
-          width: '95%',
-          display: 'flex',
-          alignItems: 'center',
-        }}
+        className={s.container}
         data-testid="post-like-button"
       >
-        <div style={{ display: 'flex' }}>
+        <div>
           <Mutation<any>
             mutation={MUTATION_TOGGLE_LIKE}
             update={(cache, { data: { toggleLikePost } }) => updateState(cache, toggleLikePost)}
@@ -191,25 +190,16 @@ class LikeButton extends React.Component <LikeButtonProps, LikeButtonState> {
           </Mutation>
         </div>
         <p
-          style={{
-            margin: 'auto', marginLeft: '4px', width: 'auto', fontSize: 13,
-          }}
+          className={s.like_message}
           onClick={this.show}
           data-testid="message"
         >
           {message}
         </p>
         {this.state.showLikes && (
-          <Segment
-            style={{
-              position: 'absolute',
-              zIndex: '1',
-              top: '100px',
-              left: '102px',
-            }}
-          >
+          <div className={s.all_likes_container}>
             {allLikes}
-          </Segment>
+          </div>
         )}
       </div>
     );

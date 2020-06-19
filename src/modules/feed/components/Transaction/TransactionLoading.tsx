@@ -1,19 +1,10 @@
 import React from 'react';
 import { Card, Placeholder } from 'semantic-ui-react';
+import s from './TransactionLoading.module.scss';
 
 const TransactionLoading = () => (
-  <div
-    style={{
-      display: 'flex',
-      flexDirection: 'column',
-      paddingBottom: '4px',
-      paddingTop: '4px',
-      textAlign: 'initial',
-      margin: 'auto',
-      maxWidth: '420px',
-    }}
-  >
-    <Card style={{ width: '100%' }}>
+  <div className={s.container}>
+    <Card className={s.card}>
       <Card.Content>
         <Card.Header>
           <Placeholder>
@@ -23,7 +14,7 @@ const TransactionLoading = () => (
             </Placeholder.Header>
           </Placeholder>
         </Card.Header>
-        <Card.Description style={{ marginTop: '1em' }}>
+        <Card.Description className={s.card_description}>
           <Placeholder>
             <Placeholder.Line />
             <Placeholder.Line />

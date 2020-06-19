@@ -49,27 +49,19 @@ export interface SlackDisconnectedProps {
 
 export function SlackDisconnectedSegment(props: SlackDisconnectedProps): React.ReactElement {
   return (
-    <div style={{ textAlign: 'center' }} data-testid="register-slack">
+    <div className="text-center" data-testid="register-slack">
       <Header>You&#39;re account is not yet connected to Slack but don&#39;t worry, connecting is
         easy!
       </Header>
       <div>
         <p>Simply press the button below and you&#39;re good to go.</p>
         <Button
-          className={s.button}
+          className={`${s.button} ${s.button_white}`}
           data-testid="connect-slack-btn"
           href={props.slackConnectUrl}
-          style={{ background: '#FFF' }}
         >
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            background: '#FFF',
-          }}
-          >
+          <div className={s.slack_button}>
             <img
-              style={{ marginRight: 8 }}
               width={20}
               height={20}
               src={props.slackIconPath}

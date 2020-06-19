@@ -1,0 +1,24 @@
+:global(#root) {
+  .like_message {
+    font-size: 13px;
+    margin-left: 10px;
+    margin-bottom: 0;
+  }
+
+  .all_likes_container {
+    position: absolute;
+    z-index: 1;
+    top: 120px;
+    left: 110px;
+    background: rgba(178,203,193, 1);
+    padding: 10px;
+    border-radius: 10px;
+    color: black;
+  }
+
+  .container {
+    width: 95%;
+    display: flex;
+    align-items: center;
+  }
+}

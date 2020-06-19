@@ -27,7 +27,7 @@ export function Content(props: ContentProps): React.ReactElement {
       <Button
         data-testid="create-team"
         color="blue"
-        style={{ margin: 'auto' }}
+        className={s.create_button}
         onClick={() => {
           props.history.push(PATH_CREATE_TEAM);
         }}

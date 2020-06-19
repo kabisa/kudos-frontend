@@ -11,12 +11,13 @@ export interface Props {
   header: string;
 }
 
+// TODO fix vertical alignment on mobile
 export function FormWrapper(props: Props) {
   return (
     <div>
       {props.toolbar && <Toolbar text={props.toolbar} />}
       <div className={`main-form ${props.toolbar ? 'main-form-toolbar' : ''}`}>
-        <Grid textAlign="center" className={s.grid} verticalAlign="middle" style={{ height: '100%' }}>
+        <Grid textAlign="center" className={s.grid} verticalAlign="middle">
           <Grid.Column className={s.column}>
             <Header as="h2" color="blue" textAlign="center">
               {props.header}

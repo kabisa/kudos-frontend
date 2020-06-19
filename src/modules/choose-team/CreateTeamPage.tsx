@@ -1,6 +1,6 @@
 import React, { ChangeEvent, Component } from 'react';
 import {
-  Button, Form, Message, Responsive, Segment,
+  Button, Form, Message, Segment,
 } from 'semantic-ui-react';
 import { Mutation } from '@apollo/react-components';
 import gql from 'graphql-tag';
@@ -9,9 +9,11 @@ import { withRouter } from 'react-router-dom';
 import { History } from 'history';
 import settings from '../../config/settings';
 import { ERROR_NAME_BLANK, getGraphqlError } from '../../support';
-import { Navigation, Toolbar } from '../../components/navigation';
+import { Navigation } from '../../components/navigation';
 import { PATH_FEED } from '../../routes';
 import { Storage } from '../../support/storage';
+import s from './CreateTeamPage.module.scss';
+import { FormWrapper } from '../../components';
 
 export const MUTATION_CREATE_TEAM = gql`
     mutation CreateTeam($name: String!) {
@@ -106,7 +108,7 @@ class CreateTeamPage extends Component<Props, State> {
           }}
         >
           {(createTeam, { error, loading }) => (
-            <Form error={!!error} style={{ maxWidth: '90%', margin: 'auto' }}>
+            <Form error={!!error} className={s.form}>
               <Form.Input
                 data-testid="name-input"
                 label="Team name"
@@ -140,23 +142,12 @@ class CreateTeamPage extends Component<Props, State> {
     );
 
     return (
-      <div className="page">
-        <Toolbar text="Create team" />
-        <Responsive minWidth={Responsive.onlyTablet.minWidth}>
-          <Segment
-            style={{
-              width: '40em',
-              margin: 'auto',
-              padding: '4em',
-              marginTop: '2em',
-            }}
-          >
+      <div>
+        <FormWrapper toolbar="Create team" header="create team">
+          <Segment>
             {content}
           </Segment>
-        </Responsive>
-        <Responsive maxWidth={Responsive.onlyMobile.maxWidth}>
-          {content}
-        </Responsive>
+        </FormWrapper>
         <Navigation />
       </div>
     );

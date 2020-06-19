@@ -105,7 +105,7 @@ describe('<Statistics />', () => {
 
       const unlockedGoal = findByTestId(wrapper, 'goal-section').last();
 
-      expect(unlockedGoal.containsMatchingElement(<i className="lock open icon" />)).toBe(true);
+      expect(unlockedGoal.containsMatchingElement(<i className="lock open icon lock_icon" />)).toBe(true);
     });
   });
 
@@ -141,7 +141,7 @@ describe('<Statistics />', () => {
 
       const lockedGoal = findByTestId(wrapper, 'goal-section').first();
 
-      expect(lockedGoal.containsMatchingElement(<i className="lock icon" />)).toBe(true);
+      expect(lockedGoal.containsMatchingElement(<i className="lock icon lock_icon" />)).toBe(true);
     });
   });
 
@@ -153,9 +153,8 @@ describe('<Statistics />', () => {
 
       const achievedProgressBar = findByTestId(wrapper, 'progress-bar').last();
 
-      expect(achievedProgressBar.props().style?.backgroundColor).toBe('#3899B7');
-      expect(achievedProgressBar.props().style?.height).toBe('80px');
-      expect(achievedProgressBar.props().style?.marginTop).toBe('25px');
+      expect(achievedProgressBar.props().style?.backgroundColor).toBe('#3899b7');
+      expect(achievedProgressBar.props().className).toEqual('bar');
     });
   });
 
@@ -167,7 +166,7 @@ describe('<Statistics />', () => {
 
       const partialProgressBar = findByTestId(wrapper, 'next-progress-bar');
 
-      expect(partialProgressBar.props().style?.backgroundColor).toBe('#3899B7');
+      expect(partialProgressBar.props().style?.backgroundColor).toBe('#3899b7');
       expect(partialProgressBar.props().style?.height).toBe('17px');
       expect(partialProgressBar.props().style?.marginTop).toBe('88px');
     });

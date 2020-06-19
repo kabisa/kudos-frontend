@@ -20,10 +20,10 @@ function Transaction(props: TransactionProps) {
       data-testid="kudo-transaction"
       className={s.transaction}
     >
-      <Card style={{ width: '100%', height: '100%', borderRadius: 6 }}>
+      <Card className={s.card}>
         <Card.Content>
           <Header data-testid="post-header" transaction={props.transaction} />
-          <Card.Description className={s.transaction_text} style={{ marginTop: '1em' }}>
+          <Card.Description className={s.transaction_text}>
             <div data-test="post-message">
               <strong data-testid="sender-name">{props.transaction.sender.name} </strong> gave{' '}
               <strong data-testid="kudo-amount">{props.transaction.amount}₭ </strong>
@@ -35,14 +35,12 @@ function Transaction(props: TransactionProps) {
             </div>
           </Card.Description>
         </Card.Content>
-        <Card.Content extra style={{ padding: '4px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-            <LikeButton
-              data-testid="like-button"
-              liked={props.transaction.votes.some((vote) => vote.voter.id === userId)}
-              post={props.transaction}
-            />
-          </div>
+        <Card.Content extra className={s.card_content}>
+          <LikeButton
+            data-testid="like-button"
+            liked={props.transaction.votes.some((vote) => vote.voter.id === userId)}
+            post={props.transaction}
+          />
         </Card.Content>
       </Card>
     </div>

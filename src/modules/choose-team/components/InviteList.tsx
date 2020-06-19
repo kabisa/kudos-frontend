@@ -26,11 +26,11 @@ export interface InvitesResult {
 const InviteList = () => (
   <Query<InvitesResult> query={GET_INVITES} pollInterval={2000} fetchPolicy="network-only">
     {({ loading, error, data }) => {
-      if (loading) return <p style={{ textAlign: 'center' }}>Loading...</p>;
-      if (error) return <p data-testid="error-message" style={{ textAlign: 'center' }}>{error.message}</p>;
+      if (loading) return <p className="text-center">Loading...</p>;
+      if (error) return <p data-testid="error-message" className="text-center">{error.message}</p>;
 
       if (!data || !data.viewer.teamInvites.length) {
-        return <p style={{ textAlign: 'center' }}>No invites.</p>;
+        return <p className="text-center">No invites.</p>;
       }
 
       return (

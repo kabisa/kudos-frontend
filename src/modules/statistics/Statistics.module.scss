@@ -1,44 +1,55 @@
 .container {
   font-family: Rajdhani, sans-serif;
-  color: white;
+  color: #ffffff;
 }
 
 .root {
-  padding: 2em;
+  padding: 32px;
   text-align: center;
   width: 100%;
   height: calc(100vh - 57px);
   overflow: auto;
-  background: #00284A;
+  background: #00284a;
 }
 
 .next_goal {
   font-size: 21px;
   font-weight: bold;
-  letter-spacing: 0;
-  line-height: 27px;
 }
 
 .goals {
-  padding: 0 2em;
+  padding: 0 32px;
   text-align: center;
   width: 100%;
-  max-width: 50em;
+  max-width: 400px;
   margin: auto;
 }
 
 .kudo_header {
-  padding-top: 1em;
+  padding-top: 16px;
   margin: 0;
   font-size: 36px;
   font-weight: 500;
-  letter-spacing: 0;
-  line-height: 45px;
   text-align: center;
+}
+
+.today {
+  color: #ffffff;
+  margin-top: 8px;
 }
 
 .current_percentage_text {
   float: right;
   font-size: 16px;
   font-weight: bold;
+}
+
+.circle_container {
+  color: #ffffff;
+  margin-top: 32px;
+}
+
+.goal_container {
+  padding-top: 48px;
+  position: relative;
 }

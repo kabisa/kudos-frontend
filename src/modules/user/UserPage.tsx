@@ -84,22 +84,9 @@ export class UserPage extends React.Component<Props, State> {
   render() {
     return (
       <div>
-        <div
-          className="page"
-          style={{
-            textAlign: 'center',
-            maxWidth: '60em',
-            marginLeft: 'auto',
-            marginRight: 'auto',
-          }}
-        >
+        <div className={`page text-center ${s.container}`}>
           <Segment>
-            <div style={{
-              display: 'grid',
-              justifyContent: 'center',
-              rowGap: '10px',
-            }}
-            >
+            <div className={s.content}>
               <Query<GetUserResult> query={GET_USER}>
                 {({ loading, data }) => {
                   if (loading) return <span data-testid="loading">Loading...</span>;
@@ -112,9 +99,9 @@ export class UserPage extends React.Component<Props, State> {
                         src={data && data.viewer ? data.viewer.avatar : null}
                         size="tiny"
                         avatar
-                        style={{ marginTop: '2em', marginBottom: '1em' }}
+                        className={s.image}
                       />
-                      <span style={{ display: 'block', marginBottom: '2em' }}>
+                      <span className={s.image_caption}>
                         To change your avatar go to{' '}
                         <a href="https://nl.gravatar.com/" target="_blank" rel="noopener noreferrer">
                           gravatar.com

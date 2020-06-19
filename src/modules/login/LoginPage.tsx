@@ -173,15 +173,13 @@ class LoginPage extends Component<Props, State> {
                   </Message>
                   )}
                 </Form>
-                <Message style={{ background: 'transparent' }}>
-                  <div className={s.message}>
-                    <Link data-testid="sign-up-button" to={PATH_REGISTER} className={s.left}>
-                      Sign Up
-                    </Link>
-                    <Link data-testid="forgot-button" to={PATH_FORGOT_PASSWORD} className={s.right}>
-                      Forgot password?
-                    </Link>
-                  </div>
+                <Message className={s.message}>
+                  <Link data-testid="sign-up-button" to={PATH_REGISTER} className={s.left}>
+                    Sign Up
+                  </Link>
+                  <Link data-testid="forgot-button" to={PATH_FORGOT_PASSWORD} className={s.right}>
+                    Forgot password?
+                  </Link>
                 </Message>
               </Segment>
             </FormWrapper>

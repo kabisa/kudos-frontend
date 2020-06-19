@@ -20,6 +20,7 @@ import { Navigation } from '../../components/navigation';
 import { PATH_FEED } from '../../routes';
 import { FormWrapper } from '../../components';
 import BackButton from '../../components/back-button/BackButton';
+import s from './ResetPasswordPage.module.scss';
 
 export const MUTATION_RESET_PASSWORD = gql`
   mutation ResetPassword($current_password: String, $new_password: String, $new_password_confirmation: String) {
@@ -177,7 +178,7 @@ class ResetPasswordPage extends Component<Props, State> {
                   displayError = this.state.error;
                 }
                 return (
-                  <Form style={{ maxWidth: '420px', margin: 'auto' }}>
+                  <Form className={s.form}>
                     <Form.Input
                       data-testid="current-password-input"
                       label="Current password"

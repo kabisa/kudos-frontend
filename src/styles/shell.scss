@@ -35,8 +35,17 @@ div.main-form {
   display: flex;
   flex-direction: column;
 }
+
+.padding {
+  padding: 32px
+}
+
 div.ui.vertical.tabular.menu {
   a.active.item {
     background: rgba(56, 153, 183, 0.4);
   }
+}
+
+.text-center {
+  text-align: center;
 }

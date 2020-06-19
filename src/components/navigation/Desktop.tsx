@@ -37,8 +37,8 @@ export function DesktopNavigation(props: Props) {
       <Menu inverted fixed="top" size="large" className={s.menu}>
         <Container>
           <Menu.Item
-            style={{ borderLeft: 'none' }}
             data-testid="home-button"
+            className={s.menu_item}
             onClick={() => props.history.push(PATH_FEED)}
           >Home
           </Menu.Item>
@@ -47,7 +47,11 @@ export function DesktopNavigation(props: Props) {
               {({ data }) => (
                 <Dropdown item simple text={data && data.viewer ? data.viewer.name : 'Loading...'}>
                   <Dropdown.Menu>
-                    <Link data-testid="profile-button" to={PATH_USER} className="item" style={{ color: 'black' }}>
+                    <Link
+                      data-testid="profile-button"
+                      to={PATH_USER}
+                      className="item"
+                    >
                       <Icon name="user" />
                       Profile
                     </Link>
@@ -57,7 +61,6 @@ export function DesktopNavigation(props: Props) {
                       data-testid="manage-team-button"
                       to={`${PATH_MANAGE_TEAM}/general`}
                       className="item"
-                      style={{ color: 'black' }}
                     >
                       <Icon name="settings" />
                       Manage team
@@ -68,7 +71,6 @@ export function DesktopNavigation(props: Props) {
                       data-testid="switch-team-button"
                       to={PATH_CHOOSE_TEAM}
                       className="item"
-                      style={{ color: 'black' }}
                     >
                       <Icon name="exchange" />
                       Switch team

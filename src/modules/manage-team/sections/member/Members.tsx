@@ -6,6 +6,7 @@ import { Query } from '@apollo/react-components';
 import settings from '../../../../config/settings';
 import { MemberRow } from './MemberRow';
 import { Storage } from '../../../../support/storage';
+import s from './Member.module.scss';
 
 export const GET_USERS = gql`
     query GetUsers($id: ID!) {
@@ -109,19 +110,12 @@ export default class MemberSection extends Component<Props, State> {
                 <Table celled>
                   <Table.Header>
                     <Table.Row>
-                      <Table.HeaderCell
-                        style={{
-                          textOverflow: 'ellipsis',
-                          overflow: 'hidden',
-                          whiteSpace: 'nowrap',
-                          maxWidth: '13rem',
-                        }}
-                      >
+                      <Table.HeaderCell className={s.name_header}>
                         Name
                       </Table.HeaderCell>
                       <Table.HeaderCell>Email</Table.HeaderCell>
                       <Table.HeaderCell>Role</Table.HeaderCell>
-                      <Table.HeaderCell style={{ width: '10em' }}>Actions</Table.HeaderCell>
+                      <Table.HeaderCell>Actions</Table.HeaderCell>
                     </Table.Row>
                   </Table.Header>
 

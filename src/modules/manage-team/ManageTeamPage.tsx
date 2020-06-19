@@ -52,11 +52,7 @@ export class ManageTeamPage extends Component<Props, State> {
         <div className="page">
           <div
             id="management-container"
-            style={{
-              width: '60em',
-              margin: 'auto',
-              textAlign: 'left',
-            }}
+            className={s.container}
           >
             <Grid>
               <Grid.Column width={4} className={s.column}>

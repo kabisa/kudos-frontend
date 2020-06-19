@@ -19,22 +19,20 @@ export interface State {
 export function SettingsPage(): React.ReactElement {
   return (
     <div>
-      <div className="page flex" style={{ padding: '2em', justifyContent: 'space-between' }}>
-        <div style={{ display: 'grid' }}>
-          <h2 className={s.name}>Settings</h2>
-          {isAdmin() && (
-            <Link to={PATH_INVITE}>
-              <Button color="blue" className={s.button}>
-                Invite
-              </Button>
-            </Link>
-          )}
-          <Link to={PATH_CHOOSE_TEAM}>
-            <Button color="teal" className={s.button}>
-              Switch team
-            </Button>
-          </Link>
-        </div>
+      <div className="page flex padding">
+        <h2 className={s.name}>Settings</h2>
+        {isAdmin() && (
+        <Link to={PATH_INVITE}>
+          <Button color="blue" className={s.button}>
+            Invite
+          </Button>
+        </Link>
+        )}
+        <Link to={PATH_CHOOSE_TEAM}>
+          <Button color="teal" className={s.button}>
+            Switch team
+          </Button>
+        </Link>
       </div>
 
       <Navigation />

@@ -4,10 +4,21 @@
 }
 
 .transaction_text {
+  margin-top: 1em;
   color: #081721;
   font-family: Calibri, sans-serif;
   font-size: 14px;
-  letter-spacing: 0;
-  line-height: 17px;
   text-align: left;
+}
+
+:global(#root) {
+  .card {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+  }
+
+  .card_content {
+    padding:  0.5em 1em;
+  }
 }

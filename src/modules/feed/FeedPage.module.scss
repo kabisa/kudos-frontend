@@ -43,7 +43,7 @@
     margin-top: 30px;
     padding: 30px 40px;
     border-radius: 18px;
-    background: #00749A;
+    background: #00749a;
     text-align: center;
   }
 
@@ -54,20 +54,32 @@
   }
 
   .board_header {
-    color: #FFFFFF;
+    color: #ffffff;
     font-family: Rajdhani, sans-serif;
     font-weight: lighter;
-    font-size: 34px;
-    letter-spacing: 0;
-    line-height: 44px;
+    font-size: 35px;
   }
 
   .submit_button {
     width: 100%;
     height: 50px;
     border-radius: 5px;
-    background: linear-gradient(0deg, #D46355 0%, #DF867D 100%);
-    box-shadow: 0 2px 3px 0 #77271D;
-    color: white;
+    background: linear-gradient(0deg, #d46355 0%, #df867d 100%);
+    box-shadow: 0 2px 3px 0 #77271d;
+    color: #ffffff;
+  }
+
+  .grid {
+    min-height: 1200px;
+  }
+
+  .grid_column {
+    padding: 0;
+    max-width: 480px;
+  }
+
+  .left_column {
+    display: flex;
+    justify-content: flex-end;
   }
 }
