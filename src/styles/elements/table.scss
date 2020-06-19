@@ -1,24 +1,26 @@
 table.ui.table {
+  border: none;
+
   thead {
     tr {
       th {
-        background: #daded2;
+        background: var(--kudo-color-secondary);
       }
     }
   }
 
   tbody {
     tr {
-      background: #daded2;
+      background: var(--kudo-color-secondary);
     }
 
     tr.positive {
-      background: #daded2 !important;
+      background: var(--kudo-color-secondary) !important;
       color: black !important;
     }
 
     tr.negative {
-      background: #daded2 !important;
+      background: var(--kudo-color-secondary) !important;
       color: black !important;
     }
   }

@@ -29,12 +29,12 @@
     overflow: auto;
 
     div {
-      background: #FFF;
+      background: #ffffff;
     }
   }
 
   .info_button {
-    background: linear-gradient(0deg, #D46355 0%, #DF867D 100%);
-    color: white;
+    background: linear-gradient(0deg, var(--kudo-color-accent) 0%, var(--kudo-color-accent-tint) 100%);
+    color: #ffffff;
   }
 }

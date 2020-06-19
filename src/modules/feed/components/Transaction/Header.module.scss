@@ -11,19 +11,14 @@
   font-family: Rajdhani, sans-serif;
   font-size: 22px;
   font-weight: 600;
-  letter-spacing: 0;
-  line-height: 28px;
   text-align: right
 }
 
 .kudo_symbol {
   height: 28px;
-  width: 19px;
   color: #081721;
   font-size: 20px;
   font-weight: bolder;
-  letter-spacing: 0;
-  line-height: 23px;
 }
 
 
@@ -40,8 +35,6 @@
   color: #081721;
   font-family: Calibri, sans-serif;
   font-size: 11px;
-  letter-spacing: 0;
-  line-height: 13px;
 }
 
 .dropdown {
@@ -50,9 +43,8 @@
 
 
 :global(#root) {
-.avatar {
-  height: 29px;
-  width: 30px;
-}
-
+  .avatar {
+    height: 30px;
+    width: 30px;
+  }
 }

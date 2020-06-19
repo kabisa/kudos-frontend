@@ -1,29 +1,48 @@
 button.ui.button.blue {
-  background: #5E877D;
-}
+  background: var(--kudo-color-button);
 
-button.ui.button.blue:hover {
-  background: #425f58;
-}
+  &:hover, &:focus {
+    background: var(--kudo-color-button-shade);
+  }
 
-button.ui.button.blue:focus {
-  background: #425f58;
+  &:active {
+    background: var(--kudo-color-button-tint);
+  }
 }
-
 
 button.ui.button.red {
-  background: #A33529;
+  background: var(--kudo-color-error);
+
+  &:hover, &:focus {
+    background: var(--kudo-color-error-shade);
+  }
+
+  &:active {
+    background: var(--kudo-color-error-tint);
+  }
+
 }
 
 button.ui.button.teal {
-  background: #2C7990;
-}
+  background: var(--kudo-color-success);
 
-button.ui.button.teal:hover {
-  background: #1f5565;
-}
+  &:hover, &:focus {
+    background: var(--kudo-color-success-shade);
+  }
 
+  &:active {
+    background: var(--kudo-color-success-tint);
+  }
+}
 
 button.ui.button.yellow {
-  background: #D28D48;
+  background: var(--kudo-color-warning);
+
+  &:hover, &:focus {
+    background: var(--kudo-color-warning-shade);
+  }
+
+  &:active {
+    background: var(--kudo-color-warning-tint);
+  }
 }

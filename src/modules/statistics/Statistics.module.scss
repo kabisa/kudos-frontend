@@ -9,7 +9,7 @@
   width: 100%;
   height: calc(100vh - 57px);
   overflow: auto;
-  background: #00284a;
+  background: var(--kudo-color-dark);
 }
 
 .next_goal {
@@ -34,7 +34,6 @@
 }
 
 .today {
-  color: #ffffff;
   margin-top: 8px;
 }
 
@@ -45,7 +44,6 @@
 }
 
 .circle_container {
-  color: #ffffff;
   margin-top: 32px;
 }
 

@@ -22,13 +22,13 @@
   width: 100%;
   position: static;
   height: 68px;
-  background-color: #00749A;
+  background-color: var(--kudo-color-primary);
   z-index: 999;
   display: flex;
   flex-direction: row;
 
   span {
-    color: white;
+    color: #ffffff;
     font-size: 16px;
   }
 }

@@ -8,12 +8,12 @@
   .all_likes_container {
     position: absolute;
     z-index: 1;
-    top: 120px;
+    top: 130px;
     left: 110px;
-    background: rgba(178,203,193, 1);
+    background: var(--kudo-color-secondary);
     padding: 10px;
     border-radius: 10px;
-    color: black;
+    color: #000000;
   }
 
   .container {

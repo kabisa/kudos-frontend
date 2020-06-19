@@ -7,7 +7,7 @@
 }
 
 body {
-  background: #ece7da !important;
+  background: var(--kudo-color-light) !important;
 }
 
 div.main-form {
@@ -28,7 +28,7 @@ div.main-form {
   padding-top: constant(safe-area-inset-top); /* iOS 11.0 */
   padding-top: env(safe-area-inset-top); /* iOS 11.2 */
   text-align: center;
-  background: #ECE7DA;
+  background: var(--kudo-color-light);
 }
 
 .flex {

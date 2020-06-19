@@ -1,0 +1,56 @@
+:root {
+  /* Primary color */
+  $kudo-color-primary: #00749a;
+  --kudo-color-primary: #{$kudo-color-primary};
+  --kudo-color-primary-shade: #{darken($kudo-color-primary, 10%)};
+  --kudo-color-primary-tint: #{lighten($kudo-color-primary, 10%)};
+
+  /* Secondary color */
+  $kudo-color-secondary: #d6d9ca;
+  --kudo-color-secondary: #{$kudo-color-secondary};
+  --kudo-color-secondary-shade: #{darken($kudo-color-secondary, 10%)};
+  --kudo-color-secondary-tint: #{lighten($kudo-color-secondary, 10%)};
+
+  /* Accent color */
+  $kudo-color-accent: #d46355;
+  --kudo-color-accent: #{$kudo-color-accent};
+  --kudo-color-accent-shade: #{darken($kudo-color-accent, 20%)};
+  --kudo-color-accent-tint: #{lighten($kudo-color-accent, 20%)};
+
+  /* Light color */
+  $kudo-color-light: #ece7da;
+  --kudo-color-light: #{$kudo-color-light};
+  --kudo-color-light-shade: #{darken($kudo-color-light, 10%)};
+  --kudo-color-light-tint: #{lighten($kudo-color-light, 10%)};
+
+  /* Dark color */
+  $kudo-color-dark: #00284a;
+  --kudo-color-dark: #{$kudo-color-dark};
+  --kudo-color-dark-shade: #{darken($kudo-color-dark, 10%)};
+  --kudo-color-dark-tint: #{lighten($kudo-color-dark, 10%)};
+
+
+  /* Success color */
+  $kudo-color-success: #2C7990;
+  --kudo-color-success: #{$kudo-color-success};
+  --kudo-color-success-shade: #{darken($kudo-color-success, 10%)};
+  --kudo-color-success-tint: #{lighten($kudo-color-success, 10%)};
+
+  /* Error color */
+  $kudo-color-error: #A33529;
+  --kudo-color-error: #{$kudo-color-error};
+  --kudo-color-error-shade: #{darken($kudo-color-error, 10%)};
+  --kudo-color-error-tint: #{lighten($kudo-color-error, 10%)};
+
+  /* Warning color */
+  $kudo-color-warning: #D28D48;
+  --kudo-color-warning: #{$kudo-color-warning};
+  --kudo-color-warning-shade: #{darken($kudo-color-warning, 10%)};
+  --kudo-color-warning-tint: #{lighten($kudo-color-warning, 10%)};
+
+  /* Main button color */
+  $kudo-color-button: #5E877D;
+  --kudo-color-button: #{$kudo-color-button};
+  --kudo-color-button-shade: #{darken($kudo-color-button, 10%)};
+  --kudo-color-button-tint: #{lighten($kudo-color-button, 10%)};
+}
