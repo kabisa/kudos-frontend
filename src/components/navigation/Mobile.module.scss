@@ -22,7 +22,10 @@
   cursor: pointer;
 }
 
-.bottom_icon {
-  margin: auto !important;
-  color: black !important;
+:global(#root) {
+  .bottom_icon {
+    margin: auto;
+    color: black;
+  }
 }
+

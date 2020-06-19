@@ -1,8 +1,17 @@
-.button {
-  margin: auto !important;
-  display: block;
-  margin-top: 16px !important;
+:global(#root) {
+  .button {
+    display: block;
+    margin: 16px auto auto;
+  }
+
+  @media only screen and (min-width: 768px) {
+    .button {
+      width: 170px;
+    }
+  }
+
 }
+
 
 .grey {
   color: #808080;
@@ -15,12 +24,6 @@
 @media only screen and (max-width: 768px) {
   .button {
     width: 100%;
-  }
-}
-
-@media only screen and (min-width: 768px) {
-  .button {
-    width: 170px !important;
   }
 }
 
