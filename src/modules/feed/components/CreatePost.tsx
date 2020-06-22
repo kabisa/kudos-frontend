@@ -296,15 +296,23 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
                     </label>
                   </Form.Field>
 
-                  <Form.TextArea
-                    data-testid="message-input"
-                    label="Message"
-                    placeholder="Enter your message"
-                    name="message"
-                    onChange={this.handleChange}
-                    error={messageError}
-                    value={this.state.message}
-                  />
+                  <Form.Field>
+                    <label htmlFor="message-input">
+                      Message
+                      <span className={s.character_message}>
+                        {settings.MAX_POST_MESSAGE_LENGTH - this.state.message.length} chars left
+                      </span>
+                      <Form.TextArea
+                        id="message-input"
+                        data-testid="message-input"
+                        placeholder="Enter your message"
+                        name="message"
+                        onChange={this.handleChange}
+                        error={messageError}
+                        value={this.state.message}
+                      />
+                    </label>
+                  </Form.Field>
 
                   <Button
                     data-testid="submit-button"
