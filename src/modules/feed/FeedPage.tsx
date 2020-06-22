@@ -63,7 +63,7 @@ export class FeedPage extends Component<FeedPageProps, FeedPageState> {
             <div className={s.create_post_container_mobile}>
               <CreatePost back={false} />
             </div>
-            <Divider className={s.divider} />
+            <Divider hidden />
             <KudoBoard />
           </Responsive>
           <Responsive minWidth={Responsive.onlyTablet.maxWidth}>
