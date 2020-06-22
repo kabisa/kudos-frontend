@@ -42,7 +42,8 @@ div.main-form {
 
 div.ui.vertical.tabular.menu {
   a.active.item {
-    background: rgba(56, 153, 183, 0.4);
+    background: var(--kudo-color-button);
+    color: #ffffff;
   }
 }
 
