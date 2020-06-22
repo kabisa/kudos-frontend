@@ -128,7 +128,7 @@ class LoginPage extends Component<Props, State> {
             displayError = this.state.error;
           }
           return (
-            <FormWrapper header="Login">
+            <FormWrapper verticalCentered header="Login">
               <Segment padded>
                 <Form size="large" error={!!error} onSubmit={(e) => this.formSubmit(e, signInUser)}>
                   <Form.Input
