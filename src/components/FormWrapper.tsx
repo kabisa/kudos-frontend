@@ -12,7 +12,6 @@ export interface Props {
   verticalCentered?: boolean
 }
 
-// TODO fix vertical alignment on mobile
 export function FormWrapper(props: Props) {
   return (
     <div>

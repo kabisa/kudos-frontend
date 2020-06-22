@@ -106,7 +106,6 @@ export interface LikeButtonState {
   showLikes: boolean;
 }
 
-//  TODO fix all likes container on mobile
 class LikeButton extends React.Component <LikeButtonProps, LikeButtonState> {
   constructor(props: LikeButtonProps) {
     super(props);
