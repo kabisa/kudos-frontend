@@ -16,37 +16,45 @@ export interface GoalSectionProps {
   index: number;
 }
 
-export function GoalSection(props: GoalSectionProps): React.ReactElement {
-  return (
-    <div data-testid="goal-section" key={props.goal.id} style={{ height: '100px' }}>
-      <div>
-        {/* Lock icons */}
-        <div
-          className={s.lock_container}
-          style={{
-            backgroundColor: props.goal.achievedOn ? props.achievedColor : props.defaultColor,
-          }}
-        >
-          <Icon
-            name={props.goal.achievedOn ? 'lock open' : 'lock'}
-            className={s.lock_icon}
-            style={{
-              color: props.goal.achievedOn ? 'white' : 'black',
-            }}
-          />
-        </div>
+interface KudoMeterProps {
+  achievedColor: string;
+  percentage: number;
+  goal: ActiveGoal;
+  nextGoal?: ActiveGoal;
+  defaultColor: string
+  height: number;
+}
 
-        {/* Bars */}
-        <div
-          data-testid="progress-bar"
-          className={s.bar}
+function KudoMeter(props: KudoMeterProps): React.ReactElement {
+  return (
+    <div>
+      {/* Lock icons */}
+      <div
+        className={s.lock_container}
+        style={{
+          backgroundColor: props.goal.achievedOn ? props.achievedColor : props.defaultColor,
+        }}
+      >
+        <Icon
+          name={props.goal.achievedOn ? 'lock open' : 'lock'}
+          className={s.lock_icon}
           style={{
-            backgroundColor: props.goal.achievedOn ? props.achievedColor : props.defaultColor,
+            color: props.goal.achievedOn ? 'white' : 'black',
           }}
         />
+      </div>
 
-        {/* Progress bar */}
-        {props.nextGoal === props.goal && (
+      {/* Bars */}
+      <div
+        data-testid="progress-bar"
+        className={s.bar}
+        style={{
+          backgroundColor: props.goal.achievedOn ? props.achievedColor : props.defaultColor,
+        }}
+      />
+
+      {/* Progress bar */}
+      {props.nextGoal === props.goal && (
         <div
           data-testid="next-progress-bar"
           className={s.progress_bar}
@@ -56,10 +64,10 @@ export function GoalSection(props: GoalSectionProps): React.ReactElement {
             backgroundColor: props.achievedColor,
           }}
         />
-        )}
+      )}
 
-        {/* The percentage banner */}
-        {props.nextGoal === props.goal && (
+      {/* The percentage banner */}
+      {props.nextGoal === props.goal && (
         <div
           className={s.percentage_banner}
           style={{
@@ -68,8 +76,22 @@ export function GoalSection(props: GoalSectionProps): React.ReactElement {
         >
           <p className={s.current_percentage}>{props.percentage}%</p>
         </div>
-        )}
-      </div>
+      )}
+    </div>
+  );
+}
+
+export function GoalSection(props: GoalSectionProps): React.ReactElement {
+  return (
+    <div data-testid="goal-section" className={s.container} key={props.goal.id}>
+      <KudoMeter
+        achievedColor={props.achievedColor}
+        percentage={props.percentage}
+        goal={props.goal}
+        defaultColor={props.defaultColor}
+        height={props.height}
+        nextGoal={props.nextGoal}
+      />
 
       {/* Text */}
       <h3 className={s.goal_amount}>{props.goal.amount} ₭</h3>
