@@ -16,9 +16,17 @@
     color: #000000;
   }
 
+  @media only screen and (max-width: 786px) {
+    .all_likes_container {
+      top: 150px;
+    }
+  }
+
   .container {
     width: 95%;
     display: flex;
     align-items: center;
   }
+
+
 }
