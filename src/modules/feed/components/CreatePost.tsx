@@ -292,6 +292,7 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
                         error={receiversError}
                         value={this.state.receivers}
                       />
+                      <span className={s.note}>(v) = virtual user</span>
                     </label>
                   </Form.Field>
 

@@ -117,7 +117,7 @@ class DropdownRemote extends Component<DropDownProps, DropDownState> {
           if (data) {
             if (data.teamById) {
               options = data.teamById.users.map((item) => ({
-                text: item.name,
+                text: item.virtualUser ? `${item.name} (v)` : item.name,
                 value: item.id,
               }));
             }
