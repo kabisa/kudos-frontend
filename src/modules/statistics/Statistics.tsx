@@ -48,8 +48,8 @@ const defaultColor = '#b2cbc1';
 
 const Statistics = () => (
   <div className={s.container}>
-    <h2 className={s.kudo_header}>₭udometer</h2>
-    <h4 className={s.today}>{moment().format('MMMM Do, YYYY')}</h4>
+    <h1 className={s.kudo_header}>₭udometer</h1>
+    <p className={s.today}>{moment().format('MMMM Do, YYYY')}</p>
 
     <Query<GetGoalPercentageResult>
       query={GET_GOAL_PERCENTAGE}
@@ -61,7 +61,7 @@ const Statistics = () => (
         if (loading || error || !data) {
           return (
             <div className={s.circle_container}>
-              <h2>Loading...</h2>
+              <h3>Loading...</h3>
               <Circle percent={0} />
             </div>
           );

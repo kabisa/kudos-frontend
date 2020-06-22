@@ -34,7 +34,8 @@
   }
 
   .current_percentage {
-    float: right;
+    display: flex;
+    justify-content: flex-end;
   }
 
   .goal_amount {
