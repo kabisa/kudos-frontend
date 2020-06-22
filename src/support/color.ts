@@ -1,6 +1,6 @@
 const chroma = require('chroma-js');
 
-export const colors = chroma.scale(['#767676', '#2185D0']).colors(100);
+export const colors = chroma.scale(['#767676', '#2185d0']).colors(100);
 
 export const getStrokeColor = (percentage: number) => {
   let strokeIndex = Math.round(percentage);

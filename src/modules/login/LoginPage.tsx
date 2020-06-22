@@ -128,8 +128,8 @@ class LoginPage extends Component<Props, State> {
             displayError = this.state.error;
           }
           return (
-            <FormWrapper header="Login">
-              <Segment>
+            <FormWrapper verticalCentered header="Login">
+              <Segment padded>
                 <Form size="large" error={!!error} onSubmit={(e) => this.formSubmit(e, signInUser)}>
                   <Form.Input
                     data-testid="email-input"
@@ -173,15 +173,13 @@ class LoginPage extends Component<Props, State> {
                   </Message>
                   )}
                 </Form>
-                <Message>
-                  <div className={s.message}>
-                    <Link data-testid="sign-up-button" to={PATH_REGISTER} className={s.left}>
-                      Sign Up
-                    </Link>
-                    <Link data-testid="forgot-button" to={PATH_FORGOT_PASSWORD} className={s.right}>
-                      Forgot password?
-                    </Link>
-                  </div>
+                <Message className={s.message}>
+                  <Link data-testid="sign-up-button" to={PATH_REGISTER} className={s.left}>
+                    Sign Up
+                  </Link>
+                  <Link data-testid="forgot-button" to={PATH_FORGOT_PASSWORD} className={s.right}>
+                    Forgot password?
+                  </Link>
                 </Message>
               </Segment>
             </FormWrapper>

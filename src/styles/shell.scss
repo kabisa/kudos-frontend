@@ -6,9 +6,8 @@
   }
 }
 
-body > div > div > div.main-form {
-  height: 100%;
-  overflow: auto;
+body {
+  background: var(--kudo-color-light) !important;
 }
 
 div.main-form {
@@ -17,13 +16,37 @@ div.main-form {
   height: 100vh;
 }
 
+@media only screen and (max-width: 768px) {
+  div.main-form-toolbar {
+    width: 98%;
+    margin: auto;
+    height: calc(100vh - 68px);
+  }
+}
+
 .page {
   padding-top: constant(safe-area-inset-top); /* iOS 11.0 */
   padding-top: env(safe-area-inset-top); /* iOS 11.2 */
   text-align: center;
+  background: var(--kudo-color-light);
 }
 
 .flex {
   display: flex;
   flex-direction: column;
+}
+
+.padding {
+  padding: 32px
+}
+
+div.ui.vertical.tabular.menu {
+  a.active.item {
+    background: var(--kudo-color-button);
+    color: #ffffff;
+  }
+}
+
+.text-center {
+  text-align: center;
 }

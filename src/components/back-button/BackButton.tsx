@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Responsive } from 'semantic-ui-react';
 import { History } from 'history';
 import { withRouter } from 'react-router-dom';
-import s from './LoginPage.module.scss';
+import s from './BackButton.module.scss';
 
 export interface Props {
   history: History;

@@ -1,7 +1,6 @@
-.page {
-  padding: 2em;
-}
-
-.normal_font {
-  font-weight: initial;
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }

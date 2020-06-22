@@ -11,9 +11,10 @@ export interface Props {
 export function NotificationsPage() {
   return (
     <div>
-      <div className={s.page}>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <h2 style={{ margin: 'auto' }}>Work in progress</h2>
+      <div className="page padding">
+        <div className={s.container}>
+          <h2>&ldquo;Work in progress&ldquo;</h2>
+          <h5>- The person who made this empty page, 2018</h5>
         </div>
       </div>
       <Navigation />

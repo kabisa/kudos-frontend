@@ -13,7 +13,7 @@
   }
 
   .field {
-    margin-bottom: 1em;
+    margin-bottom: 16px;
   }
 
   .guidelines {
@@ -28,5 +28,13 @@
     max-height: 300px;
     overflow: auto;
 
+    div {
+      background: #ffffff;
+    }
+  }
+
+  .info_button {
+    background: linear-gradient(0deg, var(--kudo-color-accent) 0%, var(--kudo-color-accent-tint) 100%);
+    color: #ffffff;
   }
 }

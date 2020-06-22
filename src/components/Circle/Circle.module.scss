@@ -3,11 +3,35 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  color: #808080
 }
 
 .wrapper {
-  width: 215px;
-  height: 215px;
+  width: 240px;
+  height: 240px;
   margin: auto;
   position: relative;
+}
+
+.current {
+  color: #ffffff;
+  font-family: Rajdhani, sans-serif;
+  font-size: 40px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.kudo_symbol {
+  font-size: 35px;
+  margin: 0;
+  padding: 0;
+}
+
+.needed {
+  color: #ffffff;
+  font-family: Rajdhani, sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  margin: 0;
+  padding-top: 0;
 }

@@ -125,7 +125,12 @@ class GuidelineInput extends Component<Props, State> {
             min="0"
             value={this.state.amount}
             label="Kudos Amount"
-            action={{ icon: 'info', onClick: this.showGuidelines, 'data-testid': 'guidelines-button' }}
+            action={{
+              icon: 'info',
+              onClick: this.showGuidelines,
+              'data-testid': 'guidelines-button',
+              className: s.info_button,
+            }}
           />
         </Form.Field>
 

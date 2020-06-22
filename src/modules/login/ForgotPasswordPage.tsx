@@ -6,7 +6,7 @@ import {
 import { Mutation } from '@apollo/react-components';
 
 import { FormWrapper } from '../../components';
-import BackButton from './BackButton';
+import BackButton from '../../components/back-button/BackButton';
 import { getGraphqlError, validateEmail } from '../../support';
 
 export const MUTATION_FORGOT_PASSWORD = gql`
@@ -75,7 +75,7 @@ class ForgotPasswordPage extends Component<Props, State> {
 
   render() {
     return (
-      <FormWrapper header="Forgot password">
+      <FormWrapper header="Forgot password" toolbar="Forgot password">
         <Mutation<ForgotPasswordResult, ForgotPasswordParameters>
           mutation={MUTATION_FORGOT_PASSWORD}
           onCompleted={this.onCompleted}

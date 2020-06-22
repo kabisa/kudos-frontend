@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Button, Image,
+  Button, Image, Segment,
 } from 'semantic-ui-react';
 import { Query } from '@apollo/react-components';
 import gql from 'graphql-tag';
@@ -84,54 +84,54 @@ export class UserPage extends React.Component<Props, State> {
   render() {
     return (
       <div>
-        <div className="page flex" style={{ padding: '2em', justifyContent: 'space-between' }}>
-          <div style={{ display: 'grid', justifyContent: 'center' }}>
-            <Query<GetUserResult> query={GET_USER}>
-              {({ loading, data }) => {
-                if (loading) return <span data-testid="loading">Loading...</span>;
-                if (!data || !data.viewer) return <span>Something went wrong</span>;
+        <div className={`page text-center ${s.container}`}>
+          <Segment>
+            <div className={s.content}>
+              <Query<GetUserResult> query={GET_USER}>
+                {({ loading, data }) => {
+                  if (loading) return <span data-testid="loading">Loading...</span>;
+                  if (!data || !data.viewer) return <span>Something went wrong</span>;
 
-                return (
-                  <div>
-                    <h2 className={s.name}>{data.viewer.name}</h2>
-                    <Image
-                      src={data && data.viewer ? data.viewer.avatar : null}
-                      size="tiny"
-                      avatar
-                      style={{ marginTop: '2em', marginBottom: '1em' }}
-                    />
-                    <span style={{ display: 'block', marginBottom: '2em' }}>
-                      To change your avatar go to{' '}
-                      <a href="https://nl.gravatar.com/" target="_blank" rel="noopener noreferrer">
-                        gravatar.com
-                      </a>
-                    </span>
-                    {data && data.viewer.slackId ? (
-                      <SlackConnectedSegment />
-                    ) : (
-                      <SlackDisconnectedSegment
-                        slackIconPath={this.slackIconPath}
-                        slackConnectUrl={this.slackConnectUrl}
+                  return (
+                    <div>
+                      <h2 className={s.name}>{data.viewer.name}</h2>
+                      <Image
+                        src={data && data.viewer ? data.viewer.avatar : null}
+                        size="tiny"
+                        avatar
+                        className={s.image}
                       />
-                    )}
-                  </div>
-                );
-              }}
-            </Query>
-          </div>
-          <div style={{ display: 'contents' }}>
-            <Button
-              data-testid="reset-password-btn"
-              color="blue"
-              className={s.button}
-              onClick={() => this.props.history.push(PATH_RESET_PASSWORD)}
-            >
-              Change password
-            </Button>
-            <Button color="red" onClick={() => Auth.logout()} className={s.button}>
-              Log out
-            </Button>
-          </div>
+                      <span className={s.image_caption}>
+                        To change your avatar go to{' '}
+                        <a href="https://nl.gravatar.com/" target="_blank" rel="noopener noreferrer">
+                          gravatar.com
+                        </a>
+                      </span>
+                      {data && data.viewer.slackId ? (
+                        <SlackConnectedSegment />
+                      ) : (
+                        <SlackDisconnectedSegment
+                          slackIconPath={this.slackIconPath}
+                          slackConnectUrl={this.slackConnectUrl}
+                        />
+                      )}
+                    </div>
+                  );
+                }}
+              </Query>
+              <Button
+                data-testid="reset-password-btn"
+                color="blue"
+                className={s.button}
+                onClick={() => this.props.history.push(PATH_RESET_PASSWORD)}
+              >
+                Change password
+              </Button>
+              <Button color="red" onClick={() => Auth.logout()} className={s.button}>
+                Log out
+              </Button>
+            </div>
+          </Segment>
         </div>
 
         <Navigation />

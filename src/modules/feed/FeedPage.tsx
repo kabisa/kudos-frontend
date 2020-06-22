@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import {
-  Divider, Grid, GridColumn, Rail, Responsive, Segment,
+  Divider, Grid, GridColumn, Responsive, Segment,
 } from 'semantic-ui-react';
 import { PullToRefresh } from '../../components';
 import { Navigation } from '../../components/navigation';
-import {
-  CreatePost, GoalProgress, LeftRail, RightRail,
-} from './components';
+import { CreatePost, RightRail } from './components';
 import { GetPostsResult } from './queries';
 import { RepoList } from './RepoList';
+
+import s from './FeedPage.module.scss';
 
 export interface Props {
   data: {
@@ -30,6 +30,13 @@ export interface FeedPageState {
   // Future state vars go here
 }
 
+const KudoBoard = () => (
+  <div className={s.board_container}>
+    <h2 className={s.board_header}>Shout out messageboard</h2>
+    <RepoList data-testid="repo-list" />
+  </div>
+);
+
 export class FeedPage extends Component<FeedPageProps, FeedPageState> {
   constructor(props: FeedPageProps) {
     super(props);
@@ -50,37 +57,25 @@ export class FeedPage extends Component<FeedPageProps, FeedPageState> {
 
   render() {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+      <div className={s.container}>
         <div className="page">
           <Responsive maxWidth={Responsive.onlyTablet.maxWidth}>
-            <div style={{ padding: '1em' }}>
-              <GoalProgress />
-              <Divider />
+            <div className={s.create_post_container_mobile}>
               <CreatePost back={false} />
             </div>
-            <Divider style={{ marginBottom: '2px', marginTop: '0px' }} />
-            <RepoList />
+            <Divider hidden />
+            <KudoBoard />
           </Responsive>
-          <Responsive minWidth={Responsive.onlyComputer.minWidth}>
-            <Grid centered columns={1} style={{ minHeight: '57em' }}>
-              <GridColumn style={{ padding: 0, maxWidth: '420px' }}>
-                <Segment style={{ maxWidth: '420px', margin: 'auto' }}>
+          <Responsive minWidth={Responsive.onlyTablet.maxWidth}>
+            <Grid centered columns={2} className={s.grid}>
+              <GridColumn className={s.grid_column}>
+                <Segment className={s.create_post_segment}>
                   <CreatePost back={false} />
                 </Segment>
-                <div
-                  style={{
-                    marginTop: '18px',
-                    WebkitOverflowScrolling: 'touch',
-                  }}
-                >
-                  <RepoList data-testid="repo-list" />
-                </div>
-                <Rail attached position="left" style={{ marginRight: '22px' }}>
-                  <LeftRail data-testid="left-rail" />
-                </Rail>
-                <Rail attached position="right">
-                  <RightRail data-testid="right-rail" />
-                </Rail>
+                <KudoBoard />
+              </GridColumn>
+              <GridColumn className={`${s.grid_column} ${s.left_column}`}>
+                <RightRail data-testid="right-rail" />
               </GridColumn>
             </Grid>
           </Responsive>

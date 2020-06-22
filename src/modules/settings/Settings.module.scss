@@ -1,7 +1,18 @@
-.button {
-  margin: auto !important;
-  display: block;
-  margin-top: 1em !important;
+:global(#root) {
+  .button {
+    display: block;
+    margin-top: 16px;
+  }
+
+  @media only screen and (min-width: 768px) {
+    .button {
+      width: 170px;
+    }
+  }
+}
+
+.grey {
+  color: #808080;
 }
 
 .name {
@@ -14,16 +25,10 @@
   }
 }
 
-@media only screen and (min-width: 768px) {
-  .button {
-    width: 170px !important;
-  }
-}
-
 .page {
   padding-top: 75px !important;
-  padding-left: 2em;
-  padding-right: 2em;
+  padding-left: 32px;
+  padding-right: 32px;
   text-align: center;
 }
 

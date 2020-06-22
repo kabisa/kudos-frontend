@@ -1,13 +1,16 @@
-.add-button {
-  -webkit-box-shadow: 10px 10px 50px -5px rgba(0, 0, 0, 0.75) !important;
-  -moz-box-shadow: 10px 10px 50px -5px rgba(0, 0, 0, 0.75) !important;
-  box-shadow: 10px 10px 50px -5px rgba(0, 0, 0, 0.75) !important;
-  position: fixed;
-  z-index: 20;
-  right: 1em;
-  bottom: 4em;
+:global(#root) {
+  .add-button {
+    -webkit-box-shadow: 10px 10px 50px -5px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 10px 10px 50px -5px rgba(0, 0, 0, 0.75);
+    box-shadow: 10px 10px 50px -5px rgba(0, 0, 0, 0.75);
+    position: fixed;
+    z-index: 20;
+    right: 16px;
+    bottom: 64px;
+  }
+
+  .add-button-desktop {
+    right: 64px;
+  }
 }
 
-.add-button-desktop {
-  right: 4em !important;
-}

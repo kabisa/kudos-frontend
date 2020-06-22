@@ -4,15 +4,11 @@ import { Statistics } from '../../statistics';
 
 import s from './Rail.module.scss';
 
-const style = {
-  height: '755px',
-  overflow: 'auto',
-  top: '0',
-  marginLeft: '22px',
-};
+const slackIconPath = `${process.env.PUBLIC_URL}/assets/kabisa_logo_white.png`;
 
 export default () => (
-  <Segment className={s.rail} style={window.innerHeight < 858 ? style : { ...style, position: 'fixed', top: '86px' }}>
+  <Segment className={s.rail}>
     <Statistics />
+    <img className={s.logo} alt="Kabisa logo" src={slackIconPath} />
   </Segment>
 );

@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 import { PATH_LOGIN } from '../../routes';
 
 import { FormWrapper } from '../../components';
-import BackButton from './BackButton';
+import BackButton from '../../components/back-button/BackButton';
 import { getGraphqlError } from '../../support';
 
 const DEFAULT_ERROR = 'Something went wrong.';

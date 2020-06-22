@@ -1,5 +1,7 @@
 import React, { ChangeEvent, Component } from 'react';
-import { Button, Form, Message } from 'semantic-ui-react';
+import {
+  Button, Form, Message, Segment,
+} from 'semantic-ui-react';
 import { Mutation } from '@apollo/react-components';
 import gql from 'graphql-tag';
 import { toast } from 'react-toastify';
@@ -13,10 +15,12 @@ import {
   ERROR_SHORT_PASSWORD,
   getGraphqlError,
 } from '../../support';
-import { Navigation, Toolbar } from '../../components/navigation';
+import { Navigation } from '../../components/navigation';
 
-import s from './UserPage.module.scss';
 import { PATH_FEED } from '../../routes';
+import { FormWrapper } from '../../components';
+import BackButton from '../../components/back-button/BackButton';
+import s from './ResetPasswordPage.module.scss';
 
 export const MUTATION_RESET_PASSWORD = gql`
   mutation ResetPassword($current_password: String, $new_password: String, $new_password_confirmation: String) {
@@ -154,10 +158,9 @@ class ResetPasswordPage extends Component<Props, State> {
 
   render() {
     return (
-      <div id="root">
-        <Toolbar text="Reset password" />
-        <div className="main-form">
-          <div className={s.page}>
+      <div>
+        <FormWrapper header="Reset password" toolbar="Reset password">
+          <Segment>
             <Mutation<ResetPasswordParameters>
               mutation={MUTATION_RESET_PASSWORD}
               onCompleted={() => {
@@ -175,7 +178,7 @@ class ResetPasswordPage extends Component<Props, State> {
                   displayError = this.state.error;
                 }
                 return (
-                  <Form style={{ maxWidth: '420px', margin: 'auto' }}>
+                  <Form className={s.form}>
                     <Form.Input
                       data-testid="current-password-input"
                       label="Current password"
@@ -217,26 +220,28 @@ class ResetPasswordPage extends Component<Props, State> {
                     />
                     <Button
                       data-testid="reset-password-button"
-                      className={s.button}
                       color="blue"
+                      fluid
+                      size="large"
                       loading={loading}
                       disabled={loading}
                       onClick={() => this.resetPassword(resetPassword)}
                     >
                       Reset password
                     </Button>
+                    <BackButton />
                     {displayError && (
-                      <Message negative>
-                        <Message.Header>Unable to reset password</Message.Header>
-                        <p>{displayError}</p>
-                      </Message>
+                    <Message negative>
+                      <Message.Header>Unable to reset password</Message.Header>
+                      <p>{displayError}</p>
+                    </Message>
                     )}
                   </Form>
                 );
               }}
             </Mutation>
-          </div>
-        </div>
+          </Segment>
+        </FormWrapper>
         <Navigation />
       </div>
     );

@@ -1,5 +1,7 @@
 import React, { ChangeEvent, Component } from 'react';
-import { Button, Form, Message } from 'semantic-ui-react';
+import {
+  Button, Form, Message, Segment,
+} from 'semantic-ui-react';
 import { Mutation } from '@apollo/react-components';
 import gql from 'graphql-tag';
 import { toast } from 'react-toastify';
@@ -7,10 +9,11 @@ import { withRouter } from 'react-router-dom';
 import { History } from 'history';
 import settings from '../../config/settings';
 import { ERROR_NAME_BLANK, getGraphqlError } from '../../support';
-import { Navigation, Toolbar } from '../../components/navigation';
+import { Navigation } from '../../components/navigation';
 import { PATH_FEED } from '../../routes';
 import { Storage } from '../../support/storage';
-import s from '../user/UserPage.module.scss';
+import s from './CreateTeamPage.module.scss';
+import { FormWrapper } from '../../components';
 
 export const MUTATION_CREATE_TEAM = gql`
     mutation CreateTeam($name: String!) {
@@ -92,56 +95,59 @@ class CreateTeamPage extends Component<Props, State> {
   }
 
   render() {
-    return (
-      <div id="root">
-        <Toolbar text="Create team" />
-        <div className="main-form">
-          <div className={s.page}>
-            <Mutation<CreateTeamResult, CreateTeamParameters>
-              mutation={MUTATION_CREATE_TEAM}
-              onError={(error) => this.setState({ error: getGraphqlError(error) })}
-              onCompleted={({ createTeam }) => {
-                this.setState(this.initialState);
-                Storage.setItem(settings.TEAM_ID_TOKEN, createTeam.team.id);
-                toast.info('Team created successfully!');
-                this.props.history.push(PATH_FEED);
-              }}
-            >
-              {(createTeam, { error, loading }) => (
-                <Form error={!!error} style={{ maxWidth: '420px', margin: 'auto' }}>
-                  <Form.Input
-                    data-testid="name-input"
-                    label="Team name"
-                    fluid
-                    icon="tag"
-                    name="name"
-                    iconPosition="left"
-                    placeholder="Team name"
-                    error={this.state.error}
-                    value={this.state.name}
-                    onChange={this.handleChange}
-                  />
-                  <Button
-                    data-testid="create-team-button"
-                    className={s.button}
-                    color="blue"
-                    loading={loading}
-                    disabled={loading}
-                    onClick={() => this.createTeam(createTeam)}
-                  >
-                    Create team
-                  </Button>
-                  {this.state.error && (
-                    <Message negative>
-                      <Message.Header>Unable to create team</Message.Header>
-                      <p data-testid="error-message">{this.state.error}</p>
-                    </Message>
-                  )}
-                </Form>
+    const content = (
+      <div>
+        <Mutation<CreateTeamResult, CreateTeamParameters>
+          mutation={MUTATION_CREATE_TEAM}
+          onError={(error) => this.setState({ error: getGraphqlError(error) })}
+          onCompleted={({ createTeam }) => {
+            this.setState(this.initialState);
+            Storage.setItem(settings.TEAM_ID_TOKEN, createTeam.team.id);
+            toast.info('Team created successfully!');
+            this.props.history.push(PATH_FEED);
+          }}
+        >
+          {(createTeam, { error, loading }) => (
+            <Form error={!!error} className={s.form}>
+              <Form.Input
+                data-testid="name-input"
+                label="Team name"
+                fluid
+                icon="tag"
+                name="name"
+                iconPosition="left"
+                placeholder="Team name"
+                value={this.state.name}
+                onChange={this.handleChange}
+              />
+              <Button
+                data-testid="create-team-button"
+                color="blue"
+                loading={loading}
+                disabled={loading}
+                onClick={() => this.createTeam(createTeam)}
+              >
+                Create team
+              </Button>
+              {this.state.error && (
+              <Message negative>
+                <Message.Header>Unable to create team</Message.Header>
+                <p data-testid="error-message">{this.state.error}</p>
+              </Message>
               )}
-            </Mutation>
-          </div>
-        </div>
+            </Form>
+          )}
+        </Mutation>
+      </div>
+    );
+
+    return (
+      <div>
+        <FormWrapper toolbar="Create team" header="create team">
+          <Segment>
+            {content}
+          </Segment>
+        </FormWrapper>
         <Navigation />
       </div>
     );

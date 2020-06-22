@@ -47,11 +47,11 @@ function TeamList(props: Props): React.ReactElement {
   return (
     <Query<TeamResult> query={GET_TEAMS} pollInterval={2000} fetchPolicy="network-only">
       {({ loading, error, data }) => {
-        if (loading) return <p style={{ textAlign: 'center' }}>Loading...</p>;
-        if (error) return <p style={{ textAlign: 'center' }}>{error.message}</p>;
+        if (loading) return <p className="text-center">Loading...</p>;
+        if (error) return <p className="text-center">{error.message}</p>;
 
         if (!data || !data.viewer.memberships.length) {
-          return <p style={{ textAlign: 'center' }}>No teams.</p>;
+          return <p className="text-center">No teams.</p>;
         }
         const { memberships } = data.viewer;
 

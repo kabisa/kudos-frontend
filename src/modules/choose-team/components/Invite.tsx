@@ -45,7 +45,7 @@ export function Invite(props: Props): React.ReactElement {
         inviteId={props.invite.id}
         mutation={MUTATION_ACCEPT_INVITE}
         text="Accept"
-        color="green"
+        color="teal"
         teamId={props.invite.team.id}
         accept
       />
@@ -53,7 +53,7 @@ export function Invite(props: Props): React.ReactElement {
         inviteId={props.invite.id}
         mutation={MUTATION_DECLINE_INVITE}
         text="Decline"
-        color="orange"
+        color="red"
         teamId={props.invite.team.id}
       />
     </div>

@@ -26,10 +26,6 @@ describe('<FeedPage />', () => {
     expect(wrapper.find('CreatePost').length).toBe(1);
   });
 
-  it('should show a left rail', async () => {
-    expect(findByTestId(wrapper, 'left-rail').length).toBe(1);
-  });
-
   it('should show a right rail', async () => {
     expect(findByTestId(wrapper, 'right-rail').length).toBe(1);
   });

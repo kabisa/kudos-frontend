@@ -73,7 +73,7 @@ describe('<AlterRoleButton />', () => {
   it('renders the promote button correctly', () => {
     wrapper = setup(adminMembership, AlterRoleButtonMode.PROMOTE);
 
-    expect(wrapper.find('.button').hasClass('green')).toBe(true);
+    expect(wrapper.find('.button').hasClass('teal')).toBe(true);
     expect(wrapper.find('i').hasClass('arrow up')).toBe(true);
   });
 

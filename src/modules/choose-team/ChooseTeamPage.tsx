@@ -27,7 +27,7 @@ export function Content(props: ContentProps): React.ReactElement {
       <Button
         data-testid="create-team"
         color="blue"
-        style={{ margin: 'auto' }}
+        className={s.create_button}
         onClick={() => {
           props.history.push(PATH_CREATE_TEAM);
         }}
@@ -45,7 +45,7 @@ export interface Props {
 function ChooseTeamPage(props: Props): React.ReactElement {
   return (
     <div>
-      <div className={s.page}>
+      <div className="page">
         <Responsive minWidth={Responsive.onlyTablet.minWidth}>
           <Segment
             style={{

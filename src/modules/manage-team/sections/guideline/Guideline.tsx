@@ -35,7 +35,7 @@ export function Guideline(props: GuidelineProps): React.ReactElement {
       <Table.Cell>
         <Button
           data-testid="edit-button"
-          color="yellow"
+          color="blue"
           icon="pencil"
           size="tiny"
           onClick={() => props.editGuideline(props.id, props.kudos, props.name)}

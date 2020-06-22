@@ -20,7 +20,7 @@ function TeamRow(props: Props) {
       </GridColumn>
       <GridColumn>
         <Button
-          color="green"
+          color="teal"
           size="small"
           onClick={() => {
             selectTeam(props.id, props.userRole);

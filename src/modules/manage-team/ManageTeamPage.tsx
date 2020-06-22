@@ -5,7 +5,7 @@ import { Route, Switch, withRouter } from 'react-router-dom';
 import { History } from 'history';
 import { Navigation } from '../../components/navigation';
 
-import s from '../feed/FeedPage.module.scss';
+import s from './ManageTeamPage.module.scss';
 import {
   GeneralSection, InviteSection, MemberSection, KudometerSection, GuidelineSection,
 } from './sections';
@@ -49,55 +49,54 @@ export class ManageTeamPage extends Component<Props, State> {
     const { activeItem } = this.state;
     return (
       <div>
-        <div className={s.page}>
-          <Segment
+        <div className="page">
+          <div
             id="management-container"
-            style={{
-              width: '60em',
-              margin: 'auto',
-              padding: '2em',
-              marginTop: '4em',
-            }}
+            className={s.container}
           >
             <Grid>
-              <Grid.Column width={4}>
-                <Menu fluid vertical tabular>
-                  {this.sections.map((section) => (
-                    <Menu.Item
-                      key={section}
-                      data-testid={`${section}-button`}
-                      name={section}
-                      active={activeItem === section}
-                      onClick={this.handleItemClick}
-                    />
-                  ))}
-                </Menu>
+              <Grid.Column width={4} className={s.column}>
+                <Segment className={s.menu_segment}>
+                  <Menu fluid vertical tabular>
+                    {this.sections.map((section) => (
+                      <Menu.Item
+                        key={section}
+                        data-testid={`${section}-button`}
+                        name={section}
+                        active={activeItem === section}
+                        onClick={this.handleItemClick}
+                      />
+                    ))}
+                  </Menu>
+                </Segment>
               </Grid.Column>
 
-              <Grid.Column stretched width={12}>
-                <Switch>
-                  <Route path={`${PATH_MANAGE_TEAM}/general`}>
-                    <GeneralSection />
-                  </Route>
-                  <Route path={`${PATH_MANAGE_TEAM}/invites`}>
-                    <InviteSection />
-                  </Route>
-                  <Route path={`${PATH_MANAGE_TEAM}/guidelines`}>
-                    <GuidelineSection />
-                  </Route>
-                  <Route path={`${PATH_MANAGE_TEAM}/members`}>
-                    <MemberSection />
-                  </Route>
-                  <Route path={`${PATH_MANAGE_TEAM}/kudometers`}>
-                    <KudometerSection />
-                  </Route>
-                  <Route path={`${PATH_MANAGE_TEAM}/integrations`}>
-                    <IntegrationSections history={this.props.history} />
-                  </Route>
-                </Switch>
+              <Grid.Column stretched width={12} className={s.column}>
+                <Segment>
+                  <Switch>
+                    <Route path={`${PATH_MANAGE_TEAM}/general`}>
+                      <GeneralSection />
+                    </Route>
+                    <Route path={`${PATH_MANAGE_TEAM}/invites`}>
+                      <InviteSection />
+                    </Route>
+                    <Route path={`${PATH_MANAGE_TEAM}/guidelines`}>
+                      <GuidelineSection />
+                    </Route>
+                    <Route path={`${PATH_MANAGE_TEAM}/members`}>
+                      <MemberSection />
+                    </Route>
+                    <Route path={`${PATH_MANAGE_TEAM}/kudometers`}>
+                      <KudometerSection />
+                    </Route>
+                    <Route path={`${PATH_MANAGE_TEAM}/integrations`}>
+                      <IntegrationSections history={this.props.history} />
+                    </Route>
+                  </Switch>
+                </Segment>
               </Grid.Column>
             </Grid>
-          </Segment>
+          </div>
         </div>
         <Navigation />
       </div>

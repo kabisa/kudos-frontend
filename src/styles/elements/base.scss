@@ -3,10 +3,14 @@
 // Base styles
 //
 ///////////////////////////////////////////////////////////
+@import "variables.scss";
 
-@import "goal-progress.scss";
 @import "actionbutton.scss";
-@import "page.scss";
+@import "button.scss";
 @import "commentbutton.scss";
-@import "donut.scss";
+@import "goal-progress.scss";
+@import "grid.scss";
+@import "page.scss";
+@import "segment.scss";
+@import "table.scss";
 @import "toast.scss";

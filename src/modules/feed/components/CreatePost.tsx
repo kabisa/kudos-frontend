@@ -16,7 +16,7 @@ import {
   ERROR_RECEIVERS_BLANK,
   getGraphqlError,
 } from '../../../support';
-import BackButton from '../../login/BackButton';
+import BackButton from '../../../components/back-button/BackButton';
 import {
   FragmentPostResult, GET_GOAL_PERCENTAGE, GET_POSTS, GET_USERS, User,
 } from '../queries';
@@ -292,28 +292,36 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
                         error={receiversError}
                         value={this.state.receivers}
                       />
+                      <span className={s.note}>(v) = virtual user</span>
                     </label>
                   </Form.Field>
 
-                  <Form.TextArea
-                    data-testid="message-input"
-                    label="Message"
-                    placeholder="Enter your message"
-                    name="message"
-                    onChange={this.handleChange}
-                    error={messageError}
-                    value={this.state.message}
-                  />
+                  <Form.Field>
+                    <label htmlFor="message-input">
+                      Message
+                      <span className={s.character_message}>
+                        {settings.MAX_POST_MESSAGE_LENGTH - this.state.message.length} chars left
+                      </span>
+                      <Form.TextArea
+                        id="message-input"
+                        data-testid="message-input"
+                        placeholder="Enter your message"
+                        name="message"
+                        onChange={this.handleChange}
+                        error={messageError}
+                        value={this.state.message}
+                      />
+                    </label>
+                  </Form.Field>
 
                   <Button
                     data-testid="submit-button"
                     type="submit"
-                    primary
                     className={s.submit_button}
                     loading={loading}
                     disabled={loading}
                   >
-                    {transaction ? 'Update' : 'Create'}
+                    {transaction ? 'Update' : 'DROP YOUR KUDOS HERE'}
                   </Button>
 
                   {displayError && (
