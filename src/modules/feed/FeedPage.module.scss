@@ -38,6 +38,7 @@
 
   .board_container {
     max-width: 480px;
+    /* Allow smooth scrolling on Safari < 13 */
     -webkit-overflow-scrolling: touch;
     margin-top: 30px;
     padding: 30px 40px;
