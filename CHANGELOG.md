@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## [1.0.0]
 ### Added
 - Allow kudometer names to be changed [PR](https://github.com/kabisa/kudos-frontend/pull/75), [Pivotal issue](https://www.pivotaltracker.com/story/show/161506981)
 - Allow the active kudometer to be changed [PR](https://github.com/kabisa/kudos-frontend/pull/75), [Pivotal issue](https://www.pivotaltracker.com/story/show/163294940)
