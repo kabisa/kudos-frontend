@@ -74,8 +74,8 @@ class GuidelineInput extends Component<Props, State> {
   }
 
   handleChange(e: ChangeEvent, { value }: any) {
-    this.setState({ amount: value });
-    this.props.handleChange(value);
+    this.setState({ amount: String(value) });
+    this.props.handleChange(Number(value));
   }
 
   showGuidelines(e: Event) {
@@ -97,10 +97,10 @@ class GuidelineInput extends Component<Props, State> {
     }, 500);
   }
 
-  selectGuideline(amount: string) {
+  selectGuideline(amount: number) {
     clearTimeout(this.timeout);
-    this.setState({ amount, showGuidelines: false });
-    this.props.handleChange(amount);
+    this.setState({ amount: String(amount), showGuidelines: false });
+    this.props.handleChange(Number(amount));
   }
 
   resetState() {
@@ -122,7 +122,7 @@ class GuidelineInput extends Component<Props, State> {
             placeholder="Amount of kudos"
             name="amount"
             type="number"
-            min="0"
+            min="1"
             value={this.state.amount}
             label="Kudos Amount"
             action={{
@@ -191,7 +191,7 @@ class GuidelineInput extends Component<Props, State> {
                   <Segment
                     data-testid="guideline-row"
                     key={guideline.id}
-                    onClick={() => this.selectGuideline(guideline.kudos.toString())}
+                    onClick={() => this.selectGuideline(guideline.kudos)}
                   >
                     {`${guideline.kudos}: ${guideline.name}`}
                   </Segment>

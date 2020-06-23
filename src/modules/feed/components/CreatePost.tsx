@@ -54,7 +54,7 @@ export interface CreatePostProps {
 }
 
 export interface CreatePostState {
-  amount: string;
+  amount?: number;
   receivers: string[];
   message: string;
   amountError: boolean;
@@ -78,7 +78,7 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
     this.userDropdown = React.createRef();
 
     this.state = {
-      amount: '',
+      amount: undefined,
       receivers: [],
       message: '',
       amountError: false,
@@ -92,7 +92,7 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
     if (props.transaction) {
       this.setState({
         message: props.transaction.message,
-        amount: String(props.transaction.amount),
+        amount: props.transaction.amount,
         // @ts-ignore
         receivers: props.transaction.receivers,
       });
@@ -173,7 +173,7 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
     createPost({
       variables: {
         message,
-        kudos: Number(amount),
+        kudos: amount,
         receivers: realReceivers,
         virtual_receivers: virtualReceivers,
         team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
@@ -200,7 +200,7 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
     this.setState({ receivers: value });
   }
 
-  handleKudoInputChange(amount: string) {
+  handleKudoInputChange(amount: number) {
     this.setState({ amount });
   }
 
