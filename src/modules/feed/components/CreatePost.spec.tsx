@@ -253,7 +253,7 @@ describe('<CreatePost />', () => {
       await wait(0);
       await wrapper.update();
 
-      expect(findByTestId(wrapper, 'error-message').text()).toBe('It broke');
+      expect(findByTestId(wrapper, 'error-message').text()).toBe('Something went wrong.');
     });
   });
 
@@ -261,7 +261,7 @@ describe('<CreatePost />', () => {
     const component = wrapper.find('CreatePost').instance();
 
     await act(async () => {
-      component.setState({ amount: '5', receivers: ['4'], message: 'Some message' });
+      component.setState({ amount: 5, receivers: ['4'], message: 'Some message' });
       await wrapper.update();
 
       findByTestId(wrapper, 'submit-button').hostNodes().simulate('submit');
