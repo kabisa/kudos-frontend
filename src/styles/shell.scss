@@ -1,33 +1,52 @@
-@import "../../node_modules/semantic-ui-css/semantic.css";
-@import "../../node_modules/maji/css/maji-base";
 @import "elements/base";
 
 @media only screen and (min-width: 1200px) {
-    .ui.container {
-        width: 1075px;
-    }
+  .ui.container {
+    width: 1075px;
+  }
 }
 
-body > div,
-body > div > div,
-body > div > div > div.main-form {
-    height: 100%;
-    overflow: auto;
+body {
+  background: var(--kudo-color-light) !important;
 }
 
 div.main-form {
+  width: 98%;
+  margin: auto;
+  height: 100vh;
+}
+
+@media only screen and (max-width: 768px) {
+  div.main-form-toolbar {
     width: 98%;
     margin: auto;
-    height: 100vh;
+    height: calc(100vh - 68px);
+  }
 }
 
 .page {
-    padding-top: constant(safe-area-inset-top); /* iOS 11.0 */
-    padding-top: env(safe-area-inset-top); /* iOS 11.2 */
-    text-align: center;
+  padding-top: constant(safe-area-inset-top); /* iOS 11.0 */
+  padding-top: env(safe-area-inset-top); /* iOS 11.2 */
+  text-align: center;
+  background: var(--kudo-color-light);
 }
 
 .flex {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+}
+
+.padding {
+  padding: 32px
+}
+
+div.ui.vertical.tabular.menu {
+  a.active.item {
+    background: var(--kudo-color-button);
+    color: #ffffff;
+  }
+}
+
+.text-center {
+  text-align: center;
 }

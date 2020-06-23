@@ -1,22 +1,18 @@
-version: "2"
-
+version: "2"         # required to adjust maintainability checks
 checks:
   method-lines:
-    enabled: false
-
-plugins:
-  duplication:
-    enabled: true
-
+    config:
+      threshold: 80
 exclude_patterns:
-  - lib/**
-  - bin/**
-  - config/**
-  - cordova/**
-  - dist/**
-  - docker/**
-  - fastlane/**
-  - node_modules/**
-  - reports/**
-  - script/**
-  - test/**
+  - "spec/"
+  - "!spec/support/helpers"
+  - "config/"
+  - "db/"
+  - "dist/"
+  - "features/"
+  - "**/node_modules/"
+  - "script/"
+  - "**/*.d.ts"
+  - "**/*.spec.tsx"
+  - "**/spec_helper.tsx"
+  - "**/PullToRefresh.js"

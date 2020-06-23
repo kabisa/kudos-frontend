@@ -1,4 +1,4 @@
 export default {
   environment: "development",
-  apiBaseUrl: "https://kudo-o-matic-staging.dokku.kabisa.io",
+  API_BASE_URL: 'http://localhost:3000',
 };

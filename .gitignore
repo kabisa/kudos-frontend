@@ -15,6 +15,10 @@ cordova/plugins/*
 !cordova/platforms/.keep
 !cordova/plugins/.keep
 
+build/
+# Allow the coverage report file for sonar cloud
+coverage/
+
 # Fastlane stuff
 /fastlane/README.md
 /fastlane/screenshots/

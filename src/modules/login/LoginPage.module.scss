@@ -1,0 +1,40 @@
+:global(#root) {
+  .grid {
+    height: 100%;
+    width: 100%;
+    margin: auto;
+  }
+
+  .column {
+    max-width: 450px;
+  }
+
+  .message {
+    background: transparent;
+    height: 50px;
+  }
+}
+
+
+
+@media only screen and (max-width: 786px) {
+  .message {
+    height: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+}
+
+.text_left {
+  text-align: left;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+

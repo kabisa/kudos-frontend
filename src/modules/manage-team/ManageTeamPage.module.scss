@@ -1,0 +1,26 @@
+:global(#root) {
+  .menu_segment {
+    padding: 36px 0;
+
+    div {
+      border: none;
+    }
+
+    a {
+      width: 100%;
+      border: none;
+      border-radius: 0 !important;
+      font-weight: 700;
+    }
+  }
+
+  .column {
+    padding-top: 0;
+  }
+
+  .container {
+    width: 960px;
+    margin: auto;
+    text-align: left;
+  }
+}

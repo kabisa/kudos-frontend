@@ -1,0 +1,21 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  padding: 75px 32px 0;
+}
+
+.container {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  text-align: center;
+}
+
+:global(#root) {
+  .create_button {
+    margin: auto;
+  }
+}

@@ -4,10 +4,10 @@ import Raven from "raven-js";
 if (Settings.sentryDsn) {
   Raven.config(Settings.sentryDsn, {
     environment: process.env.NODE_ENV,
-    release: __VERSION_NUMBER__,
+    release: process.env.REACT_APP_VERSION,
     tags: {
-      revision: __BUILD_IDENTIFIER__,
-    },
+      revision: process.env.REACT_APP_GIT_SHA
+    }
   }).install();
 } else {
   if (process.env.NODE_ENV === "production") {

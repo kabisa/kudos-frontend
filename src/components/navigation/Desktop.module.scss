@@ -1,0 +1,17 @@
+.root {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: var(--kudo-color-primary);
+}
+
+:global(#root) {
+  .menu {
+    height: 62.84px;
+    background: var(--kudo-color-primary);
+  }
+
+  .menu_item {
+    border: none;
+  }
+}

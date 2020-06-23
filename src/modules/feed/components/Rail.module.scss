@@ -1,0 +1,17 @@
+
+:global(#root) {
+  .rail {
+    text-align: center;
+    width: 400px;
+    height: 900px;
+    overflow: auto;
+    border-radius: 18px;
+    background: var(--kudo-color-dark);
+  }
+
+  .logo {
+    max-height: 150px;
+    max-width: 120px;
+    margin-top: 50px;
+  }
+}

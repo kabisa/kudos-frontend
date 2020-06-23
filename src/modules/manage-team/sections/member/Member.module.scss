@@ -1,0 +1,7 @@
+:global(#root) {
+  .name_header {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+}

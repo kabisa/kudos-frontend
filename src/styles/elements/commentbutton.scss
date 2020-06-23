@@ -1,8 +1,11 @@
-button.button-action {
-    width: 8em;
-    box-shadow: none !important;
+:global(#root) {
+  button.button-action {
+    width: 128px;
+    box-shadow: none;
+  }
+
+  .button.basic.red.button.button-action {
+    box-shadow: none;
+  }
 }
 
-.button.basic.red.button.button-action {
-    box-shadow: none !important;
-}

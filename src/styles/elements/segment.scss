@@ -1,0 +1,13 @@
+div.ui.segment {
+  border-radius: 18px;
+  background: var(--kudo-color-secondary);
+  border: none;
+}
+
+@media only screen and (max-width: 768px) {
+  div.ui.segment {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+  }
+}

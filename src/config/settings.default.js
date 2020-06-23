@@ -1,8 +1,3 @@
-/* eslint-disable */
-
-import * as development from "./settings.development";
-import * as production from "./settings.production";
-
 export default {
   // App settings.
   defaultLocale: "en-US",
@@ -12,13 +7,9 @@ export default {
   MIN_POST_MESSAGE_LENGTH: 4,
   MAX_POST_MESSAGE_LENGTH: 140,
 
-  // Network settings.
-  API_BASE_URL:
-    process.env.APP_CONTEXT_ENV === "develop"
-      ? development.default.apiBaseUrl
-      : production.default.apiBaseUrl,
+  API_BASE_URL: "http://localhost:3000",
 
-  // localStorage settings.
+  // Storage settings.
   LOCALSTORAGE_TOKEN: "token",
   TEAM_ID_TOKEN: "team_id",
   USER_ID_TOKEN: "user_id",
