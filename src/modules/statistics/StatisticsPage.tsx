@@ -17,9 +17,7 @@ export function StatisticsPage(): React.ReactElement {
   return (
     <div>
       <div className={s.root}>
-        <div style={{ paddingBottom: '2em' }}>
-          <Statistics />
-        </div>
+        <Statistics />
       </div>
       <Navigation />
     </div>
