@@ -5,7 +5,7 @@ import {
   findByTestId, mockLocalstorage, simulateInputChange, wait, withMockedProviders,
 } from '../../../../spec_helper';
 import KudometerSection from './KudometerSection';
-import { CREATE_KUDOMETER, GET_KUDOMETERS, UPDATE_KUDOMETER } from './KudometerQuerries';
+import { CREATE_KUDOMETER, GET_KUDOMETERS, UPDATE_KUDOMETER } from './KudometerQueries';
 
 let createMutationCalled = false;
 let editMutationCalled = false;

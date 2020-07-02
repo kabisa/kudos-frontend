@@ -1,4 +1,4 @@
-import { Goal } from '../modules/manage-team/sections/kudometer/KudometerQuerries';
+import { Goal } from '../modules/manage-team/sections/kudometer/KudometerQueries';
 
 const calculateProgress = (goals: Goal[], current: number, scale = 100): number => {
   goals.sort((goal1, goal2) => goal1.amount - goal2.amount);

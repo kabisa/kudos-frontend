@@ -7,7 +7,7 @@ import {
 import { KudometerRow } from './KudometerRow';
 import {
   DELETE_KUDOMETER, GET_KUDOMETERS, Kudometer, SET_ACTIVE_KUDOS_METER,
-} from './KudometerQuerries';
+} from './KudometerQueries';
 import { GET_GOAL_PERCENTAGE } from '../../../feed/queries';
 
 const getKudometer = (isActive: boolean): Kudometer => ({

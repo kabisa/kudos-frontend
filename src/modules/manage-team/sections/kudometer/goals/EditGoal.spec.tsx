@@ -9,7 +9,7 @@ import {
   withMockedProviders,
 } from '../../../../../spec_helper';
 import { EditGoal } from './EditGoal';
-import { CREATE_GOAL, GET_KUDOMETERS, UPDATE_GOAL } from '../KudometerQuerries';
+import { CREATE_GOAL, GET_KUDOMETERS, UPDATE_GOAL } from '../KudometerQueries';
 
 let createMutationCalled = false;
 let updateMutationCalled = false;

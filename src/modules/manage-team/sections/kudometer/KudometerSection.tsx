@@ -14,7 +14,7 @@ import {
   GET_KUDOMETERS,
   GetKudoMetersResult,
   Kudometer, UPDATE_KUDOMETER, UpdateKudoMeterParameters, UpdateKudoMeterResult,
-} from './KudometerQuerries';
+} from './KudometerQueries';
 import { Goals } from './goals/Goals';
 import { KudometerRow } from './KudometerRow';
 import { Storage } from '../../../../support/storage';
