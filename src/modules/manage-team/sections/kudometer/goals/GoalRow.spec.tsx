@@ -5,7 +5,7 @@ import {
   findByTestId, mockLocalstorage, wait, withMockedProviders,
 } from '../../../../../spec_helper';
 import { GoalRow } from './GoalRow';
-import { DELETE_GOAL, GET_KUDOMETERS, Goal } from '../KudometerQuerries';
+import { DELETE_GOAL, GET_KUDOMETERS, Goal } from '../KudometerQueries';
 
 let mutationCalled = false;
 let queryCalled = false;

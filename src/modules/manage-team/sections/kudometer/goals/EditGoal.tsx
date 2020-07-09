@@ -5,7 +5,7 @@ import React, { ChangeEvent } from 'react';
 import { GraphQLError } from 'graphql';
 import {
   CREATE_GOAL, CreateGoalParameters, GET_KUDOMETERS, UPDATE_GOAL,
-} from '../KudometerQuerries';
+} from '../KudometerQueries';
 import settings from '../../../../../config/settings';
 import { getGraphqlError } from '../../../../../support';
 import { Storage } from '../../../../../support/storage';

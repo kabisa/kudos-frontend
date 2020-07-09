@@ -3,7 +3,7 @@
   .rail {
     text-align: center;
     width: 400px;
-    height: 900px;
+    height: fit-content;
     overflow: auto;
     border-radius: 18px;
     background: var(--kudo-color-dark);

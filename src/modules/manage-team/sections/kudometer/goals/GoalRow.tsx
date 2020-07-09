@@ -4,7 +4,7 @@ import { Mutation } from '@apollo/react-components';
 import { toast } from 'react-toastify';
 import {
   DELETE_GOAL, DeleteGoalParameters, GET_KUDOMETERS, Goal,
-} from '../KudometerQuerries';
+} from '../KudometerQueries';
 import settings from '../../../../../config/settings';
 import { Storage } from '../../../../../support/storage';
 

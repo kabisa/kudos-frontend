@@ -4,7 +4,7 @@ import {
 } from 'semantic-ui-react';
 import {
   Kudometer,
-} from '../KudometerQuerries';
+} from '../KudometerQueries';
 import { EditGoal } from './EditGoal';
 import { GoalRow } from './GoalRow';
 
