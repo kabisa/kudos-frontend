@@ -34,17 +34,19 @@ function Transaction(props: TransactionProps) {
               </strong>
               {' '}for{' '}<span data-testid="post-message">{props.transaction.message}</span>
             </div>
-            {props.transaction.imageUrls.length > 0 && (
+            {props.transaction.images.length > 0 && (
             <div className={s.images}>
               <SimpleReactLightbox>
                 <SRLWrapper options={{ caption: { showCaption: false } }}>
-                  {props.transaction.imageUrls.map((image) => (
-                    <img
-                      src={image}
-                      key={image}
-                      className={s.image}
-                      alt="Kudos afbeelding"
-                    />
+                  {props.transaction.images.map((image) => (
+                    <a href={image.imageUrl}>
+                      <img
+                        src={image.imageThumbnailUrl}
+                        key={image.imageThumbnailUrl}
+                        className={s.image}
+                        alt="Kudos afbeelding"
+                      />
+                    </a>
                   ))}
                 </SRLWrapper>
               </SimpleReactLightbox>

@@ -89,7 +89,7 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
       amount: undefined,
       receivers: [],
       message: '',
-      images: undefined,
+      images: [],
       amountError: false,
       receiversError: false,
       messageError: false,

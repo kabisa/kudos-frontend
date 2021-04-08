@@ -122,6 +122,7 @@ class GuidelineInput extends Component<Props, State> {
             placeholder="Amount of kudos"
             name="amount"
             type="number"
+            autoComplete="off"
             min="1"
             value={this.state.amount}
             label="Kudos Amount"
