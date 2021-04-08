@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card } from 'semantic-ui-react';
+import SimpleReactLightbox, { SRLWrapper } from 'simple-react-lightbox';
 import LikeButton from './LikeButton';
 import { Header } from './Header';
 import settings from '../../../../config/settings';
@@ -35,14 +36,18 @@ function Transaction(props: TransactionProps) {
             </div>
             {props.transaction.imageUrls.length > 0 && (
             <div className={s.images}>
-              {props.transaction.imageUrls.map((image) => (
-                <img
-                  src={image}
-                  key={image}
-                  className={s.image}
-                  alt="Kudos afbeelding"
-                />
-              ))}
+              <SimpleReactLightbox>
+                <SRLWrapper options={{ caption: { showCaption: false } }}>
+                  {props.transaction.imageUrls.map((image) => (
+                    <img
+                      src={image}
+                      key={image}
+                      className={s.image}
+                      alt="Kudos afbeelding"
+                    />
+                  ))}
+                </SRLWrapper>
+              </SimpleReactLightbox>
             </div>
             )}
           </Card.Description>
