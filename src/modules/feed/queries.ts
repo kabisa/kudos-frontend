@@ -5,6 +5,7 @@ export const FRAGMENT_POST = gql`
         id
         amount
         message
+        imageUrls
         createdAt
         receivers {
             id
@@ -29,6 +30,7 @@ export interface FragmentPostResult {
   id: string;
   amount: number;
   message: string;
+  imageUrls: string[];
   createdAt: string;
   receivers: Sender[];
   sender: Sender;

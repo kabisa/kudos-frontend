@@ -33,6 +33,18 @@ function Transaction(props: TransactionProps) {
               </strong>
               {' '}for{' '}<span data-testid="post-message">{props.transaction.message}</span>
             </div>
+            {props.transaction.imageUrls.length > 0 && (
+            <div className={s.images}>
+              {props.transaction.imageUrls.map((image) => (
+                <img
+                  src={image}
+                  key={image}
+                  className={s.image}
+                  alt="Kudos afbeelding"
+                />
+              ))}
+            </div>
+            )}
           </Card.Description>
         </Card.Content>
         <Card.Content extra className={s.card_content}>
