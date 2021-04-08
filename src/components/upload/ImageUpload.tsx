@@ -1,4 +1,5 @@
 import React, {
+  Ref,
   useImperativeHandle, useState,
 } from 'react';
 import { useDropzone } from 'react-dropzone';
@@ -12,7 +13,7 @@ interface ImageUploadRef {
   resetState(): void;
 }
 
-export const ImageUpload = React.forwardRef<ImageUploadRef, Props>((props, ref) => {
+export const ImageUpload = React.forwardRef<ImageUploadRef, Props>((props: Props, ref: Ref<ImageUploadRef>) => {
   const [previews, setPreviews] = useState<any[]>([]);
   const [errorMessage, setErrorMessage] = useState('');
   const { getRootProps, getInputProps } = useDropzone({
