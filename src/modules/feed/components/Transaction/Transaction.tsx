@@ -39,10 +39,12 @@ function Transaction(props: TransactionProps) {
               <SimpleReactLightbox>
                 <SRLWrapper options={{ caption: { showCaption: false } }}>
                   {props.transaction.images.map((image) => (
-                    <a href={image.imageUrl}>
+                    <a
+                      href={image.imageUrl}
+                      key={image.imageThumbnailUrl}
+                    >
                       <img
                         src={image.imageThumbnailUrl}
-                        key={image.imageThumbnailUrl}
                         className={s.image}
                         alt="Kudos afbeelding"
                       />

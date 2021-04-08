@@ -29,6 +29,7 @@ const mocks = (hasNextPage: boolean) => [
                   amount: 5,
                   message: 'test message',
                   createdAt: '2020-03-10',
+                  images: [],
                   receivers: [
                     {
                       id: '1',

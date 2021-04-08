@@ -23,6 +23,7 @@ const mocks = [
         receivers: ['4'],
         virtual_receivers: [],
         team_id: '1',
+        images: [],
       },
     },
     result: () => {
