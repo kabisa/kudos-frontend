@@ -14,14 +14,14 @@
 .error {
   color: #912d2b;
   display: inline-block;
-  margin-top: 5px;
+  margin-top: 0.3rem;
 }
 
 .thumbs_container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  margin-top: 16px;
+  margin-top: 1rem;
 
   .thumb {
     display: inline-flex;
