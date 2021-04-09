@@ -26,7 +26,7 @@ import s from '../FeedPage.module.scss';
 import { ImageUpload } from '../../../components/upload/ImageUpload';
 
 // eslint-disable-next-line max-len
-export const CREATE_POST = gql`mutation CreatePost($message: String, $kudos: Int, $receivers: [ID!], $virtual_receivers: [String!], $team_id: ID, $images: [Upload!]!) {
+export const CREATE_POST = gql`mutation CreatePost($message: String, $kudos: Int, $receivers: [ID!], $virtual_receivers: [String!], $team_id: ID, $images: [UploadedFile!]!) {
         createPost(
             message: $message
             amount: $kudos

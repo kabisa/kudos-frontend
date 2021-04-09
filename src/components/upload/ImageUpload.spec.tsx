@@ -63,7 +63,39 @@ describe('<ImageUpload />', () => {
       expect(selectedFiles).toHaveLength(0);
       expect(wrapper.find('img')).toHaveLength(0);
       expect(wrapper.find('span').text())
-        .toContain('One or more images were not accepted. Up to 3 images are allowed.');
+        .toContain('Images not accepted. Select up to 3 images with a maximum size of 5MB');
+    });
+  });
+
+  it('only accepts images', async () => {
+    await act(async () => {
+      const files = [
+        createFile('foo.txt', 200, 'text/plain'),
+      ];
+
+      await wrapper.find('input').simulate('change', fileChangeEvent(files));
+      await wrapper.update();
+
+      expect(selectedFiles).toHaveLength(0);
+      expect(wrapper.find('span').text())
+        .toContain('Images not accepted. Select up to 3 images with a maximum size of 5MB');
+    });
+  });
+
+  it('does not accept images larger than 5MB combined', async () => {
+    await act(async () => {
+      const files = [
+        createFile('foo.png', 6 * 1024 * 1000, 'image/png'),
+        createFile('foo.png', 2 * 1024 * 1000, 'image/png'),
+        createFile('foo.png', 12 * 1024 * 1000, 'image/png'),
+      ];
+
+      await wrapper.find('input').simulate('change', fileChangeEvent(files));
+      await wrapper.update();
+
+      expect(selectedFiles).toHaveLength(1);
+      expect(wrapper.find('span').text())
+        .toContain('Images not accepted. Select up to 3 images with a maximum size of 5MB');
     });
   });
 });

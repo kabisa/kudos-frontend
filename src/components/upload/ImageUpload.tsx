@@ -18,9 +18,10 @@ export const ImageUpload = React.forwardRef<ImageUploadRef, Props>((props: Props
   const [errorMessage, setErrorMessage] = useState('');
   const { getRootProps, getInputProps } = useDropzone({
     accept: 'image/*',
+    maxSize: 5 * 1024 * 1000,
     maxFiles: 3,
     onDropRejected: () => {
-      setErrorMessage('One or more images were not accepted. Up to 3 images are allowed.');
+      setErrorMessage('Images not accepted. Select up to 3 images with a maximum size of 5MB');
     },
     onDrop: (acceptedFiles: File[]) => {
       setErrorMessage('');
