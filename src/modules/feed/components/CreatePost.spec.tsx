@@ -23,7 +23,7 @@ const mocks = [
         receivers: ['4'],
         virtual_receivers: [],
         team_id: '1',
-        images: [],
+        images: [new File([], 'test.png', { type: 'image/png' })],
       },
     },
     result: () => {
@@ -262,7 +262,9 @@ describe('<CreatePost />', () => {
     const component = wrapper.find('CreatePost').instance();
 
     await act(async () => {
-      component.setState({ amount: 5, receivers: ['4'], message: 'Some message' });
+      component.setState({
+        amount: 5, receivers: ['4'], message: 'Some message', images: [new File([], 'test.png', { type: 'image/png' })],
+      });
       await wrapper.update();
 
       findByTestId(wrapper, 'submit-button').hostNodes().simulate('submit');

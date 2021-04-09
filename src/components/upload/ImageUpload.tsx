@@ -51,7 +51,7 @@ export const ImageUpload = React.forwardRef<ImageUploadRef, Props>((props: Props
 
   return (
     <section className={s.image_upload_wrapper}>
-      <div {...getRootProps({ className: s.dropzone })}>
+      <div data-testid="dropzone" {...getRootProps({ className: s.dropzone })}>
         <input {...getInputProps()} />
         <p>Optionally select or drop up to 3 images</p>
       </div>
