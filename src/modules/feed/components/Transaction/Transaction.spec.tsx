@@ -9,6 +9,7 @@ const transaction: FragmentPostResult = {
   amount: 5,
   message: 'test message',
   createdAt: '',
+  images: [],
   receivers: [
     {
       name: 'Stefan',

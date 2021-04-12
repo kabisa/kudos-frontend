@@ -15,7 +15,7 @@ Backend: https://github.com/kabisa/kudo-o-matic
 
 ### Prerequisites
 
-- Node.js >=8 + NPM, for the build system
+- Node.js >=10 + NPM, for the build system
 - Yarn >= 1, for package management
 - Chrome v59.x or higher to run the tests headless
 - Java 8 (or higher) to run the end-to-end tests (it powers the selenium server)

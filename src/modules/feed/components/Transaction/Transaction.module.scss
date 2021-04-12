@@ -11,6 +11,20 @@
   text-align: left;
 }
 
+.images {
+  margin-top: 0.5rem;
+
+  .image {
+    width: 100px;
+    height: 80px;
+    margin-right: 1rem;
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+    object-fit: cover;
+    cursor: pointer;
+  }
+}
+
 :global(#root) {
   .card {
     width: 100%;
@@ -19,6 +33,6 @@
   }
 
   .card_content {
-    padding:  8px 16px;
+    padding: 8px 16px;
   }
 }
