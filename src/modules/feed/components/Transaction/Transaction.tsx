@@ -34,7 +34,7 @@ function Transaction(props: TransactionProps) {
               </strong>
               {' '}for{' '}<span data-testid="post-message">{props.transaction.message}</span>
             </div>
-            {props.transaction.images.length > 0 && (
+            {props.transaction.images && (
             <div className={s.images}>
               <SimpleReactLightbox>
                 <SRLWrapper options={{ caption: { showCaption: false } }}>

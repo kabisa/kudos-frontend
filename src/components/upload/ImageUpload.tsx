@@ -13,8 +13,13 @@ interface ImageUploadRef {
   resetState(): void;
 }
 
+interface Preview {
+  source: string
+  name: string
+}
+
 export const ImageUpload = React.forwardRef<ImageUploadRef, Props>((props: Props, ref: Ref<ImageUploadRef>) => {
-  const [previews, setPreviews] = useState<any[]>([]);
+  const [previews, setPreviews] = useState<Preview[]>([]);
   const [errorMessage, setErrorMessage] = useState('');
   const { getRootProps, getInputProps } = useDropzone({
     accept: 'image/*',
