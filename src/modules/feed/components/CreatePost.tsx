@@ -8,6 +8,7 @@ import ApolloClient from 'apollo-client';
 import settings from '../../../config/settings';
 import UserDropdown from './UserDropdown/UserDropdown';
 import GuidelineInput from './GuidelineInput/GuidelineInput';
+
 import {
   ERROR_AMOUNT_BLANK,
   ERROR_MESSAGE_BLANK,
@@ -22,15 +23,17 @@ import {
 } from '../queries';
 import { Storage } from '../../../support/storage';
 import s from '../FeedPage.module.scss';
+import { ImageUpload } from '../../../components/upload/ImageUpload';
 
-export const CREATE_POST = gql`
-    mutation CreatePost($message: String, $kudos: Int, $receivers: [ID!], $virtual_receivers: [String!], $team_id: ID) {
+// eslint-disable-next-line max-len
+export const CREATE_POST = gql`mutation CreatePost($message: String, $kudos: Int, $receivers: [ID!], $virtual_receivers: [String!], $team_id: ID, $images: [UploadedFile!]!) {
         createPost(
             message: $message
             amount: $kudos
             receiverIds: $receivers
             nullReceivers: $virtual_receivers
-            teamId: $team_id
+            teamId: $team_id,
+            images: $images
         ) {
             post {
                 id
@@ -57,6 +60,7 @@ export interface CreatePostState {
   amount?: number;
   receivers: string[];
   message: string;
+  images?: File[];
   amountError: boolean;
   receiversError: boolean;
   messageError: boolean;
@@ -72,15 +76,20 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
   // @ts-ignore
   userDropdown: React.RefObject<UserDropdown>;
 
+  // @ts-ignore
+  imageUpload: React.RefObject<ImageUpload>;
+
   constructor(props: CreatePostProps) {
     super(props);
     this.guidelineInput = React.createRef();
     this.userDropdown = React.createRef();
+    this.imageUpload = React.createRef();
 
     this.state = {
       amount: undefined,
       receivers: [],
       message: '',
+      images: [],
       amountError: false,
       receiversError: false,
       messageError: false,
@@ -106,7 +115,9 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
   }
 
   onSubmit(createPost: any, client: ApolloClient<any>) {
-    const { amount, receivers, message } = this.state;
+    const {
+      amount, receivers, message, images,
+    } = this.state;
     this.setState({
       amountError: false,
       receiversError: false,
@@ -174,6 +185,7 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
       variables: {
         message,
         kudos: amount,
+        images,
         receivers: realReceivers,
         virtual_receivers: virtualReceivers,
         team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
@@ -189,6 +201,7 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
     this.guidelineInput.current.__wrappedInstance.resetState();
     // @ts-ignore
     this.userDropdown.current.resetState();
+    this.imageUpload.current.resetState();
     this.setState(this.initialState);
   }
 
@@ -207,6 +220,12 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
   handleChange(e: FormEvent, { name, value }: any) {
     // @ts-ignore
     this.setState({ [name]: value });
+  }
+
+  handleImagesSelected(images: File[]) {
+    this.setState({
+      images,
+    });
   }
 
   render() {
@@ -310,6 +329,18 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
                         onChange={this.handleChange}
                         error={messageError}
                         value={this.state.message}
+                      />
+                    </label>
+                  </Form.Field>
+
+                  <Form.Field>
+                    {/* Suppressed because the linter doesn't pick up on custom controls */}
+                    {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+                    <label htmlFor="image-upload">
+                      Images
+                      <ImageUpload
+                        ref={this.imageUpload}
+                        onChange={(images) => this.handleImagesSelected(images)}
                       />
                     </label>
                   </Form.Field>

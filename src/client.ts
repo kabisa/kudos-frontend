@@ -1,8 +1,8 @@
-import { HttpLink } from 'apollo-link-http';
 import { ApolloClient } from 'apollo-client';
-import { ApolloLink, concat } from 'apollo-link';
+import { ApolloLink, from } from 'apollo-link';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { onError } from 'apollo-link-error';
+import { createUploadLink } from 'apollo-upload-client';
 import { Auth } from './support';
 import settings from './config/settings';
 import { Storage } from './support/storage';
@@ -12,7 +12,6 @@ const handleError = async ({ networkError }: any) => {
     await Auth.logout();
   }
 };
-const httpLink = new HttpLink({ uri: `${settings.API_BASE_URL}/graphql` });
 
 const authMiddleware = new ApolloLink((operation, forward) => {
   operation.setContext({
@@ -25,13 +24,18 @@ const authMiddleware = new ApolloLink((operation, forward) => {
   return forward(operation);
 });
 
+const uploadLink = createUploadLink({ uri: `${settings.API_BASE_URL}/graphql` });
+
+const apolloClientLink = from([
+  onError((error) => {
+    handleError(error);
+  }),
+  authMiddleware,
+  uploadLink,
+]);
+
 const client = new ApolloClient({
-  link: ApolloLink.from([
-    onError((error) => {
-      handleError(error);
-    }),
-    concat(authMiddleware, httpLink),
-  ]),
+  link: apolloClientLink,
   cache: new InMemoryCache(),
 });
 
