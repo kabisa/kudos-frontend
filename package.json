@@ -36,7 +36,7 @@
     "history": "^4.10.1",
     "moment": "^2.24.0",
     "moment-twitter": "^0.2.0",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "prop-types": "^15.7.2",
     "query-string": "^6.12.1",
     "raven-js": "^3.27.2",
