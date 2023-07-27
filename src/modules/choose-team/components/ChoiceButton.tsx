@@ -1,15 +1,15 @@
-import React from 'react';
-import { Button, SemanticCOLORS } from 'semantic-ui-react';
-import { Mutation } from '@apollo/react-components';
-import { toast } from 'react-toastify';
-import { withRouter } from 'react-router-dom';
-import { History } from 'history';
-import { DocumentNode } from 'graphql';
-import settings from '../../../config/settings';
-import { PATH_FEED } from '../../../routes';
-import { GET_INVITES } from './InviteList';
-import { Storage } from '../../../support/storage';
-import s from './ChooseTeam.module.scss';
+import React from "react";
+import { Button, SemanticCOLORS } from "semantic-ui-react";
+import { Mutation } from "@apollo/react-components";
+import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
+import { History } from "history";
+import { DocumentNode } from "graphql";
+import settings from "../../../config/settings";
+import { PATH_FEED } from "../../../routes";
+import { GET_INVITES } from "./InviteList";
+import { Storage } from "../../../support/storage";
+import s from "./ChooseTeam.module.scss";
 
 export interface Props {
   mutation: DocumentNode;
@@ -18,10 +18,11 @@ export interface Props {
   color: SemanticCOLORS;
   accept?: boolean;
   teamId: string;
-  history: History;
 }
 
 function ChoiceButton(props: Props): React.ReactElement {
+  const history = useHistory();
+
   return (
     <Mutation<any>
       mutation={props.mutation}
@@ -45,7 +46,7 @@ function ChoiceButton(props: Props): React.ReactElement {
             self: {
               ...oldState.viewer.self,
               teamInvites: oldState.viewer.self.teamInvites.filter(
-                (item: any) => item.id !== declineInvite.id,
+                (item: any) => item.id !== declineInvite.id
               ),
             },
           },
@@ -66,10 +67,10 @@ function ChoiceButton(props: Props): React.ReactElement {
             mutate({ variables: { team_invite_id: props.inviteId } });
             if (props.accept) {
               Storage.setItem(settings.TEAM_ID_TOKEN, props.teamId);
-              toast.info('Invite successfully accepted!');
-              props.history.push(PATH_FEED);
+              toast.info("Invite successfully accepted!");
+              history.push(PATH_FEED);
             }
-            toast.info('Invite successfully declined!');
+            toast.info("Invite successfully declined!");
           }}
         >
           {props.text}
@@ -79,5 +80,4 @@ function ChoiceButton(props: Props): React.ReactElement {
   );
 }
 
-// @ts-ignore
-export default withRouter(ChoiceButton);
+export default ChoiceButton;

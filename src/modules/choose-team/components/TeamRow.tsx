@@ -1,18 +1,19 @@
-import React from 'react';
-import { Button, GridColumn, GridRow } from 'semantic-ui-react';
-import { History } from 'history';
-import s from './ChooseTeam.module.scss';
-import { selectTeam } from '../utils';
-import { PATH_FEED } from '../../../routes';
+import React from "react";
+import { Button, GridColumn, GridRow } from "semantic-ui-react";
+import s from "./ChooseTeam.module.scss";
+import { selectTeam } from "../utils";
+import { PATH_FEED } from "../../../routes";
+import { useHistory } from "react-router-dom";
 
 export interface Props {
-  history: History;
   id: string;
   name: string;
   userRole: string;
 }
 
 function TeamRow(props: Props) {
+  const history = useHistory();
+
   return (
     <GridRow textAlign="center">
       <GridColumn>
@@ -24,7 +25,7 @@ function TeamRow(props: Props) {
           size="small"
           onClick={() => {
             selectTeam(props.id, props.userRole);
-            props.history.push(PATH_FEED);
+            history.push(PATH_FEED);
           }}
         >
           Choose
