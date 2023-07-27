@@ -1,34 +1,44 @@
-import React, { ChangeEvent, Component, FormEvent } from 'react';
-import {
-  Button, Form, Message, Segment,
-} from 'semantic-ui-react';
-import { Mutation } from '@apollo/react-components';
-import gql from 'graphql-tag';
-import { History } from 'history';
-import { withRouter } from 'react-router-dom';
+import React, { ChangeEvent, Component, FormEvent } from "react";
+import { Button, Form, Message, Segment } from "semantic-ui-react";
+import { Mutation } from "@apollo/react-components";
+import gql from "graphql-tag";
+import { History } from "history";
+import { withRouter } from "react-router-dom";
 import {
   ERROR_EMAIL_INVALID,
   ERROR_INCOMPLETE,
-  ERROR_SHORT_PASSWORD, getGraphqlError,
+  ERROR_SHORT_PASSWORD,
+  getGraphqlError,
   validateEmail,
-} from '../../support';
-import { FormWrapper } from '../../components';
-import BackButton from '../../components/back-button/BackButton';
-import { loginSuccess } from './helper';
-import settings from '../../config/settings';
-import { PATH_LOGIN } from '../../routes';
+} from "../../support";
+import { FormWrapper } from "../../components";
+import BackButton from "../../components/back-button/BackButton";
+import { loginSuccess } from "./helper";
+import settings from "../../config/settings";
+import { PATH_LOGIN } from "../../routes";
 
 export const MUTATION_REGISTER = gql`
-    mutation SignUpUser($name: String!, $email: EmailAddress!, $password: String!) {
-        signUpUser(credentials: { name: $name, email: $email, password: $password, passwordConfirmation: $password }) {
-            authenticateData {
-                token
-                user {
-                    id
-                }
-            }
+  mutation SignUpUser(
+    $name: String!
+    $email: EmailAddress!
+    $password: String!
+  ) {
+    signUpUser(
+      credentials: {
+        name: $name
+        email: $email
+        password: $password
+        passwordConfirmation: $password
+      }
+    ) {
+      authenticateData {
+        token
+        user {
+          id
         }
+      }
     }
+  }
 `;
 
 export interface RegisterResult {
@@ -64,10 +74,10 @@ class RegisterPage extends Component<Props, State> {
     super(props);
 
     this.state = {
-      name: '',
-      email: '',
-      password: '',
-      error: '',
+      name: "",
+      email: "",
+      password: "",
+      error: "",
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -90,7 +100,7 @@ class RegisterPage extends Component<Props, State> {
   formSubmit(e: FormEvent, signUpUser: any) {
     e.preventDefault();
     const { name, email, password } = this.state;
-    this.setState({ error: '' });
+    this.setState({ error: "" });
 
     if (!name || !email || !password) {
       this.setState({ error: ERROR_INCOMPLETE });
@@ -128,7 +138,11 @@ class RegisterPage extends Component<Props, State> {
           return (
             <FormWrapper toolbar="Register" header="Register">
               <Segment>
-                <Form size="large" error={!!error} onSubmit={(e) => this.formSubmit(e, signUpUser)}>
+                <Form
+                  size="large"
+                  error={!!error}
+                  onSubmit={(e) => this.formSubmit(e, signUpUser)}
+                >
                   <Form.Input
                     data-testid="name-input"
                     fluid
@@ -175,10 +189,10 @@ class RegisterPage extends Component<Props, State> {
                   </Button>
 
                   {displayError && (
-                  <Message negative>
-                    <Message.Header>Unable to register</Message.Header>
-                    <p data-testid="error-message">{displayError}</p>
-                  </Message>
+                    <Message negative>
+                      <Message.Header>Unable to register</Message.Header>
+                      <p data-testid="error-message">{displayError}</p>
+                    </Message>
                   )}
                 </Form>
                 <BackButton />

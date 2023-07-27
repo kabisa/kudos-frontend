@@ -1,11 +1,11 @@
-import React, { Component, PropsWithRef, SyntheticEvent } from 'react';
-import { Dropdown } from 'semantic-ui-react';
-import { Query } from '@apollo/react-components';
+import React, { Component, PropsWithRef, SyntheticEvent } from "react";
+import { Dropdown } from "semantic-ui-react";
+import { Query } from "@apollo/react-components";
 
-import client from '../../../../client';
-import { GET_USERS, GetUsersResult, User } from '../../queries';
-import settings from '../../../../config/settings';
-import { Storage } from '../../../../support/storage';
+import client from "../../../../client";
+import { GET_USERS, GetUsersResult, User } from "../../queries";
+import settings from "../../../../config/settings";
+import { Storage } from "../../../../support/storage";
 
 export interface DropDownProps extends PropsWithRef<any> {
   onChange: (value: []) => void;
@@ -55,14 +55,16 @@ class DropdownRemote extends Component<DropDownProps, DropDownState> {
       },
     });
 
-    const existing = oldState.teamById.users.filter((u: User) => u.name === value);
+    const existing = oldState.teamById.users.filter(
+      (u: User) => u.name === value
+    );
     if (existing.length > 0) {
       return;
     }
 
     // Manually searching for an available user id?
     // Big no no, fix this to create a new user with a mutation and store the result.
-    let id = '-1';
+    let id = "-1";
     oldState.teamById.users.forEach((item: User) => {
       const itemId = Number.parseInt(item.id, 10);
       const numberId = Number.parseInt(id, 10);
@@ -82,7 +84,7 @@ class DropdownRemote extends Component<DropDownProps, DropDownState> {
             id,
             name: value,
             virtualUser: true,
-            __typename: 'User',
+            __typename: "User",
           },
         ],
       },
@@ -139,7 +141,7 @@ class DropdownRemote extends Component<DropDownProps, DropDownState> {
               disabled={loading}
               loading={loading}
               error={!!error || this.props.error}
-              onAddItem={this.handleAddition}
+              onAddItem={() => this.handleAddition}
               onChange={this.handleChange}
             />
           );
