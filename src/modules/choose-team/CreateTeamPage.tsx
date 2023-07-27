@@ -1,28 +1,26 @@
-import React, { ChangeEvent, Component } from 'react';
-import {
-  Button, Form, Message, Segment,
-} from 'semantic-ui-react';
-import { Mutation } from '@apollo/react-components';
-import gql from 'graphql-tag';
-import { toast } from 'react-toastify';
-import { withRouter } from 'react-router-dom';
-import { History } from 'history';
-import settings from '../../config/settings';
-import { ERROR_NAME_BLANK, getGraphqlError } from '../../support';
-import { Navigation } from '../../components/navigation';
-import { PATH_FEED } from '../../routes';
-import { Storage } from '../../support/storage';
-import s from './CreateTeamPage.module.scss';
-import { FormWrapper } from '../../components';
+import React, { ChangeEvent, Component } from "react";
+import { Button, Form, Message, Segment } from "semantic-ui-react";
+import { Mutation } from "@apollo/react-components";
+import gql from "graphql-tag";
+import { toast } from "react-toastify";
+import { withRouter } from "react-router-dom";
+import settings from "../../config/settings";
+import { ERROR_NAME_BLANK, getGraphqlError } from "../../support";
+import { Navigation } from "../../components/navigation";
+import { PATH_FEED } from "../../routes";
+import { Storage } from "../../support/storage";
+import s from "./CreateTeamPage.module.scss";
+import { FormWrapper } from "../../components";
+import { History } from "history";
 
 export const MUTATION_CREATE_TEAM = gql`
-    mutation CreateTeam($name: String!) {
-        createTeam(name: $name) {
-            team {
-                id
-            }
-        }
+  mutation CreateTeam($name: String!) {
+    createTeam(name: $name) {
+      team {
+        id
+      }
     }
+  }
 `;
 
 export interface CreateTeamParameters {
@@ -53,8 +51,8 @@ class CreateTeamPage extends Component<Props, State> {
     super(props);
 
     this.state = {
-      name: '',
-      error: '',
+      name: "",
+      error: "",
     };
 
     this.initialState = this.state;
@@ -66,7 +64,7 @@ class CreateTeamPage extends Component<Props, State> {
 
   hasErrors() {
     const { name } = this.state;
-    this.setState({ error: '' });
+    this.setState({ error: "" });
 
     if (!name) {
       this.setState({ error: ERROR_NAME_BLANK });
@@ -103,7 +101,7 @@ class CreateTeamPage extends Component<Props, State> {
           onCompleted={({ createTeam }) => {
             this.setState(this.initialState);
             Storage.setItem(settings.TEAM_ID_TOKEN, createTeam.team.id);
-            toast.info('Team created successfully!');
+            toast.info("Team created successfully!");
             this.props.history.push(PATH_FEED);
           }}
         >
@@ -130,10 +128,10 @@ class CreateTeamPage extends Component<Props, State> {
                 Create team
               </Button>
               {this.state.error && (
-              <Message negative>
-                <Message.Header>Unable to create team</Message.Header>
-                <p data-testid="error-message">{this.state.error}</p>
-              </Message>
+                <Message negative>
+                  <Message.Header>Unable to create team</Message.Header>
+                  <p data-testid="error-message">{this.state.error}</p>
+                </Message>
               )}
             </Form>
           )}
@@ -144,9 +142,7 @@ class CreateTeamPage extends Component<Props, State> {
     return (
       <div>
         <FormWrapper toolbar="Create team" header="create team">
-          <Segment>
-            {content}
-          </Segment>
+          <Segment>{content}</Segment>
         </FormWrapper>
         <Navigation />
       </div>

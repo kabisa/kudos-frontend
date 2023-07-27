@@ -1,15 +1,15 @@
-import React from 'react';
-import { Responsive } from 'semantic-ui-react';
-import MobileNavigation from './Mobile';
-import Desktop from './Desktop';
+import React from "react";
+import MobileNavigation from "./Mobile";
+import Desktop from "./Desktop";
+import { Media } from "../../support/breakpoints";
 
 export default () => (
   <div>
-    <Responsive maxWidth={Responsive.onlyTablet.maxWidth}>
+    <Media lessThan="computer">
       <MobileNavigation />
-    </Responsive>
-    <Responsive minWidth={Responsive.onlyTablet.maxWidth}>
+    </Media>
+    <Media greaterThanOrEqual="computer">
       <Desktop />
-    </Responsive>
+    </Media>
   </div>
 );

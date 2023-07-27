@@ -1,45 +1,80 @@
-import React from 'react';
-import { Responsive } from 'semantic-ui-react';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Router, Route, Switch } from "react-router-dom";
+import * as routes from "./routes";
+import history from "./support/history";
 import {
-  Router, Route, Switch,
-} from 'react-router-dom';
-import * as routes from './routes';
-import history from './support/history';
-import {
-  FinishForgotPasswordPage, ForgotPasswordPage, LoginPage, RegisterPage,
-} from './modules/login';
-import { FeedPage } from './modules/feed';
-import { NotificationsPage } from './modules/notifications';
-import { ResetPasswordPage, UserPage } from './modules/user';
-import { InvitePage, SettingsPage } from './modules/settings';
-import { StatisticsPage } from './modules/statistics';
-import { ChooseTeamPage, CreateTeamPage } from './modules/choose-team';
-import { ManageTeamPage } from './modules/manage-team/ManageTeamPage';
-import AuthenticatedRoute from './components/AuthenticatedRoute';
+  FinishForgotPasswordPage,
+  ForgotPasswordPage,
+  LoginPage,
+  RegisterPage,
+} from "./modules/login";
+import { FeedPage } from "./modules/feed";
+import { NotificationsPage } from "./modules/notifications";
+import { ResetPasswordPage, UserPage } from "./modules/user";
+import { InvitePage, SettingsPage } from "./modules/settings";
+import { StatisticsPage } from "./modules/statistics";
+import { ChooseTeamPage, CreateTeamPage } from "./modules/choose-team";
+import { ManageTeamPage } from "./modules/manage-team/ManageTeamPage";
+import AuthenticatedRoute from "./components/AuthenticatedRoute";
+import { MediaContextProvider } from "./support/breakpoints";
 
 const ToastWrapper = () => (
-  <ToastContainer bodyClassName="toast-body" toastClassName="toast" autoClose={4000} pauseOnHover />
+  <ToastContainer
+    bodyClassName="toast-body"
+    toastClassName="toast"
+    autoClose={4000}
+    pauseOnHover
+  />
 );
 
 function App() {
   return (
     <div>
-      <Responsive>
+      <MediaContextProvider>
         <Router history={history}>
           <Switch>
             <Route path={routes.PATH_LOGIN}>
               <LoginPage />
             </Route>
-            <AuthenticatedRoute allowNoTeam path={routes.PATH_NOTIFICATIONS} component={NotificationsPage} />
-            <AuthenticatedRoute allowNoTeam path={routes.PATH_USER} component={UserPage} />
-            <AuthenticatedRoute path={routes.PATH_STATISTICS} component={StatisticsPage} />
-            <AuthenticatedRoute allowNoTeam path={routes.PATH_SETTINGS} component={SettingsPage} />
-            <AuthenticatedRoute path={routes.PATH_INVITE} component={InvitePage} />
-            <AuthenticatedRoute allowNoTeam path={routes.PATH_CHOOSE_TEAM} component={ChooseTeamPage} />
-            <AuthenticatedRoute allowNoTeam path={routes.PATH_CREATE_TEAM} component={CreateTeamPage} />
-            <AuthenticatedRoute path={routes.PATH_MANAGE_TEAM} component={ManageTeamPage} />
+            <AuthenticatedRoute
+              allowNoTeam
+              path={routes.PATH_NOTIFICATIONS}
+              component={NotificationsPage}
+            />
+            <AuthenticatedRoute
+              allowNoTeam
+              path={routes.PATH_USER}
+              component={UserPage}
+            />
+            <AuthenticatedRoute
+              path={routes.PATH_STATISTICS}
+              component={StatisticsPage}
+            />
+            <AuthenticatedRoute
+              allowNoTeam
+              path={routes.PATH_SETTINGS}
+              component={SettingsPage}
+            />
+            <AuthenticatedRoute
+              path={routes.PATH_INVITE}
+              component={InvitePage}
+            />
+            <AuthenticatedRoute
+              allowNoTeam
+              path={routes.PATH_CHOOSE_TEAM}
+              component={ChooseTeamPage}
+            />
+            <AuthenticatedRoute
+              allowNoTeam
+              path={routes.PATH_CREATE_TEAM}
+              component={CreateTeamPage}
+            />
+            <AuthenticatedRoute
+              path={routes.PATH_MANAGE_TEAM}
+              component={ManageTeamPage}
+            />
             <Route path={routes.PATH_RESET_PASSWORD}>
               <ResetPasswordPage />
             </Route>
@@ -56,7 +91,7 @@ function App() {
           </Switch>
         </Router>
         <ToastWrapper />
-      </Responsive>
+      </MediaContextProvider>
     </div>
   );
 }
