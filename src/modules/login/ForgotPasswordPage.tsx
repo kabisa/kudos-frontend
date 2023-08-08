@@ -1,20 +1,18 @@
-import React, { ChangeEvent, Component, FormEvent } from 'react';
-import gql from 'graphql-tag';
-import {
-  Button, Form, Message, Segment,
-} from 'semantic-ui-react';
-import { Mutation } from '@apollo/react-components';
+import React, { ChangeEvent, Component, FormEvent } from "react";
+import { gql } from "@apollo/client";
+import { Button, Form, Message, Segment } from "semantic-ui-react";
+import { Mutation } from "@apollo/client/react/components";
 
-import { FormWrapper } from '../../components';
-import BackButton from '../../components/back-button/BackButton';
-import { getGraphqlError, validateEmail } from '../../support';
+import { FormWrapper } from "../../components";
+import BackButton from "../../components/back-button/BackButton";
+import { getGraphqlError, validateEmail } from "../../support";
 
 export const MUTATION_FORGOT_PASSWORD = gql`
-    mutation forgotPassword($email: EmailAddress!) {
-        forgotPassword(credentials: { email: $email }) {
-            email
-        }
+  mutation forgotPassword($email: EmailAddress!) {
+    forgotPassword(credentials: { email: $email }) {
+      email
     }
+  }
 `;
 
 export interface ForgotPasswordResult {
@@ -40,9 +38,9 @@ class ForgotPasswordPage extends Component<Props, State> {
     super(props);
 
     this.state = {
-      email: '',
+      email: "",
       success: false,
-      error: '',
+      error: "",
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -64,7 +62,7 @@ class ForgotPasswordPage extends Component<Props, State> {
     const { email } = this.state;
 
     if (!validateEmail(email)) {
-      this.setState({ error: 'Invalid email address' });
+      this.setState({ error: "Invalid email address" });
       return;
     }
 
@@ -83,7 +81,11 @@ class ForgotPasswordPage extends Component<Props, State> {
         >
           {(resetPassword, { error, loading }: any) => (
             <div>
-              <Form size="large" error={!!error} onSubmit={(e) => this.formSubmit(e, resetPassword)}>
+              <Form
+                size="large"
+                error={!!error}
+                onSubmit={(e) => this.formSubmit(e, resetPassword)}
+              >
                 <Segment>
                   <Form.Input
                     data-testid="email-input"
@@ -109,17 +111,19 @@ class ForgotPasswordPage extends Component<Props, State> {
                   </Button>
 
                   {this.state.error && (
-                  <Message negative>
-                    <Message.Header>Unable to reset the password</Message.Header>
-                    <p data-testid="error-message">{this.state.error}</p>
-                  </Message>
+                    <Message negative>
+                      <Message.Header>
+                        Unable to reset the password
+                      </Message.Header>
+                      <p data-testid="error-message">{this.state.error}</p>
+                    </Message>
                   )}
 
                   {this.state.success && (
-                  <Message
-                    header="Reset password instructions sent"
-                    content="Check your mail for the details."
-                  />
+                    <Message
+                      header="Reset password instructions sent"
+                      content="Check your mail for the details."
+                    />
                   )}
                   <BackButton />
                 </Segment>

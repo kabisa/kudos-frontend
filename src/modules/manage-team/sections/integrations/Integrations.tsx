@@ -1,25 +1,23 @@
-import React from 'react';
-import {
-  Divider, Header, Icon,
-} from 'semantic-ui-react';
-import gql from 'graphql-tag';
-import { Query } from '@apollo/react-components';
-import { History } from 'history';
-import { toast } from 'react-toastify';
-import { Storage } from '../../../../support/storage';
-import settings from '../../../../config/settings';
-import { SlackSection } from './SlackSection';
+import React from "react";
+import { Divider, Header, Icon } from "semantic-ui-react";
+import { gql } from "@apollo/client";
+import { Query } from "@apollo/client/react/components";
+import { History } from "history";
+import { toast } from "react-toastify";
+import { Storage } from "../../../../support/storage";
+import settings from "../../../../config/settings";
+import { SlackSection } from "./SlackSection";
 
-const queryString = require('query-string');
+const queryString = require("query-string");
 
 export const REMOVE_SLACK = gql`
-    mutation RemoveSlack($teamId: ID!) {
-        removeSlack(teamId: $teamId) {
-            team {
-                id
-            }
-        }
+  mutation RemoveSlack($teamId: ID!) {
+    removeSlack(teamId: $teamId) {
+      team {
+        id
+      }
     }
+  }
 `;
 
 export interface RemoveSlackParameters {
@@ -30,33 +28,37 @@ export interface RemoveSlackResult {
   data: {
     removeSlack: {
       team: {
-        id: string
-      }
-    }
-  }
+        id: string;
+      };
+    };
+  };
 }
 
 export const GET_TEAM_INTEGRATIONS = gql`
-    query GetTeamIntegrations($id: ID!) {
-        teamById(id: $id) {
-            slackTeamId
-        }
+  query GetTeamIntegrations($id: ID!) {
+    teamById(id: $id) {
+      slackTeamId
     }
+  }
 `;
 
 interface TeamIntegrationsResponse {
   teamById: {
     slackTeamId: string;
-  }
+  };
 }
 
 export interface IntegrationsSectionProps {
-  history: History,
+  history: History;
 }
 
-
-export default class IntegrationsSection extends React.Component<IntegrationsSectionProps, any> {
-  slackConnectUrl = `${settings.API_BASE_URL}/auth/slack/team/${Storage.getItem(settings.TEAM_ID_TOKEN)}`;
+export default class IntegrationsSection extends React.Component<
+  IntegrationsSectionProps,
+  any
+> {
+  slackConnectUrl = `${settings.API_BASE_URL}/auth/slack/team/${Storage.getItem(
+    settings.TEAM_ID_TOKEN
+  )}`;
 
   constructor(props: IntegrationsSectionProps) {
     super(props);
@@ -64,11 +66,12 @@ export default class IntegrationsSection extends React.Component<IntegrationsSec
     const parsed = queryString.parse(this.props.history.location.search);
     const { auth } = parsed;
 
-    if (auth === 'ok') {
-      toast.success('Connected to Slack! You should receive a Slack message shortly to confirm this.');
+    if (auth === "ok") {
+      toast.success(
+        "Connected to Slack! You should receive a Slack message shortly to confirm this."
+      );
     }
   }
-
 
   render() {
     return (
@@ -93,7 +96,10 @@ export default class IntegrationsSection extends React.Component<IntegrationsSec
             if (!data) return <span>Something went wrong</span>;
 
             return (
-              <SlackSection slackId={data.teamById.slackTeamId} slackConnectUrl={this.slackConnectUrl} />
+              <SlackSection
+                slackId={data.teamById.slackTeamId}
+                slackConnectUrl={this.slackConnectUrl}
+              />
             );
           }}
         </Query>

@@ -1,8 +1,8 @@
 import React from "react";
 import { Container, Dropdown, Icon, Menu } from "semantic-ui-react";
-import gql from "graphql-tag";
+import { gql } from "@apollo/client";
 import { Link, useHistory } from "react-router-dom";
-import { Query } from "@apollo/react-components";
+import { Query } from "@apollo/client/react/components";
 import {
   PATH_CHOOSE_TEAM,
   PATH_FEED,

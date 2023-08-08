@@ -1,30 +1,30 @@
-import React from 'react';
-import { Query } from '@apollo/react-components';
-import moment from 'moment';
-import gql from 'graphql-tag';
+import React from "react";
+import { Query } from "@apollo/client/react/components";
+import moment from "moment";
+import { gql } from "@apollo/client";
 
-import { Circle } from '../../components/Circle';
-import settings from '../../config/settings';
-import { calculateProgress } from '../../support';
-import { Storage } from '../../support/storage';
+import { Circle } from "../../components/Circle";
+import settings from "../../config/settings";
+import { calculateProgress } from "../../support";
+import { Storage } from "../../support/storage";
 
-import s from './Statistics.module.scss';
-import { GoalSection } from './GoalSection';
+import s from "./Statistics.module.scss";
+import { GoalSection } from "./GoalSection";
 
 export const GET_GOAL_PERCENTAGE = gql`
-    query getGoals($team_id: ID!) {
-        teamById(id: $team_id) {
-            activeGoals {
-                id
-                name
-                amount
-                achievedOn
-            }
-            activeKudosMeter {
-                amount
-            }
-        }
+  query getGoals($team_id: ID!) {
+    teamById(id: $team_id) {
+      activeGoals {
+        id
+        name
+        amount
+        achievedOn
+      }
+      activeKudosMeter {
+        amount
+      }
     }
+  }
 `;
 
 export interface GetGoalPercentageResult {
@@ -43,13 +43,13 @@ export interface ActiveGoal {
   achievedOn: string;
 }
 
-const achievedColor = '#3899b7';
-const defaultColor = '#b2cbc1';
+const achievedColor = "#3899b7";
+const defaultColor = "#b2cbc1";
 
 const Statistics = () => (
   <div className={s.container}>
     <h1 className={s.kudo_header}>₭udometer</h1>
-    <p className={s.today}>{moment().format('MMMM Do, YYYY')}</p>
+    <p className={s.today}>{moment().format("MMMM Do, YYYY")}</p>
 
     <Query<GetGoalPercentageResult>
       query={GET_GOAL_PERCENTAGE}
@@ -67,7 +67,9 @@ const Statistics = () => (
           );
         }
         const currentKudos = data.teamById.activeKudosMeter.amount;
-        const goals = data.teamById.activeGoals.sort((goal1, goal2) => goal1.amount - goal2.amount);
+        const goals = data.teamById.activeGoals.sort(
+          (goal1, goal2) => goal1.amount - goal2.amount
+        );
 
         const nextGoal = goals.find((goal) => goal.amount > currentKudos);
 
@@ -82,7 +84,7 @@ const Statistics = () => (
               strokeColor={achievedColor}
               currentKudos={currentKudos}
               neededKudos={nextGoal ? nextGoal.amount : 0}
-              goal={nextGoal ? nextGoal.name : '-'}
+              goal={nextGoal ? nextGoal.name : "-"}
             />
 
             <div className={s.goal_container}>

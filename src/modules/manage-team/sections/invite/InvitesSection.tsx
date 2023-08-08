@@ -1,27 +1,25 @@
 /* eslint-disable no-shadow */
-import React from 'react';
-import {
-  Divider, Header, Icon, Table,
-} from 'semantic-ui-react';
-import gql from 'graphql-tag';
-import { Query } from '@apollo/react-components';
-import settings from '../../../../config/settings';
-import { Storage } from '../../../../support/storage';
-import { Invite } from './Invite';
-import { CreateInvite } from './CreateInvite';
+import React from "react";
+import { Divider, Header, Icon, Table } from "semantic-ui-react";
+import { gql } from "@apollo/client";
+import { Query } from "@apollo/client/react/components";
+import settings from "../../../../config/settings";
+import { Storage } from "../../../../support/storage";
+import { Invite } from "./Invite";
+import { CreateInvite } from "./CreateInvite";
 
 export const QUERY_GET_INVITES = gql`
-    query getInvites($team_id: ID!) {
-        teamById(id: $team_id) {
-            teamInvites {
-                acceptedAt
-                declinedAt
-                email
-                id
-                sentAt
-            }
-        }
+  query getInvites($team_id: ID!) {
+    teamById(id: $team_id) {
+      teamInvites {
+        acceptedAt
+        declinedAt
+        email
+        id
+        sentAt
+      }
     }
+  }
 `;
 
 export interface GetInvitesResult {
@@ -73,7 +71,11 @@ export function InviteSection(): React.ReactElement {
 
               <Table.Body>
                 {data.teamById.teamInvites.map((item) => (
-                  <Invite data-testid="invite-row" key={item.id} invite={item} />
+                  <Invite
+                    data-testid="invite-row"
+                    key={item.id}
+                    invite={item}
+                  />
                 ))}
               </Table.Body>
             </Table>

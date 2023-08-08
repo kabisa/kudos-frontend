@@ -1,10 +1,9 @@
 import React from "react";
-import gql from "graphql-tag";
+import { gql } from "@apollo/client";
 
 import { Grid } from "semantic-ui-react";
 import { useHistory, withRouter } from "react-router-dom";
-import { History } from "history";
-import { Query } from "@apollo/react-components";
+import { Query } from "@apollo/client/react/components";
 import TeamRow from "./TeamRow";
 import settings from "../../../config/settings";
 import { selectTeam } from "../utils";

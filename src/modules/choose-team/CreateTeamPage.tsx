@@ -1,7 +1,7 @@
 import React, { ChangeEvent, Component } from "react";
 import { Button, Form, Message, Segment } from "semantic-ui-react";
-import { Mutation } from "@apollo/react-components";
-import gql from "graphql-tag";
+import { Mutation } from "@apollo/client/react/components";
+import { gql } from "@apollo/client";
 import { toast } from "react-toastify";
 import { withRouter } from "react-router-dom";
 import settings from "../../config/settings";

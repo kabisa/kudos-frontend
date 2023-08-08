@@ -1,24 +1,27 @@
-import React, { Component, FormEvent } from 'react';
-import { Mutation } from '@apollo/react-components';
-import { toast } from 'react-toastify';
-import { Button, Form, Message } from 'semantic-ui-react';
-import gql from 'graphql-tag';
+import React, { Component, FormEvent } from "react";
+import { Mutation } from "@apollo/client/react/components";
+import { toast } from "react-toastify";
+import { Button, Form, Message } from "semantic-ui-react";
+import { gql } from "@apollo/client";
 import {
-  ERROR_EMAIL_BLANK, ERROR_EMAIL_PARSE, getGraphqlError, getMultipleEmails,
-} from '../../../../support';
-import settings from '../../../../config/settings';
-import s from '../../../settings/Settings.module.scss';
-import { QUERY_GET_INVITES } from './InvitesSection';
-import { Storage } from '../../../../support/storage';
+  ERROR_EMAIL_BLANK,
+  ERROR_EMAIL_PARSE,
+  getGraphqlError,
+  getMultipleEmails,
+} from "../../../../support";
+import settings from "../../../../config/settings";
+import s from "../../../settings/Settings.module.scss";
+import { QUERY_GET_INVITES } from "./InvitesSection";
+import { Storage } from "../../../../support/storage";
 
 export const MUTATION_CREATE_INVITE = gql`
-    mutation CreateInvite($emails: [EmailAddress!]!, $team_id: ID!) {
-        createTeamInvite(emails: $emails, teamId: $team_id) {
-            teamInvites {
-                id
-            }
-        }
+  mutation CreateInvite($emails: [EmailAddress!]!, $team_id: ID!) {
+    createTeamInvite(emails: $emails, teamId: $team_id) {
+      teamInvites {
+        id
+      }
     }
+  }
 `;
 
 export interface CreateInviteParameters {
@@ -35,7 +38,6 @@ export interface State {
   error: string;
 }
 
-
 export class CreateInvite extends Component<Props, State> {
   initialState: State;
 
@@ -43,8 +45,8 @@ export class CreateInvite extends Component<Props, State> {
     super(props);
 
     this.state = {
-      emails: '',
-      error: '',
+      emails: "",
+      error: "",
     };
     this.initialState = this.state;
 
@@ -57,7 +59,7 @@ export class CreateInvite extends Component<Props, State> {
   }
 
   sendInvites(mutate: any) {
-    this.setState({ error: '' });
+    this.setState({ error: "" });
     const { emails } = this.state;
     if (emails.length === 0) {
       this.setState({ error: ERROR_EMAIL_BLANK });
@@ -85,7 +87,7 @@ export class CreateInvite extends Component<Props, State> {
         mutation={MUTATION_CREATE_INVITE}
         onCompleted={() => {
           this.setState(this.initialState);
-          toast.info('Invites sent successfully!');
+          toast.info("Invites sent successfully!");
         }}
         refetchQueries={[
           {
@@ -115,8 +117,9 @@ export class CreateInvite extends Component<Props, State> {
                 onChange={this.handleChange}
               />
               <p className={s.grey}>
-                Enter the email addresses of the users you would like to invite. They should
-                be separated by a comma or semicolon. The following formats can be used:
+                Enter the email addresses of the users you would like to invite.
+                They should be separated by a comma or semicolon. The following
+                formats can be used:
               </p>
               <ul className={s.grey}>
                 <li>john@example.com</li>
@@ -133,10 +136,10 @@ export class CreateInvite extends Component<Props, State> {
                 Invite
               </Button>
               {displayError && (
-              <Message negative>
-                <Message.Header>Unable to send invites</Message.Header>
-                <p>{displayError}</p>
-              </Message>
+                <Message negative>
+                  <Message.Header>Unable to send invites</Message.Header>
+                  <p>{displayError}</p>
+                </Message>
               )}
             </Form>
           );

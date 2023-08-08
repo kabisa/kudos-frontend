@@ -1,29 +1,30 @@
-import React from 'react';
-import { Query } from '@apollo/react-components';
-import { Icon } from 'semantic-ui-react';
-import { GET_POSTS, GetPostsResult } from './queries';
-import settings from '../../config/settings';
-import { Transaction, TransactionLoading } from './components/Transaction';
-import { Storage } from '../../support/storage';
-import s from './RepoList.module.scss';
+import React from "react";
+import { Query } from "@apollo/client/react/components";
+import { Icon } from "semantic-ui-react";
+import { GET_POSTS, GetPostsResult } from "./queries";
+import settings from "../../config/settings";
+import { Transaction, TransactionLoading } from "./components/Transaction";
+import { Storage } from "../../support/storage";
+import s from "./RepoList.module.scss";
 
 export function RepoList(): React.ReactElement {
   return (
-    <Query <GetPostsResult>
+    <Query<GetPostsResult>
       query={GET_POSTS}
       variables={{ team_id: Storage.getItem(settings.TEAM_ID_TOKEN) }}
       fetchPolicy="network-only"
     >
-      {({
-        error, loading, data, fetchMore,
-      }) => {
+      {({ error, loading, data, fetchMore }) => {
         function loadMore() {
           fetchMore({
             variables: {
               team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
               end: data?.teamById.posts.pageInfo.endCursor,
             },
-            updateQuery: (previousResult: any = {}, { fetchMoreResult = {} }: any) => {
+            updateQuery: (
+              previousResult: any = {},
+              { fetchMoreResult = {} }: any
+            ) => {
               const previousPosts = previousResult.teamById || {};
               const newPosts = fetchMoreResult.teamById || {};
 
@@ -64,26 +65,25 @@ export function RepoList(): React.ReactElement {
               <Transaction transaction={item.node} key={item.node.id} />
             ))}
             {posts.pageInfo.hasNextPage && (
-            <div data-testid="next-page-button" className={s.arrow_container}>
-              <Icon
-                name="arrow down"
-                size="large"
-                onClick={() => loadMore()}
-                className={s.arrow}
-              />
-            </div>
+              <div data-testid="next-page-button" className={s.arrow_container}>
+                <Icon
+                  name="arrow down"
+                  size="large"
+                  onClick={() => loadMore()}
+                  className={s.arrow}
+                />
+              </div>
             )}
             {!posts.pageInfo.hasNextPage && (
-            <div>
-              <p className={s.end_message}>
-                You&apos;ve reached the end, congratulations!
-              </p>
-            </div>
+              <div>
+                <p className={s.end_message}>
+                  You&apos;ve reached the end, congratulations!
+                </p>
+              </div>
             )}
           </div>
         );
       }}
-
     </Query>
   );
 }

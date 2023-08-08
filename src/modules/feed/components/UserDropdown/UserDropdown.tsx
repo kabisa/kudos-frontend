@@ -1,6 +1,6 @@
 import React, { Component, PropsWithRef, SyntheticEvent } from "react";
 import { Dropdown } from "semantic-ui-react";
-import { Query } from "@apollo/react-components";
+import { Query } from "@apollo/client/react/components";
 
 import client from "../../../../client";
 import { GET_USERS, GetUsersResult, User } from "../../queries";
