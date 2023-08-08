@@ -1,39 +1,39 @@
-import gql from 'graphql-tag';
+import { gql } from "@apollo/client";
 
 export const FRAGMENT_POST = gql`
-    fragment PostInFeed on Post {
-        id
-        amount
-        message
-        images {
-          imageUrl
-          imageThumbnailUrl
-        }
-        createdAt
-        receivers {
-            id
-            avatar
-            name
-        }
-        sender {
-            id
-            name
-            avatar
-        }
-        votes {
-            voter {
-                id
-                name
-            }
-        }
+  fragment PostInFeed on Post {
+    id
+    amount
+    message
+    images {
+      imageUrl
+      imageThumbnailUrl
     }
+    createdAt
+    receivers {
+      id
+      avatar
+      name
+    }
+    sender {
+      id
+      name
+      avatar
+    }
+    votes {
+      voter {
+        id
+        name
+      }
+    }
+  }
 `;
 
 export interface FragmentPostResult {
   id: string;
   amount: number;
   message: string;
-  images: Image[];
+  images?: Image[];
   createdAt: string;
   receivers: Sender[];
   sender: Sender;
@@ -41,23 +41,23 @@ export interface FragmentPostResult {
 }
 
 export const GET_POSTS = gql`
-    query postsConnection($team_id: ID!, $end: String) {
-        teamById(id: $team_id) {
-            posts(first: 10, after: $end, orderBy: "created_at desc") {
-                edges {
-                    cursor
-                    node {
-                        ...PostInFeed
-                    }
-                }
-                pageInfo {
-                    endCursor
-                    hasNextPage
-                }
-            }
+  query postsConnection($team_id: ID!, $end: String) {
+    teamById(id: $team_id) {
+      posts(first: 10, after: $end, orderBy: "created_at desc") {
+        edges {
+          cursor
+          node {
+            ...PostInFeed
+          }
         }
+        pageInfo {
+          endCursor
+          hasNextPage
+        }
+      }
     }
-    ${FRAGMENT_POST}
+  }
+  ${FRAGMENT_POST}
 `;
 
 export interface GetPostsResult {
@@ -72,19 +72,19 @@ export interface GetPostsResult {
         endCursor: number;
       };
     };
-  }
+  };
 }
 
 export const GET_USERS = gql`
-    query Users($team_id: ID!) {
-        teamById(id: $team_id) {
-            users {
-                id
-                name
-                virtualUser
-            }
-        }
+  query Users($team_id: ID!) {
+    teamById(id: $team_id) {
+      users {
+        id
+        name
+        virtualUser
+      }
     }
+  }
 `;
 
 export interface GetUsersResult {
@@ -94,19 +94,19 @@ export interface GetUsersResult {
 }
 
 export const GET_GOAL_PERCENTAGE = gql`
-    query getGoalPercentage($team_id: ID!) {
-        teamById(id: $team_id) {
-            activeKudosMeter {
-                amount
-            }
-            activeGoals {
-                id
-                amount
-                name
-                achievedOn
-            }
-        }
+  query getGoalPercentage($team_id: ID!) {
+    teamById(id: $team_id) {
+      activeKudosMeter {
+        amount
+      }
+      activeGoals {
+        id
+        amount
+        name
+        achievedOn
+      }
     }
+  }
 `;
 
 export interface GetGoalPercentageResult {

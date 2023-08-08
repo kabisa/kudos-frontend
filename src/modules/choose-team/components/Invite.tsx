@@ -1,28 +1,28 @@
-import React from 'react';
-import gql from 'graphql-tag';
+import React from "react";
+import { gql } from "@apollo/client";
 
-import ChoiceButton from './ChoiceButton';
+import ChoiceButton from "./ChoiceButton";
 
-import s from './ChooseTeam.module.scss';
+import s from "./ChooseTeam.module.scss";
 
 export const MUTATION_ACCEPT_INVITE = gql`
-    mutation AcceptTeamInvite($team_invite_id: ID!) {
-        acceptTeamInvite(teamInviteId: $team_invite_id) {
-            teamInvite {
-                id
-            }
-        }
+  mutation AcceptTeamInvite($team_invite_id: ID!) {
+    acceptTeamInvite(teamInviteId: $team_invite_id) {
+      teamInvite {
+        id
+      }
     }
+  }
 `;
 
 export const MUTATION_DECLINE_INVITE = gql`
-    mutation DeclineTeamInvite($team_invite_id: ID!) {
-        declineTeamInvite(teamInviteId: $team_invite_id) {
-            teamInvite {
-                id
-            }
-        }
+  mutation DeclineTeamInvite($team_invite_id: ID!) {
+    declineTeamInvite(teamInviteId: $team_invite_id) {
+      teamInvite {
+        id
+      }
     }
+  }
 `;
 
 export interface InviteModel {
