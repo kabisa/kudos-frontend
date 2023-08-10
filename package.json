@@ -36,7 +36,8 @@
     "test": "react-scripts test --testPathIgnorePatterns=src/config",
     "eject": "react-scripts eject",
     "lint:check": "eslint ./src --ext .js,.jsx,.ts,.tsx ./",
-    "lint:run": "eslint ./src --ext .js,.jsx,.ts,.tsx --fix"
+    "lint:run": "eslint ./src --ext .js,.jsx,.ts,.tsx --fix",
+    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
   },
   "eslintConfig": {
     "extends": "react-app"
