@@ -3,7 +3,6 @@ import { Button, SemanticCOLORS } from "semantic-ui-react";
 import { Mutation } from "@apollo/client/react/components";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
-import { History } from "history";
 import { DocumentNode } from "graphql";
 import settings from "../../../config/settings";
 import { PATH_FEED } from "../../../routes";
@@ -46,7 +45,7 @@ function ChoiceButton(props: Props): React.ReactElement {
             self: {
               ...oldState.viewer.self,
               teamInvites: oldState.viewer.self.teamInvites.filter(
-                (item: any) => item.id !== declineInvite.id
+                (item: any) => item.id !== declineInvite.id,
               ),
             },
           },

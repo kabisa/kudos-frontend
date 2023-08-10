@@ -1,7 +1,6 @@
 import React from "react";
 import { Button, Divider, Segment } from "semantic-ui-react";
-import { useHistory, withRouter } from "react-router-dom";
-import { History } from "history";
+import { useHistory } from "react-router-dom";
 
 import { PATH_CREATE_TEAM } from "../../routes";
 import { Navigation } from "../../components/navigation";
@@ -36,8 +35,6 @@ export function Content(): React.ReactElement {
 }
 
 function ChooseTeamPage(): React.ReactElement {
-  const history = useHistory();
-
   return (
     <div>
       <div className="page">

@@ -2,7 +2,7 @@ import React from "react";
 import { gql } from "@apollo/client";
 
 import { Grid } from "semantic-ui-react";
-import { useHistory, withRouter } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { Query } from "@apollo/client/react/components";
 import TeamRow from "./TeamRow";
 import settings from "../../../config/settings";
