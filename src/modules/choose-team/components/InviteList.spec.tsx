@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
-import { wait } from '@apollo/react-testing';
+import { wait } from '@apollo/client/testing';
 import { act } from 'react-dom/test-utils';
 import { findByTestId, withMockedProviders } from '../../../spec_helper';
 import { InviteList } from './index';

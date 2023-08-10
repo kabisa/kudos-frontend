@@ -70,3 +70,4 @@ export const ImageUpload = React.forwardRef<ImageUploadRef, Props>((props: Props
     </section>
   );
 });
+ImageUpload.displayName = "ImageUpload";

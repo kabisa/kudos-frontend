@@ -56,10 +56,14 @@ describe("<FinishForgotPasswordPage />", () => {
   let wrapper: ReactWrapper;
 
   beforeEach(() => {
+    const props = {
+      reset_password_token: "1",
+    };
+
     mutationCalled = false;
     wrapper = mount(
       withMockedProviders(
-        <FinishForgotPasswordPage reset_password_token="1" />,
+        <FinishForgotPasswordPage {...props} />,
         mocks
       )
     );
@@ -154,9 +158,13 @@ describe("<FinishForgotPasswordPage />", () => {
   });
 
   it("shows when there is an error", async () => {
+    const props = {
+      reset_password_token: "1",
+    };
+
     wrapper = mount(
       withMockedProviders(
-        <FinishForgotPasswordPage reset_password_token="1" />,
+        <FinishForgotPasswordPage {...props} />,
         mocksWithError
       )
     );
