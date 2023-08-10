@@ -12,6 +12,7 @@ import { Storage } from "../../../../support/storage";
 import s from "./Header.module.scss";
 import { Auth } from "../../../../support";
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const moment = require("moment-twitter");
 
 export const MUTATION_REMOVE_POST = gql`

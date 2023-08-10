@@ -17,6 +17,7 @@ import {
   SlackDisconnectedSegment,
 } from "./SlackSection";
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const queryString = require("query-string");
 
 export const DISCONNECT_SLACK = gql`
@@ -68,7 +69,7 @@ export interface State {
 
 export class UserPage extends React.Component<Props, State> {
   slackConnectUrl = `${settings.API_BASE_URL}/auth/slack/user/${Storage.getItem(
-    settings.USER_ID_TOKEN
+    settings.USER_ID_TOKEN,
   )}`;
 
   slackIconPath = `${process.env.PUBLIC_URL}/assets/slack_logo.png`;

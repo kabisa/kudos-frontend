@@ -177,9 +177,9 @@ class GuidelineInput extends Component<Props, State> {
                 guidelines = data.teamById.guidelines.filter(
                   (guideline) =>
                     guideline.kudos - KUDO_GUIDELINE_RANGE <
-                      (this.state.amount || 0) &&
+                      (parseInt(this.state.amount) || 0) &&
                     guideline.kudos + KUDO_GUIDELINE_RANGE >
-                      (this.state.amount || 0)
+                      (parseInt(this.state.amount) || 0),
                 );
               } else {
                 guidelines = data.teamById.guidelines;

@@ -8,6 +8,7 @@ import { Storage } from "../../../../support/storage";
 import settings from "../../../../config/settings";
 import { SlackSection } from "./SlackSection";
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const queryString = require("query-string");
 
 export const REMOVE_SLACK = gql`
@@ -57,7 +58,7 @@ export default class IntegrationsSection extends React.Component<
   any
 > {
   slackConnectUrl = `${settings.API_BASE_URL}/auth/slack/team/${Storage.getItem(
-    settings.TEAM_ID_TOKEN
+    settings.TEAM_ID_TOKEN,
   )}`;
 
   constructor(props: IntegrationsSectionProps) {
@@ -68,7 +69,7 @@ export default class IntegrationsSection extends React.Component<
 
     if (auth === "ok") {
       toast.success(
-        "Connected to Slack! You should receive a Slack message shortly to confirm this."
+        "Connected to Slack! You should receive a Slack message shortly to confirm this.",
       );
     }
   }

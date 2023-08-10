@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions */
 import React from "react";
 import { Button, Icon } from "semantic-ui-react";
 import { gql } from "@apollo/client";
@@ -58,7 +57,7 @@ const updateState = (store: any, newData: FragmentPostResult) => {
           }
 
           return newData;
-        }
+        },
       ),
     },
   };
@@ -73,7 +72,7 @@ const updateState = (store: any, newData: FragmentPostResult) => {
 export const toggleLike = (
   mutate: any,
   transactionId: string,
-  post: FragmentPostResult
+  post: FragmentPostResult,
 ) => {
   mutate({
     variables: { id: transactionId },

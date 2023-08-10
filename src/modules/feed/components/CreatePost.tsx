@@ -314,7 +314,6 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
                   />
                   <Form.Field>
                     {/* Suppressed because the linter doesn't pick up on custom controls */}
-                    {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                     <label htmlFor="input-receivers">
                       Receivers
                       <UserDropdown
@@ -351,7 +350,6 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
 
                   <Form.Field>
                     {/* Suppressed because the linter doesn't pick up on custom controls */}
-                    {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                     <label htmlFor="image-upload">
                       Images
                       <ImageUpload

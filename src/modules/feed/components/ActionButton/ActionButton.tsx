@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { PATH_ADD_TRANSACTION } from "../../../../routes";
 import { Media } from "../../../../support/breakpoints";
 
-export default () => (
+const ActionButton = () => (
   <div>
     <Media lessThan="computer">
       <Link to={`${PATH_ADD_TRANSACTION}?transition=slideup`}>
@@ -31,3 +31,5 @@ export default () => (
     </Media>
   </div>
 );
+
+export default ActionButton;

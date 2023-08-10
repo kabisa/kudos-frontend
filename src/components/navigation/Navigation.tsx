@@ -3,7 +3,7 @@ import MobileNavigation from "./Mobile";
 import Desktop from "./Desktop";
 import { Media } from "../../support/breakpoints";
 
-export default () => (
+const Navigation = () => (
   <div>
     <Media lessThan="computer">
       <MobileNavigation />
@@ -13,3 +13,5 @@ export default () => (
     </Media>
   </div>
 );
+
+export default Navigation;
