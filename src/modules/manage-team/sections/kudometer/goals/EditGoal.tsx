@@ -2,7 +2,7 @@ import { Mutation } from "@apollo/client/react/components";
 import { toast } from "react-toastify";
 import { Button, Form, Message } from "semantic-ui-react";
 import React, { ChangeEvent } from "react";
-import { GraphQLError } from "graphql";
+
 import {
   CREATE_GOAL,
   CreateGoalParameters,
@@ -12,6 +12,7 @@ import {
 import settings from "../../../../../config/settings";
 import { getGraphqlError } from "../../../../../support";
 import { Storage } from "../../../../../support/storage";
+import { ApolloError } from "@apollo/client";
 
 export interface EditGoalProps {
   kudometerId: string;
@@ -77,7 +78,7 @@ export class EditGoal extends React.Component<EditGoalProps, State> {
     }).catch(this.handleError);
   }
 
-  handleError(error: GraphQLError) {
+  handleError(error: ApolloError) {
     const displayError = getGraphqlError(error);
 
     this.setState({
@@ -98,7 +99,7 @@ export class EditGoal extends React.Component<EditGoalProps, State> {
           toast.info(
             this.state.editing
               ? "Goal updated successfully!"
-              : "Goal created successfully!"
+              : "Goal created successfully!",
           );
           this.setState({
             goalName: "",

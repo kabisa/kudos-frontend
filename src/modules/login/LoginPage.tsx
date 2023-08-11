@@ -3,9 +3,8 @@ import { Button, Form, Message, Segment } from "semantic-ui-react";
 import { Link, withRouter } from "react-router-dom";
 import { History } from "history";
 import { Mutation } from "@apollo/client/react/components";
-import { gql } from "@apollo/client";
+import { ApolloError, gql } from "@apollo/client";
 
-import { GraphQLError } from "graphql";
 import {
   PATH_CHOOSE_TEAM,
   PATH_FORGOT_PASSWORD,
@@ -44,7 +43,7 @@ export interface LoginResult {
         id: string;
       };
     };
-    errors: GraphQLError[];
+    errors: ApolloError[];
   };
 }
 
@@ -93,7 +92,7 @@ class LoginPage extends Component<Props, State> {
 
       this.props.history.push(PATH_CHOOSE_TEAM);
     } else {
-      this.setState({ error: getGraphqlError(data.signInUser.errors) });
+      this.setState({ error: "Something went wrong." });
     }
   }
 
