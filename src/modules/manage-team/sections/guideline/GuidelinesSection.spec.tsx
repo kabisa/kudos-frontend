@@ -63,7 +63,7 @@ describe('<GuidelinesSection />', () => {
       await wait(0);
       await wrapper.update();
 
-      expect(wrapper.containsMatchingElement(<p>Error! Network error: it went wrong</p>)).toBe(true);
+      expect(wrapper.containsMatchingElement(<p>Error! it went wrong</p>)).toBe(true);
     });
   });
 

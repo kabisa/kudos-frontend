@@ -66,10 +66,10 @@ const mocksWithError = [
 ];
 
 describe('<GeneralSection />', () => {
-  mockLocalstorage('1');
   let wrapper: ReactWrapper;
 
   beforeEach(() => {
+    mockLocalstorage('1');
     mutationCalled = false;
     wrapper = mount(withMockedProviders(<GeneralSection />, mocks));
   });
@@ -85,7 +85,7 @@ describe('<GeneralSection />', () => {
       await wait(0);
       await wrapper.update();
 
-      expect(wrapper.containsMatchingElement(<p>Error! Network error: something went wrong</p>));
+      expect(wrapper.containsMatchingElement(<p>Error! something went wrong</p>));
     });
   });
 

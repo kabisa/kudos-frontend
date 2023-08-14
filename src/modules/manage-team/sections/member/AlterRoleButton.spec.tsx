@@ -63,10 +63,10 @@ function setup(membership: any, mode: AlterRoleButtonMode) {
 }
 
 describe('<AlterRoleButton />', () => {
-  mockLocalstorage('1');
   let wrapper: ReactWrapper;
 
   beforeEach(() => {
+    mockLocalstorage('1');
     mutationCalled = false;
   });
 

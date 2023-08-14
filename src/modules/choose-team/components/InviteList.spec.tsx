@@ -100,7 +100,7 @@ describe('<InviteList />', () => {
       await wait(0);
       wrapper.update();
 
-      expect(findByTestId(wrapper, 'error-message').text()).toBe('Network error: It broke');
+      expect(findByTestId(wrapper, 'error-message').text()).toBe('It broke');
     });
   });
 });

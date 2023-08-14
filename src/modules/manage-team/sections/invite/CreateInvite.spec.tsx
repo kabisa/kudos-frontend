@@ -63,9 +63,9 @@ const mocks = [
 
 describe('<InvitePage />', () => {
   let wrapper: ReactWrapper;
-  mockLocalstorage('1');
 
   beforeEach(() => {
+    mockLocalstorage('1');
     mutationCalled = false;
     wrapper = mount(withMockedProviders(<CreateInvite />, mocks));
   });
