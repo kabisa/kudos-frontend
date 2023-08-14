@@ -39,10 +39,7 @@ export class ManageTeamPage extends Component<Props, State> {
     super(props);
 
     const location = props.history.location.pathname;
-    const path = location.substr(
-      location.lastIndexOf("/") + 1,
-      location.length,
-    );
+    const path = location.substring(location.lastIndexOf("/") + 1);
 
     if (this.sections.indexOf(path) !== -1) {
       this.state = { activeItem: path };
