@@ -1,12 +1,11 @@
 /* eslint-disable no-proto */
 import React from "react";
-import { mount, ReactWrapper } from "enzyme";
 import { gql } from "@apollo/client";
-import { act } from "react-dom/test-utils";
-import { createMemoryHistory, MemoryHistory } from "history";
 import ChoiceButton from "./ChoiceButton";
-import { wait, withMockedProviders } from "../../../spec_helper";
+import { withMockedProviders } from "../../../spec_helper";
 import { Storage } from "../../../support/storage";
+import { render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 
 const fakeMutation = gql`
   mutation fakeMutation($team_invite_id: ID!) {
@@ -31,16 +30,23 @@ const mocks = [
   },
 ];
 
+const mockHistoryPush = jest.fn();
+
+jest.mock("react-router-dom", () => ({
+  ...(jest.requireActual("react-router-dom") as any),
+  useHistory: () => ({
+    push: mockHistoryPush,
+  }),
+}));
+
 describe("<ChoiceButton />", () => {
-  let wrapper: ReactWrapper;
-  let history: MemoryHistory;
-
-  beforeEach(() => {
+  beforeEach(async () => {
     mutationCalled = false;
-    history = createMemoryHistory();
     Storage.setItem = jest.fn();
+  });
 
-    wrapper = mount(
+  it("renders the provided text", () => {
+    render(
       withMockedProviders(
         <ChoiceButton
           inviteId="1"
@@ -53,52 +59,101 @@ describe("<ChoiceButton />", () => {
         mocks,
       ),
     );
+
+    expect(screen.getByText("button text")).toBeInTheDocument();
   });
 
-  it("renders the provided text", () => {
-    expect(wrapper.contains("button text")).toBe(true);
-  });
+  it("sets the loading state", async () => {
+    render(
+      withMockedProviders(
+        <ChoiceButton
+          inviteId="1"
+          mutation={fakeMutation}
+          color="red"
+          accept
+          teamId="1"
+          text="button text"
+        />,
+        mocks,
+      ),
+    );
 
-  it("sets the loading state", () => {
-    wrapper.find(".button").hostNodes().simulate("click");
+    const button = screen.getByRole("button", { name: "button text" });
+    userEvent.click(button);
 
-    expect(wrapper.find(".loading").length).toBe(1);
+    await waitFor(() => {
+      expect(button).toHaveClass("loading");
+    });
   });
 
   it("calls the mutation on button click", async () => {
-    await act(async () => {
-      wrapper.find(".button").hostNodes().simulate("click");
+    render(
+      withMockedProviders(
+        <ChoiceButton
+          inviteId="1"
+          mutation={fakeMutation}
+          color="red"
+          accept
+          teamId="1"
+          text="button text"
+        />,
+        mocks,
+      ),
+    );
 
-      await wait(0);
+    userEvent.click(screen.getByRole("button", { name: "button text" }));
 
+    await waitFor(() => {
       expect(mutationCalled).toBe(true);
     });
   });
 
   it("sets the team id if the accept property is true", async () => {
-    await act(async () => {
-      wrapper.find(".button").hostNodes().simulate("click");
+    render(
+      withMockedProviders(
+        <ChoiceButton
+          inviteId="1"
+          mutation={fakeMutation}
+          color="red"
+          accept
+          teamId="1"
+          text="button text"
+        />,
+        mocks,
+      ),
+    );
 
-      await wait(0);
-      wrapper.update();
+    userEvent.click(screen.getByRole("button", { name: "button text" }));
 
+    await waitFor(() => {
       expect(Storage.setItem).toBeCalledWith("team_id", "1");
     });
   });
 
   it("navigates to the next page if the accept property is true", async () => {
-    await act(async () => {
-      wrapper.find(".button").hostNodes().simulate("click");
+    render(
+      withMockedProviders(
+        <ChoiceButton
+          inviteId="1"
+          mutation={fakeMutation}
+          color="red"
+          accept
+          teamId="1"
+          text="button text"
+        />,
+        mocks,
+      ),
+    );
 
-      await wait(0);
-      wrapper.update();
+    userEvent.click(screen.getByRole("button", { name: "button text" }));
 
-      expect(history.location.pathname).toBe("/");
+    await waitFor(() => {
+      expect(mockHistoryPush).toHaveBeenCalledWith("/");
     });
   });
 
   it("doesnt set the team id the accept property is false", async () => {
-    wrapper = mount(
+    render(
       withMockedProviders(
         <ChoiceButton
           inviteId="1"
@@ -112,12 +167,9 @@ describe("<ChoiceButton />", () => {
       ),
     );
 
-    await act(async () => {
-      wrapper.find(".button").hostNodes().simulate("click");
+    userEvent.click(screen.getByRole("button", { name: "button text" }));
 
-      await wait(0);
-      wrapper.update();
-
+    await waitFor(() => {
       expect(Storage.setItem).toBeCalledTimes(0);
     });
   });
