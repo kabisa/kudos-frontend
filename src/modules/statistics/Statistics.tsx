@@ -14,6 +14,7 @@ import { GoalSection } from "./GoalSection";
 export const GET_GOAL_PERCENTAGE = gql`
   query getGoals($team_id: ID!) {
     teamById(id: $team_id) {
+      id
       activeGoals {
         id
         name
@@ -67,7 +68,7 @@ const Statistics = () => (
           );
         }
         const currentKudos = data.teamById.activeKudosMeter.amount;
-        const goals = data.teamById.activeGoals.sort(
+        const goals = [...data.teamById.activeGoals].sort(
           (goal1, goal2) => goal1.amount - goal2.amount
         );
 
