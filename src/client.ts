@@ -40,7 +40,22 @@ const apolloClientLink = from([
 
 const client = new ApolloClient({
   link: apolloClientLink,
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          teamById: {
+            read(_, { args, toReference }) {
+              return toReference({
+                __typename: 'Team',
+                id: args?.id,
+              });
+            }
+          }
+        }
+      }
+    }
+  }),
 });
 
 export default client;

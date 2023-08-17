@@ -43,6 +43,7 @@ export interface FragmentPostResult {
 export const GET_POSTS = gql`
   query postsConnection($team_id: ID!, $end: String) {
     teamById(id: $team_id) {
+      id
       posts(first: 10, after: $end, orderBy: "created_at desc") {
         edges {
           cursor
@@ -62,6 +63,7 @@ export const GET_POSTS = gql`
 
 export interface GetPostsResult {
   teamById: {
+    id: number;
     posts: {
       edges: {
         cursor: number;
@@ -76,8 +78,9 @@ export interface GetPostsResult {
 }
 
 export const GET_USERS = gql`
-  query Users($team_id: ID!) {
+  query getUsers($team_id: ID!) {
     teamById(id: $team_id) {
+      id
       users {
         id
         name
@@ -89,6 +92,7 @@ export const GET_USERS = gql`
 
 export interface GetUsersResult {
   teamById: {
+    id: number;
     users: User[];
   };
 }
@@ -96,6 +100,7 @@ export interface GetUsersResult {
 export const GET_GOAL_PERCENTAGE = gql`
   query getGoalPercentage($team_id: ID!) {
     teamById(id: $team_id) {
+      id
       activeKudosMeter {
         amount
       }
