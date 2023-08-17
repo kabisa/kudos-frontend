@@ -7,7 +7,7 @@ import { GetPostsResult } from "./queries";
 import { RepoList } from "./RepoList";
 
 import s from "./FeedPage.module.scss";
-import { Media } from "../../support/breakpoints";
+import { Desktop, TabletAndBelow } from "../../support/breakpoints";
 
 export interface Props {
   data: {
@@ -57,14 +57,14 @@ export class FeedPage extends Component<FeedPageProps, FeedPageState> {
     return (
       <div className={s.container}>
         <div className="page">
-          <Media lessThan="computer">
+          <TabletAndBelow>
             <div className={s.create_post_container_mobile}>
               <CreatePost back={false} />
             </div>
             <Divider hidden />
             <KudoBoard />
-          </Media>
-          <Media greaterThanOrEqual="computer">
+          </TabletAndBelow>
+          <Desktop>
             <Grid centered columns={2} className={s.grid}>
               <GridColumn className={s.grid_column}>
                 <Segment className={s.create_post_segment}>
@@ -76,7 +76,7 @@ export class FeedPage extends Component<FeedPageProps, FeedPageState> {
                 <RightRail />
               </GridColumn>
             </Grid>
-          </Media>
+          </Desktop>
         </div>
         <Navigation />
       </div>

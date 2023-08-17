@@ -1,16 +1,16 @@
 import React from "react";
 import MobileNavigation from "./Mobile";
 import Desktop from "./Desktop";
-import { Media } from "../../support/breakpoints";
+import { Desktop as DesktopBreakpoint, TabletAndBelow } from "../../support/breakpoints";
 
 const Navigation = () => (
   <div>
-    <Media lessThan="computer">
+    <TabletAndBelow>
       <MobileNavigation />
-    </Media>
-    <Media greaterThanOrEqual="computer">
+    </TabletAndBelow>
+    <DesktopBreakpoint>
       <Desktop />
-    </Media>
+    </DesktopBreakpoint>
   </div>
 );
 

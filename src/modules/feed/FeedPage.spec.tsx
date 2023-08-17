@@ -1,17 +1,23 @@
 import React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
+import { Context as ResponsiveContext } from 'react-responsive'
 import { act } from 'react-dom/test-utils';
 import {
   findByTestId,
   mockLocalstorage, withMockedProviders,
 } from '../../spec_helper';
 import { FeedPage } from './index';
-import { render, screen } from '@testing-library/react';
 
 let wrapper: ReactWrapper;
 
 const setup = () => {
-  wrapper = mount(withMockedProviders(<FeedPage />));
+  wrapper = mount(withMockedProviders(
+    // Because the component is wrapped with react-responsive components we need
+    // to provide a mock value for the browser width.
+    <ResponsiveContext.Provider value={{ width: 1200 }}>
+      <FeedPage />
+    </ResponsiveContext.Provider>
+  ));
 };
 
 describe('<FeedPage />', () => {
@@ -28,11 +34,7 @@ describe('<FeedPage />', () => {
   });
 
   it('should show a right rail', async () => {
-    render(
-      withMockedProviders(<FeedPage />)
-    );
-
-    expect(screen.getAllByTestId("right-tail").length).toBe(1);
+    expect(findByTestId(wrapper, 'right-tail').length).toBe(1);
   });
 
   it('should show a repo list', async () => {

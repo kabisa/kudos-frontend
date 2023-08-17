@@ -7,7 +7,7 @@ import { Navigation } from "../../components/navigation";
 import { InviteList, TeamList } from "./components";
 
 import s from "./ChooseTeamPage.module.scss";
-import { Media } from "../../support/breakpoints";
+import { TabletAndAbove, TabletAndBelow } from "../../support/breakpoints";
 
 export function Content(): React.ReactElement {
   const history = useHistory();
@@ -37,7 +37,7 @@ function ChooseTeamPage(): React.ReactElement {
   return (
     <div>
       <div className="page">
-        <Media greaterThanOrEqual="tablet">
+        <TabletAndAbove>
           <Segment
             style={{
               width: "40em",
@@ -48,10 +48,10 @@ function ChooseTeamPage(): React.ReactElement {
           >
             <Content />
           </Segment>
-        </Media>
-        <Media lessThan="tablet">
+        </TabletAndAbove>
+        <TabletAndBelow>
           <Content />
-        </Media>
+        </TabletAndBelow>
       </div>
       <Navigation />
     </div>

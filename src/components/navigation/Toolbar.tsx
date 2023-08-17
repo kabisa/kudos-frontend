@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Icon } from "semantic-ui-react";
 import { Link, useHistory } from "react-router-dom";
 import s from "./Toolbar.module.scss";
-import { Media } from "../../support/breakpoints";
+import { TabletAndBelow } from "../../support/breakpoints";
 
 export interface Props {
   to?: string;
@@ -23,11 +23,11 @@ export default function Toolbar(props: Props) {
   );
 
   return (
-    <Media lessThan="computer">
+    <TabletAndBelow>
       <div className={s.top_navigation}>
         {backLink}
         <span className={s.toolbar_text}>{props.text}</span>
       </div>
-    </Media>
+    </TabletAndBelow>
   );
 }

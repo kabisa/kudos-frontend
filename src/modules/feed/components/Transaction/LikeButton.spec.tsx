@@ -31,7 +31,7 @@ const likedPost: FragmentPostResult = {
     {
       voter: {
         id: '5',
-        name: 'Egon',
+        name: 'Max',
       },
     },
   ],
@@ -116,7 +116,7 @@ describe('<LikeButton />', () => {
 
     cache.writeQuery({
       query: GET_POSTS,
-      variables: { team_id: 1 },
+      variables: { team_id: "1" },
       data: {
         teamById: {
           posts: {

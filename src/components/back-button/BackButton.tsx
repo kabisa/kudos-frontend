@@ -2,13 +2,13 @@ import React from "react";
 import { Button } from "semantic-ui-react";
 import { useHistory } from "react-router-dom";
 import s from "./BackButton.module.scss";
-import { Media } from "../../support/breakpoints";
+import { TabletAndAbove } from "../../support/breakpoints";
 
 function BackButton() {
   const history = useHistory();
 
   return (
-    <Media greaterThanOrEqual="tablet">
+    <TabletAndAbove>
       <Button
         fluid
         size="large"
@@ -17,7 +17,7 @@ function BackButton() {
       >
         Back
       </Button>
-    </Media>
+    </TabletAndAbove>
   );
 }
 

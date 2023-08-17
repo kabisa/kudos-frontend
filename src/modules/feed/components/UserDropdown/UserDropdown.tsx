@@ -1,4 +1,4 @@
-import React, { Component, PropsWithRef, SyntheticEvent } from "react";
+import React, { Component, PropsWithRef } from "react";
 import { Dropdown, DropdownProps } from "semantic-ui-react";
 import { Query } from "@apollo/client/react/components";
 
@@ -31,7 +31,7 @@ class DropdownRemote extends Component<DropDownProps, DropDownState> {
     this.handleAddition = this.handleAddition.bind(this);
   }
 
-  handleChange(e: SyntheticEvent, { value }: any) {
+  handleChange(_e: React.SyntheticEvent<HTMLElement, Event>, { value }: any) {
     if (!value) {
       return;
     }
@@ -47,7 +47,7 @@ class DropdownRemote extends Component<DropDownProps, DropDownState> {
     this.setState(this.initialState);
   }
 
-  handleAddition(_e: React.SyntheticEvent<HTMLElement, Event>, data: DropdownProps) {
+  handleAddition(_e: React.SyntheticEvent<HTMLElement, Event>, { value }: DropdownProps) {
     const oldState = client.readQuery({
       query: GET_USERS,
       variables: {
@@ -56,7 +56,7 @@ class DropdownRemote extends Component<DropDownProps, DropDownState> {
     });
 
     const existing = oldState.teamById.users.filter(
-      (u: User) => u.name === data.value
+      (u: User) => u.name === value
     );
     if (existing.length > 0) {
       return;
@@ -82,7 +82,7 @@ class DropdownRemote extends Component<DropDownProps, DropDownState> {
           ...oldState.teamById.users,
           {
             id,
-            name: data.value,
+            name: value,
             virtualUser: true,
             __typename: "User",
           },
