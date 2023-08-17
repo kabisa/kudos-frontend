@@ -35,7 +35,7 @@ describe('<FeedPage />', () => {
     expect(screen.getAllByTestId("right-tail").length).toBe(1);
   });
 
-  it.only('should show a repo list', async () => {
+  it('should show a repo list', async () => {
     expect(findByTestId(wrapper, 'repo-list').length).toBe(1);
   });
 });

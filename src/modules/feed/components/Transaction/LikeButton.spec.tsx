@@ -111,7 +111,7 @@ describe('<LikeButton />', () => {
     expect(findByTestId(wrapper, 'like-icon').hostNodes().hasClass('blue thumbs up')).toBe(true);
   });
 
-  it.only('calls the mutation', async () => {
+  it('calls the mutation', async () => {
     const cache = new InMemoryCache({ addTypename: false });
 
     cache.writeQuery({
