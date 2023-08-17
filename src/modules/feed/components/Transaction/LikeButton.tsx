@@ -14,9 +14,6 @@ import {
 import { Storage } from "../../../../support/storage";
 import s from "./LikeButton.module.scss";
 
-const userId = Storage.getItem(settings.USER_ID_TOKEN);
-const teamId = Storage.getItem(settings.TEAM_ID_TOKEN);
-
 export const MUTATION_TOGGLE_LIKE = gql`
   mutation ToggleLikePost($id: ID!) {
     toggleLikePost(postId: $id) {
@@ -37,12 +34,15 @@ export interface ToggleLikeResult {
 const updateState = (store: any, newData: FragmentPostResult) => {
   let beforeState;
 
+  const teamId = Storage.getItem(settings.TEAM_ID_TOKEN)
+
   try {
     beforeState = store.readQuery({
       query: GET_POSTS,
       variables: { team_id: teamId },
     });
   } catch (error) {
+
     // This is just to silence the error in the tests
     return;
   }
@@ -74,6 +74,7 @@ export const toggleLike = (
   transactionId: string,
   post: FragmentPostResult,
 ) => {
+  const userId = Storage.getItem(settings.USER_ID_TOKEN);
   mutate({
     variables: { id: transactionId },
     optimisticResponse: {
@@ -170,7 +171,7 @@ class LikeButton extends React.Component<LikeButtonProps, LikeButtonState> {
               {
                 query: GET_GOAL_PERCENTAGE,
                 variables: {
-                  team_id: localStorage.getItem(settings.TEAM_ID_TOKEN),
+                  team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
                 },
               },
             ]}
@@ -204,4 +205,5 @@ class LikeButton extends React.Component<LikeButtonProps, LikeButtonState> {
     );
   }
 }
+
 export default enhanceWithClickOutside(LikeButton);

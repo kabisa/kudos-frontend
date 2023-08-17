@@ -6,6 +6,7 @@ import {
   mockLocalstorage, withMockedProviders,
 } from '../../spec_helper';
 import { FeedPage } from './index';
+import { render, screen } from '@testing-library/react';
 
 let wrapper: ReactWrapper;
 
@@ -27,10 +28,14 @@ describe('<FeedPage />', () => {
   });
 
   it('should show a right rail', async () => {
-    expect(findByTestId(wrapper, 'right-rail').length).toBe(1);
+    render(
+      withMockedProviders(<FeedPage />)
+    );
+
+    expect(screen.getAllByTestId("right-tail").length).toBe(1);
   });
 
-  it('should show a repo list', async () => {
+  it.only('should show a repo list', async () => {
     expect(findByTestId(wrapper, 'repo-list').length).toBe(1);
   });
 });

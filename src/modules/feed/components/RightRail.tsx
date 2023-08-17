@@ -7,10 +7,13 @@ import s from "./Rail.module.scss";
 const slackIconPath = `${process.env.PUBLIC_URL}/assets/kabisa_logo_white.png`;
 
 const RightRail = () => (
-  <Segment className={s.rail}>
-    <Statistics />
-    <img className={s.logo} alt="Kabisa logo" src={slackIconPath} />
-  </Segment>
+  <div data-testid="right-tail">
+    <Segment className={s.rail}>
+      <Statistics />
+      <img className={s.logo} alt="Kabisa logo" src={slackIconPath} />
+    </Segment>
+  </div>
+
 );
 
 export default RightRail;

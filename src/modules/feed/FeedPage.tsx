@@ -73,7 +73,7 @@ export class FeedPage extends Component<FeedPageProps, FeedPageState> {
                 <KudoBoard />
               </GridColumn>
               <GridColumn className={`${s.grid_column} ${s.left_column}`}>
-                <RightRail data-testid="right-rail" />
+                <RightRail />
               </GridColumn>
             </Grid>
           </Media>
