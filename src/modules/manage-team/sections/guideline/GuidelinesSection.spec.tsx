@@ -45,10 +45,10 @@ const errorMocks = [
 
 
 describe('<GuidelinesSection />', () => {
-  mockLocalstorage('1');
   let wrapper: ReactWrapper;
 
   beforeEach(() => {
+    mockLocalstorage('1');
     wrapper = mount(withMockedProviders(<GuidelineSection />, mocks));
   });
 

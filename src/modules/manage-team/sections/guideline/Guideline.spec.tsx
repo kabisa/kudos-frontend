@@ -63,11 +63,11 @@ const guideline = {
 };
 
 describe('<Guideline />', () => {
-  mockLocalstorage('1');
   const editGuidelineMock = jest.fn();
   let wrapper: ReactWrapper;
 
   beforeEach(() => {
+    mockLocalstorage('1');
     wrapper = mount(withMockedProviders(
       <table>
         <tbody>

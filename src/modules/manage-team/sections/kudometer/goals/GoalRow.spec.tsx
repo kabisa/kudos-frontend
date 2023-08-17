@@ -63,11 +63,11 @@ const goal: Goal = {
 };
 
 describe('<GoalRow />', () => {
-  mockLocalstorage('1');
   let wrapper: ReactWrapper;
   const editGoalMock = jest.fn(() => 1);
 
   beforeEach(() => {
+    mockLocalstorage('1');
     mutationCalled = false;
     queryCalled = false;
     wrapper = mount(withMockedProviders(

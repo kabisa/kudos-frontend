@@ -90,9 +90,8 @@ const setup = (mocks: any) => {
 };
 
 describe('<IntegrationsSection />', () => {
-  mockLocalstorage('1');
-
   beforeEach(() => {
+    mockLocalstorage('1');
     setup(mocksWithoutSlack);
   });
 

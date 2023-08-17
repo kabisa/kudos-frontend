@@ -48,10 +48,10 @@ const mocksWithError = [
 ];
 
 describe('<InviteSection />', () => {
-  mockLocalstorage('1');
   let wrapper: ReactWrapper;
 
   beforeEach(() => {
+    mockLocalstorage('1');
     wrapper = mount(withMockedProviders(<InviteSection />, mocks));
   });
 
@@ -65,7 +65,7 @@ describe('<InviteSection />', () => {
       await wait(0);
       await wrapper.update();
 
-      expect(wrapper.containsMatchingElement(<p>Error! Network error: it broke</p>)).toBe(true);
+      expect(wrapper.containsMatchingElement(<p>Error! it broke</p>)).toBe(true);
     });
   });
 
