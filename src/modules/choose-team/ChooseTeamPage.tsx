@@ -15,13 +15,12 @@ export function Content(): React.ReactElement {
   return (
     <div className={s.container}>
       <h2 className={s.header}>Your invites</h2>
-      <InviteList data-testid="invite-list" />
+      <InviteList />
       <Divider />
       <h2 className={s.header}>Your teams</h2>
-      <TeamList data-testid="personal-team-list" />
+      <TeamList />
       <Divider horizontal>Or</Divider>
       <Button
-        data-testid="create-team"
         color="blue"
         className={s.create_button}
         onClick={() => {

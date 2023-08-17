@@ -24,33 +24,35 @@ export interface InvitesResult {
 }
 
 const InviteList = () => (
-  <Query<InvitesResult>
-    query={GET_INVITES}
-    pollInterval={2000}
-    fetchPolicy="network-only"
-  >
-    {({ loading, error, data }) => {
-      if (loading) return <p className="text-center">Loading...</p>;
-      if (error)
+  <div data-testid="invite-list">
+    <Query<InvitesResult>
+      query={GET_INVITES}
+      pollInterval={2000}
+      fetchPolicy="network-only"
+    >
+      {({ loading, error, data }) => {
+        if (loading) return <p className="text-center">Loading...</p>;
+        if (error)
+          return (
+            <p data-testid="error-message" className="text-center">
+              {error.message}
+            </p>
+          );
+
+        if (!data || !data.viewer.teamInvites.length) {
+          return <p className="text-center">No invites.</p>;
+        }
+
         return (
-          <p data-testid="error-message" className="text-center">
-            {error.message}
-          </p>
+          <div data-testid="invite-list">
+            {data.viewer.teamInvites.map((invite) => (
+              <Invite data-testid="kudo-invite" key={invite.id} invite={invite} />
+            ))}
+          </div>
         );
-
-      if (!data || !data.viewer.teamInvites.length) {
-        return <p className="text-center">No invites.</p>;
-      }
-
-      return (
-        <div>
-          {data.viewer.teamInvites.map((invite) => (
-            <Invite data-testid="kudo-invite" key={invite.id} invite={invite} />
-          ))}
-        </div>
-      );
-    }}
-  </Query>
+      }}
+    </Query>
+  </div>
 );
 
 export default InviteList;
