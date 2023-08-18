@@ -58,7 +58,24 @@ export const mockLocalstorage = (value: string) => {
 };
 
 export const getMockCache = () =>
-  new InMemoryCache().restore({
+  new InMemoryCache(
+      {
+        typePolicies: {
+          Query: {
+            fields: {
+              teamById: {
+                read(_, { args, toReference }) {
+                  return toReference({
+                    __typename: 'Team',
+                    id: args?.id,
+                  });
+                }
+              }
+            }
+          }
+        }
+      }
+  ).restore({
     '$ROOT_QUERY.teamById({"id":"1"}).activeKudosMeter': {
       amount: 260,
       __typename: "KudosMeter",
@@ -1131,4 +1148,20 @@ export const getMockCache = () =>
       },
       votes: [],
     },
+    "Team:1": {
+      __typename: "Team",
+      id: "1",
+      users: [
+        {__ref:"User:4"}
+      ],
+      activeKudosMeter: {
+        __typename:"KudosMeter",
+        amount: 260
+      },
+      activeGoals: [
+        {__ref:"Goal:1"},
+        {__ref:"Goal:2"},
+        {__ref:"Goal:3"}
+      ]
+    }
   });

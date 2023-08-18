@@ -116,6 +116,7 @@ export const GET_GOAL_PERCENTAGE = gql`
 
 export interface GetGoalPercentageResult {
   teamById: {
+    id: number;
     activeKudosMeter: {
       amount: number;
     };

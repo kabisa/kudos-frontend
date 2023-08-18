@@ -20,10 +20,10 @@ const mocks = [
       variables: {
         message: 'Some message',
         kudos: 5,
+        images: [],
         receivers: ['4'],
         virtual_receivers: [],
-        team_id: '1',
-        images: [new File([], 'test.png', { type: 'image/png' })],
+        team_id: '1'
       },
     },
     result: () => {
@@ -263,7 +263,7 @@ describe('<CreatePost />', () => {
 
     await act(async () => {
       component.setState({
-        amount: 5, receivers: ['4'], message: 'Some message', images: [new File([], 'test.png', { type: 'image/png' })],
+        amount: 5, receivers: ['4'], message: 'Some message',
       });
       await wrapper.update();
 
