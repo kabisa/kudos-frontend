@@ -5,7 +5,7 @@ import {
 } from '../../../../spec_helper';
 import LikeButton, { MUTATION_TOGGLE_LIKE } from './LikeButton';
 import { FragmentPostResult, GET_GOAL_PERCENTAGE, GET_POSTS } from '../../queries';
-import { render, screen, waitFor } from '@testing-library/react';
+import {act, render, screen, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { InMemoryCache } from '@apollo/client';
 
@@ -42,7 +42,7 @@ const mocks = [
   {
     request: {
       query: MUTATION_TOGGLE_LIKE,
-      variables: { id: '1' },
+      variables: { id: "1" },
     },
     result: () => {
       mutationCalled = true;
@@ -112,13 +112,31 @@ describe('<LikeButton />', () => {
   });
 
   it('calls the mutation', async () => {
-    const cache = new InMemoryCache({ addTypename: false });
+    const cache = new InMemoryCache({
+      addTypename: false,
+      typePolicies: {
+        Query: {
+          fields: {
+            teamById: {
+              read(_, { args, toReference }) {
+                return toReference({
+                  __typename: 'Team',
+                  id: args?.id,
+                });
+              }
+            }
+          }
+        }
+      }
+    });
 
     cache.writeQuery({
       query: GET_POSTS,
       variables: { team_id: "1" },
       data: {
         teamById: {
+          id: "1",
+          __typename: 'Team',
           posts: {
             edges: [
               {
@@ -142,10 +160,11 @@ describe('<LikeButton />', () => {
     );
 
     const button = screen.getByTestId("like-button");
-    userEvent.click(button);
 
-    await waitFor(() => {
-      expect(mutationCalled).toBe(true);
-    });
+    await act(async () =>
+        userEvent.click(button)
+    );
+
+    expect(mutationCalled).toBe(true);
   });
 });
