@@ -1,4 +1,3 @@
-/* eslint  jsx-a11y/alt-text: 0 */
 import React from "react";
 import { mount, ReactWrapper } from "enzyme";
 import { createMemoryHistory, MemoryHistory } from "history";

@@ -5,7 +5,7 @@ import {
 } from '../../../../spec_helper';
 import LikeButton, { MUTATION_TOGGLE_LIKE } from './LikeButton';
 import { FragmentPostResult, GET_GOAL_PERCENTAGE, GET_POSTS } from '../../queries';
-import {act, render, screen, waitFor} from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { InMemoryCache } from '@apollo/client';
 
