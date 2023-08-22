@@ -1,34 +1,38 @@
-import React, { ChangeEvent, Component, FormEvent } from 'react';
-import {
-  Button, Form, Message, Segment,
-} from 'semantic-ui-react';
-import { Link, withRouter } from 'react-router-dom';
-import { History } from 'history';
-import { Mutation } from '@apollo/react-components';
-import gql from 'graphql-tag';
+import React, { ChangeEvent, Component, FormEvent } from "react";
+import { Button, Form, Message, Segment } from "semantic-ui-react";
+import { Link, withRouter } from "react-router-dom";
+import { History } from "history";
+import { Mutation } from "@apollo/client/react/components";
+import { ApolloError, gql } from "@apollo/client";
 
-import { GraphQLError } from 'graphql';
-import { PATH_CHOOSE_TEAM, PATH_FORGOT_PASSWORD, PATH_REGISTER } from '../../routes';
+import {
+  PATH_CHOOSE_TEAM,
+  PATH_FORGOT_PASSWORD,
+  PATH_REGISTER,
+} from "../../routes";
 import {
   Auth,
-  ERROR_EMAIL_INVALID, ERROR_INCOMPLETE, getGraphqlError, validateEmail,
-} from '../../support';
-import { FormWrapper } from '../../components';
-import { loginSuccess } from './helper';
+  ERROR_EMAIL_INVALID,
+  ERROR_INCOMPLETE,
+  getGraphqlError,
+  validateEmail,
+} from "../../support";
+import { FormWrapper } from "../../components";
+import { loginSuccess } from "./helper";
 
-import s from './LoginPage.module.scss';
+import s from "./LoginPage.module.scss";
 
 export const MUTATION_LOGIN = gql`
-    mutation SignInUser($email: EmailAddress!, $password: String!) {
-        signInUser(credentials: { email: $email, password: $password }) {
-            authenticateData {
-                token
-                user {
-                    id
-                }
-            }
+  mutation SignInUser($email: EmailAddress!, $password: String!) {
+    signInUser(credentials: { email: $email, password: $password }) {
+      authenticateData {
+        token
+        user {
+          id
         }
+      }
     }
+  }
 `;
 
 export interface LoginResult {
@@ -39,7 +43,7 @@ export interface LoginResult {
         id: string;
       };
     };
-    errors: GraphQLError[];
+    errors: ApolloError[];
   };
 }
 
@@ -67,9 +71,9 @@ class LoginPage extends Component<Props, State> {
     }
 
     this.state = {
-      email: '',
-      password: '',
-      error: '',
+      email: "",
+      password: "",
+      error: "",
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -88,13 +92,13 @@ class LoginPage extends Component<Props, State> {
 
       this.props.history.push(PATH_CHOOSE_TEAM);
     } else {
-      this.setState({ error: getGraphqlError(data.signInUser.errors) });
+      this.setState({ error: "Something went wrong." });
     }
   }
 
   formSubmit(e: FormEvent, signInUser: any) {
     e.preventDefault();
-    this.setState({ error: '' });
+    this.setState({ error: "" });
     let { email } = this.state;
     const { password } = this.state;
 
@@ -119,7 +123,9 @@ class LoginPage extends Component<Props, State> {
     return (
       <Mutation<LoginResult, LoginParameters>
         mutation={MUTATION_LOGIN}
-        onError={(error) => { this.setState({ error: getGraphqlError(error) }); }}
+        onError={(error) => {
+          this.setState({ error: getGraphqlError(error) });
+        }}
         onCompleted={(data) => this.confirm(data)}
       >
         {(signInUser, { error, loading }) => {
@@ -130,7 +136,11 @@ class LoginPage extends Component<Props, State> {
           return (
             <FormWrapper verticalCentered header="Login">
               <Segment padded>
-                <Form size="large" error={!!error} onSubmit={(e) => this.formSubmit(e, signInUser)}>
+                <Form
+                  size="large"
+                  error={!!error}
+                  onSubmit={(e) => this.formSubmit(e, signInUser)}
+                >
                   <Form.Input
                     data-testid="email-input"
                     fluid
@@ -167,17 +177,25 @@ class LoginPage extends Component<Props, State> {
                   </Button>
 
                   {displayError && (
-                  <Message negative>
-                    <Message.Header>Unable to login</Message.Header>
-                    <p data-testid="error-message">{displayError}</p>
-                  </Message>
+                    <Message negative>
+                      <Message.Header>Unable to login</Message.Header>
+                      <p data-testid="error-message">{displayError}</p>
+                    </Message>
                   )}
                 </Form>
                 <Message className={s.message}>
-                  <Link data-testid="sign-up-button" to={PATH_REGISTER} className={s.left}>
+                  <Link
+                    data-testid="sign-up-button"
+                    to={PATH_REGISTER}
+                    className={s.left}
+                  >
                     Sign Up
                   </Link>
-                  <Link data-testid="forgot-button" to={PATH_FORGOT_PASSWORD} className={s.right}>
+                  <Link
+                    data-testid="forgot-button"
+                    to={PATH_FORGOT_PASSWORD}
+                    className={s.right}
+                  >
                     Forgot password?
                   </Link>
                 </Message>

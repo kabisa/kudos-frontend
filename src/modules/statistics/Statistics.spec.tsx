@@ -41,9 +41,9 @@ const mocks = [
 
 describe('<Statistics />', () => {
   let wrapper: ReactWrapper;
-  mockLocalstorage('1');
 
   beforeEach(() => {
+    mockLocalstorage('1');
     wrapper = mount(withMockedProviders(<Statistics />, mocks));
   });
 

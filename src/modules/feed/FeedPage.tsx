@@ -1,14 +1,13 @@
-import React, { Component } from 'react';
-import {
-  Divider, Grid, GridColumn, Responsive, Segment,
-} from 'semantic-ui-react';
-import { PullToRefresh } from '../../components';
-import { Navigation } from '../../components/navigation';
-import { CreatePost, RightRail } from './components';
-import { GetPostsResult } from './queries';
-import { RepoList } from './RepoList';
+import React, { Component } from "react";
+import { Divider, Grid, GridColumn, Segment } from "semantic-ui-react";
+import { PullToRefresh } from "../../components";
+import { Navigation } from "../../components/navigation";
+import { CreatePost, RightRail } from "./components";
+import { GetPostsResult } from "./queries";
+import { RepoList } from "./RepoList";
 
-import s from './FeedPage.module.scss';
+import s from "./FeedPage.module.scss";
+import { Desktop, TabletAndBelow } from "../../support/breakpoints";
 
 export interface Props {
   data: {
@@ -20,7 +19,6 @@ export interface Props {
     loadMore: any;
   };
 }
-
 
 export interface FeedPageProps {
   // Future props go here
@@ -41,13 +39,13 @@ export class FeedPage extends Component<FeedPageProps, FeedPageState> {
   constructor(props: FeedPageProps) {
     super(props);
     PullToRefresh.init({
-      mainElement: 'body',
+      mainElement: "body",
       onRefresh() {
         window.location.reload();
       },
       shouldPullToRefresh() {
         try {
-          return document.getElementsByClassName('page')[0].scrollTop === 0;
+          return document.getElementsByClassName("page")[0].scrollTop === 0;
         } catch (error) {
           return true;
         }
@@ -59,14 +57,14 @@ export class FeedPage extends Component<FeedPageProps, FeedPageState> {
     return (
       <div className={s.container}>
         <div className="page">
-          <Responsive maxWidth={Responsive.onlyTablet.maxWidth}>
+          <TabletAndBelow>
             <div className={s.create_post_container_mobile}>
               <CreatePost back={false} />
             </div>
             <Divider hidden />
             <KudoBoard />
-          </Responsive>
-          <Responsive minWidth={Responsive.onlyTablet.maxWidth}>
+          </TabletAndBelow>
+          <Desktop>
             <Grid centered columns={2} className={s.grid}>
               <GridColumn className={s.grid_column}>
                 <Segment className={s.create_post_segment}>
@@ -75,10 +73,10 @@ export class FeedPage extends Component<FeedPageProps, FeedPageState> {
                 <KudoBoard />
               </GridColumn>
               <GridColumn className={`${s.grid_column} ${s.left_column}`}>
-                <RightRail data-testid="right-rail" />
+                <RightRail />
               </GridColumn>
             </Grid>
-          </Responsive>
+          </Desktop>
         </div>
         <Navigation />
       </div>

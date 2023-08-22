@@ -1,29 +1,32 @@
-import React, { ChangeEvent, Component } from 'react';
-import {
-  Button, Form, Message, Segment,
-} from 'semantic-ui-react';
-import { Mutation } from '@apollo/react-components';
-import gql from 'graphql-tag';
-import { toast } from 'react-toastify';
-import { withRouter } from 'react-router-dom';
-import { History } from 'history';
-import settings from '../../config/settings';
+import React, { ChangeEvent, Component } from "react";
+import { Button, Form, Message, Segment } from "semantic-ui-react";
+import { Mutation } from "@apollo/client/react/components";
+import { gql } from "@apollo/client";
+import { toast } from "react-toastify";
+import { withRouter } from "react-router-dom";
+import { History } from "history";
+import settings from "../../config/settings";
 import {
   ERROR_PASSWORD_BLANK,
   ERROR_PASSWORD_CONFIRMATION_BLANK,
-  ERROR_PASSWORD_MATCH, ERROR_PASSWORD_NEW_BLANK,
+  ERROR_PASSWORD_MATCH,
+  ERROR_PASSWORD_NEW_BLANK,
   ERROR_SHORT_PASSWORD,
   getGraphqlError,
-} from '../../support';
-import { Navigation } from '../../components/navigation';
+} from "../../support";
+import { Navigation } from "../../components/navigation";
 
-import { PATH_FEED } from '../../routes';
-import { FormWrapper } from '../../components';
-import BackButton from '../../components/back-button/BackButton';
-import s from './ResetPasswordPage.module.scss';
+import { PATH_FEED } from "../../routes";
+import { FormWrapper } from "../../components";
+import BackButton from "../../components/back-button/BackButton";
+import s from "./ResetPasswordPage.module.scss";
 
 export const MUTATION_RESET_PASSWORD = gql`
-  mutation ResetPassword($current_password: String, $new_password: String, $new_password_confirmation: String) {
+  mutation ResetPassword(
+    $current_password: String
+    $new_password: String
+    $new_password_confirmation: String
+  ) {
     resetPassword(
       currentPassword: $current_password
       newPassword: $new_password
@@ -72,16 +75,16 @@ class ResetPasswordPage extends Component<Props, State> {
     super(props);
 
     this.cleanErrors = {
-      error: '',
+      error: "",
       error_current: false,
       error_new: false,
       error_new_confirm: false,
     };
 
     this.state = {
-      currentPassword: '',
-      newPassword: '',
-      newPasswordConfirmation: '',
+      currentPassword: "",
+      newPassword: "",
+      newPasswordConfirmation: "",
       ...this.cleanErrors,
     };
 
@@ -93,7 +96,8 @@ class ResetPasswordPage extends Component<Props, State> {
   }
 
   checkErrors() {
-    const { currentPassword, newPassword, newPasswordConfirmation } = this.state;
+    const { currentPassword, newPassword, newPasswordConfirmation } =
+      this.state;
 
     this.setState(this.cleanErrors);
 
@@ -132,7 +136,8 @@ class ResetPasswordPage extends Component<Props, State> {
   }
 
   resetPassword(mutate: any) {
-    const { currentPassword, newPassword, newPasswordConfirmation } = this.state;
+    const { currentPassword, newPassword, newPasswordConfirmation } =
+      this.state;
 
     if (!this.checkErrors()) {
       return;
@@ -151,7 +156,10 @@ class ResetPasswordPage extends Component<Props, State> {
     // @ts-ignore
     this.setState({ [name]: value });
 
-    if (this.state.newPassword === this.state.newPasswordConfirmation && this.state.error) {
+    if (
+      this.state.newPassword === this.state.newPasswordConfirmation &&
+      this.state.error
+    ) {
       this.checkErrors();
     }
   }
@@ -165,7 +173,7 @@ class ResetPasswordPage extends Component<Props, State> {
               mutation={MUTATION_RESET_PASSWORD}
               onCompleted={() => {
                 this.setState(this.initialState);
-                toast.info('Password reset successfully!');
+                toast.info("Password reset successfully!");
                 this.props.history.push(PATH_FEED);
               }}
             >
@@ -231,10 +239,12 @@ class ResetPasswordPage extends Component<Props, State> {
                     </Button>
                     <BackButton />
                     {displayError && (
-                    <Message negative>
-                      <Message.Header>Unable to reset password</Message.Header>
-                      <p>{displayError}</p>
-                    </Message>
+                      <Message negative>
+                        <Message.Header>
+                          Unable to reset password
+                        </Message.Header>
+                        <p>{displayError}</p>
+                      </Message>
                     )}
                   </Form>
                 );

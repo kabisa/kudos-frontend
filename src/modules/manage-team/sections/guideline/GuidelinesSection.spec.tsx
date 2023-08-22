@@ -45,10 +45,10 @@ const errorMocks = [
 
 
 describe('<GuidelinesSection />', () => {
-  mockLocalstorage('1');
   let wrapper: ReactWrapper;
 
   beforeEach(() => {
+    mockLocalstorage('1');
     wrapper = mount(withMockedProviders(<GuidelineSection />, mocks));
   });
 
@@ -63,7 +63,7 @@ describe('<GuidelinesSection />', () => {
       await wait(0);
       await wrapper.update();
 
-      expect(wrapper.containsMatchingElement(<p>Error! Network error: it went wrong</p>)).toBe(true);
+      expect(wrapper.containsMatchingElement(<p>Error! it went wrong</p>)).toBe(true);
     });
   });
 

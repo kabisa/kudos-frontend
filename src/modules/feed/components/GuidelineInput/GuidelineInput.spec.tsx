@@ -1,11 +1,8 @@
 import React from 'react';
-import { mount, ReactWrapper } from 'enzyme';
-import { act } from 'react-dom/test-utils';
-import {
-  findByTestId,
-  mockLocalstorage, simulateInputChange, wait, withMockedProviders,
-} from '../../../../spec_helper';
+import { mockLocalstorage, withMockedProviders } from '../../../../spec_helper';
 import GuidelineInput, { GET_GUIDELINES } from './GuidelineInput';
+import { render, waitFor, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 let queryCalled = false;
 const mocks = [
@@ -66,176 +63,227 @@ const mocksWithoutData = [
 ];
 
 describe('<GuidelineInput />', () => {
-  mockLocalstorage('1');
-  let wrapper: ReactWrapper;
   const handleChangeMock = jest.fn();
 
   beforeEach(() => {
+    mockLocalstorage('1');
     queryCalled = false;
-    wrapper = mount(withMockedProviders(<GuidelineInput
-      handleChange={handleChangeMock}
-      amountError={false}
-    />, mocks));
   });
 
   it('handles state change correctly', async () => {
-    const component: any = wrapper.find('GuidelineInput').instance();
+    render(
+      withMockedProviders(<GuidelineInput
+        handleChange={handleChangeMock}
+        amountError={false}
+      />, mocks)
+    );
 
-    await act(async () => {
-      expect(component.state.amount).toBe('');
+    // Sets showGuidelines to true which is needed to trigger the query.
+    const input = screen.getByRole("spinbutton", { name: "Kudos Amount" });
+    input.focus();
 
-      simulateInputChange(wrapper, 'amount-input', 'amount', '5');
-      await wrapper.update();
+    const rows = await screen.findAllByTestId("guideline-row");
+    await userEvent.click(rows[0]);
+    expect(input).toHaveValue(10);
+  });
 
-      expect(component.state.amount).toBe('5');
-    });
+  it('display only guidelines that have a kudos value within a range of 5 from the selected guideline.', async () => {
+    const modifiedMock = [...mocks];
+    modifiedMock[0].result = () => {
+      queryCalled = true;
+      return {
+        data: {
+          teamById: {
+            guidelines: [
+              {
+                id: '1',
+                kudos: '10',
+                name: 'Op tijd bij meeting',
+              },
+              {
+                id: '2',
+                kudos: '14', // Within range of 5
+                name: 'Bureau opgeruimd',
+              },
+            ],
+          },
+        },
+      };
+    };
+
+    render(
+      withMockedProviders(<GuidelineInput
+        handleChange={handleChangeMock}
+        amountError={false}
+      />, modifiedMock)
+    );
+
+    // Sets showGuidelines to true which is needed to trigger the query.
+    const input = screen.getByRole("spinbutton", { name: "Kudos Amount" });
+    input.focus();
+
+    const rows = await screen.findAllByTestId("guideline-row");
+    await userEvent.click(rows[0]);
+    expect(input).toHaveValue(10);
+
+    // Update input reference after clicking the first row
+    const updatedInput = screen.getByRole("spinbutton", { name: "Kudos Amount" });
+    updatedInput.focus();
+
+    const updatedRows = await screen.findAllByTestId("guideline-row");
+    // Only shows 2 rows because 14 is within range of 10
+    expect(updatedRows).toHaveLength(2);
   });
 
   it('shows the guidelines on focus', async () => {
-    const component: any = wrapper.find('GuidelineInput').instance();
+    render(
+      withMockedProviders(<GuidelineInput
+        handleChange={handleChangeMock}
+        amountError={false}
+      />, mocks)
+    );
 
-    await act(async () => {
-      expect(component.state.showGuidelines).toBe(false);
+    // Sets showGuidelines to true which is needed to trigger the query.
+    screen.getByRole("spinbutton", { name: "Kudos Amount" }).focus();
 
-      // @ts-ignore
-      findByTestId(wrapper, 'amount-input').find('input').prop('onFocus')();
-
-      await wrapper.update();
-
-      expect(component.state.showGuidelines).toBe(true);
-    });
+    const rows = await screen.findAllByTestId("guideline-row");
+    expect(rows).toHaveLength(2);
   });
 
-  it('resets the the focus on blur', async () => {
-    const component: any = wrapper.find('GuidelineInput').instance();
+  it('resets the focus on blur', async () => {
+    render(
+      withMockedProviders(<GuidelineInput
+        handleChange={handleChangeMock}
+        amountError={false}
+      />, mocks)
+    );
 
-    await act(async () => {
-      component.setState({ showGuidelines: true });
+    // Sets showGuidelines to true which is needed to trigger the query.
+    const input = screen.getByRole("spinbutton", { name: "Kudos Amount" });
+    input.focus();
 
-      // @ts-ignore
-      findByTestId(wrapper, 'amount-input').find('input').prop('onBlur')();
+    // Validate that showGuidelines is true. 
+    const rows = await screen.findAllByTestId("guideline-row");
+    expect(rows).toHaveLength(2);
 
-      await wrapper.update();
-      await wait(500);
-
-      expect(component.state.showGuidelines).toBe(false);
+    // Validate that showGuidelines is false after blur event.
+    input.blur();
+    await waitFor(() => {
+      expect(screen.queryAllByTestId("guideline-row")).toHaveLength(0);
     });
   });
 
   it('calls the mutation if the input is focused and amount is not empty', async () => {
-    const component = wrapper.find('GuidelineInput').instance();
+    render(
+      withMockedProviders(<GuidelineInput
+        handleChange={handleChangeMock}
+        amountError={false}
+      />, mocks)
+    );
 
-    await act(async () => {
-      component.setState({ amount: '5', showGuidelines: false });
-      await wrapper.update();
+    expect(queryCalled).toBe(false);
 
-      expect(queryCalled).toBe(false);
+    // Sets showGuidelines to true which is needed to trigger the query.
+    screen.getByRole("spinbutton", { name: "Kudos Amount" }).focus();
 
-      component.setState({ amount: '5', showGuidelines: true });
-
-      await wait(0);
-      await wrapper.update();
-
+    await waitFor(() => {
       expect(queryCalled).toBe(true);
     });
   });
 
   it('Shows when there is an error', async () => {
-    wrapper = mount(withMockedProviders(<GuidelineInput
-      handleChange={handleChangeMock}
-      amountError={false}
-    />, mocksWithError));
+    render(
+      withMockedProviders(<GuidelineInput
+        handleChange={handleChangeMock}
+        amountError={false}
+      />, mocksWithError)
+    );
 
-    const component = wrapper.find('GuidelineInput').instance();
-    await act(async () => {
-      component.setState({ amount: '10', showGuidelines: true });
+    // Sets showGuidelines to true which is needed to trigger the query.
+    screen.getByRole("spinbutton", { name: "Kudos Amount" }).focus();
 
-      await wrapper.update();
-
-      await wait(0);
-      await wrapper.update();
-
-      expect(wrapper.contains('Network error: It broke')).toBe(true);
-    });
+    expect(await screen.findByText("It broke")).toBeInTheDocument();
   });
 
   it('Shows a message when there are no guidelines', async () => {
-    wrapper = mount(withMockedProviders(<GuidelineInput
-      handleChange={handleChangeMock}
-      amountError={false}
-    />, mocksWithoutData));
+    render(
+      withMockedProviders(<GuidelineInput
+        handleChange={handleChangeMock}
+        amountError={false}
+      />, mocksWithoutData)
+    );
 
-    const component = wrapper.find('GuidelineInput').instance();
-    await act(async () => {
-      component.setState({ amount: '10', showGuidelines: true });
+    // Sets showGuidelines to true which is needed to trigger the query.
+    screen.getByRole("spinbutton", { name: "Kudos Amount" }).focus();
 
-      await wrapper.update();
-
-      await wait(0);
-      await wrapper.update();
-
-      expect(queryCalled).toBe(true);
-      expect(wrapper.contains('No guidelines available')).toBe(true);
-    });
+    expect(await screen.findByText("No guidelines available")).toBeInTheDocument();
   });
 
   it('Shows when the query is loading', async () => {
-    const component = wrapper.find('GuidelineInput').instance();
-    await act(async () => {
-      component.setState({ amount: '10', showGuidelines: true });
+    render(
+      withMockedProviders(<GuidelineInput
+        handleChange={handleChangeMock}
+        amountError={false}
+      />, mocks)
+    );
 
-      // Update the state twice to first set the new variables and then fire the query
-      await wrapper.update();
-      await wrapper.update();
-
-      expect(wrapper.contains('Loading...')).toBe(true);
+    // Sets showGuidelines to true which is needed to trigger the query.
+    await waitFor(async () => {
+      screen.getByRole("spinbutton", { name: "Kudos Amount" }).focus();
+      expect(await screen.findByText("Loading...")).toBeInTheDocument();
     });
   });
 
   it('renders a segment for each guideline', async () => {
-    const component = wrapper.find('GuidelineInput').instance();
-    await act(async () => {
-      component.setState({ amount: '10', showGuidelines: true });
+    render(
+      withMockedProviders(<GuidelineInput
+        handleChange={handleChangeMock}
+        amountError={false}
+      />, mocks)
+    );
 
-      await wrapper.update();
+    // Sets showGuidelines to true which is needed to trigger the query.
+    screen.getByRole("spinbutton", { name: "Kudos Amount" }).focus();
 
-      await wait(0);
-      await wrapper.update();
-
-      expect(findByTestId(wrapper, 'guideline-row').length).toBe(2);
-    });
+    const rows = await screen.findAllByTestId("guideline-row");
+    expect(rows).toHaveLength(2);
   });
 
   it('it shows the guidelines when the button is clicked', async () => {
-    await act(async () => {
-      findByTestId(wrapper, 'guidelines-button').hostNodes().simulate('click');
+    render(
+      withMockedProviders(<GuidelineInput
+        handleChange={handleChangeMock}
+        amountError={false}
+      />, mocks)
+    );
 
-      await wrapper.update();
+    const button = screen.getByTestId("guidelines-button");
+    userEvent.click(button);
 
-      await wait(0);
-      await wrapper.update();
-
-      expect(findByTestId(wrapper, 'guideline-row').hostNodes().length).toBe(2);
-    });
+    const rows = await screen.findAllByTestId("guideline-row");
+    expect(rows).toHaveLength(2);
   });
 
   it('should set the correct amount when a guideline is clicked', async () => {
-    const component: any = wrapper.find('GuidelineInput').instance();
-    await act(async () => {
-      component.setState({ amount: '14', showGuidelines: true });
+    render(
+      withMockedProviders(<GuidelineInput
+        handleChange={handleChangeMock}
+        amountError={false}
+      />, mocks)
+    );
 
-      await wrapper.update();
+    // Sets showGuidelines to true which is needed to trigger the query.
+    const input = screen.getByRole("spinbutton", { name: "Kudos Amount" });
+    input.focus();
 
-      await wait(0);
-      await wrapper.update();
+    const rows = await screen.findAllByTestId("guideline-row");
+    expect(rows).toHaveLength(2);
+    await userEvent.click(rows[0]);
 
-      const row = findByTestId(wrapper, 'guideline-row').at(0).find('div');
-      row.simulate('click');
-
-      await wrapper.update();
-
-      expect(component.state.showGuidelines).toBe(false);
-      expect(component.state.amount).toBe('15');
+    await waitFor(() => {
+      expect(screen.queryAllByTestId("guideline-row")).toHaveLength(0);
     });
+
+    expect(input).toHaveValue(10);
   });
 });

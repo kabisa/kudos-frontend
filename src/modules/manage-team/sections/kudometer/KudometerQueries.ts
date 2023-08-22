@@ -1,11 +1,11 @@
-import gql from 'graphql-tag';
+import { gql } from "@apollo/client";
 
 export const DELETE_KUDOMETER = gql`
-    mutation DeleteKudometer($id: ID!) {
-        deleteKudosMeter(kudosMeterId: $id) {
-            kudosMeterId
-        }
+  mutation DeleteKudometer($id: ID!) {
+    deleteKudosMeter(kudosMeterId: $id) {
+      kudosMeterId
     }
+  }
 `;
 
 export interface DeleteKudometerParameters {
@@ -13,11 +13,11 @@ export interface DeleteKudometerParameters {
 }
 
 export const DELETE_GOAL = gql`
-    mutation DeleteGoal($id: ID!) {
-        deleteGoal(goalId: $id) {
-            goalId
-        }
+  mutation DeleteGoal($id: ID!) {
+    deleteGoal(goalId: $id) {
+      goalId
     }
+  }
 `;
 
 export interface DeleteGoalParameters {
@@ -25,13 +25,13 @@ export interface DeleteGoalParameters {
 }
 
 export const CREATE_KUDOMETER = gql`
-    mutation CreateKudometer($name: String!, $team_id: ID!) {
-        createKudosMeter(name: $name, teamId: $team_id) {
-            kudosMeter {
-                id
-            }
-        }
+  mutation CreateKudometer($name: String!, $team_id: ID!) {
+    createKudosMeter(name: $name, teamId: $team_id) {
+      kudosMeter {
+        id
+      }
     }
+  }
 `;
 
 export interface CreateKudometerParameters {
@@ -44,19 +44,19 @@ export interface CreateKudometerResult {
     createKudosMeter: {
       kudosMeter: {
         id: string;
-      }
-    }
-  }
+      };
+    };
+  };
 }
 
 export const CREATE_GOAL = gql`
-    mutation CreateGoal($name: String!, $kudometer: ID!, $amount: Int!) {
-        createGoal(name: $name, amount: $amount, kudosMeterId: $kudometer) {
-            goal {
-                id
-            }
-        }
+  mutation CreateGoal($name: String!, $kudometer: ID!, $amount: Int!) {
+    createGoal(name: $name, amount: $amount, kudosMeterId: $kudometer) {
+      goal {
+        id
+      }
     }
+  }
 `;
 
 export interface CreateGoalParameters {
@@ -66,20 +66,20 @@ export interface CreateGoalParameters {
 }
 
 export const GET_KUDOMETERS = gql`
-    query Kudometers($team_id: ID!) {
-        teamById(id: $team_id) {
-            kudosMeters {
-                id
-                name
-                isActive
-                goals {
-                    id
-                    amount
-                    name
-                }
-            }
+  query Kudometers($team_id: ID!) {
+    teamById(id: $team_id) {
+      kudosMeters {
+        id
+        name
+        isActive
+        goals {
+          id
+          amount
+          name
         }
+      }
     }
+  }
 `;
 
 export interface GetKudoMetersResult {
@@ -98,17 +98,17 @@ export interface Kudometer {
   id: string;
   name: string;
   goals: Goal[];
-  isActive: boolean;
+  isActive?: boolean;
 }
 
 export const UPDATE_GOAL = gql`
-    mutation UpdateGoal($name: String!, $amount: Int!, $goalId: ID!) {
-        updateGoal(name: $name, amount: $amount, goalId: $goalId) {
-            goal {
-                id
-            }
-        }
+  mutation UpdateGoal($name: String!, $amount: Int!, $goalId: ID!) {
+    updateGoal(name: $name, amount: $amount, goalId: $goalId) {
+      goal {
+        id
+      }
     }
+  }
 `;
 
 export interface UpdateGoalParameters {
@@ -118,13 +118,13 @@ export interface UpdateGoalParameters {
 }
 
 export const SET_ACTIVE_KUDOS_METER = gql`
-    mutation SetActiveKudosMeter($kudos_meter_id: ID!, $team_id: ID!) {
-        setActiveKudosMeter(kudosMeterId: $kudos_meter_id, teamId: $team_id) {
-            kudosMeter {
-                id
-            }
-        }
+  mutation SetActiveKudosMeter($kudos_meter_id: ID!, $team_id: ID!) {
+    setActiveKudosMeter(kudosMeterId: $kudos_meter_id, teamId: $team_id) {
+      kudosMeter {
+        id
+      }
     }
+  }
 `;
 
 export interface SetActiveKudosMeterParameters {
@@ -136,20 +136,20 @@ export interface SetActiveKudosMeterResult {
   data: {
     setActiveKudosMeter: {
       kudosMeter: {
-        id: string
-      }
-    }
-  }
+        id: string;
+      };
+    };
+  };
 }
 
 export const UPDATE_KUDOMETER = gql`
-      mutation UpdateKudosMeter($name: String!, $kudos_meter_id: ID!) {
-        updateKudosMeter(name: $name, kudosMeterId: $kudos_meter_id) {
-            kudosMeter {
-                id
-            }
-        }
+  mutation UpdateKudosMeter($name: String!, $kudos_meter_id: ID!) {
+    updateKudosMeter(name: $name, kudosMeterId: $kudos_meter_id) {
+      kudosMeter {
+        id
+      }
     }
+  }
 `;
 
 export interface UpdateKudoMeterParameters {
@@ -161,8 +161,8 @@ export interface UpdateKudoMeterResult {
   data: {
     updateKudosMeter: {
       kudosMeter: {
-        id: string
-      }
-    }
-  }
+        id: string;
+      };
+    };
+  };
 }

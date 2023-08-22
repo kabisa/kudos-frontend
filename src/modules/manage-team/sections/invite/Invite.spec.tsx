@@ -77,7 +77,6 @@ const mocks = [
 ];
 
 describe('<Invite />', () => {
-  mockLocalstorage('1');
   let wrapper: ReactWrapper;
 
   function setup(invite: InviteModel) {
@@ -88,6 +87,7 @@ describe('<Invite />', () => {
   }
 
   beforeEach(() => {
+    mockLocalstorage('1');
     mutationCalled = false;
     queryCalled = false;
     setup(pendingInvite);

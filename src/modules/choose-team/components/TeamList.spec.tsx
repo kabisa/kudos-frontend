@@ -103,7 +103,7 @@ describe('<TeamList />', () => {
       await wait(0);
       wrapper.update();
 
-      expect(wrapper.containsMatchingElement(<p>Network error: It broke</p>)).toBe(true);
+      expect(wrapper.containsMatchingElement(<p>It broke</p>)).toBe(true);
     });
   });
 });

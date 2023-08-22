@@ -22,10 +22,10 @@ const mocks = [
 ];
 
 describe('<Desktop />', () => {
-  mockLocalstorage('admin');
   let wrapper: ReactWrapper;
 
   beforeEach(() => {
+    mockLocalstorage('admin');
     wrapper = mount(withMockedProviders(<Desktop />, mocks));
   });
 

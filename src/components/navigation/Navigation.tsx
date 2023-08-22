@@ -1,15 +1,17 @@
-import React from 'react';
-import { Responsive } from 'semantic-ui-react';
-import MobileNavigation from './Mobile';
-import Desktop from './Desktop';
+import React from "react";
+import MobileNavigation from "./Mobile";
+import Desktop from "./Desktop";
+import { Desktop as DesktopBreakpoint, TabletAndBelow } from "../../support/breakpoints";
 
-export default () => (
+const Navigation = () => (
   <div>
-    <Responsive maxWidth={Responsive.onlyTablet.maxWidth}>
+    <TabletAndBelow>
       <MobileNavigation />
-    </Responsive>
-    <Responsive minWidth={Responsive.onlyTablet.maxWidth}>
+    </TabletAndBelow>
+    <DesktopBreakpoint>
       <Desktop />
-    </Responsive>
+    </DesktopBreakpoint>
   </div>
 );
+
+export default Navigation;

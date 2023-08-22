@@ -1,17 +1,20 @@
-import React from 'react';
-import { Button, Popup, Table } from 'semantic-ui-react';
-import { Mutation } from '@apollo/react-components';
-import { toast } from 'react-toastify';
+import React from "react";
+import { Button, Popup, Table } from "semantic-ui-react";
+import { Mutation } from "@apollo/client/react/components";
+import { toast } from "react-toastify";
 import {
-  DELETE_GOAL, DeleteGoalParameters, GET_KUDOMETERS, Goal,
-} from '../KudometerQueries';
-import settings from '../../../../../config/settings';
-import { Storage } from '../../../../../support/storage';
+  DELETE_GOAL,
+  DeleteGoalParameters,
+  GET_KUDOMETERS,
+  Goal,
+} from "../KudometerQueries";
+import settings from "../../../../../config/settings";
+import { Storage } from "../../../../../support/storage";
 
 export interface GoalRowProps {
-  key: string,
-  goal: Goal
-  editGoal: (id: string, kudos: number, name: string) => void
+  key: string;
+  goal: Goal;
+  editGoal: (id: string, kudos: number, name: string) => void;
 }
 
 export function GoalRow(props: GoalRowProps): React.ReactElement {
@@ -25,16 +28,14 @@ export function GoalRow(props: GoalRowProps): React.ReactElement {
           color="yellow"
           icon="pencil"
           size="tiny"
-          onClick={() => props.editGoal(
-            props.goal.id,
-            props.goal.amount,
-            props.goal.name,
-          )}
+          onClick={() =>
+            props.editGoal(props.goal.id, props.goal.amount, props.goal.name)
+          }
         />
         <Mutation<DeleteGoalParameters>
           mutation={DELETE_GOAL}
           onCompleted={() => {
-            toast.info('Goal removed successfully!');
+            toast.info("Goal removed successfully!");
           }}
           refetchQueries={[
             {
@@ -48,9 +49,15 @@ export function GoalRow(props: GoalRowProps): React.ReactElement {
           {(deleteGoal, { loading }) => (
             <Popup
               trigger={
-                <Button data-testid="delete-button" size="tiny" color="red" loading={loading} icon="trash" />
+                <Button
+                  data-testid="delete-button"
+                  size="tiny"
+                  color="red"
+                  loading={loading}
+                  icon="trash"
+                />
               }
-              content={(
+              content={
                 <Button
                   data-testid="confirm-delete-button"
                   color="red"
@@ -61,7 +68,7 @@ export function GoalRow(props: GoalRowProps): React.ReactElement {
                     });
                   }}
                 />
-                )}
+              }
               on="click"
               position="top right"
             />

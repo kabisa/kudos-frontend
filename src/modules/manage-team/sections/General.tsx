@@ -1,30 +1,28 @@
 /* eslint-disable no-shadow */
-import React, { ChangeEvent, Component } from 'react';
-import {
-  Button, Divider, Form, Header, Icon,
-} from 'semantic-ui-react';
-import gql from 'graphql-tag';
-import { toast } from 'react-toastify';
-import { Query, Mutation } from '@apollo/react-components';
-import settings from '../../../config/settings';
-import { Storage } from '../../../support/storage';
+import React, { ChangeEvent, Component } from "react";
+import { Button, Divider, Form, Header, Icon } from "semantic-ui-react";
+import { gql } from "@apollo/client";
+import { toast } from "react-toastify";
+import { Query, Mutation } from "@apollo/client/react/components";
+import settings from "../../../config/settings";
+import { Storage } from "../../../support/storage";
 
 export const GET_TEAM_NAME = gql`
-    query GetTeamName($id: ID!) {
-        teamById(id: $id) {
-            name
-        }
+  query GetTeamName($id: ID!) {
+    teamById(id: $id) {
+      name
     }
+  }
 `;
 
 export const UPDATE_TEAM = gql`
-    mutation UpdateTeam($name: String!, $team_id: ID!) {
-        updateTeam(name: $name, teamId: $team_id) {
-            team {
-                id
-            }
-        }
+  mutation UpdateTeam($name: String!, $team_id: ID!) {
+    updateTeam(name: $name, teamId: $team_id) {
+      team {
+        id
+      }
     }
+  }
 `;
 
 export interface GetTeamNameResult {
@@ -54,7 +52,7 @@ export default class GeneralSection extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      name: '',
+      name: "",
     };
 
     this.updateTeam = this.updateTeam.bind(this);
@@ -100,9 +98,7 @@ export default class GeneralSection extends Component<Props, State> {
             id: Storage.getItem(settings.TEAM_ID_TOKEN),
           }}
         >
-          {({
-            loading, error, data, refetch,
-          }) => {
+          {({ loading, error, data, refetch }) => {
             if (loading) return <p>Loading...</p>;
             if (error) return <p>Error! {error.message}</p>;
 
@@ -110,17 +106,14 @@ export default class GeneralSection extends Component<Props, State> {
               <Mutation<UpdateTeamResult, UpdateTeamParameters>
                 mutation={UPDATE_TEAM}
                 onCompleted={() => {
-                  toast.info('Team successfully updated!');
-                  this.setState({ name: '' });
+                  toast.info("Team successfully updated!");
+                  this.setState({ name: "" });
                   refetch();
                 }}
               >
                 {(mutate, { loading }) => (
                   <div>
-                    <h1>{(data && data.teamById)
-                      ? data.teamById.name
-                      : '-'}
-                    </h1>
+                    <h1>{data && data.teamById ? data.teamById.name : "-"}</h1>
                     <Form onSubmit={() => this.updateTeam(mutate)}>
                       <Form.Input
                         data-testid="name-input"

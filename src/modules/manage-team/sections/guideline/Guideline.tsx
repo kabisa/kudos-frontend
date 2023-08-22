@@ -1,18 +1,18 @@
-import React from 'react';
-import { Button, Popup, Table } from 'semantic-ui-react';
-import { Mutation } from '@apollo/react-components';
-import { toast } from 'react-toastify';
-import gql from 'graphql-tag';
-import settings from '../../../../config/settings';
-import { GET_GUIDELINES } from './GuidelinesSection';
-import { Storage } from '../../../../support/storage';
+import React from "react";
+import { Button, Popup, Table } from "semantic-ui-react";
+import { Mutation } from "@apollo/client/react/components";
+import { toast } from "react-toastify";
+import { gql } from "@apollo/client";
+import settings from "../../../../config/settings";
+import { GET_GUIDELINES } from "./GuidelinesSection";
+import { Storage } from "../../../../support/storage";
 
 export const DELETE_GUIDELINE = gql`
-    mutation DeleteGuideline($id: ID!) {
-        deleteGuideline(guidelineId: $id) {
-            guidelineId
-        }
+  mutation DeleteGuideline($id: ID!) {
+    deleteGuideline(guidelineId: $id) {
+      guidelineId
     }
+  }
 `;
 
 export interface DeleteGuidelineParameters {
@@ -20,11 +20,11 @@ export interface DeleteGuidelineParameters {
 }
 
 export interface GuidelineProps {
-  key: number
+  key: number;
   id: number;
   kudos: number;
   name: string;
-  editGuideline: (id: number, kudos: number, description: string) => void
+  editGuideline: (id: number, kudos: number, description: string) => void;
 }
 
 export function Guideline(props: GuidelineProps): React.ReactElement {
@@ -43,7 +43,7 @@ export function Guideline(props: GuidelineProps): React.ReactElement {
         <Mutation<DeleteGuidelineParameters>
           mutation={DELETE_GUIDELINE}
           onCompleted={() => {
-            toast.info('Guideline removed successfully!');
+            toast.info("Guideline removed successfully!");
           }}
           refetchQueries={[
             {
@@ -57,9 +57,15 @@ export function Guideline(props: GuidelineProps): React.ReactElement {
           {(deleteGuideline, { loading }) => (
             <Popup
               trigger={
-                <Button data-testid="delete-button" size="tiny" color="red" loading={loading} icon="trash" />
-                  }
-              content={(
+                <Button
+                  data-testid="delete-button"
+                  size="tiny"
+                  color="red"
+                  loading={loading}
+                  icon="trash"
+                />
+              }
+              content={
                 <Button
                   data-testid="confirm-delete-button"
                   color="red"
@@ -70,7 +76,7 @@ export function Guideline(props: GuidelineProps): React.ReactElement {
                     });
                   }}
                 />
-              )}
+              }
               on="click"
               position="top right"
             />
@@ -78,6 +84,5 @@ export function Guideline(props: GuidelineProps): React.ReactElement {
         </Mutation>
       </Table.Cell>
     </Table.Row>
-
   );
 }

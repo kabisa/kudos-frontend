@@ -166,7 +166,7 @@ describe('<KudometerSection />', () => {
       await wait(0);
       await wrapper.update();
 
-      expect(wrapper.containsMatchingElement(<p>Error! Network error: Something went wrong</p>)).toBe(true);
+      expect(wrapper.containsMatchingElement(<p>Error! Something went wrong</p>)).toBe(true);
     });
   });
 

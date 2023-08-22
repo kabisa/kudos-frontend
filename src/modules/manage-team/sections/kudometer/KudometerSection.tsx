@@ -1,23 +1,24 @@
 /* eslint-disable no-shadow */
-import React, { ChangeEvent, Component } from 'react';
-import {
-  Button, Divider, Form, Header, Icon, Table,
-} from 'semantic-ui-react';
-import {
-  ApolloConsumer, Query,
-} from '@apollo/react-components';
-import ApolloClient from 'apollo-client';
-import settings from '../../../../config/settings';
+import React, { ChangeEvent, Component } from "react";
+import { Button, Divider, Form, Header, Icon, Table } from "semantic-ui-react";
+import { Query } from "@apollo/client/react/components";
+import type { ApolloClient } from "@apollo/client";
+import { ApolloConsumer } from "@apollo/client";
+import settings from "../../../../config/settings";
 import {
   CREATE_KUDOMETER,
-  CreateKudometerParameters, CreateKudometerResult,
+  CreateKudometerParameters,
+  CreateKudometerResult,
   GET_KUDOMETERS,
   GetKudoMetersResult,
-  Kudometer, UPDATE_KUDOMETER, UpdateKudoMeterParameters, UpdateKudoMeterResult,
-} from './KudometerQueries';
-import { Goals } from './goals/Goals';
-import { KudometerRow } from './KudometerRow';
-import { Storage } from '../../../../support/storage';
+  Kudometer,
+  UPDATE_KUDOMETER,
+  UpdateKudoMeterParameters,
+  UpdateKudoMeterResult,
+} from "./KudometerQueries";
+import { Goals } from "./goals/Goals";
+import { KudometerRow } from "./KudometerRow";
+import { Storage } from "../../../../support/storage";
 
 export interface Props {
   // Future props go here
@@ -37,10 +38,10 @@ class KudometerSection extends Component<Props, State> {
     super(props);
 
     this.state = {
-      name: '',
+      name: "",
       selected: undefined,
       editing: false,
-      kudometerId: '',
+      kudometerId: "",
     };
 
     this.initialState = this.state;
@@ -135,8 +136,8 @@ class KudometerSection extends Component<Props, State> {
   cancelEdit() {
     this.setState({
       editing: false,
-      kudometerId: '',
-      name: '',
+      kudometerId: "",
+      name: "",
     });
   }
 
@@ -165,10 +166,16 @@ class KudometerSection extends Component<Props, State> {
                 onChange={this.handleChange}
               />
               <Button data-testid="create-button" color="blue" type="submit">
-                { this.state.editing ? 'Edit kudometer' : 'Create kudometer'}
+                {this.state.editing ? "Edit kudometer" : "Create kudometer"}
               </Button>
-              { this.state.editing && (
-                <Button data-testid="cancel-edit-button" color="red" onClick={() => { this.cancelEdit(); }}>
+              {this.state.editing && (
+                <Button
+                  data-testid="cancel-edit-button"
+                  color="red"
+                  onClick={() => {
+                    this.cancelEdit();
+                  }}
+                >
                   Cancel
                 </Button>
               )}
@@ -188,27 +195,39 @@ class KudometerSection extends Component<Props, State> {
                       <Table.Header>
                         <Table.Row>
                           <Table.HeaderCell>Name</Table.HeaderCell>
-                          <Table.HeaderCell colSpan="2">Actions</Table.HeaderCell>
+                          <Table.HeaderCell colSpan="2">
+                            Actions
+                          </Table.HeaderCell>
                         </Table.Row>
                       </Table.Header>
 
                       <Table.Body>
-                        {(data
-                              && data.teamById
-                              && data.teamById.kudosMeters.length > 0) ? data.teamById.kudosMeters.map((item) => (
-                                <KudometerRow
-                                  data-testid="kudometer-row"
-                                  key={item.id}
-                                  kudometer={item}
-                                  viewButtonClickHandler={this.handleViewGoalButtonClick}
-                                  deleteKudometerHandler={this.deleteKudometer}
-                                  edit={this.edit}
-                                />
-                          )) : <Table.Row><Table.Cell>No kudometers available</Table.Cell></Table.Row>}
+                        {data &&
+                        data.teamById &&
+                        data.teamById.kudosMeters.length > 0 ? (
+                          data.teamById.kudosMeters.map((item) => (
+                            <KudometerRow
+                              data-testid="kudometer-row"
+                              key={item.id}
+                              kudometer={item}
+                              viewButtonClickHandler={
+                                this.handleViewGoalButtonClick
+                              }
+                              deleteKudometerHandler={this.deleteKudometer}
+                              edit={this.edit}
+                            />
+                          ))
+                        ) : (
+                          <Table.Row>
+                            <Table.Cell>No kudometers available</Table.Cell>
+                          </Table.Row>
+                        )}
                       </Table.Body>
                     </Table>
 
-                    {this.state.selected && <Goals kudometer={this.state.selected} />}
+                    {this.state.selected && (
+                      <Goals kudometer={this.state.selected} />
+                    )}
                   </div>
                 );
               }}

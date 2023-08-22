@@ -1,13 +1,13 @@
-import React, { Component, FormEvent } from 'react';
-import { Button, Form, Message } from 'semantic-ui-react';
-import { Mutation } from '@apollo/react-components';
-import { toast } from 'react-toastify';
-import gql from 'graphql-tag';
-import { ApolloConsumer } from '@apollo/react-common';
-import ApolloClient from 'apollo-client';
-import settings from '../../../config/settings';
-import UserDropdown from './UserDropdown/UserDropdown';
-import GuidelineInput from './GuidelineInput/GuidelineInput';
+import React, { Component, FormEvent } from "react";
+import { Button, Form, Message } from "semantic-ui-react";
+import { Mutation } from "@apollo/client/react/components";
+import { toast } from "react-toastify";
+import { gql } from "@apollo/client";
+import { ApolloConsumer } from "@apollo/client";
+import type { ApolloClient } from "@apollo/client";
+import settings from "../../../config/settings";
+import UserDropdown from "./UserDropdown/UserDropdown";
+import GuidelineInput from "./GuidelineInput/GuidelineInput";
 
 import {
   ERROR_AMOUNT_BLANK,
@@ -16,31 +16,43 @@ import {
   ERROR_MESSAGE_MIN_LENGTH,
   ERROR_RECEIVERS_BLANK,
   getGraphqlError,
-} from '../../../support';
-import BackButton from '../../../components/back-button/BackButton';
+} from "../../../support";
+import BackButton from "../../../components/back-button/BackButton";
 import {
-  FragmentPostResult, GET_GOAL_PERCENTAGE, GET_POSTS, GET_USERS, User,
-} from '../queries';
-import { Storage } from '../../../support/storage';
-import s from '../FeedPage.module.scss';
-import { ImageUpload } from '../../../components/upload/ImageUpload';
+  FragmentPostResult,
+  GET_GOAL_PERCENTAGE,
+  GET_POSTS,
+  GET_USERS,
+  User,
+} from "../queries";
+import { Storage } from "../../../support/storage";
+import s from "../FeedPage.module.scss";
+import { ImageUpload } from "../../../components/upload/ImageUpload";
 
 // eslint-disable-next-line max-len
-export const CREATE_POST = gql`mutation CreatePost($message: String, $kudos: Int, $receivers: [ID!], $virtual_receivers: [String!], $team_id: ID, $images: [UploadedFile!]!) {
-        createPost(
-            message: $message
-            amount: $kudos
-            receiverIds: $receivers
-            nullReceivers: $virtual_receivers
-            teamId: $team_id,
-            images: $images
-        ) {
-            post {
-                id
-                amount
-            }
-        }
+export const CREATE_POST = gql`
+  mutation CreatePost(
+    $message: String
+    $kudos: Int
+    $receivers: [ID!]
+    $virtual_receivers: [String!]
+    $team_id: ID
+    $images: [UploadedFile!]!
+  ) {
+    createPost(
+      message: $message
+      amount: $kudos
+      receiverIds: $receivers
+      nullReceivers: $virtual_receivers
+      teamId: $team_id
+      images: $images
+    ) {
+      post {
+        id
+        amount
+      }
     }
+  }
 `;
 
 export interface CreatePostParameters {
@@ -88,12 +100,12 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
     this.state = {
       amount: undefined,
       receivers: [],
-      message: '',
+      message: "",
       images: [],
       amountError: false,
       receiversError: false,
       messageError: false,
-      error: '',
+      error: "",
     };
 
     this.initialState = this.state;
@@ -115,14 +127,12 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
   }
 
   onSubmit(createPost: any, client: ApolloClient<any>) {
-    const {
-      amount, receivers, message, images,
-    } = this.state;
+    const { amount, receivers, message, images } = this.state;
     this.setState({
       amountError: false,
       receiversError: false,
       messageError: false,
-      error: '',
+      error: "",
     });
 
     if (!amount) {
@@ -194,7 +204,7 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
   }
 
   onCompleted() {
-    toast.info('Post created successfully!');
+    toast.info("Post created successfully!");
     // We use wrapped instance because enhanceWithClickOutside wraps the component.
     // @ts-ignore
     // eslint-disable-next-line no-underscore-dangle
@@ -236,7 +246,9 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
         {(client) => (
           <Mutation<CreatePostParameters>
             mutation={CREATE_POST}
-            onError={(error) => this.setState({ error: getGraphqlError(error) })}
+            onError={(error) =>
+              this.setState({ error: getGraphqlError(error) })
+            }
             onCompleted={this.onCompleted}
             update={(cache, { data: postData }: any) => {
               const beforeState: any = cache.readQuery({
@@ -251,7 +263,9 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
                   ...beforeState.teamById,
                   activeKudosMeter: {
                     ...beforeState.teamById.activeKudosMeter,
-                    amount: beforeState.teamById.activeKudosMeter.amount + postData?.createPost.amount,
+                    amount:
+                      beforeState.teamById.activeKudosMeter.amount +
+                      postData?.createPost.amount,
                   },
                 },
               };
@@ -300,7 +314,6 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
                   />
                   <Form.Field>
                     {/* Suppressed because the linter doesn't pick up on custom controls */}
-                    {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                     <label htmlFor="input-receivers">
                       Receivers
                       <UserDropdown
@@ -319,7 +332,9 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
                     <label htmlFor="message-input">
                       Message
                       <span className={s.character_message}>
-                        {settings.MAX_POST_MESSAGE_LENGTH - this.state.message.length} chars left
+                        {settings.MAX_POST_MESSAGE_LENGTH -
+                          this.state.message.length}{" "}
+                        chars left
                       </span>
                       <Form.TextArea
                         id="message-input"
@@ -335,7 +350,6 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
 
                   <Form.Field>
                     {/* Suppressed because the linter doesn't pick up on custom controls */}
-                    {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                     <label htmlFor="image-upload">
                       Images
                       <ImageUpload
@@ -352,14 +366,14 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
                     loading={loading}
                     disabled={loading}
                   >
-                    {transaction ? 'Update' : 'DROP YOUR KUDOS HERE'}
+                    {transaction ? "Update" : "DROP YOUR KUDOS HERE"}
                   </Button>
 
                   {displayError && (
-                  <Message negative>
-                    <Message.Header>Couldn&apos;t create post</Message.Header>
-                    <p data-testid="error-message">{displayError}</p>
-                  </Message>
+                    <Message negative>
+                      <Message.Header>Couldn&apos;t create post</Message.Header>
+                      <p data-testid="error-message">{displayError}</p>
+                    </Message>
                   )}
                   {this.props.back && <BackButton />}
                 </Form>

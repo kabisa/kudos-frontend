@@ -84,9 +84,9 @@ const mocks = [
 
 describe('<EditGuideline/>', () => {
   let wrapper: ReactWrapper;
-  mockLocalstorage('1');
 
   beforeEach(() => {
+    mockLocalstorage('1');
     updateMutationCalled = false;
     createMutationCalled = false;
     getGuidelinesCalled = false;

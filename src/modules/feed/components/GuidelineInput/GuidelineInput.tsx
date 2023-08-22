@@ -1,25 +1,25 @@
-import React, { ChangeEvent, Component } from 'react';
-import { Form, Segment } from 'semantic-ui-react';
-import { Query } from '@apollo/react-components';
-import gql from 'graphql-tag';
-import enhanceWithClickOutside from 'react-click-outside';
-import { Storage } from '../../../../support/storage';
-import settings from '../../../../config/settings';
+import React, { ChangeEvent, Component } from "react";
+import { Form, Segment } from "semantic-ui-react";
+import { Query } from "@apollo/client/react/components";
+import { gql } from "@apollo/client";
+import enhanceWithClickOutside from "react-click-outside";
+import { Storage } from "../../../../support/storage";
+import settings from "../../../../config/settings";
 
-import s from './GuidelineInput.module.scss';
+import s from "./GuidelineInput.module.scss";
 
 const KUDO_GUIDELINE_RANGE = 5;
 
 export const GET_GUIDELINES = gql`
-    query Guidelines($team_id: ID!) {
-        teamById(id: $team_id) {
-            guidelines {
-                id
-                kudos
-                name
-            }
-        }
+  query Guidelines($team_id: ID!) {
+    teamById(id: $team_id) {
+      guidelines {
+        id
+        kudos
+        name
+      }
     }
+  }
 `;
 
 export interface GetGuideLinesResult {
@@ -54,7 +54,7 @@ class GuidelineInput extends Component<Props, State> {
     super(props);
 
     this.state = {
-      amount: '',
+      amount: "",
       showGuidelines: false,
     };
     this.initialState = this.state;
@@ -80,7 +80,9 @@ class GuidelineInput extends Component<Props, State> {
 
   showGuidelines(e: Event) {
     e.preventDefault();
-    this.setState((prevState) => ({ showGuidelines: !prevState.showGuidelines }));
+    this.setState((prevState) => ({
+      showGuidelines: !prevState.showGuidelines,
+    }));
   }
 
   focusKudoInput() {
@@ -112,7 +114,9 @@ class GuidelineInput extends Component<Props, State> {
       <div id="kudos-input-container" className={s.test}>
         <Form.Field className={s.field}>
           <Form.Input
-            className={(this.state.showGuidelines) ? s.guideline_input_active : ''}
+            className={
+              this.state.showGuidelines ? s.guideline_input_active : ""
+            }
             data-testid="amount-input"
             id="input-kudos"
             error={this.props.amountError}
@@ -127,80 +131,83 @@ class GuidelineInput extends Component<Props, State> {
             value={this.state.amount}
             label="Kudos Amount"
             action={{
-              icon: 'info',
+              icon: "info",
               onClick: this.showGuidelines,
-              'data-testid': 'guidelines-button',
+              "data-testid": "guidelines-button",
               className: s.info_button,
             }}
           />
         </Form.Field>
 
-        {(this.state.showGuidelines) && (
-        <Query<GetGuideLinesResult>
-          query={GET_GUIDELINES}
-          variables={{
-            team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
-          }}
-        >
-          {({ loading, error, data }) => {
-            if (loading || error) {
+        {this.state.showGuidelines && (
+          <Query<GetGuideLinesResult>
+            query={GET_GUIDELINES}
+            variables={{
+              team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
+            }}
+          >
+            {({ loading, error, data }) => {
+              if (loading || error) {
+                return (
+                  <Segment.Group size="tiny" className={s.guidelines}>
+                    <Segment>
+                      {loading && "Loading..."}
+                      {error && error.message}
+                    </Segment>
+                  </Segment.Group>
+                );
+              }
+
+              if (
+                !data ||
+                !data.teamById ||
+                data.teamById.guidelines.length === 0
+              ) {
+                return (
+                  <Segment.Group size="tiny" className={s.guidelines}>
+                    <Segment key={1}>No guidelines available</Segment>
+                  </Segment.Group>
+                );
+              }
+
+              let guidelines: Guideline[];
+
+              if (this.state.amount) {
+                // eslint-disable-next-line max-len
+                guidelines = data.teamById.guidelines.filter(
+                  (guideline) =>
+                    guideline.kudos - KUDO_GUIDELINE_RANGE <
+                      (parseInt(this.state.amount) || 0) &&
+                    guideline.kudos + KUDO_GUIDELINE_RANGE >
+                      (parseInt(this.state.amount) || 0),
+                );
+              } else {
+                guidelines = data.teamById.guidelines;
+              }
+
+              if (guidelines.length === 0) {
+                return (
+                  <Segment.Group size="tiny" className={s.guidelines}>
+                    <Segment key={1}>No guidelines available</Segment>
+                  </Segment.Group>
+                );
+              }
+
               return (
                 <Segment.Group size="tiny" className={s.guidelines}>
-                  <Segment>
-                    {loading && 'Loading...'}
-                    {error && error.message}
-                  </Segment>
+                  {guidelines.map((guideline) => (
+                    <Segment
+                      data-testid="guideline-row"
+                      key={guideline.id}
+                      onClick={() => this.selectGuideline(guideline.kudos)}
+                    >
+                      {`${guideline.kudos}: ${guideline.name}`}
+                    </Segment>
+                  ))}
                 </Segment.Group>
               );
-            }
-
-            if (!data || !data.teamById || data.teamById.guidelines.length === 0) {
-              return (
-                <Segment.Group size="tiny" className={s.guidelines}>
-                  <Segment key={1}>No guidelines available</Segment>
-                </Segment.Group>
-              );
-            }
-
-            let guidelines: Guideline[];
-
-            if (this.state.amount) {
-              // eslint-disable-next-line max-len
-              guidelines = data.teamById.guidelines.filter((guideline) => guideline.kudos - KUDO_GUIDELINE_RANGE < (this.state.amount || 0)
-                                    && guideline.kudos + KUDO_GUIDELINE_RANGE > (this.state.amount || 0));
-            } else {
-              guidelines = data.teamById.guidelines;
-            }
-
-            if (guidelines.length === 0) {
-              return (
-                <Segment.Group
-                  size="tiny"
-                  className={s.guidelines}
-                >
-                  <Segment key={1}>No guidelines available</Segment>
-                </Segment.Group>
-              );
-            }
-
-            return (
-              <Segment.Group
-                size="tiny"
-                className={s.guidelines}
-              >
-                {guidelines.map((guideline) => (
-                  <Segment
-                    data-testid="guideline-row"
-                    key={guideline.id}
-                    onClick={() => this.selectGuideline(guideline.kudos)}
-                  >
-                    {`${guideline.kudos}: ${guideline.name}`}
-                  </Segment>
-                ))}
-              </Segment.Group>
-            );
-          }}
-        </Query>
+            }}
+          </Query>
         )}
       </div>
     );

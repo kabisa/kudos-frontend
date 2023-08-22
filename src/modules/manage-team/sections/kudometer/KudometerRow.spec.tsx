@@ -129,9 +129,8 @@ const setup = (kudometer: Kudometer) => {
 };
 
 describe('<KudometerRow />', () => {
-  mockLocalstorage('1');
-
   beforeEach(() => {
+    mockLocalstorage('1');
     setup(getKudometer(false));
   });
 

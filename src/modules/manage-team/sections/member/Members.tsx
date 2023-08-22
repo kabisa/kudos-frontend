@@ -1,46 +1,50 @@
 /* eslint-disable object-curly-newline */
-import React, { Component } from 'react';
-import { Divider, Header, Icon, Table } from 'semantic-ui-react';
-import gql from 'graphql-tag';
-import { Query } from '@apollo/react-components';
-import settings from '../../../../config/settings';
-import { MemberRow } from './MemberRow';
-import { Storage } from '../../../../support/storage';
-import s from './Member.module.scss';
+import React, { Component } from "react";
+import { Divider, Header, Icon, Table } from "semantic-ui-react";
+import { gql } from "@apollo/client";
+import { Query } from "@apollo/client/react/components";
+import settings from "../../../../config/settings";
+import { MemberRow } from "./MemberRow";
+import { Storage } from "../../../../support/storage";
+import s from "./Member.module.scss";
 
 export const GET_USERS = gql`
-    query GetUsers($id: ID!) {
-        teamById(id: $id) {
-            memberships {
-                id
-                role
-                user {
-                    id
-                    name
-                    email
-                }
-            }
+  query GetUsers($id: ID!) {
+    teamById(id: $id) {
+      memberships {
+        id
+        role
+        user {
+          id
+          name
+          email
         }
+      }
     }
+  }
 `;
 
 export const DEACTIVATE_USER = gql`
-    mutation DeactivateUser($id: ID!) {
-        deleteTeamMember(id: $id) {
-            teamMemberId
-        }
+  mutation DeactivateUser($id: ID!) {
+    deleteTeamMember(id: $id) {
+      teamMemberId
     }
+  }
 `;
 
 export const ALTER_ROLE = gql`
-    mutation UpdateTeamMemberRole($role: TeamMemberRole!, $userId: ID!, $teamId: ID!) {
-        updateTeamMemberRole(role: $role, userId: $userId, teamId: $teamId) {
-            teamMember {
-                role
-                id
-            }
-        }
+  mutation UpdateTeamMemberRole(
+    $role: TeamMemberRole!
+    $userId: ID!
+    $teamId: ID!
+  ) {
+    updateTeamMemberRole(role: $role, userId: $userId, teamId: $teamId) {
+      teamMember {
+        role
+        id
+      }
     }
+  }
 `;
 
 export interface Membership {
@@ -83,7 +87,7 @@ export default class MemberSection extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    this.userId = Storage.getItem(settings.USER_ID_TOKEN) || '';
+    this.userId = Storage.getItem(settings.USER_ID_TOKEN) || "";
   }
 
   render() {
@@ -120,9 +124,19 @@ export default class MemberSection extends Component<Props, State> {
                   </Table.Header>
 
                   <Table.Body>
-                    {(data && data.teamById && data.teamById.memberships) ? data.teamById.memberships.map((item) => (
-                      <MemberRow key={item.id} membership={item} refetch={refetch} />
-                    )) : <Table.Row><Table.Cell>No memberships available</Table.Cell></Table.Row>}
+                    {data && data.teamById && data.teamById.memberships ? (
+                      data.teamById.memberships.map((item) => (
+                        <MemberRow
+                          key={item.id}
+                          membership={item}
+                          refetch={refetch}
+                        />
+                      ))
+                    ) : (
+                      <Table.Row>
+                        <Table.Cell>No memberships available</Table.Cell>
+                      </Table.Row>
+                    )}
                   </Table.Body>
                 </Table>
               </div>

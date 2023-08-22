@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
-import { wait } from '@apollo/react-testing';
+import { wait } from '@apollo/client/testing';
 import { act } from 'react-dom/test-utils';
 import { findByTestId, withMockedProviders } from '../../../spec_helper';
 import { InviteList } from './index';
@@ -100,7 +100,7 @@ describe('<InviteList />', () => {
       await wait(0);
       wrapper.update();
 
-      expect(findByTestId(wrapper, 'error-message').text()).toBe('Network error: It broke');
+      expect(findByTestId(wrapper, 'error-message').text()).toBe('It broke');
     });
   });
 });

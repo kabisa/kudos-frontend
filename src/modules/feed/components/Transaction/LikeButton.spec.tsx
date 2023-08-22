@@ -1,33 +1,36 @@
 import React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
-import { act } from 'react-dom/test-utils';
 import {
-  findByTestId, mockLocalstorage, wait, withMockedProviders,
+  findByTestId, mockLocalstorage, withMockedProviders,
 } from '../../../../spec_helper';
 import LikeButton, { MUTATION_TOGGLE_LIKE } from './LikeButton';
-import { FragmentPostResult, GET_GOAL_PERCENTAGE } from '../../queries';
+import { FragmentPostResult, GET_GOAL_PERCENTAGE, GET_POSTS } from '../../queries';
+import { act, render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { InMemoryCache } from '@apollo/client';
 
 const likedPost: FragmentPostResult = {
-  amount: 5,
-  createdAt: '2020-03-01',
   id: '1',
-  message: 'For cleaning his desk',
+  amount: 5,
+  message: 'test message',
+  createdAt: '2020-03-10',
+  images: [],
   receivers: [
     {
-      id: '2',
-      name: 'Egon',
-      avatar: 'fakeurl',
+      id: '1',
+      name: 'Stefan',
+      avatar: 'fakeAvatar',
     },
   ],
   sender: {
     id: '1',
     name: 'Max',
-    avatar: 'fakeurl',
+    avatar: 'fakeAvatar',
   },
   votes: [
     {
       voter: {
-        id: '1',
+        id: '5',
         name: 'Max',
       },
     },
@@ -39,7 +42,7 @@ const mocks = [
   {
     request: {
       query: MUTATION_TOGGLE_LIKE,
-      variables: { id: '1' },
+      variables: { id: "1" },
     },
     result: () => {
       mutationCalled = true;
@@ -48,7 +51,6 @@ const mocks = [
           toggleLikePost: {
             post: {
               ...likedPost,
-              __typename: 'Post',
             },
           },
         },
@@ -85,37 +87,84 @@ const mocks = [
 
 let wrapper: ReactWrapper;
 
-const setup = (liked: boolean, post: FragmentPostResult) => {
-  wrapper = mount(withMockedProviders(<LikeButton liked={liked} post={post} />, mocks));
-};
-
 describe('<LikeButton />', () => {
   beforeEach(() => {
-    mockLocalstorage('1');
-    setup(false, likedPost);
+    mutationCalled = false;
+    mockLocalstorage("1");
   });
 
   it('renders the correct message', () => {
+    wrapper = mount(withMockedProviders(<LikeButton liked={false} post={likedPost} />, mocks));
+
     expect(findByTestId(wrapper, 'message').text()).toBe('+1₭ by Max');
   });
 
   it('renders the correct like icon if the post is not liked', () => {
+    wrapper = mount(withMockedProviders(<LikeButton liked={false} post={likedPost} />, mocks));
+
     expect(findByTestId(wrapper, 'like-icon').hostNodes().hasClass('thumbs up outline')).toBe(true);
   });
 
   it('renders the correct like icon if the post is liked', () => {
-    setup(true, likedPost);
+    wrapper = mount(withMockedProviders(<LikeButton liked={true} post={likedPost} />, mocks));
+
     expect(findByTestId(wrapper, 'like-icon').hostNodes().hasClass('blue thumbs up')).toBe(true);
   });
 
   it('calls the mutation', async () => {
-    await act(async () => {
-      findByTestId(wrapper, 'like-button').hostNodes().simulate('click');
-
-      await wait(0);
-      await wrapper.update();
-
-      expect(mutationCalled).toBe(true);
+    const cache = new InMemoryCache({
+      addTypename: false,
+      typePolicies: {
+        Query: {
+          fields: {
+            teamById: {
+              read(_, { args, toReference }) {
+                return toReference({
+                  __typename: 'Team',
+                  id: args?.id,
+                });
+              }
+            }
+          }
+        }
+      }
     });
+
+    cache.writeQuery({
+      query: GET_POSTS,
+      variables: { team_id: "1" },
+      data: {
+        teamById: {
+          id: "1",
+          __typename: 'Team',
+          posts: {
+            edges: [
+              {
+                cursor: 'x',
+                node: {
+                  ...likedPost,
+                },
+              },
+            ],
+            pageInfo: {
+              endCursor: '2',
+              hasNextPage: false,
+            },
+          },
+        },
+      },
+    })
+
+    render(
+      withMockedProviders(<LikeButton liked={true} post={likedPost} />, mocks, cache)
+    );
+
+    const button = screen.getByTestId("like-button");
+
+    await act(async () =>
+        userEvent.click(button)
+    );
+
+    expect(mutationCalled).toBe(true);
   });
 });

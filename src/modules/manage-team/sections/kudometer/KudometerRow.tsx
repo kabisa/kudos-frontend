@@ -1,24 +1,23 @@
-import React from 'react';
-import {
-  Button, Popup, Table,
-} from 'semantic-ui-react';
-import { Mutation } from '@apollo/react-components';
-import { toast } from 'react-toastify';
+import React from "react";
+import { Button, Popup, Table } from "semantic-ui-react";
+import { Mutation } from "@apollo/client/react/components";
+import { toast } from "react-toastify";
 import {
   DELETE_KUDOMETER,
   DeleteKudometerParameters,
   GET_KUDOMETERS,
-  Kudometer, SET_ACTIVE_KUDOS_METER,
+  Kudometer,
+  SET_ACTIVE_KUDOS_METER,
   SetActiveKudosMeterParameters,
   SetActiveKudosMeterResult,
-} from './KudometerQueries';
-import settings from '../../../../config/settings';
-import { Storage } from '../../../../support/storage';
-import { GET_GOAL_PERCENTAGE } from '../../../feed/queries';
+} from "./KudometerQueries";
+import settings from "../../../../config/settings";
+import { Storage } from "../../../../support/storage";
+import { GET_GOAL_PERCENTAGE } from "../../../feed/queries";
 
 export interface KudometerRowProps {
-  key: string,
-  kudometer: Kudometer,
+  key: string;
+  kudometer: Kudometer;
   viewButtonClickHandler: (kudometer: Kudometer) => void;
   deleteKudometerHandler: (id: string) => void;
   edit: (kudometer: Kudometer) => void;
@@ -51,18 +50,16 @@ export function KudometerRow(props: KudometerRowProps): React.ReactElement {
         >
           View goals
         </Button>
-        <Mutation <SetActiveKudosMeterResult, SetActiveKudosMeterParameters>
+        <Mutation<SetActiveKudosMeterResult, SetActiveKudosMeterParameters>
           mutation={SET_ACTIVE_KUDOS_METER}
           onCompleted={() => {
-            toast.info('Kudometer is now active!');
+            toast.info("Kudometer is now active!");
           }}
           refetchQueries={[
             {
               query: GET_KUDOMETERS,
               variables: {
-                team_id: Storage.getItem(
-                  settings.TEAM_ID_TOKEN,
-                ),
+                team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
               },
             },
             {
@@ -80,9 +77,11 @@ export function KudometerRow(props: KudometerRowProps): React.ReactElement {
               size="tiny"
               loading={loading}
               disabled={props.kudometer.isActive}
-              onClick={() => { setActiveKudometer(mutation); }}
+              onClick={() => {
+                setActiveKudometer(mutation);
+              }}
             >
-              { props.kudometer.isActive ? 'Already active' : 'Set as active'}
+              {props.kudometer.isActive ? "Already active" : "Set as active"}
             </Button>
           )}
         </Mutation>
@@ -91,22 +90,22 @@ export function KudometerRow(props: KudometerRowProps): React.ReactElement {
           color="yellow"
           size="tiny"
           icon="pencil"
-          onClick={() => { props.edit(props.kudometer); }}
+          onClick={() => {
+            props.edit(props.kudometer);
+          }}
         />
       </Table.Cell>
       <Table.Cell>
         <Mutation<DeleteKudometerParameters>
           mutation={DELETE_KUDOMETER}
           onCompleted={() => {
-            toast.info('Kudometer removed successfully!');
+            toast.info("Kudometer removed successfully!");
           }}
           refetchQueries={[
             {
               query: GET_KUDOMETERS,
               variables: {
-                team_id: Storage.getItem(
-                  settings.TEAM_ID_TOKEN,
-                ),
+                team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
               },
             },
           ]}
@@ -114,16 +113,24 @@ export function KudometerRow(props: KudometerRowProps): React.ReactElement {
           {(mutation, { loading }) => (
             <Popup
               trigger={
-                <Button data-testid="delete-button" size="tiny" color="red" loading={loading} icon="trash" />
+                <Button
+                  data-testid="delete-button"
+                  size="tiny"
+                  color="red"
+                  loading={loading}
+                  icon="trash"
+                />
               }
-              content={(
+              content={
                 <Button
                   data-testid="confirm-delete-button"
                   color="red"
                   content="Confirm deletion"
-                  onClick={() => { deleteKudometer(mutation); }}
+                  onClick={() => {
+                    deleteKudometer(mutation);
+                  }}
                 />
-                            )}
+              }
               on="click"
               position="top right"
             />

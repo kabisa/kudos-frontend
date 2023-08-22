@@ -14,14 +14,9 @@ describe('<TeamRow />', () => {
     history = createMemoryHistory();
     Storage.setItem = jest.fn();
 
-    wrapper = mount(withMockedProviders(
-      <TeamRow
-        history={history}
-        id="1"
-        name="Kabisa"
-        userRole="Admin"
-      />,
-    ));
+    wrapper = mount(
+      withMockedProviders(<TeamRow id="1" name="Kabisa" userRole="Admin" />),
+    );
   });
 
   it('shows the team name', () => {
