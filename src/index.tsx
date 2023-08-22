@@ -5,8 +5,8 @@ import * as serviceWorker from "./serviceWorker";
 import { ApolloProvider } from "@apollo/client";
 import client from "./client";
 
+import 'semantic-ui-less/semantic.less';
 import "./styles/shell.scss";
-import "semantic-ui-css/semantic.min.css";
 
 const renderApp = function () {
   const root = document.getElementById("root") as HTMLElement;

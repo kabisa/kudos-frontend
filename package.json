@@ -24,14 +24,13 @@
     "react-test-renderer": "^16.13.0",
     "react-toastify": "^5.5.0",
     "sass": "^1.64.1",
-    "semantic-ui-css": "^2.5.0",
-    "semantic-ui-react": "^2.1.4"
+    "semantic-ui-less": "^2.5.0"
   },
   "scripts": {
-    "start": "PORT=9090 react-scripts start",
-    "build": "REACT_APP_VERSION=$npm_package_version REACT_APP_GIT_SHA=`git rev-parse --short HEAD` react-scripts build && mv build dist",
-    "test": "react-scripts test --testPathIgnorePatterns=src/config",
-    "eject": "react-scripts eject",
+    "start": "PORT=9090 craco start",
+    "build": "REACT_APP_VERSION=$npm_package_version REACT_APP_GIT_SHA=`git rev-parse --short HEAD` craco build && mv build dist",
+    "test": "craco test --testPathIgnorePatterns=src/config",
+    "eject": "craco eject",
     "lint:check": "eslint ./src --ext .js,.jsx,.ts,.tsx ./",
     "lint:run": "eslint ./src --ext .js,.jsx,.ts,.tsx --fix",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
@@ -52,6 +51,8 @@
     ]
   },
   "devDependencies": {
+    "@craco/craco": "^7.1.0",
+    "@semantic-ui-react/craco-less": "^3.0.0",
     "@testing-library/jest-dom": "^6.0.0",
     "@testing-library/react": "^12.1.5",
     "@testing-library/user-event": "^14.4.3",
@@ -77,6 +78,7 @@
     "jest-environment-jsdom": "^29.6.2",
     "prettier": "^3.0.1",
     "react-responsive": "^9.0.2",
+    "semantic-ui-react": "^2.1.4",
     "ts-jest": "^29.1.1",
     "typescript": "^5.1.6"
   },

@@ -1,0 +1,6 @@
+/*******************************
+     User Global Variables
+*******************************/
+
+@fontName: 'Poppins';
+@headerFont: 'Montserrat';
