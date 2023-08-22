@@ -24,4 +24,5 @@ module.exports = {
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/no-unused-vars": 1,
   },
+  "ignorePatterns": ["*.js"]
 };
