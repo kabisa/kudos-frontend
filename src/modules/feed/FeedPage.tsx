@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import { Divider, Grid, GridColumn, Segment } from "semantic-ui-react";
 import { PullToRefresh } from "../../components";
 import { Navigation } from "../../components/navigation";
 import { CreatePost, RightRail } from "./components";
 import { GetPostsResult } from "./queries";
 import { RepoList } from "./RepoList";
 
-import s from "./FeedPage.module.scss";
+import styles from "./FeedPage.module.scss";
+
 import { Desktop, TabletAndBelow } from "../../support/breakpoints";
 
 export interface Props {
@@ -29,8 +29,8 @@ export interface FeedPageState {
 }
 
 const KudoBoard = () => (
-  <div className={s.board_container}>
-    <h2 className={s.board_header}>Shout out messageboard</h2>
+  <div className={styles.board_container}>
+    <h2 className={styles.board_header}>Shout out messageboard</h2>
     <RepoList data-testid="repo-list" />
   </div>
 );
@@ -55,31 +55,30 @@ export class FeedPage extends Component<FeedPageProps, FeedPageState> {
 
   render() {
     return (
-      <div className={s.container}>
+      <>
         <div className="page">
           <TabletAndBelow>
-            <div className={s.create_post_container_mobile}>
+            <div className={styles.create_post_container_mobile}>
               <CreatePost back={false} />
             </div>
-            <Divider hidden />
             <KudoBoard />
           </TabletAndBelow>
           <Desktop>
-            <Grid centered columns={2} className={s.grid}>
-              <GridColumn className={s.grid_column}>
-                <Segment className={s.create_post_segment}>
+            <div className={styles.grid}>
+              <div className={styles.column}>
+                <div className={ `ui segment ${ styles.create_post_segment }` }>
                   <CreatePost back={false} />
-                </Segment>
+                </div>
                 <KudoBoard />
-              </GridColumn>
-              <GridColumn className={`${s.grid_column} ${s.left_column}`}>
+              </div>
+              <div className={`${styles.column} ${styles.left_column}`}>
                 <RightRail />
-              </GridColumn>
-            </Grid>
+              </div>
+            </div>
           </Desktop>
         </div>
         <Navigation />
-      </div>
+      </>
     );
   }
 }
