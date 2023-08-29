@@ -7,8 +7,7 @@ const meta = {
   component: Button,
   parameters: {
     layout: "centered",
-  },
-  tags: ["autodocs"],
+  }
 } satisfies Meta<typeof Button>;
 
 export default meta;
