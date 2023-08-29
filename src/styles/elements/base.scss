@@ -18,3 +18,11 @@
 // Design principles
 @import url("@sandercamp/ui-components/src/principles/index.module.css");
 
+#root {
+  font-family: var(--font-family);
+
+  * {
+    font-family: inherit;
+  }
+}
+
