@@ -1,5 +1,7 @@
 $shade-tint-factor: 10%;
 
+@import url("@sandercamp/ui-components/src/principles/colors.module.css");
+
 :root {
   /* Primary color */
   $kudo-color-primary: #00749a;
