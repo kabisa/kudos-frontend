@@ -1,15 +1,17 @@
 import React from "react";
-import { Button, Header } from "semantic-ui-react";
+import { Button } from "@sandercamp/ui-components";
 import { Mutation } from "@apollo/client/react/components";
 import { toast } from "react-toastify";
+
 import { getGraphqlError } from "../../support";
 import { DISCONNECT_SLACK, DisconnectSlackResult, GET_USER } from "./UserPage";
+
 import s from "./UserPage.module.scss";
 
 export function SlackConnectedSegment(): React.ReactElement {
   return (
     <div data-testid="slack-connected">
-      <Header>Your account is connected to Slack!</Header>
+      <h3>Your account is connected to Slack!</h3>
       <p>
         You can disconnect your Kudo-O-Matic account from Slack by using the
         button below.
@@ -28,10 +30,9 @@ export function SlackConnectedSegment(): React.ReactElement {
 
           return (
             <Button
-              data-testid="disconnect-slack-btn"
-              color="red"
+              variant={ "secondary" }
               className={s.button}
-              loading={mutationLoading}
+              //loading={mutationLoading} TODO
               onClick={() => disconnectSlack()}
             >
               Disconnect Slack account
@@ -53,16 +54,15 @@ export function SlackDisconnectedSegment(
 ): React.ReactElement {
   return (
     <div className="text-center" data-testid="register-slack">
-      <Header>
+      <h3>
         You&#39;re account is not yet connected to Slack but don&#39;t worry,
         connecting is easy!
-      </Header>
+      </h3>
       <div>
         <p>Simply press the button below and you&#39;re good to go.</p>
         <Button
           className={`${s.button} ${s.button_white}`}
-          data-testid="connect-slack-btn"
-          href={props.slackConnectUrl}
+          onClick={ () => window.location.href = props.slackConnectUrl }
         >
           <div className={s.slack_button}>
             <img

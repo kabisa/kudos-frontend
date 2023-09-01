@@ -1,8 +1,10 @@
 import React from 'react';
-import { Icon } from 'semantic-ui-react';
+import { Icon } from "@sandercamp/ui-components";
 import moment from 'moment';
-import s from './GoalSection.module.scss';
+
 import { ActiveGoal } from './Statistics';
+
+import s from './GoalSection.module.scss';
 
 export interface GoalSectionProps {
   achievedColor: string;
@@ -36,7 +38,7 @@ function KudoMeter(props: KudoMeterProps): React.ReactElement {
         }}
       >
         <Icon
-          name={props.goal.achievedOn ? 'lock open' : 'lock'}
+          name={'lock'}
           className={s.lock_icon}
           style={{
             color: props.goal.achievedOn ? 'white' : 'black',

@@ -1,10 +1,11 @@
 import React, { ChangeEvent, Component } from "react";
-import { Button, Form, Message, Segment } from "semantic-ui-react";
+import { Button, Input, Label } from "@sandercamp/ui-components";
 import { Mutation } from "@apollo/client/react/components";
 import { gql } from "@apollo/client";
 import { toast } from "react-toastify";
 import { withRouter } from "react-router-dom";
 import { History } from "history";
+
 import settings from "../../config/settings";
 import {
   ERROR_PASSWORD_BLANK,
@@ -152,7 +153,7 @@ class ResetPasswordPage extends Component<Props, State> {
     });
   }
 
-  handleChange(e: ChangeEvent, { name, value }: any) {
+  handleChange(e: ChangeEvent<HTMLInputElement>) {
     // @ts-ignore
     this.setState({ [name]: value });
 
@@ -168,7 +169,7 @@ class ResetPasswordPage extends Component<Props, State> {
     return (
       <div>
         <FormWrapper header="Reset password" toolbar="Reset password">
-          <Segment>
+          <div className={ 'ui segment'}>
             <Mutation<ResetPasswordParameters>
               mutation={MUTATION_RESET_PASSWORD}
               onCompleted={() => {
@@ -185,53 +186,55 @@ class ResetPasswordPage extends Component<Props, State> {
                 if (this.state.error) {
                   displayError = this.state.error;
                 }
+
                 return (
-                  <Form className={s.form}>
-                    <Form.Input
-                      data-testid="current-password-input"
-                      label="Current password"
-                      fluid
-                      icon="lock"
-                      name="currentPassword"
-                      iconPosition="left"
-                      type="password"
-                      placeholder="Current password"
-                      error={this.state.error_current}
-                      value={this.state.currentPassword}
-                      onChange={this.handleChange}
-                    />
-                    <Form.Input
-                      data-testid="new-password-input"
-                      label="New password"
-                      fluid
-                      icon="lock"
-                      name="newPassword"
-                      iconPosition="left"
-                      type="password"
-                      placeholder="New password"
-                      error={this.state.error_new}
-                      value={this.state.newPassword}
-                      onChange={this.handleChange}
-                    />
-                    <Form.Input
-                      data-testid="confirm-password-input"
-                      label="Confirm new password"
-                      fluid
-                      icon="lock"
-                      name="newPasswordConfirmation"
-                      iconPosition="left"
-                      type="password"
-                      placeholder="Confirm new password"
-                      error={this.state.error_new_confirm}
-                      value={this.state.newPasswordConfirmation}
-                      onChange={this.handleChange}
-                    />
+                  <form className={s.form}>
+                    <Label>
+                      Current password
+                      <Input
+                          data-testid="current-password-input"
+                          //icon="lock" TODO
+                          //iconPosition="left" TODO
+                          name="currentPassword"
+                          type="password"
+                          placeholder="Current password"
+                          error={this.state.error_current}
+                          value={this.state.currentPassword}
+                          onChange={this.handleChange}
+                      />
+                    </Label>
+                    <Label>
+                      New password
+                      <Input
+                          data-testid="new-password-input"
+                          //icon="lock" TODO
+                          //iconPosition="left" TODO
+                          name="newPassword"
+                          type="password"
+                          placeholder="New password"
+                          error={this.state.error_new}
+                          value={this.state.newPassword}
+                          onChange={this.handleChange}
+                      />
+                    </Label>
+                    <Label>
+                      Confirm new password
+                      <Input
+                          data-testid="confirm-password-input"
+                          //icon="lock" TODO
+                          name="newPasswordConfirmation"
+                          //iconPosition="left" TODO
+                          type="password"
+                          placeholder="Confirm new password"
+                          error={this.state.error_new_confirm}
+                          value={this.state.newPasswordConfirmation}
+                          onChange={this.handleChange}
+                      />
+                    </Label>
                     <Button
                       data-testid="reset-password-button"
-                      color="blue"
-                      fluid
-                      size="large"
-                      loading={loading}
+                      //size="large" TODO
+                      //loading={loading} TODO
                       disabled={loading}
                       onClick={() => this.resetPassword(resetPassword)}
                     >
@@ -239,18 +242,18 @@ class ResetPasswordPage extends Component<Props, State> {
                     </Button>
                     <BackButton />
                     {displayError && (
-                      <Message negative>
-                        <Message.Header>
+                      <div className={ s.errorMessage }>
+                        <h3>
                           Unable to reset password
-                        </Message.Header>
+                        </h3>
                         <p>{displayError}</p>
-                      </Message>
+                      </div>
                     )}
-                  </Form>
+                  </form>
                 );
               }}
             </Mutation>
-          </Segment>
+          </div>
         </FormWrapper>
         <Navigation />
       </div>

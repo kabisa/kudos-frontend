@@ -21,7 +21,7 @@
 #root {
   font-family: var(--font-family);
 
-  * {
+  *:not(.material-symbols-rounded, .material-symbols-rounded-outlined) {
     font-family: inherit;
   }
 }
