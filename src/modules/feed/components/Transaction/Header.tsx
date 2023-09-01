@@ -1,5 +1,4 @@
-import React, { Component } from "react";
-import { Confirm, Dropdown, Image } from "semantic-ui-react";
+import { Component } from "react";
 import { Mutation } from "@apollo/client/react/components";
 import { gql } from "@apollo/client";
 import { toast } from "react-toastify";
@@ -82,6 +81,20 @@ export class Header extends Component<Props, State> {
     });
   }
 
+  componentDidUpdate(prevProps: Props, prevState: State) {
+    if (
+      this.state.showConfirmDialog &&
+      this.state.showConfirmDialog !== prevState.showConfirmDialog
+    ) {
+      const result = window.confirm("Are you sure you want to proceed?");
+      if (result) {
+        this.remove();
+      } else {
+        this.closeConfirmDialog();
+      }
+    }
+  }
+
   render() {
     const { createdAt, amount, votes } = this.props.transaction;
     const timestamp = moment(createdAt);
@@ -91,13 +104,6 @@ export class Header extends Component<Props, State> {
 
     return (
       <div className={s.root}>
-        <Confirm
-          data-testid="confirm-dialog"
-          size="mini"
-          open={this.state.showConfirmDialog}
-          onCancel={() => this.closeConfirmDialog()}
-          onConfirm={this.remove}
-        />
         <div>
           <span className={s.kudo_amount} data-testid="post-amount">
             {amount + votes.length}
@@ -105,19 +111,17 @@ export class Header extends Component<Props, State> {
           <span className={s.kudo_symbol}>₭</span>
         </div>
         <div className={s.image_wrapper}>
-          <Image
+          <img
             className={s.avatar}
             data-testid="sender-avatar"
             src={this.props.transaction.sender.avatar}
-            avatar
           />
           {this.props.transaction.receivers.map((user) => (
-            <Image
+            <img
               className={s.avatar}
               data-testid="receiver-avatar"
               key={user.id}
               src={user.avatar}
-              avatar
             />
           ))}
         </div>
@@ -129,37 +133,27 @@ export class Header extends Component<Props, State> {
             this.props.transaction.sender.id &&
             allowNormalEdit) ||
             Auth.isTeamAdmin()) && (
-            <Dropdown
-              data-testid="post-dropdown"
-              item
-              icon="ellipsis vertical"
-              direction="left"
-              className={s.dropdown}
+            <Mutation<ToggleLikeParameters>
+              mutation={MUTATION_REMOVE_POST}
+              refetchQueries={[
+                {
+                  query: GET_POSTS,
+                  variables: {
+                    team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
+                  },
+                },
+              ]}
+              onCompleted={() => toast.info("Post successfully removed!")}
             >
-              <Dropdown.Menu>
-                <Mutation<ToggleLikeParameters>
-                  mutation={MUTATION_REMOVE_POST}
-                  refetchQueries={[
-                    {
-                      query: GET_POSTS,
-                      variables: {
-                        team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
-                      },
-                    },
-                  ]}
-                  onCompleted={() => toast.info("Post successfully removed!")}
+              {(mutate) => (
+                <div
+                  data-testid="delete-button"
+                  onClick={() => this.openConfirmDialog(mutate)}
                 >
-                  {(mutate) => (
-                    <Dropdown.Item
-                      data-testid="delete-button"
-                      icon="trash"
-                      text="Remove"
-                      onClick={() => this.openConfirmDialog(mutate)}
-                    />
-                  )}
-                </Mutation>
-              </Dropdown.Menu>
-            </Dropdown>
+                  Delete
+                </div>
+              )}
+            </Mutation>
           )}
         </div>
       </div>
