@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from 'semantic-ui-react';
+import { Button } from "@sandercamp/ui-components";
 
 import { Link } from 'react-router-dom';
 import { PATH_CHOOSE_TEAM, PATH_INVITE } from '../../routes';

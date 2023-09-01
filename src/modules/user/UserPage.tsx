@@ -1,14 +1,13 @@
 import React from "react";
-import { Button, Image, Segment } from "semantic-ui-react";
+import { Button } from "@sandercamp/ui-components";
 import { Query } from "@apollo/client/react/components";
 import { gql } from "@apollo/client";
-
 import { withRouter } from "react-router-dom";
 import { History } from "history";
 import { toast } from "react-toastify";
+
 import { Navigation } from "../../components/navigation";
 import { Auth } from "../../support";
-import s from "./UserPage.module.scss";
 import settings from "../../config/settings";
 import { Storage } from "../../support/storage";
 import { PATH_RESET_PASSWORD } from "../../routes";
@@ -16,6 +15,8 @@ import {
   SlackConnectedSegment,
   SlackDisconnectedSegment,
 } from "./SlackSection";
+
+import s from "./UserPage.module.scss";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const queryString = require("query-string");
@@ -89,7 +90,7 @@ export class UserPage extends React.Component<Props, State> {
     return (
       <div>
         <div className={`page text-center ${s.container}`}>
-          <Segment>
+          <div className={ 'ui segment' }>
             <div className={s.content}>
               <Query<GetUserResult> query={GET_USER}>
                 {({ loading, data }) => {
@@ -101,10 +102,8 @@ export class UserPage extends React.Component<Props, State> {
                   return (
                     <div>
                       <h2 className={s.name}>{data.viewer.name}</h2>
-                      <Image
-                        src={data && data.viewer ? data.viewer.avatar : null}
-                        size="tiny"
-                        avatar
+                      <img
+                        src={data && data.viewer ? data.viewer.avatar : undefined}
                         className={s.image}
                       />
                       <span className={s.image_caption}>
@@ -130,22 +129,20 @@ export class UserPage extends React.Component<Props, State> {
                 }}
               </Query>
               <Button
-                data-testid="reset-password-btn"
-                color="blue"
                 className={s.button}
                 onClick={() => this.props.history.push(PATH_RESET_PASSWORD)}
               >
                 Change password
               </Button>
               <Button
-                color="red"
+                variant={ "secondary" }
                 onClick={() => Auth.logout()}
                 className={s.button}
               >
                 Log out
               </Button>
             </div>
-          </Segment>
+          </div>
         </div>
 
         <Navigation />
