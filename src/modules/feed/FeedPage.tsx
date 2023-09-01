@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import { PullToRefresh } from "../../components";
 import { Navigation } from "../../components/navigation";
 import { CreatePost, RightRail } from "./components";
@@ -8,6 +8,7 @@ import { RepoList } from "./RepoList";
 import styles from "./FeedPage.module.scss";
 
 import { Desktop, TabletAndBelow } from "../../support/breakpoints";
+import { Icon } from "@sandercamp/ui-components";
 
 export interface Props {
   data: {
@@ -62,16 +63,17 @@ export class FeedPage extends Component<FeedPageProps, FeedPageState> {
               <CreatePost back={false} />
             </div>
             <KudoBoard />
+            <Icon className="material-symbols-rounded" name="thumb_up" />
           </TabletAndBelow>
           <Desktop>
             <div className={styles.grid}>
-              <div className={styles.column}>
-                <div className={ `ui segment ${ styles.create_post_segment }` }>
+              <div>
+                <div className={`ui segment ${styles.create_post_segment}`}>
                   <CreatePost back={false} />
                 </div>
                 <KudoBoard />
               </div>
-              <div className={`${styles.column} ${styles.left_column}`}>
+              <div className={`${styles.left_column}`}>
                 <RightRail />
               </div>
             </div>

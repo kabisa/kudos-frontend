@@ -1,5 +1,4 @@
 import React from "react";
-import { Button, Icon } from "semantic-ui-react";
 import { gql } from "@apollo/client";
 import { Mutation } from "@apollo/client/react/components";
 
@@ -13,6 +12,7 @@ import {
 } from "../../queries";
 import { Storage } from "../../../../support/storage";
 import s from "./LikeButton.module.scss";
+import { Button, Icon } from "@sandercamp/ui-components";
 
 export const MUTATION_TOGGLE_LIKE = gql`
   mutation ToggleLikePost($id: ID!) {
@@ -34,7 +34,7 @@ export interface ToggleLikeResult {
 const updateState = (store: any, newData: FragmentPostResult) => {
   let beforeState;
 
-  const teamId = Storage.getItem(settings.TEAM_ID_TOKEN)
+  const teamId = Storage.getItem(settings.TEAM_ID_TOKEN);
 
   try {
     beforeState = store.readQuery({
@@ -42,7 +42,6 @@ const updateState = (store: any, newData: FragmentPostResult) => {
       variables: { team_id: teamId },
     });
   } catch (error) {
-
     // This is just to silence the error in the tests
     return;
   }
@@ -179,17 +178,17 @@ class LikeButton extends React.Component<LikeButtonProps, LikeButtonState> {
             {(mutate) => (
               <Button
                 data-testid="like-button"
-                basic
-                icon
-                size="mini"
+                variant="secondary"
                 onClick={() => toggleLike(mutate, post.id, post)}
-                labelPosition="left"
               >
-                <Icon
-                  data-testid="like-icon"
-                  name={liked ? "thumbs up" : "thumbs up outline"}
-                  color={liked ? "blue" : undefined}
-                />
+                {liked ? (
+                  <Icon className="material-symbols-rounded" name="thumb_up" />
+                ) : (
+                  <Icon
+                    className="material-symbols-rounded-outlined"
+                    name="thumb_up"
+                  />
+                )}
                 <p>+1₭</p>
               </Button>
             )}

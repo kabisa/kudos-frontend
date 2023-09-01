@@ -1,11 +1,11 @@
 import React from "react";
 import { Query } from "@apollo/client/react/components";
-import { Icon } from "semantic-ui-react";
 import { GET_POSTS, GetPostsResult } from "./queries";
 import settings from "../../config/settings";
-import { Transaction, TransactionLoading } from "./components/Transaction";
+import { Transaction } from "./components/Transaction";
 import { Storage } from "../../support/storage";
 import s from "./RepoList.module.scss";
+import { Icon } from "@sandercamp/ui-components";
 
 export function RepoList(): React.ReactElement {
   return (
@@ -23,7 +23,7 @@ export function RepoList(): React.ReactElement {
             },
             updateQuery: (
               previousResult: any = {},
-              { fetchMoreResult = {} }: any
+              { fetchMoreResult = {} }: any,
             ) => {
               const previousPosts = previousResult.teamById || {};
               const newPosts = fetchMoreResult.teamById || {};
@@ -48,14 +48,7 @@ export function RepoList(): React.ReactElement {
 
         if (error) return <p>{error.message}</p>;
         if (loading || !data) {
-          return (
-            <div>
-              <TransactionLoading />
-              <TransactionLoading />
-              <TransactionLoading />
-              <TransactionLoading />
-            </div>
-          );
+          return <div>Loading..</div>;
         }
 
         const { posts } = data.teamById;
@@ -66,12 +59,7 @@ export function RepoList(): React.ReactElement {
             ))}
             {posts.pageInfo.hasNextPage && (
               <div data-testid="next-page-button" className={s.arrow_container}>
-                <Icon
-                  name="arrow down"
-                  size="large"
-                  onClick={() => loadMore()}
-                  className={s.arrow}
-                />
+                <Icon name="arrow_downward" onClick={() => loadMore()}></Icon>
               </div>
             )}
             {!posts.pageInfo.hasNextPage && (

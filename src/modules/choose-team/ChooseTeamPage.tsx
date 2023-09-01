@@ -1,5 +1,4 @@
 import React from "react";
-import { Button, Divider, Segment } from "semantic-ui-react";
 import { useHistory } from "react-router-dom";
 
 import { PATH_CREATE_TEAM } from "../../routes";
@@ -8,6 +7,7 @@ import { InviteList, TeamList } from "./components";
 
 import s from "./ChooseTeamPage.module.scss";
 import { TabletAndAbove, TabletAndBelow } from "../../support/breakpoints";
+import { Button } from "@sandercamp/ui-components";
 
 export function Content(): React.ReactElement {
   const history = useHistory();
@@ -16,12 +16,11 @@ export function Content(): React.ReactElement {
     <div className={s.container}>
       <h2 className={s.header}>Your invites</h2>
       <InviteList />
-      <Divider />
       <h2 className={s.header}>Your teams</h2>
       <TeamList />
-      <Divider horizontal>Or</Divider>
+      <span>Or</span>
       <Button
-        color="blue"
+        variant="primary"
         className={s.create_button}
         onClick={() => {
           history.push(PATH_CREATE_TEAM);
@@ -38,7 +37,8 @@ function ChooseTeamPage(): React.ReactElement {
     <div>
       <div className="page">
         <TabletAndAbove>
-          <Segment
+          <div
+            className="ui segment"
             style={{
               width: "40em",
               margin: "auto",
@@ -47,7 +47,7 @@ function ChooseTeamPage(): React.ReactElement {
             }}
           >
             <Content />
-          </Segment>
+          </div>
         </TabletAndAbove>
         <TabletAndBelow>
           <Content />

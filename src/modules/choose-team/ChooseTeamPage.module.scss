@@ -8,14 +8,9 @@
   padding: 16px;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .header {
   text-align: center;
-}
-
-:global(#root) {
-  .create_button {
-    margin: auto;
-  }
 }

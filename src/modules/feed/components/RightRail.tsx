@@ -1,6 +1,5 @@
-import React from "react";
-import { Segment } from "semantic-ui-react";
 import { Statistics } from "../../statistics";
+import classNames from "classnames";
 
 import s from "./Rail.module.scss";
 
@@ -8,12 +7,11 @@ const slackIconPath = `${process.env.PUBLIC_URL}/assets/kabisa_logo_white.png`;
 
 const RightRail = () => (
   <div data-testid="right-tail">
-    <Segment className={s.rail}>
+    <div className={classNames("ui segment", s.rail)}>
       <Statistics />
       <img className={s.logo} alt="Kabisa logo" src={slackIconPath} />
-    </Segment>
+    </div>
   </div>
-
 );
 
 export default RightRail;

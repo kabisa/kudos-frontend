@@ -1,5 +1,4 @@
-import React, { ChangeEvent, Component } from "react";
-import { Form, Segment } from "semantic-ui-react";
+import { ChangeEvent, Component } from "react";
 import { Query } from "@apollo/client/react/components";
 import { gql } from "@apollo/client";
 import enhanceWithClickOutside from "react-click-outside";
@@ -7,6 +6,7 @@ import { Storage } from "../../../../support/storage";
 import settings from "../../../../config/settings";
 
 import s from "./GuidelineInput.module.scss";
+import { Input, Label } from "@sandercamp/ui-components";
 
 const KUDO_GUIDELINE_RANGE = 5;
 
@@ -73,9 +73,9 @@ class GuidelineInput extends Component<Props, State> {
     });
   }
 
-  handleChange(e: ChangeEvent, { value }: any) {
-    this.setState({ amount: String(value) });
-    this.props.handleChange(Number(value));
+  handleChange(e: ChangeEvent<HTMLInputElement>) {
+    this.setState({ amount: String(e.target.value) });
+    this.props.handleChange(Number(e.target.value));
   }
 
   showGuidelines(e: Event) {
@@ -112,8 +112,9 @@ class GuidelineInput extends Component<Props, State> {
   render() {
     return (
       <div id="kudos-input-container" className={s.test}>
-        <Form.Field className={s.field}>
-          <Form.Input
+        <div className={s.field}>
+          <Label htmlFor="input-kudos">Kudos amount</Label>
+          <Input
             className={
               this.state.showGuidelines ? s.guideline_input_active : ""
             }
@@ -129,15 +130,8 @@ class GuidelineInput extends Component<Props, State> {
             autoComplete="off"
             min="1"
             value={this.state.amount}
-            label="Kudos Amount"
-            action={{
-              icon: "info",
-              onClick: this.showGuidelines,
-              "data-testid": "guidelines-button",
-              className: s.info_button,
-            }}
           />
-        </Form.Field>
+        </div>
 
         {this.state.showGuidelines && (
           <Query<GetGuideLinesResult>
@@ -149,12 +143,12 @@ class GuidelineInput extends Component<Props, State> {
             {({ loading, error, data }) => {
               if (loading || error) {
                 return (
-                  <Segment.Group size="tiny" className={s.guidelines}>
-                    <Segment>
+                  <div className={s.guidelines}>
+                    <div className="ui segment">
                       {loading && "Loading..."}
                       {error && error.message}
-                    </Segment>
-                  </Segment.Group>
+                    </div>
+                  </div>
                 );
               }
 
@@ -164,9 +158,11 @@ class GuidelineInput extends Component<Props, State> {
                 data.teamById.guidelines.length === 0
               ) {
                 return (
-                  <Segment.Group size="tiny" className={s.guidelines}>
-                    <Segment key={1}>No guidelines available</Segment>
-                  </Segment.Group>
+                  <div className={s.guidelines}>
+                    <div className="ui segment" key={1}>
+                      No guidelines available
+                    </div>
+                  </div>
                 );
               }
 
@@ -187,24 +183,27 @@ class GuidelineInput extends Component<Props, State> {
 
               if (guidelines.length === 0) {
                 return (
-                  <Segment.Group size="tiny" className={s.guidelines}>
-                    <Segment key={1}>No guidelines available</Segment>
-                  </Segment.Group>
+                  <div className={s.guidelines}>
+                    <div className="ui segment" key={1}>
+                      No guidelines available
+                    </div>
+                  </div>
                 );
               }
 
               return (
-                <Segment.Group size="tiny" className={s.guidelines}>
+                <div className={s.guidelines}>
                   {guidelines.map((guideline) => (
-                    <Segment
+                    <div
                       data-testid="guideline-row"
                       key={guideline.id}
+                      className="ui segment"
                       onClick={() => this.selectGuideline(guideline.kudos)}
                     >
                       {`${guideline.kudos}: ${guideline.name}`}
-                    </Segment>
+                    </div>
                   ))}
-                </Segment.Group>
+                </div>
               );
             }}
           </Query>

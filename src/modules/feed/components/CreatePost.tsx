@@ -1,12 +1,11 @@
-import React, { Component, FormEvent } from "react";
-import { Button, Form, Message } from "semantic-ui-react";
+import React, { Component } from "react";
 import { Mutation } from "@apollo/client/react/components";
 import { toast } from "react-toastify";
 import { gql } from "@apollo/client";
 import { ApolloConsumer } from "@apollo/client";
 import type { ApolloClient } from "@apollo/client";
 import settings from "../../../config/settings";
-import UserDropdown from "./UserDropdown/UserDropdown";
+import UserDropdown, { NameOption } from "./UserDropdown/UserDropdown";
 import GuidelineInput from "./GuidelineInput/GuidelineInput";
 
 import {
@@ -28,6 +27,7 @@ import {
 import { Storage } from "../../../support/storage";
 import s from "../FeedPage.module.scss";
 import { ImageUpload } from "../../../components/upload/ImageUpload";
+import { Button, Label } from "@sandercamp/ui-components";
 
 // eslint-disable-next-line max-len
 export const CREATE_POST = gql`
@@ -70,7 +70,7 @@ export interface CreatePostProps {
 
 export interface CreatePostState {
   amount?: number;
-  receivers: string[];
+  receivers: readonly NameOption[];
   message: string;
   images?: File[];
   amountError: boolean;
@@ -120,13 +120,18 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
     }
 
     this.onSubmit = this.onSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
     this.handleKudoInputChange = this.handleKudoInputChange.bind(this);
     this.onCompleted = this.onCompleted.bind(this);
   }
 
-  onSubmit(createPost: any, client: ApolloClient<any>) {
+  onSubmit(
+    e: React.FormEvent<HTMLFormElement>,
+    createPost: any,
+    client: ApolloClient<any>,
+  ) {
+    e.preventDefault();
+
     const { amount, receivers, message, images } = this.state;
     this.setState({
       amountError: false,
@@ -182,7 +187,14 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
     const virtualReceivers: string[] = [];
 
     users.forEach((user: User) => {
-      if (!receivers.includes(user.id)) return;
+      if (
+        !receivers.some(
+          (receiver) =>
+            receiver.label === user.name ||
+            (user.virtualUser && receiver.value === user.id),
+        )
+      )
+        return;
 
       if (user.virtualUser) {
         virtualReceivers.push(user.name);
@@ -215,21 +227,16 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
     this.setState(this.initialState);
   }
 
-  handleDropdownChange(value: string[]) {
-    if (!value) {
+  handleDropdownChange(values: readonly NameOption[]) {
+    if (!values) {
       this.setState({ receivers: [] });
       return;
     }
-    this.setState({ receivers: value });
+    this.setState({ receivers: values });
   }
 
   handleKudoInputChange(amount: number) {
     this.setState({ amount });
-  }
-
-  handleChange(e: FormEvent, { name, value }: any) {
-    // @ts-ignore
-    this.setState({ [name]: value });
   }
 
   handleImagesSelected(images: File[]) {
@@ -301,8 +308,8 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
                 displayError = this.state.error;
               }
               return (
-                <Form
-                  onSubmit={() => this.onSubmit(createPost, client)}
+                <form
+                  onSubmit={(e) => this.onSubmit(e, createPost, client)}
                   className={s.form}
                   data-testid="create-post-form"
                 >
@@ -312,71 +319,59 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
                     handleChange={this.handleKudoInputChange}
                     ref={this.guidelineInput}
                   />
-                  <Form.Field>
-                    {/* Suppressed because the linter doesn't pick up on custom controls */}
-                    <label htmlFor="input-receivers">
-                      Receivers
-                      <UserDropdown
-                        data-testid="receiver-input"
-                        ref={this.userDropdown}
-                        id="input-receivers"
-                        onChange={this.handleDropdownChange}
-                        error={receiversError}
-                        value={this.state.receivers}
-                      />
-                      <span className={s.note}>(v) = virtual user</span>
-                    </label>
-                  </Form.Field>
+                  <Label htmlFor="input-receivers">Receivers</Label>
+                  {/* Suppressed because the linter doesn't pick up on custom controls */}
+                  <UserDropdown
+                    data-testid="receiver-input"
+                    ref={this.userDropdown}
+                    id="input-receivers"
+                    onChange={this.handleDropdownChange}
+                    error={receiversError}
+                    value={this.state.receivers}
+                  />
+                  <span className={s.note}>(v) = virtual user</span>
 
-                  <Form.Field>
-                    <label htmlFor="message-input">
-                      Message
-                      <span className={s.character_message}>
-                        {settings.MAX_POST_MESSAGE_LENGTH -
-                          this.state.message.length}{" "}
-                        chars left
-                      </span>
-                      <Form.TextArea
-                        id="message-input"
-                        data-testid="message-input"
-                        placeholder="Enter your message"
-                        name="message"
-                        onChange={this.handleChange}
-                        error={messageError}
-                        value={this.state.message}
-                      />
-                    </label>
-                  </Form.Field>
+                  <Label htmlFor="message-input">Message</Label>
+                  <textarea
+                    id="message-input"
+                    data-testid="message-input"
+                    placeholder="Enter your message"
+                    name="message"
+                    onChange={(e) =>
+                      this.setState({ message: e.currentTarget.value })
+                    }
+                    value={this.state.message}
+                  />
+                  {error && messageError}
+                  <span className={s.character_message}>
+                    {settings.MAX_POST_MESSAGE_LENGTH -
+                      this.state.message.length}{" "}
+                    chars left
+                  </span>
 
-                  <Form.Field>
-                    {/* Suppressed because the linter doesn't pick up on custom controls */}
-                    <label htmlFor="image-upload">
-                      Images
-                      <ImageUpload
-                        ref={this.imageUpload}
-                        onChange={(images) => this.handleImagesSelected(images)}
-                      />
-                    </label>
-                  </Form.Field>
+                  <Label htmlFor="image-upload">Images</Label>
+                  <ImageUpload
+                    ref={this.imageUpload}
+                    onChange={(images) => this.handleImagesSelected(images)}
+                  />
 
                   <Button
                     data-testid="submit-button"
                     type="submit"
-                    className={s.submit_button}
-                    loading={loading}
+                    variant="primary"
                     disabled={loading}
                   >
                     {transaction ? "Update" : "DROP YOUR KUDOS HERE"}
                   </Button>
 
                   {displayError && (
-                    <Message negative>
-                      <Message.Header>Couldn&apos;t create post</Message.Header>
+                    <div>
+                      <span>Couldn&apos;t create post</span>
                       <p data-testid="error-message">{displayError}</p>
-                    </Message>
+                    </div>
                   )}
                   {this.props.back && <BackButton />}
-                </Form>
+                </form>
               );
             }}
           </Mutation>

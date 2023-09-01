@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { Button, Form, Message, Segment } from "semantic-ui-react";
+import { useState } from "react";
 import { gql, useMutation } from "@apollo/client";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
@@ -10,6 +9,7 @@ import { PATH_FEED } from "../../routes";
 import { Storage } from "../../support/storage";
 import s from "./CreateTeamPage.module.scss";
 import { FormWrapper } from "../../components";
+import { Button, Input } from "@sandercamp/ui-components";
 
 export const MUTATION_CREATE_TEAM = gql`
   mutation CreateTeam($name: String!) {
@@ -36,20 +36,23 @@ export interface CreateTeamResult {
 const CreateTeamPage = () => {
   const history = useHistory();
 
-  const [name, setName] = useState('');
-  const [error, setError] = useState('');
+  const [name, setName] = useState("");
+  const [error, setError] = useState("");
 
-  const [createTeam, { loading }] = useMutation<CreateTeamResult, CreateTeamParameters>(MUTATION_CREATE_TEAM, {
+  const [createTeam, { loading }] = useMutation<
+    CreateTeamResult,
+    CreateTeamParameters
+  >(MUTATION_CREATE_TEAM, {
     onError: (error) => setError(getGraphqlError(error)),
     onCompleted: ({ createTeam }) => {
       Storage.setItem(settings.TEAM_ID_TOKEN, createTeam.team.id);
-      toast.info('Team created successfully!');
+      toast.info("Team created successfully!");
       history.push(PATH_FEED);
     },
   });
 
   const hasErrors = () => {
-    setError('');
+    setError("");
     if (!name) {
       setError(ERROR_NAME_BLANK);
       return true;
@@ -70,40 +73,36 @@ const CreateTeamPage = () => {
 
   const content = (
     <div>
-      <Form error={!!error} className={s.form}>
-        <Form.Input
+      <form className={s.form}>
+        <Input
           data-testid="name-input"
-          label="Team name"
-          fluid
-          icon="tag"
           name="name"
-          iconPosition="left"
           placeholder="Team name"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
         <Button
           data-testid="create-team-button"
-          color="blue"
-          loading={loading}
+          variant="primary"
           disabled={loading}
-          onClick={handleCreateTeam}>
+          onClick={handleCreateTeam}
+        >
           Create team
         </Button>
         {error && (
-          <Message negative>
-            <Message.Header>Unable to create team</Message.Header>
+          <div>
+            <span>Unable to create team</span>
             <p>{error}</p>
-          </Message>
+          </div>
         )}
-      </Form>
+      </form>
     </div>
   );
 
   return (
     <div>
       <FormWrapper toolbar="Create team" header="create team">
-        <Segment>{content}</Segment>
+        <div className="ui segment">{content}</div>
       </FormWrapper>
       <Navigation />
     </div>
@@ -111,5 +110,3 @@ const CreateTeamPage = () => {
 };
 
 export default CreateTeamPage;
-
-
