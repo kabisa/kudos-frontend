@@ -6,7 +6,7 @@ import { ApolloProvider } from "@apollo/client";
 import client from "./client";
 
 import "./styles/shell.scss";
-import "semantic-ui-css/semantic.min.css";
+// import "semantic-ui-css/semantic.min.css";
 
 const renderApp = function () {
   const root = document.getElementById("root") as HTMLElement;
