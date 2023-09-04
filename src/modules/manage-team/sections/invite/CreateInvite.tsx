@@ -1,7 +1,6 @@
 import React, { Component, FormEvent } from "react";
 import { Mutation } from "@apollo/client/react/components";
 import { toast } from "react-toastify";
-import { Button, Form, Message } from "semantic-ui-react";
 import { gql } from "@apollo/client";
 import {
   ERROR_EMAIL_BLANK,
@@ -13,6 +12,8 @@ import settings from "../../../../config/settings";
 import s from "../../../settings/Settings.module.scss";
 import { QUERY_GET_INVITES } from "./InvitesSection";
 import { Storage } from "../../../../support/storage";
+import { Label } from "semantic-ui-react";
+import { Button } from "@sandercamp/ui-components";
 
 export const MUTATION_CREATE_INVITE = gql`
   mutation CreateInvite($emails: [EmailAddress!]!, $team_id: ID!) {
@@ -50,12 +51,7 @@ export class CreateInvite extends Component<Props, State> {
     };
     this.initialState = this.state;
 
-    this.handleChange = this.handleChange.bind(this);
     this.sendInvites = this.sendInvites.bind(this);
-  }
-
-  handleChange(e: FormEvent, { value }: any) {
-    this.setState({ emails: value });
   }
 
   sendInvites(mutate: any) {
@@ -107,14 +103,14 @@ export class CreateInvite extends Component<Props, State> {
             displayError = this.state.error;
           }
           return (
-            <Form>
-              <Form.TextArea
+            <form>
+              <Label htlmFor="emails">Email addresses</Label>
+              <textarea
                 data-testid="email-input"
                 name="emails"
-                label="Email addresses"
                 placeholder="info@example.com..."
                 value={this.state.emails}
-                onChange={this.handleChange}
+                onChange={(e) => this.setState({ emails: e.target.value })}
               />
               <p className={s.grey}>
                 Enter the email addresses of the users you would like to invite.
@@ -128,20 +124,19 @@ export class CreateInvite extends Component<Props, State> {
               </ul>
               <Button
                 className={s.button}
-                color="blue"
-                loading={loading}
+                variant="primary"
                 disabled={loading}
                 onClick={() => this.sendInvites(createInvite)}
               >
                 Invite
               </Button>
               {displayError && (
-                <Message negative>
-                  <Message.Header>Unable to send invites</Message.Header>
+                <div className="errorMessage">
+                  <h2>Unable to send invites</h2>
                   <p>{displayError}</p>
-                </Message>
+                </div>
               )}
-            </Form>
+            </form>
           );
         }}
       </Mutation>

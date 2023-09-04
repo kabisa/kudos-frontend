@@ -1,11 +1,11 @@
 /* eslint-disable no-shadow */
-import React, { ChangeEvent, Component } from "react";
-import { Button, Divider, Form, Header, Icon } from "semantic-ui-react";
+import { ChangeEvent, Component } from "react";
 import { gql } from "@apollo/client";
 import { toast } from "react-toastify";
 import { Query, Mutation } from "@apollo/client/react/components";
 import settings from "../../../config/settings";
 import { Storage } from "../../../support/storage";
+import { Button, Icon, Input, Label } from "@sandercamp/ui-components";
 
 export const GET_TEAM_NAME = gql`
   query GetTeamName($id: ID!) {
@@ -84,14 +84,11 @@ export default class GeneralSection extends Component<Props, State> {
   render() {
     return (
       <div>
-        <Header as="h2">
+        <h2>
           <Icon name="settings" />
-          <Header.Content>
-            General
-            <Header.Subheader>Manage your team settings</Header.Subheader>
-          </Header.Content>
-        </Header>
-        <Divider />
+          General
+        </h2>
+        <h3>Manage your team settings</h3>
         <Query<GetTeamNameResult>
           query={GET_TEAM_NAME}
           variables={{
@@ -114,27 +111,27 @@ export default class GeneralSection extends Component<Props, State> {
                 {(mutate, { loading }) => (
                   <div>
                     <h1>{data && data.teamById ? data.teamById.name : "-"}</h1>
-                    <Form onSubmit={() => this.updateTeam(mutate)}>
-                      <Form.Input
+                    <form onSubmit={() => this.updateTeam(mutate)}>
+                      <Label htmlFor="name">New team name</Label>
+                      <Input
                         data-testid="name-input"
-                        fluid
-                        label="New team name"
                         placeholder="Team name"
                         name="name"
                         required
                         value={this.state.name}
-                        onChange={this.handleChange}
+                        onChange={(e) =>
+                          this.setState({ name: e.target.value })
+                        }
                       />
                       <Button
                         data-testid="submit-button"
-                        color="blue"
-                        loading={loading}
+                        variant="primary"
                         disabled={loading}
                         type="submit"
                       >
                         Update
                       </Button>
-                    </Form>
+                    </form>
                   </div>
                 )}
               </Mutation>

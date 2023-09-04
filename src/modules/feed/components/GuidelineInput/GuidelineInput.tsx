@@ -7,6 +7,7 @@ import settings from "../../../../config/settings";
 
 import s from "./GuidelineInput.module.scss";
 import { Input, Label } from "@sandercamp/ui-components";
+import Segment from "../../../../components/atoms/Segment";
 
 const KUDO_GUIDELINE_RANGE = 5;
 
@@ -144,10 +145,10 @@ class GuidelineInput extends Component<Props, State> {
               if (loading || error) {
                 return (
                   <div className={s.guidelines}>
-                    <div className="ui segment">
+                    <Segment>
                       {loading && "Loading..."}
                       {error && error.message}
-                    </div>
+                    </Segment>
                   </div>
                 );
               }
@@ -159,9 +160,7 @@ class GuidelineInput extends Component<Props, State> {
               ) {
                 return (
                   <div className={s.guidelines}>
-                    <div className="ui segment" key={1}>
-                      No guidelines available
-                    </div>
+                    <Segment key={1}>No guidelines available</Segment>
                   </div>
                 );
               }
@@ -184,9 +183,7 @@ class GuidelineInput extends Component<Props, State> {
               if (guidelines.length === 0) {
                 return (
                   <div className={s.guidelines}>
-                    <div className="ui segment" key={1}>
-                      No guidelines available
-                    </div>
+                    <Segment key={1}>No guidelines available</Segment>
                   </div>
                 );
               }
@@ -194,14 +191,13 @@ class GuidelineInput extends Component<Props, State> {
               return (
                 <div className={s.guidelines}>
                   {guidelines.map((guideline) => (
-                    <div
+                    <Segment
                       data-testid="guideline-row"
                       key={guideline.id}
-                      className="ui segment"
                       onClick={() => this.selectGuideline(guideline.kudos)}
                     >
                       {`${guideline.kudos}: ${guideline.name}`}
-                    </div>
+                    </Segment>
                   ))}
                 </div>
               );

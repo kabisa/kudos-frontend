@@ -1,12 +1,11 @@
-/* eslint-disable no-shadow */
 import React from "react";
-import { Divider, Header, Icon, Table } from "semantic-ui-react";
 import { gql } from "@apollo/client";
 import { Query } from "@apollo/client/react/components";
 import settings from "../../../../config/settings";
 import { Storage } from "../../../../support/storage";
 import { Invite } from "./Invite";
 import { CreateInvite } from "./CreateInvite";
+import { Icon } from "@sandercamp/ui-components";
 
 export const QUERY_GET_INVITES = gql`
   query getInvites($team_id: ID!) {
@@ -39,16 +38,12 @@ export interface InviteModel {
 export function InviteSection(): React.ReactElement {
   return (
     <div>
-      <Header as="h2">
-        <Icon name="paper plane" />
-        <Header.Content>
-          Invites
-          <Header.Subheader>Manage invites</Header.Subheader>
-        </Header.Content>
-      </Header>
-      <Divider />
+      <h2>
+        <Icon name="mail" />
+        Invites
+      </h2>
+      <h3>Manage invites</h3>
       <CreateInvite data-testid="create-invite" />
-      <Divider />
       <Query<GetInvitesResult>
         query={QUERY_GET_INVITES}
         variables={{ team_id: Storage.getItem(settings.TEAM_ID_TOKEN) }}
@@ -59,26 +54,18 @@ export function InviteSection(): React.ReactElement {
           if (!data || !data.teamById) return <p>No invites available</p>;
 
           return (
-            <Table celled>
-              <Table.Header>
-                <Table.Row>
-                  <Table.HeaderCell>Send at</Table.HeaderCell>
-                  <Table.HeaderCell>Email</Table.HeaderCell>
-                  <Table.HeaderCell>Status</Table.HeaderCell>
-                  <Table.HeaderCell>Actions</Table.HeaderCell>
-                </Table.Row>
-              </Table.Header>
+            <table>
+              <tr>
+                <th>Send at</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
 
-              <Table.Body>
-                {data.teamById.teamInvites.map((item) => (
-                  <Invite
-                    data-testid="invite-row"
-                    key={item.id}
-                    invite={item}
-                  />
-                ))}
-              </Table.Body>
-            </Table>
+              {data.teamById.teamInvites.map((item) => (
+                <Invite data-testid="invite-row" key={item.id} invite={item} />
+              ))}
+            </table>
           );
         }}
       </Query>

@@ -16,6 +16,7 @@ import { loginSuccess } from "./helper";
 import settings from "../../config/settings";
 import { PATH_LOGIN } from "../../routes";
 import { Button, Input } from "@sandercamp/ui-components";
+import Segment from "../../components/atoms/Segment";
 
 export const MUTATION_REGISTER = gql`
   mutation SignUpUser(
@@ -137,7 +138,7 @@ class RegisterPage extends Component<Props, State> {
 
           return (
             <FormWrapper toolbar="Register" header="Register">
-              <div className="ui segment">
+              <Segment>
                 <form onSubmit={(e) => this.formSubmit(e, signUpUser)}>
                   <Input
                     data-testid="name-input"
@@ -181,7 +182,7 @@ class RegisterPage extends Component<Props, State> {
                   )}
                 </form>
                 <BackButton />
-              </div>
+              </Segment>
             </FormWrapper>
           );
         }}

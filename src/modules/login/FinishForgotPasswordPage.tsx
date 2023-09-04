@@ -10,6 +10,7 @@ import { FormWrapper } from "../../components";
 import BackButton from "../../components/back-button/BackButton";
 import { getGraphqlError } from "../../support";
 import { Button, Input } from "@sandercamp/ui-components";
+import Segment from "../../components/atoms/Segment";
 
 const DEFAULT_ERROR = "Something went wrong.";
 const PASSWORD_ERROR = "Passwords don't match.";
@@ -119,7 +120,7 @@ class FinishForgotPasswordPage extends Component<Props, State> {
           {(mutation, { error, loading }) => (
             <div>
               <form onSubmit={(e) => this.formSubmit(e, mutation)}>
-                <div className="ui segment">
+                <Segment>
                   <Input
                     data-testid="password-input"
                     name="password"
@@ -153,7 +154,7 @@ class FinishForgotPasswordPage extends Component<Props, State> {
                       <p>{this.state.error}</p>
                     </div>
                   )}
-                </div>
+                </Segment>
               </form>
               <BackButton />
             </div>

@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { Divider, Header, Icon, Table } from "semantic-ui-react";
 import { gql } from "@apollo/client";
 import { Query } from "@apollo/client/react/components";
 import settings from "../../../../config/settings";
 import { EditGuideline } from "./EditGuideline";
 import { Guideline } from "./Guideline";
 import { Storage } from "../../../../support/storage";
+import { Icon } from "@sandercamp/ui-components";
 
 export const CREATE_GUIDELINE = gql`
   mutation CreateGuideline($name: String!, $kudos: Int!, $team_id: ID!) {
@@ -84,7 +84,7 @@ class GuidelineSection extends Component<Props, State> {
       this.editGuidelineRef.current.setEditState(
         id,
         String(kudos),
-        description
+        description,
       );
     }
 
@@ -98,16 +98,12 @@ class GuidelineSection extends Component<Props, State> {
   render() {
     return (
       <div>
-        <Header as="h2">
+        <h2>
           <Icon name="list" />
-          <Header.Content>
-            Guidelines
-            <Header.Subheader>Manage guidelines</Header.Subheader>
-          </Header.Content>
-        </Header>
-        <Divider />
+          Guidelines
+        </h2>
+        <h3>Manage guidelines</h3>
         <EditGuideline ref={this.editGuidelineRef} />
-        <Divider />
         <Query<GetGuidelinesResult>
           query={GET_GUIDELINES}
           variables={{ team_id: Storage.getItem(settings.TEAM_ID_TOKEN) }}
@@ -120,28 +116,24 @@ class GuidelineSection extends Component<Props, State> {
               return <p>No guidelines available</p>;
             }
             return (
-              <Table celled compact>
-                <Table.Header>
-                  <Table.Row>
-                    <Table.HeaderCell>Kudos</Table.HeaderCell>
-                    <Table.HeaderCell>Description</Table.HeaderCell>
-                    <Table.HeaderCell>Actions</Table.HeaderCell>
-                  </Table.Row>
-                </Table.Header>
+              <table>
+                <tr>
+                  <th>Kudos</th>
+                  <th>Description</th>
+                  <th>Actions</th>
+                </tr>
 
-                <Table.Body>
-                  {data.teamById.guidelines.map((item) => (
-                    <Guideline
-                      data-testid="guideline-row"
-                      key={item.id}
-                      id={item.id}
-                      kudos={item.kudos}
-                      name={item.name}
-                      editGuideline={this.editGuideline}
-                    />
-                  ))}
-                </Table.Body>
-              </Table>
+                {data.teamById.guidelines.map((item) => (
+                  <Guideline
+                    data-testid="guideline-row"
+                    key={item.id}
+                    id={item.id}
+                    kudos={item.kudos}
+                    name={item.name}
+                    editGuideline={this.editGuideline}
+                  />
+                ))}
+              </table>
             );
           }}
         </Query>

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Grid, Menu, Segment } from "semantic-ui-react";
 
 import { Route, Switch, withRouter } from "react-router-dom";
 import { History } from "history";
@@ -16,6 +15,8 @@ import {
 
 import { PATH_MANAGE_TEAM } from "../../routes";
 import IntegrationSections from "./sections/integrations/Integrations";
+import classNames from "classnames";
+import Segment from "../../components/atoms/Segment";
 
 export interface Props {
   history: History;
@@ -50,7 +51,10 @@ export class ManageTeamPage extends Component<Props, State> {
     this.handleItemClick = this.handleItemClick.bind(this);
   }
 
-  handleItemClick(e: React.MouseEvent<HTMLAnchorElement>, { name }: any) {
+  handleItemClick(
+    _e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+    name: string,
+  ) {
     this.setState({ activeItem: name });
     this.props.history.push(name);
   }
@@ -61,24 +65,25 @@ export class ManageTeamPage extends Component<Props, State> {
       <div>
         <div className="page">
           <div id="management-container" className={s.container}>
-            <Grid>
-              <Grid.Column width={4} className={s.column}>
+            <div className="grid">
+              <div className="grid_column">
                 <Segment className={s.menu_segment}>
-                  <Menu fluid vertical tabular>
-                    {this.sections.map((section) => (
-                      <Menu.Item
-                        key={section}
-                        data-testid={`${section}-button`}
-                        name={section}
-                        active={activeItem === section}
-                        onClick={this.handleItemClick}
-                      />
-                    ))}
-                  </Menu>
+                  {this.sections.map((section) => (
+                    <a
+                      key={section}
+                      data-testid={`${section}-button`}
+                      className={classNames({
+                        [s.active_item]: activeItem === section,
+                      })}
+                      onClick={(e) => this.handleItemClick(e, section)}
+                    >
+                      {section}
+                    </a>
+                  ))}
                 </Segment>
-              </Grid.Column>
+              </div>
 
-              <Grid.Column stretched width={12} className={s.column}>
+              <div className="grid_column">
                 <Segment>
                   <Switch>
                     <Route path={`${PATH_MANAGE_TEAM}/general`}>
@@ -101,8 +106,8 @@ export class ManageTeamPage extends Component<Props, State> {
                     </Route>
                   </Switch>
                 </Segment>
-              </Grid.Column>
-            </Grid>
+              </div>
+            </div>
           </div>
         </div>
         <Navigation />

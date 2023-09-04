@@ -8,6 +8,7 @@ import { InviteList, TeamList } from "./components";
 import s from "./ChooseTeamPage.module.scss";
 import { TabletAndAbove, TabletAndBelow } from "../../support/breakpoints";
 import { Button } from "@sandercamp/ui-components";
+import Segment from "../../components/atoms/Segment";
 
 export function Content(): React.ReactElement {
   const history = useHistory();
@@ -37,8 +38,7 @@ function ChooseTeamPage(): React.ReactElement {
     <div>
       <div className="page">
         <TabletAndAbove>
-          <div
-            className="ui segment"
+          <Segment
             style={{
               width: "40em",
               margin: "auto",
@@ -47,7 +47,7 @@ function ChooseTeamPage(): React.ReactElement {
             }}
           >
             <Content />
-          </div>
+          </Segment>
         </TabletAndAbove>
         <TabletAndBelow>
           <Content />

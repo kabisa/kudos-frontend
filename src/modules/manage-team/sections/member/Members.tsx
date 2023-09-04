@@ -1,12 +1,12 @@
 /* eslint-disable object-curly-newline */
 import React, { Component } from "react";
-import { Divider, Header, Icon, Table } from "semantic-ui-react";
 import { gql } from "@apollo/client";
 import { Query } from "@apollo/client/react/components";
 import settings from "../../../../config/settings";
 import { MemberRow } from "./MemberRow";
 import { Storage } from "../../../../support/storage";
 import s from "./Member.module.scss";
+import { Icon } from "@sandercamp/ui-components";
 
 export const GET_USERS = gql`
   query GetUsers($id: ID!) {
@@ -93,14 +93,11 @@ export default class MemberSection extends Component<Props, State> {
   render() {
     return (
       <div>
-        <Header as="h2">
-          <Icon name="users" />
-          <Header.Content>
-            Members
-            <Header.Subheader>Manage team members</Header.Subheader>
-          </Header.Content>
-        </Header>
-        <Divider />
+        <h2>
+          <Icon name="people" />
+          Members
+        </h2>
+        <h3>Manage team members</h3>
         <Query<GetUsersResult>
           query={GET_USERS}
           variables={{ id: Storage.getItem(settings.TEAM_ID_TOKEN) }}
@@ -111,34 +108,28 @@ export default class MemberSection extends Component<Props, State> {
 
             return (
               <div>
-                <Table celled>
-                  <Table.Header>
-                    <Table.Row>
-                      <Table.HeaderCell className={s.name_header}>
-                        Name
-                      </Table.HeaderCell>
-                      <Table.HeaderCell>Email</Table.HeaderCell>
-                      <Table.HeaderCell>Role</Table.HeaderCell>
-                      <Table.HeaderCell>Actions</Table.HeaderCell>
-                    </Table.Row>
-                  </Table.Header>
+                <table>
+                  <tr>
+                    <th className={s.name_header}>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                  </tr>
 
-                  <Table.Body>
-                    {data && data.teamById && data.teamById.memberships ? (
-                      data.teamById.memberships.map((item) => (
-                        <MemberRow
-                          key={item.id}
-                          membership={item}
-                          refetch={refetch}
-                        />
-                      ))
-                    ) : (
-                      <Table.Row>
-                        <Table.Cell>No memberships available</Table.Cell>
-                      </Table.Row>
-                    )}
-                  </Table.Body>
-                </Table>
+                  {data && data.teamById && data.teamById.memberships ? (
+                    data.teamById.memberships.map((item) => (
+                      <MemberRow
+                        key={item.id}
+                        membership={item}
+                        refetch={refetch}
+                      />
+                    ))
+                  ) : (
+                    <tr>
+                      <td>No memberships available</td>
+                    </tr>
+                  )}
+                </table>
               </div>
             );
           }}

@@ -17,6 +17,7 @@ import {
 } from "./SlackSection";
 
 import s from "./UserPage.module.scss";
+import Segment from "../../components/atoms/Segment";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const queryString = require("query-string");
@@ -90,7 +91,7 @@ export class UserPage extends React.Component<Props, State> {
     return (
       <div>
         <div className={`page text-center ${s.container}`}>
-          <div className={ 'ui segment' }>
+          <Segment>
             <div className={s.content}>
               <Query<GetUserResult> query={GET_USER}>
                 {({ loading, data }) => {
@@ -103,7 +104,9 @@ export class UserPage extends React.Component<Props, State> {
                     <div>
                       <h2 className={s.name}>{data.viewer.name}</h2>
                       <img
-                        src={data && data.viewer ? data.viewer.avatar : undefined}
+                        src={
+                          data && data.viewer ? data.viewer.avatar : undefined
+                        }
                         className={s.image}
                       />
                       <span className={s.image_caption}>
@@ -135,14 +138,14 @@ export class UserPage extends React.Component<Props, State> {
                 Change password
               </Button>
               <Button
-                variant={ "secondary" }
+                variant={"secondary"}
                 onClick={() => Auth.logout()}
                 className={s.button}
               >
                 Log out
               </Button>
             </div>
-          </div>
+          </Segment>
         </div>
 
         <Navigation />

@@ -9,6 +9,7 @@ import styles from "./FeedPage.module.scss";
 
 import { Desktop, TabletAndBelow } from "../../support/breakpoints";
 import { Icon } from "@sandercamp/ui-components";
+import Segment from "../../components/atoms/Segment";
 
 export interface Props {
   data: {
@@ -66,11 +67,11 @@ export class FeedPage extends Component<FeedPageProps, FeedPageState> {
             <Icon className="material-symbols-rounded" name="thumb_up" />
           </TabletAndBelow>
           <Desktop>
-            <div className={styles.grid}>
+            <div className="grid">
               <div>
-                <div className={`ui segment ${styles.create_post_segment}`}>
+                <Segment className={styles.create_post_segment}>
                   <CreatePost back={false} />
-                </div>
+                </Segment>
                 <KudoBoard />
               </div>
               <div className={`${styles.left_column}`}>

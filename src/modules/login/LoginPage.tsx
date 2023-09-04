@@ -21,6 +21,7 @@ import { loginSuccess } from "./helper";
 
 import s from "./LoginPage.module.scss";
 import { Button, Input } from "@sandercamp/ui-components";
+import Segment from "../../components/atoms/Segment";
 
 export const MUTATION_LOGIN = gql`
   mutation SignInUser($email: EmailAddress!, $password: String!) {
@@ -129,7 +130,7 @@ class LoginPage extends Component<Props, State> {
           }
           return (
             <FormWrapper verticalCentered header="Login">
-              <div className="ui segment">
+              <Segment>
                 <form onSubmit={(e) => this.formSubmit(e, signInUser)}>
                   <Input
                     data-testid="email-input"
@@ -182,7 +183,7 @@ class LoginPage extends Component<Props, State> {
                     Forgot password?
                   </Link>
                 </div>
-              </div>
+              </Segment>
             </FormWrapper>
           );
         }}

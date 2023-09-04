@@ -6,6 +6,7 @@ import { FormWrapper } from "../../components";
 import BackButton from "../../components/back-button/BackButton";
 import { getGraphqlError, validateEmail } from "../../support";
 import { Button, Input } from "@sandercamp/ui-components";
+import Segment from "../../components/atoms/Segment";
 
 export const MUTATION_FORGOT_PASSWORD = gql`
   mutation forgotPassword($email: EmailAddress!) {
@@ -76,7 +77,7 @@ class ForgotPasswordPage extends Component<Props, State> {
           {(resetPassword, { error, loading }: any) => (
             <div>
               <form onSubmit={(e) => this.formSubmit(e, resetPassword)}>
-                <div className="ui segment">
+                <Segment>
                   <Input
                     data-testid="email-input"
                     name="email"
@@ -108,7 +109,7 @@ class ForgotPasswordPage extends Component<Props, State> {
                     </div>
                   )}
                   <BackButton />
-                </div>
+                </Segment>
               </form>
             </div>
           )}

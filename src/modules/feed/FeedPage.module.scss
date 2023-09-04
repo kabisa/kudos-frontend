@@ -1,13 +1,3 @@
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-
-  width: fit-content;
-  margin: auto;
-
-  min-height: 1200px; // TODO: Needed?
-}
-
 :global(#root) {
   .create_post_container_mobile {
     padding: 16px;
@@ -54,11 +44,6 @@
   .board_header {
     color: #ffffff;
     font-size: 35px;
-  }
-
-  .grid_column {
-    padding: 0;
-    max-width: 480px;
   }
 
   .left_column {

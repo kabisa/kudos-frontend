@@ -10,6 +10,7 @@ import { Storage } from "../../support/storage";
 import s from "./CreateTeamPage.module.scss";
 import { FormWrapper } from "../../components";
 import { Button, Input } from "@sandercamp/ui-components";
+import Segment from "../../components/atoms/Segment";
 
 export const MUTATION_CREATE_TEAM = gql`
   mutation CreateTeam($name: String!) {
@@ -102,7 +103,7 @@ const CreateTeamPage = () => {
   return (
     <div>
       <FormWrapper toolbar="Create team" header="create team">
-        <div className="ui segment">{content}</div>
+        <Segment>{content}</Segment>
       </FormWrapper>
       <Navigation />
     </div>

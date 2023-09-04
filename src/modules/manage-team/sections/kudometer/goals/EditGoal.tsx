@@ -1,7 +1,6 @@
 import { Mutation } from "@apollo/client/react/components";
 import { toast } from "react-toastify";
-import { Button, Form, Message } from "semantic-ui-react";
-import React, { ChangeEvent } from "react";
+import React from "react";
 
 import {
   CREATE_GOAL,
@@ -13,6 +12,7 @@ import settings from "../../../../../config/settings";
 import { getGraphqlError } from "../../../../../support";
 import { Storage } from "../../../../../support/storage";
 import { ApolloError } from "@apollo/client";
+import { Button, Input, Label } from "@sandercamp/ui-components";
 
 export interface EditGoalProps {
   kudometerId: string;
@@ -42,7 +42,6 @@ export class EditGoal extends React.Component<EditGoalProps, State> {
       editGoalId: "",
     };
 
-    this.handleChange = this.handleChange.bind(this);
     this.setEditState = this.setEditState.bind(this);
     this.handleError = this.handleError.bind(this);
     this.createGoal = this.createGoal.bind(this);
@@ -86,11 +85,6 @@ export class EditGoal extends React.Component<EditGoalProps, State> {
     });
   }
 
-  handleChange(e: ChangeEvent, { name, value }: any) {
-    // @ts-ignore
-    this.setState({ [name]: value });
-  }
-
   render() {
     return (
       <Mutation<CreateGoalParameters>
@@ -126,48 +120,57 @@ export class EditGoal extends React.Component<EditGoalProps, State> {
           }
 
           return (
-            <Form
+            <form
               onSubmit={() =>
                 this.state.editing
                   ? this.updateGoal(mutate)
                   : this.createGoal(mutate)
               }
             >
-              <Form.Group widths="equal">
-                <Form.Input
-                  data-testid="goal-name"
-                  fluid
-                  required
-                  label="Name"
-                  name={this.state.editing ? "editGoalName" : "goalName"}
-                  placeholder="Name"
-                  value={
-                    this.state.editing
-                      ? this.state.editGoalName
-                      : this.state.goalName
-                  }
-                  onChange={this.handleChange}
-                />
-                <Form.Input
-                  fluid
-                  required
-                  label="Kudos"
-                  name={this.state.editing ? "editGoalKudos" : "goalKudos"}
-                  type="number"
-                  min="100"
-                  placeholder="Kudos"
-                  value={
-                    this.state.editing
-                      ? this.state.editGoalKudos
-                      : this.state.goalKudos
-                  }
-                  onChange={this.handleChange}
-                />
-              </Form.Group>
+              <Label htmlFor={this.state.editing ? "editGoalName" : "goalName"}>
+                Name
+              </Label>
+              <Input
+                data-testid="goal-name"
+                required
+                name={this.state.editing ? "editGoalName" : "goalName"}
+                placeholder="Name"
+                value={
+                  this.state.editing
+                    ? this.state.editGoalName
+                    : this.state.goalName
+                }
+                onChange={(e) =>
+                  this.state.editing
+                    ? this.setState({ editGoalName: e.target.value })
+                    : this.setState({ goalName: e.target.value })
+                }
+              />
+              <Label
+                htmlFor={this.state.editing ? "editGoalKudos" : "goalKudos"}
+              >
+                Kudos
+              </Label>
+              <Input
+                required
+                name={this.state.editing ? "editGoalKudos" : "goalKudos"}
+                type="number"
+                min="100"
+                placeholder="Kudos"
+                value={
+                  this.state.editing
+                    ? this.state.editGoalKudos
+                    : this.state.goalKudos
+                }
+                onChange={(e) =>
+                  this.state.editing
+                    ? this.setState({ editGoalKudos: e.target.value })
+                    : this.setState({ goalKudos: e.target.value })
+                }
+              />
               <Button
                 data-testid="submit-button"
-                color="blue"
-                loading={loading}
+                variant="primary"
                 disabled={loading}
                 type="submit"
               >
@@ -176,19 +179,19 @@ export class EditGoal extends React.Component<EditGoalProps, State> {
               {this.state.editing && (
                 <Button
                   data-testid="cancel-button"
-                  color="orange"
+                  variant="primary"
                   onClick={() => this.setState({ editing: false })}
                 >
                   Cancel
                 </Button>
               )}
               {displayError && (
-                <Message negative>
-                  <Message.Header>Unable to create goal.</Message.Header>
+                <div className="errorMessage">
+                  <h2>Unable to create goal.</h2>
                   <p>{displayError}</p>
-                </Message>
+                </div>
               )}
-            </Form>
+            </form>
           );
         }}
       </Mutation>

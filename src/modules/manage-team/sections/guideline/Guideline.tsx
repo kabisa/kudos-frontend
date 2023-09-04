@@ -1,11 +1,16 @@
 import React from "react";
-import { Button, Popup, Table } from "semantic-ui-react";
 import { Mutation } from "@apollo/client/react/components";
 import { toast } from "react-toastify";
-import { gql } from "@apollo/client";
+import {
+  DefaultContext,
+  MutationFunction,
+  OperationVariables,
+  gql,
+} from "@apollo/client";
 import settings from "../../../../config/settings";
 import { GET_GUIDELINES } from "./GuidelinesSection";
 import { Storage } from "../../../../support/storage";
+import { IconButton } from "@sandercamp/ui-components";
 
 export const DELETE_GUIDELINE = gql`
   mutation DeleteGuideline($id: ID!) {
@@ -28,16 +33,32 @@ export interface GuidelineProps {
 }
 
 export function Guideline(props: GuidelineProps): React.ReactElement {
+  const showConfirmDialog = (
+    deleteGuideline: MutationFunction<
+      DeleteGuidelineParameters,
+      OperationVariables,
+      DefaultContext
+    >,
+  ) => {
+    const result = window.confirm(
+      "Are you sure you want to delete the guideline?",
+    );
+    if (result) {
+      // TODO: rerender
+      deleteGuideline({
+        variables: { id: props.id },
+      });
+    }
+  };
+
   return (
-    <Table.Row key={props.id}>
-      <Table.Cell>{props.kudos}</Table.Cell>
-      <Table.Cell>{props.name}</Table.Cell>
-      <Table.Cell>
-        <Button
-          data-testid="edit-button"
-          color="blue"
-          icon="pencil"
-          size="tiny"
+    <tr key={props.id}>
+      <td>{props.kudos}</td>
+      <td>{props.name}</td>
+      <td>
+        <IconButton
+          variant="primary"
+          name="edit"
           onClick={() => props.editGuideline(props.id, props.kudos, props.name)}
         />
         <Mutation<DeleteGuidelineParameters>
@@ -55,34 +76,15 @@ export function Guideline(props: GuidelineProps): React.ReactElement {
           ]}
         >
           {(deleteGuideline, { loading }) => (
-            <Popup
-              trigger={
-                <Button
-                  data-testid="delete-button"
-                  size="tiny"
-                  color="red"
-                  loading={loading}
-                  icon="trash"
-                />
-              }
-              content={
-                <Button
-                  data-testid="confirm-delete-button"
-                  color="red"
-                  content="Confirm deletion"
-                  onClick={() => {
-                    deleteGuideline({
-                      variables: { id: props.id },
-                    });
-                  }}
-                />
-              }
-              on="click"
-              position="top right"
+            <IconButton
+              variant="tertiary"
+              name="delete"
+              onClick={() => showConfirmDialog(deleteGuideline)}
+              disabled={loading}
             />
           )}
         </Mutation>
-      </Table.Cell>
-    </Table.Row>
+      </td>
+    </tr>
   );
 }

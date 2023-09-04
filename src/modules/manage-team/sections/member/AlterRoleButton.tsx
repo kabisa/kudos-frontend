@@ -1,10 +1,10 @@
 import React from "react";
 import { Mutation } from "@apollo/client/react/components";
 import { toast } from "react-toastify";
-import { Button } from "semantic-ui-react";
 import { ALTER_ROLE, AlterRoleParameters, Membership } from "./Members";
 import settings from "../../../../config/settings";
 import { Storage } from "../../../../support/storage";
+import { IconButton } from "@sandercamp/ui-components";
 
 export interface AlterRoleButtonProps {
   refetch: () => void;
@@ -18,7 +18,7 @@ export enum AlterRoleButtonMode {
 }
 
 export function AlterRoleButton(
-  props: AlterRoleButtonProps
+  props: AlterRoleButtonProps,
 ): React.ReactElement {
   function isDisabled(): boolean {
     if (props.mode === AlterRoleButtonMode.PROMOTE) {
@@ -53,16 +53,13 @@ export function AlterRoleButton(
       }}
     >
       {(mutate, { loading }) => (
-        <Button
-          color={props.mode === AlterRoleButtonMode.PROMOTE ? "teal" : "yellow"}
-          size="tiny"
-          icon={
+        <IconButton
+          name={
             props.mode === AlterRoleButtonMode.PROMOTE
-              ? "arrow up"
-              : "arrow down"
+              ? "arrow_upward"
+              : "arrow_downward"
           }
-          loading={loading}
-          disabled={isDisabled()}
+          disabled={loading || isDisabled()}
           onClick={() =>
             mutate({
               variables: variables(),

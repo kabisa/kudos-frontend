@@ -90,3 +90,18 @@ div.ui.vertical.tabular.menu {
     font-size: var(--font-size-m);
   }
 }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  width: fit-content;
+  margin: auto;
+
+  min-height: 1200px; // TODO: Needed?
+}
+
+.grid_column {
+  padding: 0;
+  max-width: 480px;
+}
