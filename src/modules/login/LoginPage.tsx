@@ -1,5 +1,4 @@
-import React, { ChangeEvent, Component, FormEvent } from "react";
-import { Button, Form, Message, Segment } from "semantic-ui-react";
+import { Component, FormEvent } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { History } from "history";
 import { Mutation } from "@apollo/client/react/components";
@@ -21,6 +20,7 @@ import { FormWrapper } from "../../components";
 import { loginSuccess } from "./helper";
 
 import s from "./LoginPage.module.scss";
+import { Button, Input } from "@sandercamp/ui-components";
 
 export const MUTATION_LOGIN = gql`
   mutation SignInUser($email: EmailAddress!, $password: String!) {
@@ -76,14 +76,8 @@ class LoginPage extends Component<Props, State> {
       error: "",
     };
 
-    this.handleChange = this.handleChange.bind(this);
     this.confirm = this.confirm.bind(this);
     this.formSubmit = this.formSubmit.bind(this);
-  }
-
-  handleChange(e: ChangeEvent, { name, value }: any) {
-    // @ts-ignore
-    this.setState({ [name]: value });
   }
 
   confirm(data: LoginResult) {
@@ -135,55 +129,44 @@ class LoginPage extends Component<Props, State> {
           }
           return (
             <FormWrapper verticalCentered header="Login">
-              <Segment padded>
-                <Form
-                  size="large"
-                  error={!!error}
-                  onSubmit={(e) => this.formSubmit(e, signInUser)}
-                >
-                  <Form.Input
+              <div className="ui segment">
+                <form onSubmit={(e) => this.formSubmit(e, signInUser)}>
+                  <Input
                     data-testid="email-input"
-                    fluid
-                    icon="user"
                     name="email"
                     type="email"
-                    iconPosition="left"
                     placeholder="E-mail address"
-                    autoFocus="on"
                     value={this.state.email}
-                    onChange={this.handleChange}
+                    onChange={(e) => this.setState({ email: e.target.value })}
                   />
-                  <Form.Input
+                  <Input
                     data-testid="password-input"
-                    fluid
-                    icon="lock"
                     name="password"
-                    iconPosition="left"
                     placeholder="Password"
                     type="password"
                     value={this.state.password}
-                    onChange={this.handleChange}
+                    onChange={(e) =>
+                      this.setState({ password: e.target.value })
+                    }
                   />
 
                   <Button
                     data-testid="submit-button"
                     type="submit"
-                    color="blue"
-                    fluid
-                    loading={loading}
+                    variant="primary"
                     disabled={loading}
                   >
                     Login
                   </Button>
 
                   {displayError && (
-                    <Message negative>
-                      <Message.Header>Unable to login</Message.Header>
+                    <div className="errorMessage">
+                      <h3>Unable to login</h3>
                       <p data-testid="error-message">{displayError}</p>
-                    </Message>
+                    </div>
                   )}
-                </Form>
-                <Message className={s.message}>
+                </form>
+                <div className={s.message}>
                   <Link
                     data-testid="sign-up-button"
                     to={PATH_REGISTER}
@@ -198,8 +181,8 @@ class LoginPage extends Component<Props, State> {
                   >
                     Forgot password?
                   </Link>
-                </Message>
-              </Segment>
+                </div>
+              </div>
             </FormWrapper>
           );
         }}

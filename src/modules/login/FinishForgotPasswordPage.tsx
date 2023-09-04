@@ -1,5 +1,4 @@
-import React, { Component } from "react";
-import { Button, Form, Message, Segment } from "semantic-ui-react";
+import { Component } from "react";
 import { Mutation } from "@apollo/client/react/components";
 import { gql } from "@apollo/client";
 import { withRouter } from "react-router-dom";
@@ -10,6 +9,7 @@ import { PATH_LOGIN } from "../../routes";
 import { FormWrapper } from "../../components";
 import BackButton from "../../components/back-button/BackButton";
 import { getGraphqlError } from "../../support";
+import { Button, Input } from "@sandercamp/ui-components";
 
 const DEFAULT_ERROR = "Something went wrong.";
 const PASSWORD_ERROR = "Passwords don't match.";
@@ -70,7 +70,6 @@ class FinishForgotPasswordPage extends Component<Props, State> {
 
     this.token = props.reset_password_token || "";
 
-    this.handleChange = this.handleChange.bind(this);
     this.formSubmit = this.formSubmit.bind(this);
     this.onCompleted = this.onCompleted.bind(this);
   }
@@ -82,11 +81,6 @@ class FinishForgotPasswordPage extends Component<Props, State> {
     } else {
       this.setState({ error: DEFAULT_ERROR });
     }
-  }
-
-  handleChange(e: any, { name, value }: any) {
-    // @ts-ignore
-    this.setState({ [name]: value });
   }
 
   formSubmit(e: any, mutation: any) {
@@ -124,54 +118,43 @@ class FinishForgotPasswordPage extends Component<Props, State> {
         >
           {(mutation, { error, loading }) => (
             <div>
-              <Form
-                size="large"
-                error={!!error}
-                onSubmit={(e) => this.formSubmit(e, mutation)}
-              >
-                <Segment>
-                  <Form.Input
+              <form onSubmit={(e) => this.formSubmit(e, mutation)}>
+                <div className="ui segment">
+                  <Input
                     data-testid="password-input"
-                    fluid
-                    icon="lock"
                     name="password"
                     type="password"
-                    iconPosition="left"
                     placeholder="Password"
                     value={this.state.password}
-                    onChange={this.handleChange}
+                    onChange={(e) =>
+                      this.setState({ password: e.target.value })
+                    }
                   />
-                  <Form.Input
-                    fluid
-                    icon="lock"
+                  <Input
                     name="passwordConfirm"
                     type="password"
-                    iconPosition="left"
                     placeholder="Confirm password"
                     value={this.state.passwordConfirm}
-                    onChange={this.handleChange}
+                    onChange={(e) =>
+                      this.setState({ passwordConfirm: e.target.value })
+                    }
                   />
                   <Button
                     data-testid="submit-button"
-                    color="blue"
-                    fluid
-                    size="large"
-                    loading={loading}
+                    variant="primary"
                     disabled={loading}
                   >
                     Reset password
                   </Button>
 
                   {formError && (
-                    <Message
-                      data-testid="error-message"
-                      negative
-                      header="Unable to reset the password."
-                      content={this.state.error}
-                    />
+                    <div className="errorMessage">
+                      <h3>Unable to reset password</h3>
+                      <p>{this.state.error}</p>
+                    </div>
                   )}
-                </Segment>
-              </Form>
+                </div>
+              </form>
               <BackButton />
             </div>
           )}

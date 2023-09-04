@@ -169,7 +169,7 @@ class ResetPasswordPage extends Component<Props, State> {
     return (
       <div>
         <FormWrapper header="Reset password" toolbar="Reset password">
-          <div className={ 'ui segment'}>
+          <div className={"ui segment"}>
             <Mutation<ResetPasswordParameters>
               mutation={MUTATION_RESET_PASSWORD}
               onCompleted={() => {
@@ -192,43 +192,43 @@ class ResetPasswordPage extends Component<Props, State> {
                     <Label>
                       Current password
                       <Input
-                          data-testid="current-password-input"
-                          //icon="lock" TODO
-                          //iconPosition="left" TODO
-                          name="currentPassword"
-                          type="password"
-                          placeholder="Current password"
-                          error={this.state.error_current}
-                          value={this.state.currentPassword}
-                          onChange={this.handleChange}
+                        data-testid="current-password-input"
+                        //icon="lock" TODO
+                        //iconPosition="left" TODO
+                        name="currentPassword"
+                        type="password"
+                        placeholder="Current password"
+                        error={this.state.error_current}
+                        value={this.state.currentPassword}
+                        onChange={this.handleChange}
                       />
                     </Label>
                     <Label>
                       New password
                       <Input
-                          data-testid="new-password-input"
-                          //icon="lock" TODO
-                          //iconPosition="left" TODO
-                          name="newPassword"
-                          type="password"
-                          placeholder="New password"
-                          error={this.state.error_new}
-                          value={this.state.newPassword}
-                          onChange={this.handleChange}
+                        data-testid="new-password-input"
+                        //icon="lock" TODO
+                        //iconPosition="left" TODO
+                        name="newPassword"
+                        type="password"
+                        placeholder="New password"
+                        error={this.state.error_new}
+                        value={this.state.newPassword}
+                        onChange={this.handleChange}
                       />
                     </Label>
                     <Label>
                       Confirm new password
                       <Input
-                          data-testid="confirm-password-input"
-                          //icon="lock" TODO
-                          name="newPasswordConfirmation"
-                          //iconPosition="left" TODO
-                          type="password"
-                          placeholder="Confirm new password"
-                          error={this.state.error_new_confirm}
-                          value={this.state.newPasswordConfirmation}
-                          onChange={this.handleChange}
+                        data-testid="confirm-password-input"
+                        //icon="lock" TODO
+                        name="newPasswordConfirmation"
+                        //iconPosition="left" TODO
+                        type="password"
+                        placeholder="Confirm new password"
+                        error={this.state.error_new_confirm}
+                        value={this.state.newPasswordConfirmation}
+                        onChange={this.handleChange}
                       />
                     </Label>
                     <Button
@@ -242,10 +242,8 @@ class ResetPasswordPage extends Component<Props, State> {
                     </Button>
                     <BackButton />
                     {displayError && (
-                      <div className={ s.errorMessage }>
-                        <h3>
-                          Unable to reset password
-                        </h3>
+                      <div className="errorMessage">
+                        <h3>Unable to reset password</h3>
                         <p>{displayError}</p>
                       </div>
                     )}
