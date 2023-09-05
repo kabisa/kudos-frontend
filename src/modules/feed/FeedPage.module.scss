@@ -1,3 +1,20 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 480px));
+  justify-items: end;
+
+  margin-top: 3rem;
+  height: 100%;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+
+  width: 100%;
+}
+
 :global(#root) {
   .create_post_container_mobile {
     padding: 16px;
@@ -18,47 +35,5 @@
     margin-top: 0;
   }
 
-  .form {
-    margin: auto;
-    width: 100%;
-    max-width: 512px;
-  }
 
-  .board_container {
-    max-width: 480px;
-    /* Allow smooth scrolling on Safari < 13 */
-    -webkit-overflow-scrolling: touch;
-    margin-top: 30px;
-    padding: 30px 40px;
-    border-radius: 18px;
-    background: var(--kudo-color-primary);
-    text-align: center;
-  }
-
-  @media (max-width: 990px) {
-    .board_container {
-      margin: auto;
-    }
-  }
-
-  .board_header {
-    color: #ffffff;
-    font-size: 35px;
-  }
-
-  .left_column {
-    display: flex;
-    justify-content: flex-end;
-  }
-
-  .note {
-    color: grey;
-    font-size: 10px;
-  }
-
-  .character_message {
-    color: grey;
-    font-size: 10px;
-    margin-left: 8px;
-  }
 }

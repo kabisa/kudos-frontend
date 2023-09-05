@@ -1,15 +1,16 @@
-import { Component } from "react";
+import React, { Component } from "react";
 import { PullToRefresh } from "../../components";
-import { Navigation } from "../../components/navigation";
 import { CreatePost, RightRail } from "./components";
 import { GetPostsResult } from "./queries";
-import { RepoList } from "./RepoList";
 
-import styles from "./FeedPage.module.scss";
 
 import { Desktop, TabletAndBelow } from "../../support/breakpoints";
 import { Icon } from "@sandercamp/ui-components";
 import Segment from "../../components/atoms/Segment";
+import Page from '../../components/templates/Page';
+import KudoBoard from '../../components/organisms/KudoBoard/KudoBoard';
+
+import styles from "./FeedPage.module.scss";
 
 export interface Props {
   data: {
@@ -30,12 +31,6 @@ export interface FeedPageState {
   // Future state vars go here
 }
 
-const KudoBoard = () => (
-  <div className={styles.board_container}>
-    <h2 className={styles.board_header}>Shout out messageboard</h2>
-    <RepoList data-testid="repo-list" />
-  </div>
-);
 
 export class FeedPage extends Component<FeedPageProps, FeedPageState> {
   constructor(props: FeedPageProps) {
@@ -57,31 +52,26 @@ export class FeedPage extends Component<FeedPageProps, FeedPageState> {
 
   render() {
     return (
-      <>
-        <div className="page">
-          <TabletAndBelow>
-            <div className={styles.create_post_container_mobile}>
-              <CreatePost back={false} />
+      <Page>
+        <TabletAndBelow>
+          <div className={styles.create_post_container_mobile}>
+            <CreatePost back={false} />
+          </div>
+          <KudoBoard />
+          <Icon name="thumb_up" />
+        </TabletAndBelow>
+        <Desktop>
+          <div className={ styles.grid }>
+            <div className={ styles.column }>
+              <Segment>
+                <CreatePost back={false} />
+              </Segment>
+              <KudoBoard className={ styles.leftColumn }/>
             </div>
-            <KudoBoard />
-            <Icon className="material-symbols-rounded" name="thumb_up" />
-          </TabletAndBelow>
-          <Desktop>
-            <div className="grid">
-              <div>
-                <Segment className={styles.create_post_segment}>
-                  <CreatePost back={false} />
-                </Segment>
-                <KudoBoard />
-              </div>
-              <div className={`${styles.left_column}`}>
-                <RightRail />
-              </div>
-            </div>
-          </Desktop>
-        </div>
-        <Navigation />
-      </>
+            <RightRail/>
+          </div>
+        </Desktop>
+      </Page>
     );
   }
 }

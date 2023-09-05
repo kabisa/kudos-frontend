@@ -12,7 +12,7 @@ import {
 } from "../../queries";
 import { Storage } from "../../../../support/storage";
 import s from "./LikeButton.module.scss";
-import { Button, Icon } from "@sandercamp/ui-components";
+import {Button, Icon, IconButton} from "@sandercamp/ui-components";
 
 export const MUTATION_TOGGLE_LIKE = gql`
   mutation ToggleLikePost($id: ID!) {
@@ -176,21 +176,28 @@ class LikeButton extends React.Component<LikeButtonProps, LikeButtonState> {
             ]}
           >
             {(mutate) => (
-              <Button
-                data-testid="like-button"
-                variant="secondary"
-                onClick={() => toggleLike(mutate, post.id, post)}
+              <div
+                className={ s.buttonContainer }
               >
-                {liked ? (
-                  <Icon className="material-symbols-rounded" name="thumb_up" />
-                ) : (
-                  <Icon
-                    className="material-symbols-rounded-outlined"
-                    name="thumb_up"
-                  />
-                )}
-                <p>+1₭</p>
-              </Button>
+                <IconButton
+                  className={ s.button }
+                  name="thumb_up"
+                  variant="tertiary"
+                  data-testid="like-button"
+                  onClick={() => toggleLike(mutate, post.id, post)}
+                />
+
+
+                {/*{liked ? (*/}
+                {/*  <Icon className="material-symbols-rounded" name="thumb_up" />*/}
+                {/*) : (*/}
+                {/*  <Icon*/}
+                {/*    className="material-symbols-rounded-outlined"*/}
+                {/*    name="thumb_up"*/}
+                {/*  />*/}
+                {/*)}*/}
+                <span>+1₭</span>
+              </div>
             )}
           </Mutation>
         </div>

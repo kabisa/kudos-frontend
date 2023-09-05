@@ -1,13 +1,13 @@
 import React from "react";
 import { mount, ReactWrapper } from "enzyme";
 import { act } from "react-dom/test-utils";
-import { GET_POSTS } from "./queries";
+import { GET_POSTS } from "../../../modules/feed/queries";
 import {
   findByTestId,
   mockLocalstorage,
   wait,
   withMockedProviders,
-} from "../../spec_helper";
+} from "../../../spec_helper";
 import { RepoList } from "./RepoList";
 
 const mocks = (hasNextPage: boolean) => [

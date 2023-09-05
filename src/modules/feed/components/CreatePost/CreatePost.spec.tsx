@@ -5,9 +5,9 @@ import { act } from 'react-dom/test-utils';
 import { GraphQLError } from 'graphql';
 import {
   findByTestId, getMockCache, mockLocalstorage, wait, withMockedProviders,
-} from '../../../spec_helper';
+} from '../../../../spec_helper';
 import { CREATE_POST, CreatePost } from './CreatePost';
-import { GET_GOAL_PERCENTAGE, GET_POSTS } from '../queries';
+import { GET_GOAL_PERCENTAGE, GET_POSTS } from '../../queries';
 
 
 let mutationCalled = false;

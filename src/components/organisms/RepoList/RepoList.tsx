@@ -1,9 +1,9 @@
 import React from "react";
 import { Query } from "@apollo/client/react/components";
-import { GET_POSTS, GetPostsResult } from "./queries";
-import settings from "../../config/settings";
-import { Transaction } from "./components/Transaction";
-import { Storage } from "../../support/storage";
+import { GET_POSTS, GetPostsResult } from "../../../modules/feed/queries";
+import settings from "../../../config/settings";
+import { Transaction } from "../../../modules/feed/components/Transaction";
+import { Storage } from "../../../support/storage";
 import s from "./RepoList.module.scss";
 import { Icon } from "@sandercamp/ui-components";
 
@@ -53,7 +53,7 @@ export function RepoList(): React.ReactElement {
 
         const { posts } = data.teamById;
         return (
-          <div>
+          <div className={ s.container }>
             {posts.edges.map((item) => (
               <Transaction transaction={item.node} key={item.node.id} />
             ))}
