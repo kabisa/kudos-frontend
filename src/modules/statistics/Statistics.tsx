@@ -44,8 +44,8 @@ export interface ActiveGoal {
   achievedOn: string;
 }
 
-const achievedColor = "#3899b7";
-const defaultColor = "#b2cbc1";
+const achievedColor = "#18242b";
+const defaultColor = "#bfdbcf";
 
 const Statistics = () => (
   <div className={s.container}>

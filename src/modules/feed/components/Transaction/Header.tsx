@@ -1,4 +1,6 @@
 import { Component } from "react";
+import { IconButton } from '@sandercamp/ui-components';
+
 import { Mutation } from "@apollo/client/react/components";
 import { gql } from "@apollo/client";
 import { toast } from "react-toastify";
@@ -8,8 +10,10 @@ import settings from "../../../../config/settings";
 import { FragmentPostResult, GET_POSTS } from "../../queries";
 import { PATH_ADD_TRANSACTION } from "../../../../routes";
 import { Storage } from "../../../../support/storage";
-import s from "./Header.module.scss";
 import { Auth } from "../../../../support";
+
+import s from "./Header.module.scss";
+import classNames from 'classnames';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const moment = require("moment-twitter");
@@ -146,12 +150,12 @@ export class Header extends Component<Props, State> {
               onCompleted={() => toast.info("Post successfully removed!")}
             >
               {(mutate) => (
-                <div
+                <IconButton
+                  className={ classNames(s.demo, s.demo2) }
+                  name="delete"
                   data-testid="delete-button"
                   onClick={() => this.openConfirmDialog(mutate)}
-                >
-                  Delete
-                </div>
+                />
               )}
             </Mutation>
           )}

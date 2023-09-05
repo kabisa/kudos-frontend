@@ -6,7 +6,7 @@ import styles from './Page.module.css';
 
 const Page: React.FC = ({ children })  => (
     <div className={ styles.page }>
-        <Navigation />
+        <Navigation className={ styles.navigation }/>
         <main className={ styles.main}>
             { children }
         </main>

@@ -1,0 +1,22 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-level-3);
+}
+
+.button {
+    align-self: center;
+}
+
+.note {
+    color: grey;
+    font-size: .575rem;
+}
+
+label {
+    font-weight: var(--font-weight-bold);
+}
+
+textarea {
+    resize: vertical;
+}

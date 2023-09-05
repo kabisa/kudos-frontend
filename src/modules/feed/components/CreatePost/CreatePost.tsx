@@ -4,9 +4,11 @@ import { toast } from "react-toastify";
 import { gql } from "@apollo/client";
 import { ApolloConsumer } from "@apollo/client";
 import type { ApolloClient } from "@apollo/client";
-import settings from "../../../config/settings";
-import UserDropdown, { NameOption } from "./UserDropdown/UserDropdown";
-import GuidelineInput from "./GuidelineInput/GuidelineInput";
+import { Button, Label } from "@sandercamp/ui-components";
+
+import settings from "../../../../config/settings";
+import UserDropdown, { NameOption } from "../UserDropdown/UserDropdown";
+import GuidelineInput from "../GuidelineInput/GuidelineInput";
 
 import {
   ERROR_AMOUNT_BLANK,
@@ -15,19 +17,20 @@ import {
   ERROR_MESSAGE_MIN_LENGTH,
   ERROR_RECEIVERS_BLANK,
   getGraphqlError,
-} from "../../../support";
-import BackButton from "../../../components/back-button/BackButton";
+} from "../../../../support";
+import BackButton from "../../../../components/back-button/BackButton";
 import {
   FragmentPostResult,
   GET_GOAL_PERCENTAGE,
   GET_POSTS,
   GET_USERS,
   User,
-} from "../queries";
-import { Storage } from "../../../support/storage";
-import s from "../FeedPage.module.scss";
-import { ImageUpload } from "../../../components/upload/ImageUpload";
-import { Button, Label } from "@sandercamp/ui-components";
+} from "../../queries";
+import { Storage } from "../../../../support/storage";
+import { ImageUpload } from "../../../../components/upload/ImageUpload";
+
+import s from "../../FeedPage.module.scss";
+import styles from "./CreatePost.module.css";
 
 // eslint-disable-next-line max-len
 export const CREATE_POST = gql`
@@ -310,7 +313,7 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
               return (
                 <form
                   onSubmit={(e) => this.onSubmit(e, createPost, client)}
-                  className={s.form}
+                  className={styles.form}
                   data-testid="create-post-form"
                 >
                   <GuidelineInput
@@ -319,43 +322,48 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
                     handleChange={this.handleKudoInputChange}
                     ref={this.guidelineInput}
                   />
-                  <Label htmlFor="input-receivers">Receivers</Label>
-                  {/* Suppressed because the linter doesn't pick up on custom controls */}
-                  <UserDropdown
-                    data-testid="receiver-input"
-                    ref={this.userDropdown}
-                    id="input-receivers"
-                    onChange={this.handleDropdownChange}
-                    error={receiversError}
-                    value={this.state.receivers}
-                  />
-                  <span className={s.note}>(v) = virtual user</span>
+                  <Label>
+                    Receivers
+                    {/* Suppressed because the linter doesn't pick up on custom controls */}
+                    <UserDropdown
+                        data-testid="receiver-input"
+                        ref={this.userDropdown}
+                        onChange={this.handleDropdownChange}
+                        error={receiversError}
+                        value={this.state.receivers}
+                    />
+                    <span className={styles.note}>(v) = virtual user</span>
+                  </Label>
 
-                  <Label htmlFor="message-input">Message</Label>
-                  <textarea
-                    id="message-input"
-                    data-testid="message-input"
-                    placeholder="Enter your message"
-                    name="message"
-                    onChange={(e) =>
-                      this.setState({ message: e.currentTarget.value })
-                    }
-                    value={this.state.message}
-                  />
-                  {error && messageError}
-                  <span className={s.character_message}>
+                  <Label>
+                    Message
+                    <textarea
+                        data-testid="message-input"
+                        placeholder="Enter your message"
+                        name="message"
+                        onChange={(e) =>
+                            this.setState({ message: e.currentTarget.value })
+                        }
+                        value={this.state.message}
+                    />
+                    {error && messageError}
+                    <span className={ styles.note }>
                     {settings.MAX_POST_MESSAGE_LENGTH -
-                      this.state.message.length}{" "}
-                    chars left
-                  </span>
+                        this.state.message.length}{" "}
+                      chars left
+                    </span>
+                  </Label>
 
-                  <Label htmlFor="image-upload">Images</Label>
-                  <ImageUpload
-                    ref={this.imageUpload}
-                    onChange={(images) => this.handleImagesSelected(images)}
-                  />
+                  <Label>
+                    Images
+                    <ImageUpload
+                        ref={this.imageUpload}
+                        onChange={(images) => this.handleImagesSelected(images)}
+                    />
+                  </Label>
 
                   <Button
+                    className={ styles.button }
                     data-testid="submit-button"
                     type="submit"
                     variant="primary"

@@ -1,3 +1,25 @@
+.buttonContainer {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-level-3);
+
+  border: 1px solid var(--brand-color-1);
+  border-radius: var(--radii-level-2);
+
+  font-size: var(--font-size-s);
+}
+
+.button {
+  border: none;
+
+  font-size: inherit;
+
+}
+
+.button > * {
+  font-size: inherit;
+}
+
 :global(#root) {
   .like_message {
     font-size: 13px;
