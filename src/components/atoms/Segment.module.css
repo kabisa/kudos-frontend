@@ -1,5 +1,5 @@
 .container {
-    border: none;
+    box-shadow: var(--shadow-level-1);
     border-radius: var(--radii-level-2);
     padding: var(--padding-level-5);
 
