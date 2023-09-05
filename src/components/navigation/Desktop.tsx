@@ -1,5 +1,3 @@
-import React from "react";
-import { Container, Dropdown, Icon, Menu } from "semantic-ui-react";
 import { gql } from "@apollo/client";
 import { Link, useHistory } from "react-router-dom";
 import { Query } from "@apollo/client/react/components";
@@ -11,7 +9,13 @@ import {
 } from "../../routes";
 import { isAdmin, Auth } from "../../support";
 
-import s from "./Desktop.module.scss";
+import s from "./Desktop.module.css";
+import {
+  Icon,
+  Link as KabisaLink,
+  DropdownMenu,
+  MenuItem,
+} from "@sandercamp/ui-components";
 
 export const GET_USER = gql`
   query getUser {
@@ -31,70 +35,72 @@ export function DesktopNavigation() {
   const history = useHistory();
 
   return (
-    <div className={s.root}>
-      <Menu inverted fixed="top" size="large" className={s.menu}>
-        <Container>
-          <Menu.Item
-            data-testid="home-button"
-            className={s.menu_item}
-            onClick={() => history.push(PATH_FEED)}
-          >
-            Home
-          </Menu.Item>
-          <Menu.Menu position="right">
-            <Query<GetUserResult> query={GET_USER}>
-              {({ data }) => (
-                <Dropdown
-                  item
-                  simple
-                  text={data && data.viewer ? data.viewer.name : "Loading..."}
+    <header className={s.header}>
+      <nav>
+        <KabisaLink
+          theme="light"
+          data-testid="home-button"
+          onClick={() => history.push(PATH_FEED)}
+        >
+          Home
+        </KabisaLink>
+        <Query<GetUserResult> query={GET_USER}>
+          {({ data, loading }) => (
+            <DropdownMenu
+              direction="bottom"
+              text={
+                loading ? "loading.." : data?.viewer.name ?? "Welcome back!"
+              }
+            >
+              <Link
+                data-testid="profile-button"
+                to={PATH_USER}
+                className={s.link}
+              >
+                <MenuItem className={s.menuItem}>
+                  <Icon name="man" className={s.icon} />
+                  Profile
+                </MenuItem>
+              </Link>
+
+              {isAdmin() && (
+                <Link
+                  data-testid="manage-team-button"
+                  to={`${PATH_MANAGE_TEAM}/general`}
+                  className={s.link}
                 >
-                  <Dropdown.Menu>
-                    <Link
-                      data-testid="profile-button"
-                      to={PATH_USER}
-                      className="item"
-                    >
-                      <Icon name="user" />
-                      Profile
-                    </Link>
-                    <Dropdown.Divider />
-                    {isAdmin() && (
-                      <Link
-                        data-testid="manage-team-button"
-                        to={`${PATH_MANAGE_TEAM}/general`}
-                        className="item"
-                      >
-                        <Icon name="settings" />
-                        Manage team
-                      </Link>
-                    )}
-                    {isAdmin() && <Dropdown.Divider />}
-                    <Link
-                      data-testid="switch-team-button"
-                      to={PATH_CHOOSE_TEAM}
-                      className="item"
-                    >
-                      <Icon name="exchange" />
-                      Switch team
-                    </Link>
-                    <Dropdown.Item
-                      data-testid="logout-button"
-                      onClick={async () => {
-                        await Auth.logout();
-                      }}
-                    >
-                      <Icon name="log out" />
-                      Log out
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
+                  <MenuItem className={s.menuItem}>
+                    <Icon name="settings" className={s.icon} />
+                    Manage team
+                  </MenuItem>
+                </Link>
               )}
-            </Query>
-          </Menu.Menu>
-        </Container>
-      </Menu>
-    </div>
+              <Link
+                data-testid="switch-team-button"
+                to={PATH_CHOOSE_TEAM}
+                className={s.link}
+              >
+                <MenuItem className={s.menuItem}>
+                  <Icon name="switch" className={s.icon} />
+                  Switch team
+                </MenuItem>
+              </Link>
+              <a
+                data-testid="logout-button"
+                onClick={async () => {
+                  await Auth.logout();
+                }}
+              >
+                <MenuItem className={s.menuItem}>
+                  <Icon name="logout" className={s.icon} />
+                  Log out
+                </MenuItem>
+              </a>
+            </DropdownMenu>
+          )}
+        </Query>
+      </nav>
+    </header>
   );
 }
 

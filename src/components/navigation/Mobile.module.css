@@ -15,6 +15,10 @@
   margin-bottom: env(safe-area-inset-bottom);
 }
 
+.bottom_navigation > a {
+  text-decoration: none;
+}
+
 .bottom_item {
   flex-basis: 20%;
   display: flex;
@@ -22,10 +26,11 @@
   cursor: pointer;
 }
 
-:global(#root) {
-  .bottom_icon {
-    margin: auto;
-    color: #000000;
-  }
+.bottom_item > .bottom_icon {
+  margin: auto;
+  color: rgba(0, 0, 0, 0.6);
 }
 
+.bottom_item > .bottom_icon.active {
+  color: var(--kabisa-green-600);
+}

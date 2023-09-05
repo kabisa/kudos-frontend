@@ -1,4 +1,6 @@
 @import "elements/base";
+@import "./elements/colors.css";
+@import "./elements/layout.css";
 
 @media only screen and (min-width: 1200px) {
   .ui.container {
@@ -7,7 +9,9 @@
 }
 
 body {
-  background: var(--kudo-color-light) !important;
+  background: var(--kudo-background);
+  margin: 0;
+  padding: 0;
 }
 
 div.main-form {
