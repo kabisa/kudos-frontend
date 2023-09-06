@@ -3,12 +3,10 @@ import { PullToRefresh } from "../../components";
 import { CreatePost, RightRail } from "./components";
 import { GetPostsResult } from "./queries";
 
-
 import { Desktop, TabletAndBelow } from "../../support/breakpoints";
-import { Icon } from "@sandercamp/ui-components";
 import Segment from "../../components/atoms/Segment";
-import Page from '../../components/templates/Page';
-import KudoBoard from '../../components/organisms/KudoBoard/KudoBoard';
+import Page from "../../components/templates/Page";
+import KudoBoard from "../../components/organisms/KudoBoard/KudoBoard";
 
 import styles from "./FeedPage.module.scss";
 
@@ -30,7 +28,6 @@ export interface FeedPageProps {
 export interface FeedPageState {
   // Future state vars go here
 }
-
 
 export class FeedPage extends Component<FeedPageProps, FeedPageState> {
   constructor(props: FeedPageProps) {
@@ -58,17 +55,16 @@ export class FeedPage extends Component<FeedPageProps, FeedPageState> {
             <CreatePost back={false} />
           </div>
           <KudoBoard />
-          <Icon name="thumb_up" />
         </TabletAndBelow>
         <Desktop>
-          <div className={ styles.grid }>
-            <div className={ styles.column }>
+          <div className={styles.grid}>
+            <div className={styles.column}>
               <Segment>
                 <CreatePost back={false} />
               </Segment>
-              <KudoBoard className={ styles.leftColumn }/>
+              <KudoBoard className={styles.leftColumn} />
             </div>
-            <RightRail/>
+            <RightRail />
           </div>
         </Desktop>
       </Page>

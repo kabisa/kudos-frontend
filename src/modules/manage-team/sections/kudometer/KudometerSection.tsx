@@ -139,12 +139,11 @@ class KudometerSection extends Component<Props, State> {
     return (
       <ApolloConsumer>
         {(client) => (
-          <div>
+          <>
             <h2>
               <Icon name="flag" />
               Kudometers
             </h2>
-            <h3>Manage kudometers</h3>
             <form onSubmit={() => this.saveKudosMeter(client)}>
               <Label htmlFor="name">Name</Label>
               <Input
@@ -219,7 +218,7 @@ class KudometerSection extends Component<Props, State> {
                 );
               }}
             </Query>
-          </div>
+          </>
         )}
       </ApolloConsumer>
     );

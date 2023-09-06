@@ -2,9 +2,8 @@ import React, { Component } from "react";
 
 import { Route, Switch, withRouter } from "react-router-dom";
 import { History } from "history";
-import { Navigation } from "../../components/navigation";
 
-import s from "./ManageTeamPage.module.scss";
+import s from "./ManageTeamPage.module.css";
 import {
   GeneralSection,
   InviteSection,
@@ -17,6 +16,8 @@ import { PATH_MANAGE_TEAM } from "../../routes";
 import IntegrationSections from "./sections/integrations/Integrations";
 import classNames from "classnames";
 import Segment from "../../components/atoms/Segment";
+import Page from "../../components/templates/Page";
+import { Icon } from "@sandercamp/ui-components";
 
 export interface Props {
   history: History;
@@ -27,13 +28,13 @@ export interface State {
 }
 
 export class ManageTeamPage extends Component<Props, State> {
-  sections: string[] = [
-    "general",
-    "guidelines",
-    "invites",
-    "members",
-    "kudometers",
-    "integrations",
+  sections: { icon: string; name: string }[] = [
+    { icon: "settings", name: "general" },
+    { icon: "steps", name: "guidelines" },
+    { icon: "mail", name: "invites" },
+    { icon: "people", name: "members" },
+    { icon: "flag", name: "kudometers" },
+    { icon: "move_up", name: "integrations" },
   ];
 
   constructor(props: Props) {
@@ -42,7 +43,10 @@ export class ManageTeamPage extends Component<Props, State> {
     const location = props.history.location.pathname;
     const path = location.substring(location.lastIndexOf("/") + 1);
 
-    if (this.sections.indexOf(path) !== -1) {
+    // Check if 'path' matches any 'section' property in the 'sections' array
+    const sectionIndex = this.sections.findIndex((item) => item.name === path);
+
+    if (sectionIndex !== -1) {
       this.state = { activeItem: path };
     } else {
       this.state = { activeItem: "general" };
@@ -62,56 +66,47 @@ export class ManageTeamPage extends Component<Props, State> {
   render() {
     const { activeItem } = this.state;
     return (
-      <div>
-        <div className="page">
-          <div id="management-container" className={s.container}>
-            <div className="grid">
-              <div className="grid_column">
-                <Segment className={s.menu_segment}>
-                  {this.sections.map((section) => (
-                    <a
-                      key={section}
-                      data-testid={`${section}-button`}
-                      className={classNames({
-                        [s.active_item]: activeItem === section,
-                      })}
-                      onClick={(e) => this.handleItemClick(e, section)}
-                    >
-                      {section}
-                    </a>
-                  ))}
-                </Segment>
-              </div>
+      <Page>
+        <div className={s.container}>
+          <Segment className={s.menu_segment}>
+            {this.sections.map((section) => (
+              <a
+                key={section.name}
+                data-testid={`${section.name}-button`}
+                className={classNames({
+                  [s.active_item]: activeItem === section.name,
+                })}
+                onClick={(e) => this.handleItemClick(e, section.name)}
+              >
+                <Icon name={section.icon} /> {section.name}
+              </a>
+            ))}
+          </Segment>
 
-              <div className="grid_column">
-                <Segment>
-                  <Switch>
-                    <Route path={`${PATH_MANAGE_TEAM}/general`}>
-                      <GeneralSection />
-                    </Route>
-                    <Route path={`${PATH_MANAGE_TEAM}/invites`}>
-                      <InviteSection />
-                    </Route>
-                    <Route path={`${PATH_MANAGE_TEAM}/guidelines`}>
-                      <GuidelineSection />
-                    </Route>
-                    <Route path={`${PATH_MANAGE_TEAM}/members`}>
-                      <MemberSection />
-                    </Route>
-                    <Route path={`${PATH_MANAGE_TEAM}/kudometers`}>
-                      <KudometerSection />
-                    </Route>
-                    <Route path={`${PATH_MANAGE_TEAM}/integrations`}>
-                      <IntegrationSections history={this.props.history} />
-                    </Route>
-                  </Switch>
-                </Segment>
-              </div>
-            </div>
-          </div>
+          <Segment className={s.content_segment}>
+            <Switch>
+              <Route path={`${PATH_MANAGE_TEAM}/general`}>
+                <GeneralSection />
+              </Route>
+              <Route path={`${PATH_MANAGE_TEAM}/invites`}>
+                <InviteSection />
+              </Route>
+              <Route path={`${PATH_MANAGE_TEAM}/guidelines`}>
+                <GuidelineSection />
+              </Route>
+              <Route path={`${PATH_MANAGE_TEAM}/members`}>
+                <MemberSection />
+              </Route>
+              <Route path={`${PATH_MANAGE_TEAM}/kudometers`}>
+                <KudometerSection />
+              </Route>
+              <Route path={`${PATH_MANAGE_TEAM}/integrations`}>
+                <IntegrationSections history={this.props.history} />
+              </Route>
+            </Switch>
+          </Segment>
         </div>
-        <Navigation />
-      </div>
+      </Page>
     );
   }
 }

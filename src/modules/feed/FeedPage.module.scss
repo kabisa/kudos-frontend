@@ -1,9 +1,11 @@
 .grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 480px));
+  grid-template-columns: 1fr 1fr;
   justify-items: end;
+  width: 100%;
+  margin: 0 auto;
+  max-width: var(--kudo-max-w);
 
-  margin-top: 3rem;
   height: 100%;
 }
 
@@ -15,25 +17,21 @@
   width: 100%;
 }
 
-:global(#root) {
-  .create_post_container_mobile {
-    padding: 16px;
-  }
+.create_post_container_mobile {
+  padding: 16px;
+}
 
-  .create_post_segment {
-    width: 480px;
-    margin: auto;
-    padding-left: 30px;
-    padding-right: 30px;
-    border: none;
+.create_post_segment {
+  width: 480px;
+  margin: auto;
+  padding-left: 30px;
+  padding-right: 30px;
+  border: none;
 
-    text-align: left;
-  }
+  text-align: left;
+}
 
-  .divider {
-    margin-bottom: 2px;
-    margin-top: 0;
-  }
-
-
+.divider {
+  margin-bottom: 2px;
+  margin-top: 0;
 }

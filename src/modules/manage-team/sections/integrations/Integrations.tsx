@@ -76,12 +76,11 @@ export default class IntegrationsSection extends React.Component<
 
   render() {
     return (
-      <div>
+      <>
         <h2>
           <Icon name="move_up" />
           Integrations
         </h2>
-        <h3>Manage integrations</h3>
         <Query<TeamIntegrationsResponse>
           query={GET_TEAM_INTEGRATIONS}
           variables={{
@@ -101,7 +100,7 @@ export default class IntegrationsSection extends React.Component<
             );
           }}
         </Query>
-      </div>
+      </>
     );
   }
 }

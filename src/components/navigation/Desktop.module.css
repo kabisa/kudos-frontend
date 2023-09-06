@@ -1,11 +1,13 @@
 header {
+  position: fixed;
+  top: 0;
   width: 100%;
   background: var(--kabisa-black);
   display: flex;
   align-items: center;
-  padding: var(--padding-level-3) var(--padding-level-5);
   color: var(--kudo-text);
-  height: 46px;
+  height: 62px;
+  padding: var(--padding-level-3) 0;
 }
 
 nav {
@@ -20,6 +22,7 @@ header > nav {
   margin: auto;
   justify-content: space-between;
   align-items: center;
+  height: 100%;
 }
 
 .icon {

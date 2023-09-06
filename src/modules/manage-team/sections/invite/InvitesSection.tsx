@@ -37,12 +37,11 @@ export interface InviteModel {
 
 export function InviteSection(): React.ReactElement {
   return (
-    <div>
+    <>
       <h2>
         <Icon name="mail" />
         Invites
       </h2>
-      <h3>Manage invites</h3>
       <CreateInvite data-testid="create-invite" />
       <Query<GetInvitesResult>
         query={QUERY_GET_INVITES}
@@ -69,6 +68,6 @@ export function InviteSection(): React.ReactElement {
           );
         }}
       </Query>
-    </div>
+    </>
   );
 }

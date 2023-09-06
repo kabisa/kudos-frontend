@@ -97,12 +97,11 @@ class GuidelineSection extends Component<Props, State> {
 
   render() {
     return (
-      <div>
+      <>
         <h2>
-          <Icon name="list" />
+          <Icon name="steps" />
           Guidelines
         </h2>
-        <h3>Manage guidelines</h3>
         <EditGuideline ref={this.editGuidelineRef} />
         <Query<GetGuidelinesResult>
           query={GET_GUIDELINES}
@@ -137,7 +136,7 @@ class GuidelineSection extends Component<Props, State> {
             );
           }}
         </Query>
-      </div>
+      </>
     );
   }
 }

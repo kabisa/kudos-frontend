@@ -92,12 +92,11 @@ export default class MemberSection extends Component<Props, State> {
 
   render() {
     return (
-      <div>
+      <>
         <h2>
           <Icon name="people" />
           Members
         </h2>
-        <h3>Manage team members</h3>
         <Query<GetUsersResult>
           query={GET_USERS}
           variables={{ id: Storage.getItem(settings.TEAM_ID_TOKEN) }}
@@ -134,7 +133,7 @@ export default class MemberSection extends Component<Props, State> {
             );
           }}
         </Query>
-      </div>
+      </>
     );
   }
 }

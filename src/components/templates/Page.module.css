@@ -1,26 +1,28 @@
 .page {
-    overflow: hidden;
-    display: grid;
-    grid-template-rows: auto 1fr;
-    grid-template-areas:
-        "navigation"
-        "main"
-    ;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    "navigation"
+    "main";
 
-    height: 100vh;
+  height: 100vh;
 }
 
 .navigation {
-    grid-area: navigation;
+  grid-area: navigation;
 }
 
 .main {
-    grid-area: main;
-    overflow: auto;
+  grid-area: main;
+  overflow: auto;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  /* Navigation bar height is 46px + 16px padding */
+  margin-top: 62px;
+  padding: 2rem;
+}
 
-    padding: 1rem;
+@media only screen and (max-width: 991px) {
+  .main {
+    margin-top: 0px;
+  }
 }

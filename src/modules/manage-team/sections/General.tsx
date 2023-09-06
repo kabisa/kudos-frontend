@@ -83,12 +83,11 @@ export default class GeneralSection extends Component<Props, State> {
 
   render() {
     return (
-      <div>
+      <>
         <h2>
           <Icon name="settings" />
           General
         </h2>
-        <h3>Manage your team settings</h3>
         <Query<GetTeamNameResult>
           query={GET_TEAM_NAME}
           variables={{
@@ -138,7 +137,7 @@ export default class GeneralSection extends Component<Props, State> {
             );
           }}
         </Query>
-      </div>
+      </>
     );
   }
 }
