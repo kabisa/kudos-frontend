@@ -116,22 +116,26 @@ class GuidelineSection extends Component<Props, State> {
             }
             return (
               <table>
-                <tr>
-                  <th>Kudos</th>
-                  <th>Description</th>
-                  <th>Actions</th>
-                </tr>
+                <thead>
+                  <tr>
+                    <th>Kudos</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
 
-                {data.teamById.guidelines.map((item) => (
-                  <Guideline
-                    data-testid="guideline-row"
-                    key={item.id}
-                    id={item.id}
-                    kudos={item.kudos}
-                    name={item.name}
-                    editGuideline={this.editGuideline}
-                  />
-                ))}
+                <tbody>
+                  {data.teamById.guidelines.map((item) => (
+                    <Guideline
+                      data-testid="guideline-row"
+                      key={item.id}
+                      id={item.id}
+                      kudos={item.kudos}
+                      name={item.name}
+                      editGuideline={this.editGuideline}
+                    />
+                  ))}
+                </tbody>
               </table>
             );
           }}

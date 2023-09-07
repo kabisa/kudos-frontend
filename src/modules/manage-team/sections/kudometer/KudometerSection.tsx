@@ -184,31 +184,36 @@ class KudometerSection extends Component<Props, State> {
                 return (
                   <div>
                     <table>
-                      <td>
-                        <th>Name</th>
-                        <th>Actions</th>
-                      </td>
-
-                      {data &&
-                      data.teamById &&
-                      data.teamById.kudosMeters.length > 0 ? (
-                        data.teamById.kudosMeters.map((item) => (
-                          <KudometerRow
-                            data-testid="kudometer-row"
-                            key={item.id}
-                            kudometer={item}
-                            viewButtonClickHandler={
-                              this.handleViewGoalButtonClick
-                            }
-                            deleteKudometerHandler={this.deleteKudometer}
-                            edit={this.edit}
-                          />
-                        ))
-                      ) : (
+                      <thead>
                         <tr>
-                          <td>No kudometers available</td>
+                          <th>Name</th>
+                          <th></th>
+                          <th>Actions</th>
                         </tr>
-                      )}
+                      </thead>
+
+                      <tbody>
+                        {data &&
+                        data.teamById &&
+                        data.teamById.kudosMeters.length > 0 ? (
+                          data.teamById.kudosMeters.map((item) => (
+                            <KudometerRow
+                              data-testid="kudometer-row"
+                              key={item.id}
+                              kudometer={item}
+                              viewButtonClickHandler={
+                                this.handleViewGoalButtonClick
+                              }
+                              deleteKudometerHandler={this.deleteKudometer}
+                              edit={this.edit}
+                            />
+                          ))
+                        ) : (
+                          <tr>
+                            <td>No kudometers available</td>
+                          </tr>
+                        )}
+                      </tbody>
                     </table>
 
                     {this.state.selected && (

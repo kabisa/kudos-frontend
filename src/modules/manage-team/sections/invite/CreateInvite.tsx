@@ -104,7 +104,7 @@ export class CreateInvite extends Component<Props, State> {
           }
           return (
             <form>
-              <Label htlmFor="emails">Email addresses</Label>
+              <Label htmlFor="emails">Email addresses</Label>
               <textarea
                 data-testid="email-input"
                 name="emails"

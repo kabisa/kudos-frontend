@@ -82,6 +82,8 @@ export function KudometerRow(props: KudometerRowProps): React.ReactElement {
             </Button>
           )}
         </Mutation>
+      </td>
+      <td>
         <IconButton
           data-testid="edit-button"
           name="edit"
@@ -89,8 +91,6 @@ export function KudometerRow(props: KudometerRowProps): React.ReactElement {
             props.edit(props.kudometer);
           }}
         />
-      </td>
-      <td>
         <Mutation<DeleteKudometerParameters>
           mutation={DELETE_KUDOMETER}
           onCompleted={() => {

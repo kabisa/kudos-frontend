@@ -5,7 +5,7 @@ import { Query } from "@apollo/client/react/components";
 import settings from "../../../../config/settings";
 import { MemberRow } from "./MemberRow";
 import { Storage } from "../../../../support/storage";
-import s from "./Member.module.scss";
+import s from "./Members.module.css";
 import { Icon } from "@sandercamp/ui-components";
 
 export const GET_USERS = gql`
@@ -107,27 +107,31 @@ export default class MemberSection extends Component<Props, State> {
 
             return (
               <div>
-                <table>
-                  <tr>
-                    <th className={s.name_header}>Name</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Actions</th>
-                  </tr>
-
-                  {data && data.teamById && data.teamById.memberships ? (
-                    data.teamById.memberships.map((item) => (
-                      <MemberRow
-                        key={item.id}
-                        membership={item}
-                        refetch={refetch}
-                      />
-                    ))
-                  ) : (
+                <table className={s.table}>
+                  <thead>
                     <tr>
-                      <td>No memberships available</td>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Role</th>
+                      <th>Actions</th>
                     </tr>
-                  )}
+                  </thead>
+
+                  <tbody>
+                    {data && data.teamById && data.teamById.memberships ? (
+                      data.teamById.memberships.map((item) => (
+                        <MemberRow
+                          key={item.id}
+                          membership={item}
+                          refetch={refetch}
+                        />
+                      ))
+                    ) : (
+                      <tr>
+                        <td>No memberships available</td>
+                      </tr>
+                    )}
+                  </tbody>
                 </table>
               </div>
             );

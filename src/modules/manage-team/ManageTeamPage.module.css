@@ -19,6 +19,8 @@
   flex-direction: column;
   justify-items: center;
   gap: 1rem;
+  width: 206px;
+  height: min-content;
 }
 
 .menu_segment a {
@@ -57,4 +59,5 @@
 
 .content_segment {
   flex: 1;
+  height: min-content;
 }

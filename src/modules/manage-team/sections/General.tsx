@@ -1,4 +1,3 @@
-/* eslint-disable no-shadow */
 import { ChangeEvent, Component } from "react";
 import { gql } from "@apollo/client";
 import { toast } from "react-toastify";
@@ -108,7 +107,7 @@ export default class GeneralSection extends Component<Props, State> {
                 }}
               >
                 {(mutate, { loading }) => (
-                  <div>
+                  <>
                     <h1>{data && data.teamById ? data.teamById.name : "-"}</h1>
                     <form onSubmit={() => this.updateTeam(mutate)}>
                       <Label htmlFor="name">New team name</Label>
@@ -131,7 +130,7 @@ export default class GeneralSection extends Component<Props, State> {
                         Update
                       </Button>
                     </form>
-                  </div>
+                  </>
                 )}
               </Mutation>
             );

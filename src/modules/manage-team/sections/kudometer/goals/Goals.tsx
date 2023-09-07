@@ -28,7 +28,7 @@ export class Goals extends Component<Props, State> {
   render() {
     return (
       <div>
-        <h1>Goals for Kudometer {this.props.kudometer.name}</h1>
+        <h1>Goals for {this.props.kudometer.name}</h1>
 
         <EditGoal
           data-testid="goal-edit"
@@ -37,19 +37,24 @@ export class Goals extends Component<Props, State> {
         />
 
         <table>
-          <tr>
-            <th>Name</th>
-            <th>Kudos</th>
-            <th>Actions</th>
-          </tr>
-          {this.props.kudometer.goals.map((goal) => (
-            <GoalRow
-              data-testid="goal-row"
-              key={goal.id}
-              goal={goal}
-              editGoal={this.editGoal}
-            />
-          ))}
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Kudos</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {this.props.kudometer.goals.map((goal) => (
+              <GoalRow
+                data-testid="goal-row"
+                key={goal.id}
+                goal={goal}
+                editGoal={this.editGoal}
+              />
+            ))}
+          </tbody>
         </table>
       </div>
     );

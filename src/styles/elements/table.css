@@ -1,0 +1,7 @@
+table {
+  border: none;
+}
+
+thead > tr > th {
+  text-align: left;
+}

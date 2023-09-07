@@ -54,16 +54,24 @@ export function InviteSection(): React.ReactElement {
 
           return (
             <table>
-              <tr>
-                <th>Send at</th>
-                <th>Email</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
+              <thead>
+                <tr>
+                  <th>Send at</th>
+                  <th>Email</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
 
-              {data.teamById.teamInvites.map((item) => (
-                <Invite data-testid="invite-row" key={item.id} invite={item} />
-              ))}
+              <tbody>
+                {data.teamById.teamInvites.map((item) => (
+                  <Invite
+                    data-testid="invite-row"
+                    key={item.id}
+                    invite={item}
+                  />
+                ))}
+              </tbody>
             </table>
           );
         }}
