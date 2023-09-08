@@ -1,7 +1,7 @@
 :global(#kudos-input-container) {
   .guideline_input_active {
     input {
-      border-color: #85b7d9 ;
+      border-color: #85b7d9;
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
       border-bottom: none;
@@ -34,7 +34,11 @@
   }
 
   .info_button {
-    background: linear-gradient(0deg, var(--kudo-color-accent) 0%, var(--kudo-color-accent-tint) 100%);
+    background: linear-gradient(
+      0deg,
+      var(--kudo-color-accent) 0%,
+      var(--kudo-color-accent-tint) 100%
+    );
     color: #ffffff;
   }
 }

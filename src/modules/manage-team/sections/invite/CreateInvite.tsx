@@ -1,4 +1,4 @@
-import React, { Component, FormEvent } from "react";
+import { Component } from "react";
 import { Mutation } from "@apollo/client/react/components";
 import { toast } from "react-toastify";
 import { gql } from "@apollo/client";
@@ -9,11 +9,10 @@ import {
   getMultipleEmails,
 } from "../../../../support";
 import settings from "../../../../config/settings";
-import s from "../../../settings/Settings.module.scss";
+import s from "./Invite.module.css";
 import { QUERY_GET_INVITES } from "./InvitesSection";
 import { Storage } from "../../../../support/storage";
-import { Label } from "semantic-ui-react";
-import { Button } from "@sandercamp/ui-components";
+import { Button, Label } from "@sandercamp/ui-components";
 
 export const MUTATION_CREATE_INVITE = gql`
   mutation CreateInvite($emails: [EmailAddress!]!, $team_id: ID!) {
@@ -104,14 +103,18 @@ export class CreateInvite extends Component<Props, State> {
           }
           return (
             <form>
-              <Label htmlFor="emails">Email addresses</Label>
-              <textarea
-                data-testid="email-input"
-                name="emails"
-                placeholder="info@example.com..."
-                value={this.state.emails}
-                onChange={(e) => this.setState({ emails: e.target.value })}
-              />
+              <Label>
+                Email addresses
+                <textarea
+                  data-testid="email-input"
+                  name="emails"
+                  placeholder="info@example.com..."
+                  value={this.state.emails}
+                  onChange={(e) => this.setState({ emails: e.target.value })}
+                  className={s.textarea}
+                />
+              </Label>
+
               <p className={s.grey}>
                 Enter the email addresses of the users you would like to invite.
                 They should be separated by a comma or semicolon. The following
@@ -123,7 +126,6 @@ export class CreateInvite extends Component<Props, State> {
                 <li>&quot;John Doe&quot; &lt;john@example.com&gt;</li>
               </ul>
               <Button
-                className={s.button}
                 variant="primary"
                 disabled={loading}
                 onClick={() => this.sendInvites(createInvite)}

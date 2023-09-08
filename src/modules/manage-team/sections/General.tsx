@@ -5,6 +5,7 @@ import { Query, Mutation } from "@apollo/client/react/components";
 import settings from "../../../config/settings";
 import { Storage } from "../../../support/storage";
 import { Button, Icon, Input, Label } from "@sandercamp/ui-components";
+import s from "./General.module.css";
 
 export const GET_TEAM_NAME = gql`
   query GetTeamName($id: ID!) {
@@ -82,7 +83,7 @@ export default class GeneralSection extends Component<Props, State> {
 
   render() {
     return (
-      <>
+      <div className="form-container">
         <h2>
           <Icon name="settings" />
           General
@@ -110,22 +111,26 @@ export default class GeneralSection extends Component<Props, State> {
                   <>
                     <h1>{data && data.teamById ? data.teamById.name : "-"}</h1>
                     <form onSubmit={() => this.updateTeam(mutate)}>
-                      <Label htmlFor="name">New team name</Label>
-                      <Input
-                        data-testid="name-input"
-                        placeholder="Team name"
-                        name="name"
-                        required
-                        value={this.state.name}
-                        onChange={(e) =>
-                          this.setState({ name: e.target.value })
-                        }
-                      />
+                      <Label>
+                        New team name
+                        <Input
+                          data-testid="name-input"
+                          placeholder="Team name"
+                          name="name"
+                          required
+                          value={this.state.name}
+                          onChange={(e) =>
+                            this.setState({ name: e.target.value })
+                          }
+                        />
+                      </Label>
+
                       <Button
                         data-testid="submit-button"
                         variant="primary"
                         disabled={loading}
                         type="submit"
+                        className={s.button}
                       >
                         Update
                       </Button>
@@ -136,7 +141,7 @@ export default class GeneralSection extends Component<Props, State> {
             );
           }}
         </Query>
-      </>
+      </div>
     );
   }
 }

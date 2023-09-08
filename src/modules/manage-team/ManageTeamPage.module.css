@@ -10,6 +10,7 @@
 @media only screen and (max-width: 768px) {
   .container {
     flex-direction: column;
+    gap: 0rem;
   }
 }
 
@@ -60,4 +61,16 @@
 .content_segment {
   flex: 1;
   height: min-content;
+  width: 100%;
+}
+
+@media only screen and (max-width: 768px) {
+  .menu_segment {
+    padding: 0 0 2rem 0;
+  }
+
+  .content_segment {
+    padding: 0;
+    margin-bottom: 2rem;
+  }
 }

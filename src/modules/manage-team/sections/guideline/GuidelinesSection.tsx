@@ -97,7 +97,7 @@ class GuidelineSection extends Component<Props, State> {
 
   render() {
     return (
-      <>
+      <div className="form-container">
         <h2>
           <Icon name="steps" />
           Guidelines
@@ -140,7 +140,7 @@ class GuidelineSection extends Component<Props, State> {
             );
           }}
         </Query>
-      </>
+      </div>
     );
   }
 }

@@ -112,24 +112,24 @@ class GuidelineInput extends Component<Props, State> {
 
   render() {
     return (
-      <div id="kudos-input-container" className={s.test}>
+      <div id="kudos-input-container">
         <Label>
           Kudos amount
           <Input
-              className={
-                this.state.showGuidelines ? s.guideline_input_active : ""
-              }
-              data-testid="amount-input"
-              error={this.props.amountError}
-              onChange={this.handleChange}
-              onFocus={this.focusKudoInput}
-              onBlur={this.blurKudoInput}
-              placeholder="Amount of kudos"
-              name="amount"
-              type="number"
-              autoComplete="off"
-              min="1"
-              value={this.state.amount}
+            className={
+              this.state.showGuidelines ? s.guideline_input_active : ""
+            }
+            data-testid="amount-input"
+            error={this.props.amountError}
+            onChange={this.handleChange}
+            onFocus={this.focusKudoInput}
+            onBlur={this.blurKudoInput}
+            placeholder="Amount of kudos"
+            name="amount"
+            type="number"
+            autoComplete="off"
+            min="1"
+            value={this.state.amount}
           />
         </Label>
 

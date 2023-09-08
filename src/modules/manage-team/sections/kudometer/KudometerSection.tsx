@@ -1,5 +1,4 @@
-/* eslint-disable no-shadow */
-import React, { ChangeEvent, Component } from "react";
+import { Component } from "react";
 import { Query } from "@apollo/client/react/components";
 import type { ApolloClient } from "@apollo/client";
 import { ApolloConsumer } from "@apollo/client";
@@ -139,21 +138,24 @@ class KudometerSection extends Component<Props, State> {
     return (
       <ApolloConsumer>
         {(client) => (
-          <>
+          <div className="form-container">
             <h2>
               <Icon name="flag" />
               Kudometers
             </h2>
             <form onSubmit={() => this.saveKudosMeter(client)}>
-              <Label htmlFor="name">Name</Label>
-              <Input
-                data-testid="name-input"
-                required
-                name="name"
-                placeholder="Name"
-                value={this.state.name}
-                onChange={(e) => this.setState({ name: e.target.value })}
-              />
+              <Label>
+                Name
+                <Input
+                  data-testid="name-input"
+                  required
+                  name="name"
+                  placeholder="Name"
+                  value={this.state.name}
+                  onChange={(e) => this.setState({ name: e.target.value })}
+                />
+              </Label>
+
               <Button
                 data-testid="create-button"
                 variant="primary"
@@ -223,7 +225,7 @@ class KudometerSection extends Component<Props, State> {
                 );
               }}
             </Query>
-          </>
+          </div>
         )}
       </ApolloConsumer>
     );

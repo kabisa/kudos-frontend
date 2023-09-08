@@ -16,6 +16,15 @@
 
 // Design principles
 @import url("@sandercamp/ui-components/src/principles/index.module.css");
+@import "./colors";
+@import "./layout";
+
+// Global styles for custom components
+@import "./form-container";
+@import "./table";
+
+// Needs to be imported last
+@import "./reset";
 
 #root {
   font-family: var(--font-family);

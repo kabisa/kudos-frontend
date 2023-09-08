@@ -2415,10 +2415,10 @@
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.3.3.tgz#16ab6c727d8c2020a5b6e4a176a243ecd88d8d69"
   integrity sha512-0xd7qez0AQ+MbHatZTlI1gu5vkG8r7MYRUJAHPAHJBmGLs16zpkrpAVLvjQKQOqaXPDUBwOiJzNc00znHSCVBw==
 
-"@sandercamp/ui-components@^0.0.33":
-  version "0.0.33"
-  resolved "https://registry.yarnpkg.com/@sandercamp/ui-components/-/ui-components-0.0.33.tgz#6831e77471719fda1f83fe26ed6b56ed1355ebfb"
-  integrity sha512-itYxmIyquQ44GztK52qj8JXfCZXW1C0rUpbmSTLSNj+yld7wSUixo3vUNrVf0qiVj7PP3HWY5sPX/J1paOwk7Q==
+"@sandercamp/ui-components@^0.0.34":
+  version "0.0.34"
+  resolved "https://registry.yarnpkg.com/@sandercamp/ui-components/-/ui-components-0.0.34.tgz#661577a8ae818b1e0355154ee430a071474fef5c"
+  integrity sha512-IEaeOTRds1TzAsXC/bXkHCN1KNtth4oT+TAsbZwQFoahsnaraxigFZq+9kiozUN7VypGC7KGonA2f710LzSruQ==
   dependencies:
     "@storybook/addon-docs" "^7.3.2"
     "@storybook/addon-essentials" "^7.3.2"

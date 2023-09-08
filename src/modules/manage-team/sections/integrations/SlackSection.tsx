@@ -77,7 +77,6 @@ function SlackDisconnectedSection(
     <div data-testid="slack-disconnected-container">
       <h4>Slack integration</h4>
       <p>
-        {" "}
         To enable Slack integration add the app to your workspace using the
         button below.
       </p>

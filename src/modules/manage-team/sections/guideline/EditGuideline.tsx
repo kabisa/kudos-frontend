@@ -117,48 +117,47 @@ export class EditGuideline extends Component<
                   : this.createGuideline(mutate)
               }
             >
-              <Label htmlFor={this.state.editing ? "editKudos" : "kudos"}>
+              <Label>
                 Amount of kudos
+                <Input
+                  data-testid="kudo-input"
+                  placeholder="Kudos"
+                  type="number"
+                  min="1"
+                  max="1000"
+                  name={this.state.editing ? "editKudos" : "kudos"}
+                  required
+                  value={
+                    this.state.editing ? this.state.editKudos : this.state.kudos
+                  }
+                  onChange={(e) => {
+                    this.state.editing
+                      ? this.setState({ editKudos: e.target.value })
+                      : this.setState({ kudos: e.target.value });
+                  }}
+                />
               </Label>
-              <Input
-                data-testid="kudo-input"
-                placeholder="Kudos"
-                type="number"
-                min="1"
-                max="1000"
-                name={this.state.editing ? "editKudos" : "kudos"}
-                required
-                value={
-                  this.state.editing ? this.state.editKudos : this.state.kudos
-                }
-                onChange={(e) => {
-                  this.state.editing
-                    ? this.setState({ editKudos: e.target.value })
-                    : this.setState({ kudos: e.target.value });
-                }}
-              />
 
-              <Label
-                htmlFor={this.state.editing ? "editDescription" : "description"}
-              >
+              <Label>
                 Description
+                <Input
+                  data-testid="description-input"
+                  required
+                  name={this.state.editing ? "editDescription" : "description"}
+                  placeholder="Description"
+                  value={
+                    this.state.editing
+                      ? this.state.editDescription
+                      : this.state.description
+                  }
+                  onChange={(e) => {
+                    this.state.editing
+                      ? this.setState({ editDescription: e.target.value })
+                      : this.setState({ description: e.target.value });
+                  }}
+                />
               </Label>
-              <Input
-                data-testid="description-input"
-                required
-                name={this.state.editing ? "editDescription" : "description"}
-                placeholder="Description"
-                value={
-                  this.state.editing
-                    ? this.state.editDescription
-                    : this.state.description
-                }
-                onChange={(e) => {
-                  this.state.editing
-                    ? this.setState({ editDescription: e.target.value })
-                    : this.setState({ description: e.target.value });
-                }}
-              />
+
               <Button
                 data-testid="submit-button"
                 variant="primary"

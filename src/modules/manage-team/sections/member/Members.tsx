@@ -5,7 +5,6 @@ import { Query } from "@apollo/client/react/components";
 import settings from "../../../../config/settings";
 import { MemberRow } from "./MemberRow";
 import { Storage } from "../../../../support/storage";
-import s from "./Members.module.css";
 import { Icon } from "@sandercamp/ui-components";
 
 export const GET_USERS = gql`
@@ -92,7 +91,7 @@ export default class MemberSection extends Component<Props, State> {
 
   render() {
     return (
-      <>
+      <div className="form-container">
         <h2>
           <Icon name="people" />
           Members
@@ -107,7 +106,7 @@ export default class MemberSection extends Component<Props, State> {
 
             return (
               <div>
-                <table className={s.table}>
+                <table>
                   <thead>
                     <tr>
                       <th>Name</th>
@@ -137,7 +136,7 @@ export default class MemberSection extends Component<Props, State> {
             );
           }}
         </Query>
-      </>
+      </div>
     );
   }
 }

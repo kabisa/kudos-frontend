@@ -26,7 +26,7 @@ export function MemberRow(props: MemberRowProps) {
       <td>{props.membership.role}</td>
       <td>
         {userId !== props.membership.user.id && (
-          <div>
+          <>
             <AlterRoleButton
               refetch={props.refetch}
               membership={props.membership}
@@ -58,7 +58,7 @@ export function MemberRow(props: MemberRowProps) {
                 />
               )}
             </Mutation>
-          </div>
+          </>
         )}
       </td>
     </tr>

@@ -127,47 +127,47 @@ export class EditGoal extends React.Component<EditGoalProps, State> {
                   : this.createGoal(mutate)
               }
             >
-              <Label htmlFor={this.state.editing ? "editGoalName" : "goalName"}>
+              <Label>
                 Name
+                <Input
+                  data-testid="goal-name"
+                  required
+                  name={this.state.editing ? "editGoalName" : "goalName"}
+                  placeholder="Name"
+                  value={
+                    this.state.editing
+                      ? this.state.editGoalName
+                      : this.state.goalName
+                  }
+                  onChange={(e) =>
+                    this.state.editing
+                      ? this.setState({ editGoalName: e.target.value })
+                      : this.setState({ goalName: e.target.value })
+                  }
+                />
               </Label>
-              <Input
-                data-testid="goal-name"
-                required
-                name={this.state.editing ? "editGoalName" : "goalName"}
-                placeholder="Name"
-                value={
-                  this.state.editing
-                    ? this.state.editGoalName
-                    : this.state.goalName
-                }
-                onChange={(e) =>
-                  this.state.editing
-                    ? this.setState({ editGoalName: e.target.value })
-                    : this.setState({ goalName: e.target.value })
-                }
-              />
-              <Label
-                htmlFor={this.state.editing ? "editGoalKudos" : "goalKudos"}
-              >
+
+              <Label>
                 Kudos
+                <Input
+                  required
+                  name={this.state.editing ? "editGoalKudos" : "goalKudos"}
+                  type="number"
+                  min="100"
+                  placeholder="Kudos"
+                  value={
+                    this.state.editing
+                      ? this.state.editGoalKudos
+                      : this.state.goalKudos
+                  }
+                  onChange={(e) =>
+                    this.state.editing
+                      ? this.setState({ editGoalKudos: e.target.value })
+                      : this.setState({ goalKudos: e.target.value })
+                  }
+                />
               </Label>
-              <Input
-                required
-                name={this.state.editing ? "editGoalKudos" : "goalKudos"}
-                type="number"
-                min="100"
-                placeholder="Kudos"
-                value={
-                  this.state.editing
-                    ? this.state.editGoalKudos
-                    : this.state.goalKudos
-                }
-                onChange={(e) =>
-                  this.state.editing
-                    ? this.setState({ editGoalKudos: e.target.value })
-                    : this.setState({ goalKudos: e.target.value })
-                }
-              />
+
               <Button
                 data-testid="submit-button"
                 variant="primary"

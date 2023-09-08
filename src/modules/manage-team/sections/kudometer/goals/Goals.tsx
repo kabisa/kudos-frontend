@@ -27,8 +27,10 @@ export class Goals extends Component<Props, State> {
 
   render() {
     return (
-      <div>
-        <h1>Goals for {this.props.kudometer.name}</h1>
+      <div className="form-container">
+        <h1 style={{ marginTop: "1rem" }}>
+          Goals for {this.props.kudometer.name}
+        </h1>
 
         <EditGoal
           data-testid="goal-edit"

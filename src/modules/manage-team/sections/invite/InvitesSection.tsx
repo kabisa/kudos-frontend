@@ -37,7 +37,7 @@ export interface InviteModel {
 
 export function InviteSection(): React.ReactElement {
   return (
-    <>
+    <div className="form-container">
       <h2>
         <Icon name="mail" />
         Invites
@@ -76,6 +76,6 @@ export function InviteSection(): React.ReactElement {
           );
         }}
       </Query>
-    </>
+    </div>
   );
 }
