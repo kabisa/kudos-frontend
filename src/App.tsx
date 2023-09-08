@@ -30,7 +30,7 @@ const ToastWrapper = () => (
 
 function App() {
   return (
-    <div>
+    <>
       <Router history={history}>
         <Switch>
           <Route path={routes.PATH_LOGIN}>
@@ -89,7 +89,7 @@ function App() {
         </Switch>
       </Router>
       <ToastWrapper />
-    </div>
+    </>
   );
 }
 

@@ -50,8 +50,8 @@ describe("<ChoiceButton />", () => {
       withMockedProviders(
         <ChoiceButton
           inviteId="1"
+          variant="primary"
           mutation={fakeMutation}
-          color="red"
           accept
           teamId="1"
           text="button text"
@@ -68,8 +68,8 @@ describe("<ChoiceButton />", () => {
       withMockedProviders(
         <ChoiceButton
           inviteId="1"
+          variant="primary"
           mutation={fakeMutation}
-          color="red"
           accept
           teamId="1"
           text="button text"
@@ -91,8 +91,8 @@ describe("<ChoiceButton />", () => {
       withMockedProviders(
         <ChoiceButton
           inviteId="1"
+          variant="primary"
           mutation={fakeMutation}
-          color="red"
           accept
           teamId="1"
           text="button text"
@@ -113,8 +113,8 @@ describe("<ChoiceButton />", () => {
       withMockedProviders(
         <ChoiceButton
           inviteId="1"
+          variant="primary"
           mutation={fakeMutation}
-          color="red"
           accept
           teamId="1"
           text="button text"
@@ -135,8 +135,8 @@ describe("<ChoiceButton />", () => {
       withMockedProviders(
         <ChoiceButton
           inviteId="1"
+          variant="primary"
           mutation={fakeMutation}
-          color="red"
           accept
           teamId="1"
           text="button text"
@@ -157,8 +157,8 @@ describe("<ChoiceButton />", () => {
       withMockedProviders(
         <ChoiceButton
           inviteId="1"
+          variant="primary"
           mutation={fakeMutation}
-          color="red"
           accept={false}
           teamId="1"
           text="button text"

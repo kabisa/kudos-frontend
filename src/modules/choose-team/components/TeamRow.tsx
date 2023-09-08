@@ -1,9 +1,8 @@
-import React from "react";
-import { Button, GridColumn, GridRow } from "semantic-ui-react";
 import s from "./ChooseTeam.module.scss";
 import { selectTeam } from "../utils";
 import { PATH_FEED } from "../../../routes";
 import { useHistory } from "react-router-dom";
+import { Button } from "@sandercamp/ui-components";
 
 export interface Props {
   id: string;
@@ -15,14 +14,11 @@ function TeamRow(props: Props) {
   const history = useHistory();
 
   return (
-    <GridRow textAlign="center">
-      <GridColumn>
-        <p className={s.text}>{props.name}</p>
-      </GridColumn>
-      <GridColumn>
+    <div className={s.teamItem}>
+      <p className={s.text}>{props.name}</p>
+      <div>
         <Button
-          color="teal"
-          size="small"
+          variant="primary"
           onClick={() => {
             selectTeam(props.id, props.userRole);
             history.push(PATH_FEED);
@@ -30,8 +26,8 @@ function TeamRow(props: Props) {
         >
           Choose
         </Button>
-      </GridColumn>
-    </GridRow>
+      </div>
+    </div>
   );
 }
 

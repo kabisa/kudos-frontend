@@ -50,7 +50,8 @@ export function InviteSection(): React.ReactElement {
         {({ loading, error, data }) => {
           if (loading) return <p>Loading...</p>;
           if (error) return <p>Error! {error.message}</p>;
-          if (!data || !data.teamById) return <p>No invites available</p>;
+          if (!data || !data.teamById || data.teamById.teamInvites.length === 0)
+            return <p>No invites available</p>;
 
           return (
             <table>

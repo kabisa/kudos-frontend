@@ -7,10 +7,9 @@ import { ERROR_NAME_BLANK, getGraphqlError } from "../../support";
 import { Navigation } from "../../components/navigation";
 import { PATH_FEED } from "../../routes";
 import { Storage } from "../../support/storage";
-import s from "./CreateTeamPage.module.scss";
-import { FormWrapper } from "../../components";
-import { Button, Input } from "@sandercamp/ui-components";
+import { Button, Input, Label } from "@sandercamp/ui-components";
 import Segment from "../../components/atoms/Segment";
+import Page from "../../components/templates/Page";
 
 export const MUTATION_CREATE_TEAM = gql`
   mutation CreateTeam($name: String!) {
@@ -73,8 +72,10 @@ const CreateTeamPage = () => {
   };
 
   const content = (
-    <div>
-      <form className={s.form}>
+    <form className="form-container">
+      <h1>Create new team</h1>
+      <Label>
+        Name
         <Input
           data-testid="name-input"
           name="name"
@@ -82,31 +83,29 @@ const CreateTeamPage = () => {
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
-        <Button
-          data-testid="create-team-button"
-          variant="primary"
-          disabled={loading}
-          onClick={handleCreateTeam}
-        >
-          Create team
-        </Button>
-        {error && (
-          <div>
-            <span>Unable to create team</span>
-            <p>{error}</p>
-          </div>
-        )}
-      </form>
-    </div>
+      </Label>
+
+      <Button
+        data-testid="create-team-button"
+        variant="primary"
+        disabled={loading}
+        onClick={handleCreateTeam}
+      >
+        Create team
+      </Button>
+      {error && (
+        <div>
+          <span>Unable to create team</span>
+          <p>{error}</p>
+        </div>
+      )}
+    </form>
   );
 
   return (
-    <div>
-      <FormWrapper toolbar="Create team" header="create team">
-        <Segment>{content}</Segment>
-      </FormWrapper>
-      <Navigation />
-    </div>
+    <Page>
+      <Segment>{content}</Segment>
+    </Page>
   );
 };
 

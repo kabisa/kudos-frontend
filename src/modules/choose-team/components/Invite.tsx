@@ -1,4 +1,3 @@
-import React from "react";
 import { gql } from "@apollo/client";
 
 import ChoiceButton from "./ChoiceButton";
@@ -43,17 +42,17 @@ export function Invite(props: Props): React.ReactElement {
       <p className={s.text}>{props.invite.team.name}</p>
       <ChoiceButton
         inviteId={props.invite.id}
+        variant="primary"
         mutation={MUTATION_ACCEPT_INVITE}
         text="Accept"
-        color="teal"
         teamId={props.invite.team.id}
         accept
       />
       <ChoiceButton
         inviteId={props.invite.id}
+        variant="secondary"
         mutation={MUTATION_DECLINE_INVITE}
         text="Decline"
-        color="red"
         teamId={props.invite.team.id}
       />
     </div>

@@ -111,7 +111,11 @@ class GuidelineSection extends Component<Props, State> {
             if (loading) return <p>Loading...</p>;
             if (error) return <p>Error! {error.message}</p>;
 
-            if (!data || !data.teamById) {
+            if (
+              !data ||
+              !data.teamById ||
+              data.teamById.guidelines.length === 0
+            ) {
               return <p>No guidelines available</p>;
             }
             return (
