@@ -5,7 +5,6 @@ import { FragmentPostResult } from "../../queries";
 import { Storage } from "../../../../support/storage";
 
 import s from "./Transaction.module.scss";
-import { Card } from "@sandercamp/ui-components";
 
 const userId = Storage.getItem(settings.USER_ID_TOKEN);
 
@@ -18,9 +17,8 @@ function Transaction(props: TransactionProps) {
 
   return (
     <div data-testid="kudo-transaction" className={s.transaction}>
-      <Card className={s.card}>
         <Header data-testid="post-header" transaction={props.transaction} />
-        <div className={s.transaction_text}>
+        <div>
           <div data-test="post-message">
             <strong data-testid="sender-name">
               {props.transaction.sender.name}{" "}
@@ -50,16 +48,13 @@ function Transaction(props: TransactionProps) {
             </div>
           )}
         </div>
-        <div className={s.card_content}>
-          <LikeButton
-            data-testid="like-button"
-            liked={props.transaction.votes.some(
-              (vote) => vote.voter.id === userId,
-            )}
-            post={props.transaction}
-          />
-        </div>
-      </Card>
+      <LikeButton
+        data-testid="like-button"
+        liked={props.transaction.votes.some(
+          (vote) => vote.voter.id === userId,
+        )}
+        post={props.transaction}
+      />
     </div>
   );
 }

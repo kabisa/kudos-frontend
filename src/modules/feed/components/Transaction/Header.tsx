@@ -107,14 +107,14 @@ export class Header extends Component<Props, State> {
       moment.duration(timestamp.diff(moment())).asMinutes() * -1 <= 15;
 
     return (
-      <div className={s.root}>
-        <div>
-          <span className={s.kudo_amount} data-testid="post-amount">
+      <div className={s.container}>
+        <div className={ s.kudos }>
+          <span data-testid="post-amount">
             {amount + votes.length}
           </span>
-          <span className={s.kudo_symbol}>₭</span>
+          ₭
         </div>
-        <div className={s.image_wrapper}>
+        <div className={s.avatarWrapper}>
           <img
             className={s.avatar}
             data-testid="sender-avatar"
@@ -129,7 +129,7 @@ export class Header extends Component<Props, State> {
             />
           ))}
         </div>
-        <div>
+        <div className={ s.utilityContainer}>
           <span data-testid="post-timestamp" className={s.timestamp}>
             {timestamp.fromNow()}
           </span>
@@ -151,7 +151,7 @@ export class Header extends Component<Props, State> {
             >
               {(mutate) => (
                 <IconButton
-                  className={ classNames(s.demo, s.demo2) }
+                  className={ classNames(s.deleteButton) }
                   name="delete"
                   data-testid="delete-button"
                   onClick={() => this.openConfirmDialog(mutate)}
