@@ -6,6 +6,8 @@
 
 .button {
     align-self: center;
+
+    font-weight: var(--font-weight-bold);
 }
 
 .note {
