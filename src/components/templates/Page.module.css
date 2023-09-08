@@ -24,5 +24,7 @@
 @media only screen and (max-width: 991px) {
   .main {
     margin-top: 0px;
+
+    padding: 0;
   }
 }
