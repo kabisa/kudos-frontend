@@ -1,8 +1,3 @@
-img {
-  border-radius: 50%;
-  width: 80px;
-}
-
 :global(#root) {
   .button_wrapper {
     display: block;
@@ -27,11 +22,15 @@ img {
     display: grid;
     justify-content: center;
     row-gap: 10px;
+    width: 100%;
   }
 
   .image {
     margin-top: 32px;
     margin-bottom: 16px;
+    border-radius: 50%;
+    width: 80px;
+    justify-self: center;
   }
 
   .image_caption {
@@ -47,16 +46,24 @@ img {
     color: grey;
   }
 
-
   .slack_button {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #ffffff;
+    margin: auto;
+    margin-bottom: 2rem;
+    padding: var(--padding-level-3) var(--padding-level-4);
 
     :first-child {
-      margin-right: 8px;
+      margin-right: 0.5rem;
     }
+  }
+
+  .slack_message {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .slack_message > p {
+    margin-bottom: 1rem;
   }
 
   .page {
@@ -87,4 +94,3 @@ img {
     }
   }
 }
-

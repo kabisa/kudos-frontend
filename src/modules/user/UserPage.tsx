@@ -101,7 +101,7 @@ export class UserPage extends React.Component<Props, State> {
                     return <span>Something went wrong</span>;
 
                   return (
-                    <div>
+                    <>
                       <h2 className={s.name}>{data.viewer.name}</h2>
                       <img
                         src={
@@ -120,14 +120,16 @@ export class UserPage extends React.Component<Props, State> {
                         </a>
                       </span>
                       {data && data.viewer.slackId ? (
-                        <SlackConnectedSegment />
+                        <SlackConnectedSegment
+                          slackIconPath={this.slackIconPath}
+                        />
                       ) : (
                         <SlackDisconnectedSegment
                           slackIconPath={this.slackIconPath}
                           slackConnectUrl={this.slackConnectUrl}
                         />
                       )}
-                    </div>
+                    </>
                   );
                 }}
               </Query>
@@ -138,7 +140,7 @@ export class UserPage extends React.Component<Props, State> {
                 Change password
               </Button>
               <Button
-                variant={"secondary"}
+                variant="secondary"
                 onClick={() => Auth.logout()}
                 className={s.button}
               >

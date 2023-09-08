@@ -8,7 +8,11 @@ import { DISCONNECT_SLACK, DisconnectSlackResult, GET_USER } from "./UserPage";
 
 import s from "./UserPage.module.scss";
 
-export function SlackConnectedSegment(): React.ReactElement {
+export function SlackConnectedSegment({
+  slackIconPath,
+}: {
+  slackIconPath: string;
+}): React.ReactElement {
   return (
     <div data-testid="slack-connected">
       <h3>Your account is connected to Slack!</h3>
@@ -30,11 +34,17 @@ export function SlackConnectedSegment(): React.ReactElement {
 
           return (
             <Button
-              variant={ "secondary" }
-              className={s.button}
+              variant="secondary"
+              className={s.slack_button}
               //loading={mutationLoading} TODO
               onClick={() => disconnectSlack()}
             >
+              <img
+                width={20}
+                height={20}
+                src={slackIconPath}
+                alt="Disconnect account"
+              />
               Disconnect Slack account
             </Button>
           );
@@ -50,31 +60,28 @@ export interface SlackDisconnectedProps {
 }
 
 export function SlackDisconnectedSegment(
-  props: SlackDisconnectedProps
+  props: SlackDisconnectedProps,
 ): React.ReactElement {
   return (
-    <div className="text-center" data-testid="register-slack">
+    <div className={s.slack_message} data-testid="register-slack">
       <h3>
         You&#39;re account is not yet connected to Slack but don&#39;t worry,
         connecting is easy!
       </h3>
-      <div>
-        <p>Simply press the button below and you&#39;re good to go.</p>
-        <Button
-          className={`${s.button} ${s.button_white}`}
-          onClick={ () => window.location.href = props.slackConnectUrl }
-        >
-          <div className={s.slack_button}>
-            <img
-              width={20}
-              height={20}
-              src={props.slackIconPath}
-              alt="Connect account"
-            />
-            Connect account
-          </div>
-        </Button>
-      </div>
+      <p>Simply press the button below and you&#39;re good to go.</p>
+      <Button
+        variant="secondary"
+        className={s.slack_button}
+        onClick={() => (window.location.href = props.slackConnectUrl)}
+      >
+        <img
+          width={20}
+          height={20}
+          src={props.slackIconPath}
+          alt="Connect account"
+        />
+        Connect account
+      </Button>
     </div>
   );
 }
