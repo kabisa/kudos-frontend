@@ -51,9 +51,9 @@ export class FeedPage extends Component<FeedPageProps, FeedPageState> {
     return (
       <Page>
         <TabletAndBelow>
-          <div className={styles.create_post_container_mobile}>
+          <Segment>
             <CreatePost back={false} />
-          </div>
+          </Segment>
           <KudoBoard />
         </TabletAndBelow>
         <Desktop>
