@@ -1,28 +1,34 @@
 .container {
-  display: flex;
-  flex-direction: column;
   gap: var(--spacing-level-3);
 
-  box-sizing: border-box;
-
   width: 100%;
-  padding: 0 var(--padding-level-5);
 }
 
-:global(#root) {
-  .arrow_container {
-    height: 120px;
-    display: flex;
-  }
+.container > li:not(:first-child) {
+  border: none;
+}
 
-  .arrow {
-    margin: auto;
-    color: #ffffff;
-  }
+.container > li > div {
+  border-radius: var(--radii-level-2);
+}
 
-  .end_message {
-    line-height: 60px;
-    text-align: center;
-    color: #ffffff;
-  }
+.arrowButton {
+  border: none;
+  margin: 2rem 0;
+
+  background: transparent;
+}
+
+.arrowButton:hover {
+  cursor: pointer;
+}
+
+.arrow {
+  color: var(--font-color-2);
+}
+
+.endMessage {
+  margin: 2rem 0;
+
+  color: var(--font-color-2);
 }

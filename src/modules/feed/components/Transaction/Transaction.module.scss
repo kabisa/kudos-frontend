@@ -1,14 +1,9 @@
 .transaction {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-level-4);
 
-
-
-}
-
-.transaction_text {
-  margin-top: 16px;
-  color: #081721;
-  font-size: 14px;
-  text-align: left;
+  width: 100%;
 }
 
 .images {
@@ -22,14 +17,5 @@
     margin-top: 0.5rem;
     object-fit: cover;
     cursor: pointer;
-  }
-}
-
-:global(#root) {
-  .card {
-    border-radius: var(--radii-level-2);
-  }
-
-  .card_content {
   }
 }

@@ -44,14 +44,11 @@ export interface ActiveGoal {
   achievedOn: string;
 }
 
-const achievedColor = "#18242b";
+const achievedColor = "#24b371";
 const defaultColor = "#bfdbcf";
 
 const Statistics = () => (
   <div className={s.container}>
-    <h1 className={s.kudo_header}>₭udometer</h1>
-    <p className={s.today}>{moment().format("MMMM Do, YYYY")}</p>
-
     <Query<GetGoalPercentageResult>
       query={GET_GOAL_PERCENTAGE}
       variables={{

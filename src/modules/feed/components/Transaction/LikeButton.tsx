@@ -1,6 +1,8 @@
 import React from "react";
 import { gql } from "@apollo/client";
 import { Mutation } from "@apollo/client/react/components";
+import classNames from 'classnames';
+import { Icon } from "@sandercamp/ui-components";
 
 import enhanceWithClickOutside from "react-click-outside";
 import settings from "../../../../config/settings";
@@ -11,8 +13,8 @@ import {
   GET_POSTS,
 } from "../../queries";
 import { Storage } from "../../../../support/storage";
+
 import s from "./LikeButton.module.scss";
-import {Button, Icon, IconButton} from "@sandercamp/ui-components";
 
 export const MUTATION_TOGGLE_LIKE = gql`
   mutation ToggleLikePost($id: ID!) {
@@ -176,15 +178,17 @@ class LikeButton extends React.Component<LikeButtonProps, LikeButtonState> {
             ]}
           >
             {(mutate) => (
-              <div
-                className={ s.buttonContainer }
-              >
-                <IconButton
-                  className={ s.button }
-                  name="thumb_up"
-                  variant="tertiary"
-                  data-testid="like-button"
+              <button
+                  className={ s.buttonContainer }
                   onClick={() => toggleLike(mutate, post.id, post)}
+              >
+                <Icon
+                  className={ classNames([
+                    liked ? "material-symbols-rounded" : "material-symbols-rounded-outlined",
+                    s.button
+                  ] ) }
+                  name="thumb_up"
+                  data-testid="like-button"
                 />
 
 
@@ -197,16 +201,16 @@ class LikeButton extends React.Component<LikeButtonProps, LikeButtonState> {
                 {/*  />*/}
                 {/*)}*/}
                 <span>+1₭</span>
-              </div>
+              </button>
             )}
           </Mutation>
         </div>
-        <p className={s.like_message} onClick={this.show} data-testid="message">
-          {message}
+        <p className={s.likes} onClick={this.show} data-testid="message">
+          { message }
+          {this.state.showLikes && (
+              <div className={s.all_likes_container}>{allLikes}</div>
+          )}
         </p>
-        {this.state.showLikes && (
-          <div className={s.all_likes_container}>{allLikes}</div>
-        )}
       </div>
     );
   }
