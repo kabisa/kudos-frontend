@@ -6,7 +6,8 @@ import { Storage } from "../../../../support/storage";
 import settings from "../../../../config/settings";
 
 import { Label } from "@sandercamp/ui-components";
-import Select, { SingleValue } from "react-select";
+import Select from "react-select";
+import type { SingleValue } from "react-select";
 
 const KUDO_GUIDELINE_RANGE = 5;
 
@@ -46,18 +47,12 @@ export interface State {
 export type GuidelineOption = { label: string; value: number };
 
 class GuidelineInput extends Component<Props, State> {
-  initialState: State;
-
-  // @ts-ignore
-  timeout: NodeJS.Timeout;
-
   constructor(props: Props) {
     super(props);
 
     this.state = {
       amount: 0,
     };
-    this.initialState = this.state;
 
     this.selectGuideline = this.selectGuideline.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -65,19 +60,20 @@ class GuidelineInput extends Component<Props, State> {
   }
 
   handleChange(e: ChangeEvent<HTMLInputElement>) {
-    this.setState({ amount: parseInt(e.target.value) });
-    this.props.handleChange(parseInt(e.target.value));
+    const amount = parseInt(e.target.value);
+    this.setState({ amount });
+    this.props.handleChange(amount);
   }
 
   selectGuideline(e: SingleValue<GuidelineOption>) {
-    if (e?.value) {
-      this.setState({ amount: e.value });
-      this.props.handleChange(e.value);
-    }
+    if (!e?.value) return;
+
+    this.setState({ amount: e.value });
+    this.props.handleChange(e.value);
   }
 
   resetState() {
-    this.setState(this.initialState);
+    this.setState({ amount: 0 });
   }
 
   render() {
@@ -117,9 +113,19 @@ class GuidelineInput extends Component<Props, State> {
             return (
               <Label>
                 Kudos amount
-                <Select<GuidelineOption, false>
+                <Select<GuidelineOption>
+                  key={`react-select-${this.state.amount}`}
                   options={guidelines}
                   onChange={(e) => this.selectGuideline(e)}
+                  value={
+                    // Only display the amount instead of the whole label
+                    this.state.amount && this.state.amount !== 0
+                      ? {
+                          label: this.state.amount.toString(),
+                          value: this.state.amount,
+                        }
+                      : undefined
+                  }
                   isLoading={loading}
                   isDisabled={loading}
                   placeholder="Kudos amount"
