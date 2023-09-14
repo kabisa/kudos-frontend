@@ -1,4 +1,4 @@
-@import "elements/base";
+@import "./elements/base.css";
 
 @media only screen and (min-width: 1200px) {
   .ui.container {
@@ -26,37 +26,15 @@ div.main-form {
   }
 }
 
-.page {
-  padding-top: constant(safe-area-inset-top); /* iOS 11.0 */
-  padding-top: env(safe-area-inset-top); /* iOS 11.2 */
-  text-align: center;
-  background: var(--kudo-color-light);
-}
-
 .flex {
   display: flex;
   flex-direction: column;
 }
 
-.padding {
-  padding: 32px;
-}
-
-div.ui.vertical.tabular.menu {
-  a.active.item {
-    background: var(--kudo-color-button);
-    color: #ffffff;
-  }
-}
-
-.text-center {
-  text-align: center;
-}
-
 .errorMessage {
   border-radius: var(--radii-level-1);
-  padding: var(--padding-level-5) 0;
-  margin-top: var(--spacing-level-5);
+  padding: var(--padding-level-5);
+  margin-bottom: var(--spacing-level-5);
 
   box-shadow:
     0 0 0 1px #e0b4b4 inset,
@@ -65,17 +43,17 @@ div.ui.vertical.tabular.menu {
   background: #fff6f6;
 
   color: #9f3a38;
+}
 
-  & > h3 {
-    margin: 0;
+.errorMessage > h3 {
+  margin: 0;
 
-    font-size: var(--font-size-m);
-  }
+  font-size: var(--font-size-m);
 }
 
 .successMessage {
   border-radius: var(--radii-level-1);
-  padding: var(--padding-level-5) 0;
+  padding: var(--padding-level-5);
   margin-top: var(--spacing-level-5);
 
   box-shadow:
@@ -85,12 +63,12 @@ div.ui.vertical.tabular.menu {
   background: #fff6f6;
 
   color: var(--brand-color-2);
+}
 
-  & > h3 {
-    margin: 0;
+.successMessage > h3 {
+  margin: 0;
 
-    font-size: var(--font-size-m);
-  }
+  font-size: var(--font-size-m);
 }
 
 .grid {
@@ -100,7 +78,7 @@ div.ui.vertical.tabular.menu {
   width: fit-content;
   margin: auto;
 
-  min-height: 1200px; // TODO: Needed?
+  min-height: 1200px;
 }
 
 .grid_column {

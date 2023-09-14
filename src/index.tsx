@@ -1,4 +1,4 @@
-import "./styles/shell.scss";
+import "./styles/shell.css";
 
 import ReactDOM from "react-dom";
 import App from "./App";
