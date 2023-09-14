@@ -8,6 +8,7 @@ header {
   color: var(--kudo-text);
   height: 62px;
   padding: var(--padding-level-3) 2rem;
+  z-index: 10;
 }
 
 nav {

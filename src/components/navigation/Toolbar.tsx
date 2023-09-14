@@ -1,8 +1,8 @@
 import React from "react";
-import { Button, Icon } from "semantic-ui-react";
 import { Link, useHistory } from "react-router-dom";
-import s from "./Toolbar.module.scss";
+import s from "./Toolbar.module.css";
 import { TabletAndBelow } from "../../support/breakpoints";
+import { Icon } from "@sandercamp/ui-components";
 
 export interface Props {
   to?: string;
@@ -14,12 +14,12 @@ export default function Toolbar(props: Props) {
 
   const backLink = props.to ? (
     <Link to={props.to} className={s.back_link}>
-      <Icon name="arrow left" size="large" className={s.icon} />
+      <Icon name="arrow_left" className={s.icon} />
     </Link>
   ) : (
-    <Button icon onClick={() => history.goBack()} className={s.back_link}>
-      <Icon name="arrow left" size="large" className={s.icon} />
-    </Button>
+    <button className={s.button} onClick={() => history.goBack()}>
+      <Icon name="arrow_left" className={s.icon} />
+    </button>
   );
 
   return (

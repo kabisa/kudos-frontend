@@ -6,7 +6,6 @@ import { withRouter } from "react-router-dom";
 import { History } from "history";
 import { toast } from "react-toastify";
 
-import { Navigation } from "../../components/navigation";
 import { Auth } from "../../support";
 import settings from "../../config/settings";
 import { Storage } from "../../support/storage";
@@ -16,8 +15,9 @@ import {
   SlackDisconnectedSegment,
 } from "./SlackSection";
 
-import s from "./UserPage.module.scss";
+import s from "./UserPage.module.css";
 import Segment from "../../components/atoms/Segment";
+import Page from "../../components/templates/Page";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const queryString = require("query-string");
@@ -89,50 +89,48 @@ export class UserPage extends React.Component<Props, State> {
 
   render() {
     return (
-      <div>
-        <div className={`page text-center ${s.container}`}>
-          <Segment>
-            <div className={s.content}>
-              <Query<GetUserResult> query={GET_USER}>
-                {({ loading, data }) => {
-                  if (loading)
-                    return <span data-testid="loading">Loading...</span>;
-                  if (!data || !data.viewer)
-                    return <span>Something went wrong</span>;
+      <Page>
+        <Segment>
+          <div className={s.content}>
+            <Query<GetUserResult> query={GET_USER}>
+              {({ loading, data }) => {
+                if (loading)
+                  return <span data-testid="loading">Loading...</span>;
+                if (!data || !data.viewer)
+                  return <span>Something went wrong</span>;
 
-                  return (
-                    <>
-                      <h2 className={s.name}>{data.viewer.name}</h2>
-                      <img
-                        src={
-                          data && data.viewer ? data.viewer.avatar : undefined
-                        }
-                        className={s.image}
+                return (
+                  <>
+                    <h2 className={s.name}>{data.viewer.name}</h2>
+                    <img
+                      src={data && data.viewer ? data.viewer.avatar : undefined}
+                      className={s.image}
+                    />
+                    <span className={s.image_caption}>
+                      To change your avatar go to{" "}
+                      <a
+                        href="https://nl.gravatar.com/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        gravatar.com
+                      </a>
+                    </span>
+                    {data && data.viewer.slackId ? (
+                      <SlackConnectedSegment
+                        slackIconPath={this.slackIconPath}
                       />
-                      <span className={s.image_caption}>
-                        To change your avatar go to{" "}
-                        <a
-                          href="https://nl.gravatar.com/"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          gravatar.com
-                        </a>
-                      </span>
-                      {data && data.viewer.slackId ? (
-                        <SlackConnectedSegment
-                          slackIconPath={this.slackIconPath}
-                        />
-                      ) : (
-                        <SlackDisconnectedSegment
-                          slackIconPath={this.slackIconPath}
-                          slackConnectUrl={this.slackConnectUrl}
-                        />
-                      )}
-                    </>
-                  );
-                }}
-              </Query>
+                    ) : (
+                      <SlackDisconnectedSegment
+                        slackIconPath={this.slackIconPath}
+                        slackConnectUrl={this.slackConnectUrl}
+                      />
+                    )}
+                  </>
+                );
+              }}
+            </Query>
+            <div>
               <Button
                 className={s.button}
                 onClick={() => this.props.history.push(PATH_RESET_PASSWORD)}
@@ -147,11 +145,9 @@ export class UserPage extends React.Component<Props, State> {
                 Log out
               </Button>
             </div>
-          </Segment>
-        </div>
-
-        <Navigation />
-      </div>
+          </div>
+        </Segment>
+      </Page>
     );
   }
 }
