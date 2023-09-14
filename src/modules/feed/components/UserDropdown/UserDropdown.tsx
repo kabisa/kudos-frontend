@@ -145,6 +145,17 @@ class DropdownRemote extends Component<DropDownProps, DropDownState> {
               isDisabled={loading}
               placeholder="Receivers"
               data-testid="user-dropdown"
+              classNamePrefix="react-select"
+              styles={{
+                valueContainer: (base) => ({
+                  ...base,
+                  fontSize: "var(--font-size-s)",
+                }),
+                control: (base) => ({
+                  ...base,
+                  border: ".1rem solid var(--subtle-color)",
+                }),
+              }}
             />
           );
         }}
