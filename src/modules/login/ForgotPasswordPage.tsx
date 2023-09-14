@@ -7,6 +7,8 @@ import BackButton from "../../components/back-button/BackButton";
 import { getGraphqlError, validateEmail } from "../../support";
 import { Button, Input } from "@sandercamp/ui-components";
 import Segment from "../../components/atoms/Segment";
+import BasePage from "./BasePage";
+import s from "./ForgotPasswordPage.module.css";
 
 export const MUTATION_FORGOT_PASSWORD = gql`
   mutation forgotPassword($email: EmailAddress!) {
@@ -68,16 +70,21 @@ class ForgotPasswordPage extends Component<Props, State> {
 
   render() {
     return (
-      <FormWrapper header="Forgot password" toolbar="Forgot password">
-        <Mutation<ForgotPasswordResult, ForgotPasswordParameters>
-          mutation={MUTATION_FORGOT_PASSWORD}
-          onCompleted={this.onCompleted}
-          onError={(error) => this.setState({ error: getGraphqlError(error) })}
-        >
-          {(resetPassword, { error, loading }: any) => (
-            <div>
-              <form onSubmit={(e) => this.formSubmit(e, resetPassword)}>
-                <Segment>
+      <BasePage>
+        <FormWrapper header="Forgot password" toolbar="Forgot password">
+          <Mutation<ForgotPasswordResult, ForgotPasswordParameters>
+            mutation={MUTATION_FORGOT_PASSWORD}
+            onCompleted={this.onCompleted}
+            onError={(error) =>
+              this.setState({ error: getGraphqlError(error) })
+            }
+          >
+            {(resetPassword, { error, loading }: any) => (
+              <Segment>
+                <form
+                  className="form-container"
+                  onSubmit={(e) => this.formSubmit(e, resetPassword)}
+                >
                   <Input
                     data-testid="email-input"
                     name="email"
@@ -91,6 +98,7 @@ class ForgotPasswordPage extends Component<Props, State> {
                     data-testid="submit-button"
                     variant="primary"
                     disabled={loading}
+                    className={s.button}
                   >
                     Reset password
                   </Button>
@@ -109,12 +117,12 @@ class ForgotPasswordPage extends Component<Props, State> {
                     </div>
                   )}
                   <BackButton />
-                </Segment>
-              </form>
-            </div>
-          )}
-        </Mutation>
-      </FormWrapper>
+                </form>
+              </Segment>
+            )}
+          </Mutation>
+        </FormWrapper>
+      </BasePage>
     );
   }
 }

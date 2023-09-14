@@ -1,21 +1,18 @@
 import React from "react";
 import { Button } from "@sandercamp/ui-components";
 import { useHistory } from "react-router-dom";
-import { TabletAndAbove } from "../../support/breakpoints";
+import { Desktop } from "../../support/breakpoints";
 
-const BackButton = () =>  {
+const BackButton = () => {
   const history = useHistory();
 
   return (
-    <TabletAndAbove>
-      <Button
-        variant="secondary"
-        onClick={() => history.goBack()}
-      >
+    <Desktop>
+      <Button variant="secondary" onClick={() => history.goBack()}>
         Back
       </Button>
-    </TabletAndAbove>
+    </Desktop>
   );
-}
+};
 
 export default BackButton;

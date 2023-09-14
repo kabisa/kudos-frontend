@@ -15,8 +15,10 @@ import BackButton from "../../components/back-button/BackButton";
 import { loginSuccess } from "./helper";
 import settings from "../../config/settings";
 import { PATH_LOGIN } from "../../routes";
-import { Button, Input } from "@sandercamp/ui-components";
+import { Button, Input, Label } from "@sandercamp/ui-components";
 import Segment from "../../components/atoms/Segment";
+import BasePage from "./BasePage";
+import s from "./RegisterPage.module.css";
 
 export const MUTATION_REGISTER = gql`
   mutation SignUpUser(
@@ -137,53 +139,74 @@ class RegisterPage extends Component<Props, State> {
           }
 
           return (
-            <FormWrapper toolbar="Register" header="Register">
-              <Segment>
-                <form onSubmit={(e) => this.formSubmit(e, signUpUser)}>
-                  <Input
-                    data-testid="name-input"
-                    name="name"
-                    placeholder="Name"
-                    value={this.state.name}
-                    onChange={(e) => this.setState({ name: e.target.value })}
-                  />
-                  <Input
-                    data-testid="email-input"
-                    name="email"
-                    type="email"
-                    placeholder="E-mail address"
-                    value={this.state.email}
-                    onChange={(e) => this.setState({ email: e.target.value })}
-                  />
-                  <Input
-                    data-testid="password-input"
-                    name="password"
-                    placeholder="Password"
-                    type="password"
-                    value={this.state.password}
-                    onChange={(e) =>
-                      this.setState({ password: e.target.value })
-                    }
-                  />
-
-                  <Button
-                    data-testid="submit-button"
-                    variant="primary"
-                    disabled={loading}
+            <BasePage>
+              <FormWrapper toolbar="Register" header="Register">
+                <Segment>
+                  <form
+                    className="form-container"
+                    onSubmit={(e) => this.formSubmit(e, signUpUser)}
                   >
-                    Register
-                  </Button>
+                    <Label>
+                      Name
+                      <Input
+                        data-testid="name-input"
+                        name="name"
+                        placeholder="Name"
+                        value={this.state.name}
+                        onChange={(e) =>
+                          this.setState({ name: e.target.value })
+                        }
+                      />
+                    </Label>
 
-                  {displayError && (
-                    <div className="errorMessage">
-                      <h3>Unable to register</h3>
-                      <p data-testid="error-message">{displayError}</p>
-                    </div>
-                  )}
-                </form>
-                <BackButton />
-              </Segment>
-            </FormWrapper>
+                    <Label>
+                      Email
+                      <Input
+                        data-testid="email-input"
+                        name="email"
+                        type="email"
+                        placeholder="E-mail address"
+                        value={this.state.email}
+                        onChange={(e) =>
+                          this.setState({ email: e.target.value })
+                        }
+                      />
+                    </Label>
+
+                    <Label>
+                      Password
+                      <Input
+                        data-testid="password-input"
+                        name="password"
+                        placeholder="Password"
+                        type="password"
+                        value={this.state.password}
+                        onChange={(e) =>
+                          this.setState({ password: e.target.value })
+                        }
+                      />
+                    </Label>
+
+                    <Button
+                      data-testid="submit-button"
+                      variant="primary"
+                      disabled={loading}
+                      className={s.button}
+                    >
+                      Register
+                    </Button>
+
+                    {displayError && (
+                      <div className="errorMessage">
+                        <h3>Unable to register</h3>
+                        <p data-testid="error-message">{displayError}</p>
+                      </div>
+                    )}
+                  </form>
+                  <BackButton />
+                </Segment>
+              </FormWrapper>
+            </BasePage>
           );
         }}
       </Mutation>

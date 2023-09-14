@@ -19,9 +19,15 @@ import {
 import { FormWrapper } from "../../components";
 import { loginSuccess } from "./helper";
 
-import s from "./LoginPage.module.scss";
-import { Button, Input } from "@sandercamp/ui-components";
+import s from "./LoginPage.module.css";
+import {
+  Button,
+  Input,
+  Link as KabisaLink,
+  Label,
+} from "@sandercamp/ui-components";
 import Segment from "../../components/atoms/Segment";
+import BasePage from "./BasePage";
 
 export const MUTATION_LOGIN = gql`
   mutation SignInUser($email: EmailAddress!, $password: String!) {
@@ -129,62 +135,77 @@ class LoginPage extends Component<Props, State> {
             displayError = this.state.error;
           }
           return (
-            <FormWrapper verticalCentered header="Login">
-              <Segment>
-                <form onSubmit={(e) => this.formSubmit(e, signInUser)}>
-                  <Input
-                    data-testid="email-input"
-                    name="email"
-                    type="email"
-                    placeholder="E-mail address"
-                    value={this.state.email}
-                    onChange={(e) => this.setState({ email: e.target.value })}
-                  />
-                  <Input
-                    data-testid="password-input"
-                    name="password"
-                    placeholder="Password"
-                    type="password"
-                    value={this.state.password}
-                    onChange={(e) =>
-                      this.setState({ password: e.target.value })
-                    }
-                  />
+            <BasePage>
+              <FormWrapper header="Login">
+                <Segment>
+                  <form
+                    className="form-container"
+                    onSubmit={(e) => this.formSubmit(e, signInUser)}
+                  >
+                    <Label>
+                      Email
+                      <Input
+                        data-testid="email-input"
+                        name="email"
+                        type="email"
+                        placeholder="E-mail address"
+                        value={this.state.email}
+                        onChange={(e) =>
+                          this.setState({ email: e.target.value })
+                        }
+                      />
+                    </Label>
 
-                  <Button
-                    data-testid="submit-button"
-                    type="submit"
-                    variant="primary"
-                    disabled={loading}
-                  >
-                    Login
-                  </Button>
+                    <Label>
+                      Password
+                      <Input
+                        data-testid="password-input"
+                        name="password"
+                        placeholder="Password"
+                        type="password"
+                        value={this.state.password}
+                        onChange={(e) =>
+                          this.setState({ password: e.target.value })
+                        }
+                      />
+                    </Label>
 
-                  {displayError && (
-                    <div className="errorMessage">
-                      <h3>Unable to login</h3>
-                      <p data-testid="error-message">{displayError}</p>
-                    </div>
-                  )}
-                </form>
-                <div className={s.message}>
-                  <Link
-                    data-testid="sign-up-button"
-                    to={PATH_REGISTER}
-                    className={s.left}
-                  >
-                    Sign Up
-                  </Link>
-                  <Link
-                    data-testid="forgot-button"
-                    to={PATH_FORGOT_PASSWORD}
-                    className={s.right}
-                  >
-                    Forgot password?
-                  </Link>
-                </div>
-              </Segment>
-            </FormWrapper>
+                    <Button
+                      data-testid="submit-button"
+                      type="submit"
+                      variant="primary"
+                      disabled={loading}
+                      className={s.button}
+                    >
+                      Login
+                    </Button>
+
+                    {displayError && (
+                      <div className="errorMessage">
+                        <h3>Unable to login</h3>
+                        <p data-testid="error-message">{displayError}</p>
+                      </div>
+                    )}
+                  </form>
+                  <div className={s.footer}>
+                    <Link
+                      data-testid="sign-up-button"
+                      to={PATH_REGISTER}
+                      className={s.left}
+                    >
+                      <KabisaLink theme="dark">Sign Up</KabisaLink>
+                    </Link>
+                    <Link
+                      data-testid="forgot-button"
+                      to={PATH_FORGOT_PASSWORD}
+                      className={s.right}
+                    >
+                      <KabisaLink theme="dark">Forgot password?</KabisaLink>
+                    </Link>
+                  </div>
+                </Segment>
+              </FormWrapper>
+            </BasePage>
           );
         }}
       </Mutation>

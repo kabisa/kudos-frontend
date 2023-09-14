@@ -1,30 +1,32 @@
-import React, { ReactElement } from 'react';
-import { Grid, Header } from 'semantic-ui-react';
+import React, { ReactElement } from "react";
 
-import { Toolbar } from './navigation';
+import { Toolbar } from "./navigation";
 
-import s from './FormWrapper.module.scss';
+import s from "./FormWrapper.module.css";
+import classNames from "classnames";
+import { MobileAndAbove, Tablet } from "../support/breakpoints";
 
 export interface Props {
   children: ReactElement;
   toolbar?: string;
   header: string;
-  verticalCentered?: boolean
+  verticalCentered?: boolean;
 }
 
 export function FormWrapper(props: Props) {
   return (
-    <div>
-      {props.toolbar && <Toolbar text={props.toolbar} />}
-      <div className={`main-form ${props.toolbar ? 'main-form-toolbar' : ''}`}>
-        <Grid textAlign="center" className={s.grid} verticalAlign={props.verticalCentered ? 'middle' : undefined}>
-          <Grid.Column className={s.column}>
-            <Header as="h2" textAlign="center" className={s.header}>
-              {props.header}
-            </Header>
-            {props.children}
-          </Grid.Column>
-        </Grid>
+    <div className={s.wrapper}>
+      <div className={s.form_wrapper}>
+        <div
+          className={classNames(s.header, {
+            [s.center]: props.toolbar,
+          })}
+        >
+          {props.toolbar && <Toolbar text={props.toolbar} />}
+          <h1>{props.header}</h1>
+        </div>
+
+        {props.children}
       </div>
     </div>
   );

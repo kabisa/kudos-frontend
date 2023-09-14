@@ -4,6 +4,7 @@
   padding: 2rem;
 
   background: var(--base-color);
+  width: 100%;
 }
 
 .container > h2 {
