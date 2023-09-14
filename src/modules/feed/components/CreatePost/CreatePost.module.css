@@ -4,12 +4,12 @@
   gap: var(--spacing-level-3);
 }
 
-.form label {
-  font-weight: var(--font-weight-bold);
-}
-
 .form textarea {
+  padding: 0.5rem 0.75rem 0.5rem 0.75rem;
+  font-size: var(--font-size-s);
   resize: vertical;
+  border: 0.1rem solid var(--subtle-color);
+  border-radius: var(--radii-level-1);
 }
 
 .button {

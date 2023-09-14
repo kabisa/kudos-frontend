@@ -29,7 +29,6 @@ import {
 import { Storage } from "../../../../support/storage";
 import { ImageUpload } from "../../../../components/upload/ImageUpload";
 
-import s from "../../FeedPage.module.scss";
 import styles from "./CreatePost.module.css";
 
 // eslint-disable-next-line max-len
@@ -326,11 +325,11 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
                     Receivers
                     {/* Suppressed because the linter doesn't pick up on custom controls */}
                     <UserDropdown
-                        data-testid="receiver-input"
-                        ref={this.userDropdown}
-                        onChange={this.handleDropdownChange}
-                        error={receiversError}
-                        value={this.state.receivers}
+                      data-testid="receiver-input"
+                      ref={this.userDropdown}
+                      onChange={this.handleDropdownChange}
+                      error={receiversError}
+                      value={this.state.receivers}
                     />
                     <span className={styles.note}>(v) = virtual user</span>
                   </Label>
@@ -338,17 +337,17 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
                   <Label>
                     Message
                     <textarea
-                        data-testid="message-input"
-                        placeholder="Enter your message"
-                        name="message"
-                        onChange={(e) =>
-                            this.setState({ message: e.currentTarget.value })
-                        }
-                        value={this.state.message}
+                      data-testid="message-input"
+                      placeholder="Enter your message"
+                      name="message"
+                      onChange={(e) =>
+                        this.setState({ message: e.currentTarget.value })
+                      }
+                      value={this.state.message}
                     />
                     {error && messageError}
-                    <span className={ styles.note }>
-                    {settings.MAX_POST_MESSAGE_LENGTH -
+                    <span className={styles.note}>
+                      {settings.MAX_POST_MESSAGE_LENGTH -
                         this.state.message.length}{" "}
                       chars left
                     </span>
@@ -357,13 +356,13 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
                   <Label>
                     Images
                     <ImageUpload
-                        ref={this.imageUpload}
-                        onChange={(images) => this.handleImagesSelected(images)}
+                      ref={this.imageUpload}
+                      onChange={(images) => this.handleImagesSelected(images)}
                     />
                   </Label>
 
                   <Button
-                    className={ styles.button }
+                    className={styles.button}
                     data-testid="submit-button"
                     type="submit"
                     variant="primary"
