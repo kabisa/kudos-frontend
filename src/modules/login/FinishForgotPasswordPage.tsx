@@ -9,8 +9,10 @@ import { PATH_LOGIN } from "../../routes";
 import { FormWrapper } from "../../components";
 import BackButton from "../../components/back-button/BackButton";
 import { getGraphqlError } from "../../support";
-import { Button, Input } from "@sandercamp/ui-components";
+import { Button, Input, Label } from "@sandercamp/ui-components";
 import Segment from "../../components/atoms/Segment";
+import BasePage from "./BasePage";
+import s from "./FinishForgotPasswordPage.module.css";
 
 const DEFAULT_ERROR = "Something went wrong.";
 const PASSWORD_ERROR = "Passwords don't match.";
@@ -111,39 +113,53 @@ class FinishForgotPasswordPage extends Component<Props, State> {
   render() {
     const { error: formError } = this.state;
     return (
-      <FormWrapper header="Reset password">
-        <Mutation<NewPasswordResult, NewPasswordParameters>
-          mutation={MUTATION_NEW_PASSWORD}
-          onCompleted={(data) => this.onCompleted(data)}
-          onError={(error) => this.setState({ error: getGraphqlError(error) })}
-        >
-          {(mutation, { error, loading }) => (
-            <div>
-              <form onSubmit={(e) => this.formSubmit(e, mutation)}>
-                <Segment>
-                  <Input
-                    data-testid="password-input"
-                    name="password"
-                    type="password"
-                    placeholder="Password"
-                    value={this.state.password}
-                    onChange={(e) =>
-                      this.setState({ password: e.target.value })
-                    }
-                  />
-                  <Input
-                    name="passwordConfirm"
-                    type="password"
-                    placeholder="Confirm password"
-                    value={this.state.passwordConfirm}
-                    onChange={(e) =>
-                      this.setState({ passwordConfirm: e.target.value })
-                    }
-                  />
+      <BasePage>
+        <FormWrapper header="Reset password">
+          <Mutation<NewPasswordResult, NewPasswordParameters>
+            mutation={MUTATION_NEW_PASSWORD}
+            onCompleted={(data) => this.onCompleted(data)}
+            onError={(error) =>
+              this.setState({ error: getGraphqlError(error) })
+            }
+          >
+            {(mutation, { error, loading }) => (
+              <Segment>
+                <form
+                  className="form-container"
+                  onSubmit={(e) => this.formSubmit(e, mutation)}
+                >
+                  <Label>
+                    Password
+                    <Input
+                      data-testid="password-input"
+                      name="password"
+                      type="password"
+                      placeholder="Password"
+                      value={this.state.password}
+                      onChange={(e) =>
+                        this.setState({ password: e.target.value })
+                      }
+                    />
+                  </Label>
+
+                  <Label>
+                    Confirm password
+                    <Input
+                      name="passwordConfirm"
+                      type="password"
+                      placeholder="Confirm password"
+                      value={this.state.passwordConfirm}
+                      onChange={(e) =>
+                        this.setState({ passwordConfirm: e.target.value })
+                      }
+                    />
+                  </Label>
+
                   <Button
                     data-testid="submit-button"
                     variant="primary"
                     disabled={loading}
+                    className={s.button}
                   >
                     Reset password
                   </Button>
@@ -154,13 +170,13 @@ class FinishForgotPasswordPage extends Component<Props, State> {
                       <p>{this.state.error}</p>
                     </div>
                   )}
-                </Segment>
-              </form>
-              <BackButton />
-            </div>
-          )}
-        </Mutation>
-      </FormWrapper>
+                </form>
+                <BackButton />
+              </Segment>
+            )}
+          </Mutation>
+        </FormWrapper>
+      </BasePage>
     );
   }
 }
