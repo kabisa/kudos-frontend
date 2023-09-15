@@ -67,6 +67,7 @@ function ChoiceButton(props: Props): React.ReactElement {
               Storage.setItem(settings.TEAM_ID_TOKEN, props.teamId);
               toast.info("Invite successfully accepted!");
               history.push(PATH_FEED);
+              return;
             }
             toast.info("Invite successfully declined!");
           }}
