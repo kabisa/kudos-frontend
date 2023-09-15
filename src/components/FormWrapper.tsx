@@ -4,7 +4,6 @@ import { Toolbar } from "./navigation";
 
 import s from "./FormWrapper.module.css";
 import classNames from "classnames";
-import { MobileAndAbove, Tablet } from "../support/breakpoints";
 
 export interface Props {
   children: ReactElement;

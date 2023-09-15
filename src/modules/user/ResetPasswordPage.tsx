@@ -18,10 +18,11 @@ import {
 
 import { PATH_FEED } from "../../routes";
 import BackButton from "../../components/back-button/BackButton";
-import Segment from '../../components/atoms/Segment';
-import Page from '../../components/templates/Page';
+import Segment from "../../components/atoms/Segment";
+import Page from "../../components/templates/Page";
 
-import s from "./ResetPasswordPage.module.scss";
+import s from "./ResetPasswordPage.module.css";
+import { FormWrapper } from "../../components";
 
 export const MUTATION_RESET_PASSWORD = gql`
   mutation ResetPassword(
@@ -169,16 +170,15 @@ class ResetPasswordPage extends Component<Props, State> {
   render() {
     return (
       <Page>
-        <section className={ s.section }>
-          <h2>Reset password</h2>
+        <FormWrapper header="Reset password" toolbar="Reset password">
           <Segment>
             <Mutation<ResetPasswordParameters>
-                mutation={MUTATION_RESET_PASSWORD}
-                onCompleted={() => {
-                  this.setState(this.initialState);
-                  toast.info("Password reset successfully!");
-                  this.props.history.push(PATH_FEED);
-                }}
+              mutation={MUTATION_RESET_PASSWORD}
+              onCompleted={() => {
+                this.setState(this.initialState);
+                toast.info("Password reset successfully!");
+                this.props.history.push(PATH_FEED);
+              }}
             >
               {(resetPassword, { error, loading }) => {
                 let displayError;
@@ -190,77 +190,76 @@ class ResetPasswordPage extends Component<Props, State> {
                 }
 
                 return (
-                    <form className={s.form}>
+                  <>
+                    <form className="form-container">
                       <Label>
                         Current password
                         <Input
-                            data-testid="current-password-input"
-                            //icon="lock" TODO
-                            //iconPosition="left" TODO
-                            name="currentPassword"
-                            type="password"
-                            placeholder="Current password"
-                            error={this.state.error_current}
-                            value={this.state.currentPassword}
-                            onChange={this.handleChange}
+                          data-testid="current-password-input"
+                          //icon="lock" TODO
+                          //iconPosition="left" TODO
+                          name="currentPassword"
+                          type="password"
+                          placeholder="Current password"
+                          error={this.state.error_current}
+                          value={this.state.currentPassword}
+                          onChange={this.handleChange}
                         />
                       </Label>
                       <Label>
                         New password
                         <Input
-                            data-testid="new-password-input"
-                            //icon="lock" TODO
-                            //iconPosition="left" TODO
-                            name="newPassword"
-                            type="password"
-                            placeholder="New password"
-                            error={this.state.error_new}
-                            value={this.state.newPassword}
-                            onChange={this.handleChange}
+                          data-testid="new-password-input"
+                          //icon="lock" TODO
+                          //iconPosition="left" TODO
+                          name="newPassword"
+                          type="password"
+                          placeholder="New password"
+                          error={this.state.error_new}
+                          value={this.state.newPassword}
+                          onChange={this.handleChange}
                         />
                       </Label>
                       <Label>
                         Confirm new password
                         <Input
-                            data-testid="confirm-password-input"
-                            //icon="lock" TODO
-                            name="newPasswordConfirmation"
-                            //iconPosition="left" TODO
-                            type="password"
-                            placeholder="Confirm new password"
-                            error={this.state.error_new_confirm}
-                            value={this.state.newPasswordConfirmation}
-                            onChange={this.handleChange}
+                          data-testid="confirm-password-input"
+                          //icon="lock" TODO
+                          name="newPasswordConfirmation"
+                          //iconPosition="left" TODO
+                          type="password"
+                          placeholder="Confirm new password"
+                          error={this.state.error_new_confirm}
+                          value={this.state.newPasswordConfirmation}
+                          onChange={this.handleChange}
                         />
                       </Label>
 
-                      <div className={ s.actions }>
+                      <div className={s.actions}>
                         <Button
-                            data-testid="reset-password-button"
-                            //size="large" TODO
-                            //loading={loading} TODO
-                            disabled={loading}
-                            onClick={() => this.resetPassword(resetPassword)}
+                          data-testid="reset-password-button"
+                          disabled={loading}
+                          className={s.button}
+                          onClick={() => this.resetPassword(resetPassword)}
                         >
                           Reset password
                         </Button>
-                        <BackButton />
                       </div>
 
                       {displayError && (
-                          <div className={ s.errorMessage }>
-                            <h3>
-                              Unable to reset password
-                            </h3>
-                            <p>{displayError}</p>
-                          </div>
+                        <div className={s.errorMessage}>
+                          <h3>Unable to reset password</h3>
+                          <p>{displayError}</p>
+                        </div>
                       )}
                     </form>
+                    <BackButton />
+                  </>
                 );
               }}
             </Mutation>
           </Segment>
-        </section>
+        </FormWrapper>
       </Page>
     );
   }

@@ -310,75 +310,77 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
                 displayError = this.state.error;
               }
               return (
-                <form
-                  onSubmit={(e) => this.onSubmit(e, createPost, client)}
-                  className={styles.form}
-                  data-testid="create-post-form"
-                >
-                  <GuidelineInput
-                    data-testid="amount-input"
-                    amountError={amountError}
-                    handleChange={this.handleKudoInputChange}
-                    ref={this.guidelineInput}
-                  />
-                  <Label>
-                    Receivers
-                    {/* Suppressed because the linter doesn't pick up on custom controls */}
-                    <UserDropdown
-                      data-testid="receiver-input"
-                      ref={this.userDropdown}
-                      onChange={this.handleDropdownChange}
-                      error={receiversError}
-                      value={this.state.receivers}
-                    />
-                    <span className={styles.note}>(v) = virtual user</span>
-                  </Label>
-
-                  <Label>
-                    Message
-                    <textarea
-                      data-testid="message-input"
-                      placeholder="Enter your message"
-                      name="message"
-                      onChange={(e) =>
-                        this.setState({ message: e.currentTarget.value })
-                      }
-                      value={this.state.message}
-                    />
-                    {error && messageError}
-                    <span className={styles.note}>
-                      {settings.MAX_POST_MESSAGE_LENGTH -
-                        this.state.message.length}{" "}
-                      chars left
-                    </span>
-                  </Label>
-
-                  <Label>
-                    Images
-                    <ImageUpload
-                      ref={this.imageUpload}
-                      onChange={(images) => this.handleImagesSelected(images)}
-                    />
-                  </Label>
-
-                  <Button
-                    className={styles.button}
-                    data-testid="submit-button"
-                    type="submit"
-                    variant="primary"
-                    disabled={loading}
+                <>
+                  <form
+                    onSubmit={(e) => this.onSubmit(e, createPost, client)}
+                    className={styles.form}
+                    data-testid="create-post-form"
                   >
-                    {transaction ? "Update" : "DROP YOUR KUDOS HERE"}
-                  </Button>
+                    <GuidelineInput
+                      data-testid="amount-input"
+                      amountError={amountError}
+                      handleChange={this.handleKudoInputChange}
+                      ref={this.guidelineInput}
+                    />
+                    <Label>
+                      Receivers
+                      {/* Suppressed because the linter doesn't pick up on custom controls */}
+                      <UserDropdown
+                        data-testid="receiver-input"
+                        ref={this.userDropdown}
+                        onChange={this.handleDropdownChange}
+                        error={receiversError}
+                        value={this.state.receivers}
+                      />
+                      <span className={styles.note}>(v) = virtual user</span>
+                    </Label>
 
-                  {displayError && (
-                    <div className="errorMessage">
-                      <h3>Couldn&apos;t create post</h3>
-                      <p>{displayError}</p>
-                    </div>
-                  )}
-                  {this.props.back && <BackButton />}
-                </form>
+                    <Label>
+                      Message
+                      <textarea
+                        data-testid="message-input"
+                        placeholder="Enter your message"
+                        name="message"
+                        onChange={(e) =>
+                          this.setState({ message: e.currentTarget.value })
+                        }
+                        value={this.state.message}
+                      />
+                      {error && messageError}
+                      <span className={styles.note}>
+                        {settings.MAX_POST_MESSAGE_LENGTH -
+                          this.state.message.length}{" "}
+                        chars left
+                      </span>
+                    </Label>
+
+                    <Label>
+                      Images
+                      <ImageUpload
+                        ref={this.imageUpload}
+                        onChange={(images) => this.handleImagesSelected(images)}
+                      />
+                    </Label>
+
+                    <Button
+                      className={styles.button}
+                      data-testid="submit-button"
+                      type="submit"
+                      variant="primary"
+                      disabled={loading}
+                    >
+                      {transaction ? "Update" : "DROP YOUR KUDOS HERE"}
+                    </Button>
+
+                    {displayError && (
+                      <div className="errorMessage">
+                        <h3>Couldn&apos;t create post</h3>
+                        <p>{displayError}</p>
+                      </div>
+                    )}
+                  </form>
+                  <BackButton />
+                </>
               );
             }}
           </Mutation>

@@ -116,8 +116,8 @@ class ForgotPasswordPage extends Component<Props, State> {
                       <p>Check your mail for the details.</p>
                     </div>
                   )}
-                  <BackButton />
                 </form>
+                <BackButton />
               </Segment>
             )}
           </Mutation>
