@@ -1,4 +1,3 @@
-import React from "react";
 import { mount, ReactWrapper } from "enzyme";
 import { createMemoryHistory, MemoryHistory } from "history";
 import { act } from "react-dom/test-utils";

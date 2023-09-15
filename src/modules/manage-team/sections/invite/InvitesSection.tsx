@@ -1,4 +1,3 @@
-import React from "react";
 import { gql, useQuery } from "@apollo/client";
 import settings from "../../../../config/settings";
 import { Storage } from "../../../../support/storage";
@@ -34,7 +33,7 @@ export interface InviteModel {
   sentAt: string;
 }
 
-function InviteSection(): React.ReactElement {
+function InviteSection() {
   const { loading, error, data, refetch } = useQuery<GetInvitesResult>(
     QUERY_GET_INVITES,
     {

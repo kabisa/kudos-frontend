@@ -1,5 +1,3 @@
-/* eslint-disable no-proto */
-import React from "react";
 import { gql } from "@apollo/client";
 import ChoiceButton from "./ChoiceButton";
 import { withMockedProviders } from "../../../spec_helper";

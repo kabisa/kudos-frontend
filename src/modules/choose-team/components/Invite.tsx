@@ -36,7 +36,7 @@ export interface Props {
   invite: InviteModel;
 }
 
-export function Invite(props: Props): React.ReactElement {
+export function Invite(props: Props) {
   return (
     <div className={s.root}>
       <p className={s.text}>{props.invite.team.name}</p>

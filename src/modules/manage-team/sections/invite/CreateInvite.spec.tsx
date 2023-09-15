@@ -1,4 +1,3 @@
-import React from "react";
 import { mount, ReactWrapper } from "enzyme";
 import { act } from "react-dom/test-utils";
 import { CreateInvite, MUTATION_CREATE_INVITE } from "./CreateInvite";

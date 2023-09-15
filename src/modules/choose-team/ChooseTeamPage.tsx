@@ -1,4 +1,3 @@
-import React from "react";
 import { useHistory } from "react-router-dom";
 
 import { PATH_CREATE_TEAM } from "../../routes";
@@ -8,7 +7,7 @@ import s from "./ChooseTeamPage.module.scss";
 import { Button } from "@sandercamp/ui-components";
 import Page from "../../components/templates/Page";
 
-export function Content(): React.ReactElement {
+export function Content() {
   const history = useHistory();
 
   return (
@@ -38,7 +37,7 @@ export function Content(): React.ReactElement {
   );
 }
 
-function ChooseTeamPage(): React.ReactElement {
+function ChooseTeamPage() {
   return (
     <Page>
       <Content />

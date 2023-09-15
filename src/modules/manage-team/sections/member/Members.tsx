@@ -1,5 +1,4 @@
-/* eslint-disable object-curly-newline */
-import React, { Component } from "react";
+import { Component } from "react";
 import { gql } from "@apollo/client";
 import { Query } from "@apollo/client/react/components";
 import settings from "../../../../config/settings";

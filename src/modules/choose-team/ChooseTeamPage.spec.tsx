@@ -1,4 +1,3 @@
-import React from "react";
 import { withMockedProviders } from "../../spec_helper";
 import { Content } from "./ChooseTeamPage";
 import { render, screen, fireEvent } from "@testing-library/react";

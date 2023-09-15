@@ -1,4 +1,3 @@
-import React from "react";
 import { Button } from "@sandercamp/ui-components";
 import { Mutation } from "@apollo/client/react/components";
 import { toast } from "react-toastify";
@@ -12,7 +11,7 @@ export function SlackConnectedSegment({
   slackIconPath,
 }: {
   slackIconPath: string;
-}): React.ReactElement {
+}) {
   return (
     <div data-testid="slack-connected">
       <h3>Your account is connected to Slack!</h3>
@@ -61,7 +60,7 @@ export interface SlackDisconnectedProps {
 
 export function SlackDisconnectedSegment(
   props: SlackDisconnectedProps,
-): React.ReactElement {
+) {
   return (
     <div className={s.slack_message} data-testid="register-slack">
       <h3>

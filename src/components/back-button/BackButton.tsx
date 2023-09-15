@@ -1,4 +1,3 @@
-import React from "react";
 import { Button } from "@sandercamp/ui-components";
 import { useHistory } from "react-router-dom";
 import { Desktop } from "../../support/breakpoints";

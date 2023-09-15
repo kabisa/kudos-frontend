@@ -1,4 +1,3 @@
-import React from "react";
 import { Mutation } from "@apollo/client/react/components";
 import { toast } from "react-toastify";
 import { ALTER_ROLE, AlterRoleParameters, Membership } from "./Members";
@@ -19,7 +18,7 @@ export enum AlterRoleButtonMode {
 
 export function AlterRoleButton(
   props: AlterRoleButtonProps,
-): React.ReactElement {
+) {
   function isDisabled(): boolean {
     if (props.mode === AlterRoleButtonMode.PROMOTE) {
       return props.membership.role === "admin";

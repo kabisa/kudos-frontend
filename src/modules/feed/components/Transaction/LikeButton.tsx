@@ -1,4 +1,4 @@
-import React from "react";
+import { Component } from "react";
 import { gql } from "@apollo/client";
 import { Mutation } from "@apollo/client/react/components";
 import classNames from 'classnames';
@@ -15,6 +15,7 @@ import {
 import { Storage } from "../../../../support/storage";
 
 import s from "./LikeButton.module.scss";
+
 
 export const MUTATION_TOGGLE_LIKE = gql`
   mutation ToggleLikePost($id: ID!) {
@@ -115,7 +116,7 @@ export interface LikeButtonState {
   showLikes: boolean;
 }
 
-class LikeButton extends React.Component<LikeButtonProps, LikeButtonState> {
+class LikeButton extends Component<LikeButtonProps, LikeButtonState> {
   constructor(props: LikeButtonProps) {
     super(props);
 

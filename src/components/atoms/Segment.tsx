@@ -1,10 +1,10 @@
-import React from "react";
+import { FC } from "react";
 
 import styles from "./Segment.module.css";
 
 import classNames from "classnames";
 
-const Segment: React.FC<JSX.IntrinsicElements["div"]> = ({
+const Segment: FC<JSX.IntrinsicElements["div"]> = ({
   children,
   className,
   ...props

@@ -1,4 +1,4 @@
-import React from "react";
+import { Component } from "react";
 import { Button } from "@sandercamp/ui-components";
 import { Query } from "@apollo/client/react/components";
 import { gql } from "@apollo/client";
@@ -69,7 +69,7 @@ export interface State {
   // Future state vars go here
 }
 
-export class UserPage extends React.Component<Props, State> {
+export class UserPage extends Component<Props, State> {
   slackConnectUrl = `${settings.API_BASE_URL}/auth/slack/user/${Storage.getItem(
     settings.USER_ID_TOKEN,
   )}`;

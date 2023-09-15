@@ -1,4 +1,3 @@
-import React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 import { act } from 'react-dom/test-utils';
 import { GET_TEAMS } from './TeamList';

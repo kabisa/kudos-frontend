@@ -1,10 +1,10 @@
-import React from "react";
+import { FC } from "react";
 
 import { Navigation } from "../navigation";
 
 import styles from "./Page.module.css";
 
-const Page: React.FC = ({ children }) => (
+const Page: FC = ({ children }) => (
   <div className={styles.page}>
     <Navigation className={styles.navigation} />
     <main className={styles.main}>{children}</main>

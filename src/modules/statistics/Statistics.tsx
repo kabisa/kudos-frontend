@@ -1,6 +1,4 @@
-import React from "react";
 import { Query } from "@apollo/client/react/components";
-import moment from "moment";
 import { gql } from "@apollo/client";
 
 import { Circle } from "../../components/Circle";

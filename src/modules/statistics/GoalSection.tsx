@@ -1,4 +1,3 @@
-import React from 'react';
 import { Icon } from "@sandercamp/ui-components";
 import moment from 'moment';
 
@@ -27,7 +26,7 @@ interface KudoMeterProps {
   height: number;
 }
 
-function KudoMeter(props: KudoMeterProps): React.ReactElement {
+function KudoMeter(props: KudoMeterProps) {
   return (
     <div>
       {/* Lock icons */}
@@ -83,7 +82,7 @@ function KudoMeter(props: KudoMeterProps): React.ReactElement {
   );
 }
 
-export function GoalSection(props: GoalSectionProps): React.ReactElement {
+export function GoalSection(props: GoalSectionProps) {
   return (
     <div data-testid="goal-section" className={s.container} key={props.goal.id}>
       <KudoMeter

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Navigation } from '../../components/navigation';
 
 import s from './Statistics.module.scss';
@@ -13,7 +11,7 @@ export interface State {
   // Future state vars go here
 }
 
-export function StatisticsPage(): React.ReactElement {
+export function StatisticsPage() {
   return (
     <div>
       <div className={s.root}>

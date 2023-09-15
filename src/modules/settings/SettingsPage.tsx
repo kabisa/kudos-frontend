@@ -1,4 +1,3 @@
-import React from "react";
 import { Button } from "@sandercamp/ui-components";
 
 import { Link } from "react-router-dom";
@@ -16,7 +15,7 @@ export interface State {
   // Future state vars go here
 }
 
-export function SettingsPage(): React.ReactElement {
+export function SettingsPage() {
   return (
     <Page>
       <div className={s.container}>

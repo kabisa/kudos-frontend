@@ -1,4 +1,3 @@
-import React from 'react';
 import { Circle } from 'rc-progress';
 import s from './Circle.module.scss';
 
@@ -11,7 +10,7 @@ export interface Props {
   strokeColor?: string;
 }
 
-function CustomCircle(props: Props): React.ReactElement {
+function CustomCircle(props: Props) {
   return (
     <div className={s.wrapper}>
       {props.currentKudos != null && (

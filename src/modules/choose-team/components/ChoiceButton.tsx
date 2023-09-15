@@ -1,4 +1,3 @@
-import React from "react";
 import { Mutation } from "@apollo/client/react/components";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
@@ -20,7 +19,7 @@ export interface Props {
   variant: ButtonProps["variant"];
 }
 
-function ChoiceButton(props: Props): React.ReactElement {
+function ChoiceButton(props: Props) {
   const history = useHistory();
 
   return (

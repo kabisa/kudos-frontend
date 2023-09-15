@@ -1,4 +1,4 @@
-import React from "react";
+
 import { Query } from "@apollo/client/react/components";
 import { Icon, TileList } from "@sandercamp/ui-components";
 
@@ -9,7 +9,7 @@ import { Storage } from "../../../support/storage";
 
 import s from "./RepoList.module.scss";
 
-export function RepoList(): React.ReactElement {
+export function RepoList() {
   return (
     <Query<GetPostsResult>
       query={GET_POSTS}

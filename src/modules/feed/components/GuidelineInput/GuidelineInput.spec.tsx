@@ -1,4 +1,3 @@
-import React from 'react';
 import { mockLocalstorage, withMockedProviders } from '../../../../spec_helper';
 import GuidelineInput, { GET_GUIDELINES } from './GuidelineInput';
 import { render, waitFor, screen } from '@testing-library/react';

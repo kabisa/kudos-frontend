@@ -1,4 +1,3 @@
-import React from "react";
 import { gql } from "@apollo/client";
 import s from "./ChooseTeam.module.scss";
 
@@ -38,7 +37,7 @@ export interface TeamResult {
   };
 }
 
-function TeamList(): React.ReactElement {
+function TeamList() {
   const history = useHistory();
 
   return (

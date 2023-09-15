@@ -1,4 +1,3 @@
-import React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 import { findByTestId, withMockedProviders } from '../../../../../spec_helper';
 import { Goals } from './Goals';

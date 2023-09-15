@@ -1,4 +1,3 @@
-import React from "react";
 import { Mutation } from "@apollo/client/react/components";
 import { toast } from "react-toastify";
 import {
@@ -32,7 +31,7 @@ export interface GuidelineProps {
   editGuideline: (id: number, kudos: number, description: string) => void;
 }
 
-export function Guideline(props: GuidelineProps): React.ReactElement {
+export function Guideline(props: GuidelineProps) {
   const showConfirmDialog = (
     deleteGuideline: MutationFunction<
       DeleteGuidelineParameters,

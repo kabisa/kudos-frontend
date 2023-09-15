@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { Component, RefObject, createRef } from "react";
 import { Kudometer } from "../KudometerQueries";
 import { EditGoal } from "./EditGoal";
 import { GoalRow } from "./GoalRow";
@@ -10,12 +10,12 @@ export interface Props {
 export interface State {}
 
 export class Goals extends Component<Props, State> {
-  editGoalRef: React.RefObject<EditGoal>;
+  editGoalRef: RefObject<EditGoal>;
 
   constructor(props: Props) {
     super(props);
 
-    this.editGoalRef = React.createRef();
+    this.editGoalRef = createRef();
     this.editGoal = this.editGoal.bind(this);
   }
 

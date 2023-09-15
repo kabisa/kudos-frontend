@@ -1,5 +1,4 @@
 import { mount, ReactWrapper } from 'enzyme';
-import React from 'react';
 import { createMemoryHistory, History } from 'history';
 import { act } from 'react-dom/test-utils';
 import {

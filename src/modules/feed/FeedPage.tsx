@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import { PullToRefresh } from "../../components";
 import { CreatePost, RightRail } from "./components";
 import { GetPostsResult } from "./queries";

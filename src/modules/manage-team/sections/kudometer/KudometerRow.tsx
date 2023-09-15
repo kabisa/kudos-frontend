@@ -1,4 +1,3 @@
-import React from "react";
 import { Mutation } from "@apollo/client/react/components";
 import { toast } from "react-toastify";
 import {
@@ -23,7 +22,7 @@ export interface KudometerRowProps {
   edit: (kudometer: Kudometer) => void;
 }
 
-export function KudometerRow(props: KudometerRowProps): React.ReactElement {
+export function KudometerRow(props: KudometerRowProps) {
   function deleteKudometer(mutation: any) {
     const { id } = props.kudometer;
     mutation({ variables: { id } });

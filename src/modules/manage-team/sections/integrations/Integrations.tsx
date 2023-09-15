@@ -1,4 +1,3 @@
-import React from "react";
 import { gql } from "@apollo/client";
 import { Query } from "@apollo/client/react/components";
 import { History } from "history";
@@ -7,6 +6,7 @@ import { Storage } from "../../../../support/storage";
 import settings from "../../../../config/settings";
 import { SlackSection } from "./SlackSection";
 import { Icon } from "@sandercamp/ui-components";
+import { Component } from "react";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const queryString = require("query-string");
@@ -53,7 +53,7 @@ export interface IntegrationsSectionProps {
   history: History;
 }
 
-export default class IntegrationsSection extends React.Component<
+export default class IntegrationsSection extends Component<
   IntegrationsSectionProps,
   any
 > {

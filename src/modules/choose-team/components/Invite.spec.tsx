@@ -1,5 +1,3 @@
-/* eslint-disable react/button-has-type */
-import React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 import { Invite, InviteModel } from './Invite';
 import { withMockedProviders } from '../../../spec_helper';

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { Component, createRef, FormEvent, RefObject } from "react";
 import { Mutation } from "@apollo/client/react/components";
 import { toast } from "react-toastify";
 import { gql } from "@apollo/client";
@@ -85,19 +85,19 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
   initialState: CreatePostState;
 
   // @ts-ignore
-  guidelineInput: React.RefObject<GuidelineInput>;
+  guidelineInput: RefObject<GuidelineInput>;
 
   // @ts-ignore
-  userDropdown: React.RefObject<UserDropdown>;
+  userDropdown: RefObject<UserDropdown>;
 
   // @ts-ignore
-  imageUpload: React.RefObject<ImageUpload>;
+  imageUpload: RefObject<ImageUpload>;
 
   constructor(props: CreatePostProps) {
     super(props);
-    this.guidelineInput = React.createRef();
-    this.userDropdown = React.createRef();
-    this.imageUpload = React.createRef();
+    this.guidelineInput = createRef();
+    this.userDropdown = createRef();
+    this.imageUpload = createRef();
 
     this.state = {
       amount: undefined,
@@ -128,7 +128,7 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
   }
 
   onSubmit(
-    e: React.FormEvent<HTMLFormElement>,
+    e: FormEvent<HTMLFormElement>,
     createPost: any,
     client: ApolloClient<any>,
   ) {

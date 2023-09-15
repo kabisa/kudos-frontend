@@ -1,4 +1,3 @@
-import React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 import {
   findByTestId, mockLocalstorage, withMockedProviders,

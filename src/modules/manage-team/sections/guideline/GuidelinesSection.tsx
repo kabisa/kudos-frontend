@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { Component, RefObject, createRef } from "react";
 import { gql } from "@apollo/client";
 import { Query } from "@apollo/client/react/components";
 import settings from "../../../../config/settings";
@@ -68,13 +68,13 @@ export interface State {}
 class GuidelineSection extends Component<Props, State> {
   initialState: State;
 
-  editGuidelineRef: React.RefObject<EditGuideline>;
+  editGuidelineRef: RefObject<EditGuideline>;
 
   constructor(props: Props) {
     super(props);
 
     this.initialState = this.state;
-    this.editGuidelineRef = React.createRef();
+    this.editGuidelineRef = createRef();
 
     this.editGuideline = this.editGuideline.bind(this);
   }

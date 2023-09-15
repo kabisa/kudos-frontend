@@ -1,4 +1,3 @@
-import React from "react";
 import { Mutation } from "@apollo/client/react/components";
 import { toast } from "react-toastify";
 import { Storage } from "../../../../support/storage";
@@ -17,7 +16,7 @@ export interface SlackSectionProps {
   slackConnectUrl: string;
 }
 
-function SlackConnectedSection(): React.ReactElement {
+function SlackConnectedSection() {
   return (
     <div data-testid="slack-connected-container">
       <h4>Slack integration</h4>
@@ -72,7 +71,7 @@ interface SlackDisconnectedProps {
 
 function SlackDisconnectedSection(
   props: SlackDisconnectedProps,
-): React.ReactElement {
+) {
   return (
     <div data-testid="slack-disconnected-container">
       <h4>Slack integration</h4>
@@ -100,7 +99,7 @@ function SlackDisconnectedSection(
   );
 }
 
-export function SlackSection(props: SlackSectionProps): React.ReactElement {
+export function SlackSection(props: SlackSectionProps) {
   return (
     <div>
       {props.slackId ? (

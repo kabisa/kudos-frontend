@@ -1,4 +1,4 @@
-import React, { ChangeEvent, Component } from "react";
+import { ChangeEvent, Component } from "react";
 import { Button, Input, Label } from "@sandercamp/ui-components";
 import { Mutation } from "@apollo/client/react/components";
 import { gql } from "@apollo/client";

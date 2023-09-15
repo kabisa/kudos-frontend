@@ -1,4 +1,4 @@
-import React, { Component, PropsWithRef } from "react";
+import { Component, PropsWithRef } from "react";
 import { Query } from "@apollo/client/react/components";
 
 import client from "../../../../client";

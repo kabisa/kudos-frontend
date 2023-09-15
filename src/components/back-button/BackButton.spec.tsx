@@ -1,4 +1,3 @@
-import React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 import { Context as ResponsiveContext } from 'react-responsive'
 import BackButton from './BackButton';

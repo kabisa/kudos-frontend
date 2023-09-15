@@ -1,7 +1,3 @@
-import React from "react";
-
-import { Navigation } from "../../components/navigation";
-
 import s from "./NotificationsPage.module.scss";
 import Page from "../../components/templates/Page";
 

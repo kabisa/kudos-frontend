@@ -1,4 +1,3 @@
-import React from "react";
 import moment from "moment";
 import { Mutation } from "@apollo/client/react/components";
 import { toast } from "react-toastify";
@@ -31,7 +30,7 @@ export interface DeleteInviteParameters {
   id: number;
 }
 
-export function Invite(props: InviteProps): React.ReactElement {
+export function Invite(props: InviteProps) {
   const showConfirmDialog = (
     deleteInvite: MutationFunction<
       DeleteInviteParameters,

@@ -1,4 +1,3 @@
-import React from "react";
 import { Mutation } from "@apollo/client/react/components";
 import { toast } from "react-toastify";
 import {
@@ -17,7 +16,7 @@ export interface GoalRowProps {
   editGoal: (id: string, kudos: number, name: string) => void;
 }
 
-export function GoalRow(props: GoalRowProps): React.ReactElement {
+export function GoalRow(props: GoalRowProps) {
   return (
     <tr key={props.goal.id}>
       <td>{props.goal.name}</td>

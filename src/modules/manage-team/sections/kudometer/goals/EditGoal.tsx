@@ -1,6 +1,6 @@
+import { Component } from "react";
 import { Mutation } from "@apollo/client/react/components";
 import { toast } from "react-toastify";
-import React from "react";
 
 import {
   CREATE_GOAL,
@@ -13,6 +13,7 @@ import { getGraphqlError } from "../../../../../support";
 import { Storage } from "../../../../../support/storage";
 import { ApolloError } from "@apollo/client";
 import { Button, Input, Label } from "@sandercamp/ui-components";
+
 
 export interface EditGoalProps {
   kudometerId: string;
@@ -28,7 +29,7 @@ export interface State {
   editGoalId: string;
 }
 
-export class EditGoal extends React.Component<EditGoalProps, State> {
+export class EditGoal extends Component<EditGoalProps, State> {
   constructor(props: EditGoalProps) {
     super(props);
 

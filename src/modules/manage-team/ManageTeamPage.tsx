@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { Component, MouseEvent } from "react";
 
 import { Route, Switch, withRouter } from "react-router-dom";
 import { History } from "history";
@@ -56,7 +56,7 @@ export class ManageTeamPage extends Component<Props, State> {
   }
 
   handleItemClick(
-    _e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+    _e: MouseEvent<HTMLAnchorElement, MouseEvent>,
     name: string,
   ) {
     this.setState({ activeItem: name });

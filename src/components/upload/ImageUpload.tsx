@@ -1,4 +1,4 @@
-import React, { Ref, useImperativeHandle, useState } from "react";
+import { Ref, forwardRef, useImperativeHandle, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import s from "./ImageUpload.module.scss";
 
@@ -15,7 +15,7 @@ interface Preview {
   name: string;
 }
 
-export const ImageUpload = React.forwardRef<ImageUploadRef, Props>(
+export const ImageUpload = forwardRef<ImageUploadRef, Props>(
   (props: Props, ref: Ref<ImageUploadRef>) => {
     const [previews, setPreviews] = useState<Preview[]>([]);
     const [errorMessage, setErrorMessage] = useState("");
