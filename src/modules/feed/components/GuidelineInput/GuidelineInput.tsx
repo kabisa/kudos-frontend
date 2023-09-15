@@ -7,7 +7,7 @@ import settings from "../../../../config/settings";
 
 import { Label } from "@sandercamp/ui-components";
 import Select from "react-select";
-import type { SingleValue } from "react-select";
+import type { ActionMeta, SingleValue } from "react-select";
 
 const KUDO_GUIDELINE_RANGE = 5;
 
@@ -54,22 +54,23 @@ class GuidelineInput extends Component<Props, State> {
       amount: 0,
     };
 
-    this.selectGuideline = this.selectGuideline.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.resetState = this.resetState.bind(this);
   }
 
-  handleChange(e: ChangeEvent<HTMLInputElement>) {
-    const amount = parseInt(e.target.value);
-    this.setState({ amount });
-    this.props.handleChange(amount);
-  }
+  handleChange(
+    e: SingleValue<GuidelineOption>,
+    triggeredAction: ActionMeta<GuidelineOption>,
+  ) {
+    if (triggeredAction.action === "clear") {
+      this.resetState();
+      this.props.handleChange(0);
+    } else {
+      if (!e?.value) return;
 
-  selectGuideline(e: SingleValue<GuidelineOption>) {
-    if (!e?.value) return;
-
-    this.setState({ amount: e.value });
-    this.props.handleChange(e.value);
+      this.setState({ amount: e.value });
+      this.props.handleChange(e.value);
+    }
   }
 
   resetState() {
@@ -116,7 +117,9 @@ class GuidelineInput extends Component<Props, State> {
                 <Select<GuidelineOption>
                   key={`react-select-${this.state.amount}`}
                   options={guidelines}
-                  onChange={(e) => this.selectGuideline(e)}
+                  onChange={(selectedOption, triggeredAction) =>
+                    this.handleChange(selectedOption, triggeredAction)
+                  }
                   value={
                     // Only display the amount instead of the whole label
                     this.state.amount && this.state.amount !== 0
