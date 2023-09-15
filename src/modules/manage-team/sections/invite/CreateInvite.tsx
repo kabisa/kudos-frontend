@@ -10,7 +10,6 @@ import {
 } from "../../../../support";
 import settings from "../../../../config/settings";
 import s from "./Invite.module.css";
-import { QUERY_GET_INVITES } from "./InvitesSection";
 import { Storage } from "../../../../support/storage";
 import { Button, Label } from "@sandercamp/ui-components";
 
@@ -30,7 +29,7 @@ export interface CreateInviteParameters {
 }
 
 export interface Props {
-  // future props fo here
+  refetch?: () => void;
 }
 
 export interface State {
@@ -82,16 +81,9 @@ export class CreateInvite extends Component<Props, State> {
         mutation={MUTATION_CREATE_INVITE}
         onCompleted={() => {
           this.setState(this.initialState);
+          this.props.refetch?.();
           toast.info("Invites sent successfully!");
         }}
-        refetchQueries={[
-          {
-            query: QUERY_GET_INVITES,
-            variables: {
-              team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
-            },
-          },
-        ]}
       >
         {(createInvite, { error, loading }) => {
           let displayError;

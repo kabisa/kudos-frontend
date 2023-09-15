@@ -1,15 +1,15 @@
-import React from 'react';
-import { mount, ReactWrapper } from 'enzyme';
-import { act } from 'react-dom/test-utils';
-import { CreateInvite, MUTATION_CREATE_INVITE } from './CreateInvite';
+import React from "react";
+import { mount, ReactWrapper } from "enzyme";
+import { act } from "react-dom/test-utils";
+import { CreateInvite, MUTATION_CREATE_INVITE } from "./CreateInvite";
 import {
   findByTestId,
   mockLocalstorage,
   simulateTextareaChange,
   wait,
   withMockedProviders,
-} from '../../../../spec_helper';
-import { QUERY_GET_INVITES } from './InvitesSection';
+} from "../../../../spec_helper";
+import { QUERY_GET_INVITES } from "./InvitesSection";
 
 let mutationCalled = false;
 const mocks = [
@@ -17,8 +17,8 @@ const mocks = [
     request: {
       query: MUTATION_CREATE_INVITE,
       variables: {
-        emails: ['max@example.com'],
-        team_id: '1',
+        emails: ["max@example.com"],
+        team_id: "1",
       },
     },
     result: () => {
@@ -28,7 +28,7 @@ const mocks = [
           createTeamInvite: {
             teamInvites: [
               {
-                id: '1',
+                id: "1",
               },
             ],
           },
@@ -40,7 +40,7 @@ const mocks = [
     request: {
       query: QUERY_GET_INVITES,
       variables: {
-        team_id: '1',
+        team_id: "1",
       },
     },
     result: {
@@ -48,11 +48,11 @@ const mocks = [
         teamById: {
           teamInvites: [
             {
-              id: '1',
-              acceptedAt: '2020-03-10',
-              declinedAt: '',
-              email: 'max@example.com',
-              sentAt: '2020-03-01',
+              id: "1",
+              acceptedAt: "2020-03-10",
+              declinedAt: "",
+              email: "max@example.com",
+              sentAt: "2020-03-01",
             },
           ],
         },
@@ -61,74 +61,97 @@ const mocks = [
   },
 ];
 
-describe('<InvitePage />', () => {
+describe("<InvitePage />", () => {
   let wrapper: ReactWrapper;
 
   beforeEach(() => {
-    mockLocalstorage('1');
+    const mockRefetch = jest.fn();
+
+    mockLocalstorage("1");
     mutationCalled = false;
-    wrapper = mount(withMockedProviders(<CreateInvite />, mocks));
+    wrapper = mount(
+      withMockedProviders(<CreateInvite refetch={mockRefetch} />, mocks),
+    );
   });
 
-  it('renders the input field', () => {
-    expect(findByTestId(wrapper, 'email-input').hostNodes().length).toBe(1);
+  it("renders the input field", () => {
+    expect(findByTestId(wrapper, "email-input").hostNodes().length).toBe(1);
   });
 
-  it('renders the send button', () => {
-    expect(wrapper.find('.button').hostNodes().length).toBe(1);
+  it("renders the send button", () => {
+    expect(wrapper.find(".button").hostNodes().length).toBe(1);
   });
 
-  it('displays an error if the email field is empty', async () => {
+  it("displays an error if the email field is empty", async () => {
     await act(async () => {
-      wrapper.find('.button').hostNodes().simulate('click');
+      wrapper.find(".button").hostNodes().simulate("click");
 
       expect(wrapper.containsMatchingElement(<p>Email can&#39;t be blank.</p>));
     });
   });
 
-  it('sets the loading state when the mutation is called', async () => {
+  it("sets the loading state when the mutation is called", async () => {
     await act(async () => {
-      simulateTextareaChange(wrapper, 'email-input', 'emails', 'max@example.com');
+      simulateTextareaChange(
+        wrapper,
+        "email-input",
+        "emails",
+        "max@example.com",
+      );
 
       await wrapper.update();
 
-      wrapper.find('.button').hostNodes().simulate('click');
+      wrapper.find(".button").hostNodes().simulate("click");
 
-      expect(wrapper.find('.loading').length).toBe(1);
+      expect(wrapper.find(".loading").length).toBe(1);
     });
   });
 
-  it('shows an error if an email is invalid', async () => {
+  it("shows an error if an email is invalid", async () => {
     await act(async () => {
-      simulateTextareaChange(wrapper, 'email-input', 'emails', 'invalidEmail');
+      simulateTextareaChange(wrapper, "email-input", "emails", "invalidEmail");
 
       await wrapper.update();
 
-      wrapper.find('.button').hostNodes().simulate('click');
+      wrapper.find(".button").hostNodes().simulate("click");
 
-      expect(wrapper.containsMatchingElement(<p>Couldn&#39;t parse emails.</p>)).toBe(true);
+      expect(
+        wrapper.containsMatchingElement(<p>Couldn&#39;t parse emails.</p>),
+      ).toBe(true);
     });
   });
 
-  it('shows an error if multiple emails are invalid', async () => {
+  it("shows an error if multiple emails are invalid", async () => {
     await act(async () => {
-      simulateTextareaChange(wrapper, 'email-input', 'emails', 'invalidEmail, otherFakeEmail');
+      simulateTextareaChange(
+        wrapper,
+        "email-input",
+        "emails",
+        "invalidEmail, otherFakeEmail",
+      );
 
       await wrapper.update();
 
-      wrapper.find('.button').hostNodes().simulate('click');
+      wrapper.find(".button").hostNodes().simulate("click");
 
-      expect(wrapper.containsMatchingElement(<p>Couldn&#39;t parse emails.</p>)).toBe(true);
+      expect(
+        wrapper.containsMatchingElement(<p>Couldn&#39;t parse emails.</p>),
+      ).toBe(true);
     });
   });
 
-  it('calls the mutation if all requirements are met', async () => {
+  it("calls the mutation if all requirements are met", async () => {
     await act(async () => {
-      simulateTextareaChange(wrapper, 'email-input', 'emails', 'max@example.com');
+      simulateTextareaChange(
+        wrapper,
+        "email-input",
+        "emails",
+        "max@example.com",
+      );
 
       await wrapper.update();
 
-      wrapper.find('.button').hostNodes().simulate('click');
+      wrapper.find(".button").hostNodes().simulate("click");
 
       await wait(0);
       await wrapper.update();
@@ -137,13 +160,18 @@ describe('<InvitePage />', () => {
     });
   });
 
-  it('only uses valid email addresses when multiple are entered', async () => {
+  it("only uses valid email addresses when multiple are entered", async () => {
     await act(async () => {
-      simulateTextareaChange(wrapper, 'email-input', 'emails', 'max@example.com;invalidEmail');
+      simulateTextareaChange(
+        wrapper,
+        "email-input",
+        "emails",
+        "max@example.com;invalidEmail",
+      );
 
       await wrapper.update();
 
-      wrapper.find('.button').hostNodes().simulate('click');
+      wrapper.find(".button").hostNodes().simulate("click");
       await wait(0);
       await wrapper.update();
 

@@ -16,6 +16,7 @@ import { IconButton } from "@sandercamp/ui-components";
 export interface InviteProps {
   invite: InviteModel;
   key: number;
+  refetch: () => void;
 }
 
 export const MUTATION_DELETE_INVITE = gql`
@@ -39,10 +40,9 @@ export function Invite(props: InviteProps): React.ReactElement {
     >,
   ) => {
     const result = window.confirm(
-      "Are you sure you want to delete the guideline?",
+      "Are you sure you want to delete this invite?",
     );
     if (result) {
-      // TODO: rerender
       deleteInvite({
         variables: { id: props.invite.id },
       });
@@ -69,6 +69,7 @@ export function Invite(props: InviteProps): React.ReactElement {
         <Mutation<DeleteInviteParameters>
           mutation={MUTATION_DELETE_INVITE}
           onCompleted={() => {
+            props.refetch();
             toast.info("Invite removed successfully!");
           }}
           refetchQueries={[

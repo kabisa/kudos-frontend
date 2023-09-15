@@ -9,6 +9,11 @@ import {
 import { AlterRoleButton, AlterRoleButtonMode } from "./AlterRoleButton";
 import { Storage } from "../../../../support/storage";
 import { IconButton } from "@sandercamp/ui-components";
+import {
+  DefaultContext,
+  MutationFunction,
+  OperationVariables,
+} from "@apollo/client";
 
 export interface MemberRowProps {
   key: string;
@@ -17,6 +22,23 @@ export interface MemberRowProps {
 }
 
 export function MemberRow(props: MemberRowProps) {
+  const showConfirmDialog = (
+    deleteMember: MutationFunction<
+      DeactivateUserParameters,
+      OperationVariables,
+      DefaultContext
+    >,
+  ) => {
+    const result = window.confirm(
+      "Are you sure you want to delete this member?",
+    );
+    if (result) {
+      deleteMember({
+        variables: { id: props.membership.user.id },
+      });
+    }
+  };
+
   const userId = Storage.getItem(settings.USER_ID_TOKEN) || "";
 
   return (
@@ -40,21 +62,17 @@ export function MemberRow(props: MemberRowProps) {
             <Mutation<DeactivateUserParameters>
               mutation={DEACTIVATE_USER}
               onCompleted={() => {
+                props.refetch();
                 toast.info("User deactivated successfully!");
               }}
             >
-              {(mutate, { loading }) => (
+              {(deleteMember, { loading }) => (
                 <IconButton
                   data-testid="deactivate-button"
                   name="delete"
                   disabled={loading}
                   variant="tertiary"
-                  onClick={() => {
-                    mutate({
-                      variables: { id: props.membership.id },
-                    });
-                    props.refetch();
-                  }}
+                  onClick={() => showConfirmDialog(deleteMember)}
                 />
               )}
             </Mutation>
