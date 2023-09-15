@@ -1,21 +1,24 @@
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-    /* Allow smooth scrolling on Safari < 13 */
-    -webkit-overflow-scrolling: touch;
+  /* Allow smooth scrolling on Safari < 13 */
+  -webkit-overflow-scrolling: touch;
 
-    background: var(--brand-color-1);
+  background: var(--brand-color-1);
 }
 
 .header {
-    color: var(--font-color-2);
+  color: var(--font-color-2);
 }
 
-@media (max-width: 990px) {
-    .board_container {
-        margin: auto;
-    }
-}
+@media (max-width: 991px) {
+  .board_container {
+    margin: auto;
+  }
 
+  .container {
+    margin-top: 2rem;
+  }
+}

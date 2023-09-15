@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
 import settings from "../../config/settings";
 import { ERROR_NAME_BLANK, getGraphqlError } from "../../support";
-import { Navigation } from "../../components/navigation";
 import { PATH_FEED } from "../../routes";
 import { Storage } from "../../support/storage";
 import { Button, Input, Label } from "@sandercamp/ui-components";
@@ -94,8 +93,8 @@ const CreateTeamPage = () => {
         Create team
       </Button>
       {error && (
-        <div>
-          <span>Unable to create team</span>
+        <div className="errorMessage">
+          <h3>Unable to create team</h3>
           <p>{error}</p>
         </div>
       )}

@@ -372,9 +372,9 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
                   </Button>
 
                   {displayError && (
-                    <div>
-                      <span>Couldn&apos;t create post</span>
-                      <p data-testid="error-message">{displayError}</p>
+                    <div className="errorMessage">
+                      <h3>Couldn&apos;t create post</h3>
+                      <p>{displayError}</p>
                     </div>
                   )}
                   {this.props.back && <BackButton />}
