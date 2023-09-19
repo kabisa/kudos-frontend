@@ -21,7 +21,7 @@ import BackButton from "../../components/back-button/BackButton";
 import Segment from "../../components/atoms/Segment";
 import Page from "../../components/templates/Page";
 
-import s from "./ResetPasswordPage.module.css";
+import s from "./ResetPasswordPage.module.scss";
 import { FormWrapper } from "../../components";
 
 export const MUTATION_RESET_PASSWORD = gql`
