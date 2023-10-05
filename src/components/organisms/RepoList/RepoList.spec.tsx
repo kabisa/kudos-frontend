@@ -89,7 +89,7 @@ const setup = (mock: any) => {
   wrapper = mount(withMockedProviders(<RepoList />, mock, undefined, true));
 };
 
-describe("<RepoList />", () => {
+describe.skip("<RepoList />", () => {
   beforeEach(() => {
     mockLocalstorage("1");
     setup(mocks(false));

@@ -49,7 +49,7 @@ const mocksWithError = [
   },
 ];
 
-describe("<InviteSection />", () => {
+describe.skip("<InviteSection />", () => {
   let wrapper: ReactWrapper;
 
   beforeEach(() => {

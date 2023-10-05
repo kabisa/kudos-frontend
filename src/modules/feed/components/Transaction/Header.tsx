@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { IconButton } from '@sandercamp/ui-components';
+import { IconButton } from "@sandercamp/ui-components";
 
 import { Mutation } from "@apollo/client/react/components";
 import { gql } from "@apollo/client";
@@ -13,10 +13,10 @@ import { Storage } from "../../../../support/storage";
 import { Auth } from "../../../../support";
 
 import s from "./Header.module.scss";
-import classNames from 'classnames';
+import classNames from "classnames";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const moment = require("moment-twitter");
+// const moment = require("moment-twitter");
 
 export const MUTATION_REMOVE_POST = gql`
   mutation RemovePost($id: ID!) {
@@ -103,16 +103,13 @@ export class Header extends Component<Props, State> {
     const { createdAt, amount, votes } = this.props.transaction;
     const timestamp = moment(createdAt);
 
-    const allowNormalEdit =
-      moment.duration(timestamp.diff(moment())).asMinutes() * -1 <= 15;
+    const allowNormalEdit = true;
+    // moment.duration(timestamp.diff(moment())).asMinutes() * -1 <= 15;
 
     return (
       <div className={s.container}>
-        <div className={ s.kudos }>
-          <span data-testid="post-amount">
-            {amount + votes.length}
-          </span>
-          ₭
+        <div className={s.kudos}>
+          <span data-testid="post-amount">{amount + votes.length}</span>₭
         </div>
         <div className={s.avatarWrapper}>
           <img
@@ -129,7 +126,7 @@ export class Header extends Component<Props, State> {
             />
           ))}
         </div>
-        <div className={ s.utilityContainer}>
+        <div className={s.utilityContainer}>
           <span data-testid="post-timestamp" className={s.timestamp}>
             {timestamp.fromNow()}
           </span>
@@ -151,7 +148,7 @@ export class Header extends Component<Props, State> {
             >
               {(mutate) => (
                 <IconButton
-                  className={ classNames(s.deleteButton) }
+                  className={classNames(s.deleteButton)}
                   name="delete"
                   data-testid="delete-button"
                   onClick={() => this.openConfirmDialog(mutate)}

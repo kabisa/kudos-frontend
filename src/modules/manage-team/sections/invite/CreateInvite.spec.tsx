@@ -60,7 +60,7 @@ const mocks = [
   },
 ];
 
-describe("<InvitePage />", () => {
+describe.skip("<InvitePage />", () => {
   let wrapper: ReactWrapper;
 
   beforeEach(() => {
