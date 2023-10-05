@@ -7,9 +7,7 @@ import settings from "../../../../config/settings";
 import { SlackSection } from "./SlackSection";
 import { Icon } from "@sandercamp/ui-components";
 import { Component } from "react";
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const queryString = require("query-string");
+import queryString from "query-string";
 
 export const REMOVE_SLACK = gql`
   mutation RemoveSlack($teamId: ID!) {

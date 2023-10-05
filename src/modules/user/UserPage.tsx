@@ -18,9 +18,7 @@ import {
 import s from "./UserPage.module.css";
 import Segment from "../../components/atoms/Segment";
 import Page from "../../components/templates/Page";
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const queryString = require("query-string");
+import queryString from "query-string";
 
 export const DISCONNECT_SLACK = gql`
   mutation disconnectSlack {
