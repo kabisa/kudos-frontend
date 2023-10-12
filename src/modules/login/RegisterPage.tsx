@@ -132,7 +132,7 @@ class RegisterPage extends Component<Props, State> {
         onError={(error) => this.setState({ error: getGraphqlError(error) })}
         onCompleted={(data) => this.confirm(data)}
       >
-        {(signUpUser, { error, loading }: any) => {
+        {(signUpUser, { loading }: any) => {
           let displayError;
           if (this.state.error) {
             displayError = this.state.error;

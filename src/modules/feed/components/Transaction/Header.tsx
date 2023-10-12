@@ -100,7 +100,7 @@ export class Header extends Component<Props, State> {
   }
 
   render() {
-    const { createdAt, amount, votes } = this.props.transaction;
+    const { amount, votes } = this.props.transaction;
     // TODO: Find another date library
     // const timestamp = moment(createdAt);
 

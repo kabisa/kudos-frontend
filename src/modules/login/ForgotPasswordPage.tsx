@@ -79,7 +79,7 @@ class ForgotPasswordPage extends Component<Props, State> {
               this.setState({ error: getGraphqlError(error) })
             }
           >
-            {(resetPassword, { error, loading }: any) => (
+            {(resetPassword, { loading }: any) => (
               <Segment>
                 <form
                   className="form-container"

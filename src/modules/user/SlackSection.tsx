@@ -26,7 +26,7 @@ export function SlackConnectedSegment({
           toast.info("Disconnected from Slack!");
         }}
       >
-        {(disconnectSlack, { error, loading: mutationLoading }) => {
+        {(disconnectSlack, { error }) => {
           if (error) {
             return <p>Something went wrong: {getGraphqlError(error)}</p>;
           }
@@ -58,9 +58,7 @@ export interface SlackDisconnectedProps {
   slackIconPath: string;
 }
 
-export function SlackDisconnectedSegment(
-  props: SlackDisconnectedProps,
-) {
+export function SlackDisconnectedSegment(props: SlackDisconnectedProps) {
   return (
     <div className={s.slack_message} data-testid="register-slack">
       <h3>

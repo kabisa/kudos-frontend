@@ -122,7 +122,7 @@ class FinishForgotPasswordPage extends Component<Props, State> {
               this.setState({ error: getGraphqlError(error) })
             }
           >
-            {(mutation, { error, loading }) => (
+            {(mutation, { loading }) => (
               <Segment>
                 <form
                   className="form-container"

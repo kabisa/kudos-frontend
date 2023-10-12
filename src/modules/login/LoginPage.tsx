@@ -129,7 +129,7 @@ class LoginPage extends Component<Props, State> {
         }}
         onCompleted={(data) => this.confirm(data)}
       >
-        {(signInUser, { error, loading }) => {
+        {(signInUser, { loading }) => {
           let displayError;
           if (this.state.error) {
             displayError = this.state.error;

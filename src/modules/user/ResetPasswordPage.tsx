@@ -1,4 +1,4 @@
-import { ChangeEvent, Component } from "react";
+import { Component } from "react";
 import { Button, Input, Label } from "@sandercamp/ui-components";
 import { Mutation } from "@apollo/client/react/components";
 import { gql } from "@apollo/client";
@@ -155,7 +155,8 @@ class ResetPasswordPage extends Component<Props, State> {
     });
   }
 
-  handleChange(e: ChangeEvent<HTMLInputElement>) {
+  // TODO: Fix handler
+  handleChange() {
     // @ts-ignore
     this.setState({ [name]: value });
 
