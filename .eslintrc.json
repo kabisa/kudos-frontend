@@ -25,5 +25,5 @@
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/no-unused-vars": 1
   },
-  "ignorePatterns": ["jest.config.js", ".storybook/*"]
+  "ignorePatterns": ["jest.config.js", ".storybook/*", "src/**/*.stories.tsx"]
 }
