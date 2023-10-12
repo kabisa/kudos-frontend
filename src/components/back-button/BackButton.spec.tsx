@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 
 import { Context as ResponsiveContext } from "react-responsive";
 import BackButton from "./BackButton";
