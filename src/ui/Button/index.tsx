@@ -5,7 +5,7 @@ export const ButtonVariants = ["primary", "secondary"] as const;
 export const ButtonStates = ["default", "disabled"] as const;
 
 export type ButtonProps = {
-  variant: (typeof ButtonVariants)[number];
+  variant?: (typeof ButtonVariants)[number];
   state?: (typeof ButtonStates)[number];
   text: string;
 };
