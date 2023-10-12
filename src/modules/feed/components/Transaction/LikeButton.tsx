@@ -1,7 +1,7 @@
 import { Component } from "react";
 import { gql } from "@apollo/client";
 import { Mutation } from "@apollo/client/react/components";
-import classNames from 'classnames';
+import classNames from "classnames";
 import { Icon } from "@sandercamp/ui-components";
 
 import enhanceWithClickOutside from "react-click-outside";
@@ -15,7 +15,6 @@ import {
 import { Storage } from "../../../../support/storage";
 
 import s from "./LikeButton.module.scss";
-
 
 export const MUTATION_TOGGLE_LIKE = gql`
   mutation ToggleLikePost($id: ID!) {
@@ -180,18 +179,19 @@ class LikeButton extends Component<LikeButtonProps, LikeButtonState> {
           >
             {(mutate) => (
               <button
-                  className={ s.buttonContainer }
-                  onClick={() => toggleLike(mutate, post.id, post)}
+                className={s.buttonContainer}
+                onClick={() => toggleLike(mutate, post.id, post)}
               >
                 <Icon
-                  className={ classNames([
-                    liked ? "material-symbols-rounded" : "material-symbols-rounded-outlined",
-                    s.button
-                  ] ) }
+                  className={classNames([
+                    liked
+                      ? "material-symbols-rounded"
+                      : "material-symbols-rounded-outlined",
+                    s.button,
+                  ])}
                   name="thumb_up"
                   data-testid="like-button"
                 />
-
 
                 {/*{liked ? (*/}
                 {/*  <Icon className="material-symbols-rounded" name="thumb_up" />*/}
@@ -207,9 +207,9 @@ class LikeButton extends Component<LikeButtonProps, LikeButtonState> {
           </Mutation>
         </div>
         <p className={s.likes} onClick={this.show} data-testid="message">
-          { message }
+          {message}
           {this.state.showLikes && (
-              <div className={s.all_likes_container}>{allLikes}</div>
+            <div className={s.all_likes_container}>{allLikes}</div>
           )}
         </p>
       </div>

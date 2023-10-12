@@ -64,7 +64,7 @@ const Statistics = () => (
         }
         const currentKudos = data.teamById.activeKudosMeter.amount;
         const goals = [...data.teamById.activeGoals].sort(
-          (goal1, goal2) => goal1.amount - goal2.amount
+          (goal1, goal2) => goal1.amount - goal2.amount,
         );
 
         const nextGoal = goals.find((goal) => goal.amount > currentKudos);

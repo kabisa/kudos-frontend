@@ -7,7 +7,7 @@ export const withMockedProviders = (
   component: any,
   mocks?: any,
   cache?: any,
-  useTypeName: boolean = false
+  useTypeName: boolean = false,
 ) => (
   <MemoryRouter>
     <MockedProvider mocks={mocks} addTypename={useTypeName} cache={cache}>
@@ -34,7 +34,7 @@ export const simulateTextareaChange = (
   wrapper: ReactWrapper,
   id: string,
   name: string,
-  value: string
+  value: string,
 ) => {
   const input = findTextAreaByTestId(wrapper, id);
 
@@ -45,7 +45,7 @@ export const simulateInputChange = (
   wrapper: ReactWrapper,
   id: string,
   name: string,
-  value: any
+  value: any,
 ) => {
   const input = findInputByTestId(wrapper, id);
   return input.simulate("change", { target: { name, value } });
@@ -57,24 +57,22 @@ export const mockLocalstorage = (value: string) => {
 };
 
 export const getMockCache = () =>
-  new InMemoryCache(
-      {
-        typePolicies: {
-          Query: {
-            fields: {
-              teamById: {
-                read(_, { args, toReference }) {
-                  return toReference({
-                    __typename: 'Team',
-                    id: args?.id,
-                  });
-                }
-              }
-            }
-          }
-        }
-      }
-  ).restore({
+  new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          teamById: {
+            read(_, { args, toReference }) {
+              return toReference({
+                __typename: "Team",
+                id: args?.id,
+              });
+            },
+          },
+        },
+      },
+    },
+  }).restore({
     '$ROOT_QUERY.teamById({"id":"1"}).activeKudosMeter': {
       amount: 260,
       __typename: "KudosMeter",
@@ -1150,17 +1148,15 @@ export const getMockCache = () =>
     "Team:1": {
       __typename: "Team",
       id: "1",
-      users: [
-        {__ref:"User:4"}
-      ],
+      users: [{ __ref: "User:4" }],
       activeKudosMeter: {
-        __typename:"KudosMeter",
-        amount: 260
+        __typename: "KudosMeter",
+        amount: 260,
       },
       activeGoals: [
-        {__ref:"Goal:1"},
-        {__ref:"Goal:2"},
-        {__ref:"Goal:3"}
-      ]
-    }
+        { __ref: "Goal:1" },
+        { __ref: "Goal:2" },
+        { __ref: "Goal:3" },
+      ],
+    },
   });
