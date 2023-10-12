@@ -1,11 +1,12 @@
+import React from "react";
 import { Button as UIButton } from "@sandercamp/ui-components";
 
-type ButtonProps = {
+export type ButtonProps = {
   variant: "primary";
   text: string;
 };
 const Button = ({ variant = "primary", text }: ButtonProps) => (
-  <UIButton>{text}</UIButton>
+  <UIButton variant={variant}>{text}</UIButton>
 );
 
 export default Button;
