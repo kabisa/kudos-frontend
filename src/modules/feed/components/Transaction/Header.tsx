@@ -101,7 +101,8 @@ export class Header extends Component<Props, State> {
 
   render() {
     const { createdAt, amount, votes } = this.props.transaction;
-    const timestamp = moment(createdAt);
+    // TODO: Find another date library
+    // const timestamp = moment(createdAt);
 
     const allowNormalEdit = true;
     // moment.duration(timestamp.diff(moment())).asMinutes() * -1 <= 15;
@@ -128,7 +129,7 @@ export class Header extends Component<Props, State> {
         </div>
         <div className={s.utilityContainer}>
           <span data-testid="post-timestamp" className={s.timestamp}>
-            {timestamp.fromNow()}
+            {/* {timestamp.fromNow()} */}
           </span>
           {((Storage.getItem(settings.USER_ID_TOKEN) ===
             this.props.transaction.sender.id &&
