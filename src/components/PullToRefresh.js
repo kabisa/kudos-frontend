@@ -4,13 +4,13 @@
  * Altered because I had to adjust some styles.
  * Still exposes the same functionality as the api definition on GitHub (from 29-11-18).
  */
-(function(global, factory) {
+(function (global, factory) {
   typeof exports === "object" && typeof module !== "undefined"
     ? (module.exports = factory())
     : typeof define === "function" && define.amd
     ? define(factory)
     : (global.PullToRefresh = factory());
-})(this, function() {
+})(this, function () {
   "use strict";
 
   var _shared = {
@@ -23,7 +23,7 @@
     state: "pending",
     timeout: null,
     distResisted: 0,
-    supportsPassive: false
+    supportsPassive: false,
   };
 
   try {
@@ -31,7 +31,7 @@
       get passive() {
         // eslint-disable-line getter-return
         _shared.supportsPassive = true;
-      }
+      },
     });
   } catch (e) {
     // do nothing
@@ -78,7 +78,7 @@
   function onReset(handler) {
     handler.ptrElement.classList.remove(handler.classPrefix + "refresh");
     handler.ptrElement.style[handler.cssProp] = "0px";
-    setTimeout(function() {
+    setTimeout(function () {
       // remove previous ptr-element from DOM
       if (handler.ptrElement && handler.ptrElement.parentNode) {
         handler.ptrElement.parentNode.removeChild(handler.ptrElement);
@@ -91,10 +91,10 @@
 
   function update(handler) {
     var iconEl = handler.ptrElement.querySelector(
-      "." + handler.classPrefix + "icon"
+      "." + handler.classPrefix + "icon",
     );
     var textEl = handler.ptrElement.querySelector(
-      "." + handler.classPrefix + "text"
+      "." + handler.classPrefix + "text",
     );
 
     if (iconEl) {
@@ -123,15 +123,15 @@
   var _ptr = {
     setupDOM: setupDOM,
     onReset: onReset,
-    update: update
+    update: update,
   };
 
-  var _setupEvents = function() {
+  var _setupEvents = function () {
     var _el;
 
     function _onTouchStart(e) {
       // here, we must pick a handler first, and then append their html/css on the DOM
-      var target = _shared.handlers.filter(function(h) {
+      var target = _shared.handlers.filter(function (h) {
         return h.contains(e.target);
       })[0];
 
@@ -233,13 +233,13 @@
 
         _el.ptrElement.classList.add(_el.classPrefix + "refresh");
 
-        _shared.timeout = setTimeout(function() {
-          var retval = _el.onRefresh(function() {
+        _shared.timeout = setTimeout(function () {
+          var retval = _el.onRefresh(function () {
             return _ptr.onReset(_el);
           });
 
           if (retval && typeof retval.then === "function") {
-            retval.then(function() {
+            retval.then(function () {
               return _ptr.onReset(_el);
             });
           }
@@ -271,14 +271,14 @@
       if (_el) {
         _el.mainElement.classList.toggle(
           _el.classPrefix + "top",
-          _el.shouldPullToRefresh()
+          _el.shouldPullToRefresh(),
         );
       }
     }
 
     var _passiveSettings = _shared.supportsPassive
       ? {
-          passive: _shared.passive || false
+          passive: _shared.passive || false,
         }
       : undefined;
 
@@ -298,7 +298,7 @@
         window.removeEventListener("touchend", _onTouchEnd);
         window.removeEventListener("touchmove", _onTouchMove, _passiveSettings);
         window.removeEventListener("scroll", _onScroll);
-      }
+      },
     };
   };
 
@@ -374,29 +374,29 @@ listeners can take over.
     instructionsReleaseToRefresh: "Release to refresh",
     instructionsRefreshing: "",
     refreshTimeout: 500,
-    getMarkup: function() {
+    getMarkup: function () {
       return _ptrMarkup;
     },
-    getStyles: function() {
+    getStyles: function () {
       return _ptrStyles;
     },
-    onInit: function() {},
-    onRefresh: function() {
+    onInit: function () {},
+    onRefresh: function () {
       return location.reload();
     },
-    resistanceFunction: function(t) {
+    resistanceFunction: function (t) {
       return Math.min(1, t / 2.5);
     },
-    shouldPullToRefresh: function() {
+    shouldPullToRefresh: function () {
       return !window.scrollY;
-    }
+    },
   };
 
   var _methods = ["mainElement", "ptrElement", "triggerElement"];
-  var _setupHandler = function(options) {
+  var _setupHandler = function (options) {
     var _handler = {}; // merge options with defaults
 
-    Object.keys(_defaults).forEach(function(key) {
+    Object.keys(_defaults).forEach(function (key) {
       _handler[key] = options[key] || _defaults[key];
     }); // normalize timeout value, even if it is zero
 
@@ -405,7 +405,7 @@ listeners can take over.
         ? options.refreshTimeout
         : _defaults.refreshTimeout; // normalize elements
 
-    _methods.forEach(function(method) {
+    _methods.forEach(function (method) {
       if (typeof _handler[method] === "string") {
         _handler[method] = document.querySelector(_handler[method]);
       }
@@ -415,11 +415,11 @@ listeners can take over.
       _shared.events = _setupEvents();
     }
 
-    _handler.contains = function(target) {
+    _handler.contains = function (target) {
       return _handler.triggerElement.contains(target);
     };
 
-    _handler.destroy = function() {
+    _handler.destroy = function () {
       // stop pending any pending callbacks
       clearTimeout(_shared.timeout); // remove handler from shared state
 
@@ -441,7 +441,7 @@ listeners can take over.
         _shared.events = null;
       }
 
-      _shared.handlers.forEach(function(h) {
+      _shared.handlers.forEach(function (h) {
         h.destroy();
       });
     },
@@ -461,8 +461,8 @@ listeners can take over.
       setupEvents: _setupEvents,
       setupDOM: _ptr.setupDOM,
       onReset: _ptr.onReset,
-      update: _ptr.update
-    }
+      update: _ptr.update,
+    },
   };
 
   return index;
