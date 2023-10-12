@@ -1,3 +1,5 @@
 export default {
-  environment: "test"
+  environment: "test",
 };
+
+test("settings.test.js", () => {});

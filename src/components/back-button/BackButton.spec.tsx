@@ -22,14 +22,12 @@ const MediaWrapper = ({
   </ResponsiveContext.Provider>
 );
 
-test.only("backButton", async () => {
+test("backButton", async () => {
   render(
     <MediaWrapper screen="desktop">
       <BackButton />
     </MediaWrapper>,
   );
-
-  screen.debug();
 });
 // describe.only("<BackButton />", () => {
 //   let wrapper: ReactWrapper;
