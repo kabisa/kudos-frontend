@@ -19,7 +19,7 @@
     "dist",
     "node_modules",
     "src/**/*.test.tsx",
-    "src/**/*.stories.tsx"
+    "src/**/**/*.stories.tsx"
   ],
-  "include": ["src/**/*"]
+  "include": ["src/**/**/*"]
 }
