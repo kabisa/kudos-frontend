@@ -1,0 +1,22 @@
+/* Design principles */
+@import url("@sandercamp/ui-components/src/principles/index.module.css");
+@import url("./colors.css");
+@import url("./layout.css");
+
+/* Global styles for custom components */
+@import url("./form-container.css");
+@import url("./table.css");
+@import url("./toast.css");
+
+/* Needs to be imported last */
+@import url("./reset.css");
+
+#root {
+  font-family: var(--font-family);
+  font-size: var(--font-size-s);
+  height: 100vh;
+}
+
+#root *:not(.material-symbols-rounded, .material-symbols-rounded-outlined) {
+  font-family: inherit;
+}

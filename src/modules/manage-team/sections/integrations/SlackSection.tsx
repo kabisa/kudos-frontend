@@ -1,5 +1,3 @@
-import React from "react";
-import { Button, Header } from "semantic-ui-react";
 import { Mutation } from "@apollo/client/react/components";
 import { toast } from "react-toastify";
 import { Storage } from "../../../../support/storage";
@@ -11,16 +9,17 @@ import {
   RemoveSlackParameters,
   RemoveSlackResult,
 } from "./Integrations";
+import { Button } from "@sandercamp/ui-components";
 
 export interface SlackSectionProps {
   slackId: string;
   slackConnectUrl: string;
 }
 
-function SlackConnectedSection(): React.ReactElement {
+function SlackConnectedSection() {
   return (
     <div data-testid="slack-connected-container">
-      <Header as="h5">Slack integration</Header>
+      <h4>Slack integration</h4>
       <p>
         Your team is connected to Slack.
         <br />
@@ -46,16 +45,15 @@ function SlackConnectedSection(): React.ReactElement {
         {(removeSlack, { loading: mutationLoading, error: mutationError }) => {
           if (mutationError) {
             toast.error(
-              `Something went wrong ${getGraphqlError(mutationError)}`
+              `Something went wrong ${getGraphqlError(mutationError)}`,
             );
           }
 
           return (
             <Button
               data-testid="remove-slack-btn"
-              color="red"
-              size="small"
-              loading={mutationLoading}
+              variant="primary"
+              disabled={mutationLoading}
               onClick={() => removeSlack()}
             >
               Remove Slack
@@ -72,13 +70,12 @@ interface SlackDisconnectedProps {
 }
 
 function SlackDisconnectedSection(
-  props: SlackDisconnectedProps
-): React.ReactElement {
+  props: SlackDisconnectedProps,
+) {
   return (
     <div data-testid="slack-disconnected-container">
-      <Header as="h5">Slack integration</Header>
+      <h4>Slack integration</h4>
       <p>
-        {" "}
         To enable Slack integration add the app to your workspace using the
         button below.
       </p>
@@ -102,7 +99,7 @@ function SlackDisconnectedSection(
   );
 }
 
-export function SlackSection(props: SlackSectionProps): React.ReactElement {
+export function SlackSection(props: SlackSectionProps) {
   return (
     <div>
       {props.slackId ? (

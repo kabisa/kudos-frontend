@@ -1,12 +1,10 @@
-import React from "react";
+import "./styles/shell.css";
+
 import ReactDOM from "react-dom";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { ApolloProvider } from "@apollo/client";
 import client from "./client";
-
-import "./styles/shell.scss";
-import "semantic-ui-css/semantic.min.css";
 
 const renderApp = function () {
   const root = document.getElementById("root") as HTMLElement;

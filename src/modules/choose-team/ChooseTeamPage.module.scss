@@ -1,21 +1,17 @@
-.page {
-  display: flex;
-  flex-direction: column;
-  padding: 75px 32px 0;
-}
-
 .container {
   padding: 16px;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  gap: 2rem;
 }
 
-.header {
-  text-align: center;
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-:global(#root) {
-  .create_button {
-    margin: auto;
-  }
+.section h2 {
+  margin-bottom: var(--margin-level-3);
 }

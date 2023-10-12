@@ -1,0 +1,40 @@
+.page {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    "navigation"
+    "main";
+
+  height: 100vh;
+}
+
+.navigation {
+  grid-area: navigation;
+}
+
+.main {
+  grid-area: main;
+
+  /* Navigation bar height is 46px + 16px padding */
+  margin-top: 62px;
+  padding: 2rem;
+
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: var(--kudo-max-w);
+}
+
+@media only screen and (min-width: 1088px) {
+  .main {
+    padding: 2rem 0 2rem 0;
+  }
+}
+
+@media only screen and (max-width: 991px) {
+  .main {
+    margin-top: 0px;
+    /* Bottom navigation height is 55px + 32px (2rem) padding */
+    padding: 2rem 2rem 87px 2rem;
+  }
+}

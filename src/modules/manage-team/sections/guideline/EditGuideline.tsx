@@ -1,7 +1,5 @@
-import React, { ChangeEvent } from "react";
 import { Mutation } from "@apollo/client/react/components";
 import { toast } from "react-toastify";
-import { Button, Form, Message } from "semantic-ui-react";
 import settings from "../../../../config/settings";
 import { getGraphqlError } from "../../../../support";
 import {
@@ -11,6 +9,8 @@ import {
   UPDATE_GUIDELINE,
 } from "./GuidelinesSection";
 import { Storage } from "../../../../support/storage";
+import { Button, Input, Label } from "@sandercamp/ui-components";
+import { Component } from "react";
 
 export interface EditGuidelineProps {}
 
@@ -24,7 +24,7 @@ export interface EditGuidelineState {
   editId: number;
 }
 
-export class EditGuideline extends React.Component<
+export class EditGuideline extends Component<
   EditGuidelineProps,
   EditGuidelineState
 > {
@@ -45,7 +45,6 @@ export class EditGuideline extends React.Component<
     };
     this.initialState = this.state;
 
-    this.handleChange = this.handleChange.bind(this);
     this.createGuideline = this.createGuideline.bind(this);
     this.updateGuideline = this.updateGuideline.bind(this);
     this.setEditState = this.setEditState.bind(this);
@@ -71,11 +70,6 @@ export class EditGuideline extends React.Component<
     });
   }
 
-  handleChange(e: ChangeEvent, { name, value }: any) {
-    // @ts-ignore
-    this.setState({ [name]: value });
-  }
-
   updateGuideline(mutate: any) {
     mutate({
       variables: {
@@ -95,7 +89,7 @@ export class EditGuideline extends React.Component<
           toast.info(
             this.state.editing
               ? "Guideline successfully updated!"
-              : "Guideline created successfully!"
+              : "Guideline created successfully!",
           );
         }}
         refetchQueries={[
@@ -116,18 +110,17 @@ export class EditGuideline extends React.Component<
             displayError = this.state.error;
           }
           return (
-            <Form
+            <form
               onSubmit={() =>
                 this.state.editing
                   ? this.updateGuideline(mutate)
                   : this.createGuideline(mutate)
               }
             >
-              <Form.Group widths="equal">
-                <Form.Input
+              <Label>
+                Amount of kudos
+                <Input
                   data-testid="kudo-input"
-                  fluid
-                  label="Amount of kudos"
                   placeholder="Kudos"
                   type="number"
                   min="1"
@@ -137,13 +130,19 @@ export class EditGuideline extends React.Component<
                   value={
                     this.state.editing ? this.state.editKudos : this.state.kudos
                   }
-                  onChange={this.handleChange}
+                  onChange={(e) => {
+                    this.state.editing
+                      ? this.setState({ editKudos: e.target.value })
+                      : this.setState({ kudos: e.target.value });
+                  }}
                 />
-                <Form.Input
+              </Label>
+
+              <Label>
+                Description
+                <Input
                   data-testid="description-input"
-                  fluid
                   required
-                  label="Description"
                   name={this.state.editing ? "editDescription" : "description"}
                   placeholder="Description"
                   value={
@@ -151,13 +150,17 @@ export class EditGuideline extends React.Component<
                       ? this.state.editDescription
                       : this.state.description
                   }
-                  onChange={this.handleChange}
+                  onChange={(e) => {
+                    this.state.editing
+                      ? this.setState({ editDescription: e.target.value })
+                      : this.setState({ description: e.target.value });
+                  }}
                 />
-              </Form.Group>
+              </Label>
+
               <Button
                 data-testid="submit-button"
-                color="blue"
-                loading={loading}
+                variant="primary"
                 disabled={loading}
                 type="submit"
               >
@@ -166,7 +169,7 @@ export class EditGuideline extends React.Component<
               {this.state.editing && (
                 <Button
                   data-testid="cancel-button"
-                  color="orange"
+                  variant="secondary"
                   onClick={() => {
                     this.setState({ editing: false });
                   }}
@@ -175,12 +178,12 @@ export class EditGuideline extends React.Component<
                 </Button>
               )}
               {displayError && (
-                <Message negative>
-                  <Message.Header>Unable to create guideline.</Message.Header>
+                <div className="errorMessage">
+                  <h3>Unable to create guideline.</h3>
                   <p>{displayError}</p>
-                </Message>
+                </div>
               )}
-            </Form>
+            </form>
           );
         }}
       </Mutation>

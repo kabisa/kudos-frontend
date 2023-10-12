@@ -1,5 +1,3 @@
-import React from "react";
-import { Button, SemanticCOLORS } from "semantic-ui-react";
 import { Mutation } from "@apollo/client/react/components";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
@@ -9,17 +7,19 @@ import { PATH_FEED } from "../../../routes";
 import { GET_INVITES } from "./InviteList";
 import { Storage } from "../../../support/storage";
 import s from "./ChooseTeam.module.scss";
+import { Button } from "@sandercamp/ui-components";
+import { ButtonProps } from "@sandercamp/ui-components/lib/atoms/Button";
 
 export interface Props {
   mutation: DocumentNode;
   inviteId: string;
   text: string;
-  color: SemanticCOLORS;
   accept?: boolean;
   teamId: string;
+  variant: ButtonProps["variant"];
 }
 
-function ChoiceButton(props: Props): React.ReactElement {
+function ChoiceButton(props: Props) {
   const history = useHistory();
 
   return (
@@ -58,9 +58,7 @@ function ChoiceButton(props: Props): React.ReactElement {
     >
       {(mutate, { loading }) => (
         <Button
-          loading={loading}
-          color={props.color}
-          size="small"
+          variant={props.variant}
           className={s.button}
           onClick={() => {
             mutate({ variables: { team_invite_id: props.inviteId } });
@@ -68,9 +66,11 @@ function ChoiceButton(props: Props): React.ReactElement {
               Storage.setItem(settings.TEAM_ID_TOKEN, props.teamId);
               toast.info("Invite successfully accepted!");
               history.push(PATH_FEED);
+              return;
             }
             toast.info("Invite successfully declined!");
           }}
+          disabled={loading}
         >
           {props.text}
         </Button>

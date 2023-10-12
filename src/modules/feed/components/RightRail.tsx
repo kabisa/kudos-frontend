@@ -1,19 +1,29 @@
-import React from "react";
-import { Segment } from "semantic-ui-react";
+import { FC } from 'react';
+
+import classNames from 'classnames';
+
+import { ReactComponent as KabisaLogo } from '../../../assets/kabisa.svg';
+
 import { Statistics } from "../../statistics";
 
 import s from "./Rail.module.scss";
+import Segment from "../../../components/atoms/Segment";
+import moment from 'moment/moment';
 
-const slackIconPath = `${process.env.PUBLIC_URL}/assets/kabisa_logo_white.png`;
 
-const RightRail = () => (
-  <div data-testid="right-tail">
-    <Segment className={s.rail}>
-      <Statistics />
-      <img className={s.logo} alt="Kabisa logo" src={slackIconPath} />
+type RightRailProps = {
+    className?: string;
+}
+
+const RightRail: FC<RightRailProps> = ({ className }) => (
+    <Segment className={ classNames(s.rail, className) } data-testid="right-tail">
+        <div className={ s.header }>
+            <h1 className={s.kudo_header}>₭udometer</h1>
+            <p className={s.today}>{moment().format("MMMM Do, YYYY")}</p>
+        </div>
+        <Statistics />
+        <KabisaLogo className={ s.logo }/>
     </Segment>
-  </div>
-
 );
 
 export default RightRail;

@@ -1,5 +1,3 @@
-import React from "react";
-import { Button, Popup, Table } from "semantic-ui-react";
 import { Mutation } from "@apollo/client/react/components";
 import { toast } from "react-toastify";
 import {
@@ -14,6 +12,7 @@ import {
 import settings from "../../../../config/settings";
 import { Storage } from "../../../../support/storage";
 import { GET_GOAL_PERCENTAGE } from "../../../feed/queries";
+import { Button, IconButton } from "@sandercamp/ui-components";
 
 export interface KudometerRowProps {
   key: string;
@@ -23,7 +22,7 @@ export interface KudometerRowProps {
   edit: (kudometer: Kudometer) => void;
 }
 
-export function KudometerRow(props: KudometerRowProps): React.ReactElement {
+export function KudometerRow(props: KudometerRowProps) {
   function deleteKudometer(mutation: any) {
     const { id } = props.kudometer;
     mutation({ variables: { id } });
@@ -39,13 +38,12 @@ export function KudometerRow(props: KudometerRowProps): React.ReactElement {
   }
 
   return (
-    <Table.Row key={props.kudometer.id}>
-      <Table.Cell>{props.kudometer.name}</Table.Cell>
-      <Table.Cell>
+    <tr key={props.kudometer.id}>
+      <td>{props.kudometer.name}</td>
+      <td>
         <Button
           data-testid="goal-button"
-          color="blue"
-          size="tiny"
+          variant="primary"
           onClick={() => props.viewButtonClickHandler(props.kudometer)}
         >
           View goals
@@ -73,10 +71,8 @@ export function KudometerRow(props: KudometerRowProps): React.ReactElement {
           {(mutation, { loading }) => (
             <Button
               data-testid="set-active-button"
-              color="yellow"
-              size="tiny"
-              loading={loading}
-              disabled={props.kudometer.isActive}
+              variant="primary"
+              disabled={props.kudometer.isActive || loading}
               onClick={() => {
                 setActiveKudometer(mutation);
               }}
@@ -85,17 +81,15 @@ export function KudometerRow(props: KudometerRowProps): React.ReactElement {
             </Button>
           )}
         </Mutation>
-        <Button
+      </td>
+      <td>
+        <IconButton
           data-testid="edit-button"
-          color="yellow"
-          size="tiny"
-          icon="pencil"
+          name="edit"
           onClick={() => {
             props.edit(props.kudometer);
           }}
         />
-      </Table.Cell>
-      <Table.Cell>
         <Mutation<DeleteKudometerParameters>
           mutation={DELETE_KUDOMETER}
           onCompleted={() => {
@@ -111,32 +105,15 @@ export function KudometerRow(props: KudometerRowProps): React.ReactElement {
           ]}
         >
           {(mutation, { loading }) => (
-            <Popup
-              trigger={
-                <Button
-                  data-testid="delete-button"
-                  size="tiny"
-                  color="red"
-                  loading={loading}
-                  icon="trash"
-                />
-              }
-              content={
-                <Button
-                  data-testid="confirm-delete-button"
-                  color="red"
-                  content="Confirm deletion"
-                  onClick={() => {
-                    deleteKudometer(mutation);
-                  }}
-                />
-              }
-              on="click"
-              position="top right"
+            <IconButton
+              variant="tertiary"
+              name="delete"
+              onClick={() => deleteKudometer(mutation)}
+              disabled={loading}
             />
           )}
         </Mutation>
-      </Table.Cell>
-    </Table.Row>
+      </td>
+    </tr>
   );
 }

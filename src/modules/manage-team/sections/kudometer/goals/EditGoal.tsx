@@ -1,7 +1,6 @@
+import { Component } from "react";
 import { Mutation } from "@apollo/client/react/components";
 import { toast } from "react-toastify";
-import { Button, Form, Message } from "semantic-ui-react";
-import React, { ChangeEvent } from "react";
 
 import {
   CREATE_GOAL,
@@ -13,6 +12,8 @@ import settings from "../../../../../config/settings";
 import { getGraphqlError } from "../../../../../support";
 import { Storage } from "../../../../../support/storage";
 import { ApolloError } from "@apollo/client";
+import { Button, Input, Label } from "@sandercamp/ui-components";
+
 
 export interface EditGoalProps {
   kudometerId: string;
@@ -28,7 +29,7 @@ export interface State {
   editGoalId: string;
 }
 
-export class EditGoal extends React.Component<EditGoalProps, State> {
+export class EditGoal extends Component<EditGoalProps, State> {
   constructor(props: EditGoalProps) {
     super(props);
 
@@ -42,7 +43,6 @@ export class EditGoal extends React.Component<EditGoalProps, State> {
       editGoalId: "",
     };
 
-    this.handleChange = this.handleChange.bind(this);
     this.setEditState = this.setEditState.bind(this);
     this.handleError = this.handleError.bind(this);
     this.createGoal = this.createGoal.bind(this);
@@ -86,11 +86,6 @@ export class EditGoal extends React.Component<EditGoalProps, State> {
     });
   }
 
-  handleChange(e: ChangeEvent, { name, value }: any) {
-    // @ts-ignore
-    this.setState({ [name]: value });
-  }
-
   render() {
     return (
       <Mutation<CreateGoalParameters>
@@ -126,19 +121,18 @@ export class EditGoal extends React.Component<EditGoalProps, State> {
           }
 
           return (
-            <Form
+            <form
               onSubmit={() =>
                 this.state.editing
                   ? this.updateGoal(mutate)
                   : this.createGoal(mutate)
               }
             >
-              <Form.Group widths="equal">
-                <Form.Input
+              <Label>
+                Name
+                <Input
                   data-testid="goal-name"
-                  fluid
                   required
-                  label="Name"
                   name={this.state.editing ? "editGoalName" : "goalName"}
                   placeholder="Name"
                   value={
@@ -146,12 +140,18 @@ export class EditGoal extends React.Component<EditGoalProps, State> {
                       ? this.state.editGoalName
                       : this.state.goalName
                   }
-                  onChange={this.handleChange}
+                  onChange={(e) =>
+                    this.state.editing
+                      ? this.setState({ editGoalName: e.target.value })
+                      : this.setState({ goalName: e.target.value })
+                  }
                 />
-                <Form.Input
-                  fluid
+              </Label>
+
+              <Label>
+                Kudos
+                <Input
                   required
-                  label="Kudos"
                   name={this.state.editing ? "editGoalKudos" : "goalKudos"}
                   type="number"
                   min="100"
@@ -161,13 +161,17 @@ export class EditGoal extends React.Component<EditGoalProps, State> {
                       ? this.state.editGoalKudos
                       : this.state.goalKudos
                   }
-                  onChange={this.handleChange}
+                  onChange={(e) =>
+                    this.state.editing
+                      ? this.setState({ editGoalKudos: e.target.value })
+                      : this.setState({ goalKudos: e.target.value })
+                  }
                 />
-              </Form.Group>
+              </Label>
+
               <Button
                 data-testid="submit-button"
-                color="blue"
-                loading={loading}
+                variant="primary"
                 disabled={loading}
                 type="submit"
               >
@@ -176,19 +180,19 @@ export class EditGoal extends React.Component<EditGoalProps, State> {
               {this.state.editing && (
                 <Button
                   data-testid="cancel-button"
-                  color="orange"
+                  variant="primary"
                   onClick={() => this.setState({ editing: false })}
                 >
                   Cancel
                 </Button>
               )}
               {displayError && (
-                <Message negative>
-                  <Message.Header>Unable to create goal.</Message.Header>
+                <div className="errorMessage">
+                  <h2>Unable to create goal.</h2>
                   <p>{displayError}</p>
-                </Message>
+                </div>
               )}
-            </Form>
+            </form>
           );
         }}
       </Mutation>

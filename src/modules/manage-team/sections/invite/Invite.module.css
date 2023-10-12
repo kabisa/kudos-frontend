@@ -1,0 +1,11 @@
+.grey {
+  color: var(--kabisa-black-500);
+}
+
+.textarea {
+  padding: var(--padding-level-3);
+  font-size: var(--font-size-s);
+  resize: vertical;
+  border: 0.1rem solid var(--subtle-color);
+  border-radius: var(--radii-level-1);
+}

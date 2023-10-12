@@ -1,4 +1,3 @@
-import React from "react";
 import { gql } from "@apollo/client";
 import { Query } from "@apollo/client/react/components";
 import { Invite, InviteModel } from "./Invite";
@@ -46,7 +45,11 @@ const InviteList = () => (
         return (
           <div data-testid="invite-list">
             {data.viewer.teamInvites.map((invite) => (
-              <Invite data-testid="kudo-invite" key={invite.id} invite={invite} />
+              <Invite
+                data-testid="kudo-invite"
+                key={invite.id}
+                invite={invite}
+              />
             ))}
           </div>
         );

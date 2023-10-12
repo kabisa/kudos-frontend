@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import { Divider, Header, Icon, Table } from "semantic-ui-react";
+import { Component, RefObject, createRef } from "react";
 import { gql } from "@apollo/client";
 import { Query } from "@apollo/client/react/components";
 import settings from "../../../../config/settings";
 import { EditGuideline } from "./EditGuideline";
 import { Guideline } from "./Guideline";
 import { Storage } from "../../../../support/storage";
+import { Icon } from "@sandercamp/ui-components";
 
 export const CREATE_GUIDELINE = gql`
   mutation CreateGuideline($name: String!, $kudos: Int!, $team_id: ID!) {
@@ -68,13 +68,13 @@ export interface State {}
 class GuidelineSection extends Component<Props, State> {
   initialState: State;
 
-  editGuidelineRef: React.RefObject<EditGuideline>;
+  editGuidelineRef: RefObject<EditGuideline>;
 
   constructor(props: Props) {
     super(props);
 
     this.initialState = this.state;
-    this.editGuidelineRef = React.createRef();
+    this.editGuidelineRef = createRef();
 
     this.editGuideline = this.editGuideline.bind(this);
   }
@@ -84,7 +84,7 @@ class GuidelineSection extends Component<Props, State> {
       this.editGuidelineRef.current.setEditState(
         id,
         String(kudos),
-        description
+        description,
       );
     }
 
@@ -97,17 +97,12 @@ class GuidelineSection extends Component<Props, State> {
 
   render() {
     return (
-      <div>
-        <Header as="h2">
-          <Icon name="list" />
-          <Header.Content>
-            Guidelines
-            <Header.Subheader>Manage guidelines</Header.Subheader>
-          </Header.Content>
-        </Header>
-        <Divider />
+      <div className="form-container">
+        <h2>
+          <Icon name="steps" />
+          Guidelines
+        </h2>
         <EditGuideline ref={this.editGuidelineRef} />
-        <Divider />
         <Query<GetGuidelinesResult>
           query={GET_GUIDELINES}
           variables={{ team_id: Storage.getItem(settings.TEAM_ID_TOKEN) }}
@@ -116,20 +111,24 @@ class GuidelineSection extends Component<Props, State> {
             if (loading) return <p>Loading...</p>;
             if (error) return <p>Error! {error.message}</p>;
 
-            if (!data || !data.teamById) {
+            if (
+              !data ||
+              !data.teamById ||
+              data.teamById.guidelines.length === 0
+            ) {
               return <p>No guidelines available</p>;
             }
             return (
-              <Table celled compact>
-                <Table.Header>
-                  <Table.Row>
-                    <Table.HeaderCell>Kudos</Table.HeaderCell>
-                    <Table.HeaderCell>Description</Table.HeaderCell>
-                    <Table.HeaderCell>Actions</Table.HeaderCell>
-                  </Table.Row>
-                </Table.Header>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Kudos</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
 
-                <Table.Body>
+                <tbody>
                   {data.teamById.guidelines.map((item) => (
                     <Guideline
                       data-testid="guideline-row"
@@ -140,8 +139,8 @@ class GuidelineSection extends Component<Props, State> {
                       editGuideline={this.editGuideline}
                     />
                   ))}
-                </Table.Body>
-              </Table>
+                </tbody>
+              </table>
             );
           }}
         </Query>

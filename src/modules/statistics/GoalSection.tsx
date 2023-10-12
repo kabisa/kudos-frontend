@@ -1,8 +1,9 @@
-import React from 'react';
-import { Icon } from 'semantic-ui-react';
+import { Icon } from "@sandercamp/ui-components";
 import moment from 'moment';
-import s from './GoalSection.module.scss';
+
 import { ActiveGoal } from './Statistics';
+
+import s from './GoalSection.module.scss';
 
 export interface GoalSectionProps {
   achievedColor: string;
@@ -25,7 +26,7 @@ interface KudoMeterProps {
   height: number;
 }
 
-function KudoMeter(props: KudoMeterProps): React.ReactElement {
+function KudoMeter(props: KudoMeterProps) {
   return (
     <div>
       {/* Lock icons */}
@@ -36,7 +37,7 @@ function KudoMeter(props: KudoMeterProps): React.ReactElement {
         }}
       >
         <Icon
-          name={props.goal.achievedOn ? 'lock open' : 'lock'}
+          name={'lock'}
           className={s.lock_icon}
           style={{
             color: props.goal.achievedOn ? 'white' : 'black',
@@ -81,7 +82,7 @@ function KudoMeter(props: KudoMeterProps): React.ReactElement {
   );
 }
 
-export function GoalSection(props: GoalSectionProps): React.ReactElement {
+export function GoalSection(props: GoalSectionProps) {
   return (
     <div data-testid="goal-section" className={s.container} key={props.goal.id}>
       <KudoMeter

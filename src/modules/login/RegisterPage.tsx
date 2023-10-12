@@ -1,5 +1,4 @@
-import React, { ChangeEvent, Component, FormEvent } from "react";
-import { Button, Form, Message, Segment } from "semantic-ui-react";
+import { ChangeEvent, Component, FormEvent } from "react";
 import { Mutation } from "@apollo/client/react/components";
 import { gql } from "@apollo/client";
 import { History } from "history";
@@ -16,6 +15,10 @@ import BackButton from "../../components/back-button/BackButton";
 import { loginSuccess } from "./helper";
 import settings from "../../config/settings";
 import { PATH_LOGIN } from "../../routes";
+import { Button, Input, Label } from "@sandercamp/ui-components";
+import Segment from "../../components/atoms/Segment";
+import BasePage from "./BasePage";
+import s from "./RegisterPage.module.css";
 
 export const MUTATION_REGISTER = gql`
   mutation SignUpUser(
@@ -129,75 +132,81 @@ class RegisterPage extends Component<Props, State> {
         onError={(error) => this.setState({ error: getGraphqlError(error) })}
         onCompleted={(data) => this.confirm(data)}
       >
-        {(signUpUser, { error, loading }: any) => {
+        {(signUpUser, { loading }: any) => {
           let displayError;
           if (this.state.error) {
             displayError = this.state.error;
           }
 
           return (
-            <FormWrapper toolbar="Register" header="Register">
-              <Segment>
-                <Form
-                  size="large"
-                  error={!!error}
-                  onSubmit={(e) => this.formSubmit(e, signUpUser)}
-                >
-                  <Form.Input
-                    data-testid="name-input"
-                    fluid
-                    icon="user"
-                    name="name"
-                    iconPosition="left"
-                    placeholder="Name"
-                    autoFocus="on"
-                    value={this.state.name}
-                    onChange={this.handleChange}
-                  />
-                  <Form.Input
-                    data-testid="email-input"
-                    fluid
-                    icon="user"
-                    name="email"
-                    type="email"
-                    iconPosition="left"
-                    placeholder="E-mail address"
-                    value={this.state.email}
-                    onChange={this.handleChange}
-                  />
-                  <Form.Input
-                    data-testid="password-input"
-                    fluid
-                    icon="lock"
-                    name="password"
-                    iconPosition="left"
-                    placeholder="Password"
-                    type="password"
-                    value={this.state.password}
-                    onChange={this.handleChange}
-                  />
-
-                  <Button
-                    data-testid="submit-button"
-                    color="blue"
-                    fluid
-                    size="large"
-                    loading={loading}
-                    disabled={loading}
+            <BasePage>
+              <FormWrapper toolbar="Register" header="Register">
+                <Segment>
+                  <form
+                    className="form-container"
+                    onSubmit={(e) => this.formSubmit(e, signUpUser)}
                   >
-                    Register
-                  </Button>
+                    <Label>
+                      Name
+                      <Input
+                        data-testid="name-input"
+                        name="name"
+                        placeholder="Name"
+                        value={this.state.name}
+                        onChange={(e) =>
+                          this.setState({ name: e.target.value })
+                        }
+                      />
+                    </Label>
 
-                  {displayError && (
-                    <Message negative>
-                      <Message.Header>Unable to register</Message.Header>
-                      <p data-testid="error-message">{displayError}</p>
-                    </Message>
-                  )}
-                </Form>
-                <BackButton />
-              </Segment>
-            </FormWrapper>
+                    <Label>
+                      Email
+                      <Input
+                        data-testid="email-input"
+                        name="email"
+                        type="email"
+                        placeholder="E-mail address"
+                        value={this.state.email}
+                        onChange={(e) =>
+                          this.setState({ email: e.target.value })
+                        }
+                      />
+                    </Label>
+
+                    <Label>
+                      Password
+                      <Input
+                        data-testid="password-input"
+                        name="password"
+                        placeholder="Password"
+                        type="password"
+                        value={this.state.password}
+                        onChange={(e) =>
+                          this.setState({ password: e.target.value })
+                        }
+                      />
+                    </Label>
+
+                    <Button
+                      data-testid="submit-button"
+                      variant="primary"
+                      disabled={loading}
+                      className={s.button}
+                    >
+                      Register
+                    </Button>
+
+                    {displayError && (
+                      <div className="errorMessage">
+                        <h3>Unable to register</h3>
+                        <p data-testid="error-message">{displayError}</p>
+                      </div>
+                    )}
+                  </form>
+                  <BackButton />
+                </Segment>
+              </FormWrapper>
+            </BasePage>
           );
         }}
       </Mutation>

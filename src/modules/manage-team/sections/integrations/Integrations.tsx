@@ -1,5 +1,3 @@
-import React from "react";
-import { Divider, Header, Icon } from "semantic-ui-react";
 import { gql } from "@apollo/client";
 import { Query } from "@apollo/client/react/components";
 import { History } from "history";
@@ -7,9 +5,9 @@ import { toast } from "react-toastify";
 import { Storage } from "../../../../support/storage";
 import settings from "../../../../config/settings";
 import { SlackSection } from "./SlackSection";
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const queryString = require("query-string");
+import { Icon } from "@sandercamp/ui-components";
+import { Component } from "react";
+import queryString from "query-string";
 
 export const REMOVE_SLACK = gql`
   mutation RemoveSlack($teamId: ID!) {
@@ -53,7 +51,7 @@ export interface IntegrationsSectionProps {
   history: History;
 }
 
-export default class IntegrationsSection extends React.Component<
+export default class IntegrationsSection extends Component<
   IntegrationsSectionProps,
   any
 > {
@@ -76,15 +74,11 @@ export default class IntegrationsSection extends React.Component<
 
   render() {
     return (
-      <div>
-        <Header as="h2">
-          <Icon name="settings" />
-          <Header.Content>
-            Integrations
-            <Header.Subheader>Manage integrations</Header.Subheader>
-          </Header.Content>
-        </Header>
-        <Divider />
+      <>
+        <h2>
+          <Icon name="move_up" />
+          Integrations
+        </h2>
         <Query<TeamIntegrationsResponse>
           query={GET_TEAM_INTEGRATIONS}
           variables={{
@@ -104,7 +98,7 @@ export default class IntegrationsSection extends React.Component<
             );
           }}
         </Query>
-      </div>
+      </>
     );
   }
 }

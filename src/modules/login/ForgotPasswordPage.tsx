@@ -1,11 +1,14 @@
-import React, { ChangeEvent, Component, FormEvent } from "react";
+import { Component, FormEvent } from "react";
 import { gql } from "@apollo/client";
-import { Button, Form, Message, Segment } from "semantic-ui-react";
 import { Mutation } from "@apollo/client/react/components";
 
 import { FormWrapper } from "../../components";
 import BackButton from "../../components/back-button/BackButton";
 import { getGraphqlError, validateEmail } from "../../support";
+import { Button, Input } from "@sandercamp/ui-components";
+import Segment from "../../components/atoms/Segment";
+import BasePage from "./BasePage";
+import s from "./ForgotPasswordPage.module.css";
 
 export const MUTATION_FORGOT_PASSWORD = gql`
   mutation forgotPassword($email: EmailAddress!) {
@@ -43,18 +46,12 @@ class ForgotPasswordPage extends Component<Props, State> {
       error: "",
     };
 
-    this.handleChange = this.handleChange.bind(this);
     this.formSubmit = this.formSubmit.bind(this);
     this.onCompleted = this.onCompleted.bind(this);
   }
 
   onCompleted() {
     this.setState({ success: true });
-  }
-
-  handleChange(e: ChangeEvent, { name, value }: any) {
-    // @ts-ignore
-    this.setState({ [name]: value });
   }
 
   formSubmit(e: FormEvent, resetPassword: ForgotPasswordMutationCallback) {
@@ -73,65 +70,59 @@ class ForgotPasswordPage extends Component<Props, State> {
 
   render() {
     return (
-      <FormWrapper header="Forgot password" toolbar="Forgot password">
-        <Mutation<ForgotPasswordResult, ForgotPasswordParameters>
-          mutation={MUTATION_FORGOT_PASSWORD}
-          onCompleted={this.onCompleted}
-          onError={(error) => this.setState({ error: getGraphqlError(error) })}
-        >
-          {(resetPassword, { error, loading }: any) => (
-            <div>
-              <Form
-                size="large"
-                error={!!error}
-                onSubmit={(e) => this.formSubmit(e, resetPassword)}
-              >
-                <Segment>
-                  <Form.Input
+      <BasePage>
+        <FormWrapper header="Forgot password" toolbar="Forgot password">
+          <Mutation<ForgotPasswordResult, ForgotPasswordParameters>
+            mutation={MUTATION_FORGOT_PASSWORD}
+            onCompleted={this.onCompleted}
+            onError={(error) =>
+              this.setState({ error: getGraphqlError(error) })
+            }
+          >
+            {(resetPassword, { loading }: any) => (
+              <Segment>
+                <form
+                  className="form-container"
+                  onSubmit={(e) => this.formSubmit(e, resetPassword)}
+                >
+                  <Input
                     data-testid="email-input"
-                    fluid
-                    icon="user"
                     name="email"
                     type="email"
-                    iconPosition="left"
                     placeholder="E-mail address"
                     value={this.state.email}
-                    onChange={this.handleChange}
+                    onChange={(e) => this.setState({ email: e.target.value })}
                   />
 
                   <Button
                     data-testid="submit-button"
-                    color="blue"
-                    fluid
-                    size="large"
-                    loading={loading}
+                    variant="primary"
                     disabled={loading}
+                    className={s.button}
                   >
                     Reset password
                   </Button>
 
                   {this.state.error && (
-                    <Message negative>
-                      <Message.Header>
-                        Unable to reset the password
-                      </Message.Header>
+                    <div className="errorMessage">
+                      <h3>Unable to reset the password</h3>
                       <p data-testid="error-message">{this.state.error}</p>
-                    </Message>
+                    </div>
                   )}
 
                   {this.state.success && (
-                    <Message
-                      header="Reset password instructions sent"
-                      content="Check your mail for the details."
-                    />
+                    <div className="successMessage">
+                      <h3>Reset password instructions sent</h3>
+                      <p>Check your mail for the details.</p>
+                    </div>
                   )}
-                  <BackButton />
-                </Segment>
-              </Form>
-            </div>
-          )}
-        </Mutation>
-      </FormWrapper>
+                </form>
+                <BackButton />
+              </Segment>
+            )}
+          </Mutation>
+        </FormWrapper>
+      </BasePage>
     );
   }
 }

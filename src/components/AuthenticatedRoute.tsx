@@ -1,5 +1,4 @@
 import { Redirect, Route } from 'react-router-dom';
-import React from 'react';
 import { PATH_CHOOSE_TEAM, PATH_LOGIN } from '../routes';
 import { Auth } from '../support';
 

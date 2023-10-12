@@ -1,4 +1,3 @@
-import React from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Router, Route, Switch } from "react-router-dom";
@@ -30,7 +29,7 @@ const ToastWrapper = () => (
 
 function App() {
   return (
-    <div>
+    <>
       <Router history={history}>
         <Switch>
           <Route path={routes.PATH_LOGIN}>
@@ -89,7 +88,7 @@ function App() {
         </Switch>
       </Router>
       <ToastWrapper />
-    </div>
+    </>
   );
 }
 

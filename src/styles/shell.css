@@ -1,0 +1,87 @@
+@import "./elements/base.css";
+
+@media only screen and (min-width: 1200px) {
+  .ui.container {
+    width: 1075px;
+  }
+}
+
+body {
+  background: var(--kudo-background);
+  margin: 0;
+  padding: 0;
+}
+
+div.main-form {
+  width: 98%;
+  margin: auto;
+  height: 100vh;
+}
+
+@media only screen and (max-width: 768px) {
+  div.main-form-toolbar {
+    width: 98%;
+    margin: auto;
+    height: calc(100vh - 68px);
+  }
+}
+
+.flex {
+  display: flex;
+  flex-direction: column;
+}
+
+.errorMessage {
+  border-radius: var(--radii-level-1);
+  padding: var(--padding-level-5);
+  margin-bottom: var(--spacing-level-5);
+
+  box-shadow:
+    0 0 0 1px #e0b4b4 inset,
+    0 0 0 0 transparent;
+
+  background: #fff6f6;
+
+  color: #9f3a38;
+}
+
+.errorMessage > h3 {
+  margin: 0;
+
+  font-size: var(--font-size-m);
+}
+
+.successMessage {
+  border-radius: var(--radii-level-1);
+  padding: var(--padding-level-5);
+  margin-top: var(--spacing-level-5);
+
+  box-shadow:
+    0 0 0 1px #b4e0b4 inset,
+    0 0 0 0 transparent;
+
+  background: #fff6f6;
+
+  color: var(--brand-color-2);
+}
+
+.successMessage > h3 {
+  margin: 0;
+
+  font-size: var(--font-size-m);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  width: fit-content;
+  margin: auto;
+
+  min-height: 1200px;
+}
+
+.grid_column {
+  padding: 0;
+  max-width: 480px;
+}

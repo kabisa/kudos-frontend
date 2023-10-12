@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 import { useMediaQuery } from 'react-responsive';
 
 const Desktop = ({ children }: { children: ReactNode }) => {

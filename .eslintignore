@@ -12,5 +12,4 @@ src/assets
 src/config
 src/serviceWorker.js
 
-/.eslintrc.js
-/jest.config.js
+!.storybook

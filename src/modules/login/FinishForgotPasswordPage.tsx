@@ -1,5 +1,4 @@
-import React, { Component } from "react";
-import { Button, Form, Message, Segment } from "semantic-ui-react";
+import { Component } from "react";
 import { Mutation } from "@apollo/client/react/components";
 import { gql } from "@apollo/client";
 import { withRouter } from "react-router-dom";
@@ -10,6 +9,10 @@ import { PATH_LOGIN } from "../../routes";
 import { FormWrapper } from "../../components";
 import BackButton from "../../components/back-button/BackButton";
 import { getGraphqlError } from "../../support";
+import { Button, Input, Label } from "@sandercamp/ui-components";
+import Segment from "../../components/atoms/Segment";
+import BasePage from "./BasePage";
+import s from "./FinishForgotPasswordPage.module.css";
 
 const DEFAULT_ERROR = "Something went wrong.";
 const PASSWORD_ERROR = "Passwords don't match.";
@@ -70,7 +73,6 @@ class FinishForgotPasswordPage extends Component<Props, State> {
 
     this.token = props.reset_password_token || "";
 
-    this.handleChange = this.handleChange.bind(this);
     this.formSubmit = this.formSubmit.bind(this);
     this.onCompleted = this.onCompleted.bind(this);
   }
@@ -82,11 +84,6 @@ class FinishForgotPasswordPage extends Component<Props, State> {
     } else {
       this.setState({ error: DEFAULT_ERROR });
     }
-  }
-
-  handleChange(e: any, { name, value }: any) {
-    // @ts-ignore
-    this.setState({ [name]: value });
   }
 
   formSubmit(e: any, mutation: any) {
@@ -116,67 +113,70 @@ class FinishForgotPasswordPage extends Component<Props, State> {
   render() {
     const { error: formError } = this.state;
     return (
-      <FormWrapper header="Reset password">
-        <Mutation<NewPasswordResult, NewPasswordParameters>
-          mutation={MUTATION_NEW_PASSWORD}
-          onCompleted={(data) => this.onCompleted(data)}
-          onError={(error) => this.setState({ error: getGraphqlError(error) })}
-        >
-          {(mutation, { error, loading }) => (
-            <div>
-              <Form
-                size="large"
-                error={!!error}
-                onSubmit={(e) => this.formSubmit(e, mutation)}
-              >
-                <Segment>
-                  <Form.Input
-                    data-testid="password-input"
-                    fluid
-                    icon="lock"
-                    name="password"
-                    type="password"
-                    iconPosition="left"
-                    placeholder="Password"
-                    value={this.state.password}
-                    onChange={this.handleChange}
-                  />
-                  <Form.Input
-                    fluid
-                    icon="lock"
-                    name="passwordConfirm"
-                    type="password"
-                    iconPosition="left"
-                    placeholder="Confirm password"
-                    value={this.state.passwordConfirm}
-                    onChange={this.handleChange}
-                  />
+      <BasePage>
+        <FormWrapper header="Reset password">
+          <Mutation<NewPasswordResult, NewPasswordParameters>
+            mutation={MUTATION_NEW_PASSWORD}
+            onCompleted={(data) => this.onCompleted(data)}
+            onError={(error) =>
+              this.setState({ error: getGraphqlError(error) })
+            }
+          >
+            {(mutation, { loading }) => (
+              <Segment>
+                <form
+                  className="form-container"
+                  onSubmit={(e) => this.formSubmit(e, mutation)}
+                >
+                  <Label>
+                    Password
+                    <Input
+                      data-testid="password-input"
+                      name="password"
+                      type="password"
+                      placeholder="Password"
+                      value={this.state.password}
+                      onChange={(e) =>
+                        this.setState({ password: e.target.value })
+                      }
+                    />
+                  </Label>
+
+                  <Label>
+                    Confirm password
+                    <Input
+                      name="passwordConfirm"
+                      type="password"
+                      placeholder="Confirm password"
+                      value={this.state.passwordConfirm}
+                      onChange={(e) =>
+                        this.setState({ passwordConfirm: e.target.value })
+                      }
+                    />
+                  </Label>
+
                   <Button
                     data-testid="submit-button"
-                    color="blue"
-                    fluid
-                    size="large"
-                    loading={loading}
+                    variant="primary"
                     disabled={loading}
+                    className={s.button}
                   >
                     Reset password
                   </Button>
 
                   {formError && (
-                    <Message
-                      data-testid="error-message"
-                      negative
-                      header="Unable to reset the password."
-                      content={this.state.error}
-                    />
+                    <div className="errorMessage">
+                      <h3>Unable to reset password</h3>
+                      <p>{this.state.error}</p>
+                    </div>
                   )}
-                </Segment>
-              </Form>
-              <BackButton />
-            </div>
-          )}
-        </Mutation>
-      </FormWrapper>
+                </form>
+                <BackButton />
+              </Segment>
+            )}
+          </Mutation>
+        </FormWrapper>
+      </BasePage>
     );
   }
 }

@@ -1,32 +1,49 @@
-:global(#root) {
-  .like_message {
-    font-size: 13px;
-    margin-left: 10px;
-    margin-bottom: 0;
-  }
+.container {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-level-4);
+}
 
-  .all_likes_container {
-    position: absolute;
-    z-index: 1;
-    top: 130px;
-    left: 110px;
-    background: var(--kudo-color-secondary);
-    padding: 10px;
-    border-radius: 10px;
-    color: #000000;
-  }
+.buttonContainer {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-level-3);
 
-  @media only screen and (max-width: 786px) {
-    .all_likes_container {
-      top: 150px;
-    }
-  }
+  border: .1rem solid var(--kabisa-black-400);
+  border-radius: var(--radii-level-2);
+  padding: var(--padding-level-1) var(--padding-level-3);
 
-  .container {
-    width: 95%;
-    display: flex;
-    align-items: center;
-  }
+  font-size: var(--font-size-xs);
+  color: var(--kabisa-black-500);
+}
 
+.button {
+  border: none;
+  margin: 0;
+  padding: 0;
 
+  font-size: inherit;
+}
+
+.button:hover {
+  cursor: pointer;
+}
+
+.likes {
+  position: relative;
+
+  font-size: var(--font-size-xs);
+  color: var(--kabisa-black-500);
+}
+
+.all_likes_container {
+  position: absolute;
+  top: 1.5rem;
+  left: 0;
+
+  border-radius: var(--radii-level-2);
+  padding: var(--padding-level-3);
+
+  background: var(--brand-color-3);
+  color: var(--font-color-1);
 }

@@ -1,5 +1,4 @@
-import React, { ChangeEvent, Component, FormEvent } from "react";
-import { Button, Form, Message, Segment } from "semantic-ui-react";
+import { Component, FormEvent } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { History } from "history";
 import { Mutation } from "@apollo/client/react/components";
@@ -20,7 +19,15 @@ import {
 import { FormWrapper } from "../../components";
 import { loginSuccess } from "./helper";
 
-import s from "./LoginPage.module.scss";
+import s from "./LoginPage.module.css";
+import {
+  Button,
+  Input,
+  Link as KabisaLink,
+  Label,
+} from "@sandercamp/ui-components";
+import Segment from "../../components/atoms/Segment";
+import BasePage from "./BasePage";
 
 export const MUTATION_LOGIN = gql`
   mutation SignInUser($email: EmailAddress!, $password: String!) {
@@ -76,14 +83,8 @@ class LoginPage extends Component<Props, State> {
       error: "",
     };
 
-    this.handleChange = this.handleChange.bind(this);
     this.confirm = this.confirm.bind(this);
     this.formSubmit = this.formSubmit.bind(this);
-  }
-
-  handleChange(e: ChangeEvent, { name, value }: any) {
-    // @ts-ignore
-    this.setState({ [name]: value });
   }
 
   confirm(data: LoginResult) {
@@ -128,79 +129,83 @@ class LoginPage extends Component<Props, State> {
         }}
         onCompleted={(data) => this.confirm(data)}
       >
-        {(signInUser, { error, loading }) => {
+        {(signInUser, { loading }) => {
           let displayError;
           if (this.state.error) {
             displayError = this.state.error;
           }
           return (
-            <FormWrapper verticalCentered header="Login">
-              <Segment padded>
-                <Form
-                  size="large"
-                  error={!!error}
-                  onSubmit={(e) => this.formSubmit(e, signInUser)}
-                >
-                  <Form.Input
-                    data-testid="email-input"
-                    fluid
-                    icon="user"
-                    name="email"
-                    type="email"
-                    iconPosition="left"
-                    placeholder="E-mail address"
-                    autoFocus="on"
-                    value={this.state.email}
-                    onChange={this.handleChange}
-                  />
-                  <Form.Input
-                    data-testid="password-input"
-                    fluid
-                    icon="lock"
-                    name="password"
-                    iconPosition="left"
-                    placeholder="Password"
-                    type="password"
-                    value={this.state.password}
-                    onChange={this.handleChange}
-                  />
+            <BasePage>
+              <FormWrapper header="Login">
+                <Segment>
+                  <form
+                    className="form-container"
+                    onSubmit={(e) => this.formSubmit(e, signInUser)}
+                  >
+                    <Label>
+                      Email
+                      <Input
+                        data-testid="email-input"
+                        name="email"
+                        type="email"
+                        placeholder="E-mail address"
+                        value={this.state.email}
+                        onChange={(e) =>
+                          this.setState({ email: e.target.value })
+                        }
+                      />
+                    </Label>
 
-                  <Button
-                    data-testid="submit-button"
-                    type="submit"
-                    color="blue"
-                    fluid
-                    loading={loading}
-                    disabled={loading}
-                  >
-                    Login
-                  </Button>
+                    <Label>
+                      Password
+                      <Input
+                        data-testid="password-input"
+                        name="password"
+                        placeholder="Password"
+                        type="password"
+                        value={this.state.password}
+                        onChange={(e) =>
+                          this.setState({ password: e.target.value })
+                        }
+                      />
+                    </Label>
 
-                  {displayError && (
-                    <Message negative>
-                      <Message.Header>Unable to login</Message.Header>
-                      <p data-testid="error-message">{displayError}</p>
-                    </Message>
-                  )}
-                </Form>
-                <Message className={s.message}>
-                  <Link
-                    data-testid="sign-up-button"
-                    to={PATH_REGISTER}
-                    className={s.left}
-                  >
-                    Sign Up
-                  </Link>
-                  <Link
-                    data-testid="forgot-button"
-                    to={PATH_FORGOT_PASSWORD}
-                    className={s.right}
-                  >
-                    Forgot password?
-                  </Link>
-                </Message>
-              </Segment>
-            </FormWrapper>
+                    <Button
+                      data-testid="submit-button"
+                      type="submit"
+                      variant="primary"
+                      disabled={loading}
+                      className={s.button}
+                    >
+                      Login
+                    </Button>
+
+                    {displayError && (
+                      <div className="errorMessage">
+                        <h3>Unable to login</h3>
+                        <p data-testid="error-message">{displayError}</p>
+                      </div>
+                    )}
+                  </form>
+                  <div className={s.footer}>
+                    <Link
+                      data-testid="sign-up-button"
+                      to={PATH_REGISTER}
+                      className={s.left}
+                    >
+                      <KabisaLink theme="dark">Sign Up</KabisaLink>
+                    </Link>
+                    <Link
+                      data-testid="forgot-button"
+                      to={PATH_FORGOT_PASSWORD}
+                      className={s.right}
+                    >
+                      <KabisaLink theme="dark">Forgot password?</KabisaLink>
+                    </Link>
+                  </div>
+                </Segment>
+              </FormWrapper>
+            </BasePage>
           );
         }}
       </Mutation>

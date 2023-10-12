@@ -1,24 +1,22 @@
-import React from "react";
-import { Button } from "semantic-ui-react";
+import { Button } from "@sandercamp/ui-components";
 import { useHistory } from "react-router-dom";
-import s from "./BackButton.module.scss";
-import { TabletAndAbove } from "../../support/breakpoints";
+import { Desktop } from "../../support/breakpoints";
+import s from "./BackButton.module.css";
 
-function BackButton() {
+const BackButton = () => {
   const history = useHistory();
 
   return (
-    <TabletAndAbove>
+    <Desktop>
       <Button
-        fluid
-        size="large"
-        className={s.back}
+        variant="secondary"
+        className={s.button}
         onClick={() => history.goBack()}
       >
         Back
       </Button>
-    </TabletAndAbove>
+    </Desktop>
   );
-}
+};
 
 export default BackButton;

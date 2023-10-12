@@ -1,7 +1,8 @@
-import React from "react";
-import { Button, Icon } from "semantic-ui-react";
+import { Component } from "react";
 import { gql } from "@apollo/client";
 import { Mutation } from "@apollo/client/react/components";
+import classNames from 'classnames';
+import { Icon } from "@sandercamp/ui-components";
 
 import enhanceWithClickOutside from "react-click-outside";
 import settings from "../../../../config/settings";
@@ -12,7 +13,9 @@ import {
   GET_POSTS,
 } from "../../queries";
 import { Storage } from "../../../../support/storage";
+
 import s from "./LikeButton.module.scss";
+
 
 export const MUTATION_TOGGLE_LIKE = gql`
   mutation ToggleLikePost($id: ID!) {
@@ -34,7 +37,7 @@ export interface ToggleLikeResult {
 const updateState = (store: any, newData: FragmentPostResult) => {
   let beforeState;
 
-  const teamId = Storage.getItem(settings.TEAM_ID_TOKEN)
+  const teamId = Storage.getItem(settings.TEAM_ID_TOKEN);
 
   try {
     beforeState = store.readQuery({
@@ -42,7 +45,6 @@ const updateState = (store: any, newData: FragmentPostResult) => {
       variables: { team_id: teamId },
     });
   } catch (error) {
-
     // This is just to silence the error in the tests
     return;
   }
@@ -114,7 +116,7 @@ export interface LikeButtonState {
   showLikes: boolean;
 }
 
-class LikeButton extends React.Component<LikeButtonProps, LikeButtonState> {
+class LikeButton extends Component<LikeButtonProps, LikeButtonState> {
   constructor(props: LikeButtonProps) {
     super(props);
 
@@ -177,30 +179,39 @@ class LikeButton extends React.Component<LikeButtonProps, LikeButtonState> {
             ]}
           >
             {(mutate) => (
-              <Button
-                data-testid="like-button"
-                basic
-                icon
-                size="mini"
-                onClick={() => toggleLike(mutate, post.id, post)}
-                labelPosition="left"
+              <button
+                  className={ s.buttonContainer }
+                  onClick={() => toggleLike(mutate, post.id, post)}
               >
                 <Icon
-                  data-testid="like-icon"
-                  name={liked ? "thumbs up" : "thumbs up outline"}
-                  color={liked ? "blue" : undefined}
+                  className={ classNames([
+                    liked ? "material-symbols-rounded" : "material-symbols-rounded-outlined",
+                    s.button
+                  ] ) }
+                  name="thumb_up"
+                  data-testid="like-button"
                 />
-                <p>+1₭</p>
-              </Button>
+
+
+                {/*{liked ? (*/}
+                {/*  <Icon className="material-symbols-rounded" name="thumb_up" />*/}
+                {/*) : (*/}
+                {/*  <Icon*/}
+                {/*    className="material-symbols-rounded-outlined"*/}
+                {/*    name="thumb_up"*/}
+                {/*  />*/}
+                {/*)}*/}
+                <span>+1₭</span>
+              </button>
             )}
           </Mutation>
         </div>
-        <p className={s.like_message} onClick={this.show} data-testid="message">
-          {message}
+        <p className={s.likes} onClick={this.show} data-testid="message">
+          { message }
+          {this.state.showLikes && (
+              <div className={s.all_likes_container}>{allLikes}</div>
+          )}
         </p>
-        {this.state.showLikes && (
-          <div className={s.all_likes_container}>{allLikes}</div>
-        )}
       </div>
     );
   }

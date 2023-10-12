@@ -1,14 +1,14 @@
-import React from "react";
-import { Icon, SemanticICONS } from "semantic-ui-react";
 import { Link, useHistory } from "react-router-dom";
 
 import * as routes from "../../routes";
-import s from "./Mobile.module.scss";
+import s from "./Mobile.module.css";
 import { Auth } from "../../support";
+import classNames from "classnames";
+import { Icon } from "@sandercamp/ui-components";
 
 export interface IconComponentProps {
   path: string;
-  icon: SemanticICONS;
+  icon: string;
 }
 
 function IconComponent(props: IconComponentProps) {
@@ -19,9 +19,9 @@ function IconComponent(props: IconComponentProps) {
     <Link to={link} className={s.bottom_item}>
       <Icon
         name={props.icon}
-        size="large"
-        className={s.bottom_icon}
-        color={history.location.pathname === props.path ? "blue" : "black"}
+        className={classNames(s.bottom_icon, {
+          [s.active]: history.location.pathname === props.path,
+        })}
       />
     </Link>
   );
@@ -39,7 +39,7 @@ export function MobileNavigation() {
         <IconComponent
           data-testid="statistics-button"
           path={routes.PATH_STATISTICS}
-          icon="chart bar"
+          icon="monitoring"
         />
       )}
       {Auth.hasTeam() && (
@@ -53,13 +53,13 @@ export function MobileNavigation() {
         <IconComponent
           data-testid="notifications-button"
           path={routes.PATH_NOTIFICATIONS}
-          icon="bell"
+          icon="notifications"
         />
       )}
       <IconComponent
         data-testid="profile-button"
         path={routes.PATH_USER}
-        icon="user"
+        icon="person"
       />
     </div>
   );

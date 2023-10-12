@@ -1,67 +1,76 @@
-:global(#root) {
-  .container {
-    height: 100px;
-  }
+.container {
+  --base-size: var(--font-size-m);
 
-  .lock_container {
-    width: 30px;
-    height: 30px;
-    position: absolute;
-    border-radius: 15px;
-  }
-
-  .lock_icon {
-    position: absolute;
-    left: 6.5px;
-    margin-top: 4.5px;
-  }
-
-  .bar {
-    width: 12px;
-    height: 80px;
-    margin-top: 25px;
-    position: absolute;
-    margin-left: 9px;
-  }
-
-  .progress_bar {
-    width: 12px;
-    position: absolute;
-    margin-left: 9px;
-  }
-
-  .percentage_banner {
-    position: absolute;
-    width: 50px;
-    height: 2px;
-    margin-left: 9px;
-  }
-
-  .current_percentage {
-    display: flex;
-    justify-content: flex-end;
-  }
-
-  .goal_amount {
-    margin-bottom: 2px;
-    margin-top: 0;
-  }
-
-  .goal_name {
-    margin-bottom: 4px;
-  }
-
-  .goal_needed {
-    margin-top: 16px;
-    margin-bottom: 0;
-  }
-
-  .bottom_dot {
-    width: 30px;
-    height: 30px;
-    margin-top: 33px;
-    position: absolute;
-    border-radius: 15px;
-  }
+  height: 100px;
 }
 
+.lock_container {
+  position: absolute;
+
+  width: calc(var(--base-size) * 2);
+  height: calc(var(--base-size) * 2);
+
+  border-radius: 50%;
+}
+
+.lock_icon {
+  position: absolute;
+  top: calc(var(--base-size) / 2);
+  left: calc(var(--base-size) / 2);
+
+  background: transparent;
+
+  font-size: var(--base-size);
+}
+
+.bar {
+  position: absolute;
+
+  width: .75rem;
+  height: 80px;
+  margin-top: calc(var(--base-size) * 1.5);
+  margin-left: calc(var(--base-size) - calc(.75rem / 2 ));
+}
+
+.progress_bar {
+  position: absolute;
+
+  width: .75rem;
+  margin-left: calc(var(--base-size) - calc(.75rem / 2 ));
+}
+
+.percentage_banner {
+  position: absolute;
+  width: 50px;
+  height: 2px;
+  margin-left: 9px;
+}
+
+.current_percentage {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.goal_amount {
+  margin-bottom: 2px;
+  margin-top: 0;
+}
+
+.goal_name {
+  margin-bottom: 4px;
+}
+
+.goal_needed {
+  margin-top: 16px;
+  margin-bottom: 0;
+}
+
+.bottom_dot {
+  position: absolute;
+
+  width: calc(var(--base-size) * 2);
+  height: calc(var(--base-size) * 2);
+
+  margin-top: calc(var(--base-size) * 1.5);
+  border-radius: 50%;
+}
