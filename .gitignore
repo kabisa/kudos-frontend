@@ -34,4 +34,4 @@ coverage/
 /.gradle
 /profiles/
 *.swp
-.yarn
+.yarn/cache
