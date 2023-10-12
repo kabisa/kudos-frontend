@@ -1,14 +1,17 @@
 import { FC } from "react";
 import MobileNavigation from "./Mobile";
 import Desktop from "./Desktop";
-import { Desktop as DesktopBreakpoint, TabletAndBelow } from "../../support/breakpoints";
+import {
+  Desktop as DesktopBreakpoint,
+  TabletAndBelow,
+} from "../../support/breakpoints";
 
 type NavigationProps = {
-    className?: string;
-}
+  className?: string;
+};
 
 const Navigation: FC<NavigationProps> = ({ className }) => (
-  <div className={ className }>
+  <div className={className}>
     <TabletAndBelow>
       <MobileNavigation />
     </TabletAndBelow>

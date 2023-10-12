@@ -69,9 +69,7 @@ interface SlackDisconnectedProps {
   slackConnectUrl: string;
 }
 
-function SlackDisconnectedSection(
-  props: SlackDisconnectedProps,
-) {
+function SlackDisconnectedSection(props: SlackDisconnectedProps) {
   return (
     <div data-testid="slack-disconnected-container">
       <h4>Slack integration</h4>

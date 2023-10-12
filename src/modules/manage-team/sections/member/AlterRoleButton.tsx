@@ -16,9 +16,7 @@ export enum AlterRoleButtonMode {
   DEMOTE,
 }
 
-export function AlterRoleButton(
-  props: AlterRoleButtonProps,
-) {
+export function AlterRoleButton(props: AlterRoleButtonProps) {
   function isDisabled(): boolean {
     if (props.mode === AlterRoleButtonMode.PROMOTE) {
       return props.membership.role === "admin";

@@ -1,9 +1,9 @@
 import { Icon } from "@sandercamp/ui-components";
-import moment from 'moment';
+import moment from "moment";
 
-import { ActiveGoal } from './Statistics';
+import { ActiveGoal } from "./Statistics";
 
-import s from './GoalSection.module.scss';
+import s from "./GoalSection.module.scss";
 
 export interface GoalSectionProps {
   achievedColor: string;
@@ -12,7 +12,7 @@ export interface GoalSectionProps {
   percentage: number;
   goal: ActiveGoal;
   nextGoal?: ActiveGoal;
-  defaultColor: string
+  defaultColor: string;
   height: number;
   index: number;
 }
@@ -22,7 +22,7 @@ interface KudoMeterProps {
   percentage: number;
   goal: ActiveGoal;
   nextGoal?: ActiveGoal;
-  defaultColor: string
+  defaultColor: string;
   height: number;
 }
 
@@ -33,14 +33,16 @@ function KudoMeter(props: KudoMeterProps) {
       <div
         className={s.lock_container}
         style={{
-          backgroundColor: props.goal.achievedOn ? props.achievedColor : props.defaultColor,
+          backgroundColor: props.goal.achievedOn
+            ? props.achievedColor
+            : props.defaultColor,
         }}
       >
         <Icon
-          name={'lock'}
+          name={"lock"}
           className={s.lock_icon}
           style={{
-            color: props.goal.achievedOn ? 'white' : 'black',
+            color: props.goal.achievedOn ? "white" : "black",
           }}
         />
       </div>
@@ -50,7 +52,9 @@ function KudoMeter(props: KudoMeterProps) {
         data-testid="progress-bar"
         className={s.bar}
         style={{
-          backgroundColor: props.goal.achievedOn ? props.achievedColor : props.defaultColor,
+          backgroundColor: props.goal.achievedOn
+            ? props.achievedColor
+            : props.defaultColor,
         }}
       />
 
@@ -100,11 +104,12 @@ export function GoalSection(props: GoalSectionProps) {
         [Goal {props.goals.length - props.index}] {props.goal.name}
       </p>
       <span className={s.goal_needed}>
-        {!props.goal.achievedOn && `${props.currentKudos} / ${props.goal.amount}₭`}
-        {props.goal.achievedOn
-                && `Achieved on ${moment(props.goal.achievedOn, 'YYYY-MM-DD').format(
-                  'DD MMM, YYYY',
-                )}`}
+        {!props.goal.achievedOn &&
+          `${props.currentKudos} / ${props.goal.amount}₭`}
+        {props.goal.achievedOn &&
+          `Achieved on ${moment(props.goal.achievedOn, "YYYY-MM-DD").format(
+            "DD MMM, YYYY",
+          )}`}
       </span>
 
       {/* Dot at the bottom */}
@@ -117,6 +122,5 @@ export function GoalSection(props: GoalSectionProps) {
         />
       )}
     </div>
-
   );
 }

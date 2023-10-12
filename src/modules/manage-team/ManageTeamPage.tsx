@@ -55,10 +55,7 @@ export class ManageTeamPage extends Component<Props, State> {
     this.handleItemClick = this.handleItemClick.bind(this);
   }
 
-  handleItemClick(
-    _e: MouseEvent<HTMLAnchorElement>,
-    name: string,
-  ) {
+  handleItemClick(_e: MouseEvent<HTMLAnchorElement>, name: string) {
     this.setState({ activeItem: name });
     this.props.history.push(name);
   }

@@ -1,2 +1,2 @@
-declare module 'apollo-upload-client';
-declare module 'simple-react-lightbox';
+declare module "apollo-upload-client";
+declare module "simple-react-lightbox";

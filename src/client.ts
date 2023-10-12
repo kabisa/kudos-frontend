@@ -47,14 +47,14 @@ const client = new ApolloClient({
           teamById: {
             read(_, { args, toReference }) {
               return toReference({
-                __typename: 'Team',
+                __typename: "Team",
                 id: args?.id,
               });
-            }
-          }
-        }
-      }
-    }
+            },
+          },
+        },
+      },
+    },
   }),
 });
 
