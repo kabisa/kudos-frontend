@@ -10,6 +10,7 @@ export type InputFieldProps = {
   type: (typeof InputType)[number];
   placeholder?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  value?: string;
 };
 
 const InputField = ({
@@ -18,6 +19,7 @@ const InputField = ({
   type,
   placeholder,
   onChange,
+  value,
 }: InputFieldProps) => {
   return (
     <div className={styles.inputContainer}>
@@ -27,6 +29,7 @@ const InputField = ({
         type={type}
         placeholder={placeholder}
         onChange={onChange}
+        value={value}
       />
     </div>
   );
