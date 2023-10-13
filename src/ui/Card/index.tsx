@@ -1,13 +1,13 @@
+import { Card as UICard } from "@sandercamp/ui-components";
 import styles from "./Card.module.css";
+import { ReactNode } from "react";
 
-import classNames from "classnames";
+type CardProps = {
+  children?: ReactNode;
+};
 
-type CardProps = JSX.IntrinsicElements["div"];
-
-const Card = ({ children, ...props }: CardProps) => (
-  <div className={classNames(styles.container)} {...props}>
-    {children}
-  </div>
+const Card = ({ children }: CardProps) => (
+  <UICard className={styles.container}>{children}</UICard>
 );
 
 export default Card;
