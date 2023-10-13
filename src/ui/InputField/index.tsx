@@ -9,13 +9,25 @@ export type InputFieldProps = {
   label: string;
   type: (typeof InputType)[number];
   placeholder?: string;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const InputField = ({ id, label, type, placeholder }: InputFieldProps) => {
+const InputField = ({
+  id,
+  label,
+  type,
+  placeholder,
+  onChange,
+}: InputFieldProps) => {
   return (
     <div className={styles.inputContainer}>
       {label && <Label htmlFor={id}>{label}</Label>}
-      <UIInput id={id} type={type} placeholder={placeholder} />
+      <UIInput
+        id={id}
+        type={type}
+        placeholder={placeholder}
+        onChange={onChange}
+      />
     </div>
   );
 };
