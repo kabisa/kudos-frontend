@@ -1,13 +1,14 @@
 import Heading, { HeadingProps } from "./";
 import type { Meta } from "@storybook/react";
 
-export const HeadingStory = ({
-  tag,
-  size,
-  fontWeight,
-  children,
-}: HeadingProps) => (
-  <Heading tag={tag} size={size} fontWeight={fontWeight}>
+export const Primary = ({ tag, theme, children }: HeadingProps) => (
+  <Heading tag={tag} theme={theme} size="primary">
+    {children}
+  </Heading>
+);
+
+export const Secondary = ({ tag, theme, children }: HeadingProps) => (
+  <Heading tag={tag} theme={theme} size="secondary">
     {children}
   </Heading>
 );
@@ -15,28 +16,27 @@ export const HeadingStory = ({
 const meta: Meta<typeof Heading> = {
   component: Heading,
   argTypes: {
-    size: {
-      control: {
-        type: "inline-radio",
-      },
-      options: ["primary", "secondary"],
-    },
     tag: {
       control: {
         type: "inline-radio",
       },
       options: ["h1", "h2", "h3", "h4", "h5", "h6"],
     },
-    fontWeight: {
+    theme: {
       control: {
         type: "inline-radio",
       },
-      options: ["thin", "light", "regular", "medium", "bold"],
+      options: ["black", "white"],
+    },
+    size: {
+      table: {
+        disable: true,
+      },
     },
   },
   args: {
-    size: "primary",
     tag: "h1",
+    theme: "black",
     children: "Heading",
   },
 };
