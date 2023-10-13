@@ -2,9 +2,7 @@ import React from "react";
 import Button, { ButtonProps } from "./";
 import type { Meta } from "@storybook/react";
 
-export const ButtonStory = ({ variant, state, text }: ButtonProps) => (
-  <Button variant={variant} state={state} text={text} />
-);
+export const ButtonStory = (props: ButtonProps) => <Button {...props} />;
 
 const meta: Meta<typeof Button> = {
   component: Button,
@@ -24,7 +22,7 @@ const meta: Meta<typeof Button> = {
   },
   args: {
     variant: "primary",
-    text: "Hello Button",
+    text: "Drop your kudo's!",
     state: "default",
   },
 };
