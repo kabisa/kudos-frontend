@@ -7,7 +7,7 @@ const meta: Meta<typeof Card> = {
   component: Card,
   argTypes: {},
   args: {
-    children: "hello there",
+    children: "I am a card",
   },
 };
 
