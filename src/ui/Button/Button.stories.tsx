@@ -2,7 +2,9 @@ import React from "react";
 import Button, { ButtonProps } from "./";
 import type { Meta } from "@storybook/react";
 
-export const ButtonStory = (props: ButtonProps) => <Button {...props} />;
+export const ButtonStory = (props: ButtonProps) => (
+  <Button {...props}>{props.children}</Button>
+);
 
 const meta: Meta<typeof Button> = {
   component: Button,
@@ -19,10 +21,15 @@ const meta: Meta<typeof Button> = {
       },
       options: ["default", "disabled"],
     },
+    children: {
+      control: {
+        type: "text",
+      },
+    },
   },
   args: {
     variant: "primary",
-    text: "Drop your kudo's!",
+    children: <span>Drop your kudo's!</span>,
     state: "default",
   },
 };
