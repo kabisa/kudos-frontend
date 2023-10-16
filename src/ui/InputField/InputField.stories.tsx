@@ -1,8 +1,10 @@
 import React from "react";
-import InputField, { InputType } from ".";
+import InputField, { InputFieldProps, InputType } from ".";
 import type { Meta } from "@storybook/react";
 
-export const InputFieldStory = (props) => <InputField {...props} />;
+export const InputFieldStory = (props: InputFieldProps) => (
+  <InputField {...props} />
+);
 
 const labels = {
   number: "Enter a number",
