@@ -1,4 +1,35 @@
-.container {
+.card {
+  color: var(--font-color-1);
   border-radius: var(--radii-level-2);
-  padding: 2rem;
+  background-color: var(--bg-color-1);
+  padding: 0;
+}
+
+.card.dark {
+  background-color: var(--brand-color-1);
+  color: var(--font-color-2);
+}
+
+.cardHeader {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 2rem 1.5rem 2rem;
+}
+
+.cardTitle {
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+  margin-bottom: var(--margin-level-3);
+}
+
+.cardDescription {
+  font-size: var(--font-size-l);
+}
+
+.cardContent {
+  padding: 0 2rem 1.5rem 2rem;
+}
+
+.cardFooter {
+  padding: 0 2rem 2rem 2rem;
 }

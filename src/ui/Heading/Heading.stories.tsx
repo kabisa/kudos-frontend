@@ -26,7 +26,7 @@ const meta: Meta<typeof Heading> = {
       control: {
         type: "inline-radio",
       },
-      options: ["black", "white"],
+      options: ["dark", "light"],
     },
     size: {
       table: {
@@ -36,7 +36,7 @@ const meta: Meta<typeof Heading> = {
   },
   args: {
     tag: "h1",
-    theme: "black",
+    theme: "dark",
     children: "Heading",
   },
 };
