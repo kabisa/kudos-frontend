@@ -1,0 +1,21 @@
+.toastContainer {
+  color: var(--font-color-2);
+  background-color: var(--bg-color-2);
+}
+
+.toastBody {
+  padding: 16px;
+}
+
+.toastWrapper {
+  margin-top: 75px;
+  border-radius: 4px;
+}
+
+.success {
+  background-color: var(--kabisa-green-1);
+}
+
+.info {
+  background-color: var(--kabisa-black);
+}
