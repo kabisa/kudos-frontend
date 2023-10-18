@@ -18,25 +18,27 @@
   top: calc(var(--base-size) / 2);
   left: calc(var(--base-size) / 2);
 
-  background: transparent;
+  background: transparent !important; /* Temporary fix for CSS order issue */
 
-  font-size: var(--base-size);
+  font-size: var(
+    --base-size
+  ) !important; /* Temporary fix for CSS order issue */
 }
 
 .bar {
   position: absolute;
 
-  width: .75rem;
+  width: 0.75rem;
   height: 80px;
   margin-top: calc(var(--base-size) * 1.5);
-  margin-left: calc(var(--base-size) - calc(.75rem / 2 ));
+  margin-left: calc(var(--base-size) - calc(0.75rem / 2));
 }
 
 .progress_bar {
   position: absolute;
 
-  width: .75rem;
-  margin-left: calc(var(--base-size) - calc(.75rem / 2 ));
+  width: 0.75rem;
+  margin-left: calc(var(--base-size) - calc(0.75rem / 2));
 }
 
 .percentage_banner {
