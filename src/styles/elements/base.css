@@ -6,7 +6,6 @@
 /* Global styles for custom components */
 @import url("./form-container.css");
 @import url("./table.css");
-@import url("./toast.css");
 
 /* Needs to be imported last */
 @import url("./reset.css");

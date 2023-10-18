@@ -16,12 +16,14 @@ type RightRailProps = {
 
 const RightRail: FC<RightRailProps> = ({ className }) => (
   <Segment className={classNames(s.rail, className)} data-testid="right-tail">
-    <div className={s.header}>
+    <header className={s.header}>
       <h1 className={s.kudo_header}>₭udometer</h1>
       <p className={s.today}>{moment().format("MMMM Do, YYYY")}</p>
-    </div>
+    </header>
     <Statistics />
-    <KabisaLogo className={s.logo} />
+    <footer className={s.footer}>
+      <KabisaLogo className={s.logo} />
+    </footer>
   </Segment>
 );
 
