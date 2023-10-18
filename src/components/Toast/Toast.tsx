@@ -7,7 +7,7 @@ const ToastWrapper = () => (
     toastClassName={styles.toastContainer}
     autoClose={4000}
     position="top-right"
-    theme="light"
+    theme="dark"
     icon={false}
     pauseOnHover
   />
