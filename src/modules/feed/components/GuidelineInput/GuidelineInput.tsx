@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 import { Component } from "react";
 import { Query } from "@apollo/client/react/components";
 import { gql } from "@apollo/client";
@@ -41,16 +42,20 @@ export interface Props {
 }
 
 export interface State {
+  id: string;
+  value: string;
   amount: number;
 }
 
-export type GuidelineOption = { label: string; value: number };
+export type GuidelineOption = { label: string; value: string };
 
 class GuidelineInput extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
     this.state = {
+      id: "",
+      value: "",
       amount: 0,
     };
 
@@ -68,13 +73,14 @@ class GuidelineInput extends Component<Props, State> {
     } else {
       if (!e?.value) return;
 
-      this.setState({ amount: e.value });
-      this.props.handleChange(e.value);
+      const kudosValue = parseInt(e.value.split("-")[1], 10); // Parsing the kudos value
+      this.setState({ amount: kudosValue, id: uuidv4() });
+      this.props.handleChange(kudosValue);
     }
   }
 
   resetState() {
-    this.setState({ amount: 0 });
+    this.setState({ id: "", value: "", amount: 0 });
   }
 
   render() {
@@ -99,14 +105,16 @@ class GuidelineInput extends Component<Props, State> {
                       guideline.kudos + KUDO_GUIDELINE_RANGE >
                         (this.state.amount || 0),
                   )
-                  .map((guideline) => ({
-                    label: `${guideline.name}: ${guideline.kudos}`,
-                    value: guideline.kudos,
-                  }));
+                  .map((guideline) => {
+                    return {
+                      label: `${guideline.name}: ${guideline.kudos}`,
+                      value: `${guideline.id}-${guideline.kudos}`,
+                    };
+                  });
               } else {
                 guidelines = data.teamById.guidelines.map((guideline) => ({
                   label: `${guideline.name}: ${guideline.kudos}`,
-                  value: guideline.kudos,
+                  value: `${guideline.id}-${guideline.kudos}`,
                 }));
               }
             }
@@ -115,17 +123,18 @@ class GuidelineInput extends Component<Props, State> {
               <Label>
                 Kudos amount
                 <Select<GuidelineOption>
-                  key={`react-select-${this.state.amount}`}
+                  key={`react-select-${uuidv4()}`}
                   options={guidelines}
-                  onChange={(selectedOption, triggeredAction) =>
-                    this.handleChange(selectedOption, triggeredAction)
-                  }
+                  onChange={(selectedOption, triggeredAction) => {
+                    this.handleChange(selectedOption, triggeredAction);
+                  }}
                   value={
-                    // Only display the amount instead of the whole label
                     this.state.amount && this.state.amount !== 0
                       ? {
                           label: this.state.amount.toString(),
-                          value: this.state.amount,
+                          // It seems React-select is not able to handle
+                          // the same value twice, so we add a unique id to the value
+                          value: `${this.state.id}-${this.state.amount}`,
                         }
                       : undefined
                   }
