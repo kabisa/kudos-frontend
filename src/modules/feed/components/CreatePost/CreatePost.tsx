@@ -18,7 +18,6 @@ import {
   ERROR_RECEIVERS_BLANK,
   getGraphqlError,
 } from "../../../../support";
-import BackButton from "../../../../components/back-button/BackButton";
 import {
   FragmentPostResult,
   GET_GOAL_PERCENTAGE,
@@ -379,7 +378,6 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
                       </div>
                     )}
                   </form>
-                  <BackButton />
                 </>
               );
             }}
