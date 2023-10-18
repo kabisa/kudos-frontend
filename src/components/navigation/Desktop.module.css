@@ -1,4 +1,4 @@
-header {
+.header {
   position: fixed;
   top: 0;
   width: 100%;
@@ -16,7 +16,7 @@ nav {
   padding: 0;
 }
 
-header > nav {
+.header > nav {
   display: flex;
   flex: 1;
   max-width: var(--kudo-max-w);
