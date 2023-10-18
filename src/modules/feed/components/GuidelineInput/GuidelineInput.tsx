@@ -105,12 +105,10 @@ class GuidelineInput extends Component<Props, State> {
                       guideline.kudos + KUDO_GUIDELINE_RANGE >
                         (this.state.amount || 0),
                   )
-                  .map((guideline) => {
-                    return {
-                      label: `${guideline.name}: ${guideline.kudos}`,
-                      value: `${guideline.id}-${guideline.kudos}`,
-                    };
-                  });
+                  .map((guideline) => ({
+                    label: `${guideline.name}: ${guideline.kudos}`,
+                    value: `${guideline.id}-${guideline.kudos}`,
+                  }));
               } else {
                 guidelines = data.teamById.guidelines.map((guideline) => ({
                   label: `${guideline.name}: ${guideline.kudos}`,
