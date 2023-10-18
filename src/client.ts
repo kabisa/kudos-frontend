@@ -9,7 +9,7 @@ import { Storage } from "./support/storage";
 const handleError = async ({ networkError, operation }: ErrorResponse) => {
   const { response } = operation.getContext();
 
-  if (networkError && response.statusCode === 401) {
+  if (networkError && response.status === 401) {
     await Auth.logout();
   }
 };
