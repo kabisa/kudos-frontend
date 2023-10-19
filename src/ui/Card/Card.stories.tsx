@@ -9,14 +9,9 @@ export default meta;
 type Story = StoryObj<typeof Card>;
 
 export const Primary: Story = {
-  argTypes: {
-    theme: {
-      table: {
-        disable: true,
-      },
-    },
-  },
   args: {
+    theme: "light",
+    center: false,
     title: {
       text: "Title",
       iconName: "flag",
@@ -30,33 +25,16 @@ export const Primary: Story = {
         ornare purus. Pellentesque nec mauris nisl.
       </div>
     ),
-    footer: "footer",
-    center: false,
+    footer: <button>hallo</button>,
   },
   render: (args) => (
     <Card
-      theme="light"
+      theme={args.theme}
+      center={args.center}
       title={args.title}
       description={args.description}
       content={args.content}
       footer={args.footer}
-      center={args.center}
-    />
-  ),
-};
-
-export const PrimaryDark: Story = {
-  args: {
-    ...Primary.args,
-  },
-  render: (args) => (
-    <Card
-      theme="dark"
-      title={args.title}
-      description={args.description}
-      content={args.content}
-      footer={args.footer}
-      center={args.center}
     />
   ),
 };

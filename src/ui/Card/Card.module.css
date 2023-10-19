@@ -23,7 +23,6 @@
 
 .cardFooter {
   display: flex;
-  flex-direction: column;
   padding: 2rem;
   border-radius: 0 0 var(--radii-level-2) var(--radii-level-2);
 }
@@ -35,6 +34,7 @@
 
 .center {
   align-items: center;
+  justify-content: center;
 }
 
 .icon {
