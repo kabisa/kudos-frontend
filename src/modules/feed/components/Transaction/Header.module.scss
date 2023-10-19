@@ -23,7 +23,7 @@
 
 .timestamp {
   color: #081721;
-  font-size: .65rem;
+  font-size: 0.65rem;
 }
 
 .avatar {
@@ -40,15 +40,18 @@
 }
 
 .deleteButton {
-  border: none;
-  margin: 0;
-  padding: 0;
+  /* Temporary fix for CSS order issue */
+  border: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
 
-  background: transparent;
+  background: transparent !important;
 
-  color: var(--brand-color-2);
+  color: var(--brand-color-2) !important;
 }
 
-.deleteButton:hover {
-  border: none;
+.deleteButton > span:hover {
+  /* Temporary fix for CSS order issue */
+  border: none !important;
+  color: var(--kabisa-green-2) !important;
 }
