@@ -13,7 +13,6 @@ import { Storage } from "../../../../support/storage";
 import { Auth } from "../../../../support";
 
 import s from "./Header.module.scss";
-import classNames from "classnames";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 // const moment = require("moment-twitter");
@@ -149,7 +148,7 @@ export class Header extends Component<Props, State> {
             >
               {(mutate) => (
                 <IconButton
-                  className={classNames(s.deleteButton)}
+                  className={s.deleteButton}
                   name="delete"
                   data-testid="delete-button"
                   onClick={() => this.openConfirmDialog(mutate)}
