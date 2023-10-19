@@ -3,23 +3,14 @@
   border-radius: var(--radii-level-2);
   background-color: var(--bg-color-1);
   padding: 0;
-}
-
-.card.dark {
-  background-color: var(--brand-color-1);
-  color: var(--font-color-2);
+  word-break: break-word;
 }
 
 .cardHeader {
   display: flex;
   flex-direction: column;
-  padding: 2rem 2rem 1.5rem 2rem;
-}
-
-.cardTitle {
-  font-weight: var(--font-weight-bold);
-  line-height: 1;
-  margin-bottom: var(--margin-level-3);
+  padding: 2rem;
+  border-radius: var(--radii-level-2) var(--radii-level-2) 0 0;
 }
 
 .cardDescription {
@@ -27,9 +18,25 @@
 }
 
 .cardContent {
-  padding: 0 2rem 1.5rem 2rem;
+  padding: 2rem;
 }
 
 .cardFooter {
-  padding: 0 2rem 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  border-radius: 0 0 var(--radii-level-2) var(--radii-level-2);
+}
+
+.dark {
+  background-color: var(--brand-color-1);
+  color: var(--font-color-2);
+}
+
+.center {
+  align-items: center;
+}
+
+.icon {
+  padding-right: 0.5rem;
 }

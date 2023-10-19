@@ -14,7 +14,7 @@ export type HeadingProps = PropsWithChildren<{
 const Heading = ({
   tag,
   size = "primary",
-  theme = "dark",
+  theme = "light",
   children,
 }: HeadingProps) => {
   const Tag = tag;
