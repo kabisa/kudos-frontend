@@ -1,23 +1,17 @@
-// import { render } from "@testing-library/react";
-// import {
-//   Card,
-//   CardContent,
-//   CardDescription,
-//   CardFooter,
-//   CardHeader,
-//   CardTitle,
-// } from ".";
+import { render } from "@testing-library/react";
+import { Card } from ".";
 
-// test("renders with default state", () => {
-//   const { getByText } = render(
-//     <Card>
-//       <CardHeader>
-//         <CardTitle>Card</CardTitle>
-//         <CardDescription>Description</CardDescription>
-//       </CardHeader>
-//       <CardContent>Content</CardContent>
-//       <CardFooter>Footer</CardFooter>
-//     </Card>,
-//   );
-//   expect(getByText("I am a card")).toBeInTheDocument;
-// });
+test("renders with default state", () => {
+  const { getByText } = render(
+    <Card
+      theme="light"
+      title={{
+        text: "I am a card",
+        iconName: "flag",
+      }}
+      content="content"
+      footer="footer"
+    />,
+  );
+  expect(getByText("I am a card")).toBeInTheDocument;
+});
