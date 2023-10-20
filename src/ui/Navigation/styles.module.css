@@ -37,7 +37,7 @@
   align-items: center;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: var(--bp-768)) {
   .list a {
     flex: 1;
     color: var(--base-color);
