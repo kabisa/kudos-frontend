@@ -25,7 +25,7 @@ export const Primary: Story = {
         ornare purus. Pellentesque nec mauris nisl.
       </div>
     ),
-    footer: <button>hallo</button>,
+    footer: "footer",
   },
   render: (args) => (
     <Card
@@ -63,4 +63,23 @@ export const Secondary: Story = {
       footer={args.footer}
     />
   ),
+};
+
+export const Test: Story = {
+  argTypes: {
+    theme: {
+      table: {
+        disable: true,
+      },
+    },
+    center: {
+      table: {
+        disable: true,
+      },
+    },
+  },
+  args: {
+    ...Primary.args,
+  },
+  render: (args) => <Card content={args.content} />,
 };
