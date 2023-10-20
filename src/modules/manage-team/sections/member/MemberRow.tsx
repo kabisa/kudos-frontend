@@ -62,7 +62,6 @@ export function MemberRow(props: MemberRowProps) {
             <Mutation<DeactivateUserParameters>
               mutation={DEACTIVATE_USER}
               onError={(e) => {
-                console.log("Error trhowing");
                 console.log(e);
                 toast.error("Error deactivating user");
               }}
