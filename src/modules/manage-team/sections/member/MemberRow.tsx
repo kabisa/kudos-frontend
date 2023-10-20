@@ -34,7 +34,7 @@ export function MemberRow(props: MemberRowProps) {
     );
     if (result) {
       deleteMember({
-        variables: { id: props.membership.user.id },
+        variables: { id: props.membership.id },
       });
     }
   };
@@ -61,6 +61,11 @@ export function MemberRow(props: MemberRowProps) {
             />
             <Mutation<DeactivateUserParameters>
               mutation={DEACTIVATE_USER}
+              onError={(e) => {
+                console.log("Error trhowing");
+                console.log(e);
+                toast.error("Error deactivating user");
+              }}
               onCompleted={() => {
                 props.refetch();
                 toast.info("User deactivated successfully!");
