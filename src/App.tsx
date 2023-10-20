@@ -1,4 +1,3 @@
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Router, Route, Switch } from "react-router-dom";
 import * as routes from "./routes";
@@ -17,15 +16,7 @@ import { StatisticsPage } from "./modules/statistics";
 import { ChooseTeamPage, CreateTeamPage } from "./modules/choose-team";
 import { ManageTeamPage } from "./modules/manage-team/ManageTeamPage";
 import AuthenticatedRoute from "./components/AuthenticatedRoute";
-
-const ToastWrapper = () => (
-  <ToastContainer
-    bodyClassName="toast-body"
-    toastClassName="toast"
-    autoClose={4000}
-    pauseOnHover
-  />
-);
+import { ToastWrapper } from "./components";
 
 function App() {
   return (

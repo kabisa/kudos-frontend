@@ -7,11 +7,11 @@ export const ButtonStates = ["default", "disabled"] as const;
 export type ButtonProps = {
   variant?: (typeof ButtonVariants)[number];
   state?: (typeof ButtonStates)[number];
-  text: string;
+  children: React.ReactNode;
 };
-const Button = ({ variant = "primary", state, text }: ButtonProps) => (
+const Button = ({ variant = "primary", state, children }: ButtonProps) => (
   <UIButton variant={variant} disabled={state === "disabled"}>
-    {text}
+    {children}
   </UIButton>
 );
 

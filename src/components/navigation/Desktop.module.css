@@ -1,4 +1,4 @@
-header {
+.header {
   position: fixed;
   top: 0;
   width: 100%;
@@ -16,7 +16,7 @@ nav {
   padding: 0;
 }
 
-header > nav {
+.header > nav {
   display: flex;
   flex: 1;
   max-width: var(--kudo-max-w);
@@ -27,8 +27,10 @@ header > nav {
 }
 
 .icon {
-  color: white;
-  font-size: var(--font-size-m);
+  color: white !important; /* Temporary fix for CSS order issue */
+  font-size: var(
+    --font-size-m
+  ) !important; /* Temporary fix for CSS order issue */
 }
 
 .link {
