@@ -1,6 +1,6 @@
 import { DropdownMenu, Icon, MenuItem } from "@sandercamp/ui-components";
 import { ReactNode } from "react";
-import styles from "./Dropdown.module.css";
+import styles from "./styles.module.css";
 
 import "./dropdown.css";
 
