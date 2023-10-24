@@ -2,7 +2,7 @@
   font-size: var(--font-size-xl);
   font-family: var(--font-family);
   font-weight: var(--font-weight-bold);
-  color: var(--font-color-1);
+  color: var(--font-color-2);
 }
 
 .secondary {
@@ -12,6 +12,10 @@
   color: var(--font-color-1);
 }
 
-.white {
+.light {
+  color: var(--font-color-1);
+}
+
+.dark {
   color: var(--font-color-2);
 }

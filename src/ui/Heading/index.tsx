@@ -1,20 +1,20 @@
 import classNames from "classnames";
 import { PropsWithChildren } from "react";
-import styles from "./styles.module.css";
+import styles from "./Heading.module.css";
 
 export const HeadingSizeVariants = ["primary", "secondary"] as const;
-const HeadingTagVariants = ["h1", "h2", "h3", "h4", "h5", "h6"] as const;
+export const HeadingTagVariants = ["h1", "h2", "h3", "h4", "h5", "h6"] as const;
 
 export type HeadingProps = PropsWithChildren<{
   tag: (typeof HeadingTagVariants)[number];
   size: (typeof HeadingSizeVariants)[number];
-  theme?: "black" | "white";
+  theme?: "dark" | "light";
 }>;
 
 const Heading = ({
   tag,
   size = "primary",
-  theme = "black",
+  theme = "light",
   children,
 }: HeadingProps) => {
   const Tag = tag;
