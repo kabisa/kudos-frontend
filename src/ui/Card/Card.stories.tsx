@@ -1,8 +1,8 @@
 import { Card, CardProps, SecondaryCard } from ".";
 import type { Meta, StoryObj } from "@storybook/react";
 
-const CardComponent = (props: CardProps) => <Card {...props} />;
-const SecondaryCardComponent = (props: CardProps) => (
+export const CardComponent = (props: CardProps) => <Card {...props} />;
+export const SecondaryCardComponent = (props: CardProps) => (
   <div style={{ width: "400px" }}>
     <SecondaryCard {...props} />
   </div>
@@ -36,10 +36,7 @@ const meta: Meta<typeof Card> = {
   },
 };
 
-export const Default: StoryObj<typeof Card> = CardComponent.bind({});
-export const Secondary: StoryObj<typeof Card> = SecondaryCardComponent.bind({});
-
-Secondary.args = {
+SecondaryCardComponent.args = {
   center: true,
   title: {
     text: "Kudometer",
