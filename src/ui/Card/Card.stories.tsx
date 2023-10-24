@@ -1,85 +1,50 @@
-import { SecondaryCard, Card } from ".";
+import { Card, CardProps, SecondaryCard } from ".";
 import type { Meta, StoryObj } from "@storybook/react";
 
+const CardComponent = (props: CardProps) => <Card {...props} />;
+const SecondaryCardComponent = (props: CardProps) => (
+  <div style={{ width: "400px" }}>
+    <SecondaryCard {...props} />
+  </div>
+);
+
 const meta: Meta<typeof Card> = {
-  component: Card,
-};
-
-export default meta;
-type Story = StoryObj<typeof Card>;
-
-export const Primary: Story = {
+  component: CardComponent,
+  title: "ui/Card",
   args: {
-    theme: "light",
-    center: false,
     title: {
-      text: "Title",
+      text: "Report",
       iconName: "flag",
     },
-    description: "Title",
     content: (
       <div>
-        This is a long string that can fit inside a small card. Lorem ipsum
-        dolor sit amet, consectetur adipiscing elit. Integer sollicitudin, enim
-        at eleifend lacinia, diam nulla accumsan elit, id dignissim lectus felis
-        ornare purus. Pellentesque nec mauris nisl.
+        Banjo-Kazooie is the first game in the Banjo-Kazooie series. It was
+        developed by Rare and released in 1998 for the Nintendo 64. In this
+        game,
       </div>
     ),
-    footer: "footer",
+    footer: <footer>Footer content</footer>,
   },
-  render: (args) => (
-    <Card
-      theme={args.theme}
-      center={args.center}
-      title={args.title}
-      description={args.description}
-      content={args.content}
-      footer={args.footer}
-    />
-  ),
-};
-
-export const Secondary: Story = {
   argTypes: {
     theme: {
-      table: {
-        disable: true,
+      control: {
+        type: "inline-radio",
+        options: ["light", "dark"],
       },
-    },
-    center: {
-      table: {
-        disable: true,
-      },
+      defaultValue: "light",
     },
   },
-  args: {
-    ...Primary.args,
-  },
-  render: (args) => (
-    <SecondaryCard
-      title={args.title}
-      description={args.description}
-      content={args.content}
-      footer={args.footer}
-    />
-  ),
 };
 
-export const Test: Story = {
-  argTypes: {
-    theme: {
-      table: {
-        disable: true,
-      },
-    },
-    center: {
-      table: {
-        disable: true,
-      },
-    },
+export const Default: StoryObj<typeof Card> = CardComponent.bind({});
+export const Secondary: StoryObj<typeof Card> = SecondaryCardComponent.bind({});
+
+Secondary.args = {
+  center: true,
+  title: {
+    text: "Kudometer",
   },
-  args: {
-    ...Primary.args,
-  },
-  render: (args) => <Card content={args.content} />,
+  date: "13th of May 1991",
+  description: "This is a description",
 };
+export default meta;

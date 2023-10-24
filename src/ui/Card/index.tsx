@@ -1,143 +1,76 @@
-import { Icon, Card as UICard } from "@sandercamp/ui-components";
+import { Card as UICard } from "@sandercamp/ui-components";
 import styles from "./Card.module.css";
-import { ReactNode } from "react";
+import { PropsWithChildren, ReactNode } from "react";
 import classNames from "classnames";
-import Heading, { HeadingProps } from "../Heading";
+import CardHeader from "./CardHeader";
+import CardTitle from "./CardTitle";
+import CardContent from "./CardContent";
+import CardFooter from "./CardFooter";
 
 type CardContainerProps = {
   theme?: "light" | "dark";
-  children?: ReactNode;
+  variant?: "primary" | "secondary";
 };
 
-const CardContainer = ({ theme = "light", children }: CardContainerProps) => (
-  <UICard className={classNames(styles.card, styles[theme])}>{children}</UICard>
-);
-
-type CardHeaderProps = {
-  theme?: "dark" | "light";
-  center?: boolean;
-  backgroundColor?: string;
-  children?: ReactNode;
-};
-
-const CardHeader = ({
+const CardContainer = ({
   theme = "light",
-  center = false,
+  variant = "primary",
   children,
-}: CardHeaderProps) => (
-  <header
-    className={classNames(styles.cardHeader, {
-      [styles.dark]: theme == "dark",
-      [styles.center]: center,
-    })}
-  >
+}: PropsWithChildren<CardContainerProps>) => (
+  <UICard className={classNames(styles.card, styles[variant], styles[theme])}>
     {children}
-  </header>
-);
-
-type CardTitleProps = {
-  theme?: HeadingProps["theme"];
-  children?: ReactNode;
-};
-
-const CardTitle = ({ theme = "light", children }: CardTitleProps) => (
-  <Heading tag="h1" size="primary" theme={theme}>
-    {children}
-  </Heading>
-);
-
-const CardDescription = ({ children }: { children: ReactNode }) => (
-  <p className={classNames(styles.cardDescription)}>{children}</p>
-);
-
-const CardContent = ({ children }: { children: ReactNode }) => (
-  <div className={classNames(styles.cardContent)}>{children}</div>
-);
-
-type CardFooterProps = {
-  theme?: "dark" | "light";
-  center?: boolean;
-  children: ReactNode;
-};
-
-const CardFooter = ({
-  theme = "light",
-  center = false,
-  children,
-}: CardFooterProps) => (
-  <footer
-    className={classNames(styles.cardFooter, styles[theme], {
-      [styles.center]: center,
-    })}
-  >
-    {children}
-  </footer>
+  </UICard>
 );
 
 export type CardProps = {
   theme?: "light" | "dark";
-  title?: {
+  title: {
     text: string;
-    iconName: string;
+    iconName?: string;
   };
+  variant?: "primary" | "secondary";
   description?: string;
   content?: ReactNode;
   footer?: ReactNode;
   center?: boolean;
+  date?: string;
 };
 
 const Card = ({
   theme = "light",
   title,
-  description,
   content,
-  footer,
+  variant = "primary",
   center = false,
 }: CardProps) => (
-  <CardContainer theme={theme}>
+  <CardContainer theme={theme} variant={variant}>
     <CardHeader theme={theme} center={center}>
-      <CardTitle theme={theme}>
-        {title?.iconName ? (
-          <>
-            <Icon
-              name={title.iconName}
-              className={classNames(styles.icon, styles[theme])}
-            />
-            {title.text}
-          </>
-        ) : (
-          title?.text
-        )}
-      </CardTitle>
-      <CardDescription>{description}</CardDescription>
+      <CardTitle
+        theme={theme}
+        icon={title.iconName}
+        text={title.text}
+        tag="h2"
+        size="secondary"
+      />
     </CardHeader>
     <CardContent>{content}</CardContent>
-    <CardFooter center={center}>{footer}</CardFooter>
   </CardContainer>
 );
 
-const SecondaryCard = ({ title, description, content, footer }: CardProps) => (
-  <CardContainer>
-    <CardHeader theme="dark" center>
-      <CardTitle theme="dark">
-        {title?.iconName ? (
-          <>
-            <Icon
-              name={title.iconName}
-              className={classNames(styles.icon, styles.dark)}
-            />
-            {title.text}
-          </>
-        ) : (
-          title?.text
-        )}
-      </CardTitle>
-      <CardDescription>{description}</CardDescription>
+const SecondaryCard = ({
+  theme = "light",
+  title,
+  date,
+  content,
+  footer,
+}: CardProps) => (
+  <CardContainer theme={theme} variant="secondary">
+    <CardHeader theme="dark" center={true}>
+      <CardTitle theme="dark" text={title.text} tag="h2" size="primary" />
+      <time className={styles.date}>{date}</time>
     </CardHeader>
     <CardContent>{content}</CardContent>
-    <CardFooter theme="dark" center>
-      {footer}
-    </CardFooter>
+    <CardFooter theme="dark">{footer}</CardFooter>
   </CardContainer>
 );
 
