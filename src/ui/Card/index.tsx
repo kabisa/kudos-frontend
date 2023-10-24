@@ -30,7 +30,7 @@ export type CardProps = {
   };
   variant?: "primary" | "secondary";
   description?: string;
-  content?: ReactNode;
+  content: ReactNode;
   footer?: ReactNode;
   center?: boolean;
   date?: string;

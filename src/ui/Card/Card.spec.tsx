@@ -1,17 +1,33 @@
 import { render } from "@testing-library/react";
 import { Card } from ".";
 
-test("renders with default state", () => {
+test("given an icon name, renders an icon", () => {
   const { getByText } = render(
     <Card
       theme="light"
       title={{
-        text: "I am a card",
+        text: "Kudometer",
         iconName: "flag",
       }}
       content="content"
       footer="footer"
     />,
   );
-  expect(getByText("I am a card")).toBeInTheDocument;
+
+  getByText("Kudometer");
+  getByText("flag");
+});
+
+test("render a default card with mandatory settings", () => {
+  const { getByText } = render(
+    <Card
+      title={{
+        text: "Kudometer",
+      }}
+      content="content"
+    />,
+  );
+
+  getByText("Kudometer");
+  getByText("content");
 });
