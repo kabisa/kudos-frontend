@@ -33,6 +33,7 @@ export const MultiSelect = () => (
       isMulti
       onChange={action("Selected")}
       placeholder="Select fruits"
+      creatable
     />
   </div>
 );
