@@ -2,7 +2,19 @@ import Table, { DataTable, TableProps } from ".";
 import type { Meta, StoryFn } from "@storybook/react";
 import Button from "../Button";
 
-const simpleTableData = [
+type SimpleTableData = {
+  name: string;
+  kudos: number;
+};
+
+type ActionsTableData = {
+  name: string;
+  role: string;
+  email: string;
+  actions: JSX.Element;
+};
+
+const simpleTableData: SimpleTableData[] = [
   { name: "H", kudos: 1 },
   { name: "Help", kudos: 5 },
   { name: "Helpful", kudos: 10 },
@@ -43,12 +55,13 @@ export const actionsTableData = [
   },
 ];
 
-const Template: StoryFn<TableProps<DataTable>> = (props) => (
+const Template: StoryFn<TableProps<DataTable<any>>> = (props) => (
   <Table {...props} />
 );
 
-export const Simple: StoryFn<TableProps<DataTable>> = Template.bind({});
-export const ActionsTable: StoryFn<TableProps<DataTable>> = Template.bind({});
+export const Simple: StoryFn<TableProps<SimpleTableData>> = Template.bind({});
+export const ActionsTable: StoryFn<TableProps<ActionsTableData>> =
+  Template.bind({});
 
 Simple.args = {
   data: simpleTableData,

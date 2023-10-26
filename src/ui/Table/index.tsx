@@ -1,17 +1,17 @@
 import styles from "./styles.module.css";
 
-export type DataTable = {
-  [key: string]: string | number | JSX.Element;
-};
+export type DataTable<T extends Record<string, unknown>> = T;
 
-export type TableProps<T extends DataTable> = {
+export type TableProps<T extends DataTable<Record<string, unknown>>> = {
   data: T[];
 };
 
-const Table = <T extends DataTable>({ data }: TableProps<T>) => {
+const Table = <T extends DataTable<Record<string, unknown>>>({
+  data,
+}: TableProps<T>) => {
   if (data.length === 0) return null;
-  const headers: (keyof T)[] = Object.keys(data[0]) as (keyof T)[];
 
+  const headers: (keyof T)[] = Object.keys(data[0]) as (keyof T)[];
   return (
     <table className={styles.table}>
       <thead>
