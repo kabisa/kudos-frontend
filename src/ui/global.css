@@ -1,6 +1,22 @@
 :root {
-  --kabisa-black: #18242b;
+  --kabisa-green-600: #24b371;
+  --kabisa-green-500: #41c387;
+  --kabisa-green-400: #50d296;
+  --kabisa-green-300: #7bdbaf;
+  --kabisa-green-200: #c9f0de;
+  --kabisa-green-100: #f0faf5;
+
+  --kabisa-black-800: #18242b;
+  --kabisa-black-700: #28363d;
+  --kabisa-black-600: #364147;
+  --kabisa-black-500: #535c61;
+  --kabisa-black-400: #727e85;
+  --kabisa-black-300: #9ca7ad;
+  --kabisa-black-200: #e1e7eb;
+  --kabisa-black-100: #f7f9fa;
+
+  --kabisa-black: var(--kabisa-black-800);
+  --kabisa-green: var(--kabisa-green-600);
   --kabisa-white: #ffffff;
-  --kabisa-green: #24b371;
   --bp-768: 768px;
 }

@@ -1,6 +1,5 @@
 /* Design principles */
 @import url("@sandercamp/ui-components/src/principles/index.module.css");
-@import url("./colors.css");
 @import url("./layout.css");
 
 /* Global styles for custom components */
