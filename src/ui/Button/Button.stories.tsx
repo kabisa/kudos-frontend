@@ -1,10 +1,9 @@
 import React from "react";
 import Button, { ButtonProps } from "./";
 import type { Meta } from "@storybook/react";
+import { Icon } from "@sandercamp/ui-components";
 
-export const ButtonStory = (props: ButtonProps) => (
-  <Button {...props}>{props.children}</Button>
-);
+export const ButtonStory = (props: ButtonProps) => <Button {...props} />;
 
 const meta: Meta<typeof Button> = {
   component: Button,
@@ -13,7 +12,7 @@ const meta: Meta<typeof Button> = {
       control: {
         type: "inline-radio",
       },
-      options: ["primary", "secondary"],
+      options: ["primary", "secondary", "tertiary"],
     },
     state: {
       control: {
@@ -21,15 +20,24 @@ const meta: Meta<typeof Button> = {
       },
       options: ["default", "disabled"],
     },
-    children: {
+    text: {
       control: {
         type: "text",
       },
     },
+    icon: {
+      name: "Icon",
+      control: {
+        type: "select",
+      },
+      options: [null, "flag", "delete"],
+      defaultValue: "flag",
+    },
   },
   args: {
     variant: "primary",
-    children: <span>Drop your kudo's!</span>,
+    text: "Drop your Kudo's",
+    icon: "flag",
     state: "default",
   },
 };
