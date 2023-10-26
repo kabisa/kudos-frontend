@@ -17,7 +17,9 @@ const Table = <T extends DataTable>({ data }: TableProps<T>) => {
       <thead>
         <tr>
           {headers.map((header, idx) => (
-            <th key={idx}>{header}</th>
+            <th scope="col" key={idx}>
+              {header}
+            </th>
           ))}
         </tr>
       </thead>
