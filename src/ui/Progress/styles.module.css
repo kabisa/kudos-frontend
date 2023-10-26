@@ -1,7 +1,6 @@
 .wrapper {
   width: 240px;
   height: 240px;
-  margin: auto;
   position: relative;
 }
 
@@ -11,24 +10,16 @@
   left: 50%;
   transform: translate(-50%, -50%);
 
+  text-align: center;
   color: var(--font-color-1);
 }
 
 .current {
-  font-size: 40px;
+  font-size: var(--font-size-xl);
   font-weight: bold;
-  margin: 0;
-}
-
-.kudo_symbol {
-  font-size: 35px;
-  margin: 0;
-  padding: 0;
 }
 
 .needed {
-  font-size: 18px;
+  font-size: var(--font-size-m);
   font-weight: 500;
-  margin: 0;
-  padding-top: 0;
 }

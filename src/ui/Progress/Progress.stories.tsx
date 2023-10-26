@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import ProgressCircle, { ProgressProps } from ".";
+import KudosProgress from ".";
 
-const meta: Meta<typeof ProgressCircle> = {
-  component: ProgressCircle,
+const meta: Meta<typeof KudosProgress> = {
+  component: KudosProgress,
 };
 
 export default meta;
-type Story = StoryObj<typeof ProgressCircle>;
+type Story = StoryObj<typeof KudosProgress>;
 
 export const WithKudos: Story = {
   args: {
@@ -15,14 +15,14 @@ export const WithKudos: Story = {
     neededKudos: 1000,
     goal: "Enchanted Dreams",
   },
-  render: (args) => <ProgressCircle {...args} />,
+  render: (args) => <KudosProgress {...args} />,
 };
 
 export const WithoutKudos: Story = {
   args: {
     percent: 50,
   },
-  render: (args) => <ProgressCircle {...args} />,
+  render: (args) => <KudosProgress {...args} />,
 };
 
 export const Completed: Story = {
@@ -32,5 +32,5 @@ export const Completed: Story = {
     neededKudos: 1000,
     goal: "Enchanted Dreams",
   },
-  render: (args) => <ProgressCircle {...args} />,
+  render: (args) => <KudosProgress {...args} />,
 };

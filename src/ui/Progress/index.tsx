@@ -1,19 +1,19 @@
 import { Circle } from "rc-progress";
 import styles from "./styles.module.css";
 
-export interface ProgressProps {
+export interface KudosProgressProps {
   percent: number;
   currentKudos?: number;
   neededKudos?: number;
   goal?: string;
 }
 
-function ProgressCircle({
+function KudosProgress({
   percent,
   currentKudos,
   neededKudos,
   goal,
-}: ProgressProps) {
+}: KudosProgressProps) {
   const achievedColor = "#24b371";
   const defaultColor = "#bfdbcf";
 
@@ -23,7 +23,7 @@ function ProgressCircle({
         <span className={styles.title}>
           <h2 className={styles.current}>
             {currentKudos}
-            <span className={styles.kudo_symbol}>₭</span>
+            <span>₭</span>
           </h2>
           <span className={styles.needed}>
             of {neededKudos}₭ for {goal}
@@ -42,4 +42,4 @@ function ProgressCircle({
   );
 }
 
-export default ProgressCircle;
+export default KudosProgress;
