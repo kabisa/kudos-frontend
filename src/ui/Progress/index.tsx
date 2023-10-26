@@ -1,45 +1,57 @@
 import { Circle } from "rc-progress";
 import styles from "./styles.module.css";
+import Heading from "../Heading";
+import Currency from "../Currency";
 
 export interface KudosProgressProps {
   percent: number;
-  currentKudos?: number;
-  neededKudos?: number;
-  goal?: string;
+  currentKudos: number;
+  neededKudos: number;
+  goal: string;
 }
 
-function KudosProgress({
+const KudosProgress = ({
   percent,
-  currentKudos,
+  currentKudos = 0,
   neededKudos,
   goal,
-}: KudosProgressProps) {
-  const achievedColor = "#24b371";
-  const defaultColor = "#bfdbcf";
-
+}: KudosProgressProps) => {
   return (
     <div className={styles.wrapper}>
-      {currentKudos != null && (
-        <span className={styles.title}>
-          <h2 className={styles.current}>
-            {currentKudos}
-            <span>₭</span>
-          </h2>
-          <span className={styles.needed}>
-            of {neededKudos}₭ for {goal}
-          </span>
+      <span className={styles.title}>
+        <Heading tag="h2" size="secondary">
+          <Currency amount={currentKudos} />
+        </Heading>
+        <span className={styles.needed}>
+          of <Currency amount={neededKudos || 0} /> for {goal}
         </span>
-      )}
+      </span>
+
       <Circle
         percent={percent}
         strokeWidth={10}
         trailWidth={10}
         strokeLinecap="butt"
-        strokeColor={achievedColor}
-        trailColor={defaultColor}
+        strokeColor="var(--kabisa-green)"
+        trailColor="var(--kabisa-green-100)"
       />
     </div>
   );
-}
+};
 
-export default KudosProgress;
+const EmptyProgress = () => {
+  return (
+    <div className={styles.wrapper}>
+      <Circle
+        percent={0}
+        strokeWidth={10}
+        trailWidth={10}
+        strokeLinecap="butt"
+        strokeColor="var(--kabisa-green)"
+        trailColor="var(--kabisa-green-100)"
+      />
+    </div>
+  );
+};
+
+export { KudosProgress, EmptyProgress };

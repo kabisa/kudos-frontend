@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import KudosProgress from ".";
+import { EmptyProgress, KudosProgress } from ".";
 
 const meta: Meta<typeof KudosProgress> = {
   component: KudosProgress,
@@ -19,10 +19,7 @@ export const WithKudos: Story = {
 };
 
 export const WithoutKudos: Story = {
-  args: {
-    percent: 50,
-  },
-  render: (args) => <KudosProgress {...args} />,
+  render: () => <EmptyProgress />,
 };
 
 export const Completed: Story = {

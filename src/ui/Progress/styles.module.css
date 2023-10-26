@@ -16,10 +16,10 @@
 
 .current {
   font-size: var(--font-size-xl);
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
 }
 
 .needed {
   font-size: var(--font-size-m);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
 }
