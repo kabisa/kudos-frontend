@@ -2,8 +2,7 @@ type CurrencyProps = {
   amount: number;
 };
 
-const Currency = ({ amount }: CurrencyProps) => {
-  return <>{amount}₭</>;
-};
+const Currency = ({ amount }: CurrencyProps) => <>{amount}₭</>;
+
 
 export default Currency;
