@@ -150,6 +150,7 @@ class GuidelineInput extends Component<Props, State> {
                     }),
                   }}
                   isClearable
+                  autoFocus
                 />
               </Label>
             );
