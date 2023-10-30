@@ -1,0 +1,25 @@
+.wrapper {
+  width: 240px;
+  height: 240px;
+  position: relative;
+}
+
+.title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  text-align: center;
+  color: var(--font-color-1);
+}
+
+.current {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+}
+
+.needed {
+  font-size: var(--font-size-m);
+  font-weight: var(--font-weight-medium);
+}
