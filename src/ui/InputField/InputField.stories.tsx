@@ -47,6 +47,7 @@ const meta: Meta<typeof InputField> = {
   args: {
     id: "input",
     type: "text",
+    elementType: "input",
     placeholder: "Placeholder",
   },
 };
