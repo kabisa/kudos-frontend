@@ -1,6 +1,6 @@
-import Table, { DataTable, TableProps } from ".";
-import type { Meta, StoryFn } from "@storybook/react";
-import Button from "../Button";
+import Table, { TableProps } from ".";
+import type { Meta } from "@storybook/react";
+import { actionsTableData } from "./mockTableData";
 
 type SimpleTableData = {
   name: string;
@@ -22,46 +22,13 @@ const simpleTableData: SimpleTableData[] = [
   { name: "Mega helpful", kudos: 30 },
 ];
 
-export const actionsTableData = [
-  {
-    name: "Mumbo-Jumbo",
-    role: "moderator",
-    email: "mumbo@jumbo.com",
-    actions: (
-      <>
-        <Button variant="primary" icon="arrow_upward" />
-        <Button variant="primary" icon="arrow_downward" />
-        <Button variant="tertiary" icon="delete" />
-      </>
-    ),
-  },
-  {
-    name: "Nabnut",
-    role: "moderator",
-    email: "nabnut@clickclockwood.com",
-    actions: (
-      <>
-        <Button variant="primary" icon="arrow_upward" state="disabled" />
-        <Button variant="primary" icon="arrow_downward" />
-        <Button variant="tertiary" icon="delete" />
-      </>
-    ),
-  },
-  {
-    name: "Jolly Roger",
-    role: "admin",
-    email: "jollyroger@lagoon.com",
-    actions: <></>,
-  },
-];
-
-const Template: StoryFn<TableProps<DataTable<any>>> = (props) => (
+export const Simple = (props: TableProps<SimpleTableData>) => (
   <Table {...props} />
 );
 
-export const Simple: StoryFn<TableProps<SimpleTableData>> = Template.bind({});
-export const ActionsTable: StoryFn<TableProps<ActionsTableData>> =
-  Template.bind({});
+export const ActionsTable = (props: TableProps<ActionsTableData>) => (
+  <Table {...props} />
+);
 
 Simple.args = {
   data: simpleTableData,
