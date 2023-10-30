@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 import Table from ".";
-import { actionsTableData } from "./Table.stories";
+import { actionsTableData } from "./mockTableData";
 
 test("given the data, it renders the amount of columns and uses the keys as header names", () => {
   const { getByText } = render(<Table data={actionsTableData} />);
