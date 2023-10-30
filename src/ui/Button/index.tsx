@@ -2,7 +2,7 @@ import React from "react";
 import { Icon, Button as UIButton } from "@sandercamp/ui-components";
 import styles from "./styles.module.css";
 
-export const ButtonVariants = ["primary", "secondary"] as const;
+export const ButtonVariants = ["primary", "secondary", "tertiary"] as const;
 export const ButtonStates = ["default", "disabled"] as const;
 
 type IconProps = {
