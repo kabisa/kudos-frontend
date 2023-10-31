@@ -1,3 +1,11 @@
 .inputContainer label {
   cursor: pointer;
 }
+
+textarea {
+  font-family: var(--font-family);
+  border-radius: var(--border-radius);
+  border-color: var(--kabisa-black-200);
+  padding-left: var(--padding-level-3);
+  font-size: var(--font-size-s);
+}

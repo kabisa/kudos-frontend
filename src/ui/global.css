@@ -19,4 +19,5 @@
   --kabisa-green: var(--kabisa-green-600);
   --kabisa-white: #ffffff;
   --bp-768: 768px;
+  --border-radius: 0.25rem;
 }
