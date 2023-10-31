@@ -3,8 +3,8 @@ import classNames from "classnames";
 
 import styles from "./index.module.css";
 
-type MessageBoxProps = {
-    variant: 'default'|'success'|'error'
+export type MessageBoxProps = {
+    variant?: 'default'|'success'|'error'
     title: string
     message: string
 }
