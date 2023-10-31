@@ -1,29 +1,28 @@
 .message {
+    --border-color: var(--kabisa-black-300);
+
     border-radius: var(--radii-level-1);
+    border: 1px solid var(--border-color);
     padding: var(--padding-level-5);
     margin-bottom: var(--spacing-level-5);
 
     background: #fff6f6;
+
+    font-family: var(--font-family);
 }
 
 .error {
-    box-shadow:
-            0 0 0 1px #e0b4b4 inset,
-            0 0 0 0 transparent;
+    --border-color: #e0b4b4;
 
     color: #9f3a38;
 }
 
 .success {
-    box-shadow:
-            0 0 0 1px #b4e0b4 inset,
-            0 0 0 0 transparent;
+    --border-color: var(--kabisa-green-300);
 
-    color: var(--brand-color-2);
+    color: var(--kabisa-green-600);
 }
 
 .message > h3 {
-    margin: 0;
-
     font-size: var(--font-size-m);
 }

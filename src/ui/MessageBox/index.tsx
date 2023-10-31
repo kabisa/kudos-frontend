@@ -9,8 +9,8 @@ type MessageBoxProps = {
     message: string
 }
 
-const MessageBox: FC<MessageBoxProps> = ({ variant, title, message }) => (
-    <div className={ classNames(styles.message, { [styles.error]: variant === 'error' }) }>
+const MessageBox: FC<MessageBoxProps> = ({ title, message, variant = 'default' }) => (
+    <div className={ classNames(styles.message, styles[variant]) }>
         <h3>{ title }</h3>
         <p>{ message }</p>
     </div>
