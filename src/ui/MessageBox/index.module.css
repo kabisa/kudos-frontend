@@ -1,0 +1,29 @@
+.message {
+    border-radius: var(--radii-level-1);
+    padding: var(--padding-level-5);
+    margin-bottom: var(--spacing-level-5);
+
+    background: #fff6f6;
+}
+
+.error {
+    box-shadow:
+            0 0 0 1px #e0b4b4 inset,
+            0 0 0 0 transparent;
+
+    color: #9f3a38;
+}
+
+.success {
+    box-shadow:
+            0 0 0 1px #b4e0b4 inset,
+            0 0 0 0 transparent;
+
+    color: var(--brand-color-2);
+}
+
+.message > h3 {
+    margin: 0;
+
+    font-size: var(--font-size-m);
+}

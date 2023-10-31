@@ -11,6 +11,7 @@ import {
 import { Storage } from "../../../../support/storage";
 import { Button, Input, Label } from "@sandercamp/ui-components";
 import { Component } from "react";
+import MessageBox from '../../../../ui/MessageBox';
 
 export interface EditGuidelineProps {}
 
@@ -178,10 +179,7 @@ export class EditGuideline extends Component<
                 </Button>
               )}
               {displayError && (
-                <div className="errorMessage">
-                  <h3>Unable to create guideline.</h3>
-                  <p>{displayError}</p>
-                </div>
+                <MessageBox variant="error" title="Unable to create guideline." message={displayError} />
               )}
             </form>
           );

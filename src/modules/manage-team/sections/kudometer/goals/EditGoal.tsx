@@ -13,6 +13,7 @@ import { getGraphqlError } from "../../../../../support";
 import { Storage } from "../../../../../support/storage";
 import { ApolloError } from "@apollo/client";
 import { Button, Input, Label } from "@sandercamp/ui-components";
+import MessageBox from '../../../../../ui/MessageBox';
 
 export interface EditGoalProps {
   kudometerId: string;
@@ -186,10 +187,7 @@ export class EditGoal extends Component<EditGoalProps, State> {
                 </Button>
               )}
               {displayError && (
-                <div className="errorMessage">
-                  <h2>Unable to create goal.</h2>
-                  <p>{displayError}</p>
-                </div>
+                <MessageBox variant="error" title="Unable to create goal." message={displayError} />
               )}
             </form>
           );

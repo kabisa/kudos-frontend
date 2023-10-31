@@ -13,6 +13,7 @@ import { Button, Input, Label } from "@sandercamp/ui-components";
 import Segment from "../../components/atoms/Segment";
 import BasePage from "./BasePage";
 import s from "./FinishForgotPasswordPage.module.css";
+import MessageBox from '../../ui/MessageBox';
 
 const DEFAULT_ERROR = "Something went wrong.";
 const PASSWORD_ERROR = "Passwords don't match.";
@@ -165,10 +166,7 @@ class FinishForgotPasswordPage extends Component<Props, State> {
                   </Button>
 
                   {formError && (
-                    <div className="errorMessage">
-                      <h3>Unable to reset password</h3>
-                      <p>{this.state.error}</p>
-                    </div>
+                    <MessageBox variant="error" title="Unable to reset password" message={this.state.error} />
                   )}
                 </form>
                 <BackButton />

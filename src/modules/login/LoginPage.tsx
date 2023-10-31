@@ -28,6 +28,7 @@ import {
 } from "@sandercamp/ui-components";
 import Segment from "../../components/atoms/Segment";
 import BasePage from "./BasePage";
+import MessageBox from '../../ui/MessageBox';
 
 export const MUTATION_LOGIN = gql`
   mutation SignInUser($email: EmailAddress!, $password: String!) {
@@ -181,10 +182,7 @@ class LoginPage extends Component<Props, State> {
                     </Button>
 
                     {displayError && (
-                      <div className="errorMessage">
-                        <h3>Unable to login</h3>
-                        <p data-testid="error-message">{displayError}</p>
-                      </div>
+                      <MessageBox variant="error" title="Unable to login" message={displayError} />
                     )}
                   </form>
                   <div className={s.footer}>
