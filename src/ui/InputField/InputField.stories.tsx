@@ -17,7 +17,14 @@ const meta: Meta<typeof InputField> = {
   component: InputField,
   decorators: [
     (Story, props) => {
-      props.args.label = labels[props.args.type];
+      if (props.args.elementType === "input") {
+        props.args.label = labels[props.args.type || "text"];
+        props.args.placeholder = labels[props.args.type || "text"];
+      } else {
+        props.args.label = "Enter some text";
+        props.args.placeholder = "Enter some text";
+      }
+
       return <Story {...props.args} />;
     },
   ],
