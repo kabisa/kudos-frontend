@@ -1,16 +1,38 @@
 import { render } from "@testing-library/react";
-import { KudosProgress } from ".";
+import KudosProgress from ".";
 
-test("displays progress information when provided with currentKudos, neededKudos, and goal", () => {
+test("renders the kudo progress component in loading state", () => {
+  const { getByText } = render(<KudosProgress data={{ state: "loading" }} />);
+  getByText(/loading/i);
+});
+
+test("renders the kudo progress component in error state", () => {
   const { getByText } = render(
     <KudosProgress
-      percent={50}
-      currentKudos={25}
-      neededKudos={50}
-      goal="Test Goal"
+      data={{
+        state: "error",
+        error: "Unexpected errors always occur unexpectedly.",
+      }}
     />,
   );
+  getByText(/Error!/i);
+  getByText(/unexpected errors always occur unexpectedly/i);
+});
 
-  getByText("25₭");
-  getByText("of 50₭ for Test Goal");
+test("renders the kudo progress component in success state", () => {
+  const { getByText } = render(
+    <KudosProgress
+      data={{
+        state: "success",
+        currentKudos: 25,
+        neededKudos: 50,
+        goal: "Enchanted Dreams",
+      }}
+    />,
+  );
+  getByText(/25/i);
+  getByText(/of/i);
+  getByText(/50/i);
+  getByText(/for/i);
+  getByText(/enchanted dreams/i);
 });
