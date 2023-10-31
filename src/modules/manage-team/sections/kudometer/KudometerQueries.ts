@@ -29,6 +29,13 @@ export const CREATE_KUDOMETER = gql`
     createKudosMeter(name: $name, teamId: $team_id) {
       kudosMeter {
         id
+        name
+        isActive
+        goals {
+          id
+          amount
+          name
+        }
       }
     }
   }
@@ -68,6 +75,7 @@ export interface CreateGoalParameters {
 export const GET_KUDOMETERS = gql`
   query Kudometers($team_id: ID!) {
     teamById(id: $team_id) {
+      id
       kudosMeters {
         id
         name
@@ -84,6 +92,7 @@ export const GET_KUDOMETERS = gql`
 
 export interface GetKudoMetersResult {
   teamById: {
+    id: number;
     kudosMeters: Kudometer[];
   };
 }
@@ -147,6 +156,13 @@ export const UPDATE_KUDOMETER = gql`
     updateKudosMeter(name: $name, kudosMeterId: $kudos_meter_id) {
       kudosMeter {
         id
+        name
+        isActive
+        goals {
+          id
+          amount
+          name
+        }
       }
     }
   }

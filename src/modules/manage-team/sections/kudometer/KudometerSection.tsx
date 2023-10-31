@@ -119,7 +119,7 @@ class KudometerSection extends Component<Props, State> {
               team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
             },
           },
-        ],
+        ]
       });
     }
 
