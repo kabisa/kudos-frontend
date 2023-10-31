@@ -29,13 +29,6 @@ export const CREATE_KUDOMETER = gql`
     createKudosMeter(name: $name, teamId: $team_id) {
       kudosMeter {
         id
-        name
-        isActive
-        goals {
-          id
-          amount
-          name
-        }
       }
     }
   }
@@ -156,13 +149,6 @@ export const UPDATE_KUDOMETER = gql`
     updateKudosMeter(name: $name, kudosMeterId: $kudos_meter_id) {
       kudosMeter {
         id
-        name
-        isActive
-        goals {
-          id
-          amount
-          name
-        }
       }
     }
   }
