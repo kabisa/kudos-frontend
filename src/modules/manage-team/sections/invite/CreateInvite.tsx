@@ -12,6 +12,7 @@ import settings from "../../../../config/settings";
 import s from "./Invite.module.css";
 import { Storage } from "../../../../support/storage";
 import { Button, Label } from "@sandercamp/ui-components";
+import MessageBox from '../../../../ui/MessageBox';
 
 export const MUTATION_CREATE_INVITE = gql`
   mutation CreateInvite($emails: [EmailAddress!]!, $team_id: ID!) {
@@ -125,10 +126,7 @@ export class CreateInvite extends Component<Props, State> {
                 Invite
               </Button>
               {displayError && (
-                <div className="errorMessage">
-                  <h2>Unable to send invites</h2>
-                  <p>{displayError}</p>
-                </div>
+                <MessageBox variant="error" title="Unable to send invites" message={displayError} />
               )}
             </form>
           );

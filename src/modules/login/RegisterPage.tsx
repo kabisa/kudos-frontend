@@ -19,6 +19,7 @@ import { Button, Input, Label } from "@sandercamp/ui-components";
 import Segment from "../../components/atoms/Segment";
 import BasePage from "./BasePage";
 import s from "./RegisterPage.module.css";
+import MessageBox from '../../ui/MessageBox';
 
 export const MUTATION_REGISTER = gql`
   mutation SignUpUser(
@@ -197,10 +198,7 @@ class RegisterPage extends Component<Props, State> {
                     </Button>
 
                     {displayError && (
-                      <div className="errorMessage">
-                        <h3>Unable to register</h3>
-                        <p data-testid="error-message">{displayError}</p>
-                      </div>
+                      <MessageBox variant="error" title="Unable to register" message={displayError} />
                     )}
                   </form>
                   <BackButton />

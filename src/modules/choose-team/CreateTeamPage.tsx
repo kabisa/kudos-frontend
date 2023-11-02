@@ -9,6 +9,7 @@ import { Storage } from "../../support/storage";
 import { Button, Input, Label } from "@sandercamp/ui-components";
 import Segment from "../../components/atoms/Segment";
 import Page from "../../components/templates/Page";
+import MessageBox from '../../ui/MessageBox';
 
 export const MUTATION_CREATE_TEAM = gql`
   mutation CreateTeam($name: String!) {
@@ -93,10 +94,7 @@ const CreateTeamPage = () => {
         Create team
       </Button>
       {error && (
-        <div className="errorMessage">
-          <h3>Unable to create team</h3>
-          <p>{error}</p>
-        </div>
+        <MessageBox variant="error" title="Unable to create team" message={error} />
       )}
     </form>
   );

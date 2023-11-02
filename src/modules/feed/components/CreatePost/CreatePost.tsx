@@ -29,6 +29,7 @@ import { Storage } from "../../../../support/storage";
 import { ImageUpload } from "../../../../components/upload/ImageUpload";
 
 import styles from "./CreatePost.module.css";
+import MessageBox from '../../../../ui/MessageBox';
 
 // eslint-disable-next-line max-len
 export const CREATE_POST = gql`
@@ -372,10 +373,7 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
                     </Button>
 
                     {displayError && (
-                      <div className="errorMessage">
-                        <h3>Couldn&apos;t create post</h3>
-                        <p>{displayError}</p>
-                      </div>
+                      <MessageBox variant="error" title="Couldn&apos;t create post" message={displayError} />
                     )}
                   </form>
                 </>
