@@ -25,7 +25,7 @@ export const Default: Story = {
             }
         ]
     },
-    render: (args) => <ThumbnailList {...args} />,
+    render: (args) => <ThumbnailList { ...args } />,
 };
 
 export default meta;
