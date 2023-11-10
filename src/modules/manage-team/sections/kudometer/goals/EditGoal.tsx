@@ -12,7 +12,7 @@ import settings from "../../../../../config/settings";
 import { getGraphqlError } from "../../../../../support";
 import { Storage } from "../../../../../support/storage";
 import { ApolloError } from "@apollo/client";
-import { Button, Input, Label } from "@sandercamp/ui-components";
+import { Button, Input, Label } from "@kabisa/ui-components";
 
 export interface EditGoalProps {
   kudometerId: string;

@@ -1,5 +1,5 @@
 import { Query } from "@apollo/client/react/components";
-import { Icon, TileList } from "@sandercamp/ui-components";
+import { Icon, TileList } from "@kabisa/ui-components";
 
 import { GET_POSTS, GetPostsResult } from "../../../modules/feed/queries";
 import settings from "../../../config/settings";

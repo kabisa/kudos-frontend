@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { Button } from "@sandercamp/ui-components";
+import { Button } from "@kabisa/ui-components";
 import { Query } from "@apollo/client/react/components";
 import { gql } from "@apollo/client";
 import { withRouter } from "react-router-dom";

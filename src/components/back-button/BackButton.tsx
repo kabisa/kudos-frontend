@@ -1,4 +1,4 @@
-import { Button } from "@sandercamp/ui-components";
+import { Button } from "@kabisa/ui-components";
 import { useHistory } from "react-router-dom";
 import { Desktop } from "../../support/breakpoints";
 import s from "./BackButton.module.css";

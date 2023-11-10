@@ -4,7 +4,7 @@ import { PATH_CREATE_TEAM } from "../../routes";
 import { InviteList, TeamList } from "./components";
 
 import s from "./ChooseTeamPage.module.scss";
-import { Button } from "@sandercamp/ui-components";
+import { Button } from "@kabisa/ui-components";
 import Page from "../../components/templates/Page";
 
 export function Content() {

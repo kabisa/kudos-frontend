@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { Storage } from "../../../../support/storage";
 import settings from "../../../../config/settings";
 import { SlackSection } from "./SlackSection";
-import { Icon } from "@sandercamp/ui-components";
+import { Icon } from "@kabisa/ui-components";
 import { Component } from "react";
 import queryString from "query-string";
 

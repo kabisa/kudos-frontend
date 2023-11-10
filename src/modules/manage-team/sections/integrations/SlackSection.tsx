@@ -9,7 +9,7 @@ import {
   RemoveSlackParameters,
   RemoveSlackResult,
 } from "./Integrations";
-import { Button } from "@sandercamp/ui-components";
+import { Button } from "@kabisa/ui-components";
 
 export interface SlackSectionProps {
   slackId: string;

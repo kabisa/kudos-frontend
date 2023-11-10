@@ -11,7 +11,7 @@ import {
 import settings from "../../../../config/settings";
 import s from "./Invite.module.css";
 import { Storage } from "../../../../support/storage";
-import { Button, Label } from "@sandercamp/ui-components";
+import { Button, Label } from "@kabisa/ui-components";
 
 export const MUTATION_CREATE_INVITE = gql`
   mutation CreateInvite($emails: [EmailAddress!]!, $team_id: ID!) {

@@ -4,7 +4,7 @@ import { Query } from "@apollo/client/react/components";
 import settings from "../../../../config/settings";
 import { MemberRow } from "./MemberRow";
 import { Storage } from "../../../../support/storage";
-import { Icon } from "@sandercamp/ui-components";
+import { Icon } from "@kabisa/ui-components";
 
 export const GET_USERS = gql`
   query GetUsers($id: ID!) {
