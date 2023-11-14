@@ -1,8 +1,9 @@
 import React from "react";
 import { Icon, Button as UIButton } from "@sandercamp/ui-components";
 import styles from "./styles.module.css";
+import { ButtonVariant, GenericButtonVariant } from "./types";
+import LikeButton from "./LikeButton";
 
-export const ButtonVariants = ["primary", "secondary", "tertiary"] as const;
 export const ButtonStates = ["default", "disabled"] as const;
 
 type IconProps = {
@@ -15,12 +16,17 @@ type TextProps = {
   icon?: string;
 };
 
-export type ButtonProps = {
-  variant?: (typeof ButtonVariants)[number];
+export type GenericButtonProps = {
+  variant: GenericButtonVariant;
   state?: (typeof ButtonStates)[number];
 } & (IconProps | TextProps);
 
-const Button = ({ variant = "primary", state, text, icon }: ButtonProps) => (
+const GenericButton = ({
+  variant = "primary",
+  state,
+  text,
+  icon,
+}: GenericButtonProps) => (
   <UIButton
     variant={variant}
     disabled={state === "disabled" || false}
@@ -32,5 +38,22 @@ const Button = ({ variant = "primary", state, text, icon }: ButtonProps) => (
     </span>
   </UIButton>
 );
+
+export type ButtonProps = Omit<GenericButtonProps, "variant"> & {
+  variant?: ButtonVariant;
+};
+
+const Button = ({ variant = "primary", ...rest }: ButtonProps) => {
+  const buttonTypes: { [key in ButtonVariant]: React.ElementType } = {
+    primary: GenericButton,
+    secondary: GenericButton,
+    tertiary: GenericButton,
+    like: LikeButton,
+  };
+
+  const Component = buttonTypes[variant];
+
+  return <Component variant={variant} {...rest} />;
+};
 
 export default Button;
