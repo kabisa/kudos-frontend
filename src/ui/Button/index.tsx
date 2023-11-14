@@ -2,7 +2,7 @@ import React from "react";
 import { Icon, Button as UIButton } from "@sandercamp/ui-components";
 import styles from "./styles.module.css";
 import { ButtonVariant, GenericButtonVariant } from "./types";
-import LikeButton from "./LikeButton";
+import { LikeButton } from "./LikeButton";
 
 export const ButtonStates = ["default", "disabled"] as const;
 
