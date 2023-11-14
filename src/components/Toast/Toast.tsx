@@ -10,6 +10,7 @@ const ToastWrapper = () => (
     theme="dark"
     icon={false}
     pauseOnHover
+    progressClassName={styles.toastProgress}
   />
 );
 
