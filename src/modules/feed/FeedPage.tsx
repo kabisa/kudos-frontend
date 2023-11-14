@@ -39,7 +39,7 @@ export class FeedPage extends Component<FeedPageProps, FeedPageState> {
       },
       shouldPullToRefresh() {
         try {
-          return document.getElementsByClassName("page")[0].scrollTop === 0;
+          return document.getElementsByClassName("feed")[0].scrollTop === 0;
         } catch (error) {
           return true;
         }
@@ -49,7 +49,7 @@ export class FeedPage extends Component<FeedPageProps, FeedPageState> {
 
   render() {
     return (
-      <Page>
+      <Page className={"feed"}>
         <TabletAndBelow>
           <Segment>
             <CreatePost back={false} />

@@ -30,6 +30,7 @@ export const UPDATE_GUIDELINE = gql`
 export const GET_GUIDELINES = gql`
   query Guidelines($team_id: ID!) {
     teamById(id: $team_id) {
+      id
       guidelines {
         id
         kudos
@@ -53,6 +54,7 @@ export interface UpdateGuidelineParameters {
 
 export interface GetGuidelinesResult {
   teamById: {
+    id: number;
     guidelines: {
       id: number;
       kudos: number;

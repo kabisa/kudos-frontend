@@ -68,6 +68,7 @@ export interface CreateGoalParameters {
 export const GET_KUDOMETERS = gql`
   query Kudometers($team_id: ID!) {
     teamById(id: $team_id) {
+      id
       kudosMeters {
         id
         name
@@ -84,6 +85,7 @@ export const GET_KUDOMETERS = gql`
 
 export interface GetKudoMetersResult {
   teamById: {
+    id: number;
     kudosMeters: Kudometer[];
   };
 }

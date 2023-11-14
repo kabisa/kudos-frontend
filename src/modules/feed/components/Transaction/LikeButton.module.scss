@@ -9,20 +9,33 @@
   align-items: center;
   gap: var(--spacing-level-3);
 
-  border: .1rem solid var(--kabisa-black-400);
+  border: 0.1rem solid var(--kabisa-black-400);
   border-radius: var(--radii-level-2);
   padding: var(--padding-level-1) var(--padding-level-3);
 
   font-size: var(--font-size-xs);
   color: var(--kabisa-black-500);
+  background-color: var(--bg-color-1);
+
+  cursor: pointer;
+}
+
+.buttonContainer:hover {
+  color: var(--font-color-2);
+  background-color: var(--kabisa-black);
+}
+
+.buttonContainer:hover > span {
+  color: var(--font-color-2);
 }
 
 .button {
-  border: none;
-  margin: 0;
-  padding: 0;
+  /* Temporary fix for CSS order issue */
+  border: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
 
-  font-size: inherit;
+  font-size: inherit !important;
 }
 
 .button:hover {

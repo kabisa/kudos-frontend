@@ -7,7 +7,7 @@ import { Storage } from "../../../../support/storage";
 import settings from "../../../../config/settings";
 
 import { Label } from "@sandercamp/ui-components";
-import Select from "react-select";
+import CreatableSelect from "react-select/creatable";
 import type { ActionMeta, SingleValue } from "react-select";
 
 const KUDO_GUIDELINE_RANGE = 5;
@@ -47,7 +47,7 @@ export interface State {
   amount: number;
 }
 
-export type GuidelineOption = { label: string; value: string };
+export type GuidelineOption = { label: string; value: string; id: string };
 
 class GuidelineInput extends Component<Props, State> {
   constructor(props: Props) {
@@ -73,7 +73,8 @@ class GuidelineInput extends Component<Props, State> {
     } else {
       if (!e?.value) return;
 
-      const kudosValue = parseInt(e.value.split("-")[1], 10); // Parsing the kudos value
+      const kudosValue = parseInt(e.value, 10);
+
       this.setState({ amount: kudosValue, id: uuidv4() });
       this.props.handleChange(kudosValue);
     }
@@ -94,7 +95,6 @@ class GuidelineInput extends Component<Props, State> {
         >
           {({ loading, data }) => {
             let guidelines: GuidelineOption[] = [];
-
             if (data && data.teamById.guidelines.length > 0) {
               if (this.state.amount) {
                 guidelines = data.teamById.guidelines
@@ -106,13 +106,15 @@ class GuidelineInput extends Component<Props, State> {
                         (this.state.amount || 0),
                   )
                   .map((guideline) => ({
+                    id: guideline.id,
                     label: `${guideline.name}: ${guideline.kudos}`,
-                    value: `${guideline.id}-${guideline.kudos}`,
+                    value: guideline.kudos.toString(),
                   }));
               } else {
                 guidelines = data.teamById.guidelines.map((guideline) => ({
+                  id: guideline.id,
                   label: `${guideline.name}: ${guideline.kudos}`,
-                  value: `${guideline.id}-${guideline.kudos}`,
+                  value: guideline.kudos.toString(),
                 }));
               }
             }
@@ -120,7 +122,7 @@ class GuidelineInput extends Component<Props, State> {
             return (
               <Label>
                 Kudos amount
-                <Select<GuidelineOption>
+                <CreatableSelect<GuidelineOption>
                   key={`react-select-${uuidv4()}`}
                   options={guidelines}
                   onChange={(selectedOption, triggeredAction) => {
@@ -130,9 +132,8 @@ class GuidelineInput extends Component<Props, State> {
                     this.state.amount && this.state.amount !== 0
                       ? {
                           label: this.state.amount.toString(),
-                          // It seems React-select is not able to handle
-                          // the same value twice, so we add a unique id to the value
-                          value: `${this.state.id}-${this.state.amount}`,
+                          id: this.state.id,
+                          value: this.state.amount.toString(),
                         }
                       : undefined
                   }

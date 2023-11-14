@@ -112,11 +112,13 @@ export class EditGuideline extends Component<
           }
           return (
             <form
-              onSubmit={() =>
+              onSubmit={(e) => {
+                e.preventDefault();
+
                 this.state.editing
                   ? this.updateGuideline(mutate)
-                  : this.createGuideline(mutate)
-              }
+                  : this.createGuideline(mutate);
+              }}
             >
               <Label>
                 Amount of kudos
