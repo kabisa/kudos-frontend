@@ -7,6 +7,8 @@ coverage
 
 .idea
 
+dist
+
 src/__tests__
 src/assets
 src/config
