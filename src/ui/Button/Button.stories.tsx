@@ -1,5 +1,4 @@
-import React from "react";
-import Button, { ButtonProps, GenericButtonProps } from "./";
+import Button from "./";
 import type { Meta, StoryObj } from "@storybook/react";
 import { LikeButton as LikeButtonComponent } from "./LikeButton";
 
@@ -14,7 +13,7 @@ export const GenericButton: StoryObj<typeof Button> = {
     variant: "primary",
     state: "default",
     text: "Drop your Kudo's",
-    icon: null,
+    icon: "",
   },
   argTypes: {
     icon: {
@@ -22,7 +21,7 @@ export const GenericButton: StoryObj<typeof Button> = {
       control: {
         type: "select",
       },
-      options: [null, "flag", "delete"],
+      options: ["", "flag", "delete"],
       defaultValue: "flag",
     },
   },
