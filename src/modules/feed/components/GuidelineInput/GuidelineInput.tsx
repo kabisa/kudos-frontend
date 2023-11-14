@@ -6,7 +6,7 @@ import enhanceWithClickOutside from "react-click-outside";
 import { Storage } from "../../../../support/storage";
 import settings from "../../../../config/settings";
 
-import { Label } from "@sandercamp/ui-components";
+import { Label } from "@kabisa/ui-components";
 import CreatableSelect from "react-select/creatable";
 import type { ActionMeta, SingleValue } from "react-select";
 

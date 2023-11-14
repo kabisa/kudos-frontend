@@ -6,7 +6,7 @@ import settings from "../../config/settings";
 import { ERROR_NAME_BLANK, getGraphqlError } from "../../support";
 import { PATH_FEED } from "../../routes";
 import { Storage } from "../../support/storage";
-import { Button, Input, Label } from "@sandercamp/ui-components";
+import { Button, Input, Label } from "@kabisa/ui-components";
 import Segment from "../../components/atoms/Segment";
 import Page from "../../components/templates/Page";
 

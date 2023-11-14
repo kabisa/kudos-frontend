@@ -8,7 +8,7 @@ import {
 } from "../KudometerQueries";
 import settings from "../../../../../config/settings";
 import { Storage } from "../../../../../support/storage";
-import { IconButton } from "@sandercamp/ui-components";
+import { IconButton } from "@kabisa/ui-components";
 
 export interface GoalRowProps {
   key: string;

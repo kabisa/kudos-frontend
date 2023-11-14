@@ -1,4 +1,4 @@
-import { Button } from "@sandercamp/ui-components";
+import { Button } from "@kabisa/ui-components";
 import { Mutation } from "@apollo/client/react/components";
 import { toast } from "react-toastify";
 

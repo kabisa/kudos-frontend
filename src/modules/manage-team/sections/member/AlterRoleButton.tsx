@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { ALTER_ROLE, AlterRoleParameters, Membership } from "./Members";
 import settings from "../../../../config/settings";
 import { Storage } from "../../../../support/storage";
-import { IconButton } from "@sandercamp/ui-components";
+import { IconButton } from "@kabisa/ui-components";
 
 export interface AlterRoleButtonProps {
   refetch: () => void;

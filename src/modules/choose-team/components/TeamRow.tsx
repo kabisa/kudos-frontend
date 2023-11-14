@@ -2,7 +2,7 @@ import s from "./ChooseTeam.module.scss";
 import { selectTeam } from "../utils";
 import { PATH_FEED } from "../../../routes";
 import { useHistory } from "react-router-dom";
-import { Button } from "@sandercamp/ui-components";
+import { Button } from "@kabisa/ui-components";
 
 export interface Props {
   id: string;

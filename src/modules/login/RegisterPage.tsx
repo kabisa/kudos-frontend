@@ -15,7 +15,7 @@ import BackButton from "../../components/back-button/BackButton";
 import { loginSuccess } from "./helper";
 import settings from "../../config/settings";
 import { PATH_LOGIN } from "../../routes";
-import { Button, Input, Label } from "@sandercamp/ui-components";
+import { Button, Input, Label } from "@kabisa/ui-components";
 import Segment from "../../components/atoms/Segment";
 import BasePage from "./BasePage";
 import s from "./RegisterPage.module.css";

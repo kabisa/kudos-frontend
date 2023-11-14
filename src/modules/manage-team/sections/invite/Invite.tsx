@@ -10,7 +10,7 @@ import {
 import settings from "../../../../config/settings";
 import { InviteModel, QUERY_GET_INVITES } from "./InvitesSection";
 import { Storage } from "../../../../support/storage";
-import { IconButton } from "@sandercamp/ui-components";
+import { IconButton } from "@kabisa/ui-components";
 
 export interface InviteProps {
   invite: InviteModel;

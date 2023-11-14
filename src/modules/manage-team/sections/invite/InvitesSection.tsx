@@ -3,7 +3,7 @@ import settings from "../../../../config/settings";
 import { Storage } from "../../../../support/storage";
 import { Invite } from "./Invite";
 import { CreateInvite } from "./CreateInvite";
-import { Icon } from "@sandercamp/ui-components";
+import { Icon } from "@kabisa/ui-components";
 
 export const QUERY_GET_INVITES = gql`
   query getInvites($team_id: ID!) {

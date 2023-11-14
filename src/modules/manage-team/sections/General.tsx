@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { Query, Mutation } from "@apollo/client/react/components";
 import settings from "../../../config/settings";
 import { Storage } from "../../../support/storage";
-import { Button, Icon, Input, Label } from "@sandercamp/ui-components";
+import { Button, Icon, Input, Label } from "@kabisa/ui-components";
 import s from "./General.module.css";
 
 export const GET_TEAM_NAME = gql`
