@@ -1,9 +1,9 @@
-import React from "react";
 import { render, screen } from "@testing-library/react";
 import Button from ".";
 
-test("renders with default state", () => {
+test("renders a generic button with default state", () => {
   const { getByRole } = render(<Button text="Drop your Kudo's" />);
+
   expect(getByRole("button")).not.toBeDisabled();
 });
 
