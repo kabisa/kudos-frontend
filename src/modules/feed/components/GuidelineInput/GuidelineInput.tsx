@@ -9,6 +9,7 @@ import settings from "../../../../config/settings";
 import { Label } from "@kabisa/ui-components";
 import CreatableSelect from "react-select/creatable";
 import type { ActionMeta, SingleValue } from "react-select";
+import React from "react";
 
 const KUDO_GUIDELINE_RANGE = 5;
 
@@ -151,6 +152,7 @@ class GuidelineInput extends Component<Props, State> {
                     }),
                   }}
                   isClearable
+                  autoFocus
                 />
               </Label>
             );
