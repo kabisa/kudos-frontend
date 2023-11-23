@@ -124,7 +124,7 @@ class GuidelineInput extends Component<Props, State> {
               <Label>
                 Kudos amount
                 <CreatableSelect<GuidelineOption>
-                  key={`react-select-${uuidv4()}`}
+                  key={"select"}
                   options={guidelines}
                   onChange={(selectedOption, triggeredAction) => {
                     this.handleChange(selectedOption, triggeredAction);
@@ -152,7 +152,6 @@ class GuidelineInput extends Component<Props, State> {
                     }),
                   }}
                   isClearable
-                  autoFocus
                 />
               </Label>
             );
