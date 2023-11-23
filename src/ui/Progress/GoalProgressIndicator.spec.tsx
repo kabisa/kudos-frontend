@@ -1,16 +1,6 @@
 import { render } from "@testing-library/react";
 import GoalProgressIndicator from "./GoalProgressIndicator";
-
-const createGoal = (
-  name: string,
-  amount: number,
-  achievedOn: string | null,
-) => ({
-  id: Math.floor(Math.random() * 100).toString(),
-  name,
-  amount,
-  achievedOn,
-});
+import { createGoal } from "./factory";
 
 test("renders the goal progress indicator", () => {
   const goals = {

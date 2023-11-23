@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import KudosProgress from ".";
 import GoalProgressIndicator from "./GoalProgressIndicator";
+import { createGoal } from "./factory";
 
 const meta: Meta<typeof KudosProgress> = {
   component: KudosProgress,
@@ -54,36 +55,11 @@ export const FullKudo: Story = {
 
 const goals = {
   activeGoals: [
-    {
-      id: "62",
-      name: "First goal",
-      amount: 500,
-      achievedOn: true,
-    },
-    {
-      id: "63",
-      name: "Second goal",
-      amount: 1000,
-      achievedOn: true,
-    },
-    {
-      id: "64",
-      name: "Third goal",
-      amount: 1500,
-      achievedOn: null,
-    },
-    {
-      id: "94",
-      name: "Fourth goal",
-      amount: 2000,
-      achievedOn: null,
-    },
-    {
-      id: "95",
-      name: "Fifth goal",
-      amount: 2500,
-      achievedOn: null,
-    },
+    createGoal("First goal", 500, "2023-05-13"),
+    createGoal("Second goal", 1000, "2023-05-20"),
+    createGoal("Third goal", 1500, null),
+    createGoal("Fourth goal", 2000, null),
+    createGoal("Fifth goal", 2500, null),
   ],
   activeKudosMeter: {
     amount: 1400,
