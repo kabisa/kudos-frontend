@@ -23,3 +23,78 @@
   font-size: var(--font-size-m);
   font-weight: var(--font-weight-medium);
 }
+
+.goalProgressContainer {
+  --progressHeight: 100px;
+  --progressWidth: 10px;
+  position: relative;
+
+  height: var(--progressHeight);
+}
+
+.goalProgressIndicator {
+  -webkit-appearance: none;
+  appearance: none;
+  transform: rotate(-90deg) translateX(calc(0px - var(--progressHeight)));
+  transform-origin: top left;
+  /* Because we turn around the bar, width becomes height and vice versa */
+  width: var(--progressHeight);
+  height: var(--progressWidth);
+  position: absolute;
+}
+
+.goalProgressIndicator[value]::-webkit-progress-bar {
+  background-color: var(--kabisa-green-200);
+}
+
+.goalProgressIndicator::-webkit-progress-value {
+  background-color: var(--kabisa-green-600);
+}
+
+.step {
+  --stepAchieved: var(--kabisa-green-600);
+  --stepEmpty: var(--kabisa-green-200);
+  --stepCircleSize: 30px;
+
+  width: var(--stepCircleSize);
+  height: var(--stepCircleSize);
+  border-radius: 100%;
+  background: var(--stepAchieved);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stepAchieved {
+  background: var(--stepAchieved);
+}
+
+.stepEmpty {
+  background: var(--stepEmpty);
+}
+
+.stepsContainer {
+  position: absolute;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: var(--progressHeight);
+  width: var(--progressWidth);
+}
+
+.percentage {
+  --percentage: 0;
+  --offset: 50%;
+  --offsetFromProgressBar: 20px;
+
+  position: absolute;
+  bottom: calc(var(--progressHeight) * (var(--percentage) / 100));
+  transform: translateY(var(--offset));
+  left: var(--offsetFromProgressBar);
+  font-family: var(--font-family);
+}
+
+.step > span {
+  font-size: 1rem;
+}
