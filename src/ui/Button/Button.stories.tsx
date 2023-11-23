@@ -1,45 +1,36 @@
-import React from "react";
-import Button, { ButtonProps } from "./";
-import type { Meta } from "@storybook/react";
-import { Icon } from "@sandercamp/ui-components";
-
-export const ButtonStory = (props: ButtonProps) => <Button {...props} />;
+import Button from "./";
+import type { Meta, StoryObj } from "@storybook/react";
+import { LikeButton as LikeButtonComponent } from "./LikeButton";
 
 const meta: Meta<typeof Button> = {
   component: Button,
+};
+
+export default meta;
+
+export const GenericButton: StoryObj<typeof Button> = {
+  args: {
+    variant: "primary",
+    state: "default",
+    text: "Drop your Kudo's",
+    icon: "",
+  },
   argTypes: {
-    variant: {
-      control: {
-        type: "inline-radio",
-      },
-      options: ["primary", "secondary", "tertiary"],
-    },
-    state: {
-      control: {
-        type: "inline-radio",
-      },
-      options: ["default", "disabled"],
-    },
-    text: {
-      control: {
-        type: "text",
-      },
-    },
     icon: {
       name: "Icon",
       control: {
         type: "select",
       },
-      options: [null, "flag", "delete"],
+      options: ["", "flag", "delete"],
       defaultValue: "flag",
     },
   },
-  args: {
-    variant: "primary",
-    text: "Drop your Kudo's",
-    icon: "flag",
-    state: "default",
-  },
+  render: (props) => <Button {...props} />,
 };
 
-export default meta;
+export const LikeButton: StoryObj<typeof LikeButtonComponent> = {
+  args: {
+    liked: false,
+  },
+  render: (props) => <LikeButtonComponent {...props} />,
+};
