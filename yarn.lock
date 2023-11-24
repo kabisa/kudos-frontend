@@ -2787,9 +2787,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kabisa/ui-components@npm:^0.1.0":
-  version: 0.1.0
-  resolution: "@kabisa/ui-components@npm:0.1.0"
+"@kabisa/ui-components@npm:^0.1.3-0":
+  version: 0.1.3-0
+  resolution: "@kabisa/ui-components@npm:0.1.3-0"
   dependencies:
     "@storybook/addon-docs": ^7.3.2
     "@storybook/addon-essentials": ^7.3.2
@@ -2807,7 +2807,7 @@ __metadata:
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: 104a79fcb1eb1bde70955477ff51e160eb5f4168ccfb021baeb4750a3c19ce1a0b4215b7ea911b967d7413164d52be27b71cb096f82e0048abc13891ef0f29df
+  checksum: 8b8e04394cb4f1285ad5b0b664bcb617cad20a65649a77988e723abeb4245c440682ffce586b2518efa8c538a99fe7c177a9de7b3c77b13dac943700b64dd2d2
   languageName: node
   linkType: hard
 
@@ -13504,7 +13504,7 @@ __metadata:
   resolution: "kudo@workspace:."
   dependencies:
     "@apollo/client": ^3.8.0
-    "@kabisa/ui-components": ^0.1.0
+    "@kabisa/ui-components": ^0.1.3-0
     "@storybook/addon-a11y": ^7.3.2
     "@storybook/addon-essentials": ^7.3.2
     "@storybook/addon-interactions": ^7.3.2

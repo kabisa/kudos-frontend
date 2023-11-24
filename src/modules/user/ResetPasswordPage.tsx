@@ -239,7 +239,7 @@ class ResetPasswordPage extends Component<Props, State> {
                           data-testid="reset-password-button"
                           disabled={loading}
                           className={s.button}
-                          onClick={(e) => {
+                          onClick={() => {
                             this.resetPassword(resetPassword)
                           }}
                         >
