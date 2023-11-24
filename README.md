@@ -51,7 +51,7 @@ See the [back-end docs](https://github.com/kabisa/kudo-o-matic/blob/develop/docs
 The project is build using [GitHub actions](https://github.com/kabisa/kudos-frontend/actions) with every commit.
 See the .github directory for the configuration file.
 
-The project is hosted on [Netlify](https://app.netlify.com/teams/kabisa/sites) and deployed using commit hooks. To access the netlify, please contact Managed Services for bobth environments. 
+The project is hosted on [Netlify](https://app.netlify.com/teams/kabisa/sites) and deployed using commit hooks. If you need to access Netlify, please contact Managed Services for bobth environments. 
 The following environments exist:
 - [Staging](https://kudos.develop.kabisa.io/)
 - [Production](https://kudos.kabisa.io/) 
