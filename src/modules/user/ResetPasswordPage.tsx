@@ -1,4 +1,4 @@
-import { Component } from "react";
+import {ChangeEvent, Component} from "react";
 import { Button, Input, Label } from "@kabisa/ui-components";
 import { Mutation } from "@apollo/client/react/components";
 import { gql } from "@apollo/client";
@@ -142,6 +142,8 @@ class ResetPasswordPage extends Component<Props, State> {
     const { currentPassword, newPassword, newPasswordConfirmation } =
       this.state;
 
+    console.log('click')
+
     if (!this.checkErrors()) {
       return;
     }
@@ -155,10 +157,9 @@ class ResetPasswordPage extends Component<Props, State> {
     });
   }
 
-  // TODO: Fix handler
-  handleChange() {
+  handleChange(e: ChangeEvent<HTMLInputElement>) {
     // @ts-ignore
-    this.setState({ [name]: value });
+    this.setState({ [e.target.name]: e.target.value });
 
     if (
       this.state.newPassword === this.state.newPasswordConfirmation &&
@@ -211,8 +212,6 @@ class ResetPasswordPage extends Component<Props, State> {
                         New password
                         <Input
                           data-testid="new-password-input"
-                          //icon="lock" TODO
-                          //iconPosition="left" TODO
                           name="newPassword"
                           type="password"
                           placeholder="New password"
@@ -225,9 +224,7 @@ class ResetPasswordPage extends Component<Props, State> {
                         Confirm new password
                         <Input
                           data-testid="confirm-password-input"
-                          //icon="lock" TODO
                           name="newPasswordConfirmation"
-                          //iconPosition="left" TODO
                           type="password"
                           placeholder="Confirm new password"
                           error={this.state.error_new_confirm}
@@ -238,10 +235,13 @@ class ResetPasswordPage extends Component<Props, State> {
 
                       <div className={s.actions}>
                         <Button
+                          type="button"
                           data-testid="reset-password-button"
                           disabled={loading}
                           className={s.button}
-                          onClick={() => this.resetPassword(resetPassword)}
+                          onClick={(e) => {
+                            this.resetPassword(resetPassword)
+                          }}
                         >
                           Reset password
                         </Button>
