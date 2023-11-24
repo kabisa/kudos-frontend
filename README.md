@@ -58,8 +58,6 @@ The following environments exist:
 
 To deploy a new version, create a new release on GitHub. The release will be automatically deployed to the environments when merging into develop (staging) or master (production).
 
-
-
 ## Contributing
 
 ### Step 1
