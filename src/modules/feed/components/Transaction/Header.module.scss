@@ -1,50 +1,57 @@
-.root {
+.container {
+  --line-height: 1.75rem;
+
   display: flex;
   align-items: center;
   justify-content: space-around;
 }
 
-.kudo_amount {
-  height: 28px;
-  width: 23px;
-  color: #081721;
-  font-family: Rajdhani, sans-serif;
-  font-size: 22px;
-  font-weight: 600;
-  text-align: right
+.kudos {
+  font-size: 1.25rem;
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height);
 }
 
-.kudo_symbol {
-  height: 28px;
-  color: #081721;
-  font-size: 20px;
-  font-weight: bolder;
-}
-
-
-.image_wrapper {
-  margin-left: 12px;
+.avatarWrapper {
   display: flex;
+  gap: var(--spacing-level-2);
   flex-flow: wrap;
   flex: 1;
+
+  margin-left: var(--spacing-level-5);
 }
 
 .timestamp {
-  height: 13px;
-  width: 48px;
   color: #081721;
-  font-family: Calibri, sans-serif;
-  font-size: 11px;
+  font-size: 0.65rem;
 }
 
-.dropdown {
-  color: grey;
+.avatar {
+  height: var(--line-height);
+  width: var(--line-height);
 }
 
+.utilityContainer {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-level-2);
 
-:global(#root) {
-  .avatar {
-    height: 30px;
-    width: 30px;
-  }
+  height: var(--line-height);
+}
+
+.deleteButton {
+  /* Temporary fix for CSS order issue */
+  border: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+
+  background: transparent !important;
+
+  color: var(--brand-color-2) !important;
+}
+
+.deleteButton > span:hover {
+  /* Temporary fix for CSS order issue */
+  border: none !important;
+  color: var(--kabisa-green-2) !important;
 }

@@ -1,29 +1,35 @@
-import React, { ChangeEvent, Component } from 'react';
-import {
-  Button, Form, Message, Segment,
-} from 'semantic-ui-react';
-import { Mutation } from '@apollo/react-components';
-import gql from 'graphql-tag';
-import { toast } from 'react-toastify';
-import { withRouter } from 'react-router-dom';
-import { History } from 'history';
-import settings from '../../config/settings';
+import { Component } from "react";
+import { Button, Input, Label } from "@kabisa/ui-components";
+import { Mutation } from "@apollo/client/react/components";
+import { gql } from "@apollo/client";
+import { toast } from "react-toastify";
+import { withRouter } from "react-router-dom";
+import { History } from "history";
+
+import settings from "../../config/settings";
 import {
   ERROR_PASSWORD_BLANK,
   ERROR_PASSWORD_CONFIRMATION_BLANK,
-  ERROR_PASSWORD_MATCH, ERROR_PASSWORD_NEW_BLANK,
+  ERROR_PASSWORD_MATCH,
+  ERROR_PASSWORD_NEW_BLANK,
   ERROR_SHORT_PASSWORD,
   getGraphqlError,
-} from '../../support';
-import { Navigation } from '../../components/navigation';
+} from "../../support";
 
-import { PATH_FEED } from '../../routes';
-import { FormWrapper } from '../../components';
-import BackButton from '../../components/back-button/BackButton';
-import s from './ResetPasswordPage.module.scss';
+import { PATH_FEED } from "../../routes";
+import BackButton from "../../components/back-button/BackButton";
+import Segment from "../../components/atoms/Segment";
+import Page from "../../components/templates/Page";
+
+import s from "./ResetPasswordPage.module.scss";
+import { FormWrapper } from "../../components";
 
 export const MUTATION_RESET_PASSWORD = gql`
-  mutation ResetPassword($current_password: String, $new_password: String, $new_password_confirmation: String) {
+  mutation ResetPassword(
+    $current_password: String
+    $new_password: String
+    $new_password_confirmation: String
+  ) {
     resetPassword(
       currentPassword: $current_password
       newPassword: $new_password
@@ -72,16 +78,16 @@ class ResetPasswordPage extends Component<Props, State> {
     super(props);
 
     this.cleanErrors = {
-      error: '',
+      error: "",
       error_current: false,
       error_new: false,
       error_new_confirm: false,
     };
 
     this.state = {
-      currentPassword: '',
-      newPassword: '',
-      newPasswordConfirmation: '',
+      currentPassword: "",
+      newPassword: "",
+      newPasswordConfirmation: "",
       ...this.cleanErrors,
     };
 
@@ -93,7 +99,8 @@ class ResetPasswordPage extends Component<Props, State> {
   }
 
   checkErrors() {
-    const { currentPassword, newPassword, newPasswordConfirmation } = this.state;
+    const { currentPassword, newPassword, newPasswordConfirmation } =
+      this.state;
 
     this.setState(this.cleanErrors);
 
@@ -132,7 +139,8 @@ class ResetPasswordPage extends Component<Props, State> {
   }
 
   resetPassword(mutate: any) {
-    const { currentPassword, newPassword, newPasswordConfirmation } = this.state;
+    const { currentPassword, newPassword, newPasswordConfirmation } =
+      this.state;
 
     if (!this.checkErrors()) {
       return;
@@ -147,25 +155,29 @@ class ResetPasswordPage extends Component<Props, State> {
     });
   }
 
-  handleChange(e: ChangeEvent, { name, value }: any) {
+  // TODO: Fix handler
+  handleChange() {
     // @ts-ignore
     this.setState({ [name]: value });
 
-    if (this.state.newPassword === this.state.newPasswordConfirmation && this.state.error) {
+    if (
+      this.state.newPassword === this.state.newPasswordConfirmation &&
+      this.state.error
+    ) {
       this.checkErrors();
     }
   }
 
   render() {
     return (
-      <div>
+      <Page>
         <FormWrapper header="Reset password" toolbar="Reset password">
           <Segment>
             <Mutation<ResetPasswordParameters>
               mutation={MUTATION_RESET_PASSWORD}
               onCompleted={() => {
                 this.setState(this.initialState);
-                toast.info('Password reset successfully!');
+                toast.info("Password reset successfully!");
                 this.props.history.push(PATH_FEED);
               }}
             >
@@ -177,73 +189,79 @@ class ResetPasswordPage extends Component<Props, State> {
                 if (this.state.error) {
                   displayError = this.state.error;
                 }
+
                 return (
-                  <Form className={s.form}>
-                    <Form.Input
-                      data-testid="current-password-input"
-                      label="Current password"
-                      fluid
-                      icon="lock"
-                      name="currentPassword"
-                      iconPosition="left"
-                      type="password"
-                      placeholder="Current password"
-                      error={this.state.error_current}
-                      value={this.state.currentPassword}
-                      onChange={this.handleChange}
-                    />
-                    <Form.Input
-                      data-testid="new-password-input"
-                      label="New password"
-                      fluid
-                      icon="lock"
-                      name="newPassword"
-                      iconPosition="left"
-                      type="password"
-                      placeholder="New password"
-                      error={this.state.error_new}
-                      value={this.state.newPassword}
-                      onChange={this.handleChange}
-                    />
-                    <Form.Input
-                      data-testid="confirm-password-input"
-                      label="Confirm new password"
-                      fluid
-                      icon="lock"
-                      name="newPasswordConfirmation"
-                      iconPosition="left"
-                      type="password"
-                      placeholder="Confirm new password"
-                      error={this.state.error_new_confirm}
-                      value={this.state.newPasswordConfirmation}
-                      onChange={this.handleChange}
-                    />
-                    <Button
-                      data-testid="reset-password-button"
-                      color="blue"
-                      fluid
-                      size="large"
-                      loading={loading}
-                      disabled={loading}
-                      onClick={() => this.resetPassword(resetPassword)}
-                    >
-                      Reset password
-                    </Button>
+                  <>
+                    <form className="form-container">
+                      <Label>
+                        Current password
+                        <Input
+                          data-testid="current-password-input"
+                          //icon="lock" TODO
+                          //iconPosition="left" TODO
+                          name="currentPassword"
+                          type="password"
+                          placeholder="Current password"
+                          error={this.state.error_current}
+                          value={this.state.currentPassword}
+                          onChange={this.handleChange}
+                        />
+                      </Label>
+                      <Label>
+                        New password
+                        <Input
+                          data-testid="new-password-input"
+                          //icon="lock" TODO
+                          //iconPosition="left" TODO
+                          name="newPassword"
+                          type="password"
+                          placeholder="New password"
+                          error={this.state.error_new}
+                          value={this.state.newPassword}
+                          onChange={this.handleChange}
+                        />
+                      </Label>
+                      <Label>
+                        Confirm new password
+                        <Input
+                          data-testid="confirm-password-input"
+                          //icon="lock" TODO
+                          name="newPasswordConfirmation"
+                          //iconPosition="left" TODO
+                          type="password"
+                          placeholder="Confirm new password"
+                          error={this.state.error_new_confirm}
+                          value={this.state.newPasswordConfirmation}
+                          onChange={this.handleChange}
+                        />
+                      </Label>
+
+                      <div className={s.actions}>
+                        <Button
+                          data-testid="reset-password-button"
+                          disabled={loading}
+                          className={s.button}
+                          onClick={() => this.resetPassword(resetPassword)}
+                        >
+                          Reset password
+                        </Button>
+                      </div>
+
+                      {displayError && (
+                        <div className={s.errorMessage}>
+                          <h3>Unable to reset password</h3>
+                          <p>{displayError}</p>
+                        </div>
+                      )}
+                    </form>
                     <BackButton />
-                    {displayError && (
-                    <Message negative>
-                      <Message.Header>Unable to reset password</Message.Header>
-                      <p>{displayError}</p>
-                    </Message>
-                    )}
-                  </Form>
+                  </>
                 );
               }}
             </Mutation>
           </Segment>
         </FormWrapper>
-        <Navigation />
-      </div>
+      </Page>
     );
   }
 }

@@ -1,20 +1,23 @@
-import React, { Component, PropsWithRef, SyntheticEvent } from 'react';
-import { Dropdown } from 'semantic-ui-react';
-import { Query } from '@apollo/react-components';
+import { Component, PropsWithRef } from "react";
+import { Query } from "@apollo/client/react/components";
 
-import client from '../../../../client';
-import { GET_USERS, GetUsersResult, User } from '../../queries';
-import settings from '../../../../config/settings';
-import { Storage } from '../../../../support/storage';
+import client from "../../../../client";
+import { GET_USERS, GetUsersResult, User } from "../../queries";
+import settings from "../../../../config/settings";
+import { Storage } from "../../../../support/storage";
+import { OnChangeValue } from "react-select";
+import CreatableSelect from "react-select/creatable";
 
 export interface DropDownProps extends PropsWithRef<any> {
-  onChange: (value: []) => void;
+  onChange: (values: readonly NameOption[]) => void;
   error: boolean;
 }
 
 export interface DropDownState {
-  value: string[];
+  values: readonly NameOption[];
 }
+
+export type NameOption = { label: string; value: string };
 
 class DropdownRemote extends Component<DropDownProps, DropDownState> {
   initialState: DropDownState;
@@ -22,7 +25,7 @@ class DropdownRemote extends Component<DropDownProps, DropDownState> {
   constructor(props: DropDownProps) {
     super(props);
     this.state = {
-      value: [],
+      values: [],
     };
     this.initialState = this.state;
 
@@ -31,23 +34,27 @@ class DropdownRemote extends Component<DropDownProps, DropDownState> {
     this.handleAddition = this.handleAddition.bind(this);
   }
 
-  handleChange(e: SyntheticEvent, { value }: any) {
-    if (!value) {
+  handleChange(newValues: OnChangeValue<NameOption, true>) {
+    if (!newValues) {
       return;
     }
-    if (value.some((item: string) => Number.isNaN(Number.parseInt(item, 10)))) {
+    if (
+      newValues.some((item: NameOption) =>
+        Number.isNaN(Number.parseInt(item.value, 10)),
+      )
+    ) {
       return;
     }
 
-    this.setState({ value });
-    this.props.onChange(value);
+    this.setState({ values: newValues });
+    this.props.onChange(newValues);
   }
 
   resetState() {
     this.setState(this.initialState);
   }
 
-  handleAddition(e: React.KeyboardEvent<HTMLElement>, { value }: any) {
+  handleAddition(inputValue: string) {
     const oldState = client.readQuery({
       query: GET_USERS,
       variables: {
@@ -55,14 +62,16 @@ class DropdownRemote extends Component<DropDownProps, DropDownState> {
       },
     });
 
-    const existing = oldState.teamById.users.filter((u: User) => u.name === value);
+    const existing = oldState.teamById.users.filter(
+      (u: User) => u.name === inputValue,
+    );
     if (existing.length > 0) {
       return;
     }
 
     // Manually searching for an available user id?
     // Big no no, fix this to create a new user with a mutation and store the result.
-    let id = '-1';
+    let id = "-1";
     oldState.teamById.users.forEach((item: User) => {
       const itemId = Number.parseInt(item.id, 10);
       const numberId = Number.parseInt(id, 10);
@@ -80,9 +89,9 @@ class DropdownRemote extends Component<DropDownProps, DropDownState> {
           ...oldState.teamById.users,
           {
             id,
-            name: value,
+            name: inputValue,
             virtualUser: true,
-            __typename: 'User',
+            __typename: "User",
           },
         ],
       },
@@ -96,10 +105,12 @@ class DropdownRemote extends Component<DropDownProps, DropDownState> {
       data: newState,
     });
 
-    const updatedState = { value: [...this.state.value, id] };
-    this.setState(updatedState);
-    // @ts-ignore
-    this.handleChange(null, updatedState);
+    const updatedValues = [
+      ...this.state.values,
+      { label: inputValue, value: id },
+    ];
+
+    this.handleChange(updatedValues);
   }
 
   render() {
@@ -110,37 +121,41 @@ class DropdownRemote extends Component<DropDownProps, DropDownState> {
           team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
         }}
       >
-        {({ loading, error, data }) => {
-          const { value } = this.state;
+        {({ loading, data }) => {
+          const { values } = this.state;
 
-          let options: { text: string; value: string }[] = [];
+          let options: NameOption[] = [];
           if (data) {
             if (data.teamById) {
               options = data.teamById.users.map((item) => ({
-                text: item.virtualUser ? `${item.name} (v)` : item.name,
+                label: item.virtualUser ? `${item.name} (v)` : item.name,
                 value: item.id,
               }));
             }
           }
 
           return (
-            <Dropdown
-              data-testid="user-dropdown"
-              id="userdropdown"
-              placeholder="Receivers"
-              fluid
-              selection
-              multiple
-              allowAdditions
-              search
-              labeled
-              value={value}
+            <CreatableSelect<NameOption, true>
+              isMulti
               options={options}
-              disabled={loading}
-              loading={loading}
-              error={!!error || this.props.error}
-              onAddItem={this.handleAddition}
-              onChange={this.handleChange}
+              onCreateOption={this.handleAddition}
+              onChange={(e) => this.handleChange(e)}
+              value={values}
+              isLoading={loading}
+              isDisabled={loading}
+              placeholder="Receivers"
+              data-testid="user-dropdown"
+              classNamePrefix="react-select"
+              styles={{
+                valueContainer: (base) => ({
+                  ...base,
+                  fontSize: "var(--font-size-s)",
+                }),
+                control: (base) => ({
+                  ...base,
+                  border: ".1rem solid var(--subtle-color)",
+                }),
+              }}
             />
           );
         }}

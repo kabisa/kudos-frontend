@@ -1,25 +1,28 @@
-import React, { ChangeEvent, Component } from 'react';
-import { Form, Segment } from 'semantic-ui-react';
-import { Query } from '@apollo/react-components';
-import gql from 'graphql-tag';
-import enhanceWithClickOutside from 'react-click-outside';
-import { Storage } from '../../../../support/storage';
-import settings from '../../../../config/settings';
+import { v4 as uuidv4 } from "uuid";
+import { Component } from "react";
+import { Query } from "@apollo/client/react/components";
+import { gql } from "@apollo/client";
+import enhanceWithClickOutside from "react-click-outside";
+import { Storage } from "../../../../support/storage";
+import settings from "../../../../config/settings";
 
-import s from './GuidelineInput.module.scss';
+import { Label } from "@kabisa/ui-components";
+import CreatableSelect from "react-select/creatable";
+import type { ActionMeta, SingleValue } from "react-select";
+import React from "react";
 
 const KUDO_GUIDELINE_RANGE = 5;
 
 export const GET_GUIDELINES = gql`
-    query Guidelines($team_id: ID!) {
-        teamById(id: $team_id) {
-            guidelines {
-                id
-                kudos
-                name
-            }
-        }
+  query Guidelines($team_id: ID!) {
+    teamById(id: $team_id) {
+      guidelines {
+        id
+        kudos
+        name
+      }
     }
+  }
 `;
 
 export interface GetGuideLinesResult {
@@ -40,168 +43,120 @@ export interface Props {
 }
 
 export interface State {
-  amount: string;
-  showGuidelines: boolean;
+  id: string;
+  value: string;
+  amount: number;
 }
 
+export type GuidelineOption = { label: string; value: string; id: string };
+
 class GuidelineInput extends Component<Props, State> {
-  initialState: State;
-
-  // @ts-ignore
-  timeout: NodeJS.Timeout;
-
   constructor(props: Props) {
     super(props);
 
     this.state = {
-      amount: '',
-      showGuidelines: false,
+      id: "",
+      value: "",
+      amount: 0,
     };
-    this.initialState = this.state;
 
-    this.focusKudoInput = this.focusKudoInput.bind(this);
-    this.blurKudoInput = this.blurKudoInput.bind(this);
-    this.selectGuideline = this.selectGuideline.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.resetState = this.resetState.bind(this);
-    this.showGuidelines = this.showGuidelines.bind(this);
   }
 
-  handleClickOutside() {
-    this.setState({
-      showGuidelines: false,
-    });
-  }
+  handleChange(
+    e: SingleValue<GuidelineOption>,
+    triggeredAction: ActionMeta<GuidelineOption>,
+  ) {
+    if (triggeredAction.action === "clear") {
+      this.resetState();
+      this.props.handleChange(0);
+    } else {
+      if (!e?.value) return;
 
-  handleChange(e: ChangeEvent, { value }: any) {
-    this.setState({ amount: String(value) });
-    this.props.handleChange(Number(value));
-  }
+      const kudosValue = parseInt(e.value, 10);
 
-  showGuidelines(e: Event) {
-    e.preventDefault();
-    this.setState((prevState) => ({ showGuidelines: !prevState.showGuidelines }));
-  }
-
-  focusKudoInput() {
-    this.setState({
-      showGuidelines: true,
-    });
-  }
-
-  blurKudoInput() {
-    this.timeout = setTimeout(() => {
-      this.setState({
-        showGuidelines: false,
-      });
-    }, 500);
-  }
-
-  selectGuideline(amount: number) {
-    clearTimeout(this.timeout);
-    this.setState({ amount: String(amount), showGuidelines: false });
-    this.props.handleChange(Number(amount));
+      this.setState({ amount: kudosValue, id: uuidv4() });
+      this.props.handleChange(kudosValue);
+    }
   }
 
   resetState() {
-    this.setState(this.initialState);
+    this.setState({ id: "", value: "", amount: 0 });
   }
 
   render() {
     return (
-      <div id="kudos-input-container" className={s.test}>
-        <Form.Field className={s.field}>
-          <Form.Input
-            className={(this.state.showGuidelines) ? s.guideline_input_active : ''}
-            data-testid="amount-input"
-            id="input-kudos"
-            error={this.props.amountError}
-            onChange={this.handleChange}
-            onFocus={this.focusKudoInput}
-            onBlur={this.blurKudoInput}
-            placeholder="Amount of kudos"
-            name="amount"
-            type="number"
-            autoComplete="off"
-            min="1"
-            value={this.state.amount}
-            label="Kudos Amount"
-            action={{
-              icon: 'info',
-              onClick: this.showGuidelines,
-              'data-testid': 'guidelines-button',
-              className: s.info_button,
-            }}
-          />
-        </Form.Field>
-
-        {(this.state.showGuidelines) && (
+      <div id="kudos-input-container">
         <Query<GetGuideLinesResult>
           query={GET_GUIDELINES}
           variables={{
             team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
           }}
         >
-          {({ loading, error, data }) => {
-            if (loading || error) {
-              return (
-                <Segment.Group size="tiny" className={s.guidelines}>
-                  <Segment>
-                    {loading && 'Loading...'}
-                    {error && error.message}
-                  </Segment>
-                </Segment.Group>
-              );
-            }
-
-            if (!data || !data.teamById || data.teamById.guidelines.length === 0) {
-              return (
-                <Segment.Group size="tiny" className={s.guidelines}>
-                  <Segment key={1}>No guidelines available</Segment>
-                </Segment.Group>
-              );
-            }
-
-            let guidelines: Guideline[];
-
-            if (this.state.amount) {
-              // eslint-disable-next-line max-len
-              guidelines = data.teamById.guidelines.filter((guideline) => guideline.kudos - KUDO_GUIDELINE_RANGE < (this.state.amount || 0)
-                                    && guideline.kudos + KUDO_GUIDELINE_RANGE > (this.state.amount || 0));
-            } else {
-              guidelines = data.teamById.guidelines;
-            }
-
-            if (guidelines.length === 0) {
-              return (
-                <Segment.Group
-                  size="tiny"
-                  className={s.guidelines}
-                >
-                  <Segment key={1}>No guidelines available</Segment>
-                </Segment.Group>
-              );
+          {({ loading, data }) => {
+            let guidelines: GuidelineOption[] = [];
+            if (data && data.teamById.guidelines.length > 0) {
+              if (this.state.amount) {
+                guidelines = data.teamById.guidelines
+                  .filter(
+                    (guideline) =>
+                      guideline.kudos - KUDO_GUIDELINE_RANGE <
+                        (this.state.amount || 0) &&
+                      guideline.kudos + KUDO_GUIDELINE_RANGE >
+                        (this.state.amount || 0),
+                  )
+                  .map((guideline) => ({
+                    id: guideline.id,
+                    label: `${guideline.name}: ${guideline.kudos}`,
+                    value: guideline.kudos.toString(),
+                  }));
+              } else {
+                guidelines = data.teamById.guidelines.map((guideline) => ({
+                  id: guideline.id,
+                  label: `${guideline.name}: ${guideline.kudos}`,
+                  value: guideline.kudos.toString(),
+                }));
+              }
             }
 
             return (
-              <Segment.Group
-                size="tiny"
-                className={s.guidelines}
-              >
-                {guidelines.map((guideline) => (
-                  <Segment
-                    data-testid="guideline-row"
-                    key={guideline.id}
-                    onClick={() => this.selectGuideline(guideline.kudos)}
-                  >
-                    {`${guideline.kudos}: ${guideline.name}`}
-                  </Segment>
-                ))}
-              </Segment.Group>
+              <Label>
+                Kudos amount
+                <CreatableSelect<GuidelineOption>
+                  key={"select"}
+                  options={guidelines}
+                  onChange={(selectedOption, triggeredAction) => {
+                    this.handleChange(selectedOption, triggeredAction);
+                  }}
+                  value={
+                    this.state.amount && this.state.amount !== 0
+                      ? {
+                          label: this.state.amount.toString(),
+                          id: this.state.id,
+                          value: this.state.amount.toString(),
+                        }
+                      : undefined
+                  }
+                  isLoading={loading}
+                  isDisabled={loading}
+                  placeholder="Kudos amount"
+                  styles={{
+                    valueContainer: (base) => ({
+                      ...base,
+                      fontSize: "var(--font-size-s)",
+                    }),
+                    control: (base) => ({
+                      ...base,
+                      border: ".1rem solid var(--subtle-color)",
+                    }),
+                  }}
+                  isClearable
+                />
+              </Label>
             );
           }}
         </Query>
-        )}
       </div>
     );
   }

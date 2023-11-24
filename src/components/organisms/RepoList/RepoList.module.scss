@@ -1,0 +1,34 @@
+.container {
+  gap: var(--spacing-level-3);
+
+  width: 100%;
+}
+
+.container > li:not(:first-child) {
+  border: none;
+}
+
+.container > li > div {
+  border-radius: var(--radii-level-2);
+}
+
+.arrowButton {
+  border: none;
+  margin: 2rem 0;
+
+  background: transparent;
+}
+
+.arrowButton:hover {
+  cursor: pointer;
+}
+
+.arrow {
+  color: var(--font-color-2);
+}
+
+.endMessage {
+  margin: 2rem 0;
+
+  color: var(--font-color-2);
+}

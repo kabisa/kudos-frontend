@@ -1,77 +1,68 @@
-import React from 'react';
-import { Icon, SemanticICONS } from 'semantic-ui-react';
-import { Link, withRouter } from 'react-router-dom';
-import { History } from 'history';
+import { Link, useHistory } from "react-router-dom";
 
-import * as routes from '../../routes';
-import s from './Mobile.module.scss';
-import { Auth } from '../../support';
+import * as routes from "../../routes";
+import s from "./Mobile.module.css";
+import { Auth } from "../../support";
+import classNames from "classnames";
+import { Icon } from "@kabisa/ui-components";
 
 export interface IconComponentProps {
   path: string;
-  icon: SemanticICONS;
-  history: History;
+  icon: string;
 }
 
 function IconComponent(props: IconComponentProps) {
+  const history = useHistory();
   const link = `${props.path}`;
+
   return (
     <Link to={link} className={s.bottom_item}>
       <Icon
         name={props.icon}
-        size="large"
-        className={s.bottom_icon}
-        color={props.history.location.pathname === props.path ? 'blue' : 'black'}
+        className={classNames(s.bottom_icon, {
+          [s.active]: history.location.pathname === props.path,
+        })}
       />
     </Link>
   );
 }
 
-export interface MobileProps {
-  history: History;
-}
-
-function mobile(props: MobileProps) {
+export function MobileNavigation() {
   return (
     <div className={s.bottom_navigation}>
       <IconComponent
         data-testid="settings-button"
         path={routes.PATH_SETTINGS}
         icon="settings"
-        history={props.history}
       />
       {Auth.hasTeam() && (
-      <IconComponent
-        data-testid="statistics-button"
-        path={routes.PATH_STATISTICS}
-        icon="chart bar"
-        history={props.history}
-      />
+        <IconComponent
+          data-testid="statistics-button"
+          path={routes.PATH_STATISTICS}
+          icon="monitoring"
+        />
       )}
       {Auth.hasTeam() && (
-      <IconComponent
-        data-testid="home-button"
-        path={routes.PATH_FEED}
-        icon="home"
-        history={props.history}
-      />
+        <IconComponent
+          data-testid="home-button"
+          path={routes.PATH_FEED}
+          icon="home"
+        />
       )}
       {Auth.hasTeam() && (
-      <IconComponent
-        data-testid="notifications-button"
-        path={routes.PATH_NOTIFICATIONS}
-        icon="bell"
-        history={props.history}
-      />
+        <IconComponent
+          data-testid="notifications-button"
+          path={routes.PATH_NOTIFICATIONS}
+          icon="notifications"
+        />
       )}
       <IconComponent
         data-testid="profile-button"
         path={routes.PATH_USER}
-        icon="user"
-        history={props.history}
+        icon="person"
       />
     </div>
   );
 }
 
-export default withRouter(mobile);
+export default MobileNavigation;

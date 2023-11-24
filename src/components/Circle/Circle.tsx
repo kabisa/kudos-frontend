@@ -1,6 +1,5 @@
-import React from 'react';
-import { Circle } from 'rc-progress';
-import s from './Circle.module.scss';
+import { Circle } from "rc-progress";
+import s from "./Circle.module.scss";
 
 export interface Props {
   percent: number;
@@ -11,7 +10,7 @@ export interface Props {
   strokeColor?: string;
 }
 
-function CustomCircle(props: Props): React.ReactElement {
+function CustomCircle(props: Props) {
   return (
     <div className={s.wrapper}>
       {props.currentKudos != null && (
@@ -20,7 +19,9 @@ function CustomCircle(props: Props): React.ReactElement {
             {props.currentKudos}
             <span className={s.kudo_symbol}>₭</span>
           </h2>
-          <span data-testid="goal-kudos" className={s.needed}>of {props.neededKudos}₭ for {props.goal}</span>
+          <span data-testid="goal-kudos" className={s.needed}>
+            of {props.neededKudos}₭ for {props.goal}
+          </span>
         </span>
       )}
       <Circle

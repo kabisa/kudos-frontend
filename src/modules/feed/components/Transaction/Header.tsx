@@ -1,25 +1,28 @@
-import React, { Component } from 'react';
-import { Confirm, Dropdown, Image } from 'semantic-ui-react';
-import { Mutation } from '@apollo/react-components';
-import gql from 'graphql-tag';
-import { toast } from 'react-toastify';
-import { withRouter } from 'react-router-dom';
-import { History } from 'history';
-import settings from '../../../../config/settings';
-import { FragmentPostResult, GET_POSTS } from '../../queries';
-import { PATH_ADD_TRANSACTION } from '../../../../routes';
-import { Storage } from '../../../../support/storage';
-import s from './Header.module.scss';
-import { Auth } from '../../../../support';
+import { Component } from "react";
+import { IconButton } from "@kabisa/ui-components";
 
-const moment = require('moment-twitter');
+import { Mutation } from "@apollo/client/react/components";
+import { gql } from "@apollo/client";
+import { toast } from "react-toastify";
+import { withRouter } from "react-router-dom";
+import { History } from "history";
+import settings from "../../../../config/settings";
+import { FragmentPostResult, GET_POSTS } from "../../queries";
+import { PATH_ADD_TRANSACTION } from "../../../../routes";
+import { Storage } from "../../../../support/storage";
+import { Auth } from "../../../../support";
+
+import s from "./Header.module.scss";
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+// const moment = require("moment-twitter");
 
 export const MUTATION_REMOVE_POST = gql`
-    mutation RemovePost($id: ID!) {
-        deletePost(id: $id) {
-            postId
-        }
+  mutation RemovePost($id: ID!) {
+    deletePost(id: $id) {
+      postId
     }
+  }
 `;
 
 export interface ToggleLikeParameters {
@@ -34,7 +37,7 @@ export interface Props {
 
 export interface State {
   // Future state vars go here
-  showConfirmDialog: boolean
+  showConfirmDialog: boolean;
 }
 
 export class Header extends Component<Props, State> {
@@ -81,80 +84,77 @@ export class Header extends Component<Props, State> {
     });
   }
 
-  render() {
-    const { createdAt, amount, votes } = this.props.transaction;
-    const timestamp = moment(createdAt);
+  componentDidUpdate(prevProps: Props, prevState: State) {
+    if (
+      this.state.showConfirmDialog &&
+      this.state.showConfirmDialog !== prevState.showConfirmDialog
+    ) {
+      const result = window.confirm("Are you sure you want to proceed?");
+      if (result) {
+        this.remove();
+      } else {
+        this.closeConfirmDialog();
+      }
+    }
+  }
 
-    const allowNormalEdit = moment.duration(timestamp.diff(moment())).asMinutes() * -1 <= 15;
+  render() {
+    const { amount, votes } = this.props.transaction;
+    // TODO: Find another date library
+    // const timestamp = moment(createdAt);
+
+    const allowNormalEdit = true;
+    // moment.duration(timestamp.diff(moment())).asMinutes() * -1 <= 15;
 
     return (
-      <div className={s.root}>
-        <Confirm
-          data-testid="confirm-dialog"
-          size="mini"
-          open={this.state.showConfirmDialog}
-          onCancel={() => this.closeConfirmDialog()}
-          onConfirm={this.remove}
-        />
-        <div>
-          <span className={s.kudo_amount} data-testid="post-amount">{amount + votes.length}</span>
-          <span className={s.kudo_symbol}>₭</span>
+      <div className={s.container}>
+        <div className={s.kudos}>
+          <span data-testid="post-amount">{amount + votes.length}</span>₭
         </div>
-        <div className={s.image_wrapper}>
-          <Image
+        <div className={s.avatarWrapper}>
+          <img
             className={s.avatar}
             data-testid="sender-avatar"
             src={this.props.transaction.sender.avatar}
-            avatar
           />
           {this.props.transaction.receivers.map((user) => (
-            <Image
+            <img
               className={s.avatar}
               data-testid="receiver-avatar"
               key={user.id}
               src={user.avatar}
-              avatar
             />
           ))}
         </div>
-        <div>
+        <div className={s.utilityContainer}>
           <span data-testid="post-timestamp" className={s.timestamp}>
-            {timestamp.fromNow()}
+            {/* {timestamp.fromNow()} */}
           </span>
-          {((Storage.getItem(settings.USER_ID_TOKEN) === this.props.transaction.sender.id
-                        && allowNormalEdit)
-                        || Auth.isTeamAdmin()) && (
-                        <Dropdown
-                          data-testid="post-dropdown"
-                          item
-                          icon="ellipsis vertical"
-                          direction="left"
-                          className={s.dropdown}
-                        >
-                          <Dropdown.Menu>
-                            <Mutation<ToggleLikeParameters>
-                              mutation={MUTATION_REMOVE_POST}
-                              refetchQueries={[
-                                {
-                                  query: GET_POSTS,
-                                  variables: {
-                                    team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
-                                  },
-                                },
-                              ]}
-                              onCompleted={() => toast.info('Post successfully removed!')}
-                            >
-                              {(mutate) => (
-                                <Dropdown.Item
-                                  data-testid="delete-button"
-                                  icon="trash"
-                                  text="Remove"
-                                  onClick={() => this.openConfirmDialog(mutate)}
-                                />
-                              )}
-                            </Mutation>
-                          </Dropdown.Menu>
-                        </Dropdown>
+          {((Storage.getItem(settings.USER_ID_TOKEN) ===
+            this.props.transaction.sender.id &&
+            allowNormalEdit) ||
+            Auth.isTeamAdmin()) && (
+            <Mutation<ToggleLikeParameters>
+              mutation={MUTATION_REMOVE_POST}
+              refetchQueries={[
+                {
+                  query: GET_POSTS,
+                  variables: {
+                    team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
+                  },
+                },
+              ]}
+              onCompleted={() => toast.info("Post successfully removed!")}
+            >
+              {(mutate) => (
+                <IconButton
+                  className={s.deleteButton}
+                  name="delete"
+                  data-testid="delete-button"
+                  onClick={() => this.openConfirmDialog(mutate)}
+                />
+              )}
+            </Mutation>
           )}
         </div>
       </div>

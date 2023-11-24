@@ -3,7 +3,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: #808080
+
+  color: var(--font-color-1);
 }
 
 .wrapper {
@@ -14,8 +15,6 @@
 }
 
 .current {
-  color: #ffffff;
-  font-family: Rajdhani, sans-serif;
   font-size: 40px;
   font-weight: bold;
   margin: 0;
@@ -28,8 +27,6 @@
 }
 
 .needed {
-  color: #ffffff;
-  font-family: Rajdhani, sans-serif;
   font-size: 18px;
   font-weight: 500;
   margin: 0;

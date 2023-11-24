@@ -1,0 +1,76 @@
+.container {
+  width: 100%;
+  margin: 0 auto;
+  max-width: var(--kudo-max-w);
+
+  display: flex;
+  gap: 2rem;
+}
+
+@media only screen and (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    gap: 0rem;
+  }
+}
+
+.menu_segment {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  gap: 1rem;
+  width: 206px;
+  height: min-content;
+}
+
+.menu_segment a {
+  display: flex;
+  align-items: center;
+  transition: color 0.5s;
+  cursor: pointer;
+  color: var(--kabisa-black-300);
+}
+
+.menu_segment a span {
+  color: var(--kabisa-black-300);
+  transition: color 0.5s;
+}
+
+.menu_segment a:hover {
+  color: var(--kabisa-black);
+}
+
+.menu_segment a:hover > span {
+  color: var(--kabisa-black);
+}
+
+.menu_segment a > span {
+  padding-right: var(--padding-level-5);
+}
+
+.menu_segment > .active_item {
+  color: var(--kabisa-black);
+  font-weight: bold;
+}
+
+.menu_segment > .active_item span {
+  color: var(--kabisa-black);
+}
+
+.content_segment {
+  flex: 1;
+  height: min-content;
+  width: 100%;
+}
+
+@media only screen and (max-width: 768px) {
+  .menu_segment {
+    padding: 0 0 2rem 0;
+    background: transparent;
+  }
+
+  .content_segment {
+    margin-bottom: 2rem;
+  }
+}

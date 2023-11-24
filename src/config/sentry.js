@@ -6,8 +6,8 @@ if (Settings.sentryDsn) {
     environment: process.env.NODE_ENV,
     release: process.env.REACT_APP_VERSION,
     tags: {
-      revision: process.env.REACT_APP_GIT_SHA
-    }
+      revision: process.env.REACT_APP_GIT_SHA,
+    },
   }).install();
 } else {
   if (process.env.NODE_ENV === "production") {
