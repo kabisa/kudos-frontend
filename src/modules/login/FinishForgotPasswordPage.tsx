@@ -1,7 +1,7 @@
 import { Component } from "react";
 import { Mutation } from "@apollo/client/react/components";
 import { gql } from "@apollo/client";
-import { withRouter } from "react-router-dom";
+import { RouteComponentProps, withRouter } from "react-router-dom";
 import { History } from "history";
 import { toast } from "react-toastify";
 import { PATH_LOGIN } from "../../routes";
@@ -48,8 +48,7 @@ export interface NewPasswordParameters {
   password_confirmation: string;
 }
 
-export interface Props {
-  reset_password_token: string;
+export interface Props extends RouteComponentProps{
   history: History;
 }
 
@@ -71,7 +70,9 @@ class FinishForgotPasswordPage extends Component<Props, State> {
       error: "",
     };
 
-    this.token = props.reset_password_token || "";
+    const searchParams = new URLSearchParams(props.location.search);
+
+    this.token = searchParams.get('reset_password_token') || "";
 
     this.formSubmit = this.formSubmit.bind(this);
     this.onCompleted = this.onCompleted.bind(this);
@@ -100,6 +101,8 @@ class FinishForgotPasswordPage extends Component<Props, State> {
       this.setState({ error: PASSWORD_ERROR });
       return;
     }
+
+    console.log(this.token);
 
     mutation({
       variables: {
