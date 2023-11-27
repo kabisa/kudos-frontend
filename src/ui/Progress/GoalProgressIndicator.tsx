@@ -56,7 +56,7 @@ const GoalProgressIndicator = ({
               value={goalValue}
               max="100"
             ></progress>
-            <Step goal={goal} />
+            <Step isGoalAchieved={!!goal.achievedOn} />
             {showIndicator && <Indicator value={percentageProgress} />}
           </section>
         );
@@ -68,18 +68,18 @@ const GoalProgressIndicator = ({
 export default GoalProgressIndicator;
 
 type StepProps = {
-  goal: Goal;
+  isGoalAchieved: boolean;
 };
 
-const Step = ({ goal }: StepProps) => (
+const Step = ({ isGoalAchieved }: StepProps) => (
   <div className={styles.stepsContainer}>
     <div
       className={classNames(styles.step, {
-        [styles.stepEmpty]: !goal.achievedOn,
-        [styles.stepAchieved]: goal.achievedOn,
+        [styles.stepEmpty]: !isGoalAchieved,
+        [styles.stepAchieved]: isGoalAchieved,
       })}
     >
-      {!goal.achievedOn && <Icon name="lock" className={styles.stepIcon} />}
+      {!isGoalAchieved && <Icon name="lock" className={styles.stepIcon} />}
     </div>
   </div>
 );
