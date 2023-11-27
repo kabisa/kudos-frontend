@@ -15,7 +15,7 @@ import {
   Link as KabisaLink,
   DropdownMenu,
   MenuItem,
-} from "@sandercamp/ui-components";
+} from "@kabisa/ui-components";
 
 export const GET_USER = gql`
   query getUser {

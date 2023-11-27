@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { gql } from "@apollo/client";
 import { ApolloConsumer } from "@apollo/client";
 import type { ApolloClient } from "@apollo/client";
-import { Button, Label } from "@sandercamp/ui-components";
+import { Button, Label } from "@kabisa/ui-components";
 
 import settings from "../../../../config/settings";
 import UserDropdown, { NameOption } from "../UserDropdown/UserDropdown";

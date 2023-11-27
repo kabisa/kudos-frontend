@@ -25,7 +25,7 @@ import {
   Input,
   Link as KabisaLink,
   Label,
-} from "@sandercamp/ui-components";
+} from "@kabisa/ui-components";
 import Segment from "../../components/atoms/Segment";
 import BasePage from "./BasePage";
 import MessageBox from '../../ui/MessageBox';

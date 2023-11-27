@@ -7,8 +7,8 @@ import { PATH_FEED } from "../../../routes";
 import { GET_INVITES } from "./InviteList";
 import { Storage } from "../../../support/storage";
 import s from "./ChooseTeam.module.scss";
-import { Button } from "@sandercamp/ui-components";
-import { ButtonProps } from "@sandercamp/ui-components/lib/atoms/Button";
+import { Button } from "@kabisa/ui-components";
+import { ButtonProps } from "@kabisa/ui-components/lib/atoms/Button";
 
 export interface Props {
   mutation: DocumentNode;

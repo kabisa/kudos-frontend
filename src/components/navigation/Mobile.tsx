@@ -4,7 +4,7 @@ import * as routes from "../../routes";
 import s from "./Mobile.module.css";
 import { Auth } from "../../support";
 import classNames from "classnames";
-import { Icon } from "@sandercamp/ui-components";
+import { Icon } from "@kabisa/ui-components";
 
 export interface IconComponentProps {
   path: string;

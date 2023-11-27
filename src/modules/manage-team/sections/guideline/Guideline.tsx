@@ -9,7 +9,7 @@ import {
 import settings from "../../../../config/settings";
 import { GET_GUIDELINES } from "./GuidelinesSection";
 import { Storage } from "../../../../support/storage";
-import { IconButton } from "@sandercamp/ui-components";
+import { IconButton } from "@kabisa/ui-components";
 
 export const DELETE_GUIDELINE = gql`
   mutation DeleteGuideline($id: ID!) {

@@ -6,9 +6,10 @@ import enhanceWithClickOutside from "react-click-outside";
 import { Storage } from "../../../../support/storage";
 import settings from "../../../../config/settings";
 
-import { Label } from "@sandercamp/ui-components";
+import { Label } from "@kabisa/ui-components";
 import CreatableSelect from "react-select/creatable";
 import type { ActionMeta, SingleValue } from "react-select";
+import React from "react";
 
 const KUDO_GUIDELINE_RANGE = 5;
 
@@ -123,7 +124,7 @@ class GuidelineInput extends Component<Props, State> {
               <Label>
                 Kudos amount
                 <CreatableSelect<GuidelineOption>
-                  key={`react-select-${uuidv4()}`}
+                  key={"select"}
                   options={guidelines}
                   onChange={(selectedOption, triggeredAction) => {
                     this.handleChange(selectedOption, triggeredAction);

@@ -2,7 +2,7 @@ import { Component } from "react";
 import { gql } from "@apollo/client";
 import { Mutation } from "@apollo/client/react/components";
 import classNames from "classnames";
-import { Icon } from "@sandercamp/ui-components";
+import { Icon } from "@kabisa/ui-components";
 
 import enhanceWithClickOutside from "react-click-outside";
 import settings from "../../../../config/settings";
