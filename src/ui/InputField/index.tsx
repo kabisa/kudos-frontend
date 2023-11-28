@@ -1,5 +1,5 @@
 import React from "react";
-import { Label, Input as UIInput } from "@sandercamp/ui-components";
+import { Label, Input as UIInput } from "@kabisa/ui-components";
 import styles from "./styles.module.css";
 
 export const InputType = ["number", "text", "password", "email"] as const;

@@ -1,4 +1,4 @@
-import { Icon } from "@sandercamp/ui-components";
+import { Icon } from "@kabisa/ui-components";
 import Heading, { HeadingTagVariants } from "../Heading";
 import classNames from "classnames";
 import styles from "./Card.module.css";
