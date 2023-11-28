@@ -1,3 +1,4 @@
+import "@kabisa/ui-components/index.css";
 import "./styles/shell.css";
 
 import ReactDOM from "react-dom";
