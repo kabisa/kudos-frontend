@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { Icon } from "@sandercamp/ui-components";
+import { Icon } from "@kabisa/ui-components";
 import styles from "./styles.module.css";
 import Currency from "../Currency";
 

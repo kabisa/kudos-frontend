@@ -1,4 +1,4 @@
-import { Label } from "@sandercamp/ui-components";
+import { Label } from "@kabisa/ui-components";
 import Select, { Props as SelectProps } from "react-select";
 import CreatableSelect from "react-select/creatable";
 

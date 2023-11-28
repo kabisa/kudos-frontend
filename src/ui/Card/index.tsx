@@ -1,4 +1,4 @@
-import { Card as UICard } from "@sandercamp/ui-components";
+import { Card as UICard } from "@kabisa/ui-components";
 import styles from "./Card.module.css";
 import { PropsWithChildren, ReactNode } from "react";
 import classNames from "classnames";

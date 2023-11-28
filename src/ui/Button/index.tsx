@@ -1,5 +1,5 @@
 import React from "react";
-import { Icon, Button as UIButton } from "@sandercamp/ui-components";
+import { Icon, Button as UIButton } from "@kabisa/ui-components";
 import styles from "./styles.module.css";
 import { ButtonVariant, GenericButtonVariant } from "./types";
 import { LikeButton } from "./LikeButton";

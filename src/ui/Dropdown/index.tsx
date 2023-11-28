@@ -1,4 +1,4 @@
-import { DropdownMenu, Icon, MenuItem } from "@sandercamp/ui-components";
+import { DropdownMenu, Icon, MenuItem } from "@kabisa/ui-components";
 import { ReactNode } from "react";
 import styles from "./styles.module.css";
 

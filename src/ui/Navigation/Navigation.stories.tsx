@@ -1,7 +1,7 @@
 import React from "react";
 import type { Meta } from "@storybook/react";
 import Navigation, { NavigationProps } from "./";
-import { Icon, Link } from "@sandercamp/ui-components";
+import { Icon, Link } from "@kabisa/ui-components";
 
 export const NavigationStory = (props: NavigationProps) => (
   <Navigation {...props}>
