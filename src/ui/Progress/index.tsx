@@ -62,11 +62,11 @@ const KudosProgressTitle = ({
   neededKudos,
   goal,
 }: Omit<KudosProgressStateProps, "state">) => (
-  <Heading tag="h2" size="secondary">
+  <Heading tag="h2" size="primary">
     <Currency amount={currentKudos} />
-    <span className={styles.needed}>
+    <div className={styles.needed}>
       of <Currency amount={neededKudos} /> for {goal}
-    </span>
+    </div>
   </Heading>
 );
 
