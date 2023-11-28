@@ -1,13 +1,13 @@
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import GoalProgressIndicator from "./GoalProgressIndicator";
 import { createGoal } from "./factory";
 
 test("renders the goal progress indicator", () => {
   const goals = {
     activeGoals: [
-      createGoal("First goal", 500, null),
-      createGoal("Second goal", 1000, null),
       createGoal("Third goal", 1500, null),
+      createGoal("Second goal", 1000, null),
+      createGoal("First goal", 500, null),
     ],
   };
   const { getAllByRole } = render(
@@ -24,9 +24,9 @@ test("renders the goal progress indicator", () => {
 test("renders the goal progress indicator with no goals achieved, but with progress", () => {
   const goals = {
     activeGoals: [
-      createGoal("First goal", 500, null),
-      createGoal("Second goal", 1000, null),
       createGoal("Third goal", 1500, null),
+      createGoal("Second goal", 1000, null),
+      createGoal("First goal", 500, null),
     ],
   };
 
@@ -45,9 +45,9 @@ test("renders the goal progress indicator with no goals achieved, but with progr
 test("renders the goal progress indicator with the first goal achieved", () => {
   const goals = {
     activeGoals: [
-      createGoal("First goal", 500, "2023-05-13"),
-      createGoal("Second goal", 1000, null),
       createGoal("Third goal", 1500, null),
+      createGoal("Second goal", 1000, null),
+      createGoal("First goal", 500, "2023-05-13"),
     ],
   };
   const { getAllByRole } = render(

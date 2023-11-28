@@ -54,7 +54,6 @@
 .step {
   --stepAchieved: var(--kabisa-green-600);
   --stepEmpty: var(--kabisa-green-200);
-  --stepCircleSize: 30px;
 
   width: var(--stepCircleSize);
   height: var(--stepCircleSize);
@@ -74,8 +73,11 @@
 }
 
 .stepsContainer {
+  --stepCircleSize: 30px;
+
+  --circleOffset: calc(-1 * var(--stepCircleSize) / 2);
   position: absolute;
-  top: 0;
+  top: var(--circleOffset);
   display: flex;
   flex-direction: column;
   align-items: center;

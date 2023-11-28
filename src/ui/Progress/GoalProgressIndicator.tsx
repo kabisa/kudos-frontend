@@ -25,18 +25,23 @@ const GoalProgressIndicator = ({
   return (
     <>
       {goals.map((goal: Goal) => {
-        const activeGoal = goals.find((goal: Goal) => !goal.achievedOn);
+        const activeGoal = goals
+          .slice()
+          .reverse()
+          .find((goal: Goal) => !goal.achievedOn);
         const showIndicator = activeGoal?.id === goal.id;
 
         const previousGoal =
           goals
             ?.slice()
-            .reverse()
+            // .reverse()
             .find((goal: Goal) => goal.achievedOn)?.amount || 0;
+
+        console.log(activeKudosMeter, previousGoal, activeGoal);
 
         const percentageProgress = Math.floor(
           ((activeKudosMeter.amount - previousGoal) /
-            (activeGoal?.amount || 0 - previousGoal)) *
+            ((activeGoal?.amount || 0) - previousGoal)) *
             100,
         );
 

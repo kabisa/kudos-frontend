@@ -55,14 +55,14 @@ export const FullKudo: Story = {
 
 const goals = {
   activeGoals: [
-    createGoal("First goal", 500, "2023-05-13"),
-    createGoal("Second goal", 1000, "2023-05-20"),
-    createGoal("Third goal", 1500, null),
-    createGoal("Fourth goal", 2000, null),
     createGoal("Fifth goal", 2500, null),
+    createGoal("Fourth goal", 2000, null),
+    createGoal("Third goal", 1500, null),
+    createGoal("Second goal", 1000, "2023-05-20"),
+    createGoal("First goal", 500, "2023-05-13"),
   ],
   activeKudosMeter: {
-    amount: 1400,
+    amount: 1250,
   },
 };
 export const GoalProgressIndicatorStory: Story = {

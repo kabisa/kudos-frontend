@@ -89,7 +89,7 @@ const KudosProgress = ({ data }: KudosProgressProps) => (
           trailWidth={10}
           strokeLinecap="butt"
           strokeColor="var(--kabisa-green)"
-          trailColor="var(--kabisa-green-200)"
+          trailColor="var(--kabisa-green-100)"
         />
       </>
     )}
