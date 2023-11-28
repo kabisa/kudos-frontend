@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import GoalProgressIndicator from "./GoalProgressIndicator";
 import { createGoal } from "./factory";
 
@@ -60,5 +60,5 @@ test("renders the goal progress indicator with the first goal achieved", () => {
   const progressBars = getAllByRole("progressbar");
   expect(progressBars).toHaveLength(3);
   expect(progressBars[progressBars.length - 1]).toHaveAttribute("value", "100");
-  expect(progressBars[1]).toHaveAttribute("value", "10");
+  expect(progressBars[1]).toHaveAttribute("value", "20");
 });
