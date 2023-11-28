@@ -5,7 +5,7 @@ import { Mutation } from "@apollo/client/react/components";
 import { FormWrapper } from "../../components";
 import BackButton from "../../components/back-button/BackButton";
 import { getGraphqlError, validateEmail } from "../../support";
-import { Button, Input } from "@sandercamp/ui-components";
+import { Button, Input } from "@kabisa/ui-components";
 import Segment from "../../components/atoms/Segment";
 import BasePage from "./BasePage";
 import s from "./ForgotPasswordPage.module.css";

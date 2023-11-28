@@ -1,7 +1,7 @@
 import { Link, useHistory } from "react-router-dom";
 import s from "./Toolbar.module.css";
 import { TabletAndBelow } from "../../support/breakpoints";
-import { Icon } from "@sandercamp/ui-components";
+import { Icon } from "@kabisa/ui-components";
 
 export interface Props {
   to?: string;

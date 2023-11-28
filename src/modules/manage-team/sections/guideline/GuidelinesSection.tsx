@@ -5,7 +5,7 @@ import settings from "../../../../config/settings";
 import { EditGuideline } from "./EditGuideline";
 import { Guideline } from "./Guideline";
 import { Storage } from "../../../../support/storage";
-import { Icon } from "@sandercamp/ui-components";
+import { Icon } from "@kabisa/ui-components";
 
 export const CREATE_GUIDELINE = gql`
   mutation CreateGuideline($name: String!, $kudos: Int!, $team_id: ID!) {

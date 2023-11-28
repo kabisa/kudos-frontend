@@ -1,4 +1,4 @@
-import { Button } from "@sandercamp/ui-components";
+import { Button } from "@kabisa/ui-components";
 
 import { Link } from "react-router-dom";
 import { PATH_CHOOSE_TEAM, PATH_INVITE } from "../../routes";

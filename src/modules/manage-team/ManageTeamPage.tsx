@@ -17,7 +17,7 @@ import IntegrationSections from "./sections/integrations/Integrations";
 import classNames from "classnames";
 import Segment from "../../components/atoms/Segment";
 import Page from "../../components/templates/Page";
-import { Icon } from "@sandercamp/ui-components";
+import { Icon } from "@kabisa/ui-components";
 
 export interface Props {
   history: History;

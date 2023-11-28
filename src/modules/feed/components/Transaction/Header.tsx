@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { IconButton } from "@sandercamp/ui-components";
+import { IconButton } from "@kabisa/ui-components";
 
 import { Mutation } from "@apollo/client/react/components";
 import { gql } from "@apollo/client";

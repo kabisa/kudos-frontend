@@ -12,7 +12,7 @@ import {
 import settings from "../../../../config/settings";
 import { Storage } from "../../../../support/storage";
 import { GET_GOAL_PERCENTAGE } from "../../../feed/queries";
-import { Button, IconButton } from "@sandercamp/ui-components";
+import { Button, IconButton } from "@kabisa/ui-components";
 
 export interface KudometerRowProps {
   key: string;

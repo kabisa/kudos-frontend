@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { Button, Input, Label } from "@sandercamp/ui-components";
+import { Button, Input, Label } from "@kabisa/ui-components";
 import { Mutation } from "@apollo/client/react/components";
 import { gql } from "@apollo/client";
 import { toast } from "react-toastify";

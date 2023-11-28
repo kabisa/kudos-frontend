@@ -17,7 +17,7 @@ import {
 import { Goals } from "./goals/Goals";
 import { KudometerRow } from "./KudometerRow";
 import { Storage } from "../../../../support/storage";
-import { Button, Icon, Input, Label } from "@sandercamp/ui-components";
+import { Button, Icon, Input, Label } from "@kabisa/ui-components";
 
 export interface Props {
   // Future props go here

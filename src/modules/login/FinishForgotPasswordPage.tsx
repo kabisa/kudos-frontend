@@ -9,7 +9,7 @@ import { PATH_LOGIN } from "../../routes";
 import { FormWrapper } from "../../components";
 import BackButton from "../../components/back-button/BackButton";
 import { getGraphqlError } from "../../support";
-import { Button, Input, Label } from "@sandercamp/ui-components";
+import { Button, Input, Label } from "@kabisa/ui-components";
 import Segment from "../../components/atoms/Segment";
 import BasePage from "./BasePage";
 import s from "./FinishForgotPasswordPage.module.css";

@@ -8,7 +8,7 @@ import {
 } from "./Members";
 import { AlterRoleButton, AlterRoleButtonMode } from "./AlterRoleButton";
 import { Storage } from "../../../../support/storage";
-import { IconButton } from "@sandercamp/ui-components";
+import { IconButton } from "@kabisa/ui-components";
 import {
   DefaultContext,
   MutationFunction,
