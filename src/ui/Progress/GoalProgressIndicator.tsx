@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import styles from "./styles.module.css";
-import { Icon } from "@sandercamp/ui-components";
+import { Icon } from "@kabisa/ui-components";
 
 type Goal = {
   id: string;
@@ -22,11 +22,9 @@ const GoalProgressIndicator = ({
   goals,
   activeKudosMeter,
 }: GoalProgressIndicatorProps) => {
-  const goalsDisplay = [...goals].reverse();
-
   return (
     <>
-      {goalsDisplay.map((goal: Goal) => {
+      {goals.map((goal: Goal) => {
         const activeGoal = goals.find((goal: Goal) => !goal.achievedOn);
         const showIndicator = activeGoal?.id === goal.id;
 
