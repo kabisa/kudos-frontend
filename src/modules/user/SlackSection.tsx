@@ -2,14 +2,10 @@ import { Button } from "@kabisa/ui-components";
 import { Mutation } from "@apollo/client/react/components";
 import { toast } from "react-toastify";
 
-import { getGraphqlError } from "../../../../support";
-import {
-  DISCONNECT_SLACK,
-  DisconnectSlackResult,
-  GET_USER,
-} from "../../UserPage";
+import { getGraphqlError } from "../../support";
+import { DISCONNECT_SLACK, DisconnectSlackResult, GET_USER } from "./UserPage";
 
-import s from "./SlackSection.module.scss";
+import s from "./UserPage.module.css";
 
 export function SlackConnectedSegment({
   slackIconPath,
