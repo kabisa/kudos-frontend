@@ -1,24 +1,24 @@
-import { Component } from "react";
-import { Button } from "@kabisa/ui-components";
-import { Query } from "@apollo/client/react/components";
 import { gql } from "@apollo/client";
-import { withRouter } from "react-router-dom";
+import { Query } from "@apollo/client/react/components";
+import { Button } from "@kabisa/ui-components";
 import { History } from "history";
+import { Component } from "react";
+import { withRouter } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import { Auth } from "../../support";
 import settings from "../../config/settings";
-import { Storage } from "../../support/storage";
 import { PATH_RESET_PASSWORD } from "../../routes";
+import { Auth } from "../../support";
+import { Storage } from "../../support/storage";
 import {
   SlackConnectedSegment,
   SlackDisconnectedSegment,
-} from "./SlackSection";
+} from "./components/SlackSection/SlackSection";
 
-import s from "./UserPage.module.css";
-import Segment from "../../components/atoms/Segment";
-import Page from "../../components/templates/Page";
 import queryString from "query-string";
+import Page from "../../components/templates/Page";
+import { Card } from "../../ui/Card";
+import s from "./UserPage.module.css";
 
 export const DISCONNECT_SLACK = gql`
   mutation disconnectSlack {
@@ -88,63 +88,67 @@ export class UserPage extends Component<Props, State> {
   render() {
     return (
       <Page>
-        <Segment>
-          <div className={s.content}>
-            <Query<GetUserResult> query={GET_USER}>
-              {({ loading, data }) => {
-                if (loading)
-                  return <span data-testid="loading">Loading...</span>;
-                if (!data || !data.viewer)
-                  return <span>Something went wrong</span>;
+        <Card
+          content={
+            <div className={s.content}>
+              <Query<GetUserResult> query={GET_USER}>
+                {({ loading, data }) => {
+                  if (loading)
+                    return <span data-testid="loading">Loading...</span>;
+                  if (!data || !data.viewer)
+                    return <span>Something went wrong</span>;
 
-                return (
-                  <>
-                    <h2 className={s.name}>{data.viewer.name}</h2>
-                    <img
-                      src={data && data.viewer ? data.viewer.avatar : undefined}
-                      className={s.image}
-                    />
-                    <span className={s.image_caption}>
-                      To change your avatar go to{" "}
-                      <a
-                        href="https://nl.gravatar.com/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        gravatar.com
-                      </a>
-                    </span>
-                    {data && data.viewer.slackId ? (
-                      <SlackConnectedSegment
-                        slackIconPath={this.slackIconPath}
+                  return (
+                    <>
+                      <h2 className={s.name}>{data.viewer.name}</h2>
+                      <img
+                        src={
+                          data && data.viewer ? data.viewer.avatar : undefined
+                        }
+                        className={s.image}
                       />
-                    ) : (
-                      <SlackDisconnectedSegment
-                        slackIconPath={this.slackIconPath}
-                        slackConnectUrl={this.slackConnectUrl}
-                      />
-                    )}
-                  </>
-                );
-              }}
-            </Query>
-            <div>
-              <Button
-                className={s.button}
-                onClick={() => this.props.history.push(PATH_RESET_PASSWORD)}
-              >
-                Change password
-              </Button>
-              <Button
-                variant="secondary"
-                onClick={() => Auth.logout()}
-                className={s.button}
-              >
-                Log out
-              </Button>
+                      <span className={s.image_caption}>
+                        To change your avatar go to{" "}
+                        <a
+                          href="https://nl.gravatar.com/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          gravatar.com
+                        </a>
+                      </span>
+                      {data && data.viewer.slackId ? (
+                        <SlackConnectedSegment
+                          slackIconPath={this.slackIconPath}
+                        />
+                      ) : (
+                        <SlackDisconnectedSegment
+                          slackIconPath={this.slackIconPath}
+                          slackConnectUrl={this.slackConnectUrl}
+                        />
+                      )}
+                    </>
+                  );
+                }}
+              </Query>
+              <div>
+                <Button
+                  className={s.button}
+                  onClick={() => this.props.history.push(PATH_RESET_PASSWORD)}
+                >
+                  Change password
+                </Button>
+                <Button
+                  variant="secondary"
+                  onClick={() => Auth.logout()}
+                  className={s.button}
+                >
+                  Log out
+                </Button>
+              </div>
             </div>
-          </div>
-        </Segment>
+          }
+        />
       </Page>
     );
   }

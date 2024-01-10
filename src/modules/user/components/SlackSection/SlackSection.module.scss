@@ -1,0 +1,17 @@
+.slack_button {
+  display: flex;
+  margin: auto;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  padding: var(--padding-level-3) var(--padding-level-4);
+}
+
+.slack_message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.slack_message > p {
+  margin-bottom: 1rem;
+}
