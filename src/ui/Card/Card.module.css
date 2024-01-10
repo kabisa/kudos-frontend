@@ -13,7 +13,9 @@
 
 .dark {
   background-color: var(--brand-color-1);
-  color: var(--font-color-2);
+  > {
+    color: var(--font-color-2);
+  }
 }
 
 .primary {
