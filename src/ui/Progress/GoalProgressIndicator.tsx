@@ -37,8 +37,6 @@ const GoalProgressIndicator = ({
             // .reverse()
             .find((goal: Goal) => goal.achievedOn)?.amount || 0;
 
-        console.log(activeKudosMeter, previousGoal, activeGoal);
-
         const percentageProgress = Math.floor(
           ((activeKudosMeter.amount - previousGoal) /
             ((activeGoal?.amount || 0) - previousGoal)) *
