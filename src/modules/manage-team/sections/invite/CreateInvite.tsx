@@ -11,6 +11,7 @@ import {
 import settings from "../../../../config/settings";
 import s from "./Invite.module.css";
 import { Storage } from "../../../../support/storage";
+import MessageBox from "../../../../ui/MessageBox";
 import { Button, Label } from "@kabisa/ui-components";
 
 export const MUTATION_CREATE_INVITE = gql`
@@ -125,10 +126,11 @@ export class CreateInvite extends Component<Props, State> {
                 Invite
               </Button>
               {displayError && (
-                <div className="errorMessage">
-                  <h2>Unable to send invites</h2>
-                  <p>{displayError}</p>
-                </div>
+                <MessageBox
+                  variant="error"
+                  title="Unable to send invites"
+                  message={displayError}
+                />
               )}
             </form>
           );

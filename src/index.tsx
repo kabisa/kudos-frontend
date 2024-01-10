@@ -1,5 +1,6 @@
 import "@kabisa/ui-components/index.css";
 import "./styles/shell.css";
+import "./ui/global.css";
 
 import ReactDOM from "react-dom";
 import App from "./App";

@@ -1,0 +1,33 @@
+.table {
+  --table-head-space: 0.5rem;
+  --table-data-cell-space: 0.75rem;
+  --table-font-size: 0.875rem;
+  font-family: var(--font-family);
+  font-size: var(--table-font-size);
+
+  width: 100%;
+  text-indent: 0;
+  border-collapse: collapse;
+}
+
+th {
+  text-align: left;
+  padding: var(--table-head-space);
+  padding-left: 0;
+  border-bottom: 1px solid var(--kabisa-black-300);
+}
+
+td {
+  padding: var(--table-data-cell-space);
+  padding-left: 0;
+  word-wrap: break-word;
+}
+
+td:has(:not(:only-child)) {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.table tr:not(:last-child) {
+  border-bottom: 1px solid var(--kabisa-black-200);
+}

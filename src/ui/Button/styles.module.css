@@ -1,0 +1,41 @@
+.button > span {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.icon {
+  color: currentColor;
+}
+
+.likeButton {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-level-3);
+
+  border: 0.1rem solid var(--kabisa-black-400);
+  border-radius: var(--radii-level-2);
+  padding: var(--padding-level-1) var(--padding-level-3);
+
+  font-size: var(--font-size-xs);
+  color: var(--kabisa-black-500);
+  background-color: var(--bg-color-1);
+
+  cursor: pointer;
+}
+
+/* Not the cleanest solution: Shopuld be refactored when we have <Text> components  */
+.likeButton:hover {
+  background-color: var(--kabisa-black);
+  color: var(--kabisa-white);
+}
+
+.likeButton > span {
+  font-size: var(--font-size-s);
+  font-family: var(--font-family);
+}
+
+.likeButton:hover > span {
+  background-color: var(--kabisa-black);
+  color: var(--kabisa-white);
+}

@@ -1,0 +1,55 @@
+.card {
+  --card-spacing: 2rem;
+  color: var(--font-color-1);
+  border-radius: var(--radii-level-2);
+  background-color: var(--bg-color-1);
+  padding: 0;
+  word-break: break-word;
+}
+
+.card > *:not(:last-child) {
+  margin-bottom: 1rem;
+}
+
+.dark {
+  background-color: var(--brand-color-1);
+  color: var(--font-color-2);
+}
+
+.primary {
+  padding: var(--card-spacing);
+}
+
+.secondary {
+  display: flex;
+  flex-direction: column;
+}
+
+.secondary :is(.cardHeader, .cardContent, .cardFooter) {
+  padding: var(--card-spacing);
+}
+
+.secondary > .cardHeader {
+  border-radius: var(--radii-level-2) var(--radii-level-2) 0 0;
+}
+
+.secondary > .cardFooter {
+  border-radius: 0 0 var(--radii-level-2) var(--radii-level-2);
+}
+
+.date {
+  font-size: var(--font-size-l);
+}
+
+.icon {
+  padding-right: 0.5rem;
+}
+
+.headingIconContainer {
+  display: flex;
+  align-items: center;
+}
+
+.center {
+  text-align: center;
+}
