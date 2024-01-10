@@ -24,7 +24,7 @@ const CardContainer = ({
 
 export type CardProps = {
   theme?: "light" | "dark";
-  title: {
+  title?: {
     text: string;
     iconName?: string;
   };
@@ -45,13 +45,15 @@ const Card = ({
 }: CardProps) => (
   <CardContainer theme={theme} variant={variant}>
     <CardHeader theme={theme} center={center}>
-      <CardTitle
-        theme={theme}
-        icon={title.iconName}
-        text={title.text}
-        tag="h2"
-        size="secondary"
-      />
+      {title ? (
+        <CardTitle
+          theme={theme}
+          icon={title.iconName}
+          text={title.text}
+          tag="h2"
+          size="secondary"
+        />
+      ) : null}
     </CardHeader>
     <CardContent>{content}</CardContent>
   </CardContainer>
@@ -66,7 +68,9 @@ const SecondaryCard = ({
 }: CardProps) => (
   <CardContainer theme={theme} variant="secondary">
     <CardHeader theme="dark" center={true}>
-      <CardTitle theme="dark" text={title.text} tag="h2" size="primary" />
+      {title ? (
+        <CardTitle theme="dark" text={title.text} tag="h2" size="primary" />
+      ) : null}
       <time className={styles.date}>{date}</time>
     </CardHeader>
     <CardContent>{content}</CardContent>
