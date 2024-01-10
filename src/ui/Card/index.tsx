@@ -44,8 +44,8 @@ const Card = ({
   center = false,
 }: CardProps) => (
   <CardContainer theme={theme} variant={variant}>
-    <CardHeader theme={theme} center={center}>
-      {title ? (
+    {title && (
+      <CardHeader theme={theme} center={center}>
         <CardTitle
           theme={theme}
           icon={title.iconName}
@@ -53,8 +53,8 @@ const Card = ({
           tag="h2"
           size="secondary"
         />
-      ) : null}
-    </CardHeader>
+      </CardHeader>
+    )}
     <CardContent>{content}</CardContent>
   </CardContainer>
 );
@@ -67,12 +67,14 @@ const SecondaryCard = ({
   footer,
 }: CardProps) => (
   <CardContainer theme={theme} variant="secondary">
-    <CardHeader theme="dark" center={true}>
-      {title ? (
-        <CardTitle theme="dark" text={title.text} tag="h2" size="primary" />
-      ) : null}
-      <time className={styles.date}>{date}</time>
-    </CardHeader>
+    {(title || date) && (
+      <CardHeader theme="dark" center={true}>
+        {title && (
+          <CardTitle theme="dark" text={title.text} tag="h2" size="primary" />
+        )}
+        <time className={styles.date}>{date}</time>
+      </CardHeader>
+    )}
     <CardContent>{content}</CardContent>
     <CardFooter theme="dark">{footer}</CardFooter>
   </CardContainer>
