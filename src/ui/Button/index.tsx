@@ -18,6 +18,7 @@ type TextProps = {
 
 export type GenericButtonProps = {
   variant: GenericButtonVariant;
+  onClick?: () => void;
   state?: (typeof ButtonStates)[number];
 } & (IconProps | TextProps);
 
@@ -26,11 +27,13 @@ const GenericButton = ({
   state,
   text,
   icon,
+  onClick
 }: GenericButtonProps) => (
   <UIButton
     variant={variant}
     disabled={state === "disabled" || false}
     className={styles.button}
+    onClick={onClick}
   >
     <span>
       {icon && <Icon className={styles.icon} name={icon} />}
