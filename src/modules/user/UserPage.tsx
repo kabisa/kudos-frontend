@@ -13,7 +13,7 @@ import { PATH_RESET_PASSWORD } from "../../routes";
 import {
   SlackConnectedSegment,
   SlackDisconnectedSegment,
-} from "./SlackSection";
+} from "./components/SlackSection";
 
 import s from "./UserPage.module.css";
 import Segment from "../../components/atoms/Segment";
