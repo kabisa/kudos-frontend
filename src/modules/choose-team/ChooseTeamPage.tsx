@@ -4,7 +4,7 @@ import { PATH_CREATE_TEAM } from "../../routes";
 import { InviteList, TeamList } from "./components";
 
 import s from "./ChooseTeamPage.module.scss";
-import { Button } from "@kabisa/ui-components";
+import Button from "../../ui/Button";
 import Page from "../../components/templates/Page";
 
 export function Content() {
@@ -26,13 +26,11 @@ export function Content() {
 
       <Button
         variant="primary"
-        className={s.create_button}
         onClick={() => {
           history.push(PATH_CREATE_TEAM);
         }}
-      >
-        Create team
-      </Button>
+        text="Create team"
+      />
     </div>
   );
 }
