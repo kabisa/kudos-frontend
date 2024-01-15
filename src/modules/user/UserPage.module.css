@@ -2,11 +2,6 @@
   display: block;
 }
 
-.button {
-  margin: auto;
-  display: block;
-}
-
 .button_white {
   background: #ffffff;
 }
@@ -42,14 +37,21 @@
   color: grey;
 }
 
+.other_buttons_section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap:0.5rem;
+}
+
 @media only screen and (max-width: 768px) {
-  .button {
+  .other_buttons_section button{
     width: 100%;
   }
 }
 
 @media only screen and (min-width: 768px) {
-  .button {
+  .other_buttons_section button{
     min-width: 200px;
     width: 170px;
   }

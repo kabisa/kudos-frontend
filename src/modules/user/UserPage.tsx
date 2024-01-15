@@ -1,5 +1,4 @@
 import { Component } from "react";
-import { Button } from "@kabisa/ui-components";
 import { Query } from "@apollo/client/react/components";
 import { gql } from "@apollo/client";
 import { withRouter } from "react-router-dom";
@@ -19,6 +18,7 @@ import s from "./UserPage.module.css";
 import Segment from "../../components/atoms/Segment";
 import Page from "../../components/templates/Page";
 import queryString from "query-string";
+import Button from "../../ui/Button";
 
 export const DISCONNECT_SLACK = gql`
   mutation disconnectSlack {
@@ -128,20 +128,16 @@ export class UserPage extends Component<Props, State> {
                 );
               }}
             </Query>
-            <div>
+            <div className={s.other_buttons_section}>
               <Button
-                className={s.button}
+                text="Change password"
                 onClick={() => this.props.history.push(PATH_RESET_PASSWORD)}
-              >
-                Change password
-              </Button>
+              />
               <Button
+                text="Log out"
                 variant="secondary"
                 onClick={() => Auth.logout()}
-                className={s.button}
-              >
-                Log out
-              </Button>
+              />
             </div>
           </div>
         </Segment>

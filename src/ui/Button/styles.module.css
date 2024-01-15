@@ -4,6 +4,10 @@
   gap: 0.25rem;
 }
 
+.button > span > span {
+  margin:auto;
+}
+
 .icon {
   color: currentColor;
 }
