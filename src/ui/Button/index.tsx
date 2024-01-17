@@ -16,18 +16,26 @@ type TextProps = {
   icon?: string;
 };
 
+type ImageProps = {
+  image?: string;
+  alt?: string;
+};
+
 export type GenericButtonProps = {
   variant: GenericButtonVariant;
   onClick?: () => void;
   state?: (typeof ButtonStates)[number];
-} & (IconProps | TextProps);
+} & (IconProps | TextProps) &
+  ImageProps;
 
 const GenericButton = ({
   variant = "primary",
   state,
   text,
+  image,
+  alt,
   icon,
-  onClick
+  onClick,
 }: GenericButtonProps) => (
   <UIButton
     variant={variant}
@@ -36,6 +44,7 @@ const GenericButton = ({
     onClick={onClick}
   >
     <span>
+      {image && <img src={image} alt={alt} width={20} height={20} />}
       {icon && <Icon className={styles.icon} name={icon} />}
       {text && <span>{text}</span>}
     </span>
