@@ -30,6 +30,7 @@ import { ImageUpload } from "../../../../components/upload/ImageUpload";
 
 import styles from "./CreatePost.module.css";
 import MessageBox from '../../../../ui/MessageBox';
+import { Card } from "../../../../ui/Card";
 
 // eslint-disable-next-line max-len
 export const CREATE_POST = gql`
@@ -310,73 +311,73 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
                 displayError = this.state.error;
               }
               return (
-                <>
+                <Card content={
                   <form
-                    onSubmit={(e) => this.onSubmit(e, createPost, client)}
-                    className={styles.form}
-                    data-testid="create-post-form"
-                  >
-                    <GuidelineInput
-                      data-testid="amount-input"
-                      amountError={amountError}
-                      handleChange={this.handleKudoInputChange}
-                      ref={this.guidelineInput}
+                  onSubmit={(e) => this.onSubmit(e, createPost, client)}
+                  className={styles.form}
+                  data-testid="create-post-form"
+                >
+                  <GuidelineInput
+                    data-testid="amount-input"
+                    amountError={amountError}
+                    handleChange={this.handleKudoInputChange}
+                    ref={this.guidelineInput}
+                  />
+                  <Label>
+                    Receivers
+                    {/* Suppressed because the linter doesn't pick up on custom controls */}
+                    <UserDropdown
+                      data-testid="receiver-input"
+                      ref={this.userDropdown}
+                      onChange={this.handleDropdownChange}
+                      error={receiversError}
+                      value={this.state.receivers}
                     />
-                    <Label>
-                      Receivers
-                      {/* Suppressed because the linter doesn't pick up on custom controls */}
-                      <UserDropdown
-                        data-testid="receiver-input"
-                        ref={this.userDropdown}
-                        onChange={this.handleDropdownChange}
-                        error={receiversError}
-                        value={this.state.receivers}
-                      />
-                      <span className={styles.note}>(v) = virtual user</span>
-                    </Label>
+                    <span className={styles.note}>(v) = virtual user</span>
+                  </Label>
 
-                    <Label>
-                      Message
-                      <textarea
-                        data-testid="message-input"
-                        placeholder="Enter your message"
-                        name="message"
-                        onChange={(e) =>
-                          this.setState({ message: e.currentTarget.value })
-                        }
-                        value={this.state.message}
-                      />
-                      {error && messageError}
-                      <span className={styles.note}>
-                        {settings.MAX_POST_MESSAGE_LENGTH -
-                          this.state.message.length}{" "}
-                        chars left
-                      </span>
-                    </Label>
+                  <Label>
+                    Message
+                    <textarea
+                      data-testid="message-input"
+                      placeholder="Enter your message"
+                      name="message"
+                      onChange={(e) =>
+                        this.setState({ message: e.currentTarget.value })
+                      }
+                      value={this.state.message}
+                    />
+                    {error && messageError}
+                    <span className={styles.note}>
+                      {settings.MAX_POST_MESSAGE_LENGTH -
+                        this.state.message.length}{" "}
+                      chars left
+                    </span>
+                  </Label>
 
-                    <Label>
-                      Images
-                      <ImageUpload
-                        ref={this.imageUpload}
-                        onChange={(images) => this.handleImagesSelected(images)}
-                      />
-                    </Label>
+                  <Label>
+                    Images
+                    <ImageUpload
+                      ref={this.imageUpload}
+                      onChange={(images) => this.handleImagesSelected(images)}
+                    />
+                  </Label>
 
-                    <Button
-                      className={styles.button}
-                      data-testid="submit-button"
-                      type="submit"
-                      variant="primary"
-                      disabled={loading}
-                    >
-                      {transaction ? "Update" : "DROP YOUR KUDOS HERE"}
-                    </Button>
+                  <Button
+                    className={styles.button}
+                    data-testid="submit-button"
+                    type="submit"
+                    variant="primary"
+                    disabled={loading}
+                  >
+                    {transaction ? "Update" : "DROP YOUR KUDOS HERE"}
+                  </Button>
 
-                    {displayError && (
-                      <MessageBox variant="error" title="Couldn&apos;t create post" message={displayError} />
-                    )}
-                  </form>
-                </>
+                  {displayError && (
+                    <MessageBox variant="error" title="Couldn&apos;t create post" message={displayError} />
+                  )}
+                </form>
+                }/>
               );
             }}
           </Mutation>
