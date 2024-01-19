@@ -1,0 +1,24 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-level-4);
+}
+
+.likes {
+  position: relative;
+
+  font-size: var(--font-size-xs);
+  color: var(--kabisa-black-500);
+}
+
+.all_likes_container {
+  position: absolute;
+  top: 1.5rem;
+  left: 0;
+
+  border-radius: var(--radii-level-2);
+  padding: var(--padding-level-3);
+
+  background: var(--brand-color-3);
+  color: var(--font-color-1);
+}

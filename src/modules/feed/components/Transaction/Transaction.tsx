@@ -1,12 +1,8 @@
-import LikeButton from "./LikeButton";
-import { Header } from "./Header";
-import settings from "../../../../config/settings";
 import { FragmentPostResult } from "../../queries";
-import { Storage } from "../../../../support/storage";
+import { Header } from "./Header";
+import LikeSection from "./LikeSection";
 
 import s from "./Transaction.module.scss";
-
-const userId = Storage.getItem(settings.USER_ID_TOKEN);
 
 export interface TransactionProps {
   transaction: FragmentPostResult;
@@ -48,11 +44,7 @@ function Transaction(props: TransactionProps) {
           </div>
         )}
       </div>
-      <LikeButton
-        data-testid="like-button"
-        liked={props.transaction.votes.some((vote) => vote.voter.id === userId)}
-        post={props.transaction}
-      />
+      <LikeSection data-testid="like-section" post={props.transaction} />
     </div>
   );
 }

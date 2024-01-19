@@ -1,20 +1,19 @@
-import { Component } from "react";
 import { gql } from "@apollo/client";
 import { Mutation } from "@apollo/client/react/components";
-import classNames from "classnames";
-import { Icon } from "@kabisa/ui-components";
+import { Component } from "react";
 
 import enhanceWithClickOutside from "react-click-outside";
 import settings from "../../../../config/settings";
+import { Storage } from "../../../../support/storage";
 import {
   FRAGMENT_POST,
   FragmentPostResult,
   GET_GOAL_PERCENTAGE,
   GET_POSTS,
 } from "../../queries";
-import { Storage } from "../../../../support/storage";
 
-import s from "./LikeButton.module.scss";
+import { LikeButton } from "../../../../ui/Button/LikeButton";
+import s from "./LikeSection.module.scss";
 
 export const MUTATION_TOGGLE_LIKE = gql`
   mutation ToggleLikePost($id: ID!) {
@@ -106,17 +105,16 @@ export const toggleLike = (
   });
 };
 
-export interface LikeButtonProps {
-  liked: boolean;
+export interface LikeSectionProps {
   post: FragmentPostResult;
 }
 
-export interface LikeButtonState {
+export interface LikeSectionState {
   showLikes: boolean;
 }
 
-class LikeButton extends Component<LikeButtonProps, LikeButtonState> {
-  constructor(props: LikeButtonProps) {
+class LikeSection extends Component<LikeSectionProps, LikeSectionState> {
+  constructor(props: LikeSectionProps) {
     super(props);
 
     this.state = {
@@ -140,7 +138,9 @@ class LikeButton extends Component<LikeButtonProps, LikeButtonState> {
   }
 
   render() {
-    const { liked, post } = this.props;
+    const { post } = this.props;
+    const userId = Storage.getItem(settings.USER_ID_TOKEN);
+    const liked = post.votes.some((vote) => vote.voter.id === userId);
 
     const allLikes = post.votes.length
       ? post.votes.map((item) => item.voter.name).join(", ")
@@ -178,31 +178,13 @@ class LikeButton extends Component<LikeButtonProps, LikeButtonState> {
             ]}
           >
             {(mutate) => (
-              <button
-                className={s.buttonContainer}
-                onClick={() => toggleLike(mutate, post.id, post)}
-              >
-                <Icon
-                  className={classNames([
-                    liked
-                      ? "material-symbols-rounded"
-                      : "material-symbols-rounded-outlined",
-                    s.button,
-                  ])}
-                  name="thumb_up"
+              <div className={s.buttonContainer}>
+                <LikeButton
+                  liked={liked}
                   data-testid="like-button"
+                  onClick={() => toggleLike(mutate, post.id, post)}
                 />
-
-                {/*{liked ? (*/}
-                {/*  <Icon className="material-symbols-rounded" name="thumb_up" />*/}
-                {/*) : (*/}
-                {/*  <Icon*/}
-                {/*    className="material-symbols-rounded-outlined"*/}
-                {/*    name="thumb_up"*/}
-                {/*  />*/}
-                {/*)}*/}
-                <span>+1₭</span>
-              </button>
+              </div>
             )}
           </Mutation>
         </div>
@@ -217,4 +199,4 @@ class LikeButton extends Component<LikeButtonProps, LikeButtonState> {
   }
 }
 
-export default enhanceWithClickOutside(LikeButton);
+export default enhanceWithClickOutside(LikeSection);

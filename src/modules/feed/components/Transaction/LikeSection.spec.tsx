@@ -4,7 +4,7 @@ import {
   mockLocalstorage,
   withMockedProviders,
 } from "../../../../spec_helper";
-import LikeButton, { MUTATION_TOGGLE_LIKE } from "./LikeButton";
+import LikeSection, { MUTATION_TOGGLE_LIKE } from "./LikeSection";
 import {
   FragmentPostResult,
   GET_GOAL_PERCENTAGE,
@@ -28,7 +28,7 @@ const likedPost: FragmentPostResult = {
     },
   ],
   sender: {
-    id: "1",
+    id: "5",
     name: "Max",
     avatar: "fakeAvatar",
   },
@@ -92,7 +92,7 @@ const mocks = [
 
 let wrapper: ReactWrapper;
 
-describe.skip("<LikeButton />", () => {
+describe("<LikeButton />", () => {
   beforeEach(() => {
     mutationCalled = false;
     mockLocalstorage("1");
@@ -100,7 +100,7 @@ describe.skip("<LikeButton />", () => {
 
   it("renders the correct message", () => {
     wrapper = mount(
-      withMockedProviders(<LikeButton liked={false} post={likedPost} />, mocks),
+      withMockedProviders(<LikeSection post={likedPost} />, mocks),
     );
 
     expect(findByTestId(wrapper, "message").text()).toBe("+1₭ by Max");
@@ -108,27 +108,27 @@ describe.skip("<LikeButton />", () => {
 
   it("renders the correct like icon if the post is not liked", () => {
     wrapper = mount(
-      withMockedProviders(<LikeButton liked={false} post={likedPost} />, mocks),
+      withMockedProviders(<LikeSection post={likedPost} />, mocks),
     );
-
+    expect(findByTestId(wrapper, "like-button").prop("liked")).toBe(false);
     expect(
-      findByTestId(wrapper, "like-icon")
-        .hostNodes()
-        .hasClass("thumbs up outline"),
-    ).toBe(true);
+      findByTestId(wrapper, "like-icon").children().prop("className"),
+    ).toContain("material-symbols-rounded-outlined");
   });
 
   it("renders the correct like icon if the post is liked", () => {
+    mockLocalstorage("5");
     wrapper = mount(
-      withMockedProviders(<LikeButton liked={true} post={likedPost} />, mocks),
+      withMockedProviders(<LikeSection post={likedPost} />, mocks),
     );
 
+    expect(findByTestId(wrapper, "like-button").prop("liked")).toBe(true);
     expect(
-      findByTestId(wrapper, "like-icon").hostNodes().hasClass("blue thumbs up"),
-    ).toBe(true);
+      findByTestId(wrapper, "like-icon").children().prop("className"),
+    ).toContain("material-symbols-rounded");
   });
 
-  it("calls the mutation", async () => {
+  it.skip("calls the mutation", async () => {
     const cache = new InMemoryCache({
       addTypename: false,
       typePolicies: {
@@ -172,14 +172,8 @@ describe.skip("<LikeButton />", () => {
       },
     });
 
-    render(
-      withMockedProviders(
-        <LikeButton liked={true} post={likedPost} />,
-        mocks,
-        cache,
-      ),
-    );
-
+    render(withMockedProviders(<LikeSection post={likedPost} />, mocks, cache));
+    screen.findAllByTestId("like-button").then((res) => console.log(res));
     const button = screen.getByTestId("like-button");
 
     await act(async () => userEvent.click(button));
