@@ -12,7 +12,6 @@ export const LikeButton = ({ liked = false, onClick }: LikeButtonProps) => {
     <button type="button" className={styles.likeButton} onClick={onClick}>
       <Icon fill={liked} name="thumb_up" data-testid="like-icon" />
       <Currency amount={1} />
-      {liked && <span className={styles.liked}>Liked</span>}
     </button>
   );
 };
