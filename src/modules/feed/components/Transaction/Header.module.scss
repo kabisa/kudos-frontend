@@ -50,6 +50,12 @@
   color: var(--brand-color-2) !important;
 }
 
+.deleteButton > span {
+  font-variation-settings: normal;
+  font-size: var(--font-size-l);
+  color: inherit;
+}
+
 .deleteButton > span:hover {
   /* Temporary fix for CSS order issue */
   border: none !important;
