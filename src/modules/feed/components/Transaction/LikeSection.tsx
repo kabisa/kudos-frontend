@@ -161,7 +161,7 @@ class LikeSection extends Component<LikeSectionProps, LikeSectionState> {
     }
 
     return (
-      <div className={s.container} data-testid="post-like-button">
+      <div className={s.container} data-testid="like-section">
         <div>
           <Mutation<any>
             mutation={MUTATION_TOGGLE_LIKE}
