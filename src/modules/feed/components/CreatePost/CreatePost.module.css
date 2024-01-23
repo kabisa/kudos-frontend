@@ -10,6 +10,7 @@
   resize: vertical;
   border: 0.1rem solid var(--subtle-color);
   border-radius: var(--radii-level-1);
+  width: 100%;
 }
 
 .button {

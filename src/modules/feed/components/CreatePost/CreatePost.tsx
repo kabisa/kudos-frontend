@@ -1,15 +1,14 @@
-import { Component, createRef, FormEvent, RefObject } from "react";
+import { ApolloConsumer, gql } from "@apollo/client";
 import { Mutation } from "@apollo/client/react/components";
-import { toast } from "react-toastify";
-import { gql } from "@apollo/client";
-import { ApolloConsumer } from "@apollo/client";
-import type { ApolloClient } from "@apollo/client";
 import { Button, Label } from "@kabisa/ui-components";
+import { ChangeEvent, useState } from "react";
+import { toast } from "react-toastify";
 
 import settings from "../../../../config/settings";
-import UserDropdown, { NameOption } from "../UserDropdown/UserDropdown";
 import GuidelineInput from "../GuidelineInput/GuidelineInput";
+import UserDropdown, { NameOption } from "../UserDropdown/UserDropdown";
 
+import { ImageUpload } from "../../../../components/upload/ImageUpload";
 import {
   ERROR_AMOUNT_BLANK,
   ERROR_MESSAGE_BLANK,
@@ -18,6 +17,7 @@ import {
   ERROR_RECEIVERS_BLANK,
   getGraphqlError,
 } from "../../../../support";
+import { Storage } from "../../../../support/storage";
 import {
   FragmentPostResult,
   GET_GOAL_PERCENTAGE,
@@ -25,12 +25,11 @@ import {
   GET_USERS,
   User,
 } from "../../queries";
-import { Storage } from "../../../../support/storage";
-import { ImageUpload } from "../../../../components/upload/ImageUpload";
 
-import styles from "./CreatePost.module.css";
-import MessageBox from '../../../../ui/MessageBox';
 import { Card } from "../../../../ui/Card";
+import InputField from "../../../../ui/InputField";
+import MessageBox from "../../../../ui/MessageBox";
+import styles from "./CreatePost.module.css";
 
 // eslint-disable-next-line max-len
 export const CREATE_POST = gql`
@@ -82,99 +81,67 @@ export interface CreatePostState {
   error: string;
 }
 
-export class CreatePost extends Component<CreatePostProps, CreatePostState> {
-  initialState: CreatePostState;
+const CreatePost = ({ transaction }: CreatePostProps) => {
+  const initialState: CreatePostState = {
+    amount: undefined,
+    receivers: [],
+    message: "",
+    images: [],
+    amountError: false,
+    receiversError: false,
+    messageError: false,
+    error: "",
+  };
 
-  // @ts-ignore
-  guidelineInput: RefObject<GuidelineInput>;
+  const [state, setState] = useState<CreatePostState>(initialState);
 
-  // @ts-ignore
-  userDropdown: RefObject<UserDropdown>;
-
-  // @ts-ignore
-  imageUpload: RefObject<ImageUpload>;
-
-  constructor(props: CreatePostProps) {
-    super(props);
-    this.guidelineInput = createRef();
-    this.userDropdown = createRef();
-    this.imageUpload = createRef();
-
-    this.state = {
-      amount: undefined,
-      receivers: [],
-      message: "",
-      images: [],
-      amountError: false,
-      receiversError: false,
-      messageError: false,
-      error: "",
-    };
-
-    this.initialState = this.state;
-
-    if (props.transaction) {
-      this.setState({
-        message: props.transaction.message,
-        amount: props.transaction.amount,
-        // @ts-ignore
-        receivers: props.transaction.receivers,
-      });
-    }
-
-    this.onSubmit = this.onSubmit.bind(this);
-    this.handleDropdownChange = this.handleDropdownChange.bind(this);
-    this.handleKudoInputChange = this.handleKudoInputChange.bind(this);
-    this.onCompleted = this.onCompleted.bind(this);
-  }
-
-  onSubmit(
-    e: FormEvent<HTMLFormElement>,
+  const onSubmit = (
+    e: React.FormEvent<HTMLFormElement>,
     createPost: any,
-    client: ApolloClient<any>,
-  ) {
+    client: any,
+  ) => {
     e.preventDefault();
 
-    const { amount, receivers, message, images } = this.state;
-    this.setState({
+    const { amount, receivers, message, images } = state;
+    setState({
       amountError: false,
       receiversError: false,
       messageError: false,
       error: "",
+      receivers: [],
+      message: "",
     });
 
     if (!amount) {
-      this.setState({
-        amountError: true,
-        error: ERROR_AMOUNT_BLANK,
+      setState((prev) => {
+        return { ...prev, amountError: true, error: ERROR_AMOUNT_BLANK };
       });
       return;
     }
 
     if (receivers.length === 0) {
-      this.setState({
-        receiversError: true,
-        error: ERROR_RECEIVERS_BLANK,
+      setState((prev) => {
+        return { ...prev, amountError: true, error: ERROR_RECEIVERS_BLANK };
       });
       return;
     }
 
     if (message.length < settings.MIN_POST_MESSAGE_LENGTH) {
       if (message.length === 0) {
-        this.setState({ messageError: true, error: ERROR_MESSAGE_BLANK });
+        setState((prev) => {
+          return { ...prev, amountError: true, error: ERROR_MESSAGE_BLANK };
+        });
         return;
       }
-      this.setState({
-        messageError: true,
-        error: ERROR_MESSAGE_MIN_LENGTH,
+      setState((prev) => {
+        return { ...prev, messageError: true, error: ERROR_MESSAGE_MIN_LENGTH };
       });
       return;
     }
 
     if (message.length > settings.MAX_POST_MESSAGE_LENGTH) {
-      this.setState({
-        messageError: true,
-        error: ERROR_MESSAGE_MAX_LENGTH,
+      setState((prev) => {
+        return { ...prev, messageError: true, error: ERROR_MESSAGE_MAX_LENGTH };
       });
       return;
     }
@@ -216,175 +183,179 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
         team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
       },
     });
-  }
+  };
 
-  onCompleted() {
+  const onCompleted = () => {
     toast.info("Post created successfully!");
-    // We use wrapped instance because enhanceWithClickOutside wraps the component.
-    // @ts-ignore
-    // eslint-disable-next-line no-underscore-dangle
-    this.guidelineInput.current.__wrappedInstance.resetState();
-    // @ts-ignore
-    this.userDropdown.current.resetState();
-    this.imageUpload.current.resetState();
-    this.setState(this.initialState);
-  }
+    // if (guidelineInput.current) guidelineInput.resetState();
+    // if (userDropdown.current) userDropdown.current.resetState();
+    // if (imageUpload.current) imageUpload.current.resetState();
+    // setState(initialState);
+  };
 
-  handleDropdownChange(values: readonly NameOption[]) {
+  const handleDropdownChange = (values: readonly NameOption[]) => {
     if (!values) {
-      this.setState({ receivers: [] });
+      setState((prev) => {
+        return { ...prev, receivers: [] };
+      });
       return;
     }
-    this.setState({ receivers: values });
-  }
-
-  handleKudoInputChange(amount: number) {
-    this.setState({ amount });
-  }
-
-  handleImagesSelected(images: File[]) {
-    this.setState({
-      images,
+    setState((prev) => {
+      return { ...prev, receivers: values };
     });
-  }
+  };
 
-  render() {
-    const { amountError, receiversError, messageError } = this.state;
-    const { transaction } = this.props;
-    return (
-      <ApolloConsumer>
-        {(client) => (
-          <Mutation<CreatePostParameters>
-            mutation={CREATE_POST}
-            onError={(error) =>
-              this.setState({ error: getGraphqlError(error) })
+  const handleKudoInputChange = (amount: number) => {
+    setState((prev) => {
+      return { ...prev, amount: amount };
+    });
+  };
+
+  const handleImagesSelected = (images: File[]) => {
+    setState((prev) => {
+      return { ...prev, images: images };
+    });
+  };
+
+  const handleMessageInputChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setState((prev) => {
+      return { ...prev, message: event.target.value };
+    });
+  };
+  return (
+    <ApolloConsumer>
+      {(client) => (
+        <Mutation<CreatePostParameters>
+          mutation={CREATE_POST}
+          onError={(error) =>
+            setState((prev) => {
+              return { ...prev, error: getGraphqlError(error) };
+            })
+          }
+          onCompleted={onCompleted}
+          update={(cache, { data: postData }: any) => {
+            const beforeState: any = cache.readQuery({
+              query: GET_GOAL_PERCENTAGE,
+              variables: {
+                team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
+              },
+            });
+            const afterState = {
+              ...beforeState,
+              teamById: {
+                ...beforeState.teamById,
+                activeKudosMeter: {
+                  ...beforeState.teamById.activeKudosMeter,
+                  amount:
+                    beforeState.teamById.activeKudosMeter.amount +
+                    postData?.createPost.amount,
+                },
+              },
+            };
+            cache.writeQuery({
+              query: GET_GOAL_PERCENTAGE,
+              variables: {
+                team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
+              },
+              data: afterState,
+            });
+          }}
+          refetchQueries={[
+            {
+              query: GET_GOAL_PERCENTAGE,
+              variables: {
+                team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
+              },
+            },
+            {
+              query: GET_POSTS,
+              variables: {
+                team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
+              },
+            },
+          ]}
+        >
+          {(createPost, { loading, error }) => {
+            let displayError;
+            if (error) {
+              displayError = getGraphqlError(error);
             }
-            onCompleted={this.onCompleted}
-            update={(cache, { data: postData }: any) => {
-              const beforeState: any = cache.readQuery({
-                query: GET_GOAL_PERCENTAGE,
-                variables: {
-                  team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
-                },
-              });
-              const afterState = {
-                ...beforeState,
-                teamById: {
-                  ...beforeState.teamById,
-                  activeKudosMeter: {
-                    ...beforeState.teamById.activeKudosMeter,
-                    amount:
-                      beforeState.teamById.activeKudosMeter.amount +
-                      postData?.createPost.amount,
-                  },
-                },
-              };
-              cache.writeQuery({
-                query: GET_GOAL_PERCENTAGE,
-                variables: {
-                  team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
-                },
-                data: afterState,
-              });
-            }}
-            refetchQueries={[
-              {
-                query: GET_GOAL_PERCENTAGE,
-                variables: {
-                  team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
-                },
-              },
-              {
-                query: GET_POSTS,
-                variables: {
-                  team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
-                },
-              },
-            ]}
-          >
-            {(createPost, { loading, error }) => {
-              let displayError;
-              if (error) {
-                displayError = getGraphqlError(error);
-              }
-              if (this.state.error) {
-                displayError = this.state.error;
-              }
-              return (
-                <Card content={
+            if (state.error) {
+              displayError = state.error;
+            }
+            return (
+              <Card
+                content={
                   <form
-                  onSubmit={(e) => this.onSubmit(e, createPost, client)}
-                  className={styles.form}
-                  data-testid="create-post-form"
-                >
-                  <GuidelineInput
-                    data-testid="amount-input"
-                    amountError={amountError}
-                    handleChange={this.handleKudoInputChange}
-                    ref={this.guidelineInput}
-                  />
-                  <Label>
-                    Receivers
-                    {/* Suppressed because the linter doesn't pick up on custom controls */}
-                    <UserDropdown
-                      data-testid="receiver-input"
-                      ref={this.userDropdown}
-                      onChange={this.handleDropdownChange}
-                      error={receiversError}
-                      value={this.state.receivers}
+                    onSubmit={(e) => onSubmit(e, createPost, client)}
+                    className={styles.form}
+                    data-testid="create-post-form"
+                  >
+                    <GuidelineInput
+                      data-testid="amount-input"
+                      amountError={state.amountError}
+                      handleChange={handleKudoInputChange}
                     />
-                    <span className={styles.note}>(v) = virtual user</span>
-                  </Label>
+                    <Label>
+                      Receivers
+                      {/* Suppressed because the linter doesn't pick up on custom controls */}
+                      <UserDropdown
+                        data-testid="receiver-input"
+                        onChange={handleDropdownChange}
+                        error={state.receiversError}
+                        value={state.receivers}
+                      />
+                      <span className={styles.note}>(v) = virtual user</span>
+                    </Label>
 
-                  <Label>
-                    Message
-                    <textarea
+                    <InputField
+                      id="message-input"
                       data-testid="message-input"
+                      label="message"
+                      elementType="textarea"
                       placeholder="Enter your message"
-                      name="message"
-                      onChange={(e) =>
-                        this.setState({ message: e.currentTarget.value })
-                      }
-                      value={this.state.message}
+                      onChange={handleMessageInputChange}
                     />
-                    {error && messageError}
+                    {error && state.messageError}
                     <span className={styles.note}>
-                      {settings.MAX_POST_MESSAGE_LENGTH -
-                        this.state.message.length}{" "}
+                      {settings.MAX_POST_MESSAGE_LENGTH - state.message?.length}{" "}
                       chars left
                     </span>
-                  </Label>
 
-                  <Label>
-                    Images
-                    <ImageUpload
-                      ref={this.imageUpload}
-                      onChange={(images) => this.handleImagesSelected(images)}
-                    />
-                  </Label>
+                    <Label>
+                      Images
+                      <ImageUpload
+                        onChange={(images) => handleImagesSelected(images)}
+                      />
+                    </Label>
 
-                  <Button
-                    className={styles.button}
-                    data-testid="submit-button"
-                    type="submit"
-                    variant="primary"
-                    disabled={loading}
-                  >
-                    {transaction ? "Update" : "DROP YOUR KUDOS HERE"}
-                  </Button>
+                    <Button
+                      className={styles.button}
+                      data-testid="submit-button"
+                      type="submit"
+                      variant="primary"
+                      disabled={loading}
+                    >
+                      {transaction ? "Update" : "DROP YOUR KUDOS HERE"}
+                    </Button>
 
-                  {displayError && (
-                    <MessageBox variant="error" title="Couldn&apos;t create post" message={displayError} />
-                  )}
-                </form>
-                }/>
-              );
-            }}
-          </Mutation>
-        )}
-      </ApolloConsumer>
-    );
-  }
-}
-
+                    {displayError && (
+                      <MessageBox
+                        variant="error"
+                        title="Couldn't create post"
+                        message={displayError}
+                      />
+                    )}
+                  </form>
+                }
+              />
+            );
+          }}
+        </Mutation>
+      )}
+    </ApolloConsumer>
+  );
+};
 export default CreatePost;
