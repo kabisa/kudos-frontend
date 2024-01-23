@@ -13,7 +13,7 @@ import {
   Kudometer,
   SET_ACTIVE_KUDOS_METER,
 } from "./KudometerQueries";
-import { GET_GOAL_PERCENTAGE } from "../../../feed/queries";
+import { GET_GOAL_PERCENTAGE } from "../../../../graphql/queries/getGoalPercentage.graphql";
 
 const getKudometer = (isActive: boolean): Kudometer => ({
   id: "1",

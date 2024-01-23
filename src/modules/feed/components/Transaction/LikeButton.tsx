@@ -6,15 +6,13 @@ import { Icon } from "@kabisa/ui-components";
 
 import enhanceWithClickOutside from "react-click-outside";
 import settings from "../../../../config/settings";
-import {
-  FRAGMENT_POST,
-  FragmentPostResult,
-  GET_GOAL_PERCENTAGE,
-  GET_POSTS,
-} from "../../queries";
+import { FragmentPostResult } from "../../queries";
 import { Storage } from "../../../../support/storage";
 
 import s from "./LikeButton.module.scss";
+import { FRAGMENT_POST } from "../../../../graphql/fragments/postInFeed.graphql";
+import { GET_POSTS } from "../../../../graphql/queries/getPosts.graphql";
+import { GET_GOAL_PERCENTAGE } from "../../../../graphql/queries/getGoalPercentage.graphql";
 
 export const MUTATION_TOGGLE_LIKE = gql`
   mutation ToggleLikePost($id: ID!) {

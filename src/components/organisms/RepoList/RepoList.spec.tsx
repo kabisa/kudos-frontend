@@ -1,6 +1,5 @@
 import { mount, ReactWrapper } from "enzyme";
 import { act } from "react-dom/test-utils";
-import { GET_POSTS } from "../../../modules/feed/queries";
 import {
   findByTestId,
   mockLocalstorage,
@@ -8,6 +7,7 @@ import {
   withMockedProviders,
 } from "../../../spec_helper";
 import { RepoList } from "./RepoList";
+import { GET_POSTS } from "../../../graphql/queries/getPosts.graphql";
 
 const mocks = (hasNextPage: boolean) => [
   {

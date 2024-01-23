@@ -7,7 +7,8 @@ import {
   withMockedProviders,
 } from "../../../../spec_helper";
 import { Header, MUTATION_REMOVE_POST } from "./Header";
-import { FragmentPostResult, GET_POSTS } from "../../queries";
+import { FragmentPostResult } from "../../queries";
+import { GET_POSTS } from "../../../../graphql/queries/getPosts.graphql";
 
 const transaction: FragmentPostResult = {
   amount: 5,

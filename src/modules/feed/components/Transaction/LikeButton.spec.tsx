@@ -5,14 +5,12 @@ import {
   withMockedProviders,
 } from "../../../../spec_helper";
 import LikeButton, { MUTATION_TOGGLE_LIKE } from "./LikeButton";
-import {
-  FragmentPostResult,
-  GET_GOAL_PERCENTAGE,
-  GET_POSTS,
-} from "../../queries";
+import { FragmentPostResult } from "../../queries";
 import { act, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { InMemoryCache } from "@apollo/client";
+import { GET_GOAL_PERCENTAGE } from "../../../../graphql/queries/getGoalPercentage.graphql";
+import { GET_POSTS } from "../../../../graphql/queries/getPosts.graphql";
 
 const likedPost: FragmentPostResult = {
   id: "1",

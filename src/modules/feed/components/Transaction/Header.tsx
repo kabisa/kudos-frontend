@@ -7,12 +7,13 @@ import { toast } from "react-toastify";
 import { withRouter } from "react-router-dom";
 import { History } from "history";
 import settings from "../../../../config/settings";
-import { FragmentPostResult, GET_POSTS } from "../../queries";
+import { FragmentPostResult } from "../../queries";
 import { PATH_ADD_TRANSACTION } from "../../../../routes";
 import { Storage } from "../../../../support/storage";
 import { Auth } from "../../../../support";
 
 import s from "./Header.module.scss";
+import { GET_POSTS } from "../../../../graphql/queries/getPosts.graphql";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 // const moment = require("moment-twitter");
