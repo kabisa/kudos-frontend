@@ -11,6 +11,10 @@
   width: 100%;
 }
 
+.container > div:nth-child(1) {
+  height: min-content;
+}
+
 @media only screen and (max-width: 768px) {
   .container {
     flex-direction: column;
