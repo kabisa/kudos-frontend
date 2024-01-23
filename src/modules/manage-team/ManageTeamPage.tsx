@@ -1,24 +1,23 @@
 import { Component, MouseEvent } from "react";
 
-import { Route, Switch, withRouter } from "react-router-dom";
 import { History } from "history";
+import { Route, Switch, withRouter } from "react-router-dom";
 
 import s from "./ManageTeamPage.module.css";
 import {
   GeneralSection,
-  InviteSection,
-  MemberSection,
-  KudometerSection,
   GuidelineSection,
+  InviteSection,
+  KudometerSection,
+  MemberSection,
 } from "./sections";
 
-import { PATH_MANAGE_TEAM } from "../../routes";
-import IntegrationSections from "./sections/integrations/Integrations";
-import classNames from "classnames";
-import Segment from "../../components/atoms/Segment";
-import Page from "../../components/templates/Page";
 import { Icon } from "@kabisa/ui-components";
+import classNames from "classnames";
+import Page from "../../components/templates/Page";
+import { PATH_MANAGE_TEAM } from "../../routes";
 import { Card } from "../../ui/Card";
+import IntegrationSections from "./sections/integrations/Integrations";
 
 export interface Props {
   history: History;
