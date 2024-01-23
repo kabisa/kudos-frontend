@@ -18,6 +18,7 @@ import classNames from "classnames";
 import Segment from "../../components/atoms/Segment";
 import Page from "../../components/templates/Page";
 import { Icon } from "@kabisa/ui-components";
+import { Card } from "../../ui/Card";
 
 export interface Props {
   history: History;
@@ -65,43 +66,51 @@ export class ManageTeamPage extends Component<Props, State> {
     return (
       <Page>
         <div className={s.container}>
-          <Segment className={s.menu_segment}>
-            {this.sections.map((section) => (
-              <a
-                key={section.name}
-                data-testid={`${section.name}-button`}
-                className={classNames({
-                  [s.active_item]: activeItem === section.name,
-                })}
-                onClick={(e) => this.handleItemClick(e, section.name)}
-              >
-                <Icon name={section.icon} /> {section.name}
-              </a>
-            ))}
-          </Segment>
-
-          <Segment className={s.content_segment}>
-            <Switch>
-              <Route path={`${PATH_MANAGE_TEAM}/general`}>
-                <GeneralSection />
-              </Route>
-              <Route path={`${PATH_MANAGE_TEAM}/invites`}>
-                <InviteSection />
-              </Route>
-              <Route path={`${PATH_MANAGE_TEAM}/guidelines`}>
-                <GuidelineSection />
-              </Route>
-              <Route path={`${PATH_MANAGE_TEAM}/members`}>
-                <MemberSection />
-              </Route>
-              <Route path={`${PATH_MANAGE_TEAM}/kudometers`}>
-                <KudometerSection />
-              </Route>
-              <Route path={`${PATH_MANAGE_TEAM}/integrations`}>
-                <IntegrationSections history={this.props.history} />
-              </Route>
-            </Switch>
-          </Segment>
+          <Card
+            center={true}
+            content={
+              <div className={s.menu_card_content}>
+                {this.sections.map((section) => (
+                  <a
+                    key={section.name}
+                    data-testid={`${section.name}-button`}
+                    className={classNames({
+                      [s.active_item]: activeItem === section.name,
+                    })}
+                    onClick={(e) => this.handleItemClick(e, section.name)}
+                  >
+                    <Icon name={section.icon} /> {section.name}
+                  </a>
+                ))}
+              </div>
+            }
+          />
+          <Card
+            content={
+              <div className={s.content_card_content}>
+                <Switch>
+                  <Route path={`${PATH_MANAGE_TEAM}/general`}>
+                    <GeneralSection />
+                  </Route>
+                  <Route path={`${PATH_MANAGE_TEAM}/invites`}>
+                    <InviteSection />
+                  </Route>
+                  <Route path={`${PATH_MANAGE_TEAM}/guidelines`}>
+                    <GuidelineSection />
+                  </Route>
+                  <Route path={`${PATH_MANAGE_TEAM}/members`}>
+                    <MemberSection />
+                  </Route>
+                  <Route path={`${PATH_MANAGE_TEAM}/kudometers`}>
+                    <KudometerSection />
+                  </Route>
+                  <Route path={`${PATH_MANAGE_TEAM}/integrations`}>
+                    <IntegrationSections history={this.props.history} />
+                  </Route>
+                </Switch>
+              </div>
+            }
+          />
         </div>
       </Page>
     );
