@@ -7,7 +7,7 @@ import { Transaction } from "../../../modules/feed/components/Transaction";
 import { Storage } from "../../../support/storage";
 
 import s from "./RepoList.module.scss";
-import { GET_POSTS } from "../../../graphql/queries/getPosts.graphql";
+import { GET_POSTS } from "../../../common/graphql/queries/getPosts.graphql";
 
 export function RepoList() {
   return (

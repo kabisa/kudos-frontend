@@ -10,9 +10,9 @@ import { FragmentPostResult } from "../../queries";
 import { Storage } from "../../../../support/storage";
 
 import s from "./LikeButton.module.scss";
-import { FRAGMENT_POST } from "../../../../graphql/fragments/postInFeed.graphql";
-import { GET_POSTS } from "../../../../graphql/queries/getPosts.graphql";
-import { GET_GOAL_PERCENTAGE } from "../../../../graphql/queries/getGoalPercentage.graphql";
+import { FRAGMENT_POST } from "../../../../common/graphql/fragments/postInFeed.graphql";
+import { GET_POSTS } from "../../../../common/graphql/queries/getPosts.graphql";
+import { GET_GOAL_PERCENTAGE } from "../../../../common/graphql/queries/getGoalPercentage.graphql";
 
 export const MUTATION_TOGGLE_LIKE = gql`
   mutation ToggleLikePost($id: ID!) {

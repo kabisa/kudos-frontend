@@ -9,8 +9,8 @@ import {
   withMockedProviders,
 } from "../../../../spec_helper";
 import CREATE_POST from "../../../../graphql/mutations/createPost.graphql";
-import { GET_GOAL_PERCENTAGE } from "../../../../graphql/queries/getGoalPercentage.graphql";
-import { GET_POSTS } from "../../../../graphql/queries/getPosts.graphql";
+import { GET_GOAL_PERCENTAGE } from "../../../../common/graphql/queries/getGoalPercentage.graphql";
+import { GET_POSTS } from "../../../../common/graphql/queries/getPosts.graphql";
 import CreatePost from "./CreatePost";
 
 let mutationCalled = false;

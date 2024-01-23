@@ -9,8 +9,8 @@ import { FragmentPostResult } from "../../queries";
 import { act, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { InMemoryCache } from "@apollo/client";
-import { GET_GOAL_PERCENTAGE } from "../../../../graphql/queries/getGoalPercentage.graphql";
-import { GET_POSTS } from "../../../../graphql/queries/getPosts.graphql";
+import { GET_GOAL_PERCENTAGE } from "../../../../common/graphql/queries/getGoalPercentage.graphql";
+import { GET_POSTS } from "../../../../common/graphql/queries/getPosts.graphql";
 
 const likedPost: FragmentPostResult = {
   id: "1",

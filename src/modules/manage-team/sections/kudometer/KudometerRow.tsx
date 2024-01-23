@@ -12,7 +12,7 @@ import {
 import settings from "../../../../config/settings";
 import { Storage } from "../../../../support/storage";
 import { Button, IconButton } from "@kabisa/ui-components";
-import { GET_GOAL_PERCENTAGE } from "../../../../graphql/queries/getGoalPercentage.graphql";
+import { GET_GOAL_PERCENTAGE } from "../../../../common/graphql/queries/getGoalPercentage.graphql";
 
 export interface KudometerRowProps {
   key: string;

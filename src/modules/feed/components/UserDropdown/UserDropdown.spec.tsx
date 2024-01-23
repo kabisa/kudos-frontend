@@ -7,7 +7,7 @@ import {
   withMockedProviders,
 } from "../../../../spec_helper";
 import DropdownRemote from "./UserDropdown";
-import { GET_USERS } from "../../../../graphql/queries/getUsers.graphql";
+import { GET_USERS } from "../../../../common/graphql/queries/getUsers.graphql";
 
 const mocksWithData = [
   {

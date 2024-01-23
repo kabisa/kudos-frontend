@@ -13,7 +13,7 @@ import { Storage } from "../../../../support/storage";
 import { Auth } from "../../../../support";
 
 import s from "./Header.module.scss";
-import { GET_POSTS } from "../../../../graphql/queries/getPosts.graphql";
+import { GET_POSTS } from "../../../../common/graphql/queries/getPosts.graphql";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 // const moment = require("moment-twitter");

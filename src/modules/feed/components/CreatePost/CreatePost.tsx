@@ -1,6 +1,6 @@
 import { useApolloClient, useMutation } from "@apollo/client";
 import { Button, Label } from "@kabisa/ui-components";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 import settings from "../../../../config/settings";
@@ -8,25 +8,20 @@ import GuidelineInput from "../GuidelineInput/GuidelineInput";
 import UserDropdown, { NameOption } from "../UserDropdown/UserDropdown";
 
 import { ImageUpload } from "../../../../components/upload/ImageUpload";
-import {
-  ERROR_AMOUNT_BLANK,
-  ERROR_MESSAGE_BLANK,
-  ERROR_MESSAGE_MAX_LENGTH,
-  ERROR_MESSAGE_MIN_LENGTH,
-  ERROR_RECEIVERS_BLANK,
-  getGraphqlError,
-} from "../../../../support";
+import { getGraphqlError } from "../../../../support";
 import { Storage } from "../../../../support/storage";
 import { FragmentPostResult, User } from "../../queries";
 
-import CREATE_POST from "../../../../graphql/mutations/createPost.graphql";
-import { GET_GOAL_PERCENTAGE } from "../../../../graphql/queries/getGoalPercentage.graphql";
-import { GET_POSTS } from "../../../../graphql/queries/getPosts.graphql";
+import CREATE_POST from "../../../../common/graphql/mutations/createPost.graphql";
+import { GET_GOAL_PERCENTAGE } from "../../../../common/graphql/queries/getGoalPercentage.graphql";
+import { GET_POSTS } from "../../../../common/graphql/queries/getPosts.graphql";
+import { GET_USERS } from "../../../../common/graphql/queries/getUsers.graphql";
+import useFormValidation from "../../../../common/hooks/useFormValidation";
 import { Card } from "../../../../ui/Card";
 import InputField from "../../../../ui/InputField";
 import MessageBox from "../../../../ui/MessageBox";
+import { validate } from "../../utils/validate";
 import styles from "./CreatePost.module.css";
-import { GET_USERS } from "../../../../graphql/queries/getUsers.graphql";
 
 export interface CreatePostParameters {
   message: string;
@@ -41,44 +36,40 @@ export interface CreatePostProps {
   back: boolean;
 }
 
-export interface CreatePostState {
+export type CreatePostState = {
   amount?: number;
   receivers: readonly NameOption[];
-  message: string;
   images?: File[];
-  amountError: boolean;
-  receiversError: boolean;
-  messageError: boolean;
-  error: string;
-}
+  message: string;
+};
 
 const CreatePost = ({ transaction }: CreatePostProps) => {
   const initialState: CreatePostState = {
     amount: undefined,
-    receivers: [],
     message: "",
+    receivers: [],
     images: [],
-    amountError: false,
-    receiversError: false,
-    messageError: false,
-    error: "",
   };
 
   const onCompleted = () => {
     toast.info("Post created successfully!");
-    setState(() => initialState);
+    updateState(initialState);
   };
 
-  const [state, setState] = useState<CreatePostState>(initialState);
+  // const [state, setState] = useState<CreatePostState>(initialState);
   const client = useApolloClient();
+  const { state, errors, updateState } = useFormValidation<CreatePostState>(
+    initialState,
+    validate,
+  );
+
+  const [graphqlError, setGraphqlError] = useState("");
+  const [showError, setShowError] = useState(false);
 
   const [createPost, { loading, error }] = useMutation<CreatePostParameters>(
     CREATE_POST,
     {
-      onError: (error) =>
-        setState((prev) => {
-          return { ...prev, error: getGraphqlError(error) };
-        }),
+      onError: (error) => setGraphqlError(getGraphqlError(error)),
       onCompleted: onCompleted,
       update: (cache, { data: postData }: any) => {
         const beforeState: any = cache.readQuery({
@@ -125,48 +116,14 @@ const CreatePost = ({ transaction }: CreatePostProps) => {
     },
   );
 
+  useEffect(() => {
+    setShowError(false);
+  }, [state]);
+
   const onSubmit = (e: React.FormEvent<HTMLFormElement>, createPost: any) => {
     e.preventDefault();
-
-    setState((prev) => ({
-      ...prev,
-      amountError: false,
-      receiversError: false,
-      messageError: false,
-      error: "",
-    }));
-
-    if (!state.amount) {
-      setState((prev) => {
-        return { ...prev, amountError: true, error: ERROR_AMOUNT_BLANK };
-      });
-      return;
-    }
-
-    if (state.receivers.length === 0) {
-      setState((prev) => {
-        return { ...prev, receiversError: true, error: ERROR_RECEIVERS_BLANK };
-      });
-      return;
-    }
-
-    if (state.message.length < settings.MIN_POST_MESSAGE_LENGTH) {
-      if (state.message.length === 0) {
-        setState((prev) => {
-          return { ...prev, messageError: true, error: ERROR_MESSAGE_BLANK };
-        });
-        return;
-      }
-      setState((prev) => {
-        return { ...prev, messageError: true, error: ERROR_MESSAGE_MIN_LENGTH };
-      });
-      return;
-    }
-
-    if (state.message.length > settings.MAX_POST_MESSAGE_LENGTH) {
-      setState((prev) => {
-        return { ...prev, messageError: true, error: ERROR_MESSAGE_MAX_LENGTH };
-      });
+    if (errors.errors.length > 0) {
+      setShowError(true);
       return;
     }
 
@@ -196,7 +153,7 @@ const CreatePost = ({ transaction }: CreatePostProps) => {
         realReceivers.push(user.id);
       }
     });
-
+    setShowError(false);
     createPost({
       variables: {
         message: state.message,
@@ -211,34 +168,23 @@ const CreatePost = ({ transaction }: CreatePostProps) => {
 
   const handleDropdownChange = (values: readonly NameOption[]) => {
     if (!values) {
-      setState((prev) => {
-        return { ...prev, receivers: [] };
-      });
-      return;
+      updateState({ ...state, receivers: [] });
     }
-    setState((prev) => {
-      return { ...prev, receivers: values };
-    });
+    updateState({ ...state, receivers: values });
   };
 
   const handleKudoInputChange = (amount: number) => {
-    setState((prev) => {
-      return { ...prev, amount: amount };
-    });
+    updateState({ ...state, amount: amount });
   };
 
   const handleImagesSelected = (images: File[]) => {
-    setState((prev) => {
-      return { ...prev, images: images };
-    });
+    updateState({ ...state, images: images });
   };
 
   const handleMessageInputChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    setState((prev) => {
-      return { ...prev, message: event.target.value };
-    });
+    updateState({ ...state, message: event.target.value });
   };
   return (
     <Card
@@ -250,7 +196,7 @@ const CreatePost = ({ transaction }: CreatePostProps) => {
         >
           <GuidelineInput
             data-testid="amount-input"
-            amountError={state.amountError}
+            amountError={errors.errors.length > 0}
             handleChange={handleKudoInputChange}
           />
           <Label>
@@ -259,7 +205,7 @@ const CreatePost = ({ transaction }: CreatePostProps) => {
             <UserDropdown
               data-testid="receiver-input"
               onChange={handleDropdownChange}
-              error={state.receiversError}
+              error={errors.errors.length > 0}
               value={state.receivers}
             />
             <span className={styles.note}>(v) = virtual user</span>
@@ -274,7 +220,7 @@ const CreatePost = ({ transaction }: CreatePostProps) => {
             placeholder="Enter your message"
             onChange={handleMessageInputChange}
           />
-          {error && state.messageError}
+          {error && errors.errors.length > 0}
           <span className={styles.note}>
             {settings.MAX_POST_MESSAGE_LENGTH - state.message?.length} chars
             left
@@ -295,11 +241,11 @@ const CreatePost = ({ transaction }: CreatePostProps) => {
             {transaction ? "Update" : "DROP YOUR KUDOS HERE"}
           </Button>
 
-          {state.error && (
+          {showError && (
             <MessageBox
               variant="error"
               title="Couldn't create post"
-              message={state.error}
+              message={errors.errors[0] || graphqlError}
             />
           )}
         </form>

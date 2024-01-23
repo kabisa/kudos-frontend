@@ -7,7 +7,7 @@ import settings from "../../../../config/settings";
 import { Storage } from "../../../../support/storage";
 import { OnChangeValue } from "react-select";
 import CreatableSelect from "react-select/creatable";
-import { GET_USERS } from "../../../../graphql/queries/getUsers.graphql";
+import { GET_USERS } from "../../../../common/graphql/queries/getUsers.graphql";
 
 export interface DropDownProps extends PropsWithRef<any> {
   onChange: (values: readonly NameOption[]) => void;
