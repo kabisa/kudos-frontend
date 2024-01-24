@@ -20,27 +20,21 @@ import useFormValidation from "../../../../common/hooks/useFormValidation";
 import { Card } from "../../../../ui/Card";
 import InputField from "../../../../ui/InputField";
 import MessageBox from "../../../../ui/MessageBox";
+import { CreatePostState } from "../../types/CreatePostState";
 import { validate } from "../../utils/validate";
 import styles from "./CreatePost.module.css";
 
-export interface CreatePostParameters {
+export type CreatePostParameters = {
   message: string;
   kudos: number;
   receivers: string[];
   virtual_receivers: string[];
   team_id: string;
-}
+};
 
-export interface CreatePostProps {
+export type CreatePostProps = {
   transaction?: FragmentPostResult;
   back: boolean;
-}
-
-export type CreatePostState = {
-  amount?: number;
-  receivers: readonly NameOption[];
-  images?: File[];
-  message: string;
 };
 
 const CreatePost = ({ transaction }: CreatePostProps) => {
@@ -56,7 +50,6 @@ const CreatePost = ({ transaction }: CreatePostProps) => {
     updateState(initialState);
   };
 
-  // const [state, setState] = useState<CreatePostState>(initialState);
   const client = useApolloClient();
   const { state, errors, updateState } = useFormValidation<CreatePostState>(
     initialState,
@@ -146,7 +139,6 @@ const CreatePost = ({ transaction }: CreatePostProps) => {
         )
       )
         return;
-
       if (user.virtualUser) {
         virtualReceivers.push(user.name);
       } else {

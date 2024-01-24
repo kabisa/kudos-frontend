@@ -7,7 +7,7 @@ import {
   ERROR_MESSAGE_MIN_LENGTH,
   ERROR_RECEIVERS_BLANK,
 } from "../../../support";
-import { CreatePostState } from "../components/CreatePost/CreatePost";
+import { CreatePostState } from "../types/CreatePostState";
 
 export const validate = (state: CreatePostState): ErrorState => {
   const errors = [];
@@ -30,6 +30,5 @@ export const validate = (state: CreatePostState): ErrorState => {
   if (state.message.length > settings.MAX_POST_MESSAGE_LENGTH) {
     errors.push(ERROR_MESSAGE_MAX_LENGTH);
   }
-  console.log(errors);
   return { errors: errors };
 };
