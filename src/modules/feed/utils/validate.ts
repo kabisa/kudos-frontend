@@ -11,7 +11,6 @@ import { CreatePostState } from "../types/CreatePostState";
 
 export const validate = (state: CreatePostState): ErrorState => {
   const errors = [];
-  // Your validation logic here
   if (!state.amount) {
     errors.push(ERROR_AMOUNT_BLANK);
   }
