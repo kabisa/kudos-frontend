@@ -3,7 +3,7 @@ import { Component, MouseEvent } from "react";
 import { History } from "history";
 import { Route, Switch, withRouter } from "react-router-dom";
 
-import s from "./ManageTeamPage.module.css";
+import s from "./ManageTeamPage.module.scss";
 import {
   GeneralSection,
   GuidelineSection,
@@ -66,6 +66,7 @@ export class ManageTeamPage extends Component<Props, State> {
       <Page>
         <div className={s.container}>
           <Card
+            extraClasses={s.navigation_card}
             center={true}
             content={
               <div className={s.menu_card_content}>
@@ -85,6 +86,7 @@ export class ManageTeamPage extends Component<Props, State> {
             }
           />
           <Card
+            extraClasses={s.content_card}
             content={
               <div className={s.content_card_content}>
                 <Switch>

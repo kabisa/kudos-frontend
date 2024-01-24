@@ -7,12 +7,22 @@
   gap: 2rem;
 }
 
-.container > div:nth-child(2) {
-  width: 100%;
+.navigation_card {
+  height: min-content;
+  @media only screen and (max-width: 768px) {
+    padding: 0 0 2rem 0;
+    box-shadow: none;
+    background: transparent;
+  }
 }
 
-.container > div:nth-child(1) {
-  height: min-content;
+.content_card {
+  flex: 1;
+
+  @media only screen and (max-width: 768px) {
+    box-shadow: none;
+    border-radius: initial;
+  }
 }
 
 @media only screen and (max-width: 768px) {
@@ -27,7 +37,7 @@
   flex-direction: column;
   justify-items: center;
   gap: 1rem;
-  width: 142px;
+  width: 8.8rem;
   height: min-content;
 }
 
@@ -63,27 +73,4 @@
 
 .menu_card_content > .active_item span {
   color: var(--kabisa-black);
-}
-
-.content_card_content {
-  flex: 1;
-  height: min-content;
-  width: 100%;
-}
-
-@media only screen and (max-width: 768px) {
-  .container > div:nth-child(1) {
-    padding: 0 0 2rem 0;
-    box-shadow: none;
-    background: transparent;
-  }
-
-  .container > div:nth-child(2) {
-    box-shadow: none;
-    border-radius: initial;
-  }
-
-  .content_card_content {
-    margin-bottom: 2rem;
-  }
 }

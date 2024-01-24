@@ -10,14 +10,23 @@ import CardFooter from "./CardFooter";
 type CardContainerProps = {
   theme?: "light" | "dark";
   variant?: "primary" | "secondary";
+  extraClasses?: string[];
 };
 
 const CardContainer = ({
   theme = "light",
   variant = "primary",
+  extraClasses,
   children,
 }: PropsWithChildren<CardContainerProps>) => (
-  <UICard className={classNames(styles.card, styles[variant], styles[theme])}>
+  <UICard
+    className={classNames(
+      styles.card,
+      styles[variant],
+      styles[theme],
+      extraClasses,
+    )}
+  >
     {children}
   </UICard>
 );
@@ -34,6 +43,7 @@ export type CardProps = {
   footer?: ReactNode;
   center?: boolean;
   date?: string;
+  extraClasses?: string[];
 };
 
 const Card = ({
@@ -41,9 +51,10 @@ const Card = ({
   title,
   content,
   variant = "primary",
+  extraClasses,
   center = false,
 }: CardProps) => (
-  <CardContainer theme={theme} variant={variant}>
+  <CardContainer theme={theme} variant={variant} extraClasses={extraClasses}>
     {title && (
       <CardHeader theme={theme} center={center}>
         <CardTitle
