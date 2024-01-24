@@ -66,7 +66,7 @@ export class ManageTeamPage extends Component<Props, State> {
       <Page>
         <div className={s.container}>
           <Card
-            extraClasses={s.navigation_card}
+            className={s.navigation_card}
             center={true}
             content={
               <div className={s.menu_card_content}>
@@ -86,7 +86,7 @@ export class ManageTeamPage extends Component<Props, State> {
             }
           />
           <Card
-            extraClasses={s.content_card}
+            className={s.content_card}
             content={
               <div className={s.content_card_content}>
                 <Switch>
