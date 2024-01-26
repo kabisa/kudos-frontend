@@ -45,19 +45,18 @@ const CreatePost = ({ transaction }: CreatePostProps) => {
     images: [],
   };
 
-  const onCompleted = () => {
-    toast.info("Post created successfully!");
-    updateState(initialState);
-  };
-
   const client = useApolloClient();
   const { state, errors, updateState } = useFormValidation<CreatePostState>(
     initialState,
     validate,
   );
-
   const [graphqlError, setGraphqlError] = useState("");
   const [showError, setShowError] = useState(false);
+
+  const onCompleted = () => {
+    toast.info("Post created successfully!");
+    updateState(initialState);
+  };
 
   const [createPost, { loading, error }] = useMutation<CreatePostParameters>(
     CREATE_POST,
@@ -145,6 +144,7 @@ const CreatePost = ({ transaction }: CreatePostProps) => {
         realReceivers.push(user.id);
       }
     });
+
     setShowError(false);
     createPost({
       variables: {
@@ -156,13 +156,6 @@ const CreatePost = ({ transaction }: CreatePostProps) => {
         images: state.images,
       },
     });
-  };
-
-  const handleDropdownChange = (values: readonly NameOption[]) => {
-    if (!values) {
-      updateState({ ...state, receivers: [] });
-    }
-    updateState({ ...state, receivers: values });
   };
 
   const handleKudoInputChange = (amount: number) => {
@@ -178,6 +171,69 @@ const CreatePost = ({ transaction }: CreatePostProps) => {
   ) => {
     updateState({ ...state, message: event.target.value });
   };
+
+  const onReceiverChange = (values: readonly NameOption[]) => {
+    if (!values) {
+      updateState({ ...state, receivers: [] });
+    }
+    updateState({ ...state, receivers: values });
+  };
+
+  const handleCreateUser = (inputValue: any) => {
+    const oldState = client.readQuery({
+      query: GET_USERS,
+      variables: {
+        team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
+      },
+    });
+
+    const existing = oldState.teamById.users.filter(
+      (u: User) => u.name === inputValue,
+    );
+
+    if (existing.length > 0) {
+      return;
+    }
+
+    let id = "-1";
+    oldState.teamById.users.forEach((option: User) => {
+      const itemId = Number.parseInt(option.id, 10);
+      const numberId = Number.parseInt(id, 10);
+      if (itemId >= numberId) {
+        id = (itemId + 1).toString();
+      }
+    });
+
+    const newState = {
+      ...oldState,
+      teamById: {
+        ...oldState.teamById,
+        users: [
+          ...oldState.teamById.users,
+          {
+            id,
+            name: inputValue,
+            virtualUser: true,
+            __typename: "User",
+          },
+        ],
+      },
+    };
+
+    client.writeQuery({
+      query: GET_USERS,
+      variables: {
+        team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
+      },
+      data: newState,
+    });
+
+    updateState({
+      ...state,
+      receivers: [...state.receivers, { label: inputValue, value: id }],
+    });
+  };
+
   return (
     <Card
       content={
@@ -193,12 +249,10 @@ const CreatePost = ({ transaction }: CreatePostProps) => {
           />
           <Label>
             Receivers
-            {/* Suppressed because the linter doesn't pick up on custom controls */}
             <UserDropdown
-              data-testid="receiver-input"
-              onChange={handleDropdownChange}
-              error={errors.errors.length > 0}
-              value={state.receivers}
+              onChange={onReceiverChange}
+              receivers={state.receivers}
+              onCreate={handleCreateUser}
             />
             <span className={styles.note}>(v) = virtual user</span>
           </Label>
