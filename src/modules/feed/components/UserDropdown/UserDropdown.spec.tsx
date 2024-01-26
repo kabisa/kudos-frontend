@@ -79,7 +79,7 @@ const setup = (mocks: any) => {
   );
 };
 
-describe.skip("<DropdownRemote />", () => {
+describe.skip("<UserDropdown />", () => {
   beforeEach(() => {
     mockLocalstorage("1");
     setup(mocksWithData);
