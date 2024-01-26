@@ -172,7 +172,7 @@ const CreatePost = ({ transaction }: CreatePostProps) => {
     updateState({ ...state, message: event.target.value });
   };
 
-  const onReceiverChange = (values: readonly NameOption[]) => {
+  const handleUserDropdownChange = (values: readonly NameOption[]) => {
     if (!values) {
       updateState({ ...state, receivers: [] });
     }
@@ -250,7 +250,7 @@ const CreatePost = ({ transaction }: CreatePostProps) => {
           <Label>
             Receivers
             <UserDropdown
-              onChange={onReceiverChange}
+              onChange={handleUserDropdownChange}
               receivers={state.receivers}
               onCreate={handleCreateUser}
             />

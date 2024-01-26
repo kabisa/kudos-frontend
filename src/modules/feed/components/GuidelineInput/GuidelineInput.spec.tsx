@@ -1,5 +1,6 @@
+import { GET_GUIDELINES } from "../../../../common/graphql/queries/getGuidelines.graphql";
 import { mockLocalstorage, withMockedProviders } from "../../../../spec_helper";
-import GuidelineInput, { GET_GUIDELINES } from "./GuidelineInput";
+import GuidelineInput from "./GuidelineInput";
 import { render, waitFor, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
