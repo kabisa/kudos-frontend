@@ -6,8 +6,8 @@ import {
   wait,
   withMockedProviders,
 } from "../../../../spec_helper";
-import DropdownRemote from "./UserDropdown";
-import { GET_USERS } from "../../queries";
+import { GET_USERS } from "../../../../common/graphql/queries/getUsers.graphql";
+import UserDropDown from "./UserDropdown";
 
 const mocksWithData = [
   {
@@ -73,13 +73,13 @@ const handleChangeMock = jest.fn();
 const setup = (mocks: any) => {
   wrapper = mount(
     withMockedProviders(
-      <DropdownRemote onChange={handleChangeMock} error={false} />,
+      <UserDropDown onChange={handleChangeMock} receivers={[]} />,
       mocks,
     ),
   );
 };
 
-describe.skip("<DropdownRemote />", () => {
+describe.skip("<UserDropdown />", () => {
   beforeEach(() => {
     mockLocalstorage("1");
     setup(mocksWithData);

@@ -1,12 +1,13 @@
 import { Query } from "@apollo/client/react/components";
 import { Icon, TileList } from "@kabisa/ui-components";
 
-import { GET_POSTS, GetPostsResult } from "../../../modules/feed/queries";
+import { GetPostsResult } from "../../../modules/feed/queries";
 import settings from "../../../config/settings";
 import { Transaction } from "../../../modules/feed/components/Transaction";
 import { Storage } from "../../../support/storage";
 
 import s from "./RepoList.module.scss";
+import { GET_POSTS } from "../../../common/graphql/queries/getPosts.graphql";
 
 export function RepoList() {
   return (

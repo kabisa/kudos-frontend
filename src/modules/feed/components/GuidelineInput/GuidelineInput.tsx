@@ -1,7 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import { Component } from "react";
 import { Query } from "@apollo/client/react/components";
-import { gql } from "@apollo/client";
 import enhanceWithClickOutside from "react-click-outside";
 import { Storage } from "../../../../support/storage";
 import settings from "../../../../config/settings";
@@ -9,21 +8,9 @@ import settings from "../../../../config/settings";
 import { Label } from "@kabisa/ui-components";
 import CreatableSelect from "react-select/creatable";
 import type { ActionMeta, SingleValue } from "react-select";
-import React from "react";
+import { GET_GUIDELINES } from "../../../../common/graphql/queries/getGuidelines.graphql";
 
 const KUDO_GUIDELINE_RANGE = 5;
-
-export const GET_GUIDELINES = gql`
-  query Guidelines($team_id: ID!) {
-    teamById(id: $team_id) {
-      guidelines {
-        id
-        kudos
-        name
-      }
-    }
-  }
-`;
 
 export interface GetGuideLinesResult {
   teamById: {

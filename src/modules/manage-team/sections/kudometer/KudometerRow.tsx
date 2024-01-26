@@ -11,8 +11,8 @@ import {
 } from "./KudometerQueries";
 import settings from "../../../../config/settings";
 import { Storage } from "../../../../support/storage";
-import { GET_GOAL_PERCENTAGE } from "../../../feed/queries";
 import { Button, IconButton } from "@kabisa/ui-components";
+import { GET_GOAL_PERCENTAGE } from "../../../../common/graphql/queries/getGoalPercentage.graphql";
 
 export interface KudometerRowProps {
   key: string;
