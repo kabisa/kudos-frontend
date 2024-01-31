@@ -12,7 +12,7 @@ Move graphql queries from components to separate files. This will make it easier
 
 ## Replace class components with functional components
 
-In a lot of places class components are still being used. Replace these with functional components and use hooks for extracting logic. Also, in some places the state of child components is managed by the children themselves. This should be moved to the parent component, or to a context.
+In a lot of places class components are still being used. Replace these with functional components and use hooks for extracting logic. Also, in some of these class components, the state of child components is managed by the children themselves. This should be moved to the parent component, or to a context.
 
 ## Replace Enzyme tests with React Testing Library
 
