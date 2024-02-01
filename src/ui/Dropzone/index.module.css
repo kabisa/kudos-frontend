@@ -1,0 +1,13 @@
+.dropzone {
+    background-color: white;
+    padding: 1rem;
+    border-color: #eeeeee;
+    border-style: dashed;
+    text-align: center;
+    color: rgba(191,191,191,.87);
+    cursor: pointer;
+}
+
+.dropzone:focus {
+    outline: none;
+}

@@ -1,4 +1,8 @@
 import type { Preview } from "@storybook/react";
+import "react-toastify/dist/ReactToastify.css";
+import "@kabisa/ui-components/index.css";
+import "../src/ui/global.css";
+import "../src/styles/shell.css";
 
 const preview: Preview = {
   parameters: {

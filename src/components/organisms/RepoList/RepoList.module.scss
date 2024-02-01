@@ -1,14 +1,21 @@
 .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--font-color-1);
+}
+
+.tilesContainer {
   gap: var(--spacing-level-3);
 
   width: 100%;
 }
 
-.container > li:not(:first-child) {
+.tilesContainer > li:not(:first-child) {
   border: none;
 }
 
-.container > li > div {
+.tilesContainer > li > div {
   border-radius: var(--radii-level-2);
 }
 

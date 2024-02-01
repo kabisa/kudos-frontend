@@ -1,11 +1,11 @@
-import { Button } from "@kabisa/ui-components";
 import { Mutation } from "@apollo/client/react/components";
 import { toast } from "react-toastify";
 
-import { getGraphqlError } from "../../support";
-import { DISCONNECT_SLACK, DisconnectSlackResult, GET_USER } from "./UserPage";
+import { getGraphqlError } from "../../../support";
+import { DISCONNECT_SLACK, DisconnectSlackResult, GET_USER } from "../UserPage";
 
-import s from "./UserPage.module.css";
+import s from "./SlackSection.module.scss";
+import Button from "../../../ui/Button";
 
 export function SlackConnectedSegment({
   slackIconPath,
@@ -26,26 +26,20 @@ export function SlackConnectedSegment({
           toast.info("Disconnected from Slack!");
         }}
       >
-        {(disconnectSlack, { error }) => {
+        {(disconnectSlack, { error, loading }) => {
           if (error) {
             return <p>Something went wrong: {getGraphqlError(error)}</p>;
           }
 
           return (
             <Button
+              text="Disconnect Slack account"
+              image={slackIconPath}
+              alt="Disconnect account"
               variant="secondary"
-              className={s.slack_button}
-              //loading={mutationLoading} TODO
+              state={loading ? "disabled" : "default"}
               onClick={() => disconnectSlack()}
-            >
-              <img
-                width={20}
-                height={20}
-                src={slackIconPath}
-                alt="Disconnect account"
-              />
-              Disconnect Slack account
-            </Button>
+            />
           );
         }}
       </Mutation>
@@ -67,18 +61,12 @@ export function SlackDisconnectedSegment(props: SlackDisconnectedProps) {
       </h3>
       <p>Simply press the button below and you&#39;re good to go.</p>
       <Button
+        text="Connect account"
+        image={props.slackIconPath}
+        alt="Connect account"
         variant="secondary"
-        className={s.slack_button}
         onClick={() => (window.location.href = props.slackConnectUrl)}
-      >
-        <img
-          width={20}
-          height={20}
-          src={props.slackIconPath}
-          alt="Connect account"
-        />
-        Connect account
-      </Button>
+      />
     </div>
   );
 }

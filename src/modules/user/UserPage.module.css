@@ -2,11 +2,6 @@
   display: block;
 }
 
-.button {
-  margin: auto;
-  display: block;
-}
-
 .button_white {
   background: #ffffff;
 }
@@ -42,32 +37,21 @@
   color: grey;
 }
 
-.slack_button {
-  display: flex;
-  margin: auto;
-  gap: 0.5rem;
-  margin-bottom: 2rem;
-  padding: var(--padding-level-3) var(--padding-level-4);
-}
-
-.slack_message {
+.other_buttons_section {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.slack_message > p {
-  margin-bottom: 1rem;
+  gap: 0.5rem;
 }
 
 @media only screen and (max-width: 768px) {
-  .button {
+  .other_buttons_section button {
     width: 100%;
   }
 }
 
 @media only screen and (min-width: 768px) {
-  .button {
+  .other_buttons_section button {
     min-width: 200px;
     width: 170px;
   }

@@ -5,7 +5,7 @@
   background: var(--kabisa-black);
   display: flex;
   align-items: center;
-  color: var(--kudo-text);
+  color: var(--kabisa-white);
   height: 62px;
   padding: var(--padding-level-3) 2rem;
   z-index: 10;

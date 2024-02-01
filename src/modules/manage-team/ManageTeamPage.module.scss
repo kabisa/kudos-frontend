@@ -7,6 +7,24 @@
   gap: 2rem;
 }
 
+.navigation_card {
+  height: min-content;
+  @media only screen and (max-width: 768px) {
+    padding: 0 0 2rem 0;
+    box-shadow: none;
+    background: transparent;
+  }
+}
+
+.content_card {
+  flex: 1;
+
+  @media only screen and (max-width: 768px) {
+    box-shadow: none;
+    border-radius: initial;
+  }
+}
+
 @media only screen and (max-width: 768px) {
   .container {
     flex-direction: column;
@@ -14,17 +32,16 @@
   }
 }
 
-.menu_segment {
-  padding: 2rem;
+.menu_card_content {
   display: flex;
   flex-direction: column;
   justify-items: center;
   gap: 1rem;
-  width: 206px;
+  width: 8.8rem;
   height: min-content;
 }
 
-.menu_segment a {
+.menu_card_content a {
   display: flex;
   align-items: center;
   transition: color 0.5s;
@@ -32,45 +49,28 @@
   color: var(--kabisa-black-300);
 }
 
-.menu_segment a span {
+.menu_card_content a span {
   color: var(--kabisa-black-300);
   transition: color 0.5s;
 }
 
-.menu_segment a:hover {
+.menu_card_content a:hover {
   color: var(--kabisa-black);
 }
 
-.menu_segment a:hover > span {
+.menu_card_content a:hover > span {
   color: var(--kabisa-black);
 }
 
-.menu_segment a > span {
+.menu_card_content a > span {
   padding-right: var(--padding-level-5);
 }
 
-.menu_segment > .active_item {
+.menu_card_content > .active_item {
   color: var(--kabisa-black);
   font-weight: bold;
 }
 
-.menu_segment > .active_item span {
+.menu_card_content > .active_item span {
   color: var(--kabisa-black);
-}
-
-.content_segment {
-  flex: 1;
-  height: min-content;
-  width: 100%;
-}
-
-@media only screen and (max-width: 768px) {
-  .menu_segment {
-    padding: 0 0 2rem 0;
-    background: transparent;
-  }
-
-  .content_segment {
-    margin-bottom: 2rem;
-  }
 }

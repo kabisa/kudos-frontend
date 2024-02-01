@@ -1,5 +1,6 @@
 import { Ref, forwardRef, useImperativeHandle, useState } from "react";
 import { useDropzone } from "react-dropzone";
+
 import s from "./ImageUpload.module.scss";
 
 export interface Props {
@@ -70,4 +71,5 @@ export const ImageUpload = forwardRef<ImageUploadRef, Props>(
     );
   },
 );
+
 ImageUpload.displayName = "ImageUpload";

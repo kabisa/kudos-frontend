@@ -2,7 +2,7 @@ import s from "./ChooseTeam.module.scss";
 import { selectTeam } from "../utils";
 import { PATH_FEED } from "../../../routes";
 import { useHistory } from "react-router-dom";
-import { Button } from "@kabisa/ui-components";
+import Button from "../../../ui/Button";
 
 export interface Props {
   id: string;
@@ -23,9 +23,8 @@ function TeamRow(props: Props) {
             selectTeam(props.id, props.userRole);
             history.push(PATH_FEED);
           }}
-        >
-          Choose
-        </Button>
+          text="Choose"
+        />
       </div>
     </div>
   );

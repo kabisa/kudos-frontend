@@ -12,6 +12,7 @@ import settings from "../../../../../config/settings";
 import { getGraphqlError } from "../../../../../support";
 import { Storage } from "../../../../../support/storage";
 import { ApolloError } from "@apollo/client";
+import MessageBox from "../../../../../ui/MessageBox";
 import { Button, Input, Label } from "@kabisa/ui-components";
 
 export interface EditGoalProps {
@@ -186,10 +187,11 @@ export class EditGoal extends Component<EditGoalProps, State> {
                 </Button>
               )}
               {displayError && (
-                <div className="errorMessage">
-                  <h2>Unable to create goal.</h2>
-                  <p>{displayError}</p>
-                </div>
+                <MessageBox
+                  variant="error"
+                  title="Unable to create goal."
+                  message={displayError}
+                />
               )}
             </form>
           );

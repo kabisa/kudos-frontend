@@ -34,5 +34,5 @@
 }
 
 .button:hover > span {
-  color: var(--kabisa-green-1);
+  color: var(--kabisa-green);
 }
