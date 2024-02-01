@@ -12,9 +12,13 @@
   border-radius: var(--radii-level-1);
 }
 
+.form button {
+  align-self: center;
+  font-weight: var(--font-weight-bold);
+}
+
 .button {
   align-self: center;
-
   font-weight: var(--font-weight-bold);
 }
 

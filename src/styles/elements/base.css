@@ -1,4 +1,5 @@
 /* Design principles */
+@import url("@kabisa/ui-components/src/principles/index.module.css");
 @import url("./colors.css");
 @import url("./layout.css");
 
