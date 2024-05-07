@@ -1,14 +1,12 @@
 import { Mutation } from "@apollo/client/react/components";
-import { toast } from "react-toastify";
-import { useHistory } from "react-router-dom";
 import { DocumentNode } from "graphql";
+import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 import settings from "../../../config/settings";
 import { PATH_FEED } from "../../../routes";
-import { GET_INVITES } from "./InviteList";
 import { Storage } from "../../../support/storage";
-import s from "./ChooseTeam.module.scss";
-import { Button } from "@kabisa/ui-components";
-import { ButtonProps } from "@kabisa/ui-components/lib/atoms/Button";
+import Button, { type GenericButtonProps } from "../../../ui/Button";
+import { GET_INVITES } from "./InviteList";
 
 export interface Props {
   mutation: DocumentNode;
@@ -16,7 +14,7 @@ export interface Props {
   text: string;
   accept?: boolean;
   teamId: string;
-  variant: ButtonProps["variant"];
+  variant: GenericButtonProps["variant"];
 }
 
 function ChoiceButton(props: Props) {
@@ -59,7 +57,6 @@ function ChoiceButton(props: Props) {
       {(mutate, { loading }) => (
         <Button
           variant={props.variant}
-          className={s.button}
           onClick={() => {
             mutate({ variables: { team_invite_id: props.inviteId } });
             if (props.accept) {
@@ -70,10 +67,8 @@ function ChoiceButton(props: Props) {
             }
             toast.info("Invite successfully declined!");
           }}
-          disabled={loading}
-        >
-          {props.text}
-        </Button>
+          state={loading ? "disabled" : "default"}
+        />
       )}
     </Mutation>
   );

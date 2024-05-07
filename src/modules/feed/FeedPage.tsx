@@ -3,10 +3,9 @@ import { PullToRefresh } from "../../components";
 import { CreatePost, RightRail } from "./components";
 import { GetPostsResult } from "./queries";
 
-import { Desktop, TabletAndBelow } from "../../support/breakpoints";
-import Segment from "../../components/atoms/Segment";
-import Page from "../../components/templates/Page";
 import KudoBoard from "../../components/organisms/KudoBoard/KudoBoard";
+import Page from "../../components/templates/Page";
+import { Desktop, TabletAndBelow } from "../../support/breakpoints";
 
 import styles from "./FeedPage.module.scss";
 
@@ -51,18 +50,16 @@ export class FeedPage extends Component<FeedPageProps, FeedPageState> {
     return (
       <Page className={"feed"}>
         <TabletAndBelow>
-          <Segment>
+          <div className={styles.tabletAndBelowContainer}>
             <CreatePost back={false} />
-          </Segment>
-          <KudoBoard />
+            <KudoBoard />
+          </div>
         </TabletAndBelow>
         <Desktop>
           <div className={styles.grid}>
             <div className={styles.column}>
-              <Segment>
-                <CreatePost back={false} />
-              </Segment>
-              <KudoBoard className={styles.leftColumn} />
+              <CreatePost back={false} />
+              <KudoBoard />
             </div>
             <RightRail />
           </div>

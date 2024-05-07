@@ -4,7 +4,7 @@ import { createMemoryHistory, MemoryHistory } from "history";
 import { findByTestId, withMockedProviders } from "../../spec_helper";
 import { ManageTeamPage } from "./ManageTeamPage";
 
-describe.skip("<ManageTeamPage/>", () => {
+describe("<ManageTeamPage/>", () => {
   let wrapper: ReactWrapper;
   let history: MemoryHistory;
 

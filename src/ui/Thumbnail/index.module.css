@@ -1,0 +1,8 @@
+.img {
+    display: block;
+
+    width: 100px;
+    height: 80px;
+
+    object-fit: cover;
+}
