@@ -201,7 +201,6 @@ class ResetPasswordPage extends Component<Props, State> {
                         label="Current password"
                         testId="current-password-input"
                         name="currentPassword"
-                        placeholder="Current password"
                         error={this.state.error_current}
                         value={this.state.currentPassword}
                         onChange={this.handleChange}
@@ -210,7 +209,6 @@ class ResetPasswordPage extends Component<Props, State> {
                         label="New password"
                         testId="new-password-input"
                         name="newPassword"
-                        placeholder="New password"
                         error={this.state.error_new}
                         value={this.state.newPassword}
                         onChange={this.handleChange}
@@ -219,7 +217,6 @@ class ResetPasswordPage extends Component<Props, State> {
                         label="Confirm new password"
                         testId="confirm-password-input"
                         name="newPasswordConfirmation"
-                        placeholder="Confirm new password"
                         error={this.state.error_new_confirm}
                         value={this.state.newPasswordConfirmation}
                         onChange={this.handleChange}

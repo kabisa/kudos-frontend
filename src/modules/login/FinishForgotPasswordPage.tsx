@@ -138,7 +138,6 @@ class FinishForgotPasswordPage extends Component<Props, State> {
                     label="Password"
                     testId="password-input"
                     name="password"
-                    placeholder="Password"
                     value={this.state.password}
                     onChange={(e) =>
                       this.setState({ password: e.target.value })
@@ -147,7 +146,6 @@ class FinishForgotPasswordPage extends Component<Props, State> {
                   <PasswordField
                     label="Confirm password"
                     name="passwordConfirm"
-                    placeholder="Confirm password"
                     value={this.state.passwordConfirm}
                     onChange={(e) =>
                       this.setState({ passwordConfirm: e.target.value })

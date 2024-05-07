@@ -6,11 +6,11 @@ export const PasswordField: React.FC<{
   error?: boolean;
   value: string;
   label: string;
-  placeholder: string;
+  placeholder?: string;
   name: string;
   testId?: string;
   onChange: ChangeEventHandler<HTMLInputElement>;
-}> = ({ error, value, placeholder, testId, label, name, onChange }) => {
+}> = ({ error, value, name, placeholder = name, testId, label, onChange }) => {
   return (
     <Label>
       {label}
