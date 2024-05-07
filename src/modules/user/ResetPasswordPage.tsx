@@ -144,8 +144,6 @@ class ResetPasswordPage extends Component<Props, State> {
     const { currentPassword, newPassword, newPasswordConfirmation } =
       this.state;
 
-    console.log("click");
-
     if (!this.checkErrors()) {
       return;
     }

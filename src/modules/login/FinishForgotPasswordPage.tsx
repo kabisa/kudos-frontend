@@ -105,8 +105,6 @@ class FinishForgotPasswordPage extends Component<Props, State> {
       return;
     }
 
-    console.log(this.token);
-
     mutation({
       variables: {
         reset_password_token: this.token,
