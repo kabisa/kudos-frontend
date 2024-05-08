@@ -2,7 +2,7 @@ import { mount, ReactWrapper } from "enzyme";
 import { findByTestId, withMockedProviders } from "../../spec_helper";
 import CustomCircle from "./Circle";
 
-describe.skip("<CustomCircle />", () => {
+describe("<CustomCircle />", () => {
   let wrapper: ReactWrapper;
 
   beforeEach(() => {

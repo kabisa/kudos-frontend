@@ -19,7 +19,7 @@ const fileChangeEvent = (files: File[]) => ({
   persist: () => {},
 });
 
-describe.skip("<ImageUpload />", () => {
+describe("<ImageUpload />", () => {
   let wrapper: ReactWrapper;
   let selectedFiles: any = [];
 

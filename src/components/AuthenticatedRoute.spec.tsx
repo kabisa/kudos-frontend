@@ -18,7 +18,7 @@ const setup = (allowNoTeam: boolean) => {
     ),
   );
 };
-describe.skip("<AuthenticatedRoute />", () => {
+describe("<AuthenticatedRoute />", () => {
   afterEach(() => {
     jest.clearAllMocks();
     jest.resetAllMocks();

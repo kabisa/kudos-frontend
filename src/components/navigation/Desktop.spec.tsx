@@ -1,6 +1,14 @@
 import { mount, ReactWrapper } from "enzyme";
 import { act } from "react-dom/test-utils";
 import {
+  findByText,
+  fireEvent,
+  render,
+  RenderResult,
+  screen,
+  waitFor,
+} from "@testing-library/react";
+import {
   findByTestId,
   mockLocalstorage,
   wait,
@@ -16,6 +24,8 @@ const mocks = [
     result: {
       data: {
         viewer: {
+          id: "1",
+          __typename: "Viewer",
           name: "Max",
         },
       },
@@ -23,53 +33,66 @@ const mocks = [
   },
 ];
 
-describe.skip("<Desktop />", () => {
-  let wrapper: ReactWrapper;
-
-  beforeEach(() => {
-    mockLocalstorage("admin");
-    wrapper = mount(withMockedProviders(<Desktop />, mocks));
-  });
-
+describe("<Desktop />", () => {
   it("renders the users name", async () => {
-    await act(async () => {
-      await wait(0);
-      await wrapper.update();
-
-      expect(wrapper.contains("Max")).toBe(true);
-    });
+    render(withMockedProviders(<Desktop />, mocks));
+    const node = await screen.findByText("Max");
+    expect(node).toBeInTheDocument();
   });
 
   it("should have a link to the home page", async () => {
-    expect(findByTestId(wrapper, "home-button").hostNodes().length).toBe(1);
+    render(withMockedProviders(<Desktop />, mocks));
+
+    const button = await screen.findByTestId("home-button");
+    expect(button).toBeInTheDocument();
   });
 
-  it("should have a link to the profile page", async () => {
-    expect(findByTestId(wrapper, "profile-button").hostNodes().length).toBe(1);
-  });
+  describe("profile menu", () => {
+    let renderResult: RenderResult;
 
-  it("should have a switch team button", async () => {
-    expect(findByTestId(wrapper, "switch-team-button").hostNodes().length).toBe(
-      1,
-    );
-  });
+    beforeEach(async () => {
+      renderResult = render(withMockedProviders(<Desktop />, mocks));
+      const button = await screen.findByRole("button", { name: "Max" });
+      button.click();
+    });
 
-  it("should have a logout button", async () => {
-    expect(findByTestId(wrapper, "logout-button").hostNodes().length).toBe(1);
-  });
+    it("has a link to the profile page", async () => {
+      const profileLink = await screen.findByTestId("profile-button");
+      expect(profileLink).toBeInTheDocument();
+    });
 
-  it("should have a manage team button if the user is admin", async () => {
-    expect(findByTestId(wrapper, "manage-team-button").hostNodes().length).toBe(
-      1,
-    );
-  });
+    it("has a switch team button", async () => {
+      const switchTeamButton = await screen.findByTestId("switch-team-button");
+      expect(switchTeamButton).toBeInTheDocument();
+    });
 
-  it("should not have a manage team button if the user is member", async () => {
-    mockLocalstorage("member");
-    wrapper = mount(withMockedProviders(<Desktop />, mocks));
+    it("has a logout button", async () => {
+      const logoutButton = await screen.findByTestId("logout-button");
+      expect(logoutButton).toBeInTheDocument();
+    });
 
-    expect(findByTestId(wrapper, "manage-team-button").hostNodes().length).toBe(
-      0,
-    );
+    describe("as admin", () => {
+      beforeEach(() => {
+        mockLocalstorage("admin");
+        renderResult.rerender(withMockedProviders(<Desktop />, mocks));
+      });
+
+      it("has a manage team button", async () => {
+        const profileLink = screen.queryByTestId("manage-team-button");
+        expect(profileLink).not.toBeNull();
+      });
+    });
+
+    describe("as member", () => {
+      beforeEach(() => {
+        mockLocalstorage("member");
+        renderResult.rerender(withMockedProviders(<Desktop />, mocks));
+      });
+
+      it("does not have a manage team button", async () => {
+        const profileLink = screen.queryByTestId("manage-team-button");
+        expect(profileLink).toBeNull();
+      });
+    });
   });
 });
