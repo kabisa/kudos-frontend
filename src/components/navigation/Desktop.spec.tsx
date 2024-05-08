@@ -1,19 +1,5 @@
-import { mount, ReactWrapper } from "enzyme";
-import { act } from "react-dom/test-utils";
-import {
-  findByText,
-  fireEvent,
-  render,
-  RenderResult,
-  screen,
-  waitFor,
-} from "@testing-library/react";
-import {
-  findByTestId,
-  mockLocalstorage,
-  wait,
-  withMockedProviders,
-} from "../../spec_helper";
+import { render, RenderResult, screen } from "@testing-library/react";
+import { mockLocalstorage, withMockedProviders } from "../../spec_helper";
 import Desktop, { GET_USER } from "./Desktop";
 
 const mocks = [
