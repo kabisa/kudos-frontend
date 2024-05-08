@@ -201,7 +201,7 @@ describe("<CreatePost />", () => {
 
   const setMessage = async (text: string) => {
     const messageInput = await screen.findByRole("textbox");
-    await userEvent.type(messageInput, text, { delay: 0 });
+    fireEvent.change(messageInput, { target: { value: text } });
   };
 
   const pressSubmit = async () => {
