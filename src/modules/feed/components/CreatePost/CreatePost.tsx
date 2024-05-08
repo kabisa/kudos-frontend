@@ -94,6 +94,9 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
   // @ts-ignore
   imageUpload: RefObject<ImageUpload>;
 
+  // @ts-ignore
+  private _isMounted: boolean;
+
   constructor(props: CreatePostProps) {
     super(props);
     this.guidelineInput = createRef();
@@ -248,6 +251,14 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
     });
   }
 
+  componentDidMount() {
+    this._isMounted = true;
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
   render() {
     const { amountError, receiversError, messageError } = this.state;
     const { transaction } = this.props;
@@ -256,9 +267,11 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
         {(client) => (
           <Mutation<CreatePostParameters>
             mutation={CREATE_POST}
-            onError={(error) =>
-              this.setState({ error: getGraphqlError(error) })
-            }
+            onError={(error) => {
+              if (this._isMounted) {
+                this.setState({ error: getGraphqlError(error) });
+              }
+            }}
             onCompleted={this.onCompleted}
             update={(cache, { data: postData }: any) => {
               const beforeState: any = cache.readQuery({

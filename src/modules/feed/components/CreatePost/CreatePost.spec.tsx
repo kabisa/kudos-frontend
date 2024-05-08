@@ -1,22 +1,19 @@
 import { GraphQLError } from "graphql";
-import {
-  findByTestId,
-  mockLocalstorage,
-  wait,
-  withMockedProviders,
-} from "../../../../spec_helper";
+import { mockLocalstorage, withMockedProviders } from "../../../../spec_helper";
 import { CREATE_POST, CreatePost } from "./CreatePost";
 import { GET_POSTS } from "../../queries";
-import { fireEvent, render, screen } from "@testing-library/react";
+import {
+  RenderResult,
+  act,
+  fireEvent,
+  render,
+  screen,
+} from "@testing-library/react";
 import { mocks as guidelineMocks } from "../../../manage-team/sections/guideline/GuidelinesSection.spec";
 import { mocksWithData as teamMemberMocks } from "../UserDropdown/UserDropdown.spec";
-import userEvent from "@testing-library/user-event";
 
 const DOWN_ARROW = { keyCode: 40 };
 
-// let mutationCalled = false;
-// let goalPercentageQueryCalled = false;
-// let getPostQueryCalled = false;
 const mocks = () => [
   {
     request: {
@@ -25,58 +22,24 @@ const mocks = () => [
         message: "Some message",
         kudos: 5,
         images: [],
-        receivers: ["4"],
+        receivers: ["2"],
         virtual_receivers: [],
         team_id: "1",
       },
     },
-    result: () => {
-      // mutationCalled = true;
-      return {
-        data: {
-          createPost: {
-            post: {
-              id: "1",
-              amount: 5,
-              __typename: "Post",
-            },
-            __typename: "CreatePost",
+    result: {
+      data: {
+        createPost: {
+          post: {
+            id: "1",
+            amount: 5,
+            __typename: "Post",
           },
+          __typename: "CreatePost",
         },
-      };
+      },
     },
   },
-  // {
-  //   request: {
-  //     query: GET_GOAL_PERCENTAGE,
-  //     variables: {
-  //       team_id: "1",
-  //     },
-  //   },
-  //   result: () => {
-  //     // goalPercentageQueryCalled = true;
-  //     return {
-  //       data: {
-  //         teamById: {
-  //           __typename: "Team",
-  //           activeKudosMeter: {
-  //             amount: 1,
-  //             __typename: "KudosMeter",
-  //           },
-  //           activeGoals: [
-  //             {
-  //               achievedOn: "2020-03-01",
-  //               id: "1",
-  //               name: "Goal",
-  //               amount: 50,
-  //               __typename: "Goal",
-  //             },
-  //           ],
-  //         },
-  //       },
-  //     };
-  //   },
-  // },
   {
     request: {
       query: GET_POSTS,
@@ -150,7 +113,7 @@ const mocksWithError = [
       variables: {
         message: "Some message",
         kudos: 5,
-        receivers: ["4"],
+        receivers: ["2"],
         virtual_receivers: [],
         team_id: "1",
       },
@@ -161,22 +124,22 @@ const mocksWithError = [
   },
 ];
 
-let mockCache: any;
-
 describe("<CreatePost />", () => {
+  const setup = (
+    { withErrors = false }: { withErrors: boolean } = { withErrors: false },
+  ) => {
+    render(
+      withMockedProviders(<CreatePost back={false} />, [
+        ...(withErrors ? mocksWithError : []),
+        ...mocks(),
+        ...guidelineMocks("1"),
+        ...teamMemberMocks("1"),
+      ]),
+    );
+  };
+
   beforeEach(() => {
     mockLocalstorage("1");
-    // mutationCalled = false;
-    // goalPercentageQueryCalled = false;
-    // getPostQueryCalled = false;
-    // mockCache = getMockCache();
-    render(
-      withMockedProviders(
-        <CreatePost back={false} />,
-        [...mocks(), ...guidelineMocks("1"), ...teamMemberMocks("1")],
-        // mockCache, true,
-      ),
-    );
   });
 
   const setKudoAmount = async () => {
@@ -212,6 +175,7 @@ describe("<CreatePost />", () => {
   };
 
   it("shows a message if the amount is null", async () => {
+    setup();
     await pressSubmit();
 
     const errorMessage = await screen.findByText("Amount can't be empty or 0.");
@@ -219,6 +183,7 @@ describe("<CreatePost />", () => {
   });
 
   it("shows a message if there are no receivers", async () => {
+    setup();
     await setKudoAmount();
     await pressSubmit();
 
@@ -229,6 +194,7 @@ describe("<CreatePost />", () => {
   });
 
   it("shows a warning if there is no message", async () => {
+    setup();
     await setKudoAmount();
     await setReceiver("Egon");
     await pressSubmit();
@@ -238,6 +204,7 @@ describe("<CreatePost />", () => {
   });
 
   it("shows a warning if the message is too short", async () => {
+    setup();
     await setKudoAmount();
     await setReceiver("Egon");
     await setMessage("Oi");
@@ -251,6 +218,7 @@ describe("<CreatePost />", () => {
   });
 
   it("shows a warning if the message is too long", async () => {
+    setup();
     await setKudoAmount();
     await setReceiver("Egon");
     await setMessage(
@@ -266,83 +234,29 @@ describe("<CreatePost />", () => {
     expect(errorMessage).toBeInTheDocument();
   });
 
-  it.skip("shows when the mutation is loading", async () => {
-    /*
-    const component = wrapper.find("CreatePost").instance();
+  it("shows when the mutation is loading", async () => {
+    setup();
+    await setKudoAmount();
+    await setReceiver("Egon");
+    await setMessage("Some message");
 
-    await act(async () => {
-      component.setState({
-        amount: "5",
-        receivers: ["4"],
-        message: "Some message",
-      });
-      await wrapper.update();
-
-      findByTestId(wrapper, "submit-button").hostNodes().simulate("submit");
-      await wrapper.update();
-
-      expect(
-        findByTestId(wrapper, "submit-button").hostNodes().hasClass("loading"),
-      ).toBe(true);
+    await pressSubmit();
+    const submitButton = screen.getByRole("button", {
+      name: "DROP YOUR KUDOS HERE",
     });
-    */
+    expect(submitButton).toBeDisabled();
   });
 
-  it.skip("shows when there is an error", async () => {
-    /*
-    wrapper = mount(
-      withMockedProviders(
-        <CreatePost back={false} />,
-        mocksWithError,
-        mockCache,
-        true,
-      ),
-    );
-    const component = wrapper.find("CreatePost").instance();
+  it("shows when there is an error", async () => {
+    setup({ withErrors: true });
 
-    await act(async () => {
-      component.setState({
-        amount: "5",
-        receivers: ["4"],
-        message: "Some message",
-      });
-      await wrapper.update();
+    await setKudoAmount();
+    await setReceiver("Egon");
+    await setMessage("Some message");
 
-      findByTestId(wrapper, "submit-button").hostNodes().simulate("submit");
-      await wait(0);
-      await wrapper.update();
+    await pressSubmit();
 
-      expect(findByTestId(wrapper, "error-message").text()).toBe(
-        "Something went wrong.",
-      );
-    });
-    */
-  });
-
-  it.skip("calls the mutation and the refetch queries", async () => {
-    /*
-    const component = wrapper.find("CreatePost").instance();
-
-    await act(async () => {
-      component.setState({
-        amount: 5,
-        receivers: ["4"],
-        message: "Some message",
-      });
-      await wrapper.update();
-
-      findByTestId(wrapper, "submit-button").hostNodes().simulate("submit");
-      await wait(0);
-      await wrapper.update();
-
-      expect(mutationCalled).toBe(true);
-
-      await wait(0);
-      await wrapper.update();
-
-      expect(goalPercentageQueryCalled).toBe(true);
-      expect(getPostQueryCalled).toBe(true);
-    });
-    */
+    const errorMessage = await screen.findByText("Something went wrong.");
+    expect(errorMessage).toBeInTheDocument();
   });
 });
