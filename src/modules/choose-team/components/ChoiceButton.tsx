@@ -68,6 +68,7 @@ function ChoiceButton(props: Props) {
             toast.info("Invite successfully declined!");
           }}
           state={loading ? "disabled" : "default"}
+          {...props}
         />
       )}
     </Mutation>

@@ -31,7 +31,7 @@ const mocksWithError = [
   },
 ];
 
-describe.skip("<CreateTeamPage />", () => {
+describe("<CreateTeamPage />", () => {
   beforeEach(async () => {
     mutationCalled = false;
     Storage.setItem = jest.fn();
@@ -71,19 +71,15 @@ describe.skip("<CreateTeamPage />", () => {
     expect(screen.queryByText("Name can't be blank."));
   });
 
-  it("Sets the loading state", async () => {
-    const { container } = render(
-      withMockedProviders(<CreateTeamPage />, mocks),
-    );
+  it("disables the button during creation", async () => {
+    render(withMockedProviders(<CreateTeamPage />, mocks));
     const input = screen.getByPlaceholderText("Team name");
     const button = screen.getByRole("button", { name: "Create team" });
 
     fireEvent.change(input, { target: { value: "Kabisa" } });
-    userEvent.click(button);
+    button.click();
 
-    await waitFor(() =>
-      expect(container.getElementsByClassName("loading").length).toBe(1),
-    );
+    await waitFor(() => expect(button).toBeDisabled());
   });
 
   it("shows when there is an error", async () => {
