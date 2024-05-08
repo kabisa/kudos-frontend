@@ -56,7 +56,6 @@ function ChoiceButton(props: Props) {
     >
       {(mutate, { loading }) => (
         <Button
-          variant={props.variant}
           onClick={() => {
             mutate({ variables: { team_invite_id: props.inviteId } });
             if (props.accept) {
