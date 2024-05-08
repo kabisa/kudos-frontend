@@ -63,10 +63,10 @@ function TeamList() {
         }
 
         return (
-          <div className={s.teamList}>
+          <div className={s.teamList} data-testid="kudo-team-invites">
             {memberships.map((membership) => (
               <TeamRow
-                data-testid="kudo-teamivite"
+                data-testid="kudo-teaminvite"
                 id={membership.team.id}
                 name={membership.team.name}
                 userRole={membership.role}

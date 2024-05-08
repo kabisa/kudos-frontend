@@ -1,13 +1,14 @@
 import { MockedProvider } from "@apollo/client/testing";
 import { MemoryRouter } from "react-router-dom";
-import { InMemoryCache } from "@apollo/client/cache";
+import { ApolloCache, InMemoryCache } from "@apollo/client/cache";
 import { ReactWrapper } from "enzyme";
+import React from "react";
 
-export const withMockedProviders = (
+export const withMockedProviders = <TSerialized extends object>(
   component: any,
   mocks?: any,
-  cache?: any,
-  useTypeName: boolean = false,
+  cache?: ApolloCache<TSerialized>,
+  useTypeName: boolean = true,
 ) => (
   <MemoryRouter>
     <MockedProvider mocks={mocks} addTypename={useTypeName} cache={cache}>

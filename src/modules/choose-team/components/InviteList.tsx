@@ -23,7 +23,7 @@ export interface InvitesResult {
 }
 
 const InviteList = () => (
-  <div data-testid="invite-list">
+  <div>
     <Query<InvitesResult>
       query={GET_INVITES}
       pollInterval={2000}

@@ -21,17 +21,23 @@ const mockWithInvites = [
     result: {
       data: {
         viewer: {
+          __typename: "Viewer",
+          id: "1",
           teamInvites: [
             {
+              __typename: "TeamInvite",
               id: "1",
               team: {
+                __typename: "Team",
                 id: "1",
                 name: "Kabisa",
               },
             },
             {
+              __typename: "TeamInvite",
               id: "2",
               team: {
+                __typename: "Team",
                 id: "2",
                 name: "Dovetail",
               },
@@ -48,19 +54,25 @@ const mockWithInvites = [
     result: {
       data: {
         viewer: {
+          __typename: "Viewer",
+          id: "1",
           memberships: [
             {
+              __typename: "TeamMembership",
               id: "1",
               role: "admin",
               team: {
-                id: "2",
+                __typename: "Team",
+                id: "1",
                 name: "Team 1",
               },
             },
             {
+              __typename: "TeamMembership",
               id: "2",
               role: "admin",
               team: {
+                __typename: "Team",
                 id: "2",
                 name: "Team 2",
               },
@@ -72,21 +84,19 @@ const mockWithInvites = [
   },
 ];
 
-describe.skip("<ChooseTeamPage />", () => {
+describe("<ChooseTeamPage />", () => {
   it("renders the invite list", async () => {
     render(withMockedProviders(<Content />, mockWithInvites));
 
-    const inviteList = screen.getByTestId("invite-list");
-
+    const inviteList = await screen.findByTestId("invite-list");
     expect(inviteList).toBeInTheDocument();
   });
 
   it("renders the team list", async () => {
     render(withMockedProviders(<Content />, mockWithInvites));
 
-    const teamList = screen.getByTestId("personal-team-list");
-
-    expect(teamList).toBeInTheDocument();
+    const teamInvites = await screen.findByTestId("kudo-team-invites");
+    expect(teamInvites).toBeInTheDocument();
   });
 
   it("renders the create team button", () => {
@@ -99,7 +109,9 @@ describe.skip("<ChooseTeamPage />", () => {
   });
 
   it("navigates to the create team page", async () => {
-    render(withMockedProviders(<Content />, mockWithInvites));
+    const { unmount } = render(
+      withMockedProviders(<Content />, mockWithInvites),
+    );
 
     const createTeamButton = screen.getByRole("button", {
       name: "Create team",
@@ -107,5 +119,6 @@ describe.skip("<ChooseTeamPage />", () => {
     fireEvent.click(createTeamButton);
 
     expect(mockHistoryPush).toHaveBeenCalledWith("/create-team");
+    unmount();
   });
 });
