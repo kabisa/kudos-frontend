@@ -2,7 +2,6 @@ import { MockedProvider } from "@apollo/client/testing";
 import { MemoryRouter } from "react-router-dom";
 import { ApolloCache, InMemoryCache } from "@apollo/client/cache";
 import { ReactWrapper } from "enzyme";
-import React from "react";
 
 export const withMockedProviders = <TSerialized extends object>(
   component: any,

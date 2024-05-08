@@ -54,7 +54,7 @@ export function RepoList() {
 
         const { posts } = data.teamById;
         return (
-          <div className={s.container}>
+          <div className={s.container} data-testid="repo-list">
             <TileList className={s.tilesContainer}>
               {posts.edges.map((item) => (
                 <Transaction

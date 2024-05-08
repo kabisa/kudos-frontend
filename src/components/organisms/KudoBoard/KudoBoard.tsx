@@ -6,7 +6,7 @@ const KudoBoard = () => (
     theme={"dark"}
     center={true}
     title={{ text: "Shout out messageboard" }}
-    content={<RepoList data-testid="repo-list" />}
+    content={<RepoList />}
   />
 );
 

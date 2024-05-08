@@ -1,15 +1,9 @@
-import { mount, ReactWrapper } from "enzyme";
-import { act } from "react-dom/test-utils";
+import { render, screen } from "@testing-library/react";
 import { GET_POSTS } from "../../../modules/feed/queries";
-import {
-  findByTestId,
-  mockLocalstorage,
-  wait,
-  withMockedProviders,
-} from "../../../spec_helper";
+import { mockLocalstorage, withMockedProviders } from "../../../spec_helper";
 import { RepoList } from "./RepoList";
 
-const mocks = (hasNextPage: boolean) => [
+export const mocks = (hasNextPage: boolean) => [
   {
     request: {
       query: GET_POSTS,
@@ -19,6 +13,7 @@ const mocks = (hasNextPage: boolean) => [
       data: {
         teamById: {
           __typename: "Team",
+          id: "1",
           posts: {
             __typename: "Posts",
             edges: [
@@ -83,62 +78,47 @@ const mocksWithError = [
   },
 ];
 
-let wrapper: ReactWrapper;
+const setup = (mock: any) =>
+  render(withMockedProviders(<RepoList />, mock, undefined, true));
 
-const setup = (mock: any) => {
-  wrapper = mount(withMockedProviders(<RepoList />, mock, undefined, true));
-};
-
-describe.skip("<RepoList />", () => {
+describe("<RepoList />", () => {
   beforeEach(() => {
     mockLocalstorage("1");
     setup(mocks(false));
   });
 
-  it("should show loading when the query is loading", async () => {
-    expect(wrapper.containsMatchingElement(<div>Loading</div>)).toBe(true);
+  it("shows loading when the query is loading", async () => {
+    const element = screen.getByText("Loading..");
+    expect(element).toBeInTheDocument();
+
+    // Wait to prevent unmount while fetching (causes State update on unmounted component)
+    await screen.findAllByTestId("kudo-transaction");
   });
 
-  it("should show the error message when there is an error", async () => {
+  it("shows show the error message when there is an error", async () => {
     setup(mocksWithError);
-    await act(async () => {
-      await wait(0);
-      await wrapper.update();
-
-      expect(wrapper.containsMatchingElement(<p>It broke</p>)).toBe(true);
-    });
+    const element = await screen.findByText("It broke");
+    expect(element).toBeInTheDocument();
   });
 
-  it("should render all the posts", async () => {
-    await act(async () => {
-      await wait(0);
-      await wrapper.update();
-
-      expect(wrapper.find("Transaction").length).toBe(1);
-    });
+  it("renders all the posts", async () => {
+    const elements = await screen.findAllByTestId("kudo-transaction");
+    expect(elements).toHaveLength(1);
   });
 
-  it("should show a load next button when there are more posts", async () => {
+  it("shows a load next button when there are more posts", async () => {
     setup(mocks(true));
-    await act(async () => {
-      await wait(0);
-      await wrapper.update();
-
-      expect(findByTestId(wrapper, "next-page-button").length).toBe(1);
-    });
+    const nextPageButton = await screen.findByTestId("next-page-button");
+    expect(nextPageButton).toBeInTheDocument();
   });
 
   it("should not show a load next button when there are no more posts", async () => {
-    await act(async () => {
-      await wait(0);
-      await wrapper.update();
+    const nextPageButton = screen.queryByTestId("next-page-button");
+    expect(nextPageButton).toBeNull();
 
-      expect(findByTestId(wrapper, "next-page-button").length).toBe(0);
-      expect(
-        wrapper.containsMatchingElement(
-          <p>You&apos;ve reached the end, congratulations!</p>,
-        ),
-      ).toBe(true);
-    });
+    const element = await screen.findByText(
+      "You've reached the end, congratulations!",
+    );
+    expect(element).toBeInTheDocument();
   });
 });

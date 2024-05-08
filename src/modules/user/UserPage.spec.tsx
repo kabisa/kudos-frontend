@@ -11,7 +11,7 @@ import {
 import { PATH_RESET_PASSWORD } from "../../routes";
 
 let mutationCalled = false;
-const mocks = [
+export const mocks = ({ slackId = "" } = { slackId: "" }) => [
   {
     request: {
       query: GET_USER,
@@ -19,9 +19,11 @@ const mocks = [
     result: () => ({
       data: {
         viewer: {
+          id: "1",
+          __typename: "User",
           name: "Max",
           avatar: "fakeAvatarUrl",
-          slackId: "",
+          slackId,
         },
       },
     }),
@@ -29,20 +31,7 @@ const mocks = [
 ];
 
 const mocksWithSlackId = [
-  {
-    request: {
-      query: GET_USER,
-    },
-    result: () => ({
-      data: {
-        viewer: {
-          name: "Max",
-          avatar: "fakeAvatarUrl",
-          slackId: "1",
-        },
-      },
-    }),
-  },
+  ...mocks({ slackId: "1" }),
   {
     request: {
       query: DISCONNECT_SLACK,
@@ -91,7 +80,7 @@ const setup = async (mock: any) => {
 
 describe.skip("<UserPage/>", () => {
   beforeEach(async () => {
-    await setup(mocks);
+    await setup(mocks());
   });
 
   it("shows the component is loading", () => {
@@ -156,7 +145,7 @@ describe.skip("<UserPage/>", () => {
 
   describe.skip("not connected to slack", () => {
     beforeEach(async () => {
-      await setup(mocks);
+      await setup(mocks());
     });
 
     it("shows the connect to slack part if the slack id is null", async () => {

@@ -2,7 +2,7 @@ import { render, RenderResult, screen } from "@testing-library/react";
 import { mockLocalstorage, withMockedProviders } from "../../spec_helper";
 import Desktop, { GET_USER } from "./Desktop";
 
-const mocks = [
+export const mocks = () => [
   {
     request: {
       query: GET_USER,
@@ -21,13 +21,13 @@ const mocks = [
 
 describe("<Desktop />", () => {
   it("renders the users name", async () => {
-    render(withMockedProviders(<Desktop />, mocks));
+    render(withMockedProviders(<Desktop />, mocks()));
     const node = await screen.findByText("Max");
     expect(node).toBeInTheDocument();
   });
 
   it("should have a link to the home page", async () => {
-    render(withMockedProviders(<Desktop />, mocks));
+    render(withMockedProviders(<Desktop />, mocks()));
 
     const button = await screen.findByTestId("home-button");
     expect(button).toBeInTheDocument();
@@ -37,7 +37,7 @@ describe("<Desktop />", () => {
     let renderResult: RenderResult;
 
     beforeEach(async () => {
-      renderResult = render(withMockedProviders(<Desktop />, mocks));
+      renderResult = render(withMockedProviders(<Desktop />, mocks()));
       const button = await screen.findByRole("button", { name: "Max" });
       button.click();
     });
@@ -60,7 +60,7 @@ describe("<Desktop />", () => {
     describe("as admin", () => {
       beforeEach(() => {
         mockLocalstorage("admin");
-        renderResult.rerender(withMockedProviders(<Desktop />, mocks));
+        renderResult.rerender(withMockedProviders(<Desktop />, mocks()));
       });
 
       it("has a manage team button", async () => {
@@ -72,7 +72,7 @@ describe("<Desktop />", () => {
     describe("as member", () => {
       beforeEach(() => {
         mockLocalstorage("member");
-        renderResult.rerender(withMockedProviders(<Desktop />, mocks));
+        renderResult.rerender(withMockedProviders(<Desktop />, mocks()));
       });
 
       it("does not have a manage team button", async () => {

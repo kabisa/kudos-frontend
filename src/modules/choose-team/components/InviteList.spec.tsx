@@ -59,7 +59,7 @@ const mockWithoutInvites = [
   },
 ];
 
-describe.skip("<InviteList />", () => {
+describe("<InviteList />", () => {
   let wrapper: ReactWrapper;
 
   beforeEach(() => {
