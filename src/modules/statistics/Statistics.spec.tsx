@@ -47,7 +47,7 @@ describe.skip("<Statistics />", () => {
 
   beforeEach(() => {
     mockLocalstorage("1");
-    wrapper = mount(withMockedProviders(<Statistics />, mocks()));
+    wrapper = mount(withMockedProviders(<Statistics />, mocks("1")));
   });
 
   it("shows a loading state", () => {
