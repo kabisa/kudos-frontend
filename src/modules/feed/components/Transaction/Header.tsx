@@ -14,9 +14,6 @@ import { Auth } from "../../../../support";
 
 import s from "./Header.module.scss";
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-// const moment = require("moment-twitter");
-
 export const MUTATION_REMOVE_POST = gql`
   mutation RemovePost($id: ID!) {
     deletePost(id: $id) {
@@ -106,6 +103,12 @@ export class Header extends Component<Props, State> {
     const allowNormalEdit = true;
     // moment.duration(timestamp.diff(moment())).asMinutes() * -1 <= 15;
 
+    const allowDeletion =
+      (Storage.getItem(settings.USER_ID_TOKEN) ===
+        this.props.transaction.sender.id &&
+        allowNormalEdit) ||
+      Auth.isTeamAdmin();
+
     return (
       <div className={s.container}>
         <div className={s.kudos}>
@@ -130,10 +133,7 @@ export class Header extends Component<Props, State> {
           <span data-testid="post-timestamp" className={s.timestamp}>
             {/* {timestamp.fromNow()} */}
           </span>
-          {((Storage.getItem(settings.USER_ID_TOKEN) ===
-            this.props.transaction.sender.id &&
-            allowNormalEdit) ||
-            Auth.isTeamAdmin()) && (
+          {allowDeletion && (
             <Mutation<ToggleLikeParameters>
               mutation={MUTATION_REMOVE_POST}
               refetchQueries={[

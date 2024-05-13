@@ -29,7 +29,7 @@ const setup = (teamId: string) => {
 };
 
 describe("<FeedPage />", () => {
-  beforeEach(async () => {
+  beforeEach(() => {
     mockLocalstorage("1");
 
     setup("1");
