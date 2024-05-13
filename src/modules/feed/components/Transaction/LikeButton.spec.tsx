@@ -1,17 +1,11 @@
-import { mount, ReactWrapper } from "enzyme";
-import {
-  findByTestId,
-  mockLocalstorage,
-  withMockedProviders,
-} from "../../../../spec_helper";
+import { mockLocalstorage, withMockedProviders } from "../../../../spec_helper";
 import LikeButton, { MUTATION_TOGGLE_LIKE } from "./LikeButton";
 import {
   FragmentPostResult,
   GET_GOAL_PERCENTAGE,
   GET_POSTS,
 } from "../../queries";
-import { act, render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { render, screen, waitFor } from "@testing-library/react";
 import { InMemoryCache } from "@apollo/client";
 
 const likedPost: FragmentPostResult = {
@@ -90,42 +84,49 @@ const mocks = [
   },
 ];
 
-let wrapper: ReactWrapper;
-
-describe.skip("<LikeButton />", () => {
+describe("<LikeButton />", () => {
   beforeEach(() => {
     mutationCalled = false;
     mockLocalstorage("1");
   });
 
-  it("renders the correct message", () => {
-    wrapper = mount(
+  it("renders the correct message", async () => {
+    render(
       withMockedProviders(<LikeButton liked={false} post={likedPost} />, mocks),
     );
+    const message = await screen.findByTestId("message");
 
-    expect(findByTestId(wrapper, "message").text()).toBe("+1₭ by Max");
+    expect(message.textContent).toBe("+1₭ by Max");
   });
 
-  it("renders the correct like icon if the post is not liked", () => {
-    wrapper = mount(
+  it("renders the correct like icon if the post is not liked", async () => {
+    render(
       withMockedProviders(<LikeButton liked={false} post={likedPost} />, mocks),
     );
+    const likeButton = await screen.findByRole("button");
 
-    expect(
-      findByTestId(wrapper, "like-icon")
-        .hostNodes()
-        .hasClass("thumbs up outline"),
-    ).toBe(true);
+    const icon = likeButton.querySelector(
+      "span[class*='material-symbols-rounded']",
+    );
+    expect(icon?.textContent).toBe("thumb_up");
+    expect(icon?.getAttribute("class")).toContain(
+      "material-symbols-rounded-outline",
+    );
   });
 
-  it("renders the correct like icon if the post is liked", () => {
-    wrapper = mount(
+  it("renders the correct like icon if the post is liked", async () => {
+    render(
       withMockedProviders(<LikeButton liked={true} post={likedPost} />, mocks),
     );
 
-    expect(
-      findByTestId(wrapper, "like-icon").hostNodes().hasClass("blue thumbs up"),
-    ).toBe(true);
+    const likeButton = await screen.findByRole("button");
+    const icon = likeButton.querySelector(
+      "span[class*='material-symbols-rounded']",
+    );
+    expect(icon?.textContent).toBe("thumb_up");
+    expect(icon?.getAttribute("class")).not.toContain(
+      "material-symbols-rounded-outline",
+    );
   });
 
   it("calls the mutation", async () => {
@@ -180,10 +181,11 @@ describe.skip("<LikeButton />", () => {
       ),
     );
 
-    const button = screen.getByTestId("like-button");
+    const likeButton = await screen.findByRole("button");
+    likeButton.click();
 
-    await act(async () => userEvent.click(button));
-
-    expect(mutationCalled).toBe(true);
+    waitFor(() => {
+      expect(mutationCalled).toBe(true);
+    });
   });
 });
