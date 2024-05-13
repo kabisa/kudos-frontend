@@ -29,6 +29,7 @@ export interface ToggleLikeParameters {
 export interface Props {
   transaction: FragmentPostResult;
   history?: History;
+  "data-testid"?: string;
   setEditTransaction?: (id: string) => void;
 }
 
@@ -110,7 +111,7 @@ export class Header extends Component<Props, State> {
       Auth.isTeamAdmin();
 
     return (
-      <div className={s.container}>
+      <div className={s.container} data-testid={this.props["data-testid"]}>
         <div className={s.kudos}>
           <span data-testid="post-amount">{amount + votes.length}</span>₭
         </div>
