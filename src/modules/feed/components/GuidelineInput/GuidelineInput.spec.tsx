@@ -1,8 +1,12 @@
 import { mockLocalstorage, withMockedProviders } from "../../../../spec_helper";
+import {
+  getSelectOptions,
+  getSelectedItemsText,
+  openSelect,
+} from "../../../../support/testing/reactSelectHelpers";
 import { GET_GUIDELINES } from "../../../manage-team/sections/guideline/GuidelinesSection";
 import GuidelineInput from "./GuidelineInput";
 import { render, waitFor, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 
 let queryCalled = false;
 const mocks = [
@@ -16,15 +20,17 @@ const mocks = [
       return {
         data: {
           teamById: {
+            id: "1",
+            __typename: "Team",
             guidelines: [
               {
                 id: "1",
-                kudos: "10",
+                kudos: 10,
                 name: "Op tijd bij meeting",
               },
               {
                 id: "2",
-                kudos: "15",
+                kudos: 15,
                 name: "Bureau opgeruimd",
               },
             ],
@@ -32,15 +38,6 @@ const mocks = [
         },
       };
     },
-  },
-];
-const mocksWithError = [
-  {
-    request: {
-      query: GET_GUIDELINES,
-      variables: { team_id: "1" },
-    },
-    error: new Error("It broke"),
   },
 ];
 const mocksWithoutData = [
@@ -54,6 +51,8 @@ const mocksWithoutData = [
       return {
         data: {
           teamById: {
+            id: "1",
+            __typename: "Team",
             guidelines: [],
           },
         },
@@ -62,7 +61,7 @@ const mocksWithoutData = [
   },
 ];
 
-describe.skip("<GuidelineInput />", () => {
+describe("<GuidelineInput />", () => {
   const handleChangeMock = jest.fn();
 
   beforeEach(() => {
@@ -78,37 +77,48 @@ describe.skip("<GuidelineInput />", () => {
       ),
     );
 
-    // Sets showGuidelines to true which is needed to trigger the query.
-    const input = screen.getByRole("spinbutton", { name: "Kudos Amount" });
-    input.focus();
+    const selectElement = await screen.findByRole("combobox", {
+      description: "Kudos amount",
+    });
+    openSelect(selectElement);
+    const options = await getSelectOptions(selectElement);
+    options[0].click();
 
-    const rows = await screen.findAllByTestId("guideline-row");
-    await userEvent.click(rows[0]);
-    expect(input).toHaveValue(10);
+    expect(getSelectedItemsText(selectElement)).toEqual("10");
   });
 
   it("display only guidelines that have a kudos value within a range of 5 from the selected guideline.", async () => {
     const modifiedMock = [...mocks];
-    modifiedMock[0].result = () => {
-      queryCalled = true;
-      return {
-        data: {
-          teamById: {
-            guidelines: [
-              {
-                id: "1",
-                kudos: "10",
-                name: "Op tijd bij meeting",
-              },
-              {
-                id: "2",
-                kudos: "14", // Within range of 5
-                name: "Bureau opgeruimd",
-              },
-            ],
+    modifiedMock[0] = {
+      ...mocks[0],
+      result: () => {
+        queryCalled = true;
+        return {
+          data: {
+            teamById: {
+              id: "1",
+              __typename: "Team",
+              guidelines: [
+                {
+                  id: "1",
+                  kudos: 4,
+                  name: "Great help for someone",
+                },
+                {
+                  id: "2",
+                  kudos: 11,
+                  name: "Op tijd bij meeting",
+                },
+                {
+                  id: "3",
+                  kudos: 14, // Within range of 10
+                  name: "Bureau opgeruimd",
+                },
+              ],
+            },
           },
-        },
-      };
+        };
+      },
     };
 
     render(
@@ -119,25 +129,26 @@ describe.skip("<GuidelineInput />", () => {
     );
 
     // Sets showGuidelines to true which is needed to trigger the query.
-    const input = screen.getByRole("spinbutton", { name: "Kudos Amount" });
-    input.focus();
+    const selectElement = await screen.findByRole("combobox", {
+      description: "Kudos amount",
+    });
+    openSelect(selectElement);
 
-    const rows = await screen.findAllByTestId("guideline-row");
-    await userEvent.click(rows[0]);
-    expect(input).toHaveValue(10);
+    const options = await getSelectOptions(selectElement);
+    expect(options).toHaveLength(3);
+    options[1].click();
+    expect(getSelectedItemsText(selectElement)).toEqual("11");
 
     // Update input reference after clicking the first row
-    const updatedInput = screen.getByRole("spinbutton", {
-      name: "Kudos Amount",
-    });
-    updatedInput.focus();
+    const updatedSelectElement = await screen.findByRole("combobox");
+    openSelect(updatedSelectElement);
 
-    const updatedRows = await screen.findAllByTestId("guideline-row");
+    const updatedOptions = await getSelectOptions(updatedSelectElement);
     // Only shows 2 rows because 14 is within range of 10
-    expect(updatedRows).toHaveLength(2);
+    expect(updatedOptions).toHaveLength(2);
   });
 
-  it("shows the guidelines on focus", async () => {
+  it("shows the guidelines on down arrow", async () => {
     render(
       withMockedProviders(
         <GuidelineInput handleChange={handleChangeMock} amountError={false} />,
@@ -146,33 +157,16 @@ describe.skip("<GuidelineInput />", () => {
     );
 
     // Sets showGuidelines to true which is needed to trigger the query.
-    screen.getByRole("spinbutton", { name: "Kudos Amount" }).focus();
-
-    const rows = await screen.findAllByTestId("guideline-row");
-    expect(rows).toHaveLength(2);
-  });
-
-  it("resets the focus on blur", async () => {
-    render(
-      withMockedProviders(
-        <GuidelineInput handleChange={handleChangeMock} amountError={false} />,
-        mocks,
-      ),
-    );
-
-    // Sets showGuidelines to true which is needed to trigger the query.
-    const input = screen.getByRole("spinbutton", { name: "Kudos Amount" });
-    input.focus();
-
-    // Validate that showGuidelines is true.
-    const rows = await screen.findAllByTestId("guideline-row");
-    expect(rows).toHaveLength(2);
-
-    // Validate that showGuidelines is false after blur event.
-    input.blur();
-    await waitFor(() => {
-      expect(screen.queryAllByTestId("guideline-row")).toHaveLength(0);
+    const selectElement = await screen.findByRole("combobox", {
+      description: "Kudos amount",
     });
+    const options = await getSelectOptions(selectElement);
+    expect(options).toHaveLength(0);
+
+    openSelect(selectElement);
+
+    const updatedOptions = await getSelectOptions(selectElement);
+    expect(updatedOptions).toHaveLength(2);
   });
 
   it("calls the mutation if the input is focused and amount is not empty", async () => {
@@ -186,28 +180,17 @@ describe.skip("<GuidelineInput />", () => {
     expect(queryCalled).toBe(false);
 
     // Sets showGuidelines to true which is needed to trigger the query.
-    screen.getByRole("spinbutton", { name: "Kudos Amount" }).focus();
+    const selectElement = await screen.findByRole("combobox", {
+      description: "Kudos amount",
+    });
+    openSelect(selectElement);
 
     await waitFor(() => {
       expect(queryCalled).toBe(true);
     });
   });
 
-  it("Shows when there is an error", async () => {
-    render(
-      withMockedProviders(
-        <GuidelineInput handleChange={handleChangeMock} amountError={false} />,
-        mocksWithError,
-      ),
-    );
-
-    // Sets showGuidelines to true which is needed to trigger the query.
-    screen.getByRole("spinbutton", { name: "Kudos Amount" }).focus();
-
-    expect(await screen.findByText("It broke")).toBeInTheDocument();
-  });
-
-  it("Shows a message when there are no guidelines", async () => {
+  it("shows a message when there are no guidelines", async () => {
     render(
       withMockedProviders(
         <GuidelineInput handleChange={handleChangeMock} amountError={false} />,
@@ -216,29 +199,34 @@ describe.skip("<GuidelineInput />", () => {
     );
 
     // Sets showGuidelines to true which is needed to trigger the query.
-    screen.getByRole("spinbutton", { name: "Kudos Amount" }).focus();
+    const selectElement = await screen.findByRole("combobox", {
+      description: "Kudos amount",
+    });
+    openSelect(selectElement);
 
-    expect(
-      await screen.findByText("No guidelines available"),
-    ).toBeInTheDocument();
+    expect(await screen.findByText("No options")).toBeInTheDocument();
   });
 
-  it("Shows when the query is loading", async () => {
+  it("is disabled when the query is loading", async () => {
     render(
       withMockedProviders(
         <GuidelineInput handleChange={handleChangeMock} amountError={false} />,
         mocks,
       ),
     );
+    const selectElement = screen.getByRole("combobox", {
+      description: "Kudos amount",
+      hidden: true,
+    });
+    expect(selectElement).toBeDisabled();
 
-    // Sets showGuidelines to true which is needed to trigger the query.
-    await waitFor(async () => {
-      screen.getByRole("spinbutton", { name: "Kudos Amount" }).focus();
-      expect(await screen.findByText("Loading...")).toBeInTheDocument();
+    // wait for query to complete to prevent unmount while getting state changes
+    await screen.findByRole("combobox", {
+      description: "Kudos amount",
     });
   });
 
-  it("renders a segment for each guideline", async () => {
+  it("reports the correct amount when a guideline is clicked", async () => {
     render(
       withMockedProviders(
         <GuidelineInput handleChange={handleChangeMock} amountError={false} />,
@@ -247,47 +235,14 @@ describe.skip("<GuidelineInput />", () => {
     );
 
     // Sets showGuidelines to true which is needed to trigger the query.
-    screen.getByRole("spinbutton", { name: "Kudos Amount" }).focus();
-
-    const rows = await screen.findAllByTestId("guideline-row");
-    expect(rows).toHaveLength(2);
-  });
-
-  it("it shows the guidelines when the button is clicked", async () => {
-    render(
-      withMockedProviders(
-        <GuidelineInput handleChange={handleChangeMock} amountError={false} />,
-        mocks,
-      ),
-    );
-
-    const button = screen.getByTestId("guidelines-button");
-    userEvent.click(button);
-
-    const rows = await screen.findAllByTestId("guideline-row");
-    expect(rows).toHaveLength(2);
-  });
-
-  it("should set the correct amount when a guideline is clicked", async () => {
-    render(
-      withMockedProviders(
-        <GuidelineInput handleChange={handleChangeMock} amountError={false} />,
-        mocks,
-      ),
-    );
-
-    // Sets showGuidelines to true which is needed to trigger the query.
-    const input = screen.getByRole("spinbutton", { name: "Kudos Amount" });
-    input.focus();
-
-    const rows = await screen.findAllByTestId("guideline-row");
-    expect(rows).toHaveLength(2);
-    await userEvent.click(rows[0]);
-
-    await waitFor(() => {
-      expect(screen.queryAllByTestId("guideline-row")).toHaveLength(0);
+    const selectElement = await screen.findByRole("combobox", {
+      description: "Kudos amount",
     });
+    openSelect(selectElement);
+    const options = await getSelectOptions(selectElement);
+    options[1].click();
 
-    expect(input).toHaveValue(10);
+    expect(handleChangeMock).toBeCalledWith(15);
+    expect(getSelectedItemsText(selectElement)).toEqual("15");
   });
 });

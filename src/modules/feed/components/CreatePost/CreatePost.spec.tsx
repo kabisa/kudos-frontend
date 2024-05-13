@@ -2,15 +2,13 @@ import { GraphQLError } from "graphql";
 import { mockLocalstorage, withMockedProviders } from "../../../../spec_helper";
 import { CREATE_POST, CreatePost } from "./CreatePost";
 import { GET_POSTS } from "../../queries";
-import {
-  RenderResult,
-  act,
-  fireEvent,
-  render,
-  screen,
-} from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { mocks as guidelineMocks } from "../../../manage-team/sections/guideline/GuidelinesSection.spec";
 import { mocksWithData as teamMemberMocks } from "../UserDropdown/UserDropdown.spec";
+import {
+  getSelectOptions,
+  openSelect,
+} from "../../../../support/testing/reactSelectHelpers";
 
 const DOWN_ARROW = { keyCode: 40 };
 
@@ -142,13 +140,13 @@ describe("<CreatePost />", () => {
     mockLocalstorage("1");
   });
 
-  const setKudoAmount = async () => {
-    const amountInput = await screen.findByRole("combobox", {
+  const setKudoAmount = async (index = 0) => {
+    const selectElement = await screen.findByRole("combobox", {
       description: "Kudos amount",
     });
-    fireEvent.keyDown(amountInput, DOWN_ARROW);
-
-    const kudoAmountOption = await screen.findByText("first guideline: 5");
+    openSelect(selectElement);
+    const options = await getSelectOptions(selectElement);
+    const kudoAmountOption = options[index];
     kudoAmountOption.click();
   };
 
@@ -156,7 +154,7 @@ describe("<CreatePost />", () => {
     const receiverInput = await screen.findByRole("combobox", {
       description: "Receivers",
     });
-    fireEvent.keyDown(receiverInput, DOWN_ARROW);
+    openSelect(receiverInput);
 
     const kudoMemberOption = await screen.findByText(name);
     kudoMemberOption.click();

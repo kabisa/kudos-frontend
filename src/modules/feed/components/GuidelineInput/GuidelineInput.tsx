@@ -37,6 +37,12 @@ export interface State {
 
 export type GuidelineOption = { label: string; value: string; id: string };
 
+const guidelineToOption = (guideline: Guideline): GuidelineOption => ({
+  id: guideline.id,
+  label: `${guideline.name}: ${guideline.kudos}`,
+  value: guideline.kudos.toString(),
+});
+
 class GuidelineInput extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -93,17 +99,9 @@ class GuidelineInput extends Component<Props, State> {
                       guideline.kudos + KUDO_GUIDELINE_RANGE >
                         (this.state.amount || 0),
                   )
-                  .map((guideline) => ({
-                    id: guideline.id,
-                    label: `${guideline.name}: ${guideline.kudos}`,
-                    value: guideline.kudos.toString(),
-                  }));
+                  .map(guidelineToOption);
               } else {
-                guidelines = data.teamById.guidelines.map((guideline) => ({
-                  id: guideline.id,
-                  label: `${guideline.name}: ${guideline.kudos}`,
-                  value: guideline.kudos.toString(),
-                }));
+                guidelines = data.teamById.guidelines.map(guidelineToOption);
               }
             }
 
