@@ -18,3 +18,25 @@
 #root *:not(.material-symbols-rounded, .material-symbols-rounded-outlined) {
   font-family: inherit;
 }
+
+.material-symbols-rounded {
+  font-family: "Material Symbols Rounded", sans-serif;
+  font-variation-settings:
+    "FILL" 1,
+    "wght" var(--font-weight-regular),
+    "GRAD" 0,
+    "opsz" 24;
+  font-size: var(--font-size-xl);
+  color: var(--font-color-1);
+}
+
+.module_material-symbols-rounded-outlined {
+  font-family: "Material Symbols Rounded", sans-serif;
+  font-variation-settings:
+    "FILL" 0,
+    "wght" var(--font-weight-regular),
+    "GRAD" 0,
+    "opsz" 24;
+  font-size: var(--font-size-xl);
+  color: var(--font-color-1);
+}
