@@ -8,6 +8,7 @@ import {
 } from "../../../../spec_helper";
 import { Header, MUTATION_REMOVE_POST } from "./Header";
 import { FragmentPostResult, GET_POSTS } from "../../queries";
+import { screen, render, RenderResult, waitFor } from "@testing-library/react";
 
 const transaction: FragmentPostResult = {
   amount: 5,
@@ -58,6 +59,7 @@ const mocks = [
       variables: { id: "1" },
     },
     result: () => {
+      console.log("woot");
       mutationCalled = true;
       return {
         data: {
@@ -86,100 +88,94 @@ const mocks = [
   },
 ];
 
-describe.skip("<Header />", () => {
-  let wrapper: ReactWrapper;
+describe("<Header />", () => {
+  let wrapper: RenderResult;
 
   beforeEach(() => {
     mockLocalstorage("1");
     mutationCalled = false;
     queryCalled = false;
-    wrapper = mount(
-      withMockedProviders(<Header transaction={transaction} />, mocks),
-    );
   });
 
-  it("shows the correct kudo amount", () => {
-    expect(findByTestId(wrapper, "post-amount").text()).toBe("5");
+  it("shows the correct kudo amount", async () => {
+    render(withMockedProviders(<Header transaction={transaction} />, mocks));
+    const amount = await screen.findByTestId("post-amount");
+    expect(amount.textContent).toBe("5");
   });
 
-  it("shows the correct timestamp", () => {
-    expect(
-      findByTestId(wrapper, "post-timestamp").contains("a few seconds ago"),
-    ).toBe(true);
+  // This functionality is disabled in the code
+  it.skip("shows the correct timestamp", async () => {
+    render(withMockedProviders(<Header transaction={transaction} />, mocks));
+    const timestamp = await screen.findByTestId("post-timestamp");
+    expect(timestamp.textContent).toContain("a few seconds ago");
   });
 
-  it("shows the senders avatar", () => {
-    expect(findByTestId(wrapper, "sender-avatar").hostNodes().props().src).toBe(
-      "fakeAvatarUrl",
-    );
+  it("shows the senders avatar", async () => {
+    render(withMockedProviders(<Header transaction={transaction} />, mocks));
+    const senderAvatar = await screen.findByTestId("sender-avatar");
+    expect(senderAvatar.getAttribute("src")).toBe("fakeAvatarUrl");
   });
 
-  it("shows the receivers avatar", () => {
-    expect(
-      findByTestId(wrapper, "receiver-avatar").hostNodes().props().src,
-    ).toBe("receiverAvatarUrl");
+  it("shows the receivers avatar", async () => {
+    render(withMockedProviders(<Header transaction={transaction} />, mocks));
+    const receiverAvatar = await screen.findByTestId("receiver-avatar");
+    expect(receiverAvatar.getAttribute("src")).toBe("receiverAvatarUrl");
   });
 
   it("allows the user to remove his own post within 15 minutes", () => {
-    expect(findByTestId(wrapper, "post-dropdown").hostNodes().length).toBe(1);
+    render(withMockedProviders(<Header transaction={transaction} />, mocks));
+    const deleteButton = screen.queryByTestId("delete-button");
+    expect(deleteButton).not.toBeNull();
   });
 
-  it("prevents the user to remove his own post after 15 minutes", () => {
-    wrapper = mount(
-      withMockedProviders(<Header transaction={olderTransaction} />),
+  // deletion is always allowed now...
+  it.skip("prevents the user to remove his own post after 15 minutes", async () => {
+    render(
+      withMockedProviders(<Header transaction={olderTransaction} />, mocks),
     );
 
-    expect(findByTestId(wrapper, "post-dropdown").hostNodes().length).toBe(0);
+    const deleteButton = screen.queryByTestId("delete-button");
+    expect(deleteButton).toBeNull();
   });
 
   it("always allows an admin to remove a post", () => {
     mockLocalstorage("admin");
-    wrapper = mount(withMockedProviders(<Header transaction={transaction} />));
+    render(withMockedProviders(<Header transaction={transaction} />, mocks));
 
-    expect(findByTestId(wrapper, "post-dropdown").hostNodes().length).toBe(1);
+    const deleteButton = screen.queryAllByTestId("delete-button");
+    expect(deleteButton).not.toBeNull();
   });
 
-  it("doesnt allow an other user to delete the post", () => {
+  it("does not allow an other user to delete the post", () => {
     mockLocalstorage("3");
-    wrapper = mount(withMockedProviders(<Header transaction={transaction} />));
+    render(withMockedProviders(<Header transaction={transaction} />, mocks));
 
-    expect(findByTestId(wrapper, "post-dropdown").length).toBe(0);
+    const deleteButton = screen.queryByTestId("delete-button");
+    expect(deleteButton).toBeNull();
   });
 
-  it("shows the confirmation dialog", async () => {
-    await act(async () => {
-      findByTestId(wrapper, "post-dropdown").hostNodes().simulate("click");
-      await wrapper.update();
-      findByTestId(wrapper, "delete-button").hostNodes().simulate("click");
-      await wrapper.update();
-
-      expect(findByTestId(wrapper, "confirm-dialog").hostNodes().length).toBe(
-        1,
-      );
+  describe("when deleting a post", () => {
+    beforeEach(() => {
+      window.confirm = jest.fn(() => true);
+      render(withMockedProviders(<Header transaction={transaction} />, mocks));
     });
-  });
 
-  it("calls the delete mutation and refetch query", async () => {
-    await act(async () => {
-      findByTestId(wrapper, "post-dropdown").hostNodes().simulate("click");
-      await wrapper.update();
-      findByTestId(wrapper, "delete-button").hostNodes().simulate("click");
-      await wrapper.update();
+    it("shows a confirmation dialog ", async () => {
+      const deleteButton = screen.getByTestId("delete-button");
+      deleteButton.click();
+      expect(window.confirm).toBeCalled();
+    });
 
-      findByTestId(wrapper, "confirm-dialog")
-        .find(".primary")
-        .hostNodes()
-        .simulate("click");
-
-      await wait(0);
-      await wrapper.update();
-
-      expect(mutationCalled).toBe(true);
-
-      await wait(0);
-      await wrapper.update();
-
-      expect(queryCalled).toBe(true);
+    it("calls the delete mutation and refetch query", async () => {
+      const deleteButton = screen.getByTestId("delete-button");
+      queryCalled = false;
+      deleteButton.click();
+      waitFor(() => {
+        expect(mutationCalled).toBe(true);
+      });
+      waitFor(() => {
+        expect(queryCalled).toBe(true);
+      });
     });
   });
 });

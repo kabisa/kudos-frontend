@@ -37,7 +37,7 @@ jest.mock("react-router-dom", () => ({
   }),
 }));
 
-describe.skip("<ChoiceButton />", () => {
+describe("<ChoiceButton />", () => {
   beforeEach(async () => {
     mutationCalled = false;
     Storage.setItem = jest.fn();
@@ -61,7 +61,7 @@ describe.skip("<ChoiceButton />", () => {
     expect(screen.getByText("button text")).toBeInTheDocument();
   });
 
-  it("sets the loading state", async () => {
+  it("disables while loading", async () => {
     render(
       withMockedProviders(
         <ChoiceButton
@@ -80,7 +80,7 @@ describe.skip("<ChoiceButton />", () => {
     userEvent.click(button);
 
     await waitFor(() => {
-      expect(button).toHaveClass("loading");
+      expect(button).toBeDisabled();
     });
   });
 

@@ -1,6 +1,6 @@
-import { mount, ReactWrapper } from "enzyme";
 import { Invite, InviteModel } from "./Invite";
 import { withMockedProviders } from "../../../spec_helper";
+import { render, screen } from "@testing-library/react";
 
 const invite: InviteModel = {
   id: "1",
@@ -10,24 +10,23 @@ const invite: InviteModel = {
   },
 };
 
-describe.skip("<Invite />", () => {
-  let wrapper: ReactWrapper;
-
+describe("<Invite />", () => {
   beforeEach(() => {
-    wrapper = mount(withMockedProviders(<Invite invite={invite} />));
+    render(withMockedProviders(<Invite invite={invite} />));
   });
 
-  it("renders the team name", () => {
-    expect(wrapper.containsMatchingElement(<p>Kabisa</p>)).toBe(true);
+  it("renders the team name", async () => {
+    const element = await screen.findByText("Kabisa");
+    expect(element).toBeInTheDocument();
   });
 
-  it("renders an accept button", () => {
-    expect(wrapper.containsMatchingElement(<button>Accept</button>)).toBe(true);
+  it("renders an accept button", async () => {
+    const element = await screen.findByRole("button", { name: "Accept" });
+    expect(element).toBeInTheDocument();
   });
 
-  it("renders an decline button", () => {
-    expect(wrapper.containsMatchingElement(<button>Decline</button>)).toBe(
-      true,
-    );
+  it("renders an decline button", async () => {
+    const element = await screen.findByRole("button", { name: "Decline" });
+    expect(element).toBeInTheDocument();
   });
 });

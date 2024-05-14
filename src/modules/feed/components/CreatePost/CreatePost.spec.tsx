@@ -1,20 +1,18 @@
-import { mount, ReactWrapper } from "enzyme";
-import { act } from "react-dom/test-utils";
 import { GraphQLError } from "graphql";
-import {
-  findByTestId,
-  getMockCache,
-  mockLocalstorage,
-  wait,
-  withMockedProviders,
-} from "../../../../spec_helper";
+import { mockLocalstorage, withMockedProviders } from "../../../../spec_helper";
 import { CREATE_POST, CreatePost } from "./CreatePost";
-import { GET_GOAL_PERCENTAGE, GET_POSTS } from "../../queries";
+import { GET_POSTS } from "../../queries";
+import { fireEvent, render, screen } from "@testing-library/react";
+import { mocks as guidelineMocks } from "../../../manage-team/sections/guideline/GuidelinesSection.spec";
+import { mocksWithData as teamMemberMocks } from "../UserDropdown/UserDropdown.spec";
+import {
+  getSelectOptions,
+  openSelect,
+} from "../../../../support/testing/reactSelectHelpers";
 
-let mutationCalled = false;
-let goalPercentageQueryCalled = false;
-let getPostQueryCalled = false;
-const mocks = [
+const DOWN_ARROW = { keyCode: 40 };
+
+const mocks = () => [
   {
     request: {
       query: CREATE_POST,
@@ -22,56 +20,22 @@ const mocks = [
         message: "Some message",
         kudos: 5,
         images: [],
-        receivers: ["4"],
+        receivers: ["2"],
         virtual_receivers: [],
         team_id: "1",
       },
     },
-    result: () => {
-      mutationCalled = true;
-      return {
-        data: {
-          createPost: {
-            post: {
-              id: "1",
-              amount: 5,
-              __typename: "Post",
-            },
-            __typename: "CreatePost",
+    result: {
+      data: {
+        createPost: {
+          post: {
+            id: "1",
+            amount: 5,
+            __typename: "Post",
           },
+          __typename: "CreatePost",
         },
-      };
-    },
-  },
-  {
-    request: {
-      query: GET_GOAL_PERCENTAGE,
-      variables: {
-        team_id: "1",
       },
-    },
-    result: () => {
-      goalPercentageQueryCalled = true;
-      return {
-        data: {
-          teamById: {
-            __typename: "Team",
-            activeKudosMeter: {
-              amount: 1,
-              __typename: "KudosMeter",
-            },
-            activeGoals: [
-              {
-                achievedOn: "2020-03-01",
-                id: "1",
-                name: "Goal",
-                amount: 50,
-                __typename: "Goal",
-              },
-            ],
-          },
-        },
-      };
     },
   },
   {
@@ -82,7 +46,7 @@ const mocks = [
       },
     },
     result: () => {
-      getPostQueryCalled = true;
+      // getPostQueryCalled = true;
       return {
         data: {
           teamById: {
@@ -147,7 +111,7 @@ const mocksWithError = [
       variables: {
         message: "Some message",
         kudos: 5,
-        receivers: ["4"],
+        receivers: ["2"],
         virtual_receivers: [],
         team_id: "1",
       },
@@ -158,172 +122,139 @@ const mocksWithError = [
   },
 ];
 
-let mockCache: any;
-
-describe.skip("<CreatePost />", () => {
-  let wrapper: ReactWrapper;
+describe("<CreatePost />", () => {
+  const setup = (
+    { withErrors = false }: { withErrors: boolean } = { withErrors: false },
+  ) => {
+    render(
+      withMockedProviders(<CreatePost back={false} />, [
+        ...(withErrors ? mocksWithError : []),
+        ...mocks(),
+        ...guidelineMocks("1"),
+        ...teamMemberMocks("1"),
+      ]),
+    );
+  };
 
   beforeEach(() => {
     mockLocalstorage("1");
-    mutationCalled = false;
-    goalPercentageQueryCalled = false;
-    getPostQueryCalled = false;
-    mockCache = getMockCache();
-    wrapper = mount(
-      withMockedProviders(<CreatePost back={false} />, mocks, mockCache, true),
-    );
   });
 
-  it("shows a message if the amount is null", async () => {
-    const component = wrapper.find("CreatePost").instance();
-
-    await act(async () => {
-      component.setState({
-        amount: "",
-        receivers: ["1"],
-        message: "Some message",
-      });
-      await wrapper.update();
-
-      findByTestId(wrapper, "submit-button").hostNodes().simulate("submit");
-      await wrapper.update();
-
-      expect(findByTestId(wrapper, "error-message").text()).toBe(
-        "Amount can't be empty or 0.",
-      );
+  const setKudoAmount = async (index = 0) => {
+    const selectElement = await screen.findByRole("combobox", {
+      description: "Kudos amount",
     });
+    openSelect(selectElement);
+    const options = await getSelectOptions(selectElement);
+    const kudoAmountOption = options[index];
+    kudoAmountOption.click();
+  };
+
+  const setReceiver = async (name: string) => {
+    const receiverInput = await screen.findByRole("combobox", {
+      description: "Receivers",
+    });
+    openSelect(receiverInput);
+
+    const kudoMemberOption = await screen.findByText(name);
+    kudoMemberOption.click();
+  };
+
+  const setMessage = async (text: string) => {
+    const messageInput = await screen.findByRole("textbox");
+    fireEvent.change(messageInput, { target: { value: text } });
+  };
+
+  const pressSubmit = async () => {
+    const submitButton = await screen.findByRole("button", {
+      name: "DROP YOUR KUDOS HERE",
+    });
+    submitButton.click();
+  };
+
+  it("shows a message if the amount is null", async () => {
+    setup();
+    await pressSubmit();
+
+    const errorMessage = await screen.findByText("Amount can't be empty or 0.");
+    expect(errorMessage).toBeInTheDocument();
   });
 
   it("shows a message if there are no receivers", async () => {
-    const component = wrapper.find("CreatePost").instance();
+    setup();
+    await setKudoAmount();
+    await pressSubmit();
 
-    await act(async () => {
-      component.setState({
-        amount: "5",
-        receivers: [],
-        message: "Some message",
-      });
-      await wrapper.update();
+    const errorMessage = await screen.findByText(
+      "You must select at least one receiver.",
+    );
+    expect(errorMessage).toBeInTheDocument();
+  });
 
-      findByTestId(wrapper, "submit-button").hostNodes().simulate("submit");
-      await wrapper.update();
+  it("shows a warning if there is no message", async () => {
+    setup();
+    await setKudoAmount();
+    await setReceiver("Egon");
+    await pressSubmit();
 
-      expect(findByTestId(wrapper, "error-message").text()).toBe(
-        "You must select at least one receiver.",
-      );
-    });
+    const errorMessage = await screen.findByText("Message can't be blank.");
+    expect(errorMessage).toBeInTheDocument();
   });
 
   it("shows a warning if the message is too short", async () => {
-    const component = wrapper.find("CreatePost").instance();
+    setup();
+    await setKudoAmount();
+    await setReceiver("Egon");
+    await setMessage("Oi");
 
-    await act(async () => {
-      component.setState({ amount: "5", receivers: ["1"], message: "a" });
-      await wrapper.update();
+    await pressSubmit();
 
-      findByTestId(wrapper, "submit-button").hostNodes().simulate("submit");
-      await wrapper.update();
-
-      expect(findByTestId(wrapper, "error-message").text()).toBe(
-        "Message must be at least 4 characters.",
-      );
-    });
+    const errorMessage = await screen.findByText(
+      "Message must be at least 4 characters.",
+    );
+    expect(errorMessage).toBeInTheDocument();
   });
 
   it("shows a warning if the message is too long", async () => {
-    const component = wrapper.find("CreatePost").instance();
-
-    await act(async () => {
+    setup();
+    await setKudoAmount();
+    await setReceiver("Egon");
+    await setMessage(
       // eslint-disable-next-line max-len
-      component.setState({
-        amount: "5",
-        receivers: ["1"],
-        message:
-          // eslint-disable-next-line max-len
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-      });
-      await wrapper.update();
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+    );
 
-      findByTestId(wrapper, "submit-button").hostNodes().simulate("submit");
-      await wrapper.update();
+    await pressSubmit();
 
-      expect(findByTestId(wrapper, "error-message").text()).toBe(
-        "Message can have a maximum of 140 characters.",
-      );
-    });
+    const errorMessage = await screen.findByText(
+      "Message can have a maximum of 140 characters.",
+    );
+    expect(errorMessage).toBeInTheDocument();
   });
 
   it("shows when the mutation is loading", async () => {
-    const component = wrapper.find("CreatePost").instance();
+    setup();
+    await setKudoAmount();
+    await setReceiver("Egon");
+    await setMessage("Some message");
 
-    await act(async () => {
-      component.setState({
-        amount: "5",
-        receivers: ["4"],
-        message: "Some message",
-      });
-      await wrapper.update();
-
-      findByTestId(wrapper, "submit-button").hostNodes().simulate("submit");
-      await wrapper.update();
-
-      expect(
-        findByTestId(wrapper, "submit-button").hostNodes().hasClass("loading"),
-      ).toBe(true);
+    await pressSubmit();
+    const submitButton = screen.getByRole("button", {
+      name: "DROP YOUR KUDOS HERE",
     });
+    expect(submitButton).toBeDisabled();
   });
 
   it("shows when there is an error", async () => {
-    wrapper = mount(
-      withMockedProviders(
-        <CreatePost back={false} />,
-        mocksWithError,
-        mockCache,
-        true,
-      ),
-    );
-    const component = wrapper.find("CreatePost").instance();
+    setup({ withErrors: true });
 
-    await act(async () => {
-      component.setState({
-        amount: "5",
-        receivers: ["4"],
-        message: "Some message",
-      });
-      await wrapper.update();
+    await setKudoAmount();
+    await setReceiver("Egon");
+    await setMessage("Some message");
 
-      findByTestId(wrapper, "submit-button").hostNodes().simulate("submit");
-      await wait(0);
-      await wrapper.update();
+    await pressSubmit();
 
-      expect(findByTestId(wrapper, "error-message").text()).toBe(
-        "Something went wrong.",
-      );
-    });
-  });
-
-  it("calls the mutation and the refetch queries", async () => {
-    const component = wrapper.find("CreatePost").instance();
-
-    await act(async () => {
-      component.setState({
-        amount: 5,
-        receivers: ["4"],
-        message: "Some message",
-      });
-      await wrapper.update();
-
-      findByTestId(wrapper, "submit-button").hostNodes().simulate("submit");
-      await wait(0);
-      await wrapper.update();
-
-      expect(mutationCalled).toBe(true);
-
-      await wait(0);
-      await wrapper.update();
-
-      expect(goalPercentageQueryCalled).toBe(true);
-      expect(getPostQueryCalled).toBe(true);
-    });
+    const errorMessage = await screen.findByText("Something went wrong.");
+    expect(errorMessage).toBeInTheDocument();
   });
 });

@@ -8,25 +8,29 @@ import {
 } from "../../../../spec_helper";
 import GuidelineSection, { GET_GUIDELINES } from "./GuidelinesSection";
 
-const mocks = [
+export const mocks = (teamId: string) => [
   {
     request: {
       query: GET_GUIDELINES,
-      variables: { team_id: "1" },
+      variables: { team_id: teamId },
     },
     result: {
       data: {
         teamById: {
+          id: teamId,
+          __typename: "Team",
           guidelines: [
             {
               id: "1",
               kudos: 5,
               name: "first guideline",
+              __typename: "Guideline",
             },
             {
               id: "2",
               kudos: 10,
               name: "second guideline",
+              __typename: "Guideline",
             },
           ],
         },

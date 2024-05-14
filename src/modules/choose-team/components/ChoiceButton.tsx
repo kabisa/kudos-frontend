@@ -56,7 +56,6 @@ function ChoiceButton(props: Props) {
     >
       {(mutate, { loading }) => (
         <Button
-          variant={props.variant}
           onClick={() => {
             mutate({ variables: { team_invite_id: props.inviteId } });
             if (props.accept) {
@@ -68,6 +67,7 @@ function ChoiceButton(props: Props) {
             toast.info("Invite successfully declined!");
           }}
           state={loading ? "disabled" : "default"}
+          {...props}
         />
       )}
     </Mutation>
