@@ -1,5 +1,4 @@
-import { ReactWrapper } from "enzyme";
-import { findByTestId, withMockedProviders } from "../../../../spec_helper";
+import { withMockedProviders } from "../../../../spec_helper";
 import { Transaction } from "./index";
 import { FragmentPostResult } from "../../queries";
 import { render, screen } from "@testing-library/react";
@@ -38,8 +37,6 @@ const transactionWithVote = {
 };
 
 describe("Transaction", () => {
-  let wrapper: ReactWrapper;
-
   beforeEach(() => {
     render(
       withMockedProviders(<Transaction transaction={transactionWithVote} />),
