@@ -1,14 +1,7 @@
-import { mount, ReactWrapper } from "enzyme";
-import { act } from "react-dom/test-utils";
-import {
-  findByTestId,
-  mockLocalstorage,
-  wait,
-  withMockedProviders,
-} from "../../../../spec_helper";
+import { mockLocalstorage, withMockedProviders } from "../../../../spec_helper";
 import { Header, MUTATION_REMOVE_POST } from "./Header";
 import { FragmentPostResult, GET_POSTS } from "../../queries";
-import { screen, render, RenderResult, waitFor } from "@testing-library/react";
+import { screen, render, waitFor } from "@testing-library/react";
 
 const transaction: FragmentPostResult = {
   amount: 5,
@@ -89,8 +82,6 @@ const mocks = [
 ];
 
 describe("<Header />", () => {
-  let wrapper: RenderResult;
-
   beforeEach(() => {
     mockLocalstorage("1");
     mutationCalled = false;
