@@ -10,8 +10,6 @@ import {
   openSelect,
 } from "../../../../support/testing/reactSelectHelpers";
 
-const DOWN_ARROW = { keyCode: 40 };
-
 const mocks = () => [
   {
     request: {

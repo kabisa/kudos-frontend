@@ -1,4 +1,4 @@
-import { fireEvent, queryByAttribute, screen } from "@testing-library/react";
+import { fireEvent, queryByAttribute } from "@testing-library/react";
 
 const DOWN_ARROW = { keyCode: 40 };
 
