@@ -12,7 +12,7 @@ const setup = () => {
   wrapper = mount(withMockedProviders(<Mobile />));
 };
 
-describe.skip("<Mobile />", () => {
+describe("<Mobile />", () => {
   mockLocalstorage("fakeToken");
 
   beforeEach(() => {

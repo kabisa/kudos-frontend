@@ -54,8 +54,8 @@ export function RepoList() {
 
         const { posts } = data.teamById;
         return (
-          <>
-            <TileList className={s.container}>
+          <div className={s.container} data-testid="repo-list">
+            <TileList className={s.tilesContainer}>
               {posts.edges.map((item) => (
                 <Transaction
                   transaction={item.node}
@@ -78,7 +78,7 @@ export function RepoList() {
                 You&apos;ve reached the end, congratulations!
               </p>
             )}
-          </>
+          </div>
         );
       }}
     </Query>

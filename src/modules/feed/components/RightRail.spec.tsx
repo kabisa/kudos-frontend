@@ -1,18 +1,16 @@
-import { mount, ReactWrapper } from "enzyme";
-import { act } from "react-dom/test-utils";
-import { withMockedProviders } from "../../../spec_helper";
+import { render, screen } from "@testing-library/react";
+import { mockLocalstorage, withMockedProviders } from "../../../spec_helper";
 import RightRail from "./RightRail";
+import { mocks as goalMocks } from "../../statistics/Statistics.spec";
 
-describe.skip("<RightRail />", () => {
-  let wrapper: ReactWrapper;
-
+describe("<RightRail />", () => {
   beforeEach(async () => {
-    await act(async () => {
-      wrapper = mount(withMockedProviders(<RightRail />));
-    });
+    mockLocalstorage("1");
+    render(withMockedProviders(<RightRail />, goalMocks("1")));
   });
 
-  it("renders the statistics section", () => {
-    expect(wrapper.find("Statistics").length).toBe(1);
+  it("renders the statistics section", async () => {
+    const element = await screen.findByText("₭udometer");
+    expect(element).toBeInTheDocument();
   });
 });

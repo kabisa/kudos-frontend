@@ -1,7 +1,7 @@
 import { Component } from "react";
 import { Mutation } from "@apollo/client/react/components";
 import { gql } from "@apollo/client";
-import { withRouter } from "react-router-dom";
+import { RouteComponentProps, withRouter } from "react-router-dom";
 import { History } from "history";
 import { toast } from "react-toastify";
 import { PATH_LOGIN } from "../../routes";
@@ -9,10 +9,13 @@ import { PATH_LOGIN } from "../../routes";
 import { FormWrapper } from "../../components";
 import BackButton from "../../components/back-button/BackButton";
 import { getGraphqlError } from "../../support";
-import { Button, Input, Label } from "@kabisa/ui-components";
+import { Button } from "@kabisa/ui-components";
 import Segment from "../../components/atoms/Segment";
 import BasePage from "./BasePage";
 import s from "./FinishForgotPasswordPage.module.css";
+import MessageBox from "../../ui/MessageBox";
+import React from "react";
+import { PasswordField } from "../../components/PasswordField";
 
 const DEFAULT_ERROR = "Something went wrong.";
 const PASSWORD_ERROR = "Passwords don't match.";
@@ -48,8 +51,7 @@ export interface NewPasswordParameters {
   password_confirmation: string;
 }
 
-export interface Props {
-  reset_password_token: string;
+export interface Props extends RouteComponentProps {
   history: History;
 }
 
@@ -71,7 +73,9 @@ class FinishForgotPasswordPage extends Component<Props, State> {
       error: "",
     };
 
-    this.token = props.reset_password_token || "";
+    const searchParams = new URLSearchParams(props.location.search);
+
+    this.token = searchParams.get("reset_password_token") || "";
 
     this.formSubmit = this.formSubmit.bind(this);
     this.onCompleted = this.onCompleted.bind(this);
@@ -128,33 +132,23 @@ class FinishForgotPasswordPage extends Component<Props, State> {
                   className="form-container"
                   onSubmit={(e) => this.formSubmit(e, mutation)}
                 >
-                  <Label>
-                    Password
-                    <Input
-                      data-testid="password-input"
-                      name="password"
-                      type="password"
-                      placeholder="Password"
-                      value={this.state.password}
-                      onChange={(e) =>
-                        this.setState({ password: e.target.value })
-                      }
-                    />
-                  </Label>
-
-                  <Label>
-                    Confirm password
-                    <Input
-                      name="passwordConfirm"
-                      type="password"
-                      placeholder="Confirm password"
-                      value={this.state.passwordConfirm}
-                      onChange={(e) =>
-                        this.setState({ passwordConfirm: e.target.value })
-                      }
-                    />
-                  </Label>
-
+                  <PasswordField
+                    label="Password"
+                    testId="password-input"
+                    name="password"
+                    value={this.state.password}
+                    onChange={(e) =>
+                      this.setState({ password: e.target.value })
+                    }
+                  />
+                  <PasswordField
+                    label="Confirm password"
+                    name="passwordConfirm"
+                    value={this.state.passwordConfirm}
+                    onChange={(e) =>
+                      this.setState({ passwordConfirm: e.target.value })
+                    }
+                  />
                   <Button
                     data-testid="submit-button"
                     variant="primary"
@@ -165,10 +159,11 @@ class FinishForgotPasswordPage extends Component<Props, State> {
                   </Button>
 
                   {formError && (
-                    <div className="errorMessage">
-                      <h3>Unable to reset password</h3>
-                      <p>{this.state.error}</p>
-                    </div>
+                    <MessageBox
+                      variant="error"
+                      title="Unable to reset password"
+                      message={this.state.error}
+                    />
                   )}
                 </form>
                 <BackButton />

@@ -9,15 +9,17 @@ import {
 import DropdownRemote from "./UserDropdown";
 import { GET_USERS } from "../../queries";
 
-const mocksWithData = [
+export const mocksWithData = (teamId: string) => [
   {
     request: {
       query: GET_USERS,
-      variables: { team_id: "1" },
+      variables: { team_id: teamId },
     },
     result: {
       data: {
         teamById: {
+          id: teamId,
+          __typename: "Team",
           users: [
             {
               id: "1",
@@ -82,7 +84,7 @@ const setup = (mocks: any) => {
 describe.skip("<DropdownRemote />", () => {
   beforeEach(() => {
     mockLocalstorage("1");
-    setup(mocksWithData);
+    setup(mocksWithData("1"));
   });
 
   it("shows when the users are loading", async () => {

@@ -193,14 +193,6 @@ class LikeButton extends Component<LikeButtonProps, LikeButtonState> {
                   data-testid="like-button"
                 />
 
-                {/*{liked ? (*/}
-                {/*  <Icon className="material-symbols-rounded" name="thumb_up" />*/}
-                {/*) : (*/}
-                {/*  <Icon*/}
-                {/*    className="material-symbols-rounded-outlined"*/}
-                {/*    name="thumb_up"*/}
-                {/*  />*/}
-                {/*)}*/}
                 <span>+1₭</span>
               </button>
             )}

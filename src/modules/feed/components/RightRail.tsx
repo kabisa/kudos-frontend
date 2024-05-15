@@ -15,7 +15,7 @@ type RightRailProps = {
 };
 
 const RightRail: FC<RightRailProps> = ({ className }) => (
-  <Segment className={classNames(s.rail, className)} data-testid="right-tail">
+  <Segment className={classNames(s.rail, className)} data-testid="right-rail">
     <header className={s.header}>
       <h1 className={s.kudo_header}>₭udometer</h1>
       <p className={s.today}>{moment().format("MMMM Do, YYYY")}</p>

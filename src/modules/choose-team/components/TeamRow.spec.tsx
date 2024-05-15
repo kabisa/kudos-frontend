@@ -5,7 +5,7 @@ import { wait, withMockedProviders } from "../../../spec_helper";
 import TeamRow from "./TeamRow";
 import { Storage } from "../../../support/storage";
 
-describe.skip("<TeamRow />", () => {
+describe("<TeamRow />", () => {
   let wrapper: ReactWrapper;
   let history: MemoryHistory;
 

@@ -1,7 +1,7 @@
-import { mount, ReactWrapper } from "enzyme";
-import { findByTestId, withMockedProviders } from "../../../../spec_helper";
+import { withMockedProviders } from "../../../../spec_helper";
 import { Transaction } from "./index";
 import { FragmentPostResult } from "../../queries";
+import { render, screen } from "@testing-library/react";
 
 const transaction: FragmentPostResult = {
   id: "1",
@@ -36,48 +36,46 @@ const transactionWithVote = {
   ],
 };
 
-describe.skip("Transaction", () => {
-  let wrapper: ReactWrapper;
-
+describe("Transaction", () => {
   beforeEach(() => {
-    wrapper = mount(
+    render(
       withMockedProviders(<Transaction transaction={transactionWithVote} />),
     );
   });
 
   it("renders the kudos amount without votes", () => {
-    const postMessage = findByTestId(wrapper, "kudo-amount");
+    const postMessage = screen.getByTestId("kudo-amount");
 
-    expect(postMessage.text()).toBe("5₭ ");
+    expect(postMessage.textContent).toBe("5₭ ");
   });
 
   it("renders the message", () => {
-    const postMessage = findByTestId(wrapper, "post-message");
+    const postMessage = screen.getByTestId("post-message");
 
-    expect(postMessage.text()).toBe("test message");
+    expect(postMessage.textContent).toBe("test message");
   });
 
   it("renders the like button", () => {
-    const voteButton = findByTestId(wrapper, "like-button");
+    const voteButton = screen.getByTestId("post-like-button");
 
-    expect(voteButton.hostNodes().length).toBe(1);
+    expect(voteButton).toBeInTheDocument();
   });
 
   it("renders the senders name", () => {
-    const senderName = findByTestId(wrapper, "sender-name");
+    const senderName = screen.getByTestId("sender-name");
 
-    expect(senderName.text()).toBe("Egon ");
+    expect(senderName.textContent).toBe("Egon ");
   });
 
   it("renders all the receivers", () => {
-    const receivers = findByTestId(wrapper, "post-receivers");
+    const receivers = screen.getByTestId("post-receivers");
 
-    expect(receivers.text()).toBe("Stefan");
+    expect(receivers.textContent).toBe("Stefan");
   });
 
   it("renders the header", () => {
-    const header = findByTestId(wrapper, "post-header");
+    const header = screen.getByTestId("post-header");
 
-    expect(header.length).toBe(1);
+    expect(header).toBeInTheDocument();
   });
 });

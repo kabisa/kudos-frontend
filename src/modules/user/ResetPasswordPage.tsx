@@ -1,5 +1,5 @@
-import { Component } from "react";
-import { Button, Input, Label } from "@kabisa/ui-components";
+import { ChangeEvent, Component } from "react";
+import { Button } from "@kabisa/ui-components";
 import { Mutation } from "@apollo/client/react/components";
 import { gql } from "@apollo/client";
 import { toast } from "react-toastify";
@@ -23,6 +23,8 @@ import Page from "../../components/templates/Page";
 
 import s from "./ResetPasswordPage.module.scss";
 import { FormWrapper } from "../../components";
+import React from "react";
+import { PasswordField } from "../../components/PasswordField";
 
 export const MUTATION_RESET_PASSWORD = gql`
   mutation ResetPassword(
@@ -155,10 +157,10 @@ class ResetPasswordPage extends Component<Props, State> {
     });
   }
 
-  // TODO: Fix handler
-  handleChange() {
+  handleChange(e: ChangeEvent<HTMLInputElement>) {
+    const inputField = e.target;
     // @ts-ignore
-    this.setState({ [name]: value });
+    this.setState({ [inputField.name]: inputField.value });
 
     if (
       this.state.newPassword === this.state.newPasswordConfirmation &&
@@ -193,55 +195,40 @@ class ResetPasswordPage extends Component<Props, State> {
                 return (
                   <>
                     <form className="form-container">
-                      <Label>
-                        Current password
-                        <Input
-                          data-testid="current-password-input"
-                          //icon="lock" TODO
-                          //iconPosition="left" TODO
-                          name="currentPassword"
-                          type="password"
-                          placeholder="Current password"
-                          error={this.state.error_current}
-                          value={this.state.currentPassword}
-                          onChange={this.handleChange}
-                        />
-                      </Label>
-                      <Label>
-                        New password
-                        <Input
-                          data-testid="new-password-input"
-                          //icon="lock" TODO
-                          //iconPosition="left" TODO
-                          name="newPassword"
-                          type="password"
-                          placeholder="New password"
-                          error={this.state.error_new}
-                          value={this.state.newPassword}
-                          onChange={this.handleChange}
-                        />
-                      </Label>
-                      <Label>
-                        Confirm new password
-                        <Input
-                          data-testid="confirm-password-input"
-                          //icon="lock" TODO
-                          name="newPasswordConfirmation"
-                          //iconPosition="left" TODO
-                          type="password"
-                          placeholder="Confirm new password"
-                          error={this.state.error_new_confirm}
-                          value={this.state.newPasswordConfirmation}
-                          onChange={this.handleChange}
-                        />
-                      </Label>
+                      <PasswordField
+                        label="Current password"
+                        testId="current-password-input"
+                        name="currentPassword"
+                        error={this.state.error_current}
+                        value={this.state.currentPassword}
+                        onChange={this.handleChange}
+                      />
+                      <PasswordField
+                        label="New password"
+                        testId="new-password-input"
+                        name="newPassword"
+                        error={this.state.error_new}
+                        value={this.state.newPassword}
+                        onChange={this.handleChange}
+                      />
+                      <PasswordField
+                        label="Confirm new password"
+                        testId="confirm-password-input"
+                        name="newPasswordConfirmation"
+                        error={this.state.error_new_confirm}
+                        value={this.state.newPasswordConfirmation}
+                        onChange={this.handleChange}
+                      />
 
                       <div className={s.actions}>
                         <Button
+                          type="button"
                           data-testid="reset-password-button"
                           disabled={loading}
                           className={s.button}
-                          onClick={() => this.resetPassword(resetPassword)}
+                          onClick={() => {
+                            this.resetPassword(resetPassword);
+                          }}
                         >
                           Reset password
                         </Button>

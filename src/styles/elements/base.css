@@ -1,5 +1,4 @@
 /* Design principles */
-@import url("@kabisa/ui-components/src/principles/index.module.css");
 @import url("./colors.css");
 @import url("./layout.css");
 
@@ -18,4 +17,29 @@
 
 #root *:not(.material-symbols-rounded, .material-symbols-rounded-outlined) {
   font-family: inherit;
+}
+
+/**
+ * These classes make icons filled or outlined.
+ * They should be coming from the @kabisa/ui-components packages,
+ * but the classnames are not set to global and therefor
+ * changed into a 'module css' and not reusable in this app.
+ */
+
+.material-symbols-rounded {
+  font-family: "Material Symbols Rounded", sans-serif;
+  font-variation-settings:
+    "FILL" 1,
+    "wght" var(--font-weight-regular),
+    "GRAD" 0,
+    "opsz" 24;
+}
+
+.material-symbols-rounded-outlined {
+  font-family: "Material Symbols Rounded", sans-serif;
+  font-variation-settings:
+    "FILL" 0,
+    "wght" var(--font-weight-regular),
+    "GRAD" 0,
+    "opsz" 24;
 }

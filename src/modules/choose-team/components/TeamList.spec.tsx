@@ -1,8 +1,7 @@
-import { mount, ReactWrapper } from "enzyme";
-import { act } from "react-dom/test-utils";
 import { GET_TEAMS } from "./TeamList";
-import { findByTestId, wait, withMockedProviders } from "../../../spec_helper";
+import { withMockedProviders } from "../../../spec_helper";
 import { TeamList } from "./index";
+import { render, screen } from "@testing-library/react";
 
 const mocksWithInvite = [
   {
@@ -60,48 +59,34 @@ const mocksWithError = [
   },
 ];
 
-describe.skip("<TeamList />", () => {
-  let wrapper: ReactWrapper;
-
+describe("<TeamList />", () => {
   beforeEach(() => {
-    act(() => {
-      wrapper = mount(withMockedProviders(<TeamList />, mocksWithInvite));
-    });
+    render(withMockedProviders(<TeamList />, mocksWithInvite));
   });
 
-  it("renders the loading text", () => {
-    expect(wrapper.containsMatchingElement(<p>Loading...</p>)).toBe(true);
+  it("renders the loading text", async () => {
+    const loadingElement = screen.getByText("Loading...");
+    expect(loadingElement).toBeInTheDocument();
+    // Wait till fetch completes
+    await screen.findByText("Team 1");
   });
 
   it("renders the team list", async () => {
-    await act(async () => {
-      await wait(0);
-      wrapper.update();
-
-      expect(findByTestId(wrapper, "kudo-teamivite").length).toBe(2);
-    });
+    const invite = await screen.findByTestId("kudo-team-invites");
+    expect(invite).toBeInTheDocument();
   });
 
   it("shows a message when there are no teams", async () => {
-    wrapper = mount(withMockedProviders(<TeamList />, mocksWithoutInvite));
+    render(withMockedProviders(<TeamList />, mocksWithoutInvite));
 
-    await act(async () => {
-      await wait(0);
-      wrapper.update();
-
-      expect(findByTestId(wrapper, "kudo-teaminvite").length).toBe(0);
-      expect(wrapper.containsMatchingElement(<p>No teams.</p>)).toBe(true);
-    });
+    const noTeamsMessage = await screen.findByText("No teams.");
+    expect(noTeamsMessage).toBeInTheDocument();
   });
 
   it("shows a message when there is an error", async () => {
-    wrapper = mount(withMockedProviders(<TeamList />, mocksWithError));
+    render(withMockedProviders(<TeamList />, mocksWithError));
 
-    await act(async () => {
-      await wait(0);
-      wrapper.update();
-
-      expect(wrapper.containsMatchingElement(<p>It broke</p>)).toBe(true);
-    });
+    const errorMessage = await screen.findByText("It broke");
+    expect(errorMessage).toBeInTheDocument();
   });
 });

@@ -8,15 +8,17 @@ import {
 } from "../../spec_helper";
 import Statistics, { GET_GOAL_PERCENTAGE } from "./Statistics";
 
-const mocks = [
+export const mocks = (teamId: string) => [
   {
     request: {
       query: GET_GOAL_PERCENTAGE,
-      variables: { team_id: "1" },
+      variables: { team_id: teamId },
     },
     result: {
       data: {
         teamById: {
+          id: teamId,
+          __typename: "Team",
           activeGoals: [
             {
               id: "1",
@@ -45,7 +47,7 @@ describe.skip("<Statistics />", () => {
 
   beforeEach(() => {
     mockLocalstorage("1");
-    wrapper = mount(withMockedProviders(<Statistics />, mocks));
+    wrapper = mount(withMockedProviders(<Statistics />, mocks("1")));
   });
 
   it("shows a loading state", () => {

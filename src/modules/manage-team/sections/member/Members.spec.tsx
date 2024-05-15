@@ -7,7 +7,7 @@ import {
 } from "../../../../spec_helper";
 import MemberSection, { GET_USERS } from "./Members";
 
-const mocks = [
+export const mocks = () => [
   {
     request: {
       query: GET_USERS,
@@ -57,7 +57,7 @@ describe.skip("<Member />", () => {
 
   beforeEach(() => {
     mockLocalstorage("1");
-    wrapper = mount(withMockedProviders(<MemberSection />, mocks));
+    wrapper = mount(withMockedProviders(<MemberSection />, mocks()));
   });
 
   it("shows a loading state", () => {
