@@ -143,7 +143,7 @@ describe("<CreatePost />", () => {
       description: "Kudos amount",
     });
     openSelect(selectElement);
-    const options = await getSelectOptions(selectElement);
+    const options = getSelectOptions(selectElement);
     const kudoAmountOption = options[index];
     kudoAmountOption.click();
   };
