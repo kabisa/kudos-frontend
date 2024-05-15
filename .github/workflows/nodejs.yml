@@ -32,7 +32,7 @@ jobs:
       - name: Run lint
         run: yarn eslint ./src --ext .js,.jsx,.ts,.tsx ./
       - name: Test & publish code coverage
-        uses: paambaati/codeclimate-action@v2.6.0
+        uses: paambaati/codeclimate-action@v6.0.0
         env:
           CI: true
           CC_TEST_REPORTER_ID: ${{ secrets.CODE_CLIMATE_REPORTER_ID }}
