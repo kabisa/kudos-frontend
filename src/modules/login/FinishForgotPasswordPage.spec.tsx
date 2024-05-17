@@ -35,8 +35,6 @@ const mocks = [
       };
     },
   },
-];
-const mocksWithError = [
   {
     request: {
       query: MUTATION_NEW_PASSWORD,
@@ -153,12 +151,7 @@ describe("<FinishForgotPasswordPage />", () => {
     renderResult.unmount();
 
     const props = createPropsWithToken("90210");
-    render(
-      withMockedProviders(
-        <FinishForgotPasswordPage {...props} />,
-        mocksWithError,
-      ),
-    );
+    render(withMockedProviders(<FinishForgotPasswordPage {...props} />, mocks));
 
     const passwordField = screen.getByLabelText("Password");
     fireEvent.change(passwordField, { target: { value: "password" } });
