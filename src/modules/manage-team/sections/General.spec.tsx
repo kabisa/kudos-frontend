@@ -1,15 +1,6 @@
-import { mount, ReactWrapper } from "enzyme";
-import { act } from "react-dom/test-utils";
-import {
-  findByTestId,
-  mockLocalstorage,
-  simulateInputChange,
-  wait,
-  withMockedProviders,
-} from "../../../spec_helper";
+import { mockLocalstorage, withMockedProviders } from "../../../spec_helper";
 import GeneralSection, { GET_TEAM_NAME, UPDATE_TEAM } from "./General";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import exp from "constants";
 
 let mutationCalled = false;
 const mocks = [
@@ -70,8 +61,6 @@ const mocksWithError = [
 ];
 
 describe("<GeneralSection />", () => {
-  let wrapper: ReactWrapper;
-
   beforeEach(() => {
     mockLocalstorage("1");
     mutationCalled = false;
