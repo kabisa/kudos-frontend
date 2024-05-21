@@ -1,13 +1,7 @@
-import { mount, ReactWrapper } from "enzyme";
-import { act } from "react-dom/test-utils";
-import {
-  findByTestId,
-  mockLocalstorage,
-  wait,
-  withMockedProviders,
-} from "../../../../spec_helper";
+import { mockLocalstorage, withMockedProviders } from "../../../../spec_helper";
 import { DELETE_GUIDELINE, Guideline } from "./Guideline";
 import { GET_GUIDELINES } from "./GuidelinesSection";
+import { render, screen, waitFor } from "@testing-library/react";
 
 let mutationCalled = false;
 let getGuidelinesCalled = false;
@@ -42,6 +36,7 @@ const mocks = [
       return {
         data: {
           teamById: {
+            id: "1",
             guidelines: [
               {
                 id: "1",
@@ -63,13 +58,13 @@ const guideline = {
   kudos: 5,
 };
 
-describe.skip("<Guideline />", () => {
+describe("<Guideline />", () => {
   const editGuidelineMock = jest.fn();
-  let wrapper: ReactWrapper;
 
   beforeEach(() => {
     mockLocalstorage("1");
-    wrapper = mount(
+    global.confirm = jest.fn(() => true);
+    render(
       withMockedProviders(
         <table>
           <tbody>
@@ -88,81 +83,49 @@ describe.skip("<Guideline />", () => {
   });
 
   it("renders the guideline name", () => {
-    expect(wrapper.containsMatchingElement(<td>{guideline.name}</td>)).toBe(
-      true,
-    );
+    expect(
+      screen.getByRole("cell", { name: guideline.name }),
+    ).toBeInTheDocument();
   });
 
   it("renders the guideline amount", () => {
-    expect(wrapper.containsMatchingElement(<td>{guideline.kudos}</td>)).toBe(
-      true,
-    );
+    expect(
+      screen.getByRole("cell", { name: `${guideline.kudos}` }),
+    ).toBeInTheDocument();
   });
 
   it("calls the edit guideline function", () => {
-    act(() => {
-      findByTestId(wrapper, "edit-button").hostNodes().simulate("click");
+    const editButton = screen.getByRole("button", { name: "edit" });
+    editButton.click();
 
-      expect(editGuidelineMock).toBeCalledTimes(1);
-      expect(editGuidelineMock).toHaveBeenCalledWith(
-        guideline.id,
-        guideline.kudos,
-        guideline.name,
-      );
-    });
+    expect(editGuidelineMock).toBeCalledTimes(1);
+    expect(editGuidelineMock).toHaveBeenCalledWith(
+      guideline.id,
+      guideline.kudos,
+      guideline.name,
+    );
   });
 
   it("has a confirm button for the delete action", async () => {
-    await act(async () => {
-      findByTestId(wrapper, "delete-button").hostNodes().simulate("click");
+    expect(global.confirm).toBeCalledTimes(0);
 
-      await wait(0);
-      await wrapper.update();
+    const deleteButton = screen.getByRole("button", { name: "delete" });
+    deleteButton.click();
 
-      expect(
-        findByTestId(wrapper, "confirm-delete-button").hostNodes().length,
-      ).toBe(1);
-    });
+    expect(global.confirm).toBeCalledTimes(1);
   });
 
   it("calls the delete mutation", async () => {
-    await act(async () => {
-      findByTestId(wrapper, "delete-button").hostNodes().simulate("click");
+    const deleteButton = screen.getByRole("button", { name: "delete" });
+    deleteButton.click();
 
-      await wait(0);
-      await wrapper.update();
-
-      findByTestId(wrapper, "confirm-delete-button")
-        .hostNodes()
-        .simulate("click");
-
-      await wait(0);
-      await wrapper.update();
-
-      expect(mutationCalled).toBe(true);
-    });
+    await waitFor(() => expect(mutationCalled).toBe(true));
   });
 
   it("refetches the guidelines after the deletion", async () => {
-    await act(async () => {
-      findByTestId(wrapper, "delete-button").hostNodes().simulate("click");
+    const deleteButton = screen.getByRole("button", { name: "delete" });
+    deleteButton.click();
 
-      await wait(0);
-      await wrapper.update();
-
-      findByTestId(wrapper, "confirm-delete-button")
-        .hostNodes()
-        .simulate("click");
-
-      await wait(0);
-      await wrapper.update();
-
-      expect(mutationCalled).toBe(true);
-
-      await wait(0);
-      await wrapper.update();
-
-      expect(getGuidelinesCalled).toBe(true);
-    });
+    await waitFor(() => expect(getGuidelinesCalled).toBe(true));
   });
 });

@@ -147,14 +147,14 @@ describe("<Header />", () => {
 
   describe("when deleting a post", () => {
     beforeEach(() => {
-      window.confirm = jest.fn(() => true);
+      global.confirm = jest.fn(() => true);
       render(withMockedProviders(<Header transaction={transaction} />, mocks));
     });
 
     it("shows a confirmation dialog ", async () => {
       const deleteButton = screen.getByTestId("delete-button");
       deleteButton.click();
-      expect(window.confirm).toBeCalled();
+      expect(global.confirm).toBeCalled();
     });
 
     it("calls the delete mutation and refetch query", async () => {
