@@ -1,18 +1,12 @@
-import { mount, ReactWrapper } from "enzyme";
-import { act } from "react-dom/test-utils";
-import {
-  findByTestId,
-  mockLocalstorage,
-  simulateInputChange,
-  wait,
-  withMockedProviders,
-} from "../../../../spec_helper";
+import { mockLocalstorage, withMockedProviders } from "../../../../spec_helper";
 import { EditGuideline } from "./EditGuideline";
 import {
   CREATE_GUIDELINE,
   GET_GUIDELINES,
   UPDATE_GUIDELINE,
 } from "./GuidelinesSection";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { createRef } from "react";
 
 let createMutationCalled = false;
 let updateMutationCalled = false;
@@ -47,7 +41,7 @@ const mocks = [
       variables: {
         name: "guideline to be updated",
         kudos: 5,
-        guideline: "2",
+        guideline: 2,
       },
     },
     result: () => {
@@ -75,6 +69,8 @@ const mocks = [
       return {
         data: {
           teamById: {
+            id: "1",
+            __typename: "Team",
             guidelines: [
               {
                 id: "1",
@@ -89,149 +85,106 @@ const mocks = [
   },
 ];
 
-describe.skip("<EditGuideline/>", () => {
-  let wrapper: ReactWrapper;
-
+describe("<EditGuideline/>", () => {
   beforeEach(() => {
     mockLocalstorage("1");
     updateMutationCalled = false;
     createMutationCalled = false;
     getGuidelinesCalled = false;
-
-    wrapper = mount(withMockedProviders(<EditGuideline />, mocks));
   });
 
   it("calls the create mutation if editing is set to false", async () => {
-    const component = wrapper.find("EditGuideline").instance();
-    await act(async () => {
-      component.setState({
-        kudos: 10,
-        description: "test guideline",
-        editing: false,
-      });
-      await wrapper.update();
+    render(withMockedProviders(<EditGuideline />, mocks));
 
-      findByTestId(wrapper, "submit-button").hostNodes().simulate("submit");
+    const amountKudoInput = screen.getByLabelText("Amount of kudos");
+    fireEvent.change(amountKudoInput, { target: { value: "10" } });
 
-      await wait(0);
-      await wrapper.update();
+    const descriptionInput = screen.getByLabelText("Description");
+    fireEvent.change(descriptionInput, { target: { value: "test guideline" } });
 
-      expect(createMutationCalled).toBe(true);
+    const submitButton = screen.getByRole("button", {
+      name: "Create guideline",
     });
+    submitButton.click();
+
+    await waitFor(() => expect(createMutationCalled).toBe(true));
   });
 
   it("calls the update mutation if editing is set to true", async () => {
-    const component: any = wrapper.find("EditGuideline").instance();
+    const componentRef = createRef<EditGuideline>();
+    render(withMockedProviders(<EditGuideline ref={componentRef} />, mocks));
 
-    await act(async () => {
-      component.setState({
-        editId: "2",
-        editKudos: 5,
-        editDescription: "guideline to be updated",
-        editing: true,
-      });
-      await wrapper.update();
+    componentRef.current?.setEditState(2, "10", "test guideline");
 
-      findByTestId(wrapper, "submit-button").hostNodes().simulate("submit");
+    const amountKudoInput = screen.getByLabelText("Amount of kudos");
+    fireEvent.change(amountKudoInput, { target: { value: "5" } });
 
-      await wait(0);
-      await wrapper.update();
-
-      expect(updateMutationCalled).toBe(true);
+    const descriptionInput = screen.getByLabelText("Description");
+    fireEvent.change(descriptionInput, {
+      target: { value: "guideline to be updated" },
     });
-  });
 
-  it("handles input correctly", async () => {
-    const component: any = wrapper.find("EditGuideline").instance();
-    await act(async () => {
-      expect(component.state.kudos).toBe("");
-      expect(component.state.description).toBe("");
-
-      simulateInputChange(wrapper, "kudo-input", "kudos", 10);
-      simulateInputChange(
-        wrapper,
-        "description-input",
-        "description",
-        "Some guideline",
-      );
-
-      await wrapper.update();
-
-      expect(component.state.kudos).toBe(10);
-      expect(component.state.description).toBe("Some guideline");
+    const submitButton = screen.getByRole("button", {
+      name: "Update guideline",
     });
-  });
+    submitButton.click();
 
-  it("sets its state properly", async () => {
-    const component: any = wrapper.find("EditGuideline").instance();
-    await act(async () => {
-      component.setEditState("2", "5", "guideline to be updated");
-
-      await wrapper.update();
-
-      expect(component.state.editing).toBe(true);
-      expect(component.state.editId).toBe("2");
-      expect(component.state.editDescription).toBe("guideline to be updated");
-      expect(component.state.editKudos).toBe("5");
-    });
+    await waitFor(() => expect(updateMutationCalled).toBe(true));
+    await waitFor(() => expect(getGuidelinesCalled).toBe(true));
   });
 
   it("shows a cancel button when editing", async () => {
-    const component: any = wrapper.find("EditGuideline").instance();
-    await act(async () => {
-      component.setEditState("2", "5", "guideline to be updated");
+    const componentRef = createRef<EditGuideline>();
+    render(withMockedProviders(<EditGuideline ref={componentRef} />, mocks));
 
-      await wait(0);
-      await wrapper.update();
+    componentRef.current?.setEditState(2, "10", "test guideline");
 
-      expect(wrapper.containsMatchingElement(<button>Cancel</button>)).toBe(
-        true,
-      );
+    const cancelButton = screen.getByRole("button", {
+      name: "Cancel",
     });
+    expect(cancelButton).toBeInTheDocument();
   });
 
-  it("doesnt show a cancel button when not editing", async () => {
-    await act(async () => {
-      await wrapper.update();
+  it("does not show a cancel button when not editing", async () => {
+    render(withMockedProviders(<EditGuideline />, mocks));
 
-      expect(wrapper.containsMatchingElement(<button>Cancel</button>)).toBe(
-        false,
-      );
+    const cancelButton = screen.queryByRole("button", {
+      name: "Cancel",
     });
+    expect(cancelButton).toBeNull();
   });
 
   it("clears the edit state when pressing the cancel buttons", async () => {
-    const component: any = wrapper.find("EditGuideline").instance();
-    await act(async () => {
-      component.setEditState("2", "5", "guideline to be updated");
+    const componentRef = createRef<EditGuideline>();
+    render(withMockedProviders(<EditGuideline ref={componentRef} />, mocks));
 
-      await wait(0);
-      await wrapper.update();
+    componentRef.current?.setEditState(2, "10", "test guideline");
 
-      findByTestId(wrapper, "cancel-button").hostNodes().simulate("click");
-
-      await wait(0);
-      await wrapper.update();
-
-      expect(component.state.editing).toBe(false);
+    const amountKudoInput = screen.getByRole("spinbutton", {
+      name: "Amount of kudos",
     });
-  });
+    fireEvent.change(amountKudoInput, { target: { value: "5" } });
 
-  it("calls the refetch query", async () => {
-    const component: any = wrapper.find("EditGuideline").instance();
-    await act(async () => {
-      component.setState({ kudos: 10, description: "test guideline" });
-      await wrapper.update();
-
-      findByTestId(wrapper, "submit-button").hostNodes().simulate("submit");
-
-      await wait(0);
-      await wrapper.update();
-
-      await wait(0);
-      await wrapper.update();
-
-      expect(getGuidelinesCalled).toBe(true);
+    const descriptionInput = screen.getByRole("textbox", {
+      name: "Description",
     });
+    fireEvent.change(descriptionInput, {
+      target: { value: "guideline to be updated" },
+    });
+
+    const cancelButton = screen.getByRole("button", {
+      name: "Cancel",
+    });
+    cancelButton.click();
+
+    const updatedButton = screen.queryByRole("button", {
+      name: "Cancel",
+    });
+    expect(updatedButton).toBeNull();
+
+    /**
+     * This actually only closes 'the editing mode' the values are not
+     * reset...
+     */
   });
 });
