@@ -8,6 +8,8 @@ import {
   withMockedProviders,
 } from "../../../spec_helper";
 import GeneralSection, { GET_TEAM_NAME, UPDATE_TEAM } from "./General";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import exp from "constants";
 
 let mutationCalled = false;
 const mocks = [
@@ -67,72 +69,50 @@ const mocksWithError = [
   },
 ];
 
-describe.skip("<GeneralSection />", () => {
+describe("<GeneralSection />", () => {
   let wrapper: ReactWrapper;
 
   beforeEach(() => {
     mockLocalstorage("1");
     mutationCalled = false;
-    wrapper = mount(withMockedProviders(<GeneralSection />, mocks));
   });
 
-  it("shows when the query is loading", () => {
-    expect(wrapper.containsMatchingElement(<p>Loading...</p>)).toBe(true);
+  it("shows when the query is loading", async () => {
+    render(withMockedProviders(<GeneralSection />, mocks));
+
+    expect(screen.getByText("Loading...")).toBeInTheDocument();
+    expect(
+      await screen.findByRole("heading", { name: "Kabisa" }),
+    ).toBeInTheDocument();
   });
 
   it("shows when there is an error", async () => {
-    wrapper = mount(withMockedProviders(<GeneralSection />, mocksWithError));
+    render(withMockedProviders(<GeneralSection />, mocksWithError));
 
-    await act(async () => {
-      await wait(0);
-      await wrapper.update();
-
-      expect(
-        wrapper.containsMatchingElement(<p>Error! something went wrong</p>),
-      );
-    });
+    expect(
+      await screen.findByText("Error! something went wrong"),
+    ).toBeInTheDocument();
   });
 
   it("renders the team name", async () => {
-    await act(async () => {
-      await wait(0);
-      await wrapper.update();
+    render(withMockedProviders(<GeneralSection />, mocks));
 
-      expect(wrapper.containsMatchingElement(<h1>Kabisa</h1>)).toBe(true);
-    });
+    expect(
+      await screen.findByRole("heading", { name: "Kabisa", level: 1 }),
+    ).toBeInTheDocument();
   });
 
   it("handles input correctly", async () => {
-    const component: any = wrapper.find("GeneralSection").instance();
+    render(withMockedProviders(<GeneralSection />, mocks));
 
-    await act(async () => {
-      await wait(0);
-      await wrapper.update();
-      expect(component.state.name).toBe("");
+    await screen.findByRole("heading", { name: "Kabisa", level: 1 });
 
-      simulateInputChange(wrapper, "name-input", "name", "Dovetail");
+    const input = await screen.findByLabelText("New team name");
+    fireEvent.change(input, { target: { value: "Dovetail" } });
 
-      await wrapper.update();
-      expect(component.state.name).toBe("Dovetail");
-    });
-  });
+    const submit = screen.getByRole("button", { name: "Update" });
+    fireEvent.click(submit);
 
-  it("calls the update mutation", async () => {
-    const component = wrapper.find("GeneralSection").instance();
-
-    await act(async () => {
-      await wait(0);
-      await wrapper.update();
-
-      component.setState({ name: "Dovetail" });
-
-      await wrapper.update();
-      findByTestId(wrapper, "submit-button").hostNodes().simulate("submit");
-
-      await wait(0);
-      await wrapper.update();
-
-      expect(mutationCalled).toBe(true);
-    });
+    await waitFor(() => expect(mutationCalled).toBe(true));
   });
 });
