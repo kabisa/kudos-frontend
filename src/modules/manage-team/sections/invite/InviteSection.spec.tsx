@@ -1,11 +1,4 @@
-import { mount, ReactWrapper } from "enzyme";
-import { act } from "react-dom/test-utils";
-import {
-  findByTestId,
-  mockLocalstorage,
-  wait,
-  withMockedProviders,
-} from "../../../../spec_helper";
+import { mockLocalstorage, withMockedProviders } from "../../../../spec_helper";
 import InviteSection, { QUERY_GET_INVITES } from "./InvitesSection";
 import { render, screen, waitFor } from "@testing-library/react";
 
