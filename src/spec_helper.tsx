@@ -22,35 +22,6 @@ export const wait = (amount = 0) =>
 export const findByTestId = (wrapper: ReactWrapper, id: string) =>
   wrapper.find(`[data-testid="${id}"]`);
 
-// eslint-disable-next-line max-len
-export const findInputByTestId = (wrapper: ReactWrapper, id: string) =>
-  wrapper.find(`[data-testid="${id}"]`).find("input");
-
-// eslint-disable-next-line max-len
-export const findTextAreaByTestId = (wrapper: ReactWrapper, id: string) =>
-  wrapper.find(`[data-testid="${id}"]`).find("textarea");
-
-export const simulateTextareaChange = (
-  wrapper: ReactWrapper,
-  id: string,
-  name: string,
-  value: string,
-) => {
-  const input = findTextAreaByTestId(wrapper, id);
-
-  return input.simulate("change", { target: { name, value } });
-};
-
-export const simulateInputChange = (
-  wrapper: ReactWrapper,
-  id: string,
-  name: string,
-  value: any,
-) => {
-  const input = findInputByTestId(wrapper, id);
-  return input.simulate("change", { target: { name, value } });
-};
-
 // Mocks the localstorage getItem function with a specific value
 export const mockLocalstorage = (value: string) => {
   Storage.prototype.getItem = jest.fn(() => value);
