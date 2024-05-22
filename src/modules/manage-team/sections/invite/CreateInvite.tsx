@@ -40,6 +40,7 @@ export interface State {
 
 export class CreateInvite extends Component<Props, State> {
   initialState: State;
+  private _isMounted: boolean;
 
   constructor(props: Props) {
     super(props);
@@ -76,14 +77,27 @@ export class CreateInvite extends Component<Props, State> {
     });
   }
 
+  componentDidMount() {
+    this._isMounted = true;
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
   render() {
     return (
       <Mutation<CreateInviteParameters>
         mutation={MUTATION_CREATE_INVITE}
         onCompleted={() => {
-          this.setState(this.initialState);
+          const hasErrors = this.state.error.length === 0;
+          if (this._isMounted) {
+            this.setState(this.initialState);
+          }
           this.props.refetch?.();
-          toast.info("Invites sent successfully!");
+          if (!hasErrors) {
+            toast.info("Invites sent successfully!");
+          }
         }}
       >
         {(createInvite, { error, loading }) => {
@@ -121,7 +135,10 @@ export class CreateInvite extends Component<Props, State> {
               <Button
                 variant="primary"
                 disabled={loading}
-                onClick={() => this.sendInvites(createInvite)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  this.sendInvites(createInvite);
+                }}
               >
                 Invite
               </Button>

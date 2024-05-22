@@ -1,11 +1,5 @@
 import { createMemoryHistory, History } from "history";
-import { act } from "react-dom/test-utils";
-import {
-  findByTestId,
-  mockLocalstorage,
-  wait,
-  withMockedProviders,
-} from "../../../../spec_helper";
+import { mockLocalstorage, withMockedProviders } from "../../../../spec_helper";
 import IntegrationsSection, {
   GET_TEAM_INTEGRATIONS,
   REMOVE_SLACK,
