@@ -1,11 +1,4 @@
-import { mount, ReactWrapper } from "enzyme";
-import { act } from "react-dom/test-utils";
-import {
-  findByTestId,
-  mockLocalstorage,
-  wait,
-  withMockedProviders,
-} from "../../../../spec_helper";
+import { mockLocalstorage, withMockedProviders } from "../../../../spec_helper";
 import { KudometerRow } from "./KudometerRow";
 import {
   DELETE_KUDOMETER,
@@ -14,6 +7,7 @@ import {
   SET_ACTIVE_KUDOS_METER,
 } from "./KudometerQueries";
 import { GET_GOAL_PERCENTAGE } from "../../../feed/queries";
+import { render, screen, waitFor } from "@testing-library/react";
 
 const getKudometer = (isActive: boolean): Kudometer => ({
   id: "1",
@@ -86,6 +80,8 @@ const mocks = [
       return {
         data: {
           teamById: {
+            id: "1",
+            __tyename: "Team",
             kudosMeters: [
               {
                 id: "1",
@@ -107,7 +103,6 @@ const mocks = [
   },
 ];
 
-let wrapper: ReactWrapper;
 const viewButtonHandler = jest.fn();
 const deleteHandler = jest.fn();
 const editHandler = jest.fn();
@@ -116,7 +111,7 @@ const setup = (kudometer: Kudometer) => {
   mutationCalled = false;
   makeActiveMutationCalled = false;
   queryCalled = false;
-  wrapper = mount(
+  render(
     withMockedProviders(
       <table>
         <tbody>
@@ -134,108 +129,92 @@ const setup = (kudometer: Kudometer) => {
   );
 };
 
-describe.skip("<KudometerRow />", () => {
+describe("<KudometerRow />", () => {
   beforeEach(() => {
+    global.confirm = jest.fn(() => true);
     mockLocalstorage("1");
-    setup(getKudometer(false));
   });
 
-  it("shows the kudometer name", () => {
-    expect(wrapper.containsMatchingElement(<td>First kudometer</td>)).toBe(
-      true,
-    );
+  it("shows the kudometer name", async () => {
+    setup(getKudometer(false));
+    expect(
+      await screen.findByRole("cell", { name: "First kudometer" }),
+    ).toBeInTheDocument();
   });
 
   it("opens the goals", async () => {
-    await act(async () => {
-      findByTestId(wrapper, "goal-button").hostNodes().simulate("click");
+    setup(getKudometer(false));
+    const goalButton = screen.getByRole("button", { name: "View goals" });
+    goalButton.click();
 
-      await wrapper.update();
-
+    await waitFor(() => {
       expect(viewButtonHandler).toBeCalledTimes(1);
     });
   });
 
   it("has a confirm delete button", async () => {
-    await act(async () => {
-      findByTestId(wrapper, "delete-button").hostNodes().simulate("click");
+    setup(getKudometer(false));
+    const deleteButton = screen.getByRole("button", { name: "delete" });
+    deleteButton.click();
 
-      await wait(0);
-      await wrapper.update();
-
-      expect(
-        findByTestId(wrapper, "confirm-delete-button").hostNodes().length,
-      ).toBe(1);
+    await waitFor(() => {
+      expect(global.confirm).toBeCalledWith(
+        "Are you sure you want to delete this kudometer?",
+      );
     });
   });
 
   it("calls the delete mutation", async () => {
-    await act(async () => {
-      findByTestId(wrapper, "delete-button").hostNodes().simulate("click");
+    setup(getKudometer(false));
+    const deleteButton = screen.getByRole("button", { name: "delete" });
+    deleteButton.click();
 
-      await wait(0);
-      await wrapper.update();
-
-      findByTestId(wrapper, "confirm-delete-button")
-        .hostNodes()
-        .simulate("click");
-
-      await wait(0);
-      await wrapper.update();
-
+    await waitFor(() => {
       expect(mutationCalled).toBe(true);
-
-      await wait(0);
-      await wrapper.update();
-
       expect(queryCalled).toBe(true);
     });
   });
 
   it("has a edit button", () => {
-    expect(findByTestId(wrapper, "edit-button").hostNodes().length).toBe(1);
+    setup(getKudometer(false));
+    const editButton = screen.getByRole("button", { name: "edit" });
+    expect(editButton).toBeInTheDocument();
   });
 
   it("calls the edit function", async () => {
-    findByTestId(wrapper, "edit-button").hostNodes().simulate("click");
+    setup(getKudometer(false));
+    const editButton = screen.getByRole("button", { name: "edit" });
+    editButton.click();
 
     expect(editHandler).toBeCalledTimes(1);
   });
 
-  describe.skip("make active button", () => {
+  describe("make active button", () => {
     it("is not disabled if the kudometer is not active", () => {
-      const button = findByTestId(wrapper, "set-active-button").find("Button");
-      expect(button.prop("disabled")).toBe(false);
-    });
-
-    it("the text says make active if the kudometer is not active", () => {
-      const button = findByTestId(wrapper, "set-active-button").find("Button");
-      expect(button.text()).toBe("Set as active");
+      setup(getKudometer(false));
+      const activateButton = screen.getByRole("button", {
+        name: "Set as active",
+      });
+      expect(activateButton).not.toBeDisabled();
     });
 
     it("is disabled if the kudometer is active", () => {
       setup(getKudometer(true));
-
-      const button = findByTestId(wrapper, "set-active-button").find("Button");
-      expect(button.prop("disabled")).toBe(true);
-    });
-
-    it("the text says already active if the kudometer is active", () => {
-      setup(getKudometer(true));
-
-      const button = findByTestId(wrapper, "set-active-button").find("Button");
-      expect(button.text()).toBe("Already active");
+      const activateButton = screen.getByRole("button", {
+        name: "Already active",
+      });
+      expect(activateButton).toBeDisabled();
     });
 
     it("calls the mutation", async () => {
-      await act(async () => {
-        findByTestId(wrapper, "set-active-button")
-          .hostNodes()
-          .simulate("click");
+      setup(getKudometer(false));
 
-        await wait(0);
-        await wrapper.update();
+      const activateButton = screen.getByRole("button", {
+        name: "Set as active",
+      });
+      activateButton.click();
 
+      await waitFor(() => {
         expect(makeActiveMutationCalled).toBe(true);
       });
     });

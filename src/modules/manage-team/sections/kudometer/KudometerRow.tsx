@@ -25,9 +25,11 @@ export interface KudometerRowProps {
 export function KudometerRow(props: KudometerRowProps) {
   function deleteKudometer(mutation: any) {
     const { id } = props.kudometer;
-    mutation({ variables: { id } });
+    if (global.confirm("Are you sure you want to delete this kudometer?")) {
+      mutation({ variables: { id } });
 
-    props.deleteKudometerHandler(id);
+      props.deleteKudometerHandler(id);
+    }
   }
 
   function setActiveKudometer(mutation: any) {
