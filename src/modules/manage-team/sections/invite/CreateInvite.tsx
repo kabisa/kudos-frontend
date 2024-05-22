@@ -50,6 +50,7 @@ export class CreateInvite extends Component<Props, State> {
       error: "",
     };
     this.initialState = this.state;
+    this._isMounted = false;
 
     this.sendInvites = this.sendInvites.bind(this);
   }
