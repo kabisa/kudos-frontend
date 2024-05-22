@@ -106,6 +106,9 @@ class KudometerSection extends Component<Props, State> {
         ],
       });
     } else {
+      if (this.state.name.trim().length === 0) {
+        return;
+      }
       client.mutate<CreateKudometerResult, CreateKudometerParameters>({
         mutation: CREATE_KUDOMETER,
         variables: {
@@ -119,7 +122,7 @@ class KudometerSection extends Component<Props, State> {
               team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
             },
           },
-        ]
+        ],
       });
     }
 
@@ -143,7 +146,12 @@ class KudometerSection extends Component<Props, State> {
               <Icon name="flag" />
               Kudometers
             </h2>
-            <form onSubmit={() => this.saveKudosMeter(client)}>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                this.saveKudosMeter(client);
+              }}
+            >
               <Label>
                 Name
                 <Input
