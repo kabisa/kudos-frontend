@@ -151,7 +151,6 @@ describe("<KudometerSection />", () => {
     mockLocalstorage("1");
     createMutationCalled = false;
     editMutationCalled = false;
-    activateMutationCalled = false;
     wrapper = render(withMockedProviders(<KudometerSection />, mocks));
   });
 
