@@ -1,10 +1,4 @@
-import { act, scryRenderedDOMComponentsWithClass } from "react-dom/test-utils";
-import {
-  findByTestId,
-  mockLocalstorage,
-  wait,
-  withMockedProviders,
-} from "../../spec_helper";
+import { mockLocalstorage, withMockedProviders } from "../../spec_helper";
 import Statistics, { GET_GOAL_PERCENTAGE } from "./Statistics";
 import { render, screen, waitFor, within } from "@testing-library/react";
 
