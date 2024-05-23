@@ -1,29 +1,29 @@
-import { mount, ReactWrapper } from "enzyme";
-import { act } from "react-dom/test-utils";
 import { mockLocalstorage, withMockedProviders } from "../../spec_helper";
 import { SettingsPage } from "./index";
+import { render, screen } from "@testing-library/react";
 
-let wrapper: ReactWrapper;
 const setup = () => {
-  wrapper = mount(withMockedProviders(<SettingsPage />));
+  render(withMockedProviders(<SettingsPage />));
 };
 
-describe.skip("<SettingsPage />", () => {
+describe("<SettingsPage />", () => {
   it("shows the invite button if the user is an admin", async () => {
     mockLocalstorage("admin");
-    await act(async () => {
-      setup();
+    setup();
+
+    const inviteButton = screen.queryByRole("button", {
+      name: "Invite",
     });
-    expect(wrapper.containsMatchingElement(<button>Invite</button>)).toBe(true);
+    expect(inviteButton).toBeInTheDocument();
   });
 
-  it("hides the invite button if the user is an admin", async () => {
+  it("hides the invite button if the user is a member", async () => {
     mockLocalstorage("member");
-    await act(async () => {
-      setup();
+    setup();
+
+    const inviteButton = screen.queryByRole("button", {
+      name: "Invite",
     });
-    expect(wrapper.containsMatchingElement(<button>Invite</button>)).toBe(
-      false,
-    );
+    expect(inviteButton).toBeNull();
   });
 });
