@@ -1,4 +1,4 @@
-version: "2"         # required to adjust maintainability checks
+version: "2" # required to adjust maintainability checks
 checks:
   method-lines:
     config:
@@ -15,4 +15,5 @@ exclude_patterns:
   - "**/*.d.ts"
   - "**/*.spec.tsx"
   - "**/spec_helper.tsx"
+  - "**/*.stories.tsx"
   - "**/PullToRefresh.js"
