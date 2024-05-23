@@ -32,6 +32,7 @@ import styles from "./CreatePost.module.css";
 import MessageBox from "../../../../ui/MessageBox";
 import { Card } from "../../../../ui/Card";
 
+// eslint-disable-next-line max-len
 export const CREATE_POST = gql`
   mutation CreatePost(
     $message: String
@@ -224,6 +225,7 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
     toast.info("Post created successfully!");
     // We use wrapped instance because enhanceWithClickOutside wraps the component.
     // @ts-ignore
+    // eslint-disable-next-line no-underscore-dangle
     this.guidelineInput.current.__wrappedInstance.resetState();
     // @ts-ignore
     this.userDropdown.current.resetState();

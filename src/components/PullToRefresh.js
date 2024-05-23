@@ -29,6 +29,7 @@
   try {
     window.addEventListener("test", null, {
       get passive() {
+        // eslint-disable-line getter-return
         _shared.supportsPassive = true;
       },
     });

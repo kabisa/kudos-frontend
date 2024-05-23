@@ -11,7 +11,7 @@ import {
 import { Storage } from "../../../../support/storage";
 import { Button, Input, Label } from "@kabisa/ui-components";
 import { Component } from "react";
-import MessageBox from "../../../../ui/MessageBox";
+import MessageBox from '../../../../ui/MessageBox';
 
 export interface EditGuidelineProps {}
 
@@ -181,11 +181,7 @@ export class EditGuideline extends Component<
                 </Button>
               )}
               {displayError && (
-                <MessageBox
-                  variant="error"
-                  title="Unable to create guideline."
-                  message={displayError}
-                />
+                <MessageBox variant="error" title="Unable to create guideline." message={displayError} />
               )}
             </form>
           );

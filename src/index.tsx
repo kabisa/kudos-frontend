@@ -10,6 +10,7 @@ import client from "./client";
 
 const renderApp = function () {
   const root = document.getElementById("root") as HTMLElement;
+  // eslint-disable-next-line react/no-deprecated
   ReactDOM.render(
     <ApolloProvider client={client}>
       <App />

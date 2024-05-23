@@ -19,7 +19,7 @@ import { Button, Input, Label } from "@kabisa/ui-components";
 import Segment from "../../components/atoms/Segment";
 import BasePage from "./BasePage";
 import s from "./RegisterPage.module.css";
-import MessageBox from "../../ui/MessageBox";
+import MessageBox from '../../ui/MessageBox';
 
 export const MUTATION_REGISTER = gql`
   mutation SignUpUser(
@@ -198,11 +198,7 @@ class RegisterPage extends Component<Props, State> {
                     </Button>
 
                     {displayError && (
-                      <MessageBox
-                        variant="error"
-                        title="Unable to register"
-                        message={displayError}
-                      />
+                      <MessageBox variant="error" title="Unable to register" message={displayError} />
                     )}
                   </form>
                   <BackButton />
