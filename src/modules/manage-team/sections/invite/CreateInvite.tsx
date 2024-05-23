@@ -78,11 +78,11 @@ export class CreateInvite extends Component<Props, State> {
     });
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     this._isMounted = true;
   }
 
-  componentWillUnmount() {
+  componentWillUnmount(): void {
     this._isMounted = false;
   }
 

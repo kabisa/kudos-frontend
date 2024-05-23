@@ -52,7 +52,6 @@ const mocks = [
       variables: { id: "1" },
     },
     result: () => {
-      console.log("woot");
       mutationCalled = true;
       return {
         data: {
