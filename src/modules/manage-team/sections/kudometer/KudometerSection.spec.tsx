@@ -1,15 +1,8 @@
-import { act } from "react-dom/test-utils";
-import {
-  findByTestId,
-  mockLocalstorage,
-  wait,
-  withMockedProviders,
-} from "../../../../spec_helper";
+import { mockLocalstorage, withMockedProviders } from "../../../../spec_helper";
 import KudometerSection from "./KudometerSection";
 import {
   CREATE_KUDOMETER,
   GET_KUDOMETERS,
-  SET_ACTIVE_KUDOS_METER,
   UPDATE_KUDOMETER,
 } from "./KudometerQueries";
 import {
@@ -22,7 +15,6 @@ import {
 
 let createMutationCalled = false;
 let editMutationCalled = false;
-let activateMutationCalled = false;
 const mocks = [
   {
     request: {

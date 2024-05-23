@@ -3,6 +3,15 @@ checks:
   method-lines:
     config:
       threshold: 80
+plugins:
+  eslint:
+    enabled: true
+    config:
+      extensions:
+        - .js
+        - .jsx
+        - .ts
+        - .tsx
 exclude_patterns:
   - "spec/"
   - "!spec/support/helpers"

@@ -4,7 +4,7 @@ import {
 } from "../../../../../spec_helper";
 import { GoalRow } from "./GoalRow";
 import { DELETE_GOAL, GET_KUDOMETERS, Goal } from "../KudometerQueries";
-import { render, RenderResult, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 
 let mutationCalled = false;
 let queryCalled = false;
@@ -65,7 +65,6 @@ const goal: Goal = {
 };
 
 describe("<GoalRow />", () => {
-  let component: RenderResult;
   const editGoalMock = jest.fn(() => 1);
 
   beforeEach(() => {
@@ -73,7 +72,7 @@ describe("<GoalRow />", () => {
     global.confirm = jest.fn(() => true);
     mutationCalled = false;
     queryCalled = false;
-    component = render(
+    render(
       withMockedProviders(
         <table>
           <tbody>
