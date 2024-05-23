@@ -9,7 +9,7 @@ import { Button, Input } from "@kabisa/ui-components";
 import Segment from "../../components/atoms/Segment";
 import BasePage from "./BasePage";
 import s from "./ForgotPasswordPage.module.css";
-import MessageBox from '../../ui/MessageBox';
+import MessageBox from "../../ui/MessageBox";
 
 export const MUTATION_FORGOT_PASSWORD = gql`
   mutation forgotPassword($email: EmailAddress!) {
@@ -105,14 +105,18 @@ class ForgotPasswordPage extends Component<Props, State> {
                   </Button>
 
                   {this.state.error && (
-                    <MessageBox variant="error" title="Unable to reset the password" message={this.state.error} />
+                    <MessageBox
+                      variant="error"
+                      title="Unable to reset the password"
+                      message={this.state.error}
+                    />
                   )}
 
                   {this.state.success && (
                     <MessageBox
-                        variant="success"
-                        title="Reset password instructions sent"
-                        message="Check your mail for the details."
+                      variant="success"
+                      title="Reset password instructions sent"
+                      message="Check your mail for the details."
                     />
                   )}
                 </form>

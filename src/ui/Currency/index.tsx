@@ -4,5 +4,4 @@ type CurrencyProps = {
 
 const Currency = ({ amount }: CurrencyProps) => <>{amount}₭</>;
 
-
 export default Currency;

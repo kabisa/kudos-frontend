@@ -22,7 +22,6 @@ export const wait = (amount = 0) =>
 export const findByTestId = (wrapper: ReactWrapper, id: string) =>
   wrapper.find(`[data-testid="${id}"]`);
 
-// eslint-disable-next-line max-len
 export const findInputByTestId = (wrapper: ReactWrapper, id: string) =>
   wrapper.find(`[data-testid="${id}"]`).find("input");
 

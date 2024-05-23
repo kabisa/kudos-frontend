@@ -1,5 +1,5 @@
 import { Card, CardProps, SecondaryCard } from ".";
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta } from "@storybook/react";
 
 export const CardComponent = (props: CardProps) => <Card {...props} />;
 export const SecondaryCardComponent = (props: CardProps) => (
