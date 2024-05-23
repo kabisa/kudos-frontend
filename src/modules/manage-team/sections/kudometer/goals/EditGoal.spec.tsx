@@ -1,9 +1,5 @@
-import { act } from "react-dom/test-utils";
 import {
-  findByTestId,
   mockLocalstorage,
-  simulateInputChange,
-  wait,
   withMockedProviders,
 } from "../../../../../spec_helper";
 import { EditGoal } from "./EditGoal";
@@ -14,9 +10,8 @@ import {
   RenderResult,
   screen,
   waitFor,
-  waitForElementToBeRemoved,
 } from "@testing-library/react";
-import { Ref, RefObject, createRef } from "react";
+import { RefObject, createRef } from "react";
 
 let createMutationCalled = false;
 let updateMutationCalled = false;
