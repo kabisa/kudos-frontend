@@ -1,13 +1,10 @@
-import { mount, ReactWrapper } from "enzyme";
-import { act } from "react-dom/test-utils";
 import {
-  findByTestId,
   mockLocalstorage,
-  wait,
   withMockedProviders,
 } from "../../../../../spec_helper";
 import { GoalRow } from "./GoalRow";
 import { DELETE_GOAL, GET_KUDOMETERS, Goal } from "../KudometerQueries";
+import { render, RenderResult, screen, waitFor } from "@testing-library/react";
 
 let mutationCalled = false;
 let queryCalled = false;
@@ -38,10 +35,13 @@ const mocks = [
       return {
         data: {
           teamById: {
+            id: "1",
+            __typename: "Team",
             kudosMeters: [
               {
                 id: "1",
                 name: "Kudometer",
+                isActive: false,
                 goals: [
                   {
                     id: "1",
@@ -64,15 +64,16 @@ const goal: Goal = {
   amount: 100,
 };
 
-describe.skip("<GoalRow />", () => {
-  let wrapper: ReactWrapper;
+describe("<GoalRow />", () => {
+  let component: RenderResult;
   const editGoalMock = jest.fn(() => 1);
 
   beforeEach(() => {
     mockLocalstorage("1");
+    global.confirm = jest.fn(() => true);
     mutationCalled = false;
     queryCalled = false;
-    wrapper = mount(
+    component = render(
       withMockedProviders(
         <table>
           <tbody>
@@ -85,50 +86,34 @@ describe.skip("<GoalRow />", () => {
   });
 
   it("renders all the information", () => {
-    expect(wrapper.containsMatchingElement(<td>{goal.name}</td>)).toBe(true);
-    expect(wrapper.containsMatchingElement(<td>{goal.amount}</td>)).toBe(true);
+    expect(screen.getByRole("cell", { name: goal.name })).toBeInTheDocument();
+    expect(
+      screen.getByRole("cell", { name: `${goal.amount}` }),
+    ).toBeInTheDocument();
   });
 
-  it("calls the dit goal function", async () => {
-    await act(async () => {
-      findByTestId(wrapper, "edit-button").hostNodes().simulate("click");
+  it("calls the edit goal function", async () => {
+    const editButton = screen.getByRole("button", { name: "edit" });
+    editButton.click();
 
-      expect(editGoalMock).toBeCalledTimes(1);
-    });
+    expect(editGoalMock).toBeCalledTimes(1);
   });
 
   it("has a delete confirm button", async () => {
-    await act(async () => {
-      findByTestId(wrapper, "delete-button").hostNodes().simulate("click");
+    const deleteButton = screen.getByRole("button", { name: "delete" });
+    deleteButton.click();
 
-      await wait(0);
-      await wrapper.update();
-
-      expect(
-        findByTestId(wrapper, "confirm-delete-button").hostNodes().length,
-      ).toBe(1);
-    });
+    expect(global.confirm).toBeCalledWith(
+      "Are you sure you want to delete this goal?",
+    );
   });
 
   it("calls the delete mutation and the refetch query", async () => {
-    await act(async () => {
-      findByTestId(wrapper, "delete-button").hostNodes().simulate("click");
+    const deleteButton = screen.getByRole("button", { name: "delete" });
+    deleteButton.click();
 
-      await wait(0);
-      await wrapper.update();
-
-      findByTestId(wrapper, "confirm-delete-button")
-        .hostNodes()
-        .simulate("click");
-
-      await wait(0);
-      await wrapper.update();
-
+    await waitFor(() => {
       expect(mutationCalled).toBe(true);
-
-      await wait(0);
-      await wrapper.update();
-
       expect(queryCalled).toBe(true);
     });
   });
