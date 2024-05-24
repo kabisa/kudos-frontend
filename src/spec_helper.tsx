@@ -1,7 +1,8 @@
 import { MockedProvider } from "@apollo/client/testing";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter, Route } from "react-router-dom";
 import { ApolloCache, InMemoryCache } from "@apollo/client/cache";
 import { ReactWrapper } from "enzyme";
+import { PATH_CHOOSE_TEAM, PATH_LOGIN } from "./routes";
 
 export const withMockedProviders = <TSerialized extends object>(
   component: any,
@@ -13,6 +14,8 @@ export const withMockedProviders = <TSerialized extends object>(
     <MockedProvider mocks={mocks} addTypename={useTypeName} cache={cache}>
       {component}
     </MockedProvider>
+    <Route path={PATH_LOGIN}>Login Page</Route>
+    <Route path={PATH_CHOOSE_TEAM}>Choose team Page</Route>
   </MemoryRouter>
 );
 

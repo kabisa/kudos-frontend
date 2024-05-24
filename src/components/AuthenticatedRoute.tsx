@@ -12,14 +12,14 @@ export default function AuthenticatedRoute({
       {...rest}
       render={(props) => {
         if (!Auth.isLoggedIn()) {
-          return <Redirect data-testid="redirect" to={PATH_LOGIN} />;
+          return <Redirect to={PATH_LOGIN} />;
         }
 
         if (Auth.hasTeam() || allowNoTeam) {
-          return <Component data-testid="component" {...props} />;
+          return <Component {...props} />;
         }
 
-        return <Redirect data-testid="redirect" to={PATH_CHOOSE_TEAM} />;
+        return <Redirect to={PATH_CHOOSE_TEAM} />;
       }}
     />
   );
