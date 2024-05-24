@@ -1,12 +1,10 @@
-import { mount, ReactWrapper } from "enzyme";
-import { findByTestId, withMockedProviders } from "../../spec_helper";
+import { withMockedProviders } from "../../spec_helper";
 import CustomCircle from "./Circle";
+import { render, screen } from "@testing-library/react";
 
 describe("<CustomCircle />", () => {
-  let wrapper: ReactWrapper;
-
   beforeEach(() => {
-    wrapper = mount(
+    render(
       withMockedProviders(
         <CustomCircle
           percent={50}
@@ -19,14 +17,14 @@ describe("<CustomCircle />", () => {
   });
 
   it("renders the correct current kudo amount", () => {
-    const summary = findByTestId(wrapper, "current-kudos");
+    const summary = screen.getByRole("heading", { level: 2, name: "200 ₭" });
 
-    expect(summary.text()).toBe("200₭");
+    expect(summary).toBeInTheDocument();
   });
 
   it("renders the correct goal", () => {
-    const goal = findByTestId(wrapper, "goal-kudos");
-
-    expect(goal.text()).toBe("of 500₭ for Some goal");
+    const summary = screen.getByTestId("goal-kudos");
+    expect(summary.textContent).toEqual("of 500₭ for Some goal");
+    expect(summary).toBeInTheDocument();
   });
 });
