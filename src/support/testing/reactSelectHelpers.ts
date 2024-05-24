@@ -7,7 +7,7 @@ const getDomAreaOfSelect = (
 ): HTMLElement | undefined | null =>
   selectElement.parentElement?.parentElement?.parentElement?.parentElement;
 
-export const openSelect = (selectElement: HTMLElement) => {
+export const openSelect = (selectElement: HTMLElement): void => {
   fireEvent.keyDown(selectElement, DOWN_ARROW);
 };
 
