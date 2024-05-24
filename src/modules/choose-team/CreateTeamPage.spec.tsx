@@ -32,7 +32,7 @@ const mocksWithError = [
 ];
 
 describe("<CreateTeamPage />", () => {
-  beforeEach(async () => {
+  beforeEach(() => {
     mutationCalled = false;
     Storage.setItem = jest.fn();
   });
@@ -52,7 +52,7 @@ describe("<CreateTeamPage />", () => {
     ).toBeInTheDocument();
   });
 
-  it("handles input correctly", async () => {
+  it("handles input correctly", () => {
     render(withMockedProviders(<CreateTeamPage />, mocks));
     const input = screen.getByPlaceholderText("Team name");
     expect(input).toHaveValue("");
@@ -62,7 +62,7 @@ describe("<CreateTeamPage />", () => {
     expect(input).toHaveValue("Kabisa");
   });
 
-  it("returns an error if the name is null", async () => {
+  it("returns an error if the name is null", () => {
     render(withMockedProviders(<CreateTeamPage />, mocks));
     const button = screen.getByRole("button", { name: "Create team" });
 
@@ -82,7 +82,7 @@ describe("<CreateTeamPage />", () => {
     await waitFor(() => expect(button).toBeDisabled());
   });
 
-  it("shows when there is an error", async () => {
+  it("shows when there is an error", () => {
     render(withMockedProviders(<CreateTeamPage />, mocksWithError));
     const button = screen.getByRole("button", { name: "Create team" });
 

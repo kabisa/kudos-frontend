@@ -54,7 +54,7 @@ describe("<ResetPasswordPage />", () => {
     ).toBeInTheDocument();
   });
 
-  it("shows an error if the new password is blank", async () => {
+  it("shows an error if the new password is blank", () => {
     const currentPassField = screen.getByLabelText("Current password");
     fireEvent.change(currentPassField, { target: { value: "oldPassword" } });
 
@@ -73,7 +73,7 @@ describe("<ResetPasswordPage />", () => {
     ).toBeInTheDocument();
   });
 
-  it("shows an error if the password confirm is blank", async () => {
+  it("shows an error if the password confirm is blank", () => {
     const currentPassField = screen.getByLabelText("Current password");
     fireEvent.change(currentPassField, { target: { value: "oldPassword" } });
 
@@ -95,7 +95,7 @@ describe("<ResetPasswordPage />", () => {
     ).toBeInTheDocument();
   });
 
-  it("shows an error if the new passwords do not match", async () => {
+  it("shows an error if the new passwords do not match", () => {
     const currentPassField = screen.getByLabelText("Current password");
     fireEvent.change(currentPassField, { target: { value: "oldPassword" } });
 
@@ -118,7 +118,7 @@ describe("<ResetPasswordPage />", () => {
     expect(screen.getByText("Password don't match.")).toBeInTheDocument();
   });
 
-  it("shows an error if the password length is too short", async () => {
+  it("shows an error if the password length is too short", () => {
     const currentPassField = screen.getByLabelText("Current password");
     fireEvent.change(currentPassField, { target: { value: "oldPassword" } });
 

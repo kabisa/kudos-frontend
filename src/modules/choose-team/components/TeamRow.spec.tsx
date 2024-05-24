@@ -20,18 +20,18 @@ describe("<TeamRow />", () => {
     expect(screen.getByText("Kabisa")).toBeInTheDocument();
   });
 
-  it("sets the team id on button click", async () => {
+  it("sets the team id on button click", () => {
     screen.getByRole("button").click();
 
     expect(Storage.setItem).toBeCalledWith("team_id", "1");
   });
 
-  it("sets the user role on button click", async () => {
+  it("sets the user role on button click", () => {
     screen.getByRole("button").click();
     expect(Storage.setItem).toBeCalledWith("team_role", "Admin");
   });
 
-  it("navigates to the next page", async () => {
+  it("navigates to the next page", () => {
     screen.getByRole("button").click();
 
     expect(history.location.pathname).toBe("/");

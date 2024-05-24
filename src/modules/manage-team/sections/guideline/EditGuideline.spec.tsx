@@ -133,7 +133,7 @@ describe("<EditGuideline/>", () => {
     await waitFor(() => expect(getGuidelinesCalled).toBe(true));
   });
 
-  it("shows a cancel button when editing", async () => {
+  it("shows a cancel button when editing", () => {
     const componentRef = createRef<EditGuideline>();
     render(withMockedProviders(<EditGuideline ref={componentRef} />, mocks));
 
@@ -145,7 +145,7 @@ describe("<EditGuideline/>", () => {
     expect(cancelButton).toBeInTheDocument();
   });
 
-  it("does not show a cancel button when not editing", async () => {
+  it("does not show a cancel button when not editing", () => {
     render(withMockedProviders(<EditGuideline />, mocks));
 
     const cancelButton = screen.queryByRole("button", {
@@ -154,7 +154,7 @@ describe("<EditGuideline/>", () => {
     expect(cancelButton).toBeNull();
   });
 
-  it("clears the edit state when pressing the cancel buttons", async () => {
+  it("clears the edit state when pressing the cancel buttons", () => {
     const componentRef = createRef<EditGuideline>();
     render(withMockedProviders(<EditGuideline ref={componentRef} />, mocks));
 

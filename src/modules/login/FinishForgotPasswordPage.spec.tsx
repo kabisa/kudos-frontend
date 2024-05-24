@@ -82,7 +82,7 @@ describe("<FinishForgotPasswordPage />", () => {
     screen.getByRole("heading", { name: "Reset password" });
   });
 
-  it("handles input correctly", async () => {
+  it("handles input correctly", () => {
     const passwordField = screen.getByLabelText("Password");
     fireEvent.change(passwordField, { target: { value: "L0r3m1psum!" } });
 
@@ -98,7 +98,7 @@ describe("<FinishForgotPasswordPage />", () => {
     });
   });
 
-  it("shows a message if the password field is empty", async () => {
+  it("shows a message if the password field is empty", () => {
     const submitButton = screen.getByRole("button");
     submitButton.click();
 
@@ -110,7 +110,7 @@ describe("<FinishForgotPasswordPage />", () => {
     expect(message).toBeInTheDocument();
   });
 
-  it("shows a message if the confirm password field is empty", async () => {
+  it("shows a message if the confirm password field is empty", () => {
     const passwordField = screen.getByLabelText("Password");
     fireEvent.change(passwordField, { target: { value: "L0r3m1psum!" } });
 
@@ -126,7 +126,7 @@ describe("<FinishForgotPasswordPage />", () => {
     expect(message).toBeInTheDocument();
   });
 
-  it("shows a message if the passwords are not the same", async () => {
+  it("shows a message if the passwords are not the same", () => {
     const passwordField = screen.getByLabelText("Password");
     fireEvent.change(passwordField, { target: { value: "L0r3m1psum!" } });
 
@@ -147,7 +147,7 @@ describe("<FinishForgotPasswordPage />", () => {
     expect(message).toBeInTheDocument();
   });
 
-  it("shows when there is an error", async () => {
+  it("shows when there is an error", () => {
     renderResult.unmount();
 
     const props = createPropsWithToken("90210");

@@ -68,7 +68,7 @@ describe("<RegisterPage />", () => {
     await waitFor(() => expect(mutationCalled).toBe(true));
   });
 
-  it("shows a message if the name is empty", async () => {
+  it("shows a message if the name is empty", () => {
     const emailField = screen.getByLabelText("Email");
     fireEvent.change(emailField, { target: { value: "max@example.com" } });
 
@@ -84,7 +84,7 @@ describe("<RegisterPage />", () => {
     expect(message).toBeInTheDocument();
   });
 
-  it("shows a message if the email is empty", async () => {
+  it("shows a message if the email is empty", () => {
     const nameField = screen.getByLabelText("Name");
     fireEvent.change(nameField, { target: { value: "Max" } });
 
@@ -100,7 +100,7 @@ describe("<RegisterPage />", () => {
     expect(message).toBeInTheDocument();
   });
 
-  it("shows a message if the email is invalid", async () => {
+  it("shows a message if the email is invalid", () => {
     const nameField = screen.getByLabelText("Name");
     fireEvent.change(nameField, { target: { value: "Max" } });
 
@@ -119,7 +119,7 @@ describe("<RegisterPage />", () => {
     expect(message).toBeInTheDocument();
   });
 
-  it("shows a message if the password is too short", async () => {
+  it("shows a message if the password is too short", () => {
     const nameField = screen.getByLabelText("Name");
     fireEvent.change(nameField, { target: { value: "Max" } });
 

@@ -7,7 +7,7 @@ const setup = () => {
 };
 
 describe("<SettingsPage />", () => {
-  it("shows the invite button if the user is an admin", async () => {
+  it("shows the invite button if the user is an admin", () => {
     mockLocalstorage("admin");
     setup();
 
@@ -17,7 +17,7 @@ describe("<SettingsPage />", () => {
     expect(inviteButton).toBeInTheDocument();
   });
 
-  it("hides the invite button if the user is a member", async () => {
+  it("hides the invite button if the user is a member", () => {
     mockLocalstorage("member");
     setup();
 

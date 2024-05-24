@@ -84,7 +84,7 @@ describe("<InvitePage />", () => {
     ).toBeInTheDocument();
   });
 
-  it("disables the send button when the mutation is called", async () => {
+  it("disables the send button when the mutation is called", () => {
     const emailInput = screen.getByRole("textbox", { name: "Email addresses" });
     fireEvent.change(emailInput, { target: { value: "max@example.com" } });
 

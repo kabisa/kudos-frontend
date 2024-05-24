@@ -91,14 +91,14 @@ describe("<GoalRow />", () => {
     ).toBeInTheDocument();
   });
 
-  it("calls the edit goal function", async () => {
+  it("calls the edit goal function", () => {
     const editButton = screen.getByRole("button", { name: "edit" });
     editButton.click();
 
     expect(editGoalMock).toBeCalledTimes(1);
   });
 
-  it("has a delete confirm button", async () => {
+  it("has a delete confirm button", () => {
     const deleteButton = screen.getByRole("button", { name: "delete" });
     deleteButton.click();
 

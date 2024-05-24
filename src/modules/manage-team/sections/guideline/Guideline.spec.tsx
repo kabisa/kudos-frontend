@@ -106,7 +106,7 @@ describe("<Guideline />", () => {
     );
   });
 
-  it("has a confirm button for the delete action", async () => {
+  it("has a confirm button for the delete action", () => {
     expect(global.confirm).toBeCalledTimes(0);
 
     const deleteButton = screen.getByRole("button", { name: "delete" });

@@ -43,7 +43,7 @@ describe("<ForgotPasswordPage />", () => {
     render(withMockedProviders(<ForgotPasswordPage />, mocks));
   });
 
-  it("displays a header for the page", async () => {
+  it("displays a header for the page", () => {
     const header = screen.getByRole("heading", { name: "Forgot password" });
     expect(header).toBeInTheDocument();
   });

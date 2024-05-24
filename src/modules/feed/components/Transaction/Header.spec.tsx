@@ -119,7 +119,7 @@ describe("<Header />", () => {
   });
 
   // deletion is always allowed now...
-  it.skip("prevents the user to remove his own post after 15 minutes", async () => {
+  it.skip("prevents the user to remove his own post after 15 minutes", () => {
     render(
       withMockedProviders(<Header transaction={olderTransaction} />, mocks),
     );
@@ -150,13 +150,13 @@ describe("<Header />", () => {
       render(withMockedProviders(<Header transaction={transaction} />, mocks));
     });
 
-    it("shows a confirmation dialog ", async () => {
+    it("shows a confirmation dialog ", () => {
       const deleteButton = screen.getByTestId("delete-button");
       deleteButton.click();
       expect(global.confirm).toBeCalled();
     });
 
-    it("calls the delete mutation and refetch query", async () => {
+    it("calls the delete mutation and refetch query", () => {
       const deleteButton = screen.getByTestId("delete-button");
       queryCalled = false;
       deleteButton.click();

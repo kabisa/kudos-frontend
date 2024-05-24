@@ -101,7 +101,7 @@ describe("<DropdownRemote />", () => {
     });
   });
 
-  it.skip("shows when there is an error", async () => {
+  it.skip("shows when there is an error", () => {
     setup(mocksWithError);
     const input = screen.getByRole("combobox", {
       description: "Receivers",

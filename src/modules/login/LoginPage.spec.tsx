@@ -77,7 +77,7 @@ describe("<LoginPage />", () => {
     await waitFor(() => expect(mutationCalled).toBe(true));
   });
 
-  it("shows a message if the email is empty", async () => {
+  it("shows a message if the email is empty", () => {
     const passwordField = screen.getByLabelText("Password");
     fireEvent.change(passwordField, { target: { value: "password" } });
 
@@ -91,7 +91,7 @@ describe("<LoginPage />", () => {
     expect(message).toBeInTheDocument();
   });
 
-  it("shows a message if the password is empty", async () => {
+  it("shows a message if the password is empty", () => {
     const emailField = screen.getByLabelText("Email");
     fireEvent.change(emailField, { target: { value: "max@example.com" } });
 

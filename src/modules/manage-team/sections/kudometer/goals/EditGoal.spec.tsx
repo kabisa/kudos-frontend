@@ -153,7 +153,7 @@ describe("<EditGoal />", () => {
       });
     });
 
-    it("cancels the editing with the cancel button", async () => {
+    it("cancels the editing with the cancel button", () => {
       const submitButton = screen.getByRole("button", { name: "Update goal" });
       expect(submitButton).toBeInTheDocument();
 

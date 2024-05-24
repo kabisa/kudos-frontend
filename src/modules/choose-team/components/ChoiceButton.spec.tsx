@@ -38,7 +38,7 @@ jest.mock("react-router-dom", () => ({
 }));
 
 describe("<ChoiceButton />", () => {
-  beforeEach(async () => {
+  beforeEach(() => {
     mutationCalled = false;
     Storage.setItem = jest.fn();
   });

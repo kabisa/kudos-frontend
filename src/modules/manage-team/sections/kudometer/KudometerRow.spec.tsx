@@ -44,6 +44,7 @@ const mocks = [
     result: {
       data: {
         teamById: {
+          id: "1",
           activeKudosMeter: {
             amount: 10,
           },
@@ -181,7 +182,7 @@ describe("<KudometerRow />", () => {
     expect(editButton).toBeInTheDocument();
   });
 
-  it("calls the edit function", async () => {
+  it("calls the edit function", () => {
     setup(getKudometer(false));
     const editButton = screen.getByRole("button", { name: "edit" });
     editButton.click();
