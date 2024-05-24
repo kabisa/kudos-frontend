@@ -2,7 +2,7 @@ import { act } from "react-dom/test-utils";
 import { createMemoryHistory, MemoryHistory } from "history";
 import { withMockedProviders } from "../../spec_helper";
 import { ManageTeamPage } from "./ManageTeamPage";
-import { render, RenderResult, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 
 describe("<ManageTeamPage/>", () => {
   let history: MemoryHistory;

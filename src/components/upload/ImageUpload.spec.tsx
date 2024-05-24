@@ -1,6 +1,6 @@
 import { withMockedProviders } from "../../spec_helper";
 import { ImageUpload } from "./ImageUpload";
-import { render, RenderResult, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 const createFile = (name: string, size: number, type: string): File => {
@@ -13,19 +13,12 @@ const createFile = (name: string, size: number, type: string): File => {
   return file;
 };
 
-const fileChangeEvent = (files: File[]) => ({
-  target: { files },
-  preventDefault: () => {},
-  persist: () => {},
-});
-
 describe("<ImageUpload />", () => {
-  let wrapper: RenderResult;
   let selectedFiles: any = [];
 
   beforeEach(() => {
     window.URL.createObjectURL = jest.fn();
-    wrapper = render(
+    render(
       withMockedProviders(
         <ImageUpload
           onChange={(files) => {
