@@ -39,7 +39,7 @@ function KudoMeter(props: KudoMeterProps) {
         }}
       >
         <Icon
-          name={"lock"}
+          name={props.goal.achievedOn ? "lock_open" : "lock"}
           className={s.lock_icon}
           style={{
             color: props.goal.achievedOn ? "white" : "black",

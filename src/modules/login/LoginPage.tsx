@@ -1,5 +1,5 @@
 import { Component, FormEvent } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { History } from "history";
 import { Mutation } from "@apollo/client/react/components";
 import { ApolloError, gql } from "@apollo/client";
@@ -20,15 +20,11 @@ import { FormWrapper } from "../../components";
 import { loginSuccess } from "./helper";
 
 import s from "./LoginPage.module.css";
-import {
-  Button,
-  Input,
-  Link as KabisaLink,
-  Label,
-} from "@kabisa/ui-components";
+import { Button, Input, Label } from "@kabisa/ui-components";
 import Segment from "../../components/atoms/Segment";
 import BasePage from "./BasePage";
-import MessageBox from '../../ui/MessageBox';
+import MessageBox from "../../ui/MessageBox";
+import { Link } from "../../components/Link";
 
 export const MUTATION_LOGIN = gql`
   mutation SignInUser($email: EmailAddress!, $password: String!) {
@@ -182,7 +178,11 @@ class LoginPage extends Component<Props, State> {
                     </Button>
 
                     {displayError && (
-                      <MessageBox variant="error" title="Unable to login" message={displayError} />
+                      <MessageBox
+                        variant="error"
+                        title="Unable to login"
+                        message={displayError}
+                      />
                     )}
                   </form>
                   <div className={s.footer}>
@@ -190,15 +190,17 @@ class LoginPage extends Component<Props, State> {
                       data-testid="sign-up-button"
                       to={PATH_REGISTER}
                       className={s.left}
+                      theme="dark"
                     >
-                      <KabisaLink theme="dark">Sign Up</KabisaLink>
+                      Sign Up
                     </Link>
                     <Link
                       data-testid="forgot-button"
                       to={PATH_FORGOT_PASSWORD}
+                      theme="dark"
                       className={s.right}
                     >
-                      <KabisaLink theme="dark">Forgot password?</KabisaLink>
+                      Forgot password?
                     </Link>
                   </div>
                 </Segment>

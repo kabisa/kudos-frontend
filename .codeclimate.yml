@@ -1,8 +1,18 @@
-version: "2"         # required to adjust maintainability checks
+version: "2" # required to adjust maintainability checks
 checks:
   method-lines:
     config:
       threshold: 80
+plugins:
+  eslint:
+    enabled: true
+    channel: "eslint-7"
+    config:
+      extensions:
+        - .js
+        - .jsx
+        - .ts
+        - .tsx
 exclude_patterns:
   - "spec/"
   - "!spec/support/helpers"
@@ -15,4 +25,5 @@ exclude_patterns:
   - "**/*.d.ts"
   - "**/*.spec.tsx"
   - "**/spec_helper.tsx"
+  - "**/*.stories.tsx"
   - "**/PullToRefresh.js"

@@ -47,11 +47,15 @@ export function GoalRow(props: GoalRowProps) {
             <IconButton
               variant="tertiary"
               name="delete"
-              onClick={() =>
-                deleteGoal({
-                  variables: { id: props.goal.id },
-                })
-              }
+              onClick={() => {
+                if (
+                  global.confirm("Are you sure you want to delete this goal?")
+                ) {
+                  deleteGoal({
+                    variables: { id: props.goal.id },
+                  });
+                }
+              }}
               disabled={loading}
             />
           )}

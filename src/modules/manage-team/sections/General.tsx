@@ -110,7 +110,12 @@ export default class GeneralSection extends Component<Props, State> {
                 {(mutate, { loading }) => (
                   <>
                     <h1>{data && data.teamById ? data.teamById.name : "-"}</h1>
-                    <form onSubmit={() => this.updateTeam(mutate)}>
+                    <form
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        this.updateTeam(mutate);
+                      }}
+                    >
                       <Label>
                         New team name
                         <Input

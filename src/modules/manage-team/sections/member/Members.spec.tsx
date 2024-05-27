@@ -1,11 +1,6 @@
-import { mount, ReactWrapper } from "enzyme";
-import { act } from "react-dom/test-utils";
-import {
-  mockLocalstorage,
-  wait,
-  withMockedProviders,
-} from "../../../../spec_helper";
+import { mockLocalstorage, withMockedProviders } from "../../../../spec_helper";
 import MemberSection, { GET_USERS } from "./Members";
+import { RenderResult, render, screen, waitFor } from "@testing-library/react";
 
 export const mocks = () => [
   {
@@ -52,36 +47,55 @@ const mocksWithError = [
   },
 ];
 
-describe.skip("<Member />", () => {
-  let wrapper: ReactWrapper;
+type GraphQLData = {
+  request: {
+    query: unknown;
+    variables?: unknown;
+  };
+  error?: unknown;
+  result?: {
+    data: unknown;
+  };
+};
 
-  beforeEach(() => {
+let renderResult: RenderResult | null = null;
+const setup = async (mockData: GraphQLData[] = mocks()) => {
+  if (renderResult) {
+    await waitFor(() => {
+      expect(screen.queryByText("Loading...")).toBeNull();
+    });
+    renderResult.unmount();
+  }
+  renderResult = render(withMockedProviders(<MemberSection />, mockData));
+};
+
+describe("<Member />", () => {
+  beforeEach(async () => {
     mockLocalstorage("1");
-    wrapper = mount(withMockedProviders(<MemberSection />, mocks()));
+    await setup();
   });
 
-  it("shows a loading state", () => {
-    expect(wrapper.containsMatchingElement(<p>Loading...</p>)).toBe(true);
+  it("shows a loading state", async () => {
+    expect(screen.getByText("Loading...")).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(screen.queryByText("Loading...")).toBeNull();
+    });
   });
 
   it("shows when there is an error", async () => {
-    wrapper = mount(withMockedProviders(<MemberSection />, mocksWithError));
-    await act(async () => {
-      await wait(0);
-      await wrapper.update();
-
-      expect(
-        wrapper.containsMatchingElement(<p>Error! something went wrong</p>),
-      ).toBe(true);
+    await setup(mocksWithError);
+    await waitFor(() => {
+      expect(screen.queryByText("Loading...")).toBeNull();
     });
+
+    expect(
+      await screen.findByText("Error! something went wrong"),
+    ).toBeInTheDocument();
   });
 
   it("renders a row for each membership", async () => {
-    await act(async () => {
-      await wait(0);
-      await wrapper.update();
-
-      expect(wrapper.find("MemberRow").length).toBe(2);
-    });
+    // 1 header row, 2 data rows
+    expect(await screen.findAllByRole("row")).toHaveLength(3);
   });
 });

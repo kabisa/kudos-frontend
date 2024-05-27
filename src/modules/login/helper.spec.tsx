@@ -1,7 +1,7 @@
 import { loginSuccess, LoginSuccessParams } from "./helper";
 import { Storage } from "../../support/storage";
 
-describe.skip("login helper", () => {
+describe("login helper", () => {
   it("calls localstorage", () => {
     Storage.setItem = jest.fn();
 
