@@ -1,4 +1,8 @@
-import { mockLocalstorage, withMockedProviders } from "../../../../spec_helper";
+import {
+  MockedFunction,
+  mockLocalstorage,
+  withMockedProviders,
+} from "../../../../spec_helper";
 import { Invite, MUTATION_DELETE_INVITE } from "./Invite";
 import { InviteModel, QUERY_GET_INVITES } from "./InvitesSection";
 import { render, screen, waitFor } from "@testing-library/react";
@@ -146,5 +150,15 @@ describe("<Invite />", () => {
       expect(mutationCalled).toBe(true);
       expect(queryCalled).toBe(true);
     });
+  });
+
+  it("does not the delete mutation if confirm is cancelled", async () => {
+    (global.confirm as MockedFunction<Window["confirm"]>).mockReturnValueOnce(
+      true,
+    );
+    const deleteButton = screen.getByRole("button", { name: "delete" });
+    deleteButton.click();
+
+    await waitFor(() => expect(mutationCalled).toBe(true));
   });
 });

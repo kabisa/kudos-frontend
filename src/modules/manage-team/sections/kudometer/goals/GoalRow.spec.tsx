@@ -1,4 +1,5 @@
 import {
+  MockedFunction,
   mockLocalstorage,
   withMockedProviders,
 } from "../../../../../spec_helper";
@@ -95,7 +96,7 @@ describe("<GoalRow />", () => {
     const editButton = screen.getByRole("button", { name: "edit" });
     editButton.click();
 
-    expect(editGoalMock).toBeCalledTimes(1);
+    expect(editGoalMock).toHaveBeenCalledTimes(1);
   });
 
   it("has a delete confirm button", () => {
@@ -115,5 +116,15 @@ describe("<GoalRow />", () => {
       expect(mutationCalled).toBe(true);
       expect(queryCalled).toBe(true);
     });
+  });
+
+  it("does not the delete mutation if confirm is cancelled", async () => {
+    (global.confirm as MockedFunction<Window["confirm"]>).mockReturnValueOnce(
+      true,
+    );
+    const deleteButton = screen.getByRole("button", { name: "delete" });
+    deleteButton.click();
+
+    await waitFor(() => expect(mutationCalled).toBe(true));
   });
 });

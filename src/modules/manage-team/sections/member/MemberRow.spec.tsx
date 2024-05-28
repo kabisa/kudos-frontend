@@ -1,4 +1,8 @@
-import { mockLocalstorage, withMockedProviders } from "../../../../spec_helper";
+import {
+  MockedFunction,
+  mockLocalstorage,
+  withMockedProviders,
+} from "../../../../spec_helper";
 import { MemberRow } from "./MemberRow";
 import { DEACTIVATE_USER } from "./Members";
 import { RenderResult, render, screen, waitFor } from "@testing-library/react";
@@ -78,8 +82,18 @@ describe("<MemberRow />", () => {
 
     await waitFor(() => {
       expect(mutationCalled).toBe(true);
-      expect(refetch).toBeCalledTimes(1);
+      expect(refetch).toHaveBeenCalledTimes(1);
     });
+  });
+
+  it("does not the delete mutation if confirm is cancelled", async () => {
+    (global.confirm as MockedFunction<Window["confirm"]>).mockReturnValueOnce(
+      true,
+    );
+    const deactivateButton = screen.getByRole("button", { name: "delete" });
+    deactivateButton.click();
+
+    await waitFor(() => expect(mutationCalled).toBe(true));
   });
 
   it("renders the buttons if the membership is not the current user", () => {

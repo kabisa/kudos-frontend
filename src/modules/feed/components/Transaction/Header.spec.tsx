@@ -1,4 +1,8 @@
-import { mockLocalstorage, withMockedProviders } from "../../../../spec_helper";
+import {
+  MockedFunction,
+  mockLocalstorage,
+  withMockedProviders,
+} from "../../../../spec_helper";
 import { Header, MUTATION_REMOVE_POST } from "./Header";
 import { FragmentPostResult, GET_POSTS } from "../../queries";
 import { screen, render, waitFor } from "@testing-library/react";
@@ -165,6 +169,19 @@ describe("<Header />", () => {
       });
       waitFor(() => {
         expect(queryCalled).toBe(true);
+      });
+    });
+
+    it("does not call the delete mutation when confirm is canceled", () => {
+      const deleteButton = screen.getByTestId("delete-button");
+      queryCalled = false;
+      (global.confirm as MockedFunction<Window["confirm"]>).mockReturnValueOnce(
+        false,
+      );
+
+      deleteButton.click();
+      waitFor(() => {
+        expect(mutationCalled).not.toBe(true);
       });
     });
   });
