@@ -38,7 +38,7 @@ export interface Props {
 
 export function Invite(props: Props) {
   return (
-    <div className={s.root}>
+    <div className={s.root} data-testid="kudo-invite">
       <p className={s.text}>{props.invite.team.name}</p>
       <ChoiceButton
         inviteId={props.invite.id}

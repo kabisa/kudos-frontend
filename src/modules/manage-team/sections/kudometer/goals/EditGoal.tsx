@@ -122,11 +122,13 @@ export class EditGoal extends Component<EditGoalProps, State> {
 
           return (
             <form
-              onSubmit={() =>
+              onSubmit={(e) => {
+                e.preventDefault();
+
                 this.state.editing
                   ? this.updateGoal(mutate)
-                  : this.createGoal(mutate)
-              }
+                  : this.createGoal(mutate);
+              }}
             >
               <Label>
                 Name

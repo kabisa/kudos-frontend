@@ -1,13 +1,11 @@
-import { mount, ReactWrapper } from "enzyme";
-import { act } from "react-dom/test-utils";
 import {
-  findByTestId,
+  MockedFunction,
   mockLocalstorage,
-  wait,
   withMockedProviders,
 } from "../../../../spec_helper";
 import { Invite, MUTATION_DELETE_INVITE } from "./Invite";
 import { InviteModel, QUERY_GET_INVITES } from "./InvitesSection";
+import { render, screen, waitFor } from "@testing-library/react";
 
 const pendingInvite: InviteModel = {
   acceptedAt: "",
@@ -78,13 +76,11 @@ const mocks = [
   },
 ];
 
-describe.skip("<Invite />", () => {
-  let wrapper: ReactWrapper;
-
+describe("<Invite />", () => {
   function setup(invite: InviteModel) {
     const mockRefetch = jest.fn();
 
-    wrapper = mount(
+    render(
       withMockedProviders(
         <table>
           <tbody>
@@ -97,6 +93,7 @@ describe.skip("<Invite />", () => {
   }
 
   beforeEach(() => {
+    global.confirm = jest.fn(() => true);
     mockLocalstorage("1");
     mutationCalled = false;
     queryCalled = false;
@@ -104,61 +101,64 @@ describe.skip("<Invite />", () => {
   });
 
   it("shows the invite send date and email", () => {
-    expect(wrapper.containsMatchingElement(<td>2020-03-10</td>)).toBe(true);
-    expect(wrapper.containsMatchingElement(<td>pending@example.com</td>)).toBe(
-      true,
-    );
+    const date = screen.getByRole("cell", { name: "2020-03-10" });
+    expect(date).toBeInTheDocument();
+
+    const email = screen.getByRole("cell", { name: "pending@example.com" });
+    expect(email).toBeInTheDocument();
   });
 
   it("shows that the invite is pending", () => {
-    expect(wrapper.containsMatchingElement(<td>Pending</td>)).toBe(true);
+    const status = screen.getByRole("cell", { name: "Pending" });
+    expect(status).toBeInTheDocument();
   });
 
   it("shows that the invite is accepted", () => {
     setup(acceptedInvite);
 
-    expect(wrapper.containsMatchingElement(<td>Accepted</td>)).toBe(true);
+    const status = screen.getByRole("cell", { name: "Accepted" });
+    expect(status).toBeInTheDocument();
   });
 
   it("shows that the invite is declined", () => {
     setup(declinedInvite);
 
-    expect(wrapper.containsMatchingElement(<td>Declined</td>)).toBe(true);
+    const status = screen.getByRole("cell", { name: "Declined" });
+    expect(status).toBeInTheDocument();
   });
 
   it("has a confirm delete button", async () => {
-    await act(async () => {
-      findByTestId(wrapper, "delete-button").hostNodes().simulate("click");
+    const button = screen.getByRole("button", { name: "delete" });
+    expect(button).toBeInTheDocument();
 
-      await wait(0);
-      await wrapper.update();
+    button.click();
 
-      expect(
-        findByTestId(wrapper, "confirm-delete-button").hostNodes().length,
-      ).toBe(1);
+    await waitFor(() => {
+      expect(global.confirm).toHaveBeenCalledWith(
+        "Are you sure you want to delete this invite?",
+      );
     });
   });
 
   it("calls the delete mutation", async () => {
-    await act(async () => {
-      findByTestId(wrapper, "delete-button").hostNodes().simulate("click");
+    const button = screen.getByRole("button", { name: "delete" });
+    expect(button).toBeInTheDocument();
 
-      await wait(0);
-      await wrapper.update();
+    button.click();
 
-      findByTestId(wrapper, "confirm-delete-button")
-        .hostNodes()
-        .simulate("click");
-
-      await wait(0);
-      await wrapper.update();
-
+    await waitFor(() => {
       expect(mutationCalled).toBe(true);
-
-      await wait(0);
-      await wrapper.update();
-
       expect(queryCalled).toBe(true);
     });
+  });
+
+  it("does not the delete mutation if confirm is cancelled", async () => {
+    (global.confirm as MockedFunction<Window["confirm"]>).mockReturnValueOnce(
+      true,
+    );
+    const deleteButton = screen.getByRole("button", { name: "delete" });
+    deleteButton.click();
+
+    await waitFor(() => expect(mutationCalled).toBe(true));
   });
 });

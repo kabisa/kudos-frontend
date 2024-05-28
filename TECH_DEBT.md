@@ -8,19 +8,15 @@ Setting up graphql codegen will make it easier to work with graphql queries and 
 
 ## Extract graphql queries from components
 
-Move graphql queries from components to separate files. This will make it easier to work with graphql codegen and queries can be re-used. 
+Move graphql queries from components to separate files. This will make it easier to work with graphql codegen and queries can be re-used.
 
 ## Replace class components with functional components
 
 In a lot of places class components are still being used. Replace these with functional components and use hooks for extracting logic. Also, in some of these class components, the state of child components is managed by the children themselves. This should be moved to the parent component, or to a context.
 
-## Replace Enzyme tests with React Testing Library
+## Upgrade to React 18
 
-Enzyme is no longer maintained. Replace Enzyme tests with React Testing Library. 
-
-## Upgrade to React 18 after removing Enzyme
-
-Upgrade the project to React 18 once enzyme is removed. 
+Upgrade the project to React 18.
 
 ## Implement UI components from ui folder
 

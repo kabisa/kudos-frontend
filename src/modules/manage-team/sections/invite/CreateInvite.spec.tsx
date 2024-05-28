@@ -1,14 +1,7 @@
-import { mount, ReactWrapper } from "enzyme";
-import { act } from "react-dom/test-utils";
 import { CreateInvite, MUTATION_CREATE_INVITE } from "./CreateInvite";
-import {
-  findByTestId,
-  mockLocalstorage,
-  simulateTextareaChange,
-  wait,
-  withMockedProviders,
-} from "../../../../spec_helper";
+import { mockLocalstorage, withMockedProviders } from "../../../../spec_helper";
 import { QUERY_GET_INVITES } from "./InvitesSection";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 
 let mutationCalled = false;
 const mocks = [
@@ -60,120 +53,95 @@ const mocks = [
   },
 ];
 
-describe.skip("<InvitePage />", () => {
-  let wrapper: ReactWrapper;
+describe("<InvitePage />", () => {
+  const mockRefetch = jest.fn();
 
   beforeEach(() => {
-    const mockRefetch = jest.fn();
-
     mockLocalstorage("1");
     mutationCalled = false;
-    wrapper = mount(
-      withMockedProviders(<CreateInvite refetch={mockRefetch} />, mocks),
-    );
+    render(withMockedProviders(<CreateInvite refetch={mockRefetch} />, mocks));
   });
 
-  it("renders the input field", () => {
-    expect(findByTestId(wrapper, "email-input").hostNodes().length).toBe(1);
+  it("renders the e-mail input field", () => {
+    const emailInput = screen.getByRole("textbox", { name: "Email addresses" });
+    expect(emailInput).toBeInTheDocument();
   });
 
   it("renders the send button", () => {
-    expect(wrapper.find(".button").hostNodes().length).toBe(1);
+    const sendButton = screen.getByRole("button", { name: "Invite" });
+    expect(sendButton).toBeInTheDocument();
   });
 
   it("displays an error if the email field is empty", async () => {
-    await act(async () => {
-      wrapper.find(".button").hostNodes().simulate("click");
+    const sendButton = screen.getByRole("button", { name: "Invite" });
+    sendButton.click();
 
-      expect(wrapper.containsMatchingElement(<p>Email can&#39;t be blank.</p>));
-    });
+    expect(
+      await screen.findByRole("heading", { name: "Unable to send invites" }),
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByText("Email can't be blank."),
+    ).toBeInTheDocument();
   });
 
-  it("sets the loading state when the mutation is called", async () => {
-    await act(async () => {
-      simulateTextareaChange(
-        wrapper,
-        "email-input",
-        "emails",
-        "max@example.com",
-      );
+  it("disables the send button when the mutation is called", () => {
+    const emailInput = screen.getByRole("textbox", { name: "Email addresses" });
+    fireEvent.change(emailInput, { target: { value: "max@example.com" } });
 
-      await wrapper.update();
+    const sendButton = screen.getByRole("button", { name: "Invite" });
+    sendButton.click();
 
-      wrapper.find(".button").hostNodes().simulate("click");
-
-      expect(wrapper.find(".loading").length).toBe(1);
-    });
+    expect(sendButton).toBeDisabled();
   });
 
   it("shows an error if an email is invalid", async () => {
-    await act(async () => {
-      simulateTextareaChange(wrapper, "email-input", "emails", "invalidEmail");
+    const emailInput = screen.getByRole("textbox", { name: "Email addresses" });
+    fireEvent.change(emailInput, { target: { value: "invalidEmail" } });
 
-      await wrapper.update();
+    const sendButton = screen.getByRole("button", { name: "Invite" });
+    sendButton.click();
 
-      wrapper.find(".button").hostNodes().simulate("click");
-
-      expect(
-        wrapper.containsMatchingElement(<p>Couldn&#39;t parse emails.</p>),
-      ).toBe(true);
-    });
+    expect(
+      await screen.findByRole("heading", { name: "Unable to send invites" }),
+    ).toBeInTheDocument();
   });
 
   it("shows an error if multiple emails are invalid", async () => {
-    await act(async () => {
-      simulateTextareaChange(
-        wrapper,
-        "email-input",
-        "emails",
-        "invalidEmail, otherFakeEmail",
-      );
-
-      await wrapper.update();
-
-      wrapper.find(".button").hostNodes().simulate("click");
-
-      expect(
-        wrapper.containsMatchingElement(<p>Couldn&#39;t parse emails.</p>),
-      ).toBe(true);
+    const emailInput = screen.getByRole("textbox", { name: "Email addresses" });
+    fireEvent.change(emailInput, {
+      target: { value: "invalidEmail, otherFakeEmail" },
     });
+
+    const sendButton = screen.getByRole("button", { name: "Invite" });
+    sendButton.click();
+
+    expect(
+      await screen.findByRole("heading", { name: "Unable to send invites" }),
+    ).toBeInTheDocument();
   });
 
   it("calls the mutation if all requirements are met", async () => {
-    await act(async () => {
-      simulateTextareaChange(
-        wrapper,
-        "email-input",
-        "emails",
-        "max@example.com",
-      );
+    const emailInput = screen.getByRole("textbox", { name: "Email addresses" });
+    fireEvent.change(emailInput, { target: { value: "max@example.com" } });
 
-      await wrapper.update();
+    const sendButton = screen.getByRole("button", { name: "Invite" });
+    sendButton.click();
 
-      wrapper.find(".button").hostNodes().simulate("click");
-
-      await wait(0);
-      await wrapper.update();
-
+    await waitFor(() => {
       expect(mutationCalled).toBe(true);
     });
   });
 
   it("only uses valid email addresses when multiple are entered", async () => {
-    await act(async () => {
-      simulateTextareaChange(
-        wrapper,
-        "email-input",
-        "emails",
-        "max@example.com;invalidEmail",
-      );
+    const emailInput = screen.getByRole("textbox", { name: "Email addresses" });
+    fireEvent.change(emailInput, {
+      target: { value: "max@example.com;invalidEmail,otherFakeEmail" },
+    });
 
-      await wrapper.update();
+    const sendButton = screen.getByRole("button", { name: "Invite" });
+    sendButton.click();
 
-      wrapper.find(".button").hostNodes().simulate("click");
-      await wait(0);
-      await wrapper.update();
-
+    await waitFor(() => {
       expect(mutationCalled).toBe(true);
     });
   });

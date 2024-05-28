@@ -1,18 +1,17 @@
-import { mount, ReactWrapper } from "enzyme";
-import { act } from "react-dom/test-utils";
-import {
-  findByTestId,
-  mockLocalstorage,
-  simulateInputChange,
-  wait,
-  withMockedProviders,
-} from "../../../../spec_helper";
+import { mockLocalstorage, withMockedProviders } from "../../../../spec_helper";
 import KudometerSection from "./KudometerSection";
 import {
   CREATE_KUDOMETER,
   GET_KUDOMETERS,
   UPDATE_KUDOMETER,
 } from "./KudometerQueries";
+import {
+  fireEvent,
+  render,
+  RenderResult,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 
 let createMutationCalled = false;
 let editMutationCalled = false;
@@ -67,6 +66,8 @@ const mocks = [
     result: {
       data: {
         teamById: {
+          id: "1",
+          __typename: "Team",
           kudosMeters: [
             {
               id: "1",
@@ -93,6 +94,8 @@ const mocks = [
     result: {
       data: {
         teamById: {
+          id: "1",
+          __typename: "Team",
           kudosMeters: [
             {
               id: "1",
@@ -132,6 +135,8 @@ const mocksWithoutData = [
     result: {
       data: {
         teamById: {
+          id: "1",
+          __typename: "Team",
           kudosMeters: [],
         },
       },
@@ -139,213 +144,137 @@ const mocksWithoutData = [
   },
 ];
 
-describe.skip("<KudometerSection />", () => {
-  let wrapper: ReactWrapper;
+describe("<KudometerSection />", () => {
+  let wrapper: RenderResult;
 
   beforeEach(() => {
     mockLocalstorage("1");
     createMutationCalled = false;
     editMutationCalled = false;
-    wrapper = mount(withMockedProviders(<KudometerSection />, mocks));
+    wrapper = render(withMockedProviders(<KudometerSection />, mocks));
   });
 
   afterEach(() => {
     wrapper.unmount();
   });
 
-  it("shows a loading state", () => {
-    expect(wrapper.containsMatchingElement(<p>Loading...</p>)).toBe(true);
+  it("shows a loading state", async () => {
+    expect(screen.getByText("Loading...")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.queryByText("Loading...")).toBeNull();
+    });
   });
 
   it("shows when there are no kudometers", async () => {
-    wrapper = mount(
+    wrapper = render(
       withMockedProviders(<KudometerSection />, mocksWithoutData),
     );
-    await act(async () => {
-      await wait(0);
-      await wrapper.update();
-
-      expect(
-        wrapper.containsMatchingElement(<td>No kudometers available</td>),
-      ).toBe(true);
-    });
+    expect(
+      await screen.findByRole("cell", { name: "No kudometers available" }),
+    ).toBeInTheDocument();
   });
 
   it("shows when there is an error", async () => {
-    wrapper = mount(withMockedProviders(<KudometerSection />, mocksWithError));
-    await act(async () => {
-      await wait(0);
-      await wrapper.update();
+    wrapper = render(withMockedProviders(<KudometerSection />, mocksWithError));
 
-      expect(
-        wrapper.containsMatchingElement(<p>Error! Something went wrong</p>),
-      ).toBe(true);
-    });
+    expect(
+      await screen.findByText("Error! Something went wrong"),
+    ).toBeInTheDocument();
   });
 
   it("shows a row for each kudometer", async () => {
-    await act(async () => {
-      await wait(0);
-      await wrapper.update();
-
-      expect(findByTestId(wrapper, "kudometer-row").length).toBe(2);
-    });
+    // 1 header row, 2 data rows
+    expect(await screen.findAllByRole("row")).toHaveLength(1 + 2);
   });
 
-  it("handles name input correctly", async () => {
-    const component = wrapper.find("KudometerSection").instance();
-
-    await act(async () => {
-      // @ts-ignore
-      expect(component.state.name).toBe("");
-      simulateInputChange(wrapper, "name-input", "name", "Test kudometer");
-
-      await wrapper.update();
-
-      // @ts-ignore
-      expect(component.state.name).toBe("Test kudometer");
-    });
-  });
-
-  describe.skip("create kudometer", () => {
+  describe("create kudometer", () => {
     it("calls the create mutation", async () => {
-      const component = wrapper.find("KudometerSection").instance();
+      const inputField = screen.getByRole("textbox", { name: "Name" });
+      fireEvent.change(inputField, { target: { value: "Test kudometer" } });
 
-      await act(async () => {
-        component.setState({ name: "Test kudometer", editing: false });
+      const createButton = screen.getByRole("button", {
+        name: "Create kudometer",
+      });
+      createButton.click();
 
-        await wrapper.update();
-
-        findByTestId(wrapper, "create-button").hostNodes().simulate("submit");
-
-        await wait(0);
-        await wrapper.update();
-
+      await waitFor(() => {
         expect(createMutationCalled).toBe(true);
       });
     });
 
-    it("doesnt call the mutation if the name is empty", async () => {
-      await act(async () => {
-        findByTestId(wrapper, "create-button").hostNodes().simulate("click");
+    it("does not call the mutation if the name is empty", async () => {
+      const createButton = screen.getByRole("button", {
+        name: "Create kudometer",
+      });
+      createButton.click();
 
-        await wait(0);
-        await wrapper.update();
-
+      await waitFor(() => {
         expect(createMutationCalled).toBe(false);
       });
     });
   });
 
-  describe.skip("edit", () => {
+  describe("edit", () => {
     it("calls the edit mutation", async () => {
-      const component = wrapper.find("KudometerSection").instance();
+      await waitFor(() => {
+        expect(screen.queryByText("Loading...")).toBeNull();
+      });
 
-      await act(async () => {
-        component.setState({
-          name: "Test kudometer",
-          editing: true,
-          kudometerId: "1",
-        });
+      const editButtons = screen.getAllByRole("button", {
+        name: "edit",
+      });
 
-        await wrapper.update();
+      editButtons[0].click();
 
-        findByTestId(wrapper, "create-button").hostNodes().simulate("submit");
+      const editField = screen.getByRole("textbox", { name: "Name" });
+      expect(editField).toHaveValue("First kudometer");
 
-        await wait(0);
-        await wrapper.update();
+      fireEvent.change(editField, { target: { value: "Test kudometer" } });
 
+      const updateButton = screen.getByRole("button", {
+        name: "Edit kudometer",
+      });
+      updateButton.click();
+
+      await waitFor(() => {
         expect(editMutationCalled).toBe(true);
-      });
-    });
-
-    it("has a cancel button when editing", async () => {
-      const component = wrapper.find("KudometerSection").instance();
-
-      await act(async () => {
-        component.setState({ editing: true });
-
-        await wait(0);
-        await wrapper.update();
-
-        expect(
-          findByTestId(wrapper, "cancel-edit-button").hostNodes().length,
-        ).toBe(1);
-      });
-    });
-
-    it("does not have a cancel button when not editing", async () => {
-      const component = wrapper.find("KudometerSection").instance();
-
-      await act(async () => {
-        component.setState({ editing: false });
-
-        await wait(0);
-        await wrapper.update();
-
-        expect(
-          findByTestId(wrapper, "cancel-edit-button").hostNodes().length,
-        ).toBe(0);
-      });
-    });
-
-    it("clears the state when the cancel button is pressed", async () => {
-      const component: any = wrapper.find("KudometerSection").instance();
-
-      await act(async () => {
-        component.setState({
-          editing: true,
-          name: "Some name",
-          kudometerId: "1",
-        });
-
-        await wait(0);
-        await wrapper.update();
-
-        findByTestId(wrapper, "cancel-edit-button")
-          .hostNodes()
-          .simulate("click");
-
-        await wrapper.update();
-
-        expect(component.state.editing).toBe(false);
-        expect(component.state.name).toBe("");
-        expect(component.state.kudometerId).toBe("");
       });
     });
   });
 
   it("sets the selected kudometer", async () => {
-    const component: any = wrapper.find("KudometerSection").instance();
-
-    await act(async () => {
-      expect(component.state.kudometer).toBe(undefined);
-
-      component.handleViewGoalButtonClick({
-        id: "1",
-        name: "Kudometer",
-        goals: [],
-      });
-
-      await wrapper.update();
-
-      expect(component.state.selected.id).toBe("1");
+    await waitFor(() => {
+      expect(screen.queryByText("Loading...")).toBeNull();
     });
+
+    const editButtons = screen.getAllByRole("button", {
+      name: "edit",
+    });
+
+    editButtons[0].click();
+
+    const editField = screen.getByRole("textbox", { name: "Name" });
+    expect(editField).toHaveValue("First kudometer");
   });
 
   it("deselects the selected kudometer", async () => {
-    const component: any = wrapper.find("KudometerSection").instance();
-
-    await act(async () => {
-      component.setState({ selected: { id: "1", name: "test", goals: [] } });
-
-      await wrapper.update();
-
-      component.handleViewGoalButtonClick({ id: "1", name: "test", goals: [] });
-
-      await wrapper.update();
-
-      expect(component.state.selected).toBe(undefined);
+    await waitFor(() => {
+      expect(screen.queryByText("Loading...")).toBeNull();
     });
+
+    const editButtons = screen.getAllByRole("button", {
+      name: "edit",
+    });
+
+    editButtons[0].click();
+
+    const editField = screen.getByRole("textbox", { name: "Name" });
+    expect(editField).toHaveValue("First kudometer");
+
+    const editCancelButton = screen.getByRole("button", { name: "Cancel" });
+    editCancelButton.click();
+
+    const editFieldAfterCancel = screen.getByRole("textbox", { name: "Name" });
+    expect(editFieldAfterCancel).toHaveValue("");
   });
 });

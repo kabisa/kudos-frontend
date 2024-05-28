@@ -108,7 +108,7 @@ describe("<ChooseTeamPage />", () => {
     expect(createTeamButton).toBeInTheDocument();
   });
 
-  it("navigates to the create team page", async () => {
+  it("navigates to the create team page", () => {
     const { unmount } = render(
       withMockedProviders(<Content />, mockWithInvites),
     );

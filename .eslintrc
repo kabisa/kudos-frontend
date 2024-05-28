@@ -14,16 +14,18 @@
     "prettier"
   ],
   "rules": {
-    "react/jsx-props-no-spreading": 0,
-    "import/no-cycle": 0,
-    "react/destructuring-assignment": 0,
-    "import/prefer-default-export": 0,
+    "react/jsx-props-no-spreading": "off",
+    "import/no-cycle": "off",
+    "require-await": "error",
+    "react/destructuring-assignment": "off",
+    "import/prefer-default-export": "off",
     "max-len": ["error", { "code": 120 }],
-    "react/button-has-type": 0,
+    "react/button-has-type": "off",
     "react/react-in-jsx-scope": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/ban-ts-comment": "off",
-    "@typescript-eslint/no-unused-vars": 1
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-unused-vars": "warn"
   },
   "ignorePatterns": ["jest.config.js", ".storybook/*", "src/**/*.stories.tsx"],
   "settings": {

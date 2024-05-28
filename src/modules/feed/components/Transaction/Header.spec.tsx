@@ -1,4 +1,8 @@
-import { mockLocalstorage, withMockedProviders } from "../../../../spec_helper";
+import {
+  MockedFunction,
+  mockLocalstorage,
+  withMockedProviders,
+} from "../../../../spec_helper";
 import { Header, MUTATION_REMOVE_POST } from "./Header";
 import { FragmentPostResult, GET_POSTS } from "../../queries";
 import { screen, render, waitFor } from "@testing-library/react";
@@ -52,7 +56,6 @@ const mocks = [
       variables: { id: "1" },
     },
     result: () => {
-      console.log("woot");
       mutationCalled = true;
       return {
         data: {
@@ -120,7 +123,7 @@ describe("<Header />", () => {
   });
 
   // deletion is always allowed now...
-  it.skip("prevents the user to remove his own post after 15 minutes", async () => {
+  it.skip("prevents the user to remove his own post after 15 minutes", () => {
     render(
       withMockedProviders(<Header transaction={olderTransaction} />, mocks),
     );
@@ -147,17 +150,17 @@ describe("<Header />", () => {
 
   describe("when deleting a post", () => {
     beforeEach(() => {
-      window.confirm = jest.fn(() => true);
+      global.confirm = jest.fn(() => true);
       render(withMockedProviders(<Header transaction={transaction} />, mocks));
     });
 
-    it("shows a confirmation dialog ", async () => {
+    it("shows a confirmation dialog ", () => {
       const deleteButton = screen.getByTestId("delete-button");
       deleteButton.click();
-      expect(window.confirm).toBeCalled();
+      expect(global.confirm).toBeCalled();
     });
 
-    it("calls the delete mutation and refetch query", async () => {
+    it("calls the delete mutation and refetch query", () => {
       const deleteButton = screen.getByTestId("delete-button");
       queryCalled = false;
       deleteButton.click();
@@ -166,6 +169,19 @@ describe("<Header />", () => {
       });
       waitFor(() => {
         expect(queryCalled).toBe(true);
+      });
+    });
+
+    it("does not call the delete mutation when confirm is canceled", () => {
+      const deleteButton = screen.getByTestId("delete-button");
+      queryCalled = false;
+      (global.confirm as MockedFunction<Window["confirm"]>).mockReturnValueOnce(
+        false,
+      );
+
+      deleteButton.click();
+      waitFor(() => {
+        expect(mutationCalled).not.toBe(true);
       });
     });
   });

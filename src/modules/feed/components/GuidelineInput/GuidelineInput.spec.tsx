@@ -81,7 +81,7 @@ describe("<GuidelineInput />", () => {
       description: "Kudos amount",
     });
     openSelect(selectElement);
-    const options = await getSelectOptions(selectElement);
+    const options = getSelectOptions(selectElement);
     options[0].click();
 
     expect(getSelectedItemsText(selectElement)).toEqual("10");
@@ -134,7 +134,7 @@ describe("<GuidelineInput />", () => {
     });
     openSelect(selectElement);
 
-    const options = await getSelectOptions(selectElement);
+    const options = getSelectOptions(selectElement);
     expect(options).toHaveLength(3);
     options[1].click();
     expect(getSelectedItemsText(selectElement)).toEqual("11");
@@ -143,7 +143,7 @@ describe("<GuidelineInput />", () => {
     const updatedSelectElement = await screen.findByRole("combobox");
     openSelect(updatedSelectElement);
 
-    const updatedOptions = await getSelectOptions(updatedSelectElement);
+    const updatedOptions = getSelectOptions(updatedSelectElement);
     // Only shows 2 rows because 14 is within range of 10
     expect(updatedOptions).toHaveLength(2);
   });
@@ -160,12 +160,12 @@ describe("<GuidelineInput />", () => {
     const selectElement = await screen.findByRole("combobox", {
       description: "Kudos amount",
     });
-    const options = await getSelectOptions(selectElement);
+    const options = getSelectOptions(selectElement);
     expect(options).toHaveLength(0);
 
     openSelect(selectElement);
 
-    const updatedOptions = await getSelectOptions(selectElement);
+    const updatedOptions = getSelectOptions(selectElement);
     expect(updatedOptions).toHaveLength(2);
   });
 
@@ -239,7 +239,7 @@ describe("<GuidelineInput />", () => {
       description: "Kudos amount",
     });
     openSelect(selectElement);
-    const options = await getSelectOptions(selectElement);
+    const options = getSelectOptions(selectElement);
     options[1].click();
 
     expect(handleChangeMock).toBeCalledWith(15);

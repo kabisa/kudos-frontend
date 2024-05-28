@@ -1,18 +1,15 @@
-import { mount, ReactWrapper } from "enzyme";
-import { act } from "react-dom/test-utils";
-import { findByTestId, withMockedProviders } from "../../spec_helper";
+import { withMockedProviders } from "../../spec_helper";
 import { InvitePage } from "./InvitePage";
+import { render, screen } from "@testing-library/react";
 
-describe.skip("<InvitePage />", () => {
-  let wrapper: ReactWrapper;
-
-  beforeEach(async () => {
-    await act(async () => {
-      wrapper = mount(withMockedProviders(<InvitePage />));
-    });
+describe("<InvitePage />", () => {
+  beforeEach(() => {
+    render(withMockedProviders(<InvitePage />));
   });
 
-  it("renders without crashing", () => {
-    expect(findByTestId(wrapper, "create-invites").length).toBe(1);
+  it("renders without crashing", async () => {
+    expect(
+      await screen.findByRole("button", { name: "Invite" }),
+    ).toBeInTheDocument();
   });
 });

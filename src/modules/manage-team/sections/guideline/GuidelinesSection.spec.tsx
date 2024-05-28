@@ -1,12 +1,6 @@
-import { mount, ReactWrapper } from "enzyme";
-import { act } from "react-dom/test-utils";
-import {
-  findByTestId,
-  mockLocalstorage,
-  wait,
-  withMockedProviders,
-} from "../../../../spec_helper";
+import { mockLocalstorage, withMockedProviders } from "../../../../spec_helper";
 import GuidelineSection, { GET_GUIDELINES } from "./GuidelinesSection";
+import { render, screen } from "@testing-library/react";
 
 export const mocks = (teamId: string) => [
   {
@@ -49,39 +43,29 @@ const errorMocks = [
   },
 ];
 
-describe.skip("<GuidelinesSection />", () => {
-  let wrapper: ReactWrapper;
-
+describe("<GuidelinesSection />", () => {
   beforeEach(() => {
     mockLocalstorage("1");
-    wrapper = mount(withMockedProviders(<GuidelineSection />, mocks));
   });
 
-  it("shows a loading state", () => {
-    expect(wrapper.containsMatchingElement(<p>Loading...</p>)).toBe(true);
+  it("shows a loading state", async () => {
+    render(withMockedProviders(<GuidelineSection />, mocks("1")));
+    expect(screen.getByText("Loading...")).toBeInTheDocument();
+
+    // Wait for fetch to complete before unmount
+    expect(await screen.findByText("first guideline")).toBeInTheDocument();
   });
 
   it("shows when there is an error", async () => {
-    wrapper = mount(withMockedProviders(<GuidelineSection />, errorMocks));
-
-    await act(async () => {
-      await wait(0);
-      await wrapper.update();
-
-      expect(wrapper.containsMatchingElement(<p>Error! it went wrong</p>)).toBe(
-        true,
-      );
-    });
+    render(withMockedProviders(<GuidelineSection />, errorMocks));
+    expect(await screen.findByText("Error! it went wrong")).toBeInTheDocument();
   });
 
   it("shows a row for each guideline ", async () => {
-    await act(async () => {
-      await wait(0);
-      await wrapper.update();
+    render(withMockedProviders(<GuidelineSection />, mocks("1")));
 
-      const rows = findByTestId(wrapper, "guideline-row");
-
-      expect(rows.length).toBe(2);
-    });
+    const rows = await screen.findAllByRole("row");
+    // 1 header row, 2 data rows
+    expect(rows).toHaveLength(1 + 2);
   });
 });

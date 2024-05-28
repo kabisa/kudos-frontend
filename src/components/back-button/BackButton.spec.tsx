@@ -22,7 +22,7 @@ const MediaWrapper = ({
   </ResponsiveContext.Provider>
 );
 
-test("backButton", async () => {
+test("backButton", () => {
   render(
     <MediaWrapper screen="desktop">
       <BackButton />

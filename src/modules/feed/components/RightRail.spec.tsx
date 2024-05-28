@@ -4,7 +4,7 @@ import RightRail from "./RightRail";
 import { mocks as goalMocks } from "../../statistics/Statistics.spec";
 
 describe("<RightRail />", () => {
-  beforeEach(async () => {
+  beforeEach(() => {
     mockLocalstorage("1");
     render(withMockedProviders(<RightRail />, goalMocks("1")));
   });

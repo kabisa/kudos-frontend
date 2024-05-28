@@ -1,12 +1,7 @@
-import { mount, ReactWrapper } from "enzyme";
-import { act } from "react-dom/test-utils";
-import {
-  mockLocalstorage,
-  wait,
-  withMockedProviders,
-} from "../../../../spec_helper";
+import { mockLocalstorage, withMockedProviders } from "../../../../spec_helper";
 import { AlterRoleButton, AlterRoleButtonMode } from "./AlterRoleButton";
 import { ALTER_ROLE } from "./Members";
+import { render, screen, waitFor } from "@testing-library/react";
 
 const adminMembership = {
   id: "1",
@@ -58,7 +53,7 @@ const mocks = [
 const refetch = jest.fn();
 
 function setup(membership: any, mode: AlterRoleButtonMode) {
-  return mount(
+  return render(
     withMockedProviders(
       <AlterRoleButton refetch={refetch} membership={membership} mode={mode} />,
       mocks,
@@ -66,50 +61,47 @@ function setup(membership: any, mode: AlterRoleButtonMode) {
   );
 }
 
-describe.skip("<AlterRoleButton />", () => {
-  let wrapper: ReactWrapper;
-
+describe("<AlterRoleButton />", () => {
   beforeEach(() => {
     mockLocalstorage("1");
     mutationCalled = false;
   });
 
   it("renders the promote button correctly", () => {
-    wrapper = setup(adminMembership, AlterRoleButtonMode.PROMOTE);
+    setup(adminMembership, AlterRoleButtonMode.PROMOTE);
 
-    expect(wrapper.find(".button").hasClass("teal")).toBe(true);
-    expect(wrapper.find("i").hasClass("arrow up")).toBe(true);
+    const promoteButton = screen.getByRole("button", { name: "arrow_upward" });
+    expect(promoteButton).toBeInTheDocument();
   });
 
   it("renders the demote button correctly", () => {
-    wrapper = setup(adminMembership, AlterRoleButtonMode.DEMOTE);
-
-    expect(wrapper.find(".button").hasClass("yellow")).toBe(true);
-    expect(wrapper.find("i").hasClass("arrow down")).toBe(true);
+    setup(adminMembership, AlterRoleButtonMode.DEMOTE);
+    const demoteButton = screen.getByRole("button", { name: "arrow_downward" });
+    expect(demoteButton).toBeInTheDocument();
   });
 
   it("disables the promote button when the user is an admin", () => {
-    wrapper = setup(adminMembership, AlterRoleButtonMode.PROMOTE);
+    setup(adminMembership, AlterRoleButtonMode.PROMOTE);
 
-    expect(wrapper.find(".button").hasClass("disabled")).toBe(true);
+    const promoteButton = screen.getByRole("button", { name: "arrow_upward" });
+    expect(promoteButton).toBeDisabled();
   });
 
   it("disables the demote button when the user is a member", () => {
-    wrapper = setup(normalMembership, AlterRoleButtonMode.DEMOTE);
+    setup(normalMembership, AlterRoleButtonMode.DEMOTE);
+    const demoteButton = screen.getByRole("button", { name: "arrow_downward" });
 
-    expect(wrapper.find(".button").hasClass("disabled")).toBe(true);
+    expect(demoteButton).toBeDisabled();
   });
 
   it("calls the mutation", async () => {
-    wrapper = setup(normalMembership, AlterRoleButtonMode.PROMOTE);
-    await act(async () => {
-      wrapper.find(".button").hostNodes().simulate("click");
+    setup(normalMembership, AlterRoleButtonMode.PROMOTE);
+    const promoteButton = screen.getByRole("button", { name: "arrow_upward" });
+    promoteButton.click();
 
-      await wait(0);
-      await wrapper.update();
-
+    await waitFor(() => {
       expect(mutationCalled).toBe(true);
-      expect(refetch).toBeCalledTimes(1);
+      expect(refetch).toHaveBeenCalledTimes(1);
     });
   });
 });

@@ -1,14 +1,17 @@
-import { mount, ReactWrapper } from "enzyme";
-import { act } from "react-dom/test-utils";
 import {
-  findByTestId,
   mockLocalstorage,
-  simulateInputChange,
-  wait,
   withMockedProviders,
 } from "../../../../../spec_helper";
 import { EditGoal } from "./EditGoal";
 import { CREATE_GOAL, GET_KUDOMETERS, UPDATE_GOAL } from "../KudometerQueries";
+import {
+  fireEvent,
+  render,
+  RenderResult,
+  screen,
+  waitFor,
+} from "@testing-library/react";
+import { RefObject, createRef } from "react";
 
 let createMutationCalled = false;
 let updateMutationCalled = false;
@@ -67,10 +70,13 @@ const mocks = [
     result: () => ({
       data: {
         teamById: {
+          id: "1",
+          __typename: "Team",
           kudosMeters: [
             {
               id: "1",
               name: "Kudometer",
+              isActive: false,
               goals: [
                 {
                   id: "1",
@@ -100,133 +106,113 @@ const mocksWithErrors = [
   },
 ];
 
-describe.skip("<EditGoal />", () => {
-  mockLocalstorage("1");
-  let wrapper: ReactWrapper;
+describe("<EditGoal />", () => {
+  let component: RenderResult;
+  let ref: RefObject<EditGoal>;
 
   beforeEach(() => {
+    mockLocalstorage("1");
     createMutationCalled = false;
     updateMutationCalled = false;
+    ref = createRef<EditGoal>();
 
-    wrapper = mount(withMockedProviders(<EditGoal kudometerId="1" />, mocks));
+    component = render(
+      withMockedProviders(<EditGoal kudometerId="1" ref={ref} />, mocks),
+    );
+  });
+
+  afterEach(() => {
+    component.unmount();
   });
 
   it("has a empty initial state", () => {
-    const component: any = wrapper.find("EditGoal").instance();
+    const nameField = screen.getByRole("textbox", { name: "Name" });
+    expect(nameField).toHaveValue("");
 
-    expect(component.state.editing).toBe(false);
-    expect(component.state.goalKudos).toBe("");
-    expect(component.state.goalName).toBe("");
+    const kudoField = screen.getByRole("spinbutton", { name: "Kudos" });
+    expect(kudoField).toHaveValue(null);
   });
 
-  it("sets the state correctly", () => {
-    const component: any = wrapper.find("EditGoal").instance();
-    component.setEditState("2", "200", "second goal");
-
-    expect(component.state.editing).toBe(true);
-    expect(component.state.editGoalName).toBe("second goal");
-    expect(component.state.editGoalKudos).toBe("200");
-    expect(component.state.editGoalId).toBe("2");
-  });
-
-  it("updates the edit goal when editing is true", async () => {
-    const component: any = wrapper.find("EditGoal").instance();
-
-    await act(async () => {
-      component.setState({ editing: true });
-
-      await wrapper.update();
-
-      expect(component.state.editGoalName).toBe("");
-
-      simulateInputChange(wrapper, "goal-name", "editGoalName", "updated name");
-
-      await wrapper.update();
-
-      expect(component.state.editGoalName).toBe("updated name");
+  describe("editing goal", () => {
+    beforeEach(() => {
+      ref.current?.setState({ editing: true, editGoalId: "2" });
     });
-  });
 
-  it("Calls the create mutation if editing is false", async () => {
-    const component: any = wrapper.find("EditGoal").instance();
+    it("updates the goal", async () => {
+      const nameField = screen.getByRole("textbox", { name: "Name" });
+      fireEvent.change(nameField, { target: { value: "second goal" } });
 
-    await act(async () => {
-      component.setState({
-        editing: false,
-        goalKudos: "100",
-        goalName: "first goal",
+      const kudoField = screen.getByRole("spinbutton", { name: "Kudos" });
+      fireEvent.change(kudoField, { target: { value: "200" } });
+
+      const submitButton = screen.getByRole("button", { name: "Update goal" });
+      submitButton.click();
+      await waitFor(() => {
+        expect(createMutationCalled).toBe(false);
+        expect(updateMutationCalled).toBe(true);
       });
-      await wrapper.update();
-
-      findByTestId(wrapper, "submit-button").hostNodes().simulate("submit");
-
-      await wait(0);
-      await wrapper.update();
-
-      expect(createMutationCalled).toBe(true);
-      expect(updateMutationCalled).toBe(false);
     });
-  });
 
-  it("Calls the update mutation if editing is true", async () => {
-    const component: any = wrapper.find("EditGoal").instance();
+    it("cancels the editing with the cancel button", () => {
+      const submitButton = screen.getByRole("button", { name: "Update goal" });
+      expect(submitButton).toBeInTheDocument();
 
-    await act(async () => {
-      component.setState({
-        editing: true,
-        editGoalId: "2",
-        editGoalKudos: "200",
-        editGoalName: "second goal",
+      const cancelButton = screen.getByRole("button", { name: "Cancel" });
+      expect(cancelButton).toBeInTheDocument();
+
+      cancelButton.click();
+
+      const oldSubmitButton = screen.queryByRole("button", {
+        name: "Update goal",
       });
-      await wrapper.update();
+      expect(oldSubmitButton).toBeNull();
 
-      findByTestId(wrapper, "submit-button").hostNodes().simulate("submit");
-
-      await wait(0);
-      await wrapper.update();
-
-      expect(createMutationCalled).toBe(false);
-      expect(updateMutationCalled).toBe(true);
+      const newSubmitButton = screen.queryByRole("button", {
+        name: "Create goal",
+      });
+      expect(newSubmitButton).toBeInTheDocument();
     });
   });
 
-  it("Shows when there is an error", async () => {
-    wrapper = mount(
+  describe("adding goal", () => {
+    it("Calls the create mutation if editing is false", async () => {
+      const nameField = screen.getByRole("textbox", { name: "Name" });
+      fireEvent.change(nameField, { target: { value: "first goal" } });
+
+      const kudoField = screen.getByRole("spinbutton", { name: "Kudos" });
+      fireEvent.change(kudoField, { target: { value: "100" } });
+
+      const submitButton = screen.getByRole("button", { name: "Create goal" });
+      submitButton.click();
+      await waitFor(() => {
+        expect(createMutationCalled).toBe(true);
+        expect(updateMutationCalled).toBe(false);
+      });
+    });
+  });
+
+  it("shows when there is an error", async () => {
+    component.unmount();
+    component = render(
       withMockedProviders(<EditGoal kudometerId="1" />, mocksWithErrors),
     );
-    const component: any = wrapper.find("EditGoal").instance();
+    const nameField = screen.getByRole("textbox", { name: "Name" });
+    fireEvent.change(nameField, { target: { value: "first goal" } });
 
-    await act(async () => {
-      component.setState({
-        editing: false,
-        goalKudos: "100",
-        goalName: "first goal",
-      });
-      await wrapper.update();
+    const kudoField = screen.getByRole("spinbutton", { name: "Kudos" });
+    fireEvent.change(kudoField, { target: { value: "100" } });
 
-      findByTestId(wrapper, "submit-button").hostNodes().simulate("submit");
+    const submitButton = screen.getByRole("button", { name: "Create goal" });
+    submitButton.click();
 
-      await wait(0);
-      await wrapper.update();
-
-      expect(wrapper.containsMatchingElement(<p>Network error: it broke</p>));
-    });
-  });
-
-  it("cancels the editing with the cancel button", async () => {
-    const component: any = wrapper.find("EditGoal").instance();
-
-    await act(async () => {
-      component.setState({ editing: true });
-
-      await wait(0);
-      await wrapper.update();
-
-      findByTestId(wrapper, "cancel-button").hostNodes().simulate("click");
-
-      await wrapper.update();
-
-      expect(component.state.editing).toBe(false);
-    });
+    expect(
+      await screen.findByRole("heading", {
+        name: "Unable to create goal.",
+        level: 3,
+      }),
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByText("Something went wrong."),
+    ).toBeInTheDocument();
   });
 });

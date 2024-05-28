@@ -45,11 +45,7 @@ const InviteList = () => (
         return (
           <div data-testid="invite-list">
             {data.viewer.teamInvites.map((invite) => (
-              <Invite
-                data-testid="kudo-invite"
-                key={invite.id}
-                invite={invite}
-              />
+              <Invite key={invite.id} invite={invite} />
             ))}
           </div>
         );

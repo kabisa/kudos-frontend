@@ -38,7 +38,7 @@ jest.mock("react-router-dom", () => ({
 }));
 
 describe("<ChoiceButton />", () => {
-  beforeEach(async () => {
+  beforeEach(() => {
     mutationCalled = false;
     Storage.setItem = jest.fn();
   });
@@ -168,7 +168,7 @@ describe("<ChoiceButton />", () => {
     userEvent.click(screen.getByRole("button", { name: "button text" }));
 
     await waitFor(() => {
-      expect(Storage.setItem).toBeCalledTimes(0);
+      expect(Storage.setItem).toHaveBeenCalledTimes(0);
     });
   });
 });

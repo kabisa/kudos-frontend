@@ -1,7 +1,7 @@
-import { mount, ReactWrapper } from "enzyme";
-import { findByTestId, withMockedProviders } from "../../../../../spec_helper";
+import { withMockedProviders } from "../../../../../spec_helper";
 import { Goals } from "./Goals";
 import { Goal, Kudometer } from "../KudometerQueries";
+import { render, screen } from "@testing-library/react";
 
 const goals: Goal[] = [
   {
@@ -27,23 +27,26 @@ const kudometer: Kudometer = {
   name: "First kudometer",
 };
 
-describe.skip("<Goals />", () => {
-  let wrapper: ReactWrapper;
-
+describe("<Goals />", () => {
   beforeEach(() => {
-    wrapper = mount(withMockedProviders(<Goals kudometer={kudometer} />));
+    render(withMockedProviders(<Goals kudometer={kudometer} />));
   });
 
-  it("renders the edit goal section", () => {
-    expect(findByTestId(wrapper, "goal-edit").length).toBe(1);
+  it("renders the add goal section", () => {
+    expect(
+      screen.getByRole("button", { name: "Create goal" }),
+    ).toBeInTheDocument();
   });
 
   it("renders the kudometer name", () => {
-    const expected = <h1>Goals for Kudometer First kudometer</h1>;
-    expect(wrapper.containsMatchingElement(expected)).toBe(true);
+    const expected = "Goals for First kudometer";
+    expect(
+      screen.getByRole("heading", { name: expected, level: 1 }),
+    ).toBeInTheDocument();
   });
 
   it("renders a row for each goal", () => {
-    expect(findByTestId(wrapper, "goal-row").length).toBe(3);
+    // 1 header row, 3 data rows
+    expect(screen.getAllByRole("row")).toHaveLength(4);
   });
 });

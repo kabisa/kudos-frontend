@@ -7,7 +7,7 @@ const getDomAreaOfSelect = (
 ): HTMLElement | undefined | null =>
   selectElement.parentElement?.parentElement?.parentElement?.parentElement;
 
-export const openSelect = async (selectElement: HTMLElement) => {
+export const openSelect = (selectElement: HTMLElement): void => {
   fireEvent.keyDown(selectElement, DOWN_ARROW);
 };
 
@@ -15,10 +15,10 @@ export const openSelect = async (selectElement: HTMLElement) => {
  * Helper to retrieve all selection options of a 'react-select' element
  * This allows for selecting an option by its index instead of a name.
  */
-export const getSelectOptions = async (selectElement: HTMLElement) => {
+export const getSelectOptions = (selectElement: HTMLElement): HTMLElement[] => {
   const selectId = selectElement.getAttribute("id");
   const selectPrefix = selectId?.slice(0, -6);
-  const options = [];
+  const options: HTMLElement[] = [];
   const domArea = getDomAreaOfSelect(selectElement);
 
   let found = true;

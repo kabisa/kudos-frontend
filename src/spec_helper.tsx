@@ -1,7 +1,7 @@
 import { MockedProvider } from "@apollo/client/testing";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter, Route } from "react-router-dom";
 import { ApolloCache, InMemoryCache } from "@apollo/client/cache";
-import { ReactWrapper } from "enzyme";
+import { PATH_CHOOSE_TEAM, PATH_LOGIN } from "./routes";
 
 export const withMockedProviders = <TSerialized extends object>(
   component: any,
@@ -13,48 +13,23 @@ export const withMockedProviders = <TSerialized extends object>(
     <MockedProvider mocks={mocks} addTypename={useTypeName} cache={cache}>
       {component}
     </MockedProvider>
+    <Route path={PATH_LOGIN}>Login Page</Route>
+    <Route path={PATH_CHOOSE_TEAM}>Choose team Page</Route>
   </MemoryRouter>
 );
 
 export const wait = (amount = 0) =>
   new Promise((resolve) => setTimeout(resolve, amount));
 
-export const findByTestId = (wrapper: ReactWrapper, id: string) =>
-  wrapper.find(`[data-testid="${id}"]`);
-
-// eslint-disable-next-line max-len
-export const findInputByTestId = (wrapper: ReactWrapper, id: string) =>
-  wrapper.find(`[data-testid="${id}"]`).find("input");
-
-// eslint-disable-next-line max-len
-export const findTextAreaByTestId = (wrapper: ReactWrapper, id: string) =>
-  wrapper.find(`[data-testid="${id}"]`).find("textarea");
-
-export const simulateTextareaChange = (
-  wrapper: ReactWrapper,
-  id: string,
-  name: string,
-  value: string,
-) => {
-  const input = findTextAreaByTestId(wrapper, id);
-
-  return input.simulate("change", { target: { name, value } });
-};
-
-export const simulateInputChange = (
-  wrapper: ReactWrapper,
-  id: string,
-  name: string,
-  value: any,
-) => {
-  const input = findInputByTestId(wrapper, id);
-  return input.simulate("change", { target: { name, value } });
-};
-
 // Mocks the localstorage getItem function with a specific value
 export const mockLocalstorage = (value: string) => {
   Storage.prototype.getItem = jest.fn(() => value);
 };
+
+export type MockedFunction<Func extends (...args: any[]) => any> = jest.Mock<
+  ReturnType<Func>,
+  Parameters<Func>
+>;
 
 export const getMockCache = () =>
   new InMemoryCache({

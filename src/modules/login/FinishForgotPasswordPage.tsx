@@ -61,7 +61,7 @@ export interface State {
   error: string;
 }
 
-class FinishForgotPasswordPage extends Component<Props, State> {
+export class FinishForgotPasswordPage extends Component<Props, State> {
   token: string;
 
   constructor(props: Props) {

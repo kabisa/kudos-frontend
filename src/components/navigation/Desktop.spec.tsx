@@ -63,7 +63,7 @@ describe("<Desktop />", () => {
         renderResult.rerender(withMockedProviders(<Desktop />, mocks()));
       });
 
-      it("has a manage team button", async () => {
+      it("has a manage team button", () => {
         const profileLink = screen.queryByTestId("manage-team-button");
         expect(profileLink).not.toBeNull();
       });
@@ -75,7 +75,7 @@ describe("<Desktop />", () => {
         renderResult.rerender(withMockedProviders(<Desktop />, mocks()));
       });
 
-      it("does not have a manage team button", async () => {
+      it("does not have a manage team button", () => {
         const profileLink = screen.queryByTestId("manage-team-button");
         expect(profileLink).toBeNull();
       });

@@ -1,9 +1,7 @@
-import { mount, ReactWrapper } from "enzyme";
-import { wait } from "@apollo/client/testing";
-import { act } from "react-dom/test-utils";
-import { findByTestId, withMockedProviders } from "../../../spec_helper";
+import { withMockedProviders } from "../../../spec_helper";
 import { InviteList } from "./index";
 import { GET_INVITES } from "./InviteList";
+import { render, RenderResult, screen, waitFor } from "@testing-library/react";
 
 const mockWithInvites = [
   {
@@ -59,46 +57,54 @@ const mockWithoutInvites = [
   },
 ];
 
-describe("<InviteList />", () => {
-  let wrapper: ReactWrapper;
+let wrapper: RenderResult | null = null;
+const setup = async (mocks: any) => {
+  if (wrapper) {
+    await waitFor(() => {
+      expect(screen.queryByText("Loading...")).toBeNull();
+    });
 
-  beforeEach(() => {
-    wrapper = mount(withMockedProviders(<InviteList />, mockWithInvites));
+    wrapper.unmount();
+  }
+  wrapper = render(withMockedProviders(<InviteList />, mocks));
+};
+
+describe("<InviteList />", () => {
+  beforeEach(async () => {
+    await setup(mockWithInvites);
   });
 
-  it("renders the loading state", () => {
-    expect(wrapper.containsMatchingElement(<p>Loading...</p>)).toBe(true);
+  it("renders the loading state", async () => {
+    expect(screen.getByText("Loading...")).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(screen.queryByText("Loading...")).toBeNull();
+    });
   });
 
   it("renders the invites", async () => {
-    await act(async () => {
-      await wait(0);
-      wrapper.update();
-
-      expect(wrapper.find('[data-testid="kudo-invite"]').length).toBe(2);
-    });
+    const invites = await screen.findAllByTestId("kudo-invite");
+    expect(invites).toHaveLength(2);
   });
 
   it("shows a message when there are no invites", async () => {
-    wrapper = mount(withMockedProviders(<InviteList />, mockWithoutInvites));
-
-    await act(async () => {
-      await wait(0);
-      wrapper.update();
-
-      expect(findByTestId(wrapper, "kudo-invite").length).toBe(0);
-      expect(wrapper.containsMatchingElement(<p>No invites.</p>)).toBe(true);
+    await setup(mockWithoutInvites);
+    await waitFor(() => {
+      expect(screen.queryByText("Loading...")).toBeNull();
     });
+
+    const invites = screen.queryAllByTestId("kudo-invite");
+    expect(invites).toHaveLength(0);
+
+    expect(screen.getByText("No invites.")).toBeInTheDocument();
   });
 
   it("shows when there is an error", async () => {
-    wrapper = mount(withMockedProviders(<InviteList />, mocksWithError));
-
-    await act(async () => {
-      await wait(0);
-      wrapper.update();
-
-      expect(findByTestId(wrapper, "error-message").text()).toBe("It broke");
+    await setup(mocksWithError);
+    await waitFor(() => {
+      expect(screen.queryByText("Loading...")).toBeNull();
     });
+
+    expect(screen.getByText("It broke")).toBeInTheDocument();
   });
 });
