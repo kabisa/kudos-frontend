@@ -168,7 +168,7 @@ describe("<ChoiceButton />", () => {
     userEvent.click(screen.getByRole("button", { name: "button text" }));
 
     await waitFor(() => {
-      expect(Storage.setItem).toBeCalledTimes(0);
+      expect(Storage.setItem).toHaveBeenCalledTimes(0);
     });
   });
 });

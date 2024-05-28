@@ -1,4 +1,8 @@
-import { mockLocalstorage, withMockedProviders } from "../../../../spec_helper";
+import {
+  MockedFunction,
+  mockLocalstorage,
+  withMockedProviders,
+} from "../../../../spec_helper";
 import { DELETE_GUIDELINE, Guideline } from "./Guideline";
 import { GET_GUIDELINES } from "./GuidelinesSection";
 import { render, screen, waitFor } from "@testing-library/react";
@@ -98,7 +102,7 @@ describe("<Guideline />", () => {
     const editButton = screen.getByRole("button", { name: "edit" });
     editButton.click();
 
-    expect(editGuidelineMock).toBeCalledTimes(1);
+    expect(editGuidelineMock).toHaveBeenCalledTimes(1);
     expect(editGuidelineMock).toHaveBeenCalledWith(
       guideline.id,
       guideline.kudos,
@@ -107,12 +111,12 @@ describe("<Guideline />", () => {
   });
 
   it("has a confirm button for the delete action", () => {
-    expect(global.confirm).toBeCalledTimes(0);
+    expect(global.confirm).toHaveBeenCalledTimes(0);
 
     const deleteButton = screen.getByRole("button", { name: "delete" });
     deleteButton.click();
 
-    expect(global.confirm).toBeCalledTimes(1);
+    expect(global.confirm).toHaveBeenCalledTimes(1);
   });
 
   it("calls the delete mutation", async () => {
@@ -127,5 +131,15 @@ describe("<Guideline />", () => {
     deleteButton.click();
 
     await waitFor(() => expect(getGuidelinesCalled).toBe(true));
+  });
+
+  it("does not the delete mutation if confirm is cancelled", async () => {
+    (global.confirm as MockedFunction<Window["confirm"]>).mockReturnValueOnce(
+      true,
+    );
+    const deleteButton = screen.getByRole("button", { name: "delete" });
+    deleteButton.click();
+
+    await waitFor(() => expect(mutationCalled).toBe(true));
   });
 });

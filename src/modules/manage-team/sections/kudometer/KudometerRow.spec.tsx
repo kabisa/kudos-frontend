@@ -1,4 +1,8 @@
-import { mockLocalstorage, withMockedProviders } from "../../../../spec_helper";
+import {
+  MockedFunction,
+  mockLocalstorage,
+  withMockedProviders,
+} from "../../../../spec_helper";
 import { KudometerRow } from "./KudometerRow";
 import {
   DELETE_KUDOMETER,
@@ -149,7 +153,7 @@ describe("<KudometerRow />", () => {
     goalButton.click();
 
     await waitFor(() => {
-      expect(viewButtonHandler).toBeCalledTimes(1);
+      expect(viewButtonHandler).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -176,6 +180,17 @@ describe("<KudometerRow />", () => {
     });
   });
 
+  it("does not the delete mutation if confirm is cancelled", async () => {
+    setup(getKudometer(false));
+    (global.confirm as MockedFunction<Window["confirm"]>).mockReturnValueOnce(
+      true,
+    );
+    const deleteButton = screen.getByRole("button", { name: "delete" });
+    deleteButton.click();
+
+    await waitFor(() => expect(mutationCalled).toBe(true));
+  });
+
   it("has a edit button", () => {
     setup(getKudometer(false));
     const editButton = screen.getByRole("button", { name: "edit" });
@@ -187,7 +202,7 @@ describe("<KudometerRow />", () => {
     const editButton = screen.getByRole("button", { name: "edit" });
     editButton.click();
 
-    expect(editHandler).toBeCalledTimes(1);
+    expect(editHandler).toHaveBeenCalledTimes(1);
   });
 
   describe("make active button", () => {

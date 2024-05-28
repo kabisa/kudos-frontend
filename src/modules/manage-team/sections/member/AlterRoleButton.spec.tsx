@@ -101,7 +101,7 @@ describe("<AlterRoleButton />", () => {
 
     await waitFor(() => {
       expect(mutationCalled).toBe(true);
-      expect(refetch).toBeCalledTimes(1);
+      expect(refetch).toHaveBeenCalledTimes(1);
     });
   });
 });

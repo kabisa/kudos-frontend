@@ -26,6 +26,11 @@ export const mockLocalstorage = (value: string) => {
   Storage.prototype.getItem = jest.fn(() => value);
 };
 
+export type MockedFunction<Func extends (...args: any[]) => any> = jest.Mock<
+  ReturnType<Func>,
+  Parameters<Func>
+>;
+
 export const getMockCache = () =>
   new InMemoryCache({
     typePolicies: {
