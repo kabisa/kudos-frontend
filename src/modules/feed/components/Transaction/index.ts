@@ -1,2 +1,1 @@
-export { default as Transaction } from './Transaction';
-export { default as TransactionLoading } from './TransactionLoading';
+export { default as Transaction } from "./Transaction";

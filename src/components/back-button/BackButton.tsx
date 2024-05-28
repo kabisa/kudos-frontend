@@ -1,21 +1,22 @@
-import React from 'react';
-import { Button, Responsive } from 'semantic-ui-react';
-import { History } from 'history';
-import { withRouter } from 'react-router-dom';
-import s from './BackButton.module.scss';
+import { Button } from "@kabisa/ui-components";
+import { useHistory } from "react-router-dom";
+import { Desktop } from "../../support/breakpoints";
+import s from "./BackButton.module.css";
 
-export interface Props {
-  history: History;
-}
+const BackButton = () => {
+  const history = useHistory();
 
-function BackButton(props: Props) {
   return (
-    <Responsive minWidth={Responsive.onlyTablet.minWidth}>
-      <Button fluid size="large" className={s.back} onClick={() => props.history.goBack()}>
+    <Desktop>
+      <Button
+        variant="secondary"
+        className={s.button}
+        onClick={() => history.goBack()}
+      >
         Back
       </Button>
-    </Responsive>
+    </Desktop>
   );
-}
+};
 
-export default withRouter(BackButton);
+export default BackButton;

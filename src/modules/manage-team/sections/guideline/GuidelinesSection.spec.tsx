@@ -1,30 +1,30 @@
-import React from 'react';
-import { mount, ReactWrapper } from 'enzyme';
-import { act } from 'react-dom/test-utils';
-import {
-  findByTestId, mockLocalstorage, wait, withMockedProviders,
-} from '../../../../spec_helper';
-import GuidelineSection, { GET_GUIDELINES } from './GuidelinesSection';
+import { mockLocalstorage, withMockedProviders } from "../../../../spec_helper";
+import GuidelineSection, { GET_GUIDELINES } from "./GuidelinesSection";
+import { render, screen } from "@testing-library/react";
 
-const mocks = [
+export const mocks = (teamId: string) => [
   {
     request: {
       query: GET_GUIDELINES,
-      variables: { team_id: '1' },
+      variables: { team_id: teamId },
     },
     result: {
       data: {
         teamById: {
+          id: teamId,
+          __typename: "Team",
           guidelines: [
             {
-              id: '1',
+              id: "1",
               kudos: 5,
-              name: 'first guideline',
+              name: "first guideline",
+              __typename: "Guideline",
             },
             {
-              id: '2',
+              id: "2",
               kudos: 10,
-              name: 'second guideline',
+              name: "second guideline",
+              __typename: "Guideline",
             },
           ],
         },
@@ -37,44 +37,35 @@ const errorMocks = [
   {
     request: {
       query: GET_GUIDELINES,
-      variables: { team_id: '1' },
+      variables: { team_id: "1" },
     },
-    error: new Error('it went wrong'),
+    error: new Error("it went wrong"),
   },
 ];
 
-
-describe('<GuidelinesSection />', () => {
-  mockLocalstorage('1');
-  let wrapper: ReactWrapper;
-
+describe("<GuidelinesSection />", () => {
   beforeEach(() => {
-    wrapper = mount(withMockedProviders(<GuidelineSection />, mocks));
+    mockLocalstorage("1");
   });
 
-  it('shows a loading state', () => {
-    expect(wrapper.containsMatchingElement(<p>Loading...</p>)).toBe(true);
+  it("shows a loading state", async () => {
+    render(withMockedProviders(<GuidelineSection />, mocks("1")));
+    expect(screen.getByText("Loading...")).toBeInTheDocument();
+
+    // Wait for fetch to complete before unmount
+    expect(await screen.findByText("first guideline")).toBeInTheDocument();
   });
 
-  it('shows when there is an error', async () => {
-    wrapper = mount(withMockedProviders(<GuidelineSection />, errorMocks));
-
-    await act(async () => {
-      await wait(0);
-      await wrapper.update();
-
-      expect(wrapper.containsMatchingElement(<p>Error! Network error: it went wrong</p>)).toBe(true);
-    });
+  it("shows when there is an error", async () => {
+    render(withMockedProviders(<GuidelineSection />, errorMocks));
+    expect(await screen.findByText("Error! it went wrong")).toBeInTheDocument();
   });
 
-  it('shows a row for each guideline ', async () => {
-    await act(async () => {
-      await wait(0);
-      await wrapper.update();
+  it("shows a row for each guideline ", async () => {
+    render(withMockedProviders(<GuidelineSection />, mocks("1")));
 
-      const rows = findByTestId(wrapper, 'guideline-row');
-
-      expect(rows.length).toBe(2);
-    });
+    const rows = await screen.findAllByRole("row");
+    // 1 header row, 2 data rows
+    expect(rows).toHaveLength(1 + 2);
   });
 });

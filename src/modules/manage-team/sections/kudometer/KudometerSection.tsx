@@ -1,23 +1,23 @@
-/* eslint-disable no-shadow */
-import React, { ChangeEvent, Component } from 'react';
-import {
-  Button, Divider, Form, Header, Icon, Table,
-} from 'semantic-ui-react';
-import {
-  ApolloConsumer, Query,
-} from '@apollo/react-components';
-import ApolloClient from 'apollo-client';
-import settings from '../../../../config/settings';
+import { Component } from "react";
+import { Query } from "@apollo/client/react/components";
+import type { ApolloClient } from "@apollo/client";
+import { ApolloConsumer } from "@apollo/client";
+import settings from "../../../../config/settings";
 import {
   CREATE_KUDOMETER,
-  CreateKudometerParameters, CreateKudometerResult,
+  CreateKudometerParameters,
+  CreateKudometerResult,
   GET_KUDOMETERS,
   GetKudoMetersResult,
-  Kudometer, UPDATE_KUDOMETER, UpdateKudoMeterParameters, UpdateKudoMeterResult,
-} from './KudometerQueries';
-import { Goals } from './goals/Goals';
-import { KudometerRow } from './KudometerRow';
-import { Storage } from '../../../../support/storage';
+  Kudometer,
+  UPDATE_KUDOMETER,
+  UpdateKudoMeterParameters,
+  UpdateKudoMeterResult,
+} from "./KudometerQueries";
+import { Goals } from "./goals/Goals";
+import { KudometerRow } from "./KudometerRow";
+import { Storage } from "../../../../support/storage";
+import { Button, Icon, Input, Label } from "@kabisa/ui-components";
 
 export interface Props {
   // Future props go here
@@ -37,25 +37,19 @@ class KudometerSection extends Component<Props, State> {
     super(props);
 
     this.state = {
-      name: '',
+      name: "",
       selected: undefined,
       editing: false,
-      kudometerId: '',
+      kudometerId: "",
     };
 
     this.initialState = this.state;
 
-    this.handleChange = this.handleChange.bind(this);
     this.createKudometer = this.createKudometer.bind(this);
     this.handleViewGoalButtonClick = this.handleViewGoalButtonClick.bind(this);
     this.deleteKudometer = this.deleteKudometer.bind(this);
     this.edit = this.edit.bind(this);
     this.cancelEdit = this.cancelEdit.bind(this);
-  }
-
-  handleChange(e: ChangeEvent, { name, value }: any) {
-    // @ts-ignore
-    this.setState({ [name]: value });
   }
 
   handleViewGoalButtonClick(kudometer: Kudometer) {
@@ -112,6 +106,9 @@ class KudometerSection extends Component<Props, State> {
         ],
       });
     } else {
+      if (this.state.name.trim().length === 0) {
+        return;
+      }
       client.mutate<CreateKudometerResult, CreateKudometerParameters>({
         mutation: CREATE_KUDOMETER,
         variables: {
@@ -135,8 +132,8 @@ class KudometerSection extends Component<Props, State> {
   cancelEdit() {
     this.setState({
       editing: false,
-      kudometerId: '',
-      name: '',
+      kudometerId: "",
+      name: "",
     });
   }
 
@@ -144,36 +141,48 @@ class KudometerSection extends Component<Props, State> {
     return (
       <ApolloConsumer>
         {(client) => (
-          <div>
-            <Header as="h2">
-              <Icon name="flag outline" />
-              <Header.Content>
-                Kudometers
-                <Header.Subheader>Manage kudometers</Header.Subheader>
-              </Header.Content>
-            </Header>
-            <Divider />
-            <Form onSubmit={() => this.saveKudosMeter(client)}>
-              <Form.Input
-                data-testid="name-input"
-                fluid
-                required
-                label="Name"
-                name="name"
-                placeholder="Name"
-                value={this.state.name}
-                onChange={this.handleChange}
-              />
-              <Button data-testid="create-button" color="blue" type="submit">
-                { this.state.editing ? 'Edit kudometer' : 'Create kudometer'}
+          <div className="form-container">
+            <h2>
+              <Icon name="flag" />
+              Kudometers
+            </h2>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                this.saveKudosMeter(client);
+              }}
+            >
+              <Label>
+                Name
+                <Input
+                  data-testid="name-input"
+                  required
+                  name="name"
+                  placeholder="Name"
+                  value={this.state.name}
+                  onChange={(e) => this.setState({ name: e.target.value })}
+                />
+              </Label>
+
+              <Button
+                data-testid="create-button"
+                variant="primary"
+                type="submit"
+              >
+                {this.state.editing ? "Edit kudometer" : "Create kudometer"}
               </Button>
-              { this.state.editing && (
-                <Button data-testid="cancel-edit-button" color="red" onClick={() => { this.cancelEdit(); }}>
+              {this.state.editing && (
+                <Button
+                  data-testid="cancel-edit-button"
+                  variant="primary"
+                  onClick={() => {
+                    this.cancelEdit();
+                  }}
+                >
                   Cancel
                 </Button>
               )}
-            </Form>
-            <Divider />
+            </form>
             <Query<GetKudoMetersResult>
               query={GET_KUDOMETERS}
               variables={{ team_id: Storage.getItem(settings.TEAM_ID_TOKEN) }}
@@ -184,31 +193,42 @@ class KudometerSection extends Component<Props, State> {
 
                 return (
                   <div>
-                    <Table celled>
-                      <Table.Header>
-                        <Table.Row>
-                          <Table.HeaderCell>Name</Table.HeaderCell>
-                          <Table.HeaderCell colSpan="2">Actions</Table.HeaderCell>
-                        </Table.Row>
-                      </Table.Header>
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th></th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
 
-                      <Table.Body>
-                        {(data
-                              && data.teamById
-                              && data.teamById.kudosMeters.length > 0) ? data.teamById.kudosMeters.map((item) => (
-                                <KudometerRow
-                                  data-testid="kudometer-row"
-                                  key={item.id}
-                                  kudometer={item}
-                                  viewButtonClickHandler={this.handleViewGoalButtonClick}
-                                  deleteKudometerHandler={this.deleteKudometer}
-                                  edit={this.edit}
-                                />
-                          )) : <Table.Row><Table.Cell>No kudometers available</Table.Cell></Table.Row>}
-                      </Table.Body>
-                    </Table>
+                      <tbody>
+                        {data &&
+                        data.teamById &&
+                        data.teamById.kudosMeters.length > 0 ? (
+                          data.teamById.kudosMeters.map((item) => (
+                            <KudometerRow
+                              data-testid="kudometer-row"
+                              key={item.id}
+                              kudometer={item}
+                              viewButtonClickHandler={
+                                this.handleViewGoalButtonClick
+                              }
+                              deleteKudometerHandler={this.deleteKudometer}
+                              edit={this.edit}
+                            />
+                          ))
+                        ) : (
+                          <tr>
+                            <td>No kudometers available</td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
 
-                    {this.state.selected && <Goals kudometer={this.state.selected} />}
+                    {this.state.selected && (
+                      <Goals kudometer={this.state.selected} />
+                    )}
                   </div>
                 );
               }}

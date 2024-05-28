@@ -1,23 +1,22 @@
-import { mount, ReactWrapper } from 'enzyme';
-import React from 'react';
-import { createMemoryHistory, History } from 'history';
-import { act } from 'react-dom/test-utils';
-import {
-  findByTestId, mockLocalstorage, wait, withMockedProviders,
-} from '../../../../spec_helper';
-import IntegrationsSection, { GET_TEAM_INTEGRATIONS, REMOVE_SLACK } from './Integrations';
+import { createMemoryHistory, History } from "history";
+import { mockLocalstorage, withMockedProviders } from "../../../../spec_helper";
+import IntegrationsSection, {
+  GET_TEAM_INTEGRATIONS,
+  REMOVE_SLACK,
+} from "./Integrations";
+import { render, screen, waitFor } from "@testing-library/react";
 
 let mutationCalled = false;
 const mocksWithoutSlack = [
   {
     request: {
       query: GET_TEAM_INTEGRATIONS,
-      variables: { id: '1' },
+      variables: { id: "1" },
     },
     result: {
       data: {
         teamById: {
-          slackTeamId: '',
+          slackTeamId: "",
         },
       },
     },
@@ -28,12 +27,12 @@ const mocksWitSlack = [
   {
     request: {
       query: GET_TEAM_INTEGRATIONS,
-      variables: { id: '1' },
+      variables: { id: "1" },
     },
     result: {
       data: {
         teamById: {
-          slackTeamId: 'someId',
+          slackTeamId: "someId",
         },
       },
     },
@@ -41,7 +40,7 @@ const mocksWitSlack = [
   {
     request: {
       query: REMOVE_SLACK,
-      variables: { teamId: '1' },
+      variables: { teamId: "1" },
     },
     result: () => {
       mutationCalled = true;
@@ -49,7 +48,7 @@ const mocksWitSlack = [
         data: {
           removeSlack: {
             team: {
-              id: '1',
+              id: "1",
             },
           },
         },
@@ -59,12 +58,12 @@ const mocksWitSlack = [
   {
     request: {
       query: GET_TEAM_INTEGRATIONS,
-      variables: { id: '1' },
+      variables: { id: "1" },
     },
     result: {
       data: {
         teamById: {
-          slackTeamId: 'someId',
+          slackTeamId: "someId",
         },
       },
     },
@@ -75,108 +74,107 @@ const mocksWithError = [
   {
     request: {
       query: GET_TEAM_INTEGRATIONS,
-      variables: { id: '1' },
+      variables: { id: "1" },
     },
-    error: new Error('something went wrong'),
+    error: new Error("something went wrong"),
   },
 ];
 
-let wrapper: ReactWrapper;
 let history: History;
 const setup = (mocks: any) => {
   history = createMemoryHistory();
   mutationCalled = false;
-  wrapper = mount(withMockedProviders(<IntegrationsSection history={history} />, mocks));
+  render(withMockedProviders(<IntegrationsSection history={history} />, mocks));
 };
 
-describe('<IntegrationsSection />', () => {
-  mockLocalstorage('1');
-
+describe("<IntegrationsSection />", () => {
   beforeEach(() => {
+    mockLocalstorage("1");
+  });
+
+  it("shows when the query is loading", async () => {
     setup(mocksWithoutSlack);
-  });
+    expect(screen.getByText("Loading...")).toBeInTheDocument();
 
-  it('shows when the query is loading', () => {
-    expect(findByTestId(wrapper, 'loading').length).toBe(1);
-  });
-
-  it('shows when there is an error', async () => {
-    setup(mocksWithError);
-    await act(async () => {
-      await wait(0);
-      await wrapper.update();
-
-      expect(findByTestId(wrapper, 'error').length).toBe(1);
+    await waitFor(() => {
+      expect(screen.queryByText("Loading...")).toBeNull();
     });
   });
 
-  describe('not connected to Slack', () => {
+  it("shows when there is an error", async () => {
+    setup(mocksWithError);
+    const errorMessage = await screen.findByText("something went wrong");
+    expect(errorMessage).toBeInTheDocument();
+  });
+
+  describe("not connected to Slack", () => {
     beforeEach(() => {
       setup(mocksWithoutSlack);
     });
 
-    it('shows the slack disconnected container', async () => {
-      await act(async () => {
-        await wait(0);
-        await wrapper.update();
-
-        expect(findByTestId(wrapper, 'slack-disconnected-container').length).toBe(1);
+    it("shows the slack disconnected container", async () => {
+      await waitFor(() => {
+        expect(screen.queryByText("Loading...")).toBeNull();
       });
+
+      const slackHeader = await screen.findByRole("heading", {
+        name: "Slack integration",
+        level: 4,
+      });
+
+      expect(slackHeader).toBeInTheDocument();
+
+      const slackConnect = await screen.findByRole("img", {
+        name: "Add to Slack",
+      });
+      expect(slackConnect).toBeInTheDocument();
     });
 
-    it('doesn\'t show the slack connected container', async () => {
-      await act(async () => {
-        await wait(0);
-        await wrapper.update();
-
-        expect(findByTestId(wrapper, 'slack-connected-container').length).toBe(0);
+    it("redirects to the correct url", async () => {
+      await waitFor(() => {
+        expect(screen.queryByText("Loading...")).toBeNull();
       });
-    });
 
-    it('redirects to the correct url', async () => {
-      await act(async () => {
-        await wait(0);
-        await wrapper.update();
-
-        const btn = findByTestId(wrapper, 'connect-slack-button');
-
-        expect(btn.prop('href')).toEqual('http://localhost:3000/auth/slack/team/1');
+      const slackConnect = await screen.findByRole("link", {
+        name: "Add to Slack",
       });
+
+      expect(slackConnect.getAttribute("href")).toEqual(
+        "http://localhost:3000/auth/slack/team/1",
+      );
     });
   });
 
-  describe('connected to slack', () => {
+  describe("connected to slack", () => {
     beforeEach(() => {
       setup(mocksWitSlack);
     });
 
-    it('shows the connected to slack container', async () => {
-      await act(async () => {
-        await wait(0);
-        await wrapper.update();
-
-        expect(findByTestId(wrapper, 'slack-connected-container').length).toBe(1);
+    it("shows the connected to slack container", async () => {
+      await waitFor(() => {
+        expect(screen.queryByText("Loading...")).toBeNull();
       });
+      const slackHeader = await screen.findByRole("heading", {
+        name: "Slack integration",
+        level: 4,
+      });
+      expect(slackHeader).toBeInTheDocument();
+
+      const slackDisconnect = await screen.findByRole("button", {
+        name: "Remove Slack",
+      });
+      expect(slackDisconnect).toBeInTheDocument();
     });
 
-    it('doesnt show the not connected to slack container', async () => {
-      await act(async () => {
-        await wait(0);
-        await wrapper.update();
-
-        expect(findByTestId(wrapper, 'slack-disconnected-container').length).toBe(0);
+    it("calls the disconnect mutation", async () => {
+      await waitFor(() => {
+        expect(screen.queryByText("Loading...")).toBeNull();
       });
-    });
-
-    it('calls the disconnect mutation', async () => {
-      await act(async () => {
-        await wait(0);
-        await wrapper.update();
-
-        findByTestId(wrapper, 'remove-slack-btn').hostNodes().simulate('click');
-
-        await wait(0);
-
+      const slackDisconnect = await screen.findByRole("button", {
+        name: "Remove Slack",
+      });
+      slackDisconnect.click();
+      await waitFor(() => {
         expect(mutationCalled).toBe(true);
       });
     });

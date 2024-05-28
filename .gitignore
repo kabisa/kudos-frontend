@@ -34,3 +34,10 @@ coverage/
 /.gradle
 /profiles/
 *.swp
+
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions

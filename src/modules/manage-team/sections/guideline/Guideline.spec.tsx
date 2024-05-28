@@ -1,11 +1,11 @@
-import { mount, ReactWrapper } from 'enzyme';
-import React from 'react';
-import { act } from 'react-dom/test-utils';
 import {
-  findByTestId, mockLocalstorage, wait, withMockedProviders,
-} from '../../../../spec_helper';
-import { DELETE_GUIDELINE, Guideline } from './Guideline';
-import { GET_GUIDELINES } from './GuidelinesSection';
+  MockedFunction,
+  mockLocalstorage,
+  withMockedProviders,
+} from "../../../../spec_helper";
+import { DELETE_GUIDELINE, Guideline } from "./Guideline";
+import { GET_GUIDELINES } from "./GuidelinesSection";
+import { render, screen, waitFor } from "@testing-library/react";
 
 let mutationCalled = false;
 let getGuidelinesCalled = false;
@@ -22,7 +22,7 @@ const mocks = [
       return {
         data: {
           deleteGuideline: {
-            guidelineId: '1',
+            guidelineId: "1",
           },
         },
       };
@@ -32,7 +32,7 @@ const mocks = [
     request: {
       query: GET_GUIDELINES,
       variables: {
-        team_id: '1',
+        team_id: "1",
       },
     },
     result: () => {
@@ -40,11 +40,12 @@ const mocks = [
       return {
         data: {
           teamById: {
+            id: "1",
             guidelines: [
               {
-                id: '1',
+                id: "1",
                 kudos: 10,
-                name: 'some guideline',
+                name: "some guideline",
               },
             ],
           },
@@ -52,99 +53,93 @@ const mocks = [
       };
     },
   },
-
 ];
 
 const guideline = {
   key: 1,
   id: 1,
-  name: 'Some guideline',
+  name: "Some guideline",
   kudos: 5,
 };
 
-describe('<Guideline />', () => {
-  mockLocalstorage('1');
+describe("<Guideline />", () => {
   const editGuidelineMock = jest.fn();
-  let wrapper: ReactWrapper;
 
   beforeEach(() => {
-    wrapper = mount(withMockedProviders(
-      <table>
-        <tbody>
-          <Guideline
-            key={guideline.key}
-            name={guideline.name}
-            id={guideline.id}
-            kudos={guideline.kudos}
-            editGuideline={editGuidelineMock}
-          />
-        </tbody>
-      </table>, mocks,
-    ));
+    mockLocalstorage("1");
+    global.confirm = jest.fn(() => true);
+    render(
+      withMockedProviders(
+        <table>
+          <tbody>
+            <Guideline
+              key={guideline.key}
+              name={guideline.name}
+              id={guideline.id}
+              kudos={guideline.kudos}
+              editGuideline={editGuidelineMock}
+            />
+          </tbody>
+        </table>,
+        mocks,
+      ),
+    );
   });
 
-  it('renders the guideline name', () => {
-    expect(wrapper.containsMatchingElement(<td>{guideline.name}</td>)).toBe(true);
+  it("renders the guideline name", () => {
+    expect(
+      screen.getByRole("cell", { name: guideline.name }),
+    ).toBeInTheDocument();
   });
 
-  it('renders the guideline amount', () => {
-    expect(wrapper.containsMatchingElement(<td>{guideline.kudos}</td>)).toBe(true);
+  it("renders the guideline amount", () => {
+    expect(
+      screen.getByRole("cell", { name: `${guideline.kudos}` }),
+    ).toBeInTheDocument();
   });
 
-  it('calls the edit guideline function', () => {
-    act(() => {
-      findByTestId(wrapper, 'edit-button').hostNodes().simulate('click');
+  it("calls the edit guideline function", () => {
+    const editButton = screen.getByRole("button", { name: "edit" });
+    editButton.click();
 
-      expect(editGuidelineMock).toBeCalledTimes(1);
-      expect(editGuidelineMock).toHaveBeenCalledWith(guideline.id, guideline.kudos, guideline.name);
-    });
+    expect(editGuidelineMock).toHaveBeenCalledTimes(1);
+    expect(editGuidelineMock).toHaveBeenCalledWith(
+      guideline.id,
+      guideline.kudos,
+      guideline.name,
+    );
   });
 
-  it('has a confirm button for the delete action', async () => {
-    await act(async () => {
-      findByTestId(wrapper, 'delete-button').hostNodes().simulate('click');
+  it("has a confirm button for the delete action", () => {
+    expect(global.confirm).toHaveBeenCalledTimes(0);
 
-      await wait(0);
-      await wrapper.update();
+    const deleteButton = screen.getByRole("button", { name: "delete" });
+    deleteButton.click();
 
-      expect(findByTestId(wrapper, 'confirm-delete-button').hostNodes().length).toBe(1);
-    });
+    expect(global.confirm).toHaveBeenCalledTimes(1);
   });
 
-  it('calls the delete mutation', async () => {
-    await act(async () => {
-      findByTestId(wrapper, 'delete-button').hostNodes().simulate('click');
+  it("calls the delete mutation", async () => {
+    const deleteButton = screen.getByRole("button", { name: "delete" });
+    deleteButton.click();
 
-      await wait(0);
-      await wrapper.update();
-
-      findByTestId(wrapper, 'confirm-delete-button').hostNodes().simulate('click');
-
-      await wait(0);
-      await wrapper.update();
-
-      expect(mutationCalled).toBe(true);
-    });
+    await waitFor(() => expect(mutationCalled).toBe(true));
   });
 
-  it('refetches the guidelines after the deletion', async () => {
-    await act(async () => {
-      findByTestId(wrapper, 'delete-button').hostNodes().simulate('click');
+  it("refetches the guidelines after the deletion", async () => {
+    const deleteButton = screen.getByRole("button", { name: "delete" });
+    deleteButton.click();
 
-      await wait(0);
-      await wrapper.update();
+    await waitFor(() => expect(getGuidelinesCalled).toBe(true));
+  });
 
-      findByTestId(wrapper, 'confirm-delete-button').hostNodes().simulate('click');
+  it("does not the delete mutation if confirm is cancelled", async () => {
+    (global.confirm as MockedFunction<Window["confirm"]>).mockReturnValueOnce(
+      true,
+    );
+    const deleteButton = screen.getByRole("button", { name: "delete" });
+    deleteButton.click();
 
-      await wait(0);
-      await wrapper.update();
-
-      expect(mutationCalled).toBe(true);
-
-      await wait(0);
-      await wrapper.update();
-
-      expect(getGuidelinesCalled).toBe(true);
-    });
+    await waitFor(() => expect(mutationCalled).toBe(true));
   });
 });

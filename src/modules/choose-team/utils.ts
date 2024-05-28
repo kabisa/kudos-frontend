@@ -1,5 +1,5 @@
-import settings from '../../config/settings';
-import { Storage } from '../../support/storage';
+import settings from "../../config/settings";
+import { Storage } from "../../support/storage";
 
 export function selectTeam(id: string, role: string) {
   Storage.setItem(settings.TEAM_ID_TOKEN, id);

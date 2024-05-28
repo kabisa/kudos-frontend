@@ -1,23 +1,25 @@
-import { Redirect, Route } from 'react-router-dom';
-import React from 'react';
-import { PATH_CHOOSE_TEAM, PATH_LOGIN } from '../routes';
-import { Auth } from '../support';
+import { Redirect, Route } from "react-router-dom";
+import { PATH_CHOOSE_TEAM, PATH_LOGIN } from "../routes";
+import { Auth } from "../support";
 
-export default function AuthenticatedRoute({ allowNoTeam, component: Component, ...rest }: any) {
+export default function AuthenticatedRoute({
+  allowNoTeam,
+  component: Component,
+  ...rest
+}: any) {
   return (
     <Route
       {...rest}
       render={(props) => {
         if (!Auth.isLoggedIn()) {
-          return <Redirect data-testid="redirect" to={PATH_LOGIN} />;
+          return <Redirect to={PATH_LOGIN} />;
         }
-
 
         if (Auth.hasTeam() || allowNoTeam) {
-          return <Component data-testid="component" {...props} />;
+          return <Component {...props} />;
         }
 
-        return <Redirect data-testid="redirect" to={PATH_CHOOSE_TEAM} />;
+        return <Redirect to={PATH_CHOOSE_TEAM} />;
       }}
     />
   );

@@ -1,52 +1,37 @@
-/* eslint  jsx-a11y/alt-text: 0 */
-import React from 'react';
-import { mount, ReactWrapper } from 'enzyme';
-import { MemoryHistory } from 'history/createMemoryHistory';
-import { createMemoryHistory } from 'history';
-import { act } from 'react-dom/test-utils';
-import { DISCONNECT_SLACK, GET_USER, UserPage } from './UserPage';
+import { createMemoryHistory, MemoryHistory } from "history";
+import { DISCONNECT_SLACK, GET_USER, UserPage } from "./UserPage";
+import { mockLocalstorage, withMockedProviders } from "../../spec_helper";
+import { PATH_RESET_PASSWORD } from "../../routes";
 import {
-  findByTestId, mockLocalstorage, wait, withMockedProviders,
-} from '../../spec_helper';
-import { PATH_RESET_PASSWORD } from '../../routes';
+  render,
+  RenderResult,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/react";
 
 let mutationCalled = false;
-const mocks = [
+export const mocks = ({ slackId = "" } = { slackId: "" }) => [
   {
     request: {
       query: GET_USER,
     },
-    result: () => (
-      {
-        data: {
-          viewer: {
-            name: 'Max',
-            avatar: 'fakeAvatarUrl',
-            slackId: '',
-          },
+    result: () => ({
+      data: {
+        viewer: {
+          id: "1",
+          __typename: "User",
+          name: "Max",
+          avatar: "fakeAvatarUrl",
+          slackId,
         },
-      }
-    ),
+      },
+    }),
   },
 ];
 
 const mocksWithSlackId = [
-  {
-    request: {
-      query: GET_USER,
-    },
-    result: () => (
-      {
-        data: {
-          viewer: {
-            name: 'Max',
-            avatar: 'fakeAvatarUrl',
-            slackId: '1',
-          },
-        },
-      }
-    ),
-  },
+  ...mocks({ slackId: "1" }),
   {
     request: {
       query: DISCONNECT_SLACK,
@@ -57,7 +42,7 @@ const mocksWithSlackId = [
         data: {
           disconnectSlack: {
             user: {
-              id: '1',
+              id: "1",
             },
           },
         },
@@ -68,137 +53,149 @@ const mocksWithSlackId = [
     request: {
       query: GET_USER,
     },
-    result: () => (
-      {
-        data: {
-          viewer: {
-            name: 'Max',
-            avatar: 'fakeAvatarUrl',
-            slackId: null,
-          },
+    result: () => ({
+      data: {
+        viewer: {
+          name: "Max",
+          avatar: "fakeAvatarUrl",
+          slackId: null,
         },
-      }
-    ),
+      },
+    }),
   },
 ];
 
-let wrapper: ReactWrapper;
 let history: MemoryHistory;
+let renderResult: RenderResult | null = null;
 const setup = async (mock: any) => {
+  if (renderResult) {
+    await waitFor(() => {
+      expect(screen.queryByText("Loading...")).toBeNull();
+    });
+
+    renderResult.unmount();
+  }
+
   history = createMemoryHistory();
   mutationCalled = false;
-  mockLocalstorage('1');
+  mockLocalstorage("1");
 
-  await act(async () => {
-    wrapper = mount(withMockedProviders(<UserPage history={history} />, mock));
-  });
+  renderResult = render(
+    withMockedProviders(<UserPage history={history} />, mock),
+  );
 };
 
-describe('<UserPage/>', () => {
+describe("<UserPage/>", () => {
+  const original = window;
   beforeEach(async () => {
-    await setup(mocks);
+    window = Object.create(window);
+    const url = "http://dummy.com";
+    Object.defineProperty(window, "location", {
+      value: {
+        href: url,
+      },
+      writable: true, // possibility to override
+    });
+
+    await setup(mocks());
   });
 
-  it('shows the component is loading', () => {
-    expect(findByTestId(wrapper, 'loading').length).toBe(1);
+  afterEach(() => {
+    window = original;
   });
 
-  it('shows the users name', async () => {
-    await act(async () => {
-      await wait(0);
+  it("shows the component is loading", async () => {
+    const loading = screen.getByText("Loading...");
+    expect(loading).toBeInTheDocument();
 
-      wrapper.update();
-
-      expect(wrapper.containsMatchingElement(<h2>Max</h2>)).toBe(true);
+    await waitFor(() => {
+      expect(screen.queryByText("Loading...")).toBeNull();
     });
   });
 
-  it('doesnt show an image when the query hasn\'t loaded', () => {
-    expect(wrapper.containsMatchingElement(<img src="fakeAvatarUrl" />)).toBe(false);
+  it("shows the users name", async () => {
+    const name = await screen.findByRole("heading", { level: 2, name: "Max" });
+    expect(name).toBeInTheDocument();
   });
 
-  it('shows the users avatar', async () => {
-    await act(async () => {
-      await wait(0);
+  it("shows the users avatar", async () => {
+    const image = (await screen.findAllByRole("img"))[0];
 
-      wrapper.update();
+    expect(image.getAttribute("src")).toEqual("fakeAvatarUrl");
+  });
 
-      expect(wrapper.containsMatchingElement(<img src="fakeAvatarUrl" />)).toBe(true);
+  it("shows a link to gravatar", async () => {
+    const link = await screen.findByRole("link", { name: "gravatar.com" });
+    expect(link.getAttribute("href")).toEqual("https://nl.gravatar.com/");
+  });
+
+  it("shows a link to the reset password page", async () => {
+    const resetPasswordButton = await screen.findByRole("button", {
+      name: "Change password",
     });
+    expect(resetPasswordButton).toBeInTheDocument();
   });
 
-  it('shows a link to gravatar', () => {
-    expect(wrapper.containsMatchingElement(<a href="https://nl.grvaatar.com/">gravatar.com</a>));
+  it("shows a logout button", async () => {
+    const resetPasswordButton = await screen.findByRole("button", {
+      name: "Log out",
+    });
+    expect(resetPasswordButton).toBeInTheDocument();
   });
 
-  it('shows a link to the reset password page', () => {
-    expect(wrapper.containsMatchingElement(<button>Change password</button>));
-  });
+  it("navigates to the reset password page", async () => {
+    const resetPasswordButton = await screen.findByRole("button", {
+      name: "Change password",
+    });
+    resetPasswordButton.click();
 
-  it('shows a logout button', () => {
-    expect(wrapper.containsMatchingElement(<button>Log out</button>));
-  });
-
-  it('navigates to the reset password page', async () => {
-    await act(async () => {
-      const button = findByTestId(wrapper, 'reset-password-btn').hostNodes();
-
-      button.simulate('click', { button: 0 });
-
-      wrapper.update();
-
+    await waitFor(() => {
       expect(history.location.pathname).toBe(PATH_RESET_PASSWORD);
     });
   });
 
-  describe('not connected to slack', () => {
+  describe("not connected to slack", () => {
     beforeEach(async () => {
-      await setup(mocks);
+      await setup(mocks());
     });
 
-    it('shows the connect to slack part if the slack id is null', async () => {
-      await act(async () => {
-        await wait(0);
-        await wrapper.update();
-
-        expect(findByTestId(wrapper, 'register-slack').hostNodes().length).toBe(1);
-      });
+    it("shows the connect to slack part if the slack id is null", async () => {
+      const connectPart = await screen.findByTestId("register-slack");
+      expect(connectPart).toBeInTheDocument();
     });
 
-    it('has the correct url for the connect button', async () => {
-      await act(async () => {
-        await wait(0);
-        await wrapper.update();
+    it("has the correct url for the connect button", async () => {
+      const connectPart = await screen.findByTestId("register-slack");
+      expect(connectPart).toBeInTheDocument();
 
-        const btn = findByTestId(wrapper, 'connect-slack-btn').hostNodes();
-
-        expect(btn.prop('href')).toEqual('http://localhost:3000/auth/slack/user/1');
+      const button = within(connectPart).getByRole("button", {
+        // The alt text of the image is also counting toward the button name
+        name: "Connect account Connect account",
       });
+      button.click();
+      expect(button).toBeInTheDocument();
+
+      expect(window.location.href).toEqual(
+        "http://localhost:3000/auth/slack/user/1",
+      );
     });
   });
 
-  describe('connected to slack', () => {
+  describe("connected to slack", () => {
     beforeEach(async () => {
       await setup(mocksWithSlackId);
     });
 
-    it('shows the user is connected to slack if the slack id is not null', async () => {
-      await act(async () => {
-        await wait(0);
-        await wrapper.update();
-
-        expect(findByTestId(wrapper, 'slack-connected').hostNodes().length).toBe(1);
-      });
+    it("shows the user is connected to slack if the slack id is not null", async () => {
+      const connectedPart = await screen.findByTestId("slack-connected");
+      expect(connectedPart).toBeInTheDocument();
     });
 
-    it('calls the disconnect mutation', async () => {
-      await act(async () => {
-        await wait(0);
-        await wrapper.update();
+    it("calls the disconnect mutation", async () => {
+      const connectedPart = await screen.findByTestId("slack-connected");
 
-        findByTestId(wrapper, 'disconnect-slack-btn').hostNodes().simulate('click');
-
-        await wait(0);
+      within(connectedPart).getByRole("button").click();
+      await waitFor(() => {
         expect(mutationCalled).toBe(true);
       });
     });

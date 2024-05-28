@@ -1,15 +1,24 @@
-import React from 'react';
-import { Responsive } from 'semantic-ui-react';
-import MobileNavigation from './Mobile';
-import Desktop from './Desktop';
+import { FC } from "react";
+import MobileNavigation from "./Mobile";
+import Desktop from "./Desktop";
+import {
+  Desktop as DesktopBreakpoint,
+  TabletAndBelow,
+} from "../../support/breakpoints";
 
-export default () => (
-  <div>
-    <Responsive maxWidth={Responsive.onlyTablet.maxWidth}>
+type NavigationProps = {
+  className?: string;
+};
+
+const Navigation: FC<NavigationProps> = ({ className }) => (
+  <div className={className}>
+    <TabletAndBelow>
       <MobileNavigation />
-    </Responsive>
-    <Responsive minWidth={Responsive.onlyTablet.maxWidth}>
+    </TabletAndBelow>
+    <DesktopBreakpoint>
       <Desktop />
-    </Responsive>
+    </DesktopBreakpoint>
   </div>
 );
+
+export default Navigation;

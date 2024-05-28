@@ -1,71 +1,46 @@
-import React from 'react';
-import {
-  Button, Divider, Responsive, Segment,
-} from 'semantic-ui-react';
-import { withRouter } from 'react-router-dom';
-import { History } from 'history';
+import { useHistory } from "react-router-dom";
 
-import { PATH_CREATE_TEAM } from '../../routes';
-import { Navigation } from '../../components/navigation';
-import { InviteList, TeamList } from './components';
+import { PATH_CREATE_TEAM } from "../../routes";
+import { InviteList, TeamList } from "./components";
 
-import s from './ChooseTeamPage.module.scss';
+import s from "./ChooseTeamPage.module.scss";
+import Button from "../../ui/Button";
+import Page from "../../components/templates/Page";
 
-export interface ContentProps {
-  history: History;
-}
+export function Content() {
+  const history = useHistory();
 
-export function Content(props: ContentProps): React.ReactElement {
   return (
     <div className={s.container}>
-      <h2 className={s.header}>Your invites</h2>
-      <InviteList data-testid="invite-list" />
-      <Divider />
-      <h2 className={s.header}>Your teams</h2>
-      <TeamList data-testid="personal-team-list" />
-      <Divider horizontal>Or</Divider>
+      <section className={s.section}>
+        <h2>Your invites</h2>
+        <InviteList />
+      </section>
+
+      <section className={s.section}>
+        <h2>Your teams</h2>
+        <TeamList />
+      </section>
+
+      <span>Or</span>
+
       <Button
-        data-testid="create-team"
-        color="blue"
-        className={s.create_button}
+        variant="primary"
         onClick={() => {
-          props.history.push(PATH_CREATE_TEAM);
+          history.push(PATH_CREATE_TEAM);
         }}
-      >
-        Create team
-      </Button>
+        text="Create team"
+      />
     </div>
   );
 }
 
-export interface Props {
-  history: History;
-}
-
-function ChooseTeamPage(props: Props): React.ReactElement {
+function ChooseTeamPage() {
   return (
-    <div>
-      <div className="page">
-        <Responsive minWidth={Responsive.onlyTablet.minWidth}>
-          <Segment
-            style={{
-              width: '40em',
-              margin: 'auto',
-              padding: '4em',
-              marginTop: '2em',
-            }}
-          >
-            <Content history={props.history} />
-          </Segment>
-        </Responsive>
-        <Responsive maxWidth={Responsive.onlyMobile.maxWidth}>
-          <Content history={props.history} />
-        </Responsive>
-      </div>
-      <Navigation />
-    </div>
+    <Page>
+      <Content />
+    </Page>
   );
 }
 
-// @ts-ignore
-export default withRouter(ChooseTeamPage);
+export default ChooseTeamPage;

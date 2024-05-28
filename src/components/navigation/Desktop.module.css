@@ -1,0 +1,49 @@
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: var(--kabisa-black);
+  display: flex;
+  align-items: center;
+  color: var(--kabisa-white);
+  height: 62px;
+  padding: var(--padding-level-3) 2rem;
+  z-index: 10;
+}
+
+nav {
+  margin: 0;
+  padding: 0;
+}
+
+.header > nav {
+  display: flex;
+  flex: 1;
+  max-width: var(--kudo-max-w);
+  margin: auto;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+}
+
+.icon {
+  color: white !important; /* Temporary fix for CSS order issue */
+  font-size: var(
+    --font-size-m
+  ) !important; /* Temporary fix for CSS order issue */
+}
+
+.link {
+  text-decoration: none;
+  color: white;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  padding: var(--padding-level-4) var(--padding-level-5);
+}
+
+.menuItem span {
+  padding-right: 12px;
+}

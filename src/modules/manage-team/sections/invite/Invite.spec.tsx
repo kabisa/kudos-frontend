@@ -1,34 +1,34 @@
-import React from 'react';
-import { mount, ReactWrapper } from 'enzyme';
-import { act } from 'react-dom/test-utils';
 import {
-  findByTestId, mockLocalstorage, wait, withMockedProviders,
-} from '../../../../spec_helper';
-import { Invite, MUTATION_DELETE_INVITE } from './Invite';
-import { InviteModel, QUERY_GET_INVITES } from './InvitesSection';
+  MockedFunction,
+  mockLocalstorage,
+  withMockedProviders,
+} from "../../../../spec_helper";
+import { Invite, MUTATION_DELETE_INVITE } from "./Invite";
+import { InviteModel, QUERY_GET_INVITES } from "./InvitesSection";
+import { render, screen, waitFor } from "@testing-library/react";
 
 const pendingInvite: InviteModel = {
-  acceptedAt: '',
-  declinedAt: '',
-  email: 'pending@example.com',
+  acceptedAt: "",
+  declinedAt: "",
+  email: "pending@example.com",
   id: 1,
-  sentAt: '2020-03-10',
+  sentAt: "2020-03-10",
 };
 
 const acceptedInvite: InviteModel = {
-  acceptedAt: '2020-03-15',
-  declinedAt: '',
-  email: 'accepted@example.com',
+  acceptedAt: "2020-03-15",
+  declinedAt: "",
+  email: "accepted@example.com",
   id: 2,
-  sentAt: '2020-03-10',
+  sentAt: "2020-03-10",
 };
 
 const declinedInvite: InviteModel = {
-  acceptedAt: '',
-  declinedAt: '2020-03-15',
-  email: 'declined@example.com',
+  acceptedAt: "",
+  declinedAt: "2020-03-15",
+  email: "declined@example.com",
   id: 3,
-  sentAt: '2020-03-10',
+  sentAt: "2020-03-10",
 };
 
 let mutationCalled = false;
@@ -44,7 +44,7 @@ const mocks = [
       return {
         data: {
           deleteTeamInvite: {
-            teamInviteId: '1',
+            teamInviteId: "1",
           },
         },
       };
@@ -53,7 +53,7 @@ const mocks = [
   {
     request: {
       query: QUERY_GET_INVITES,
-      variables: { team_id: '1' },
+      variables: { team_id: "1" },
     },
     result: () => {
       queryCalled = true;
@@ -62,11 +62,11 @@ const mocks = [
           teamById: {
             teamInvites: [
               {
-                acceptedAt: '',
-                declinedAt: '',
-                email: 'max@example.com',
-                id: '1',
-                sentAt: '2020-03-01',
+                acceptedAt: "",
+                declinedAt: "",
+                email: "max@example.com",
+                id: "1",
+                sentAt: "2020-03-01",
               },
             ],
           },
@@ -76,73 +76,89 @@ const mocks = [
   },
 ];
 
-describe('<Invite />', () => {
-  mockLocalstorage('1');
-  let wrapper: ReactWrapper;
-
+describe("<Invite />", () => {
   function setup(invite: InviteModel) {
-    wrapper = mount(withMockedProviders(
-      <table><tbody><Invite invite={invite} key={1} /></tbody></table>,
-      mocks,
-    ));
+    const mockRefetch = jest.fn();
+
+    render(
+      withMockedProviders(
+        <table>
+          <tbody>
+            <Invite invite={invite} key={1} refetch={mockRefetch} />
+          </tbody>
+        </table>,
+        mocks,
+      ),
+    );
   }
 
   beforeEach(() => {
+    global.confirm = jest.fn(() => true);
+    mockLocalstorage("1");
     mutationCalled = false;
     queryCalled = false;
     setup(pendingInvite);
   });
 
-  it('shows the invite send date and email', () => {
-    expect(wrapper.containsMatchingElement(<td>2020-03-10</td>)).toBe(true);
-    expect(wrapper.containsMatchingElement(<td>pending@example.com</td>)).toBe(true);
+  it("shows the invite send date and email", () => {
+    const date = screen.getByRole("cell", { name: "2020-03-10" });
+    expect(date).toBeInTheDocument();
+
+    const email = screen.getByRole("cell", { name: "pending@example.com" });
+    expect(email).toBeInTheDocument();
   });
 
-  it('shows that the invite is pending', () => {
-    expect(wrapper.containsMatchingElement(<td>Pending</td>)).toBe(true);
+  it("shows that the invite is pending", () => {
+    const status = screen.getByRole("cell", { name: "Pending" });
+    expect(status).toBeInTheDocument();
   });
 
-  it('shows that the invite is accepted', () => {
+  it("shows that the invite is accepted", () => {
     setup(acceptedInvite);
 
-    expect(wrapper.containsMatchingElement(<td>Accepted</td>)).toBe(true);
+    const status = screen.getByRole("cell", { name: "Accepted" });
+    expect(status).toBeInTheDocument();
   });
 
-  it('shows that the invite is declined', () => {
+  it("shows that the invite is declined", () => {
     setup(declinedInvite);
 
-    expect(wrapper.containsMatchingElement(<td>Declined</td>)).toBe(true);
+    const status = screen.getByRole("cell", { name: "Declined" });
+    expect(status).toBeInTheDocument();
   });
 
-  it('has a confirm delete button', async () => {
-    await act(async () => {
-      findByTestId(wrapper, 'delete-button').hostNodes().simulate('click');
+  it("has a confirm delete button", async () => {
+    const button = screen.getByRole("button", { name: "delete" });
+    expect(button).toBeInTheDocument();
 
-      await wait(0);
-      await wrapper.update();
+    button.click();
 
-      expect(findByTestId(wrapper, 'confirm-delete-button').hostNodes().length).toBe(1);
+    await waitFor(() => {
+      expect(global.confirm).toHaveBeenCalledWith(
+        "Are you sure you want to delete this invite?",
+      );
     });
   });
 
-  it('calls the delete mutation', async () => {
-    await act(async () => {
-      findByTestId(wrapper, 'delete-button').hostNodes().simulate('click');
+  it("calls the delete mutation", async () => {
+    const button = screen.getByRole("button", { name: "delete" });
+    expect(button).toBeInTheDocument();
 
-      await wait(0);
-      await wrapper.update();
+    button.click();
 
-      findByTestId(wrapper, 'confirm-delete-button').hostNodes().simulate('click');
-
-      await wait(0);
-      await wrapper.update();
-
+    await waitFor(() => {
       expect(mutationCalled).toBe(true);
-
-      await wait(0);
-      await wrapper.update();
-
       expect(queryCalled).toBe(true);
     });
+  });
+
+  it("does not the delete mutation if confirm is cancelled", async () => {
+    (global.confirm as MockedFunction<Window["confirm"]>).mockReturnValueOnce(
+      true,
+    );
+    const deleteButton = screen.getByRole("button", { name: "delete" });
+    deleteButton.click();
+
+    await waitFor(() => expect(mutationCalled).toBe(true));
   });
 });

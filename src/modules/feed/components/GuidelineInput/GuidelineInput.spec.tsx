@@ -1,34 +1,37 @@
-import React from 'react';
-import { mount, ReactWrapper } from 'enzyme';
-import { act } from 'react-dom/test-utils';
+import { mockLocalstorage, withMockedProviders } from "../../../../spec_helper";
 import {
-  findByTestId,
-  mockLocalstorage, simulateInputChange, wait, withMockedProviders,
-} from '../../../../spec_helper';
-import GuidelineInput, { GET_GUIDELINES } from './GuidelineInput';
+  getSelectOptions,
+  getSelectedItemsText,
+  openSelect,
+} from "../../../../support/testing/reactSelectHelpers";
+import { GET_GUIDELINES } from "../../../manage-team/sections/guideline/GuidelinesSection";
+import GuidelineInput from "./GuidelineInput";
+import { render, waitFor, screen } from "@testing-library/react";
 
 let queryCalled = false;
 const mocks = [
   {
     request: {
       query: GET_GUIDELINES,
-      variables: { team_id: '1' },
+      variables: { team_id: "1" },
     },
     result: () => {
       queryCalled = true;
       return {
         data: {
           teamById: {
+            id: "1",
+            __typename: "Team",
             guidelines: [
               {
-                id: '1',
-                kudos: '10',
-                name: 'Op tijd bij meeting',
+                id: "1",
+                kudos: 10,
+                name: "Op tijd bij meeting",
               },
               {
-                id: '2',
-                kudos: '15',
-                name: 'Bureau opgeruimd',
+                id: "2",
+                kudos: 15,
+                name: "Bureau opgeruimd",
               },
             ],
           },
@@ -37,26 +40,19 @@ const mocks = [
     },
   },
 ];
-const mocksWithError = [
-  {
-    request: {
-      query: GET_GUIDELINES,
-      variables: { team_id: '1' },
-    },
-    error: new Error('It broke'),
-  },
-];
 const mocksWithoutData = [
   {
     request: {
       query: GET_GUIDELINES,
-      variables: { team_id: '1' },
+      variables: { team_id: "1" },
     },
     result: () => {
       queryCalled = true;
       return {
         data: {
           teamById: {
+            id: "1",
+            __typename: "Team",
             guidelines: [],
           },
         },
@@ -65,177 +61,188 @@ const mocksWithoutData = [
   },
 ];
 
-describe('<GuidelineInput />', () => {
-  mockLocalstorage('1');
-  let wrapper: ReactWrapper;
+describe("<GuidelineInput />", () => {
   const handleChangeMock = jest.fn();
 
   beforeEach(() => {
+    mockLocalstorage("1");
     queryCalled = false;
-    wrapper = mount(withMockedProviders(<GuidelineInput
-      handleChange={handleChangeMock}
-      amountError={false}
-    />, mocks));
   });
 
-  it('handles state change correctly', async () => {
-    const component: any = wrapper.find('GuidelineInput').instance();
+  it("handles state change correctly", async () => {
+    render(
+      withMockedProviders(
+        <GuidelineInput handleChange={handleChangeMock} amountError={false} />,
+        mocks,
+      ),
+    );
 
-    await act(async () => {
-      expect(component.state.amount).toBe('');
-
-      simulateInputChange(wrapper, 'amount-input', 'amount', '5');
-      await wrapper.update();
-
-      expect(component.state.amount).toBe('5');
+    const selectElement = await screen.findByRole("combobox", {
+      description: "Kudos amount",
     });
+    openSelect(selectElement);
+    const options = getSelectOptions(selectElement);
+    options[0].click();
+
+    expect(getSelectedItemsText(selectElement)).toEqual("10");
   });
 
-  it('shows the guidelines on focus', async () => {
-    const component: any = wrapper.find('GuidelineInput').instance();
+  it("display only guidelines that have a kudos value within a range of 5 from the selected guideline.", async () => {
+    const modifiedMock = [...mocks];
+    modifiedMock[0] = {
+      ...mocks[0],
+      result: () => {
+        queryCalled = true;
+        return {
+          data: {
+            teamById: {
+              id: "1",
+              __typename: "Team",
+              guidelines: [
+                {
+                  id: "1",
+                  kudos: 4,
+                  name: "Great help for someone",
+                },
+                {
+                  id: "2",
+                  kudos: 11,
+                  name: "Op tijd bij meeting",
+                },
+                {
+                  id: "3",
+                  kudos: 14, // Within range of 10
+                  name: "Bureau opgeruimd",
+                },
+              ],
+            },
+          },
+        };
+      },
+    };
 
-    await act(async () => {
-      expect(component.state.showGuidelines).toBe(false);
+    render(
+      withMockedProviders(
+        <GuidelineInput handleChange={handleChangeMock} amountError={false} />,
+        modifiedMock,
+      ),
+    );
 
-      // @ts-ignore
-      findByTestId(wrapper, 'amount-input').find('input').prop('onFocus')();
-
-      await wrapper.update();
-
-      expect(component.state.showGuidelines).toBe(true);
+    // Sets showGuidelines to true which is needed to trigger the query.
+    const selectElement = await screen.findByRole("combobox", {
+      description: "Kudos amount",
     });
+    openSelect(selectElement);
+
+    const options = getSelectOptions(selectElement);
+    expect(options).toHaveLength(3);
+    options[1].click();
+    expect(getSelectedItemsText(selectElement)).toEqual("11");
+
+    // Update input reference after clicking the first row
+    const updatedSelectElement = await screen.findByRole("combobox");
+    openSelect(updatedSelectElement);
+
+    const updatedOptions = getSelectOptions(updatedSelectElement);
+    // Only shows 2 rows because 14 is within range of 10
+    expect(updatedOptions).toHaveLength(2);
   });
 
-  it('resets the the focus on blur', async () => {
-    const component: any = wrapper.find('GuidelineInput').instance();
+  it("shows the guidelines on down arrow", async () => {
+    render(
+      withMockedProviders(
+        <GuidelineInput handleChange={handleChangeMock} amountError={false} />,
+        mocks,
+      ),
+    );
 
-    await act(async () => {
-      component.setState({ showGuidelines: true });
-
-      // @ts-ignore
-      findByTestId(wrapper, 'amount-input').find('input').prop('onBlur')();
-
-      await wrapper.update();
-      await wait(500);
-
-      expect(component.state.showGuidelines).toBe(false);
+    // Sets showGuidelines to true which is needed to trigger the query.
+    const selectElement = await screen.findByRole("combobox", {
+      description: "Kudos amount",
     });
+    const options = getSelectOptions(selectElement);
+    expect(options).toHaveLength(0);
+
+    openSelect(selectElement);
+
+    const updatedOptions = getSelectOptions(selectElement);
+    expect(updatedOptions).toHaveLength(2);
   });
 
-  it('calls the mutation if the input is focused and amount is not empty', async () => {
-    const component = wrapper.find('GuidelineInput').instance();
+  it("calls the mutation if the input is focused and amount is not empty", async () => {
+    render(
+      withMockedProviders(
+        <GuidelineInput handleChange={handleChangeMock} amountError={false} />,
+        mocks,
+      ),
+    );
 
-    await act(async () => {
-      component.setState({ amount: '5', showGuidelines: false });
-      await wrapper.update();
+    expect(queryCalled).toBe(false);
 
-      expect(queryCalled).toBe(false);
+    // Sets showGuidelines to true which is needed to trigger the query.
+    const selectElement = await screen.findByRole("combobox", {
+      description: "Kudos amount",
+    });
+    openSelect(selectElement);
 
-      component.setState({ amount: '5', showGuidelines: true });
-
-      await wait(0);
-      await wrapper.update();
-
+    await waitFor(() => {
       expect(queryCalled).toBe(true);
     });
   });
 
-  it('Shows when there is an error', async () => {
-    wrapper = mount(withMockedProviders(<GuidelineInput
-      handleChange={handleChangeMock}
-      amountError={false}
-    />, mocksWithError));
+  it("shows a message when there are no guidelines", async () => {
+    render(
+      withMockedProviders(
+        <GuidelineInput handleChange={handleChangeMock} amountError={false} />,
+        mocksWithoutData,
+      ),
+    );
 
-    const component = wrapper.find('GuidelineInput').instance();
-    await act(async () => {
-      component.setState({ amount: '10', showGuidelines: true });
+    // Sets showGuidelines to true which is needed to trigger the query.
+    const selectElement = await screen.findByRole("combobox", {
+      description: "Kudos amount",
+    });
+    openSelect(selectElement);
 
-      await wrapper.update();
+    expect(await screen.findByText("No options")).toBeInTheDocument();
+  });
 
-      await wait(0);
-      await wrapper.update();
+  it("is disabled when the query is loading", async () => {
+    render(
+      withMockedProviders(
+        <GuidelineInput handleChange={handleChangeMock} amountError={false} />,
+        mocks,
+      ),
+    );
+    const selectElement = screen.getByRole("combobox", {
+      description: "Kudos amount",
+      hidden: true,
+    });
+    expect(selectElement).toBeDisabled();
 
-      expect(wrapper.contains('Network error: It broke')).toBe(true);
+    // wait for query to complete to prevent unmount while getting state changes
+    await screen.findByRole("combobox", {
+      description: "Kudos amount",
     });
   });
 
-  it('Shows a message when there are no guidelines', async () => {
-    wrapper = mount(withMockedProviders(<GuidelineInput
-      handleChange={handleChangeMock}
-      amountError={false}
-    />, mocksWithoutData));
+  it("reports the correct amount when a guideline is clicked", async () => {
+    render(
+      withMockedProviders(
+        <GuidelineInput handleChange={handleChangeMock} amountError={false} />,
+        mocks,
+      ),
+    );
 
-    const component = wrapper.find('GuidelineInput').instance();
-    await act(async () => {
-      component.setState({ amount: '10', showGuidelines: true });
-
-      await wrapper.update();
-
-      await wait(0);
-      await wrapper.update();
-
-      expect(queryCalled).toBe(true);
-      expect(wrapper.contains('No guidelines available')).toBe(true);
+    // Sets showGuidelines to true which is needed to trigger the query.
+    const selectElement = await screen.findByRole("combobox", {
+      description: "Kudos amount",
     });
-  });
+    openSelect(selectElement);
+    const options = getSelectOptions(selectElement);
+    options[1].click();
 
-  it('Shows when the query is loading', async () => {
-    const component = wrapper.find('GuidelineInput').instance();
-    await act(async () => {
-      component.setState({ amount: '10', showGuidelines: true });
-
-      // Update the state twice to first set the new variables and then fire the query
-      await wrapper.update();
-      await wrapper.update();
-
-      expect(wrapper.contains('Loading...')).toBe(true);
-    });
-  });
-
-  it('renders a segment for each guideline', async () => {
-    const component = wrapper.find('GuidelineInput').instance();
-    await act(async () => {
-      component.setState({ amount: '10', showGuidelines: true });
-
-      await wrapper.update();
-
-      await wait(0);
-      await wrapper.update();
-
-      expect(findByTestId(wrapper, 'guideline-row').length).toBe(2);
-    });
-  });
-
-  it('it shows the guidelines when the button is clicked', async () => {
-    await act(async () => {
-      findByTestId(wrapper, 'guidelines-button').hostNodes().simulate('click');
-
-      await wrapper.update();
-
-      await wait(0);
-      await wrapper.update();
-
-      expect(findByTestId(wrapper, 'guideline-row').hostNodes().length).toBe(2);
-    });
-  });
-
-  it('should set the correct amount when a guideline is clicked', async () => {
-    const component: any = wrapper.find('GuidelineInput').instance();
-    await act(async () => {
-      component.setState({ amount: '14', showGuidelines: true });
-
-      await wrapper.update();
-
-      await wait(0);
-      await wrapper.update();
-
-      const row = findByTestId(wrapper, 'guideline-row').at(0).find('div');
-      row.simulate('click');
-
-      await wrapper.update();
-
-      expect(component.state.showGuidelines).toBe(false);
-      expect(component.state.amount).toBe('15');
-    });
+    expect(handleChangeMock).toBeCalledWith(15);
+    expect(getSelectedItemsText(selectElement)).toEqual("15");
   });
 });

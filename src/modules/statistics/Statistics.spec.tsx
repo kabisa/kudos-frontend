@@ -1,32 +1,30 @@
-import React from 'react';
-import { mount, ReactWrapper } from 'enzyme';
-import { act } from 'react-dom/test-utils';
-import {
-  findByTestId, mockLocalstorage, wait, withMockedProviders,
-} from '../../spec_helper';
-import Statistics, { GET_GOAL_PERCENTAGE } from './Statistics';
+import { mockLocalstorage, withMockedProviders } from "../../spec_helper";
+import Statistics, { GET_GOAL_PERCENTAGE } from "./Statistics";
+import { render, screen, waitFor, within } from "@testing-library/react";
 
-const mocks = [
+export const mocks = (teamId: string) => [
   {
     request: {
       query: GET_GOAL_PERCENTAGE,
-      variables: { team_id: '1' },
+      variables: { team_id: teamId },
     },
     result: {
       data: {
         teamById: {
+          id: teamId,
+          __typename: "Team",
           activeGoals: [
             {
-              id: '1',
-              name: 'Bowlen',
+              id: "1",
+              name: "Bowlen",
               amount: 200,
-              achievedOn: '2020-03-10',
+              achievedOn: "2020-03-10",
             },
             {
-              id: '2',
-              name: 'Hapje eten',
+              id: "2",
+              name: "Hapje eten",
               amount: 500,
-              achievedOn: '',
+              achievedOn: "",
             },
           ],
           activeKudosMeter: {
@@ -36,139 +34,112 @@ const mocks = [
       },
     },
   },
-
 ];
 
-describe('<Statistics />', () => {
-  let wrapper: ReactWrapper;
-  mockLocalstorage('1');
-
+describe("<Statistics />", () => {
   beforeEach(() => {
-    wrapper = mount(withMockedProviders(<Statistics />, mocks));
+    mockLocalstorage("1");
+    render(withMockedProviders(<Statistics />, mocks("1")));
   });
 
-  it('shows a loading state', () => {
-    expect(wrapper.containsMatchingElement(<h2>Loading...</h2>));
-  });
+  it("shows a loading state", async () => {
+    expect(
+      screen.getByRole("heading", { level: 3, name: "Loading..." }),
+    ).toBeInTheDocument();
 
-  it('shows the progress circle', async () => {
-    await act(async () => {
-      await wait(0);
-
-      wrapper.update();
-
-      expect(wrapper.find('.rc-progress-circle').length).toBe(1);
+    await waitFor(() => {
+      expect(
+        screen.queryByRole("heading", { level: 3, name: "Loading..." }),
+      ).toBeNull();
     });
   });
 
-  it('shows a goal section for all goals', async () => {
-    await act(async () => {
-      await wait(0);
+  it("shows the progress circle", async () => {
+    const element = document.getElementsByClassName("rc-progress-circle")[0];
 
-      wrapper.update();
+    expect(element).toBeInTheDocument();
 
-      const locks = findByTestId(wrapper, 'goal-section');
-
-      expect(locks.length).toBe(2);
+    await waitFor(() => {
+      expect(
+        screen.queryByRole("heading", { level: 3, name: "Loading..." }),
+      ).toBeNull();
     });
   });
 
-  it('shows the goal amount', async () => {
-    await act(async () => {
-      await wait(0);
-
-      wrapper.update();
-
-      const goal = findByTestId(wrapper, 'goal-section').first();
-
-      expect(goal.containsMatchingElement(<h3>500 ₭</h3>)).toBe(true);
-    });
+  it("shows a goal section for all goals", async () => {
+    const goalSections = await screen.findAllByTestId("goal-section");
+    expect(goalSections).toHaveLength(2);
   });
 
-  it('shows the goal name', async () => {
-    await act(async () => {
-      await wait(0);
+  it("shows the goal amount", async () => {
+    const goalSections = await screen.findAllByTestId("goal-section");
 
-      wrapper.update();
-
-      const goal = findByTestId(wrapper, 'goal-section').first();
-
-      expect(goal.containsMatchingElement(<p>[Goal 2] Hapje eten</p>)).toBe(true);
+    const goalAmount = await within(goalSections[0]).findByRole("heading", {
+      level: 3,
+      name: "500 ₭",
     });
+    expect(goalAmount).toBeInTheDocument();
   });
 
-  it('shows an unlocked symbol if the goal is achieved', async () => {
-    await act(async () => {
-      await wait(0);
+  it("shows the goal name", async () => {
+    const goalSections = await screen.findAllByTestId("goal-section");
 
-      wrapper.update();
-
-      const unlockedGoal = findByTestId(wrapper, 'goal-section').last();
-
-      expect(unlockedGoal.containsMatchingElement(<i className="lock open icon lock_icon" />)).toBe(true);
-    });
+    const goalAmount = await within(goalSections[0]).findByText(
+      "[Goal 2] Hapje eten",
+    );
+    expect(goalAmount).toBeInTheDocument();
   });
 
-  it('shows the date if the goal is achieved', async () => {
-    await act(async () => {
-      await wait(0);
+  it("shows an unlocked symbol if the goal is achieved", async () => {
+    const goalSections = await screen.findAllByTestId("goal-section");
 
-      wrapper.update();
-
-      const unlockedGoal = findByTestId(wrapper, 'goal-section').last();
-
-      expect(unlockedGoal.containsMatchingElement(<span>Achieved on 10 Mar, 2020</span>)).toBe(true);
-    });
+    expect(within(goalSections[1]).getByText("lock_open")).toBeInTheDocument();
   });
 
-  it('shows the progress if the goal is not achieved', async () => {
-    await act(async () => {
-      await wait(0);
+  it("shows the date if the goal is achieved", async () => {
+    const goalSections = await screen.findAllByTestId("goal-section");
 
-      wrapper.update();
-
-      const lockedGoal = findByTestId(wrapper, 'goal-section').first();
-
-      expect(lockedGoal.containsMatchingElement(<span>250 / 500₭</span>)).toBe(true);
-    });
+    expect(
+      within(goalSections[1]).getByText("Achieved on 10 Mar, 2020"),
+    ).toBeInTheDocument();
   });
 
-  it('shows a locked symbol if the goal is not achieved', async () => {
-    await act(async () => {
-      await wait(0);
+  it("shows the progress if the goal is not achieved", async () => {
+    const goalSections = await screen.findAllByTestId("goal-section");
 
-      wrapper.update();
-
-      const lockedGoal = findByTestId(wrapper, 'goal-section').first();
-
-      expect(lockedGoal.containsMatchingElement(<i className="lock icon lock_icon" />)).toBe(true);
-    });
+    expect(within(goalSections[0]).getByText("250 / 500₭")).toBeInTheDocument();
   });
 
-  it('fills the progress bar completely if the goal is achieved', async () => {
-    await act(async () => {
-      await wait(0);
+  it("shows a locked symbol if the goal is not achieved", async () => {
+    const goalSections = await screen.findAllByTestId("goal-section");
 
-      wrapper.update();
-
-      const achievedProgressBar = findByTestId(wrapper, 'progress-bar').last();
-
-      expect(achievedProgressBar.props().style?.backgroundColor).toBe('#3899b7');
-      expect(achievedProgressBar.props().className).toEqual('bar');
-    });
+    expect(within(goalSections[0]).getByText("lock")).toBeInTheDocument();
   });
 
-  it('fills the progress bar to the correct percentage if the goal is not achieved', async () => {
-    await act(async () => {
-      await wait(0);
+  it("fills the orb completely if the goal is achieved", async () => {
+    const achievedGoalProgress = (
+      await screen.findAllByTestId("progress-bar")
+    )[1];
+    expect(achievedGoalProgress.style["backgroundColor"]).toEqual(
+      "rgb(36, 179, 113)",
+    );
+  });
 
-      wrapper.update();
+  it("fills the orb not if the goal is pending", async () => {
+    const achievedGoalProgress = (
+      await screen.findAllByTestId("progress-bar")
+    )[0];
+    expect(achievedGoalProgress.style["backgroundColor"]).toEqual(
+      "rgb(191, 219, 207)",
+    );
+  });
 
-      const partialProgressBar = findByTestId(wrapper, 'next-progress-bar');
-
-      expect(partialProgressBar.props().style?.backgroundColor).toBe('#3899b7');
-      expect(partialProgressBar.props().style?.height).toBe('17px');
-      expect(partialProgressBar.props().style?.marginTop).toBe('88px');
-    });
+  it("fills the progress bar to the correct percentage if the goal is not achieved", async () => {
+    const pendingGoalProgress = await screen.findByTestId("next-progress-bar");
+    expect(pendingGoalProgress.style["backgroundColor"]).toEqual(
+      "rgb(36, 179, 113)",
+    );
+    expect(pendingGoalProgress.style["height"]).toEqual("17px");
+    expect(pendingGoalProgress.style["marginTop"]).toEqual("88px");
   });
 });

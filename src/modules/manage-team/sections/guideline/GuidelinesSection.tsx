@@ -1,44 +1,43 @@
-import React, { Component } from 'react';
-import {
-  Divider, Header, Icon, Table,
-} from 'semantic-ui-react';
-import gql from 'graphql-tag';
-import { Query } from '@apollo/react-components';
-import settings from '../../../../config/settings';
-import { EditGuideline } from './EditGuideline';
-import { Guideline } from './Guideline';
-import { Storage } from '../../../../support/storage';
+import { Component, RefObject, createRef } from "react";
+import { gql } from "@apollo/client";
+import { Query } from "@apollo/client/react/components";
+import settings from "../../../../config/settings";
+import { EditGuideline } from "./EditGuideline";
+import { Guideline } from "./Guideline";
+import { Storage } from "../../../../support/storage";
+import { Icon } from "@kabisa/ui-components";
 
 export const CREATE_GUIDELINE = gql`
-    mutation CreateGuideline($name: String!, $kudos: Int!, $team_id: ID!) {
-        createGuideline(name: $name, kudos: $kudos, teamId: $team_id) {
-            guideline {
-                id
-            }
-        }
+  mutation CreateGuideline($name: String!, $kudos: Int!, $team_id: ID!) {
+    createGuideline(name: $name, kudos: $kudos, teamId: $team_id) {
+      guideline {
+        id
+      }
     }
+  }
 `;
 
 export const UPDATE_GUIDELINE = gql`
-    mutation UpdateGuideline($guideline: ID!, $name: String!, $kudos: Int!) {
-        updateGuideline(guidelineId: $guideline, name: $name, kudos: $kudos) {
-            guideline {
-                id
-            }
-        }
+  mutation UpdateGuideline($guideline: ID!, $name: String!, $kudos: Int!) {
+    updateGuideline(guidelineId: $guideline, name: $name, kudos: $kudos) {
+      guideline {
+        id
+      }
     }
+  }
 `;
 
 export const GET_GUIDELINES = gql`
-    query Guidelines($team_id: ID!) {
-        teamById(id: $team_id) {
-            guidelines {
-                id
-                kudos
-                name
-            }
-        }
+  query Guidelines($team_id: ID!) {
+    teamById(id: $team_id) {
+      id
+      guidelines {
+        id
+        kudos
+        name
+      }
     }
+  }
 `;
 
 export interface CreateGuidelineParameters {
@@ -55,6 +54,7 @@ export interface UpdateGuidelineParameters {
 
 export interface GetGuidelinesResult {
   teamById: {
+    id: number;
     guidelines: {
       id: number;
       kudos: number;
@@ -63,54 +63,48 @@ export interface GetGuidelinesResult {
   };
 }
 
-export interface Props {
-}
+export interface Props {}
 
-export interface State {
-}
+export interface State {}
 
 class GuidelineSection extends Component<Props, State> {
   initialState: State;
 
-  editGuidelineRef: React.RefObject<EditGuideline>;
+  editGuidelineRef: RefObject<EditGuideline>;
 
   constructor(props: Props) {
     super(props);
 
     this.initialState = this.state;
-    this.editGuidelineRef = React.createRef();
+    this.editGuidelineRef = createRef();
 
     this.editGuideline = this.editGuideline.bind(this);
   }
 
   editGuideline(id: number, kudos: number, description: string) {
     if (this.editGuidelineRef.current !== null) {
-      this.editGuidelineRef.current.setEditState(id, String(kudos), description);
+      this.editGuidelineRef.current.setEditState(
+        id,
+        String(kudos),
+        description,
+      );
     }
 
-    const container = document.getElementById('management-container');
+    const container = document.getElementById("management-container");
 
     if (container) {
       container.scrollIntoView();
     }
   }
 
-
   render() {
     return (
-      <div>
-        <Header as="h2">
-          <Icon name="list" />
-          <Header.Content>
-            Guidelines
-            <Header.Subheader>Manage guidelines</Header.Subheader>
-          </Header.Content>
-        </Header>
-        <Divider />
-        <EditGuideline
-          ref={this.editGuidelineRef}
-        />
-        <Divider />
+      <div className="form-container">
+        <h2>
+          <Icon name="steps" />
+          Guidelines
+        </h2>
+        <EditGuideline ref={this.editGuidelineRef} />
         <Query<GetGuidelinesResult>
           query={GET_GUIDELINES}
           variables={{ team_id: Storage.getItem(settings.TEAM_ID_TOKEN) }}
@@ -119,20 +113,24 @@ class GuidelineSection extends Component<Props, State> {
             if (loading) return <p>Loading...</p>;
             if (error) return <p>Error! {error.message}</p>;
 
-            if (!data || !data.teamById) {
+            if (
+              !data ||
+              !data.teamById ||
+              data.teamById.guidelines.length === 0
+            ) {
               return <p>No guidelines available</p>;
             }
             return (
-              <Table celled compact>
-                <Table.Header>
-                  <Table.Row>
-                    <Table.HeaderCell>Kudos</Table.HeaderCell>
-                    <Table.HeaderCell>Description</Table.HeaderCell>
-                    <Table.HeaderCell>Actions</Table.HeaderCell>
-                  </Table.Row>
-                </Table.Header>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Kudos</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
 
-                <Table.Body>
+                <tbody>
                   {data.teamById.guidelines.map((item) => (
                     <Guideline
                       data-testid="guideline-row"
@@ -143,8 +141,8 @@ class GuidelineSection extends Component<Props, State> {
                       editGuideline={this.editGuideline}
                     />
                   ))}
-                </Table.Body>
-              </Table>
+                </tbody>
+              </table>
             );
           }}
         </Query>

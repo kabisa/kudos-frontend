@@ -1,0 +1,13 @@
+.header {
+  color: var(--font-color-2);
+}
+
+@media (max-width: 991px) {
+  .board_container {
+    margin: auto;
+  }
+
+  .container {
+    margin-top: 2rem;
+  }
+}

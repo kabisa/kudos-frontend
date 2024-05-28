@@ -1,35 +1,35 @@
-import React from 'react';
-import {
-  Button, Popup, Table,
-} from 'semantic-ui-react';
-import { Mutation } from '@apollo/react-components';
-import { toast } from 'react-toastify';
+import { Mutation } from "@apollo/client/react/components";
+import { toast } from "react-toastify";
 import {
   DELETE_KUDOMETER,
   DeleteKudometerParameters,
   GET_KUDOMETERS,
-  Kudometer, SET_ACTIVE_KUDOS_METER,
+  Kudometer,
+  SET_ACTIVE_KUDOS_METER,
   SetActiveKudosMeterParameters,
   SetActiveKudosMeterResult,
-} from './KudometerQueries';
-import settings from '../../../../config/settings';
-import { Storage } from '../../../../support/storage';
-import { GET_GOAL_PERCENTAGE } from '../../../feed/queries';
+} from "./KudometerQueries";
+import settings from "../../../../config/settings";
+import { Storage } from "../../../../support/storage";
+import { GET_GOAL_PERCENTAGE } from "../../../feed/queries";
+import { Button, IconButton } from "@kabisa/ui-components";
 
 export interface KudometerRowProps {
-  key: string,
-  kudometer: Kudometer,
+  key: string;
+  kudometer: Kudometer;
   viewButtonClickHandler: (kudometer: Kudometer) => void;
   deleteKudometerHandler: (id: string) => void;
   edit: (kudometer: Kudometer) => void;
 }
 
-export function KudometerRow(props: KudometerRowProps): React.ReactElement {
+export function KudometerRow(props: KudometerRowProps) {
   function deleteKudometer(mutation: any) {
     const { id } = props.kudometer;
-    mutation({ variables: { id } });
+    if (global.confirm("Are you sure you want to delete this kudometer?")) {
+      mutation({ variables: { id } });
 
-    props.deleteKudometerHandler(id);
+      props.deleteKudometerHandler(id);
+    }
   }
 
   function setActiveKudometer(mutation: any) {
@@ -40,29 +40,26 @@ export function KudometerRow(props: KudometerRowProps): React.ReactElement {
   }
 
   return (
-    <Table.Row key={props.kudometer.id}>
-      <Table.Cell>{props.kudometer.name}</Table.Cell>
-      <Table.Cell>
+    <tr key={props.kudometer.id}>
+      <td>{props.kudometer.name}</td>
+      <td>
         <Button
           data-testid="goal-button"
-          color="blue"
-          size="tiny"
+          variant="primary"
           onClick={() => props.viewButtonClickHandler(props.kudometer)}
         >
           View goals
         </Button>
-        <Mutation <SetActiveKudosMeterResult, SetActiveKudosMeterParameters>
+        <Mutation<SetActiveKudosMeterResult, SetActiveKudosMeterParameters>
           mutation={SET_ACTIVE_KUDOS_METER}
           onCompleted={() => {
-            toast.info('Kudometer is now active!');
+            toast.info("Kudometer is now active!");
           }}
           refetchQueries={[
             {
               query: GET_KUDOMETERS,
               variables: {
-                team_id: Storage.getItem(
-                  settings.TEAM_ID_TOKEN,
-                ),
+                team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
               },
             },
             {
@@ -76,60 +73,49 @@ export function KudometerRow(props: KudometerRowProps): React.ReactElement {
           {(mutation, { loading }) => (
             <Button
               data-testid="set-active-button"
-              color="yellow"
-              size="tiny"
-              loading={loading}
-              disabled={props.kudometer.isActive}
-              onClick={() => { setActiveKudometer(mutation); }}
+              variant="primary"
+              disabled={props.kudometer.isActive || loading}
+              onClick={() => {
+                setActiveKudometer(mutation);
+              }}
             >
-              { props.kudometer.isActive ? 'Already active' : 'Set as active'}
+              {props.kudometer.isActive ? "Already active" : "Set as active"}
             </Button>
           )}
         </Mutation>
-        <Button
+      </td>
+      <td>
+        <IconButton
           data-testid="edit-button"
-          color="yellow"
-          size="tiny"
-          icon="pencil"
-          onClick={() => { props.edit(props.kudometer); }}
+          name="edit"
+          onClick={() => {
+            props.edit(props.kudometer);
+          }}
         />
-      </Table.Cell>
-      <Table.Cell>
         <Mutation<DeleteKudometerParameters>
           mutation={DELETE_KUDOMETER}
           onCompleted={() => {
-            toast.info('Kudometer removed successfully!');
+            toast.info("Kudometer removed successfully!");
           }}
           refetchQueries={[
             {
               query: GET_KUDOMETERS,
               variables: {
-                team_id: Storage.getItem(
-                  settings.TEAM_ID_TOKEN,
-                ),
+                team_id: Storage.getItem(settings.TEAM_ID_TOKEN),
               },
             },
           ]}
         >
           {(mutation, { loading }) => (
-            <Popup
-              trigger={
-                <Button data-testid="delete-button" size="tiny" color="red" loading={loading} icon="trash" />
-              }
-              content={(
-                <Button
-                  data-testid="confirm-delete-button"
-                  color="red"
-                  content="Confirm deletion"
-                  onClick={() => { deleteKudometer(mutation); }}
-                />
-                            )}
-              on="click"
-              position="top right"
+            <IconButton
+              variant="tertiary"
+              name="delete"
+              onClick={() => deleteKudometer(mutation)}
+              disabled={loading}
             />
           )}
         </Mutation>
-      </Table.Cell>
-    </Table.Row>
+      </td>
+    </tr>
   );
 }

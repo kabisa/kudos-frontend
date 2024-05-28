@@ -1,17 +1,50 @@
+.header {
+  padding-bottom: 2rem;
 
-:global(#root) {
-  .rail {
-    text-align: center;
-    width: 400px;
-    height: fit-content;
-    overflow: auto;
-    border-radius: 18px;
-    background: var(--kudo-color-dark);
-  }
+  background: var(--brand-color-1);
 
-  .logo {
-    max-height: 150px;
-    max-width: 120px;
-    margin-top: 50px;
-  }
+  color: var(--font-color-2);
+}
+
+.kudo_header {
+  padding-top: 16px;
+  margin: 0;
+  font-size: 36px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.today {
+  font-size: 20px;
+}
+
+.rail {
+  overflow: auto;
+
+  display: flex;
+  flex-direction: column;
+
+  border-radius: 18px;
+  width: 400px;
+  height: fit-content;
+  padding: 0;
+
+  background: var(--base-color);
+
+  text-align: center;
+}
+
+.footer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+  background: var(--brand-color-1);
+  padding: 1rem;
+  margin-top: 2rem;
+}
+
+.logo {
+  height: 3rem;
 }

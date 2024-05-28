@@ -1,11 +1,7 @@
-import React from 'react';
-import { mount, ReactWrapper } from 'enzyme';
-import { act } from 'react-dom/test-utils';
-import {
-  findByTestId, simulateInputChange, wait, withMockedProviders,
-} from '../../spec_helper';
-import { ResetPasswordPage } from './index';
-import { MUTATION_RESET_PASSWORD } from './ResetPasswordPage';
+import { withMockedProviders } from "../../spec_helper";
+import { ResetPasswordPage } from "./index";
+import { MUTATION_RESET_PASSWORD } from "./ResetPasswordPage";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 
 let mutationCalled = false;
 const mocks = [
@@ -13,125 +9,156 @@ const mocks = [
     request: {
       query: MUTATION_RESET_PASSWORD,
       variables: {
-        currentPassword: 'oldPassword',
-        newPassword: 'newPassword',
-        newPasswordConfirmation: 'newPassword',
+        currentPassword: "oldPassword",
+        newPassword: "newPassword",
+        newPasswordConfirmation: "newPassword",
       },
     },
     result: () => {
       mutationCalled = true;
-      return { data: { resetPassword: { user: { id: '1' } } } };
+      return { data: { resetPassword: { user: { id: "1" } } } };
     },
   },
 ];
 
-describe('<ResetPasswordPage />', () => {
-  let wrapper: ReactWrapper;
-
-  beforeEach(async () => {
+describe("<ResetPasswordPage />", () => {
+  beforeEach(() => {
     mutationCalled = false;
+    render(withMockedProviders(<ResetPasswordPage />, mocks));
+  });
 
-    await act(async () => {
-      wrapper = mount(withMockedProviders(<ResetPasswordPage />, mocks));
+  it("has three input elements", () => {
+    const currentPassField = screen.getByLabelText("Current password");
+    expect(currentPassField).toBeInTheDocument();
+
+    const newPassField = screen.getByLabelText("New password");
+    expect(newPassField).toBeInTheDocument();
+
+    const confirmPassField = screen.getByLabelText("Confirm new password");
+    expect(confirmPassField).toBeInTheDocument();
+  });
+
+  it("shows an error if the current password is blank", () => {
+    const submitButton = screen.getByRole("button", { name: "Reset password" });
+    submitButton.click();
+
+    expect(
+      screen.getByRole("heading", {
+        level: 3,
+        name: "Unable to reset password",
+      }),
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByText("Current password can't be blank."),
+    ).toBeInTheDocument();
+  });
+
+  it("shows an error if the new password is blank", () => {
+    const currentPassField = screen.getByLabelText("Current password");
+    fireEvent.change(currentPassField, { target: { value: "oldPassword" } });
+
+    const submitButton = screen.getByRole("button", { name: "Reset password" });
+    submitButton.click();
+
+    expect(
+      screen.getByRole("heading", {
+        level: 3,
+        name: "Unable to reset password",
+      }),
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByText("New password can't be blank."),
+    ).toBeInTheDocument();
+  });
+
+  it("shows an error if the password confirm is blank", () => {
+    const currentPassField = screen.getByLabelText("Current password");
+    fireEvent.change(currentPassField, { target: { value: "oldPassword" } });
+
+    const newPassField = screen.getByLabelText("New password");
+    fireEvent.change(newPassField, { target: { value: "newPassword" } });
+
+    const submitButton = screen.getByRole("button", { name: "Reset password" });
+    submitButton.click();
+
+    expect(
+      screen.getByRole("heading", {
+        level: 3,
+        name: "Unable to reset password",
+      }),
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByText("Password confirmation can't be blank."),
+    ).toBeInTheDocument();
+  });
+
+  it("shows an error if the new passwords do not match", () => {
+    const currentPassField = screen.getByLabelText("Current password");
+    fireEvent.change(currentPassField, { target: { value: "oldPassword" } });
+
+    const newPassField = screen.getByLabelText("New password");
+    fireEvent.change(newPassField, { target: { value: "newPassword" } });
+
+    const confirmPassField = screen.getByLabelText("Confirm new password");
+    fireEvent.change(confirmPassField, { target: { value: "newPass" } });
+
+    const submitButton = screen.getByRole("button", { name: "Reset password" });
+    submitButton.click();
+
+    expect(
+      screen.getByRole("heading", {
+        level: 3,
+        name: "Unable to reset password",
+      }),
+    ).toBeInTheDocument();
+
+    expect(screen.getByText("Password don't match.")).toBeInTheDocument();
+  });
+
+  it("shows an error if the password length is too short", () => {
+    const currentPassField = screen.getByLabelText("Current password");
+    fireEvent.change(currentPassField, { target: { value: "oldPassword" } });
+
+    const newPassField = screen.getByLabelText("New password");
+    fireEvent.change(newPassField, { target: { value: "a" } });
+
+    const confirmPassField = screen.getByLabelText("Confirm new password");
+    fireEvent.change(confirmPassField, { target: { value: "a" } });
+
+    const submitButton = screen.getByRole("button", { name: "Reset password" });
+    submitButton.click();
+
+    expect(
+      screen.getByRole("heading", {
+        level: 3,
+        name: "Unable to reset password",
+      }),
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByText("Password needs to have a minimum of 8 characters."),
+    ).toBeInTheDocument();
+  });
+
+  it("calls the mutation if all constraints are met", async () => {
+    const currentPassField = screen.getByLabelText("Current password");
+    fireEvent.change(currentPassField, { target: { value: "oldPassword" } });
+
+    const newPassField = screen.getByLabelText("New password");
+    fireEvent.change(newPassField, { target: { value: "newPassword" } });
+
+    const confirmPassField = screen.getByLabelText("Confirm new password");
+    fireEvent.change(confirmPassField, {
+      target: { value: "newPassword" },
     });
-  });
 
-  it('has three input elements', () => {
-    const fields = wrapper.find('.field');
+    const submitButton = screen.getByRole("button", { name: "Reset password" });
+    submitButton.click();
 
-    expect(fields.length).toBe(3);
-  });
-
-  it('shows an error if the current password is blank', async () => {
-    await act(async () => {
-      findByTestId(wrapper, 'reset-password-button').hostNodes().simulate('click');
-
-      await wait(0);
-      wrapper.update();
-
-      expect(wrapper.containsMatchingElement(<p>Current password can&#39;t be blank.</p>)).toBe(true);
-    });
-  });
-
-  it('shows an error if the new password is blank', async () => {
-    await act(async () => {
-      simulateInputChange(wrapper, 'current-password-input', 'currentPassword', 'oldPassword');
-
-      await wrapper.update();
-
-      findByTestId(wrapper, 'reset-password-button').hostNodes().simulate('click');
-
-      await wait(0);
-      wrapper.update();
-
-      expect(wrapper.containsMatchingElement(<p>New password can&#39;t be blank.</p>)).toBe(true);
-    });
-  });
-
-  it('shows an error if the password confirm is blank', async () => {
-    await act(async () => {
-      simulateInputChange(wrapper, 'current-password-input', 'currentPassword', 'oldPassword');
-      simulateInputChange(wrapper, 'new-password-input', 'newPassword', 'newPassword');
-
-      await wrapper.update();
-
-      findByTestId(wrapper, 'reset-password-button').hostNodes().simulate('click');
-
-      await wait(0);
-      wrapper.update();
-
-      expect(wrapper.containsMatchingElement(<p>Password confirmation can&#39;t be blank.</p>)).toBe(true);
-    });
-  });
-
-  it('shows an error if the new passwords dont match', async () => {
-    await act(async () => {
-      simulateInputChange(wrapper, 'current-password-input', 'currentPassword', 'oldPassword');
-      simulateInputChange(wrapper, 'new-password-input', 'newPassword', 'newPassword');
-      simulateInputChange(wrapper, 'confirm-password-input', 'newPasswordConfirmation', 'otherNewPassword');
-
-      await wrapper.update();
-
-      findByTestId(wrapper, 'reset-password-button').hostNodes().simulate('click');
-
-      await wait(0);
-      wrapper.update();
-
-      expect(wrapper.containsMatchingElement(<p>Password don&#39;t match.</p>)).toBe(true);
-    });
-  });
-
-  it('shows an error if the password length is too short', async () => {
-    await act(async () => {
-      simulateInputChange(wrapper, 'current-password-input', 'currentPassword', 'oldPassword');
-      simulateInputChange(wrapper, 'new-password-input', 'newPassword', 'a');
-      simulateInputChange(wrapper, 'confirm-password-input', 'newPasswordConfirmation', 'a');
-
-      await wrapper.update();
-
-      findByTestId(wrapper, 'reset-password-button').hostNodes().simulate('click');
-
-      await wait(0);
-      wrapper.update();
-
-      const expectedElement = <p>Password needs to have a minimum of 8 characters.</p>;
-      expect(wrapper.containsMatchingElement(expectedElement)).toBe(true);
-    });
-  });
-
-  it('calls the mutation if all contraints are met', async () => {
-    await act(async () => {
-      simulateInputChange(wrapper, 'current-password-input', 'currentPassword', 'oldPassword');
-      simulateInputChange(wrapper, 'new-password-input', 'newPassword', 'newPassword');
-      simulateInputChange(wrapper, 'confirm-password-input', 'newPasswordConfirmation', 'newPassword');
-
-      await wrapper.update();
-
-      findByTestId(wrapper, 'reset-password-button').hostNodes().simulate('click');
-
-      await wait(0);
-      wrapper.update();
-
+    await waitFor(() => {
       expect(mutationCalled).toBe(true);
     });
   });

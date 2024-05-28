@@ -1,28 +1,24 @@
-import React, { ChangeEvent, Component } from 'react';
-import {
-  Button, Form, Message, Segment,
-} from 'semantic-ui-react';
-import { Mutation } from '@apollo/react-components';
-import gql from 'graphql-tag';
-import { toast } from 'react-toastify';
-import { withRouter } from 'react-router-dom';
-import { History } from 'history';
-import settings from '../../config/settings';
-import { ERROR_NAME_BLANK, getGraphqlError } from '../../support';
-import { Navigation } from '../../components/navigation';
-import { PATH_FEED } from '../../routes';
-import { Storage } from '../../support/storage';
-import s from './CreateTeamPage.module.scss';
-import { FormWrapper } from '../../components';
+import { useState } from "react";
+import { gql, useMutation } from "@apollo/client";
+import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
+import settings from "../../config/settings";
+import { ERROR_NAME_BLANK, getGraphqlError } from "../../support";
+import { PATH_FEED } from "../../routes";
+import { Storage } from "../../support/storage";
+import { Button, Input, Label } from "@kabisa/ui-components";
+import Segment from "../../components/atoms/Segment";
+import Page from "../../components/templates/Page";
+import MessageBox from '../../ui/MessageBox';
 
 export const MUTATION_CREATE_TEAM = gql`
-    mutation CreateTeam($name: String!) {
-        createTeam(name: $name) {
-            team {
-                id
-            }
-        }
+  mutation CreateTeam($name: String!) {
+    createTeam(name: $name) {
+      team {
+        id
+      }
     }
+  }
 `;
 
 export interface CreateTeamParameters {
@@ -37,122 +33,77 @@ export interface CreateTeamResult {
   };
 }
 
-export interface Props {
-  history: History;
-}
+const CreateTeamPage = () => {
+  const history = useHistory();
 
-export interface State {
-  name: string;
-  error: string;
-}
+  const [name, setName] = useState("");
+  const [error, setError] = useState("");
 
-class CreateTeamPage extends Component<Props, State> {
-  initialState: State;
+  const [createTeam, { loading }] = useMutation<
+    CreateTeamResult,
+    CreateTeamParameters
+  >(MUTATION_CREATE_TEAM, {
+    onError: (error) => setError(getGraphqlError(error)),
+    onCompleted: ({ createTeam }) => {
+      Storage.setItem(settings.TEAM_ID_TOKEN, createTeam.team.id);
+      toast.info("Team created successfully!");
+      history.push(PATH_FEED);
+    },
+  });
 
-  constructor(props: Props) {
-    super(props);
-
-    this.state = {
-      name: '',
-      error: '',
-    };
-
-    this.initialState = this.state;
-
-    this.createTeam = this.createTeam.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.hasErrors = this.hasErrors.bind(this);
-  }
-
-  hasErrors() {
-    const { name } = this.state;
-    this.setState({ error: '' });
-
+  const hasErrors = () => {
+    setError("");
     if (!name) {
-      this.setState({ error: ERROR_NAME_BLANK });
+      setError(ERROR_NAME_BLANK);
       return true;
     }
     return false;
-  }
+  };
 
-  createTeam(mutate: any) {
-    const { name } = this.state;
-
-    if (this.hasErrors()) {
+  const handleCreateTeam = () => {
+    if (hasErrors()) {
       return;
     }
-
-    mutate({
+    createTeam({
       variables: {
         name,
       },
     });
-  }
+  };
 
-  handleChange(e: ChangeEvent, { name, value }: any) {
-    // @ts-ignore
-    this.setState({ [name]: value });
-  }
+  const content = (
+    <form className="form-container">
+      <h1>Create new team</h1>
+      <Label>
+        Name
+        <Input
+          data-testid="name-input"
+          name="name"
+          placeholder="Team name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+      </Label>
 
-  render() {
-    const content = (
-      <div>
-        <Mutation<CreateTeamResult, CreateTeamParameters>
-          mutation={MUTATION_CREATE_TEAM}
-          onError={(error) => this.setState({ error: getGraphqlError(error) })}
-          onCompleted={({ createTeam }) => {
-            this.setState(this.initialState);
-            Storage.setItem(settings.TEAM_ID_TOKEN, createTeam.team.id);
-            toast.info('Team created successfully!');
-            this.props.history.push(PATH_FEED);
-          }}
-        >
-          {(createTeam, { error, loading }) => (
-            <Form error={!!error} className={s.form}>
-              <Form.Input
-                data-testid="name-input"
-                label="Team name"
-                fluid
-                icon="tag"
-                name="name"
-                iconPosition="left"
-                placeholder="Team name"
-                value={this.state.name}
-                onChange={this.handleChange}
-              />
-              <Button
-                data-testid="create-team-button"
-                color="blue"
-                loading={loading}
-                disabled={loading}
-                onClick={() => this.createTeam(createTeam)}
-              >
-                Create team
-              </Button>
-              {this.state.error && (
-              <Message negative>
-                <Message.Header>Unable to create team</Message.Header>
-                <p data-testid="error-message">{this.state.error}</p>
-              </Message>
-              )}
-            </Form>
-          )}
-        </Mutation>
-      </div>
-    );
+      <Button
+        data-testid="create-team-button"
+        variant="primary"
+        disabled={loading}
+        onClick={handleCreateTeam}
+      >
+        Create team
+      </Button>
+      {error && (
+        <MessageBox variant="error" title="Unable to create team" message={error} />
+      )}
+    </form>
+  );
 
-    return (
-      <div>
-        <FormWrapper toolbar="Create team" header="create team">
-          <Segment>
-            {content}
-          </Segment>
-        </FormWrapper>
-        <Navigation />
-      </div>
-    );
-  }
-}
+  return (
+    <Page>
+      <Segment>{content}</Segment>
+    </Page>
+  );
+};
 
-// @ts-ignore
-export default withRouter(CreateTeamPage);
+export default CreateTeamPage;

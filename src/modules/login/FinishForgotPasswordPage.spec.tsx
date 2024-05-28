@@ -1,11 +1,15 @@
-import React from 'react';
-import { mount, ReactWrapper } from 'enzyme';
-import { act } from 'react-dom/test-utils';
-import { GraphQLError } from 'graphql';
+import { GraphQLError } from "graphql";
+import { withMockedProviders } from "../../spec_helper";
+import { MUTATION_NEW_PASSWORD } from "./FinishForgotPasswordPage";
+import { RouterBypassFinishForgotPasswordPage as FinishForgotPasswordPage } from "./index";
 import {
-  findByTestId, simulateInputChange, wait, withMockedProviders,
-} from '../../spec_helper';
-import FinishForgotPasswordPage, { MUTATION_NEW_PASSWORD } from './FinishForgotPasswordPage';
+  RenderResult,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
+import { createBrowserHistory } from "history";
 
 let mutationCalled = false;
 const mocks = [
@@ -13,9 +17,9 @@ const mocks = [
     request: {
       query: MUTATION_NEW_PASSWORD,
       variables: {
-        reset_password_token: '1',
-        password: 'password',
-        password_confirmation: 'password',
+        reset_password_token: "19810531",
+        password: "L0r3m1psum!",
+        password_confirmation: "L0r3m1psum!",
       },
     },
     result: () => {
@@ -24,131 +28,143 @@ const mocks = [
         data: {
           newPassword: {
             user: {
-              id: '1',
+              id: "1",
             },
           },
         },
       };
     },
   },
-];
-const mocksWithError = [
   {
     request: {
       query: MUTATION_NEW_PASSWORD,
       variables: {
-        reset_password_token: '1',
-        password: 'password',
-        password_confirmation: 'password',
+        reset_password_token: "90210",
+        password: "password",
+        password_confirmation: "password",
       },
     },
     result: {
-      errors: [new GraphQLError('It broke')],
+      errors: [new GraphQLError("It broke")],
     },
   },
 ];
 
-describe('<FinishForgotPasswordPage />', () => {
-  let wrapper: ReactWrapper;
+describe("<FinishForgotPasswordPage />", () => {
+  const createPropsWithToken = (token: string) => ({
+    location: {
+      search: `reset_password_token=${token}`,
+      pathname: "",
+      state: "",
+      hash: "",
+    },
+    history: createBrowserHistory(),
+    match: {
+      params: "",
+      isExact: false,
+      path: "",
+      url: "",
+    },
+  });
+
+  let renderResult: RenderResult;
 
   beforeEach(() => {
+    const props = createPropsWithToken("19810531");
+
     mutationCalled = false;
-    wrapper = mount(withMockedProviders(<FinishForgotPasswordPage reset_password_token="1" />, mocks));
+    renderResult = render(
+      withMockedProviders(<FinishForgotPasswordPage {...props} />, mocks),
+    );
   });
 
-  it('handles input correctly', async () => {
-    const component: any = wrapper.find('FinishForgotPasswordPage').instance();
+  it("Displays a reset password header", () => {
+    screen.getByRole("heading", { name: "Reset password" });
+  });
 
-    await act(async () => {
-      expect(component.state.password).toBe('');
+  it("handles input correctly", () => {
+    const passwordField = screen.getByLabelText("Password");
+    fireEvent.change(passwordField, { target: { value: "L0r3m1psum!" } });
 
-      simulateInputChange(wrapper, 'password-input', 'password', 'password');
-
-      await wrapper.update();
-
-      expect(component.state.password).toBe('password');
+    const passwordConfirmField = screen.getByLabelText("Confirm password");
+    fireEvent.change(passwordConfirmField, {
+      target: { value: "L0r3m1psum!" },
     });
-  });
 
-  it('shows a message if the password field is empty', async () => {
-    const component: any = wrapper.find('FinishForgotPasswordPage').instance();
-
-    await act(async () => {
-      expect(component.state.password).toBe('');
-
-      findByTestId(wrapper, 'submit-button').hostNodes().simulate('submit');
-
-      await wait(0);
-      await wrapper.update();
-
-      expect(wrapper.containsMatchingElement(<p>Fields can&#39;t be empty.</p>)).toBe(true);
-    });
-  });
-
-  it('shows a message if the confirm password field is empty', async () => {
-    const component = wrapper.find('FinishForgotPasswordPage').instance();
-
-    await act(async () => {
-      component.setState({ password: 'password' });
-
-      await wrapper.update();
-
-      findByTestId(wrapper, 'submit-button').hostNodes().simulate('submit');
-
-      await wait(0);
-      await wrapper.update();
-
-      expect(wrapper.containsMatchingElement(<p>Fields can&#39;t be empty.</p>)).toBe(true);
-    });
-  });
-
-  it('shows a message if the passwords arent the same', async () => {
-    const component = wrapper.find('FinishForgotPasswordPage').instance();
-
-    await act(async () => {
-      component.setState({ password: 'password', passwordConfirm: 'otherPassword' });
-
-      await wrapper.update();
-
-      findByTestId(wrapper, 'submit-button').hostNodes().simulate('submit');
-
-      await wait(0);
-      await wrapper.update();
-
-      expect(wrapper.containsMatchingElement(<p>Passwords don&#39;t match.</p>)).toBe(true);
-    });
-  });
-
-  it('calls the mutation', async () => {
-    const component = wrapper.find('FinishForgotPasswordPage').instance();
-
-    await act(async () => {
-      component.setState({ password: 'password', passwordConfirm: 'password' });
-
-      await wrapper.update();
-      findByTestId(wrapper, 'submit-button').hostNodes().simulate('submit');
-
-      await wait(0);
-      await wrapper.update();
-
+    const submitButton = screen.getByRole("button");
+    submitButton.click();
+    waitFor(() => {
       expect(mutationCalled).toBe(true);
     });
   });
 
-  it('shows when there is an error', async () => {
-    wrapper = mount(withMockedProviders(<FinishForgotPasswordPage reset_password_token="1" />, mocksWithError));
-    const component = wrapper.find('FinishForgotPasswordPage').instance();
+  it("shows a message if the password field is empty", () => {
+    const submitButton = screen.getByRole("button");
+    submitButton.click();
 
-    await act(async () => {
-      component.setState({ password: 'password', passwordConfirm: 'password' });
+    const heading = screen.getByRole("heading", {
+      name: "Unable to reset password",
+    });
+    expect(heading).toBeInTheDocument();
+    const message = screen.getByText("Fields can't be empty.");
+    expect(message).toBeInTheDocument();
+  });
 
-      await wrapper.update();
-      findByTestId(wrapper, 'submit-button').hostNodes().simulate('submit');
+  it("shows a message if the confirm password field is empty", () => {
+    const passwordField = screen.getByLabelText("Password");
+    fireEvent.change(passwordField, { target: { value: "L0r3m1psum!" } });
 
-      await wait(0);
-      await wrapper.update();
+    const submitButton = screen.getByRole("button");
+    submitButton.click();
 
-      expect(findByTestId(wrapper, 'error-message').find('p').text()).toBe('It broke');
+    const heading = screen.getByRole("heading", {
+      name: "Unable to reset password",
+    });
+    expect(heading).toBeInTheDocument();
+
+    const message = screen.getByText("Fields can't be empty.");
+    expect(message).toBeInTheDocument();
+  });
+
+  it("shows a message if the passwords are not the same", () => {
+    const passwordField = screen.getByLabelText("Password");
+    fireEvent.change(passwordField, { target: { value: "L0r3m1psum!" } });
+
+    const passwordConfirmField = screen.getByLabelText("Confirm password");
+    fireEvent.change(passwordConfirmField, {
+      target: { value: "Some other value" },
+    });
+
+    const submitButton = screen.getByRole("button");
+    submitButton.click();
+
+    const heading = screen.getByRole("heading", {
+      name: "Unable to reset password",
+    });
+    expect(heading).toBeInTheDocument();
+
+    const message = screen.getByText("Passwords don't match.");
+    expect(message).toBeInTheDocument();
+  });
+
+  it("shows when there is an error", () => {
+    renderResult.unmount();
+
+    const props = createPropsWithToken("90210");
+    render(withMockedProviders(<FinishForgotPasswordPage {...props} />, mocks));
+
+    const passwordField = screen.getByLabelText("Password");
+    fireEvent.change(passwordField, { target: { value: "password" } });
+
+    const passwordConfirmField = screen.getByLabelText("Confirm password");
+    fireEvent.change(passwordConfirmField, {
+      target: { value: "password" },
+    });
+
+    const submitButton = screen.getByRole("button");
+    submitButton.click();
+    waitFor(() => {
+      expect(mutationCalled).toBe(true);
     });
   });
 });

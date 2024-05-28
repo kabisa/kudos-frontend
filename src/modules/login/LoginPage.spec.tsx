@@ -1,13 +1,8 @@
-import React from 'react';
-
-import { mount, ReactWrapper } from 'enzyme';
-import { act } from 'react-dom/test-utils';
-import { GraphQLError } from 'graphql';
-import { LoginPage } from './index';
-import {
-  findByTestId, simulateInputChange, wait, withMockedProviders,
-} from '../../spec_helper';
-import { MUTATION_LOGIN } from './LoginPage';
+import { GraphQLError } from "graphql";
+import { LoginPage } from "./index";
+import { withMockedProviders } from "../../spec_helper";
+import { MUTATION_LOGIN } from "./LoginPage";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 
 let mutationCalled = false;
 const mocks = [
@@ -15,8 +10,8 @@ const mocks = [
     request: {
       query: MUTATION_LOGIN,
       variables: {
-        email: 'max@example.com',
-        password: 'password',
+        email: "max@example.com",
+        password: "password",
       },
     },
     result: () => {
@@ -25,9 +20,9 @@ const mocks = [
         data: {
           signInUser: {
             authenticateData: {
-              token: 'fakeToken',
+              token: "fakeToken",
               user: {
-                id: '1',
+                id: "1",
               },
             },
           },
@@ -35,132 +30,116 @@ const mocks = [
       };
     },
   },
-];
-
-const mocksWithError = [
   {
     request: {
       query: MUTATION_LOGIN,
       variables: {
-        email: 'max@example.com',
-        password: 'password',
+        email: "min@example.com",
+        password: "password",
       },
     },
     result: {
-      errors: [new GraphQLError('It broke')],
+      errors: [new GraphQLError("It broke")],
     },
   },
 ];
 
-describe('<LoginPage />', () => {
-  let wrapper: ReactWrapper;
-
+describe("<LoginPage />", () => {
   beforeEach(() => {
     mutationCalled = false;
-    wrapper = mount(withMockedProviders(<LoginPage />, mocks));
+    render(withMockedProviders(<LoginPage />, mocks));
   });
 
-  it('has a password forgot button', () => {
-    expect(findByTestId(wrapper, 'forgot-button').hostNodes().length).toBe(1);
-  });
-
-  it('has a register button', () => {
-    expect(findByTestId(wrapper, 'sign-up-button').hostNodes().length).toBe(1);
-  });
-
-  it('handles input correctly', async () => {
-    const component: any = wrapper.find('LoginPage').instance();
-
-    await act(async () => {
-      expect(component.state.email).toBe('');
-      expect(component.state.password).toBe('');
-
-      simulateInputChange(wrapper, 'email-input', 'email', 'max@example.com');
-      simulateInputChange(wrapper, 'password-input', 'password', 'password');
-
-      await wrapper.update();
-
-      expect(component.state.email).toBe('max@example.com');
-      expect(component.state.password).toBe('password');
+  it("has a forgot password button", () => {
+    const forgotPassword = screen.getByRole("link", {
+      name: "Forgot password?",
     });
+    expect(forgotPassword).toBeInTheDocument();
   });
 
-  it('shows a message if the email is empty', async () => {
-    const component: any = wrapper.find('LoginPage').instance();
-
-    await act(async () => {
-      component.setState({ email: '' });
-      await wrapper.update();
-
-      findByTestId(wrapper, 'submit-button').hostNodes().simulate('submit');
-
-      await wrapper.update();
-
-      expect(component.state.error).toBe('You need to fill all fields.');
-      expect(wrapper.containsMatchingElement(<p>You need to fill all fields.</p>)).toBe(true);
+  it("has a register button", () => {
+    const signUp = screen.getByRole("link", {
+      name: "Sign Up",
     });
+    expect(signUp).toBeInTheDocument();
   });
 
-  it('shows a message if the password is empty', async () => {
-    const component: any = wrapper.find('LoginPage').instance();
+  it("handles input correctly", async () => {
+    const emailField = screen.getByLabelText("Email");
+    fireEvent.change(emailField, { target: { value: "max@example.com" } });
 
-    await act(async () => {
-      component.setState({ email: 'max@example.com', password: '' });
-      await wrapper.update();
+    const passwordField = screen.getByLabelText("Password");
+    fireEvent.change(passwordField, { target: { value: "password" } });
 
-      findByTestId(wrapper, 'submit-button').hostNodes().simulate('submit');
+    const submitButton = screen.getByRole("button", { name: "Login" });
+    submitButton.click();
 
-      await wrapper.update();
-
-      expect(component.state.error).toBe('You need to fill all fields.');
-      expect(wrapper.containsMatchingElement(<p>You need to fill all fields.</p>)).toBe(true);
-    });
+    await waitFor(() => expect(mutationCalled).toBe(true));
   });
 
-  it('shows when there is an error message', async () => {
-    wrapper = mount(withMockedProviders(<LoginPage />, mocksWithError));
-    const component = wrapper.find('LoginPage').instance();
-    await act(async () => {
-      component.setState({ email: 'max@example.com', password: 'password' });
-      await wrapper.update();
+  it("shows a message if the email is empty", () => {
+    const passwordField = screen.getByLabelText("Password");
+    fireEvent.change(passwordField, { target: { value: "password" } });
 
-      findByTestId(wrapper, 'submit-button').hostNodes().simulate('submit');
+    const submitButton = screen.getByRole("button", { name: "Login" });
+    submitButton.click();
 
-      await wait(0);
-      await wrapper.update();
+    const header = screen.getByRole("heading", { name: "Unable to login" });
+    expect(header).toBeInTheDocument();
 
-      expect(findByTestId(wrapper, 'error-message').text()).toBe('It broke');
-    });
+    const message = screen.getByText("You need to fill all fields.");
+    expect(message).toBeInTheDocument();
   });
 
-  it('shows a message if the email is invalid', async () => {
-    const component: any = wrapper.find('LoginPage').instance();
+  it("shows a message if the password is empty", () => {
+    const emailField = screen.getByLabelText("Email");
+    fireEvent.change(emailField, { target: { value: "max@example.com" } });
 
-    await act(async () => {
-      component.setState({ email: 'invalidEmail', password: 'password' });
-      await wrapper.update();
+    const submitButton = screen.getByRole("button", { name: "Login" });
+    submitButton.click();
 
-      findByTestId(wrapper, 'submit-button').hostNodes().simulate('submit');
+    const header = screen.getByRole("heading", { name: "Unable to login" });
+    expect(header).toBeInTheDocument();
 
-      await wrapper.update();
-
-      expect(component.state.error).toBe('Invalid email.');
-      expect(wrapper.containsMatchingElement(<p>Invalid email.</p>)).toBe(true);
-    });
+    const message = screen.getByText("You need to fill all fields.");
+    expect(message).toBeInTheDocument();
   });
 
-  it('calls the mutation', async () => {
-    const component = wrapper.find('LoginPage').instance();
-    await act(async () => {
-      component.setState({ email: 'max@example.com', password: 'password' });
-      await wrapper.update();
+  it("shows when there is an error message", async () => {
+    const emailField = screen.getByLabelText("Email");
+    fireEvent.change(emailField, { target: { value: "min@example.com" } });
 
-      findByTestId(wrapper, 'submit-button').hostNodes().simulate('submit');
+    const passwordField = screen.getByLabelText("Password");
+    fireEvent.change(passwordField, { target: { value: "password" } });
 
-      await wait(0);
-      await wrapper.update();
+    const submitButton = screen.getByRole("button", { name: "Login" });
+    submitButton.click();
 
-      expect(mutationCalled).toBe(true);
+    const header = await screen.findByRole("heading", {
+      name: "Unable to login",
     });
+    expect(header).toBeInTheDocument();
+
+    const message = screen.getByText("It broke");
+    expect(message).toBeInTheDocument();
+  });
+
+  it("shows a message if the email is invalid", async () => {
+    const emailField = screen.getByLabelText("Email");
+    fireEvent.change(emailField, { target: { value: "invalidEmail" } });
+
+    const passwordField = screen.getByLabelText("Password");
+    fireEvent.change(passwordField, { target: { value: "password" } });
+
+    const submitButton = screen.getByRole("button", { name: "Login" });
+    submitButton.click();
+
+    const header = await screen.findByRole("heading", {
+      name: "Unable to login",
+    });
+    expect(header).toBeInTheDocument();
+
+    const message = screen.getByText("Invalid email.");
+    expect(message).toBeInTheDocument();
   });
 });

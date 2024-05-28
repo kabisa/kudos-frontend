@@ -1,10 +1,7 @@
-import React from 'react';
-import { mount, ReactWrapper } from 'enzyme';
-import { wait } from '@apollo/react-testing';
-import { act } from 'react-dom/test-utils';
-import { findByTestId, withMockedProviders } from '../../../spec_helper';
-import { InviteList } from './index';
-import { GET_INVITES } from './InviteList';
+import { withMockedProviders } from "../../../spec_helper";
+import { InviteList } from "./index";
+import { GET_INVITES } from "./InviteList";
+import { render, RenderResult, screen, waitFor } from "@testing-library/react";
 
 const mockWithInvites = [
   {
@@ -16,17 +13,17 @@ const mockWithInvites = [
         viewer: {
           teamInvites: [
             {
-              id: '1',
+              id: "1",
               team: {
-                id: '1',
-                name: 'Kabisa',
+                id: "1",
+                name: "Kabisa",
               },
             },
             {
-              id: '2',
+              id: "2",
               team: {
-                id: '2',
-                name: 'Dovetail',
+                id: "2",
+                name: "Dovetail",
               },
             },
           ],
@@ -41,7 +38,7 @@ const mocksWithError = [
     request: {
       query: GET_INVITES,
     },
-    error: new Error('It broke'),
+    error: new Error("It broke"),
   },
 ];
 
@@ -60,47 +57,54 @@ const mockWithoutInvites = [
   },
 ];
 
+let wrapper: RenderResult | null = null;
+const setup = async (mocks: any) => {
+  if (wrapper) {
+    await waitFor(() => {
+      expect(screen.queryByText("Loading...")).toBeNull();
+    });
 
-describe('<InviteList />', () => {
-  let wrapper: ReactWrapper;
+    wrapper.unmount();
+  }
+  wrapper = render(withMockedProviders(<InviteList />, mocks));
+};
 
-  beforeEach(() => {
-    wrapper = mount(withMockedProviders(<InviteList />, mockWithInvites));
+describe("<InviteList />", () => {
+  beforeEach(async () => {
+    await setup(mockWithInvites);
   });
 
-  it('renders the loading state', () => {
-    expect(wrapper.containsMatchingElement(<p>Loading...</p>)).toBe(true);
-  });
+  it("renders the loading state", async () => {
+    expect(screen.getByText("Loading...")).toBeInTheDocument();
 
-  it('renders the invites', async () => {
-    await act(async () => {
-      await wait(0);
-      wrapper.update();
-
-      expect(wrapper.find('[data-testid="kudo-invite"]').length).toBe(2);
+    await waitFor(() => {
+      expect(screen.queryByText("Loading...")).toBeNull();
     });
   });
 
-  it('shows a message when there are no invites', async () => {
-    wrapper = mount(withMockedProviders(<InviteList />, mockWithoutInvites));
-
-    await act(async () => {
-      await wait(0);
-      wrapper.update();
-
-      expect(findByTestId(wrapper, 'kudo-invite').length).toBe(0);
-      expect(wrapper.containsMatchingElement(<p>No invites.</p>)).toBe(true);
-    });
+  it("renders the invites", async () => {
+    const invites = await screen.findAllByTestId("kudo-invite");
+    expect(invites).toHaveLength(2);
   });
 
-  it('shows when there is an error', async () => {
-    wrapper = mount(withMockedProviders(<InviteList />, mocksWithError));
-
-    await act(async () => {
-      await wait(0);
-      wrapper.update();
-
-      expect(findByTestId(wrapper, 'error-message').text()).toBe('Network error: It broke');
+  it("shows a message when there are no invites", async () => {
+    await setup(mockWithoutInvites);
+    await waitFor(() => {
+      expect(screen.queryByText("Loading...")).toBeNull();
     });
+
+    const invites = screen.queryAllByTestId("kudo-invite");
+    expect(invites).toHaveLength(0);
+
+    expect(screen.getByText("No invites.")).toBeInTheDocument();
+  });
+
+  it("shows when there is an error", async () => {
+    await setup(mocksWithError);
+    await waitFor(() => {
+      expect(screen.queryByText("Loading...")).toBeNull();
+    });
+
+    expect(screen.getByText("It broke")).toBeInTheDocument();
   });
 });

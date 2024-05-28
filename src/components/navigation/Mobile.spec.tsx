@@ -1,47 +1,53 @@
-import React from 'react';
-import { mount, ReactWrapper } from 'enzyme';
-import { findByTestId, mockLocalstorage, withMockedProviders } from '../../spec_helper';
-import Mobile from './Mobile';
-import { Auth } from '../../support';
+import { mockLocalstorage, withMockedProviders } from "../../spec_helper";
+import Mobile from "./Mobile";
+import { Auth } from "../../support";
+import { RenderResult, render, screen } from "@testing-library/react";
 
-let wrapper: ReactWrapper;
+let result: RenderResult | null = null;
 const setup = () => {
-  wrapper = mount(withMockedProviders(<Mobile />));
+  if (result) {
+    result.unmount();
+  }
+  result = render(withMockedProviders(<Mobile />));
 };
 
-describe('<Mobile />', () => {
-  mockLocalstorage('fakeToken');
+describe("<Mobile />", () => {
+  mockLocalstorage("fakeToken");
 
   beforeEach(() => {
     setup();
   });
 
-  it('should have a button to the settings page', () => {
-    expect(findByTestId(wrapper, 'settings-button').length).toBe(1);
+  it("has a button to the settings page", () => {
+    expect(screen.getByRole("link", { name: "settings" })).toBeInTheDocument();
   });
 
-  it('should have a button to the profile page', () => {
-    expect(findByTestId(wrapper, 'profile-button').length).toBe(1);
+  it("has a button to the profile page", () => {
+    expect(screen.getByRole("link", { name: "person" })).toBeInTheDocument();
   });
 
-  it('should have a button to the feed page if the user is logged in', () => {
-    expect(findByTestId(wrapper, 'home-button').length).toBe(1);
+  it("has a button to the feed page if the user is logged in", () => {
+    expect(screen.getByRole("link", { name: "home" })).toBeInTheDocument();
   });
 
-  it('should have a button to the statistics page if the user is logged in', () => {
-    expect(findByTestId(wrapper, 'statistics-button').length).toBe(1);
+  it("has a button to the statistics page if the user is logged in", () => {
+    expect(
+      screen.getByRole("link", { name: "monitoring" }),
+    ).toBeInTheDocument();
   });
 
-  it('should have a button to the notifications page if the user is logged in', () => {
-    expect(findByTestId(wrapper, 'notifications-button').length).toBe(1);
+  it("has a button to the notifications page if the user is logged in", () => {
+    expect(
+      screen.getByRole("link", { name: "notifications" }),
+    ).toBeInTheDocument();
   });
 
-  // eslint-disable-next-line max-len
-  it('should not have a button to the feed, statistics and notifications page if the user doesnt not have a team', () => {
+  it("has no buttons to the feed, statistics and notifications page if the user has no team", () => {
     Auth.hasTeam = jest.fn(() => false);
     setup();
-    expect(findByTestId(wrapper, 'home-button').length).toBe(0);
-    expect(findByTestId(wrapper, 'notifications-button').length).toBe(0);
-    expect(findByTestId(wrapper, 'statistics-button').length).toBe(0);
+
+    expect(screen.queryByRole("link", { name: "monitoring" })).toBeNull();
+    expect(screen.queryByRole("link", { name: "notifications" })).toBeNull();
+    expect(screen.queryByRole("link", { name: "home" })).toBeNull();
   });
 });

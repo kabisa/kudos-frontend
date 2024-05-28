@@ -1,13 +1,8 @@
-import React from 'react';
-
-import { mount, ReactWrapper } from 'enzyme';
-import { act } from 'react-dom/test-utils';
-import { GraphQLError } from 'graphql';
-import {
-  findByTestId, simulateInputChange, wait, withMockedProviders,
-} from '../../spec_helper';
-import { ForgotPasswordPage } from './index';
-import { MUTATION_FORGOT_PASSWORD } from './ForgotPasswordPage';
+import { GraphQLError } from "graphql";
+import { withMockedProviders } from "../../spec_helper";
+import { ForgotPasswordPage } from "./index";
+import { MUTATION_FORGOT_PASSWORD } from "./ForgotPasswordPage";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 
 let mutationCalled = false;
 const mocks = [
@@ -15,7 +10,7 @@ const mocks = [
     request: {
       query: MUTATION_FORGOT_PASSWORD,
       variables: {
-        email: 'max@example.com',
+        email: "max@example.com",
       },
     },
     result: () => {
@@ -23,111 +18,86 @@ const mocks = [
       return {
         data: {
           forgotPassword: {
-            email: 'max@example.com',
+            email: "max@example.com",
           },
         },
       };
     },
   },
-];
-
-const mocksWithErrors = [
   {
     request: {
       query: MUTATION_FORGOT_PASSWORD,
       variables: {
-        email: 'max@example.com',
+        email: "broken@example.com",
       },
     },
     result: {
-      errors: [new GraphQLError('It broke')],
+      errors: [new GraphQLError("It broke")],
     },
   },
 ];
 
-describe('<ForgotPasswordPage />', () => {
-  let wrapper: ReactWrapper;
-
+describe("<ForgotPasswordPage />", () => {
   beforeEach(() => {
     mutationCalled = false;
-    wrapper = mount(withMockedProviders(<ForgotPasswordPage />, mocks));
+    render(withMockedProviders(<ForgotPasswordPage />, mocks));
   });
 
-  it('handles input correctly', async () => {
-    const component: any = wrapper.find('ForgotPasswordPage').instance();
+  it("displays a header for the page", () => {
+    const header = screen.getByRole("heading", { name: "Forgot password" });
+    expect(header).toBeInTheDocument();
+  });
 
-    await act(async () => {
-      expect(component.state.email).toBe('');
-
-      simulateInputChange(wrapper, 'email-input', 'email', 'max@example.com');
-
-      await wrapper.update();
-
-      expect(component.state.email).toBe('max@example.com');
+  it("handles input correctly", async () => {
+    const inputField = screen.getByPlaceholderText("E-mail address");
+    fireEvent.change(inputField, {
+      target: { value: "max@example.com" },
     });
-  });
 
-  it('shows a message if the email in invalid', async () => {
-    const component: any = wrapper.find('ForgotPasswordPage').instance();
+    const submit = screen.getByRole("button", { name: "Reset password" });
+    submit.click();
 
-    await act(async () => {
-      component.setState({ email: 'invalidEmail' });
-
-      await wrapper.update();
-
-      findByTestId(wrapper, 'submit-button').hostNodes().simulate('submit');
-
-      await wrapper.update();
-
-      expect(component.state.error).toBe('Invalid email address');
-      expect(wrapper.containsMatchingElement(<p>Invalid email address</p>)).toBe(true);
-    });
-  });
-
-  it('calls the mutation', async () => {
-    const component = wrapper.find('ForgotPasswordPage').instance();
-
-    await act(async () => {
-      component.setState({ email: 'max@example.com' });
-
-      await wrapper.update();
-
-      findByTestId(wrapper, 'submit-button').hostNodes().simulate('submit');
-
-      await wait(0);
-      await wrapper.update();
-
+    await waitFor(() => {
       expect(mutationCalled).toBe(true);
     });
+
+    const result = await screen.findByText("Reset password instructions sent");
+    expect(result).toBeInTheDocument();
   });
 
-  it('shows a message is the mutation is successful', async () => {
-    const component = wrapper.find('ForgotPasswordPage').instance();
-
-    await act(async () => {
-      component.setState({ success: true });
-
-      await wrapper.update();
-
-      expect(wrapper.containsMatchingElement(<p>Reset password instructions sent</p>));
+  it("shows a message if the email in invalid", async () => {
+    const inputField = screen.getByPlaceholderText("E-mail address");
+    fireEvent.change(inputField, {
+      target: { value: "invalidEmail" },
     });
+
+    const submit = screen.getByRole("button", { name: "Reset password" });
+    submit.click();
+
+    const header = await screen.findByRole("heading", {
+      name: "Unable to reset the password",
+    });
+    expect(header).toBeInTheDocument();
+
+    const result = await screen.findByText("Invalid email address");
+    expect(result).toBeInTheDocument();
   });
 
-  it('shows when there is an error', async () => {
-    wrapper = mount(withMockedProviders(<ForgotPasswordPage />, mocksWithErrors));
-    const component = wrapper.find('ForgotPasswordPage').instance();
-
-    await act(async () => {
-      component.setState({ email: 'max@example.com' });
-
-      await wrapper.update();
-
-      findByTestId(wrapper, 'submit-button').hostNodes().simulate('submit');
-
-      await wait(0);
-      await wrapper.update();
-
-      expect(findByTestId(wrapper, 'error-message').text()).toBe('It broke');
+  it("shows when there is an error", async () => {
+    const inputField = screen.getByPlaceholderText("E-mail address");
+    fireEvent.change(inputField, {
+      target: { value: "broken@example.com" },
     });
+
+    const submit = screen.getByRole("button", { name: "Reset password" });
+    submit.click();
+
+    const header = await screen.findByRole("heading", {
+      name: "Unable to reset the password",
+    });
+    expect(header).toBeInTheDocument();
+
+    const result = await screen.findByText("It broke");
+    expect(result).toBeInTheDocument();
   });
 });

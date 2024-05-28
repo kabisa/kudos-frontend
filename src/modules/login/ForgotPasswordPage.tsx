@@ -1,20 +1,22 @@
-import React, { ChangeEvent, Component, FormEvent } from 'react';
-import gql from 'graphql-tag';
-import {
-  Button, Form, Message, Segment,
-} from 'semantic-ui-react';
-import { Mutation } from '@apollo/react-components';
+import { Component, FormEvent } from "react";
+import { gql } from "@apollo/client";
+import { Mutation } from "@apollo/client/react/components";
 
-import { FormWrapper } from '../../components';
-import BackButton from '../../components/back-button/BackButton';
-import { getGraphqlError, validateEmail } from '../../support';
+import { FormWrapper } from "../../components";
+import BackButton from "../../components/back-button/BackButton";
+import { getGraphqlError, validateEmail } from "../../support";
+import { Button, Input } from "@kabisa/ui-components";
+import Segment from "../../components/atoms/Segment";
+import BasePage from "./BasePage";
+import s from "./ForgotPasswordPage.module.css";
+import MessageBox from '../../ui/MessageBox';
 
 export const MUTATION_FORGOT_PASSWORD = gql`
-    mutation forgotPassword($email: EmailAddress!) {
-        forgotPassword(credentials: { email: $email }) {
-            email
-        }
+  mutation forgotPassword($email: EmailAddress!) {
+    forgotPassword(credentials: { email: $email }) {
+      email
     }
+  }
 `;
 
 export interface ForgotPasswordResult {
@@ -40,12 +42,11 @@ class ForgotPasswordPage extends Component<Props, State> {
     super(props);
 
     this.state = {
-      email: '',
+      email: "",
       success: false,
-      error: '',
+      error: "",
     };
 
-    this.handleChange = this.handleChange.bind(this);
     this.formSubmit = this.formSubmit.bind(this);
     this.onCompleted = this.onCompleted.bind(this);
   }
@@ -54,17 +55,12 @@ class ForgotPasswordPage extends Component<Props, State> {
     this.setState({ success: true });
   }
 
-  handleChange(e: ChangeEvent, { name, value }: any) {
-    // @ts-ignore
-    this.setState({ [name]: value });
-  }
-
   formSubmit(e: FormEvent, resetPassword: ForgotPasswordMutationCallback) {
     e.preventDefault();
     const { email } = this.state;
 
     if (!validateEmail(email)) {
-      this.setState({ error: 'Invalid email address' });
+      this.setState({ error: "Invalid email address" });
       return;
     }
 
@@ -75,59 +71,57 @@ class ForgotPasswordPage extends Component<Props, State> {
 
   render() {
     return (
-      <FormWrapper header="Forgot password" toolbar="Forgot password">
-        <Mutation<ForgotPasswordResult, ForgotPasswordParameters>
-          mutation={MUTATION_FORGOT_PASSWORD}
-          onCompleted={this.onCompleted}
-          onError={(error) => this.setState({ error: getGraphqlError(error) })}
-        >
-          {(resetPassword, { error, loading }: any) => (
-            <div>
-              <Form size="large" error={!!error} onSubmit={(e) => this.formSubmit(e, resetPassword)}>
-                <Segment>
-                  <Form.Input
+      <BasePage>
+        <FormWrapper header="Forgot password" toolbar="Forgot password">
+          <Mutation<ForgotPasswordResult, ForgotPasswordParameters>
+            mutation={MUTATION_FORGOT_PASSWORD}
+            onCompleted={this.onCompleted}
+            onError={(error) =>
+              this.setState({ error: getGraphqlError(error) })
+            }
+          >
+            {(resetPassword, { loading }: any) => (
+              <Segment>
+                <form
+                  className="form-container"
+                  onSubmit={(e) => this.formSubmit(e, resetPassword)}
+                >
+                  <Input
                     data-testid="email-input"
-                    fluid
-                    icon="user"
                     name="email"
                     type="email"
-                    iconPosition="left"
                     placeholder="E-mail address"
                     value={this.state.email}
-                    onChange={this.handleChange}
+                    onChange={(e) => this.setState({ email: e.target.value })}
                   />
 
                   <Button
                     data-testid="submit-button"
-                    color="blue"
-                    fluid
-                    size="large"
-                    loading={loading}
+                    variant="primary"
                     disabled={loading}
+                    className={s.button}
                   >
                     Reset password
                   </Button>
 
                   {this.state.error && (
-                  <Message negative>
-                    <Message.Header>Unable to reset the password</Message.Header>
-                    <p data-testid="error-message">{this.state.error}</p>
-                  </Message>
+                    <MessageBox variant="error" title="Unable to reset the password" message={this.state.error} />
                   )}
 
                   {this.state.success && (
-                  <Message
-                    header="Reset password instructions sent"
-                    content="Check your mail for the details."
-                  />
+                    <MessageBox
+                        variant="success"
+                        title="Reset password instructions sent"
+                        message="Check your mail for the details."
+                    />
                   )}
-                  <BackButton />
-                </Segment>
-              </Form>
-            </div>
-          )}
-        </Mutation>
-      </FormWrapper>
+                </form>
+                <BackButton />
+              </Segment>
+            )}
+          </Mutation>
+        </FormWrapper>
+      </BasePage>
     );
   }
 }

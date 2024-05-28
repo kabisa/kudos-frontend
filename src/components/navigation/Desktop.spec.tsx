@@ -1,12 +1,8 @@
-import React from 'react';
-import { mount, ReactWrapper } from 'enzyme';
-import { act } from 'react-dom/test-utils';
-import {
-  findByTestId, mockLocalstorage, wait, withMockedProviders,
-} from '../../spec_helper';
-import Desktop, { GET_USER } from './Desktop';
+import { render, RenderResult, screen } from "@testing-library/react";
+import { mockLocalstorage, withMockedProviders } from "../../spec_helper";
+import Desktop, { GET_USER } from "./Desktop";
 
-const mocks = [
+export const mocks = () => [
   {
     request: {
       query: GET_USER,
@@ -14,54 +10,75 @@ const mocks = [
     result: {
       data: {
         viewer: {
-          name: 'Max',
+          id: "1",
+          __typename: "Viewer",
+          name: "Max",
         },
       },
     },
   },
 ];
 
-describe('<Desktop />', () => {
-  mockLocalstorage('admin');
-  let wrapper: ReactWrapper;
-
-  beforeEach(() => {
-    wrapper = mount(withMockedProviders(<Desktop />, mocks));
+describe("<Desktop />", () => {
+  it("renders the users name", async () => {
+    render(withMockedProviders(<Desktop />, mocks()));
+    const node = await screen.findByText("Max");
+    expect(node).toBeInTheDocument();
   });
 
-  it('renders the users name', async () => {
-    await act(async () => {
-      await wait(0);
-      await wrapper.update();
+  it("should have a link to the home page", async () => {
+    render(withMockedProviders(<Desktop />, mocks()));
 
-      expect(wrapper.contains('Max')).toBe(true);
+    const button = await screen.findByTestId("home-button");
+    expect(button).toBeInTheDocument();
+  });
+
+  describe("profile menu", () => {
+    let renderResult: RenderResult;
+
+    beforeEach(async () => {
+      renderResult = render(withMockedProviders(<Desktop />, mocks()));
+      const button = await screen.findByRole("button", { name: "Max" });
+      button.click();
     });
-  });
 
-  it('should have a link to the home page', async () => {
-    expect(findByTestId(wrapper, 'home-button').hostNodes().length).toBe(1);
-  });
+    it("has a link to the profile page", async () => {
+      const profileLink = await screen.findByTestId("profile-button");
+      expect(profileLink).toBeInTheDocument();
+    });
 
-  it('should have a link to the profile page', async () => {
-    expect(findByTestId(wrapper, 'profile-button').hostNodes().length).toBe(1);
-  });
+    it("has a switch team button", async () => {
+      const switchTeamButton = await screen.findByTestId("switch-team-button");
+      expect(switchTeamButton).toBeInTheDocument();
+    });
 
-  it('should have a switch team button', async () => {
-    expect(findByTestId(wrapper, 'switch-team-button').hostNodes().length).toBe(1);
-  });
+    it("has a logout button", async () => {
+      const logoutButton = await screen.findByTestId("logout-button");
+      expect(logoutButton).toBeInTheDocument();
+    });
 
-  it('should have a logout button', async () => {
-    expect(findByTestId(wrapper, 'logout-button').hostNodes().length).toBe(1);
-  });
+    describe("as admin", () => {
+      beforeEach(() => {
+        mockLocalstorage("admin");
+        renderResult.rerender(withMockedProviders(<Desktop />, mocks()));
+      });
 
-  it('should have a manage team button if the user is admin', async () => {
-    expect(findByTestId(wrapper, 'manage-team-button').hostNodes().length).toBe(1);
-  });
+      it("has a manage team button", () => {
+        const profileLink = screen.queryByTestId("manage-team-button");
+        expect(profileLink).not.toBeNull();
+      });
+    });
 
-  it('should not have a manage team button if the user is member', async () => {
-    mockLocalstorage('member');
-    wrapper = mount(withMockedProviders(<Desktop />, mocks));
+    describe("as member", () => {
+      beforeEach(() => {
+        mockLocalstorage("member");
+        renderResult.rerender(withMockedProviders(<Desktop />, mocks()));
+      });
 
-    expect(findByTestId(wrapper, 'manage-team-button').hostNodes().length).toBe(0);
+      it("does not have a manage team button", () => {
+        const profileLink = screen.queryByTestId("manage-team-button");
+        expect(profileLink).toBeNull();
+      });
+    });
   });
 });

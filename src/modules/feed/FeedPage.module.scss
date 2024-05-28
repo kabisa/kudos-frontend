@@ -1,96 +1,41 @@
-:global(#root) {
-  .root {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-  }
+.tabletAndBelowContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
 
-  .container {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: end;
+  width: 100%;
 
-  .create_post_container_mobile {
-    padding: 16px;
-  }
+  height: 100%;
+}
 
-  .create_post_segment {
-    width: 480px;
-    margin: auto;
-    padding-left: 30px;
-    padding-right: 30px;
-    border-radius: 18px;
-    border: none;
-  }
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
 
-  .divider {
-    margin-bottom: 2px;
-    margin-top: 0;
-  }
+  width: 100%;
+}
 
-  .form {
-    margin: auto;
-    width: 100%;
-    max-width: 512px;
-  }
+.create_post_container_mobile {
+  padding: 16px;
+}
 
-  .board_container {
-    max-width: 480px;
-    /* Allow smooth scrolling on Safari < 13 */
-    -webkit-overflow-scrolling: touch;
-    margin-top: 30px;
-    padding: 30px 40px;
-    border-radius: 18px;
-    background: var(--kudo-color-primary);
-    text-align: center;
-  }
+.create_post_segment {
+  width: 480px;
+  margin: auto;
+  padding-left: 30px;
+  padding-right: 30px;
+  border: none;
 
-  @media (max-width: 990px) {
-    .board_container {
-      margin: auto;
-    }
-  }
+  text-align: left;
+}
 
-  .board_header {
-    color: #ffffff;
-    font-family: Rajdhani, sans-serif;
-    font-weight: lighter;
-    font-size: 35px;
-  }
-
-  .submit_button {
-    width: 100%;
-    height: 50px;
-    border-radius: 5px;
-    background: linear-gradient(0deg, var(--kudo-color-accent) 0%, var(--kudo-color-accent-tint) 100%);
-    box-shadow: 0 2px 3px 0 var(--kudo-color-accent-shade);
-    color: #ffffff;
-  }
-
-  .grid {
-    min-height: 1200px;
-  }
-
-  .grid_column {
-    padding: 0;
-    max-width: 480px;
-  }
-
-  .left_column {
-    display: flex;
-    justify-content: flex-end;
-  }
-
-  .note {
-    color: grey;
-    font-size: 10px;
-  }
-
-  .character_message {
-    color: grey;
-    font-size: 10px;
-    margin-left: 8px;
-  }
+.divider {
+  margin-bottom: 2px;
+  margin-top: 0;
 }

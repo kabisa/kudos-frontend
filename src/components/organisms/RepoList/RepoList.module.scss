@@ -1,0 +1,41 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--font-color-1);
+}
+
+.tilesContainer {
+  gap: var(--spacing-level-3);
+
+  width: 100%;
+}
+
+.tilesContainer > li:not(:first-child) {
+  border: none;
+}
+
+.tilesContainer > li > div {
+  border-radius: var(--radii-level-2);
+}
+
+.arrowButton {
+  border: none;
+  margin: 2rem 0;
+
+  background: transparent;
+}
+
+.arrowButton:hover {
+  cursor: pointer;
+}
+
+.arrow {
+  color: var(--font-color-2);
+}
+
+.endMessage {
+  margin: 2rem 0;
+
+  color: var(--font-color-2);
+}

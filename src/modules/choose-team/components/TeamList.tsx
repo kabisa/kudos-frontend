@@ -1,29 +1,27 @@
-import React from 'react';
-import gql from 'graphql-tag';
+import { gql } from "@apollo/client";
+import s from "./ChooseTeam.module.scss";
 
-import { Grid } from 'semantic-ui-react';
-import { withRouter } from 'react-router-dom';
-import { History } from 'history';
-import { Query } from '@apollo/react-components';
-import TeamRow from './TeamRow';
-import settings from '../../../config/settings';
-import { selectTeam } from '../utils';
-import { PATH_FEED } from '../../../routes';
-import { Storage } from '../../../support/storage';
+import { useHistory } from "react-router-dom";
+import { Query } from "@apollo/client/react/components";
+import TeamRow from "./TeamRow";
+import settings from "../../../config/settings";
+import { selectTeam } from "../utils";
+import { PATH_FEED } from "../../../routes";
+import { Storage } from "../../../support/storage";
 
 export const GET_TEAMS = gql`
-    query getTeams {
-        viewer {
-            memberships {
-                id
-                role
-                team {
-                    id
-                    name
-                }
-            }
+  query getTeams {
+    viewer {
+      memberships {
+        id
+        role
+        team {
+          id
+          name
         }
+      }
     }
+  }
 `;
 
 export interface TeamResult {
@@ -39,13 +37,15 @@ export interface TeamResult {
   };
 }
 
-export interface Props {
-  history: History;
-}
+function TeamList() {
+  const history = useHistory();
 
-function TeamList(props: Props): React.ReactElement {
   return (
-    <Query<TeamResult> query={GET_TEAMS} pollInterval={2000} fetchPolicy="network-only">
+    <Query<TeamResult>
+      query={GET_TEAMS}
+      pollInterval={2000}
+      fetchPolicy="network-only"
+    >
       {({ loading, error, data }) => {
         if (loading) return <p className="text-center">Loading...</p>;
         if (error) return <p className="text-center">{error.message}</p>;
@@ -58,27 +58,26 @@ function TeamList(props: Props): React.ReactElement {
         if (memberships.length === 1) {
           if (!Storage.getItem(settings.TEAM_ID_TOKEN)) {
             selectTeam(memberships[0].team.id, memberships[0].role);
-            props.history.push(PATH_FEED);
+            history.push(PATH_FEED);
           }
         }
 
         return (
-          <Grid columns={2} verticalAlign="middle">
+          <div className={s.teamList} data-testid="kudo-team-invites">
             {memberships.map((membership) => (
               <TeamRow
-                data-testid="kudo-teamivite"
-                history={props.history}
+                data-testid="kudo-teaminvite"
                 id={membership.team.id}
                 name={membership.team.name}
                 userRole={membership.role}
                 key={membership.id}
               />
             ))}
-          </Grid>
+          </div>
         );
       }}
     </Query>
   );
 }
 
-export default withRouter(TeamList);
+export default TeamList;

@@ -1,5 +1,5 @@
-import settings from '../../config/settings';
-import { Storage } from '../../support/storage';
+import settings from "../../config/settings";
+import { Storage } from "../../support/storage";
 
 export interface LoginSuccessParams {
   token: string;
