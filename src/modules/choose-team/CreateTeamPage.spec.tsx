@@ -1,9 +1,9 @@
 import { GraphQLError } from "graphql";
-import { withMockedProviders } from "../../spec_helper";
+import { applicationContext } from "../../spec_helper";
 import CreateTeamPage, { MUTATION_CREATE_TEAM } from "./CreateTeamPage";
 import { Storage } from "../../support/storage";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { fireEvent, screen, waitFor } from "@testing-library/react";
+import { setComponent } from "../../support/testing/testHelper";
 
 let mutationCalled = false;
 const mocks = [
@@ -32,20 +32,28 @@ const mocksWithError = [
 ];
 
 describe("<CreateTeamPage />", () => {
+  const { renderComponent, setProps, updateDecorator } = setComponent(
+    CreateTeamPage,
+    applicationContext(mocks),
+  );
+
+  setProps({});
+
   beforeEach(() => {
     mutationCalled = false;
     Storage.setItem = jest.fn();
   });
 
   it("renders a name field", () => {
-    render(withMockedProviders(<CreateTeamPage />, mocks));
+    renderComponent();
+
     const input = screen.getByPlaceholderText("Team name");
 
     expect(input).toBeInTheDocument();
   });
 
   it("renders the create team button", () => {
-    render(withMockedProviders(<CreateTeamPage />, mocks));
+    renderComponent();
 
     expect(
       screen.getByRole("button", { name: "Create team" }),
@@ -53,7 +61,8 @@ describe("<CreateTeamPage />", () => {
   });
 
   it("handles input correctly", () => {
-    render(withMockedProviders(<CreateTeamPage />, mocks));
+    renderComponent();
+
     const input = screen.getByPlaceholderText("Team name");
     expect(input).toHaveValue("");
 
@@ -63,16 +72,17 @@ describe("<CreateTeamPage />", () => {
   });
 
   it("returns an error if the name is null", () => {
-    render(withMockedProviders(<CreateTeamPage />, mocks));
-    const button = screen.getByRole("button", { name: "Create team" });
+    renderComponent();
 
-    userEvent.click(button);
+    const button = screen.getByRole("button", { name: "Create team" });
+    button.click();
 
     expect(screen.queryByText("Name can't be blank."));
   });
 
   it("disables the button during creation", async () => {
-    render(withMockedProviders(<CreateTeamPage />, mocks));
+    renderComponent();
+
     const input = screen.getByPlaceholderText("Team name");
     const button = screen.getByRole("button", { name: "Create team" });
 
@@ -82,34 +92,43 @@ describe("<CreateTeamPage />", () => {
     await waitFor(() => expect(button).toBeDisabled());
   });
 
-  it("shows when there is an error", () => {
-    render(withMockedProviders(<CreateTeamPage />, mocksWithError));
+  it("shows when there is an error", async () => {
+    updateDecorator("application", { mocks: mocksWithError });
+    renderComponent();
+
     const button = screen.getByRole("button", { name: "Create team" });
 
-    userEvent.click(button);
+    const input = screen.getByPlaceholderText("Team name");
+    fireEvent.change(input, { target: { value: "Kabisa" } });
 
-    expect(screen.queryByText("It broke"));
+    button.click();
+
+    expect(await screen.findByText("It broke")).not.toBeNull();
   });
 
   it("calls the mutation if the name is not null", async () => {
-    render(withMockedProviders(<CreateTeamPage />, mocks));
+    renderComponent();
+
     const input = screen.getByPlaceholderText("Team name");
     const button = screen.getByRole("button", { name: "Create team" });
 
     fireEvent.change(input, { target: { value: "Kabisa" } });
-    userEvent.click(button);
+    button.click();
 
     await waitFor(() => expect(mutationCalled).toBe(true));
   });
 
   it("sets the team id in local storage if the mutation is successful", async () => {
-    render(withMockedProviders(<CreateTeamPage />, mocks));
+    renderComponent();
+
     const input = screen.getByPlaceholderText("Team name");
     const button = screen.getByRole("button", { name: "Create team" });
 
     fireEvent.change(input, { target: { value: "Kabisa" } });
-    userEvent.click(button);
+    button.click();
 
-    await waitFor(() => expect(Storage.setItem).toBeCalledWith("team_id", "1"));
+    await waitFor(() =>
+      expect(Storage.setItem).toHaveBeenCalledWith("team_id", "1"),
+    );
   });
 });

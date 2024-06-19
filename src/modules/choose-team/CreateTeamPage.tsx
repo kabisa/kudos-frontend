@@ -9,7 +9,7 @@ import { Storage } from "../../support/storage";
 import { Button, Input, Label } from "@kabisa/ui-components";
 import Segment from "../../components/atoms/Segment";
 import Page from "../../components/templates/Page";
-import MessageBox from '../../ui/MessageBox';
+import MessageBox from "../../ui/MessageBox";
 
 export const MUTATION_CREATE_TEAM = gql`
   mutation CreateTeam($name: String!) {
@@ -72,7 +72,12 @@ const CreateTeamPage = () => {
   };
 
   const content = (
-    <form className="form-container">
+    <form
+      className="form-container"
+      onSubmit={(e) => {
+        e.preventDefault();
+      }}
+    >
       <h1>Create new team</h1>
       <Label>
         Name
@@ -94,7 +99,11 @@ const CreateTeamPage = () => {
         Create team
       </Button>
       {error && (
-        <MessageBox variant="error" title="Unable to create team" message={error} />
+        <MessageBox
+          variant="error"
+          title="Unable to create team"
+          message={error}
+        />
       )}
     </form>
   );

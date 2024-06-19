@@ -1,7 +1,8 @@
-import { withMockedProviders } from "../../../spec_helper";
+import { applicationContext } from "../../../spec_helper";
+import { setComponent } from "../../../support/testing/testHelper";
 import { InviteList } from "./index";
 import { GET_INVITES } from "./InviteList";
-import { render, RenderResult, screen, waitFor } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 
 const mockWithInvites = [
   {
@@ -57,24 +58,16 @@ const mockWithoutInvites = [
   },
 ];
 
-let wrapper: RenderResult | null = null;
-const setup = async (mocks: any) => {
-  if (wrapper) {
-    await waitFor(() => {
-      expect(screen.queryByText("Loading...")).toBeNull();
-    });
-
-    wrapper.unmount();
-  }
-  wrapper = render(withMockedProviders(<InviteList />, mocks));
-};
-
 describe("<InviteList />", () => {
-  beforeEach(async () => {
-    await setup(mockWithInvites);
-  });
+  const { setProps, updateDecorator, renderComponent } = setComponent(
+    InviteList,
+    applicationContext(mockWithInvites),
+  );
+
+  setProps({});
 
   it("renders the loading state", async () => {
+    renderComponent();
     expect(screen.getByText("Loading...")).toBeInTheDocument();
 
     await waitFor(() => {
@@ -83,12 +76,16 @@ describe("<InviteList />", () => {
   });
 
   it("renders the invites", async () => {
+    renderComponent();
+
     const invites = await screen.findAllByTestId("kudo-invite");
     expect(invites).toHaveLength(2);
   });
 
   it("shows a message when there are no invites", async () => {
-    await setup(mockWithoutInvites);
+    updateDecorator("application", { mocks: mockWithoutInvites });
+    renderComponent();
+
     await waitFor(() => {
       expect(screen.queryByText("Loading...")).toBeNull();
     });
@@ -100,7 +97,9 @@ describe("<InviteList />", () => {
   });
 
   it("shows when there is an error", async () => {
-    await setup(mocksWithError);
+    updateDecorator("application", { mocks: mocksWithError });
+    renderComponent();
+
     await waitFor(() => {
       expect(screen.queryByText("Loading...")).toBeNull();
     });

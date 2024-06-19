@@ -1,8 +1,9 @@
-import { withMockedProviders } from "../../spec_helper";
+import { applicationContext } from "../../spec_helper";
 import { Content } from "./ChooseTeamPage";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { screen, fireEvent } from "@testing-library/react";
 import { GET_INVITES } from "./components/InviteList";
 import { GET_TEAMS } from "./components/TeamList";
+import { setComponent } from "../../support/testing/testHelper";
 
 const mockHistoryPush = jest.fn();
 
@@ -85,22 +86,28 @@ const mockWithInvites = [
 ];
 
 describe("<ChooseTeamPage />", () => {
+  const { renderComponent, setProps } = setComponent(
+    Content,
+    applicationContext(mockWithInvites),
+  );
+  setProps({});
+
   it("renders the invite list", async () => {
-    render(withMockedProviders(<Content />, mockWithInvites));
+    renderComponent();
 
     const inviteList = await screen.findByTestId("invite-list");
     expect(inviteList).toBeInTheDocument();
   });
 
   it("renders the team list", async () => {
-    render(withMockedProviders(<Content />, mockWithInvites));
+    renderComponent();
 
     const teamInvites = await screen.findByTestId("kudo-team-invites");
     expect(teamInvites).toBeInTheDocument();
   });
 
   it("renders the create team button", () => {
-    render(withMockedProviders(<Content />, mockWithInvites));
+    renderComponent();
 
     const createTeamButton = screen.getByRole("button", {
       name: "Create team",
@@ -109,9 +116,7 @@ describe("<ChooseTeamPage />", () => {
   });
 
   it("navigates to the create team page", () => {
-    const { unmount } = render(
-      withMockedProviders(<Content />, mockWithInvites),
-    );
+    const { unmount } = renderComponent();
 
     const createTeamButton = screen.getByRole("button", {
       name: "Create team",
