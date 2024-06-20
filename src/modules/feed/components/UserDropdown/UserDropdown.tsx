@@ -1,4 +1,4 @@
-import { Component, PropsWithRef } from "react";
+import { Component } from "react";
 import { Query } from "@apollo/client/react/components";
 
 import client from "../../../../client";
@@ -8,10 +8,10 @@ import { Storage } from "../../../../support/storage";
 import { OnChangeValue } from "react-select";
 import CreatableSelect from "react-select/creatable";
 
-export interface DropDownProps extends PropsWithRef<any> {
+export type DropDownProps = {
   onChange: (values: readonly NameOption[]) => void;
   error: boolean;
-}
+};
 
 export interface DropDownState {
   values: readonly NameOption[];

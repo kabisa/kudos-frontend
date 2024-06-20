@@ -5,7 +5,7 @@ import {
   makeFC,
   setComponent,
 } from "../../../../../support/testing/testComponent";
-import { applicationContext } from "../../../../../support/testing/testContexts";
+import { dataDecorator } from "../../../../../support/testing/testDecorators";
 
 const goals: Goal[] = [
   {
@@ -32,11 +32,10 @@ const kudometer: Kudometer = {
 };
 
 describe("<Goals />", () => {
-  const { setProps, renderComponent } = setComponent(
-    makeFC(Goals),
-    applicationContext(),
-  );
-  setProps({ kudometer });
+  const { renderComponent } = setComponent(makeFC(Goals), {
+    decorators: [dataDecorator()],
+    props: { kudometer },
+  });
 
   beforeEach(() => {
     renderComponent();

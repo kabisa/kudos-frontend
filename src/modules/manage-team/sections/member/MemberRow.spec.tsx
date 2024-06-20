@@ -1,9 +1,9 @@
 import { MockedFunction, mockLocalstorage } from "../../../../spec_helper";
 import { setComponent } from "../../../../support/testing/testComponent";
 import {
-  applicationContext,
-  tableContext,
-} from "../../../../support/testing/testContexts";
+  dataDecorator,
+  tableDecorator,
+} from "../../../../support/testing/testDecorators";
 import { MemberRow } from "./MemberRow";
 import { DEACTIVATE_USER } from "./Members";
 import { screen, waitFor } from "@testing-library/react";
@@ -41,15 +41,13 @@ const mocks = [
 const refetch = jest.fn();
 
 describe("<MemberRow />", () => {
-  const { setProps, renderComponent } = setComponent(
-    MemberRow,
-    tableContext,
-    applicationContext(mocks),
-  );
-  setProps({
-    key: "1",
-    membership,
-    refetch,
+  const { renderComponent } = setComponent(MemberRow, {
+    decorators: [tableDecorator, dataDecorator(mocks)],
+    props: {
+      key: "1",
+      membership,
+      refetch,
+    },
   });
 
   mockLocalstorage("5");

@@ -3,14 +3,13 @@ import { mockLocalstorage } from "../../../spec_helper";
 import RightRail from "./RightRail";
 import { mocks as goalMocks } from "../../statistics/Statistics.spec";
 import { setComponent } from "../../../support/testing/testComponent";
-import { applicationContext } from "../../../support/testing/testContexts";
+import { dataDecorator } from "../../../support/testing/testDecorators";
 
 describe("<RightRail />", () => {
-  const { setProps, renderComponent } = setComponent(
-    RightRail,
-    applicationContext(goalMocks("1")),
-  );
-  setProps({});
+  const { renderComponent } = setComponent(RightRail, {
+    decorators: [dataDecorator(goalMocks("1"))],
+    props: {},
+  });
 
   beforeEach(() => {
     mockLocalstorage("1");

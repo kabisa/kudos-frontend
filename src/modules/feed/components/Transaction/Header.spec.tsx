@@ -6,7 +6,7 @@ import {
   makeFC,
   setComponent,
 } from "../../../../support/testing/testComponent";
-import { applicationContext } from "../../../../support/testing/testContexts";
+import { dataDecorator } from "../../../../support/testing/testDecorators";
 
 const transaction: FragmentPostResult = {
   amount: 5,
@@ -86,12 +86,9 @@ const mocks = [
 ];
 
 describe("<Header />", () => {
-  const { setProps, renderComponent, updateProps } = setComponent(
-    makeFC(Header),
-    applicationContext(mocks),
-  );
-  setProps({
-    transaction,
+  const { renderComponent, updateProps } = setComponent(makeFC(Header), {
+    decorators: [dataDecorator(mocks)],
+    props: { transaction },
   });
 
   beforeEach(() => {

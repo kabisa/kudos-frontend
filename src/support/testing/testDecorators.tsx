@@ -4,7 +4,7 @@ import { MemoryRouter, Route } from "react-router-dom";
 import { ApolloCache } from "@apollo/client/cache";
 import { Context as ResponsiveContext } from "react-responsive";
 
-export const responsiveContext: Decorator<"responsive", { width: number }> = {
+export const responsiveDecorator: Decorator<"responsive", { width: number }> = {
   name: "responsive",
   settings: { width: 1200 },
   decorator: (Component, settings) => (
@@ -14,7 +14,7 @@ export const responsiveContext: Decorator<"responsive", { width: number }> = {
   ),
 };
 
-export const applicationContext = <TSerialized extends object>(
+export const dataDecorator = <TSerialized extends object>(
   mocks?: any,
   cache?: ApolloCache<TSerialized>,
 ): Decorator<
@@ -34,7 +34,7 @@ export const applicationContext = <TSerialized extends object>(
   ),
 });
 
-export const routingContext = (): Decorator<
+export const routingDecorator = (): Decorator<
   "routing",
   { paths: Record<string, React.ReactNode> }
 > => ({
@@ -54,7 +54,7 @@ export const routingContext = (): Decorator<
   ),
 });
 
-export const tableContext: Decorator<"table", Record<string, unknown>> = {
+export const tableDecorator: Decorator<"table", Record<string, unknown>> = {
   name: "table",
   settings: {},
   decorator: (Component) => (

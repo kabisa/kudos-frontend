@@ -1,5 +1,5 @@
 import { setComponent } from "../../../support/testing/testComponent";
-import { applicationContext } from "../../../support/testing/testContexts";
+import { dataDecorator } from "../../../support/testing/testDecorators";
 import { InviteList } from "./index";
 import { GET_INVITES } from "./InviteList";
 import { screen, waitFor } from "@testing-library/react";
@@ -59,12 +59,10 @@ const mockWithoutInvites = [
 ];
 
 describe("<InviteList />", () => {
-  const { setProps, updateDecorator, renderComponent } = setComponent(
-    InviteList,
-    applicationContext(mockWithInvites),
-  );
-
-  setProps({});
+  const { renderComponent, updateDecorator } = setComponent(InviteList, {
+    decorators: [dataDecorator(mockWithInvites)],
+    props: {},
+  });
 
   it("renders the loading state", async () => {
     renderComponent();

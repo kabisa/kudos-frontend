@@ -9,7 +9,7 @@ import {
   makeFC,
   setComponent,
 } from "../../../../support/testing/testComponent";
-import { applicationContext } from "../../../../support/testing/testContexts";
+import { dataDecorator } from "../../../../support/testing/testDecorators";
 
 let mutationCalled = false;
 const mocksWithoutSlack = [
@@ -86,13 +86,15 @@ const mocksWithError = [
 ];
 
 describe("<IntegrationsSection />", () => {
-  const { setProps, renderComponent, updateDecorator } = setComponent(
+  const { renderComponent, updateDecorator } = setComponent(
     makeFC(IntegrationsSection),
-    applicationContext(mocksWithoutSlack),
+    {
+      decorators: [dataDecorator(mocksWithoutSlack)],
+      props: {
+        history: createMemoryHistory(),
+      },
+    },
   );
-  setProps({
-    history: createMemoryHistory(),
-  });
 
   beforeEach(() => {
     mockLocalstorage("1");

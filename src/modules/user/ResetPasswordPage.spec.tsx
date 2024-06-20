@@ -1,8 +1,8 @@
 import { makeFC, setComponent } from "../../support/testing/testComponent";
 import {
-  applicationContext,
-  routingContext,
-} from "../../support/testing/testContexts";
+  dataDecorator,
+  routingDecorator,
+} from "../../support/testing/testDecorators";
 import { ResetPasswordPage } from "./index";
 import { MUTATION_RESET_PASSWORD } from "./ResetPasswordPage";
 import { fireEvent, screen, waitFor } from "@testing-library/react";
@@ -26,12 +26,10 @@ const mocks = [
 ];
 
 describe("<ResetPasswordPage />", () => {
-  const { setProps, renderComponent } = setComponent(
-    makeFC(ResetPasswordPage),
-    applicationContext(mocks),
-    routingContext(),
-  );
-  setProps({});
+  const { renderComponent } = setComponent(makeFC(ResetPasswordPage), {
+    decorators: [dataDecorator(mocks), routingDecorator()],
+    props: {},
+  });
 
   beforeEach(() => {
     mutationCalled = false;

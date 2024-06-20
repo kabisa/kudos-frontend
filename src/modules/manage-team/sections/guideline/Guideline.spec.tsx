@@ -1,9 +1,9 @@
 import { MockedFunction, mockLocalstorage } from "../../../../spec_helper";
 import { setComponent } from "../../../../support/testing/testComponent";
 import {
-  applicationContext,
-  tableContext,
-} from "../../../../support/testing/testContexts";
+  dataDecorator,
+  tableDecorator,
+} from "../../../../support/testing/testDecorators";
 import { DELETE_GUIDELINE, Guideline } from "./Guideline";
 import { GET_GUIDELINES } from "./GuidelinesSection";
 import { screen, waitFor } from "@testing-library/react";
@@ -66,17 +66,15 @@ const guideline = {
 describe("<Guideline />", () => {
   const editGuidelineMock = jest.fn();
 
-  const { setProps, renderComponent } = setComponent(
-    Guideline,
-    tableContext,
-    applicationContext(mocks),
-  );
-  setProps({
-    key: guideline.key,
-    name: guideline.name,
-    id: guideline.id,
-    kudos: guideline.kudos,
-    editGuideline: editGuidelineMock,
+  const { renderComponent } = setComponent(Guideline, {
+    decorators: [tableDecorator, dataDecorator(mocks)],
+    props: {
+      key: guideline.key,
+      name: guideline.name,
+      id: guideline.id,
+      kudos: guideline.kudos,
+      editGuideline: editGuidelineMock,
+    },
   });
 
   beforeEach(() => {

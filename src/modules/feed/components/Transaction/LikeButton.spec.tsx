@@ -11,7 +11,7 @@ import {
   makeFC,
   setComponent,
 } from "../../../../support/testing/testComponent";
-import { applicationContext } from "../../../../support/testing/testContexts";
+import { dataDecorator } from "../../../../support/testing/testDecorators";
 
 const likedPost: FragmentPostResult = {
   id: "1",
@@ -90,9 +90,16 @@ const mocks = [
 ];
 
 describe("<LikeButton />", () => {
-  const { setProps, renderComponent, updateProps, updateDecorator } =
-    setComponent(makeFC(LikeButton), applicationContext(mocks));
-  setProps({ liked: false, post: likedPost });
+  const { renderComponent, updateProps, updateDecorator } = setComponent(
+    makeFC(LikeButton),
+    {
+      decorators: [dataDecorator(mocks)],
+      props: {
+        liked: false,
+        post: likedPost,
+      },
+    },
+  );
 
   beforeEach(() => {
     mutationCalled = false;

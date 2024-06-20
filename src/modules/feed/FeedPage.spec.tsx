@@ -8,28 +8,29 @@ import { mocks as userMock } from "../../components/navigation/Desktop.spec";
 import { mocks as goalMocks } from "../statistics/Statistics.spec";
 import { setComponent } from "../../support/testing/testComponent";
 import {
-  applicationContext,
-  responsiveContext,
-} from "../../support/testing/testContexts";
+  dataDecorator,
+  responsiveDecorator,
+} from "../../support/testing/testDecorators";
 
 type MockRequest = { request: unknown; result: unknown };
 
 describe("<FeedPage />", () => {
   const teamId = "1";
 
-  const { setProps, renderComponent } = setComponent(
-    FeedPage,
-    responsiveContext,
-    applicationContext(
-      ([] as MockRequest[])
-        .concat(userMock())
-        .concat(repoMocks(false))
-        .concat(goalMocks(teamId))
-        .concat(teamMemberMocks(teamId))
-        .concat(guidelineMocks(teamId)),
-    ),
-  );
-  setProps({});
+  const { renderComponent } = setComponent(FeedPage, {
+    decorators: [
+      responsiveDecorator,
+      dataDecorator(
+        ([] as MockRequest[])
+          .concat(userMock())
+          .concat(repoMocks(false))
+          .concat(goalMocks(teamId))
+          .concat(teamMemberMocks(teamId))
+          .concat(guidelineMocks(teamId)),
+      ),
+    ],
+    props: {},
+  });
 
   beforeEach(() => {
     mockLocalstorage("1");

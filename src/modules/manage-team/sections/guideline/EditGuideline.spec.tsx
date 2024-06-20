@@ -3,7 +3,7 @@ import {
   makeFC,
   setComponent,
 } from "../../../../support/testing/testComponent";
-import { applicationContext } from "../../../../support/testing/testContexts";
+import { dataDecorator } from "../../../../support/testing/testDecorators";
 import { EditGuideline } from "./EditGuideline";
 import {
   CREATE_GUIDELINE,
@@ -91,11 +91,10 @@ const mocks = [
 ];
 
 describe("<EditGuideline/>", () => {
-  const { setProps, renderComponent, updateProps } = setComponent(
-    makeFC(EditGuideline),
-    applicationContext(mocks),
-  );
-  setProps({});
+  const { renderComponent, updateProps } = setComponent(makeFC(EditGuideline), {
+    decorators: [dataDecorator(mocks)],
+    props: {},
+  });
 
   beforeEach(() => {
     mockLocalstorage("1");

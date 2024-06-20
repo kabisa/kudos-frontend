@@ -2,7 +2,7 @@ import { GET_TEAMS } from "./TeamList";
 import { TeamList } from "./index";
 import { screen } from "@testing-library/react";
 import { setComponent } from "../../../support/testing/testComponent";
-import { applicationContext } from "../../../support/testing/testContexts";
+import { dataDecorator } from "../../../support/testing/testDecorators";
 
 const mocksWithInvite = [
   {
@@ -61,11 +61,10 @@ const mocksWithError = [
 ];
 
 describe("<TeamList />", () => {
-  const { setProps, renderComponent, updateDecorator } = setComponent(
-    TeamList,
-    applicationContext(mocksWithInvite),
-  );
-  setProps({});
+  const { renderComponent, updateDecorator } = setComponent(TeamList, {
+    decorators: [dataDecorator(mocksWithInvite)],
+    props: {},
+  });
 
   it("renders the loading text", async () => {
     renderComponent();

@@ -1,19 +1,17 @@
 import { mockLocalstorage } from "../../spec_helper";
 import { setComponent } from "../../support/testing/testComponent";
 import {
-  applicationContext,
-  routingContext,
-} from "../../support/testing/testContexts";
+  dataDecorator,
+  routingDecorator,
+} from "../../support/testing/testDecorators";
 import { SettingsPage } from "./index";
 import { screen } from "@testing-library/react";
 
 describe("<SettingsPage />", () => {
-  const { setProps, renderComponent } = setComponent(
-    SettingsPage,
-    applicationContext(),
-    routingContext(),
-  );
-  setProps({});
+  const { renderComponent } = setComponent(SettingsPage, {
+    decorators: [dataDecorator(), routingDecorator()],
+    props: {},
+  });
 
   it("shows the invite button if the user is an admin", () => {
     mockLocalstorage("admin");

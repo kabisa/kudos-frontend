@@ -8,7 +8,7 @@ import {
   makeFC,
   setComponent,
 } from "../../../../support/testing/testComponent";
-import { applicationContext } from "../../../../support/testing/testContexts";
+import { dataDecorator } from "../../../../support/testing/testDecorators";
 import { GET_GUIDELINES } from "../../../manage-team/sections/guideline/GuidelinesSection";
 import GuidelineInput from "./GuidelineInput";
 import { waitFor, screen } from "@testing-library/react";
@@ -69,14 +69,16 @@ const mocksWithoutData = [
 describe("<GuidelineInput />", () => {
   const handleChangeMock = jest.fn();
 
-  const { setProps, renderComponent, updateDecorator } = setComponent(
+  const { renderComponent, updateDecorator } = setComponent(
     makeFC(GuidelineInput),
-    applicationContext(mocks),
+    {
+      decorators: [dataDecorator(mocks)],
+      props: {
+        handleChange: handleChangeMock,
+        amountError: false,
+      },
+    },
   );
-  setProps({
-    handleChange: handleChangeMock,
-    amountError: false,
-  });
 
   beforeEach(() => {
     mockLocalstorage("1");

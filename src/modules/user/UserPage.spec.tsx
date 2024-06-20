@@ -4,7 +4,7 @@ import { mockLocalstorage } from "../../spec_helper";
 import { PATH_RESET_PASSWORD } from "../../routes";
 import { screen, waitFor, within } from "@testing-library/react";
 import { makeFC, setComponent } from "../../support/testing/testComponent";
-import { applicationContext } from "../../support/testing/testContexts";
+import { dataDecorator } from "../../support/testing/testDecorators";
 
 let mutationCalled = false;
 export const mocks = ({ slackId = "" } = { slackId: "" }) => [
@@ -64,7 +64,7 @@ const mocksWithSlackId = [
 describe("<UserPage/>", () => {
   const { setProps, renderComponent, updateDecorator } = setComponent(
     makeFC(UserPage),
-    applicationContext(mocks()),
+    { decorators: [dataDecorator(mocks())] },
   );
   let history: MemoryHistory;
 

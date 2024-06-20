@@ -37,16 +37,20 @@ export const setComponent = <
   TDecorators extends Decorator<string, any>[],
 >(
   Component: TComponent,
-  ...decorators: TDecorators
+  settings: {
+    decorators?: TDecorators;
+    props?: React.ComponentProps<TComponent>;
+  } = {},
 ): TestHelpers<TComponent, TDecorators> => {
   let props: React.ComponentProps<TComponent> | null = null;
-  let initialProps: React.ComponentProps<TComponent> | null = null;
+  let initialProps: React.ComponentProps<TComponent> | null =
+    settings.props ?? null;
 
   const initializeDecoratorSettings = (): Record<
     string,
     Record<string, unknown>
   > =>
-    decorators.reduce(
+    (settings.decorators ?? []).reduce(
       (result, decorator) => ({
         ...result,
         [decorator.name]: decorator.settings,
@@ -72,7 +76,7 @@ export const setComponent = <
         document.body.firstChild === lastRender.baseElement.firstChild
       ) {
         lastRender.rerender(
-          decorators.reduce(
+          (settings.decorators ?? []).reduce(
             (result, dec) =>
               dec.decorator(() => result, decoratorSettings[dec.name]),
             <Component {...initialProps} {...props} />,
@@ -80,7 +84,7 @@ export const setComponent = <
         );
       } else {
         const result = render(
-          decorators.reduce(
+          (settings.decorators ?? []).reduce(
             (result, dec) =>
               dec.decorator(() => result, decoratorSettings[dec.name]),
             <Component {...initialProps} {...props} />,

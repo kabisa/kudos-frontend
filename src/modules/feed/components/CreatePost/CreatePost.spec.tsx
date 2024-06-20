@@ -9,7 +9,7 @@ import {
   getSelectOptions,
   openSelect,
 } from "../../../../support/testing/reactSelectHelpers";
-import { applicationContext } from "../../../../support/testing/testContexts";
+import { dataDecorator } from "../../../../support/testing/testDecorators";
 import {
   makeFC,
   setComponent,
@@ -126,15 +126,19 @@ const mocksWithError = [
 ];
 
 describe("<CreatePost />", () => {
-  const { setProps, renderComponent, updateDecorator } = setComponent(
+  const { renderComponent, updateDecorator } = setComponent(
     makeFC(CreatePost),
-    applicationContext([
-      ...mocks(),
-      ...guidelineMocks("1"),
-      ...teamMemberMocks("1"),
-    ]),
+    {
+      decorators: [
+        dataDecorator([
+          ...mocks(),
+          ...guidelineMocks("1"),
+          ...teamMemberMocks("1"),
+        ]),
+      ],
+      props: { back: false },
+    },
   );
-  setProps({ back: false });
 
   beforeEach(() => {
     mockLocalstorage("1");

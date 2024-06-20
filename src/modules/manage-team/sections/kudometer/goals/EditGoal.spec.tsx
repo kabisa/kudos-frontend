@@ -7,7 +7,7 @@ import {
   makeFC,
   setComponent,
 } from "../../../../../support/testing/testComponent";
-import { applicationContext } from "../../../../../support/testing/testContexts";
+import { dataDecorator } from "../../../../../support/testing/testDecorators";
 
 let createMutationCalled = false;
 let updateMutationCalled = false;
@@ -103,9 +103,10 @@ const mocksWithErrors = [
 ];
 
 describe("<EditGoal />", () => {
-  const { setProps, renderComponent, updateProps, updateDecorator } =
-    setComponent(makeFC(EditGoal), applicationContext(mocks));
-  setProps({ kudometerId: "1" });
+  const { renderComponent, updateProps, updateDecorator } = setComponent(
+    makeFC(EditGoal),
+    { decorators: [dataDecorator(mocks)], props: { kudometerId: "1" } },
+  );
 
   beforeEach(() => {
     mockLocalstorage("1");

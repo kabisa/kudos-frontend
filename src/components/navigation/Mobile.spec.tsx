@@ -3,13 +3,15 @@ import Mobile from "./Mobile";
 import { Auth } from "../../support";
 import { screen } from "@testing-library/react";
 import { setComponent } from "../../support/testing/testComponent";
-import { routingContext } from "../../support/testing/testContexts";
+import { routingDecorator } from "../../support/testing/testDecorators";
 
 describe("<Mobile />", () => {
   mockLocalstorage("fakeToken");
 
-  const { setProps, renderComponent } = setComponent(Mobile, routingContext());
-  setProps({});
+  const { renderComponent } = setComponent(Mobile, {
+    decorators: [routingDecorator()],
+    props: {},
+  });
 
   beforeEach(() => {
     renderComponent();

@@ -2,15 +2,14 @@ import { createMemoryHistory, MemoryHistory } from "history";
 import { ManageTeamPage } from "./ManageTeamPage";
 import { screen } from "@testing-library/react";
 import { makeFC, setComponent } from "../../support/testing/testComponent";
-import { routingContext } from "../../support/testing/testContexts";
+import { routingDecorator } from "../../support/testing/testDecorators";
 
 describe("<ManageTeamPage/>", () => {
   let history: MemoryHistory;
 
-  const { setProps, renderComponent } = setComponent(
-    makeFC(ManageTeamPage),
-    routingContext(),
-  );
+  const { setProps, renderComponent } = setComponent(makeFC(ManageTeamPage), {
+    decorators: [routingDecorator()],
+  });
 
   beforeEach(() => {
     history = createMemoryHistory();

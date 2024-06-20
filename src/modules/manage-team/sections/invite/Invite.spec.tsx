@@ -1,9 +1,9 @@
 import { MockedFunction, mockLocalstorage } from "../../../../spec_helper";
 import { setComponent } from "../../../../support/testing/testComponent";
 import {
-  applicationContext,
-  tableContext,
-} from "../../../../support/testing/testContexts";
+  dataDecorator,
+  tableDecorator,
+} from "../../../../support/testing/testDecorators";
 import { Invite, MUTATION_DELETE_INVITE } from "./Invite";
 import { InviteModel, QUERY_GET_INVITES } from "./InvitesSection";
 import { screen, waitFor } from "@testing-library/react";
@@ -78,17 +78,15 @@ const mocks = [
 ];
 
 describe("<Invite />", () => {
-  const { setProps, renderComponent, updateProps } = setComponent(
-    Invite,
-    tableContext,
-    applicationContext(mocks),
-  );
-
   const mockRefetch = jest.fn();
-  setProps({
-    invite: pendingInvite,
-    key: 1,
-    refetch: mockRefetch,
+
+  const { renderComponent, updateProps } = setComponent(Invite, {
+    decorators: [tableDecorator, dataDecorator(mocks)],
+    props: {
+      invite: pendingInvite,
+      key: 1,
+      refetch: mockRefetch,
+    },
   });
 
   beforeEach(() => {

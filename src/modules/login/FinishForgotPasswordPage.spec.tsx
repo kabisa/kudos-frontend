@@ -4,7 +4,7 @@ import { RouterBypassFinishForgotPasswordPage as FinishForgotPasswordPage } from
 import { fireEvent, screen, waitFor } from "@testing-library/react";
 import { createBrowserHistory } from "history";
 import { makeFC, setComponent } from "../../support/testing/testComponent";
-import { applicationContext } from "../../support/testing/testContexts";
+import { dataDecorator } from "../../support/testing/testDecorators";
 
 let mutationCalled = false;
 const mocks = [
@@ -45,29 +45,30 @@ const mocks = [
   },
 ];
 
+const createLocationWithToken = (token: string) => ({
+  search: `reset_password_token=${token}`,
+  pathname: "",
+  state: "",
+  hash: "",
+});
+
 describe("<FinishForgotPasswordPage />", () => {
-  const { setProps, renderComponent, updateProps } = setComponent(
+  const { renderComponent, updateProps } = setComponent(
     makeFC(FinishForgotPasswordPage),
-    applicationContext(mocks),
-  );
-
-  const createLocationWithToken = (token: string) => ({
-    search: `reset_password_token=${token}`,
-    pathname: "",
-    state: "",
-    hash: "",
-  });
-
-  setProps({
-    location: createLocationWithToken("19810531"),
-    history: createBrowserHistory(),
-    match: {
-      params: "",
-      isExact: false,
-      path: "",
-      url: "",
+    {
+      decorators: [dataDecorator(mocks)],
+      props: {
+        location: createLocationWithToken("19810531"),
+        history: createBrowserHistory(),
+        match: {
+          params: "",
+          isExact: false,
+          path: "",
+          url: "",
+        },
+      },
     },
-  });
+  );
 
   beforeEach(() => {
     mutationCalled = false;

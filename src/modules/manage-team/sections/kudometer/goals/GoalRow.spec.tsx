@@ -4,9 +4,9 @@ import { DELETE_GOAL, GET_KUDOMETERS, Goal } from "../KudometerQueries";
 import { screen, waitFor } from "@testing-library/react";
 import { setComponent } from "../../../../../support/testing/testComponent";
 import {
-  applicationContext,
-  tableContext,
-} from "../../../../../support/testing/testContexts";
+  dataDecorator,
+  tableDecorator,
+} from "../../../../../support/testing/testDecorators";
 
 let mutationCalled = false;
 let queryCalled = false;
@@ -69,15 +69,13 @@ const goal: Goal = {
 describe("<GoalRow />", () => {
   const editGoalMock = jest.fn(() => 1);
 
-  const { setProps, renderComponent } = setComponent(
-    GoalRow,
-    tableContext,
-    applicationContext(mocks),
-  );
-  setProps({
-    key: goal.id,
-    goal,
-    editGoal: editGoalMock,
+  const { renderComponent } = setComponent(GoalRow, {
+    decorators: [tableDecorator, dataDecorator(mocks)],
+    props: {
+      key: goal.id,
+      goal,
+      editGoal: editGoalMock,
+    },
   });
 
   beforeEach(() => {

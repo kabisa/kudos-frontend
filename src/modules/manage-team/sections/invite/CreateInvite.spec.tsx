@@ -6,7 +6,7 @@ import {
   makeFC,
   setComponent,
 } from "../../../../support/testing/testComponent";
-import { applicationContext } from "../../../../support/testing/testContexts";
+import { dataDecorator } from "../../../../support/testing/testDecorators";
 
 let mutationCalled = false;
 const mocks = [
@@ -61,12 +61,12 @@ const mocks = [
 describe("<InvitePage />", () => {
   const mockRefetch = jest.fn();
 
-  const { setProps, renderComponent } = setComponent(
-    makeFC(CreateInvite),
-    applicationContext(mocks),
-  );
-
-  setProps({ refetch: mockRefetch });
+  const { renderComponent } = setComponent(makeFC(CreateInvite), {
+    decorators: [dataDecorator(mocks)],
+    props: {
+      refetch: mockRefetch,
+    },
+  });
 
   beforeEach(() => {
     mockLocalstorage("1");

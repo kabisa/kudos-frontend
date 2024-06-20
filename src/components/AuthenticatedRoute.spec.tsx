@@ -3,17 +3,21 @@ import { Auth } from "../support";
 import { screen } from "@testing-library/react";
 import { setComponent } from "../support/testing/testComponent";
 import { PATH_CHOOSE_TEAM, PATH_LOGIN } from "../routes";
-import { routingContext } from "../support/testing/testContexts";
+import { routingDecorator } from "../support/testing/testDecorators";
 
 jest.mock("../support/auth");
 
 describe("<AuthenticatedRoute />", () => {
-  const { setProps, renderComponent, updateDecorator, updateProps } =
-    setComponent(AuthenticatedRoute, routingContext());
-  setProps({
-    allowNoTeam: false,
-    component: () => <h1>Fake component</h1>,
-  });
+  const { renderComponent, updateDecorator, updateProps } = setComponent(
+    AuthenticatedRoute,
+    {
+      decorators: [routingDecorator()],
+      props: {
+        allowNoTeam: false,
+        component: () => <h1>Fake component</h1>,
+      },
+    },
+  );
 
   afterEach(() => {
     jest.clearAllMocks();

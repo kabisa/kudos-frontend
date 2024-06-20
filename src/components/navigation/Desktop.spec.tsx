@@ -3,9 +3,9 @@ import { mockLocalstorage } from "../../spec_helper";
 import Desktop, { GET_USER } from "./Desktop";
 import { setComponent } from "../../support/testing/testComponent";
 import {
-  applicationContext,
-  routingContext,
-} from "../../support/testing/testContexts";
+  dataDecorator,
+  routingDecorator,
+} from "../../support/testing/testDecorators";
 
 export const mocks = () => [
   {
@@ -25,12 +25,10 @@ export const mocks = () => [
 ];
 
 describe("<Desktop />", () => {
-  const { setProps, renderComponent } = setComponent(
-    Desktop,
-    applicationContext(mocks()),
-    routingContext(),
-  );
-  setProps({});
+  const { renderComponent } = setComponent(Desktop, {
+    decorators: [dataDecorator(mocks()), routingDecorator()],
+    props: {},
+  });
 
   it("renders the users name", async () => {
     renderComponent();

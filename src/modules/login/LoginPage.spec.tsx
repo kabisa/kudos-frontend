@@ -4,9 +4,9 @@ import { MUTATION_LOGIN } from "./LoginPage";
 import { fireEvent, screen, waitFor } from "@testing-library/react";
 import { makeFC, setComponent } from "../../support/testing/testComponent";
 import {
-  applicationContext,
-  routingContext,
-} from "../../support/testing/testContexts";
+  dataDecorator,
+  routingDecorator,
+} from "../../support/testing/testDecorators";
 
 let mutationCalled = false;
 const mocks = [
@@ -49,12 +49,10 @@ const mocks = [
 ];
 
 describe("<LoginPage />", () => {
-  const { setProps, renderComponent } = setComponent(
-    makeFC(LoginPage),
-    applicationContext(mocks),
-    routingContext(),
-  );
-  setProps({});
+  const { renderComponent } = setComponent(makeFC(LoginPage), {
+    decorators: [dataDecorator(mocks), routingDecorator()],
+    props: {},
+  });
 
   beforeEach(() => {
     mutationCalled = false;

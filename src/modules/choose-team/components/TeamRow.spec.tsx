@@ -3,21 +3,22 @@ import TeamRow from "./TeamRow";
 import { Storage } from "../../../support/storage";
 import { screen } from "@testing-library/react";
 import { setComponent } from "../../../support/testing/testComponent";
-import { routingContext } from "../../../support/testing/testContexts";
+import { routingDecorator } from "../../../support/testing/testDecorators";
 
 describe("<TeamRow />", () => {
   let history: MemoryHistory;
-  const { setProps, renderComponent } = setComponent(TeamRow, routingContext());
+  const { renderComponent } = setComponent(TeamRow, {
+    decorators: [routingDecorator()],
+    props: {
+      id: "1",
+      name: "Kabisa",
+      userRole: "Admin",
+    },
+  });
 
   beforeEach(() => {
     history = createMemoryHistory();
     Storage.setItem = jest.fn();
-
-    setProps({
-      id: "1",
-      name: "Kabisa",
-      userRole: "Admin",
-    });
   });
 
   it("shows the team name", () => {

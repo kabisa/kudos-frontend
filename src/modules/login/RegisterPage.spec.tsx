@@ -4,9 +4,9 @@ import { MUTATION_REGISTER } from "./RegisterPage";
 import { fireEvent, screen, waitFor } from "@testing-library/react";
 import { makeFC, setComponent } from "../../support/testing/testComponent";
 import {
-  applicationContext,
-  routingContext,
-} from "../../support/testing/testContexts";
+  dataDecorator,
+  routingDecorator,
+} from "../../support/testing/testDecorators";
 
 let mutationCalled = false;
 const mocks = [
@@ -51,12 +51,10 @@ const mocks = [
 ];
 
 describe("<RegisterPage />", () => {
-  const { setProps, renderComponent } = setComponent(
-    makeFC(RegisterPage),
-    applicationContext(mocks),
-    routingContext(),
-  );
-  setProps({});
+  const { renderComponent } = setComponent(makeFC(RegisterPage), {
+    decorators: [dataDecorator(mocks), routingDecorator()],
+    props: {},
+  });
 
   beforeEach(() => {
     mutationCalled = false;

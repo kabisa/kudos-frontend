@@ -4,7 +4,7 @@ import { Storage } from "../../../support/storage";
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { setComponent } from "../../../support/testing/testComponent";
-import { applicationContext } from "../../../support/testing/testContexts";
+import { dataDecorator } from "../../../support/testing/testDecorators";
 
 const fakeMutation = gql`
   mutation fakeMutation($team_invite_id: ID!) {
@@ -39,17 +39,16 @@ jest.mock("react-router-dom", () => ({
 }));
 
 describe("<ChoiceButton />", () => {
-  const { setProps, renderComponent, updateProps } = setComponent(
-    ChoiceButton,
-    applicationContext(mocks),
-  );
-  setProps({
-    inviteId: "1",
-    variant: "primary",
-    mutation: fakeMutation,
-    accept: true,
-    teamId: "1",
-    text: "button text",
+  const { renderComponent, updateProps } = setComponent(ChoiceButton, {
+    decorators: [dataDecorator(mocks)],
+    props: {
+      inviteId: "1",
+      variant: "primary",
+      mutation: fakeMutation,
+      accept: true,
+      teamId: "1",
+      text: "button text",
+    },
   });
 
   beforeEach(() => {

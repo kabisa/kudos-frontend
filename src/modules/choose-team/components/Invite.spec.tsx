@@ -1,7 +1,7 @@
 import { Invite, InviteModel } from "./Invite";
 import { screen } from "@testing-library/react";
 import { setComponent } from "../../../support/testing/testComponent";
-import { applicationContext } from "../../../support/testing/testContexts";
+import { dataDecorator } from "../../../support/testing/testDecorators";
 
 const invite: InviteModel = {
   id: "1",
@@ -12,12 +12,9 @@ const invite: InviteModel = {
 };
 
 describe("<Invite />", () => {
-  const { setProps, renderComponent } = setComponent(
-    Invite,
-    applicationContext(),
-  );
-  setProps({
-    invite,
+  const { renderComponent } = setComponent(Invite, {
+    decorators: [dataDecorator()],
+    props: { invite },
   });
 
   it("renders the team name", async () => {

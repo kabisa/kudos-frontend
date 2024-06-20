@@ -3,7 +3,7 @@ import {
   makeFC,
   setComponent,
 } from "../../../../support/testing/testComponent";
-import { applicationContext } from "../../../../support/testing/testContexts";
+import { dataDecorator } from "../../../../support/testing/testDecorators";
 import MemberSection, { GET_USERS } from "./Members";
 import { screen, waitFor } from "@testing-library/react";
 
@@ -53,11 +53,10 @@ const mocksWithError = [
 ];
 
 describe("<Member />", () => {
-  const { setProps, renderComponent, updateDecorator } = setComponent(
+  const { renderComponent, updateDecorator } = setComponent(
     makeFC(MemberSection),
-    applicationContext(mocks()),
+    { decorators: [dataDecorator(mocks())], props: {} },
   );
-  setProps({});
 
   beforeEach(() => {
     mockLocalstorage("1");

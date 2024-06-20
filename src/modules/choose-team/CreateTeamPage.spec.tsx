@@ -4,9 +4,9 @@ import { Storage } from "../../support/storage";
 import { fireEvent, screen, waitFor } from "@testing-library/react";
 import { setComponent } from "../../support/testing/testComponent";
 import {
-  applicationContext,
-  routingContext,
-} from "../../support/testing/testContexts";
+  dataDecorator,
+  routingDecorator,
+} from "../../support/testing/testDecorators";
 
 let mutationCalled = false;
 const mocks = [
@@ -35,13 +35,10 @@ const mocksWithError = [
 ];
 
 describe("<CreateTeamPage />", () => {
-  const { renderComponent, setProps, updateDecorator } = setComponent(
-    CreateTeamPage,
-    applicationContext(mocks),
-    routingContext(),
-  );
-
-  setProps({});
+  const { renderComponent, updateDecorator } = setComponent(CreateTeamPage, {
+    decorators: [dataDecorator(mocks), routingDecorator()],
+    props: {},
+  });
 
   beforeEach(() => {
     mutationCalled = false;

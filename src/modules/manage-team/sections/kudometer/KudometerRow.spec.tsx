@@ -10,9 +10,9 @@ import { GET_GOAL_PERCENTAGE } from "../../../feed/queries";
 import { screen, waitFor } from "@testing-library/react";
 import { setComponent } from "../../../../support/testing/testComponent";
 import {
-  applicationContext,
-  tableContext,
-} from "../../../../support/testing/testContexts";
+  dataDecorator,
+  tableDecorator,
+} from "../../../../support/testing/testDecorators";
 
 const getKudometer = (isActive: boolean): Kudometer => ({
   id: "1",
@@ -114,17 +114,15 @@ const deleteHandler = jest.fn();
 const editHandler = jest.fn();
 
 describe("<KudometerRow />", () => {
-  const { setProps, renderComponent, updateProps } = setComponent(
-    KudometerRow,
-    tableContext,
-    applicationContext(mocks),
-  );
-  setProps({
-    key: "1",
-    kudometer: getKudometer(false),
-    viewButtonClickHandler: viewButtonHandler,
-    deleteKudometerHandler: deleteHandler,
-    edit: editHandler,
+  const { renderComponent, updateProps } = setComponent(KudometerRow, {
+    decorators: [tableDecorator, dataDecorator(mocks)],
+    props: {
+      key: "1",
+      kudometer: getKudometer(false),
+      viewButtonClickHandler: viewButtonHandler,
+      deleteKudometerHandler: deleteHandler,
+      edit: editHandler,
+    },
   });
 
   beforeEach(() => {

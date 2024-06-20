@@ -10,7 +10,7 @@ import {
   makeFC,
   setComponent,
 } from "../../../../support/testing/testComponent";
-import { applicationContext } from "../../../../support/testing/testContexts";
+import { dataDecorator } from "../../../../support/testing/testDecorators";
 
 let createMutationCalled = false;
 let editMutationCalled = false;
@@ -144,11 +144,10 @@ const mocksWithoutData = [
 ];
 
 describe("<KudometerSection />", () => {
-  const { setProps, renderComponent, updateDecorator } = setComponent(
+  const { renderComponent, updateDecorator } = setComponent(
     makeFC(KudometerSection),
-    applicationContext(mocks),
+    { decorators: [dataDecorator(mocks)], props: {} },
   );
-  setProps({});
 
   beforeEach(() => {
     mockLocalstorage("1");

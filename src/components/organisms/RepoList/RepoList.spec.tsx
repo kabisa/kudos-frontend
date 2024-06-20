@@ -3,7 +3,7 @@ import { GET_POSTS } from "../../../modules/feed/queries";
 import { mockLocalstorage } from "../../../spec_helper";
 import { RepoList } from "./RepoList";
 import { setComponent } from "../../../support/testing/testComponent";
-import { applicationContext } from "../../../support/testing/testContexts";
+import { dataDecorator } from "../../../support/testing/testDecorators";
 
 export const mocks = (hasNextPage: boolean) => [
   {
@@ -81,11 +81,10 @@ const mocksWithError = [
 ];
 
 describe("<RepoList />", () => {
-  const { setProps, renderComponent, updateDecorator } = setComponent(
-    RepoList,
-    applicationContext(mocks(false)),
-  );
-  setProps({});
+  const { renderComponent, updateDecorator } = setComponent(RepoList, {
+    decorators: [dataDecorator(mocks(false))],
+    props: {},
+  });
 
   beforeEach(() => {
     mockLocalstorage("1");

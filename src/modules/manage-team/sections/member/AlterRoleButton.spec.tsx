@@ -1,6 +1,6 @@
 import { mockLocalstorage } from "../../../../spec_helper";
 import { setComponent } from "../../../../support/testing/testComponent";
-import { applicationContext } from "../../../../support/testing/testContexts";
+import { dataDecorator } from "../../../../support/testing/testDecorators";
 import { AlterRoleButton, AlterRoleButtonMode } from "./AlterRoleButton";
 import { ALTER_ROLE } from "./Members";
 import { screen, waitFor } from "@testing-library/react";
@@ -55,14 +55,13 @@ const mocks = [
 const refetch = jest.fn();
 
 describe("<AlterRoleButton />", () => {
-  const { setProps, renderComponent, updateProps } = setComponent(
-    AlterRoleButton,
-    applicationContext(mocks),
-  );
-  setProps({
-    refetch,
-    membership: adminMembership,
-    mode: AlterRoleButtonMode.PROMOTE,
+  const { renderComponent, updateProps } = setComponent(AlterRoleButton, {
+    decorators: [dataDecorator(mocks)],
+    props: {
+      refetch,
+      membership: adminMembership,
+      mode: AlterRoleButtonMode.PROMOTE,
+    },
   });
 
   beforeEach(() => {

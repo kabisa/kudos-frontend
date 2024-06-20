@@ -2,7 +2,7 @@ import { Transaction } from "./index";
 import { FragmentPostResult } from "../../queries";
 import { screen } from "@testing-library/react";
 import { setComponent } from "../../../../support/testing/testComponent";
-import { applicationContext } from "../../../../support/testing/testContexts";
+import { dataDecorator } from "../../../../support/testing/testDecorators";
 
 const transaction: FragmentPostResult = {
   id: "1",
@@ -38,11 +38,10 @@ const transactionWithVote = {
 };
 
 describe("Transaction", () => {
-  const { setProps, renderComponent } = setComponent(
-    Transaction,
-    applicationContext(),
-  );
-  setProps({ transaction: transactionWithVote });
+  const { renderComponent } = setComponent(Transaction, {
+    decorators: [dataDecorator()],
+    props: { transaction: transactionWithVote },
+  });
 
   beforeEach(() => {
     renderComponent();

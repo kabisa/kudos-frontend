@@ -1,6 +1,6 @@
 import { mockLocalstorage } from "../../spec_helper";
 import { setComponent } from "../../support/testing/testComponent";
-import { applicationContext } from "../../support/testing/testContexts";
+import { dataDecorator } from "../../support/testing/testDecorators";
 import Statistics, { GET_GOAL_PERCENTAGE } from "./Statistics";
 import { screen, waitFor, within } from "@testing-library/react";
 
@@ -39,11 +39,10 @@ export const mocks = (teamId: string) => [
 ];
 
 describe("<Statistics />", () => {
-  const { setProps, renderComponent } = setComponent(
-    Statistics,
-    applicationContext(mocks("1")),
-  );
-  setProps({});
+  const { renderComponent } = setComponent(Statistics, {
+    decorators: [dataDecorator(mocks("1"))],
+    props: {},
+  });
 
   beforeEach(() => {
     mockLocalstorage("1");

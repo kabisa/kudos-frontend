@@ -11,7 +11,7 @@ import {
   makeFC,
   setComponent,
 } from "../../../../support/testing/testComponent";
-import { applicationContext } from "../../../../support/testing/testContexts";
+import { dataDecorator } from "../../../../support/testing/testDecorators";
 
 export const mocksWithData = (teamId: string) => [
   {
@@ -78,11 +78,16 @@ const mocksWithoutData = (teamId: string) => [
 const handleChangeMock = jest.fn();
 
 describe("<DropdownRemote />", () => {
-  const { setProps, renderComponent, updateDecorator } = setComponent(
+  const { renderComponent, updateDecorator } = setComponent(
     makeFC(DropdownRemote),
-    applicationContext(mocksWithData("1")),
+    {
+      decorators: [dataDecorator(mocksWithData("1"))],
+      props: {
+        onChange: handleChangeMock,
+        error: false,
+      },
+    },
   );
-  setProps({ onChange: handleChangeMock, error: false });
 
   beforeEach(() => {
     mockLocalstorage("1");
