@@ -1,21 +1,18 @@
-import { mockLocalstorage, withMockedProviders } from "../../spec_helper";
+import { mockLocalstorage } from "../../spec_helper";
 import Mobile from "./Mobile";
 import { Auth } from "../../support";
-import { RenderResult, render, screen } from "@testing-library/react";
-
-let result: RenderResult | null = null;
-const setup = () => {
-  if (result) {
-    result.unmount();
-  }
-  result = render(withMockedProviders(<Mobile />));
-};
+import { screen } from "@testing-library/react";
+import { setComponent } from "../../support/testing/testComponent";
+import { routingContext } from "../../support/testing/testContexts";
 
 describe("<Mobile />", () => {
   mockLocalstorage("fakeToken");
 
+  const { setProps, renderComponent } = setComponent(Mobile, routingContext());
+  setProps({});
+
   beforeEach(() => {
-    setup();
+    renderComponent();
   });
 
   it("has a button to the settings page", () => {
@@ -44,7 +41,7 @@ describe("<Mobile />", () => {
 
   it("has no buttons to the feed, statistics and notifications page if the user has no team", () => {
     Auth.hasTeam = jest.fn(() => false);
-    setup();
+    renderComponent();
 
     expect(screen.queryByRole("link", { name: "monitoring" })).toBeNull();
     expect(screen.queryByRole("link", { name: "notifications" })).toBeNull();

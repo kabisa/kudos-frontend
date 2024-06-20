@@ -1,15 +1,23 @@
-import { mockLocalstorage, withMockedProviders } from "../../spec_helper";
+import { mockLocalstorage } from "../../spec_helper";
+import { setComponent } from "../../support/testing/testComponent";
+import {
+  applicationContext,
+  routingContext,
+} from "../../support/testing/testContexts";
 import { SettingsPage } from "./index";
-import { render, screen } from "@testing-library/react";
-
-const setup = () => {
-  render(withMockedProviders(<SettingsPage />));
-};
+import { screen } from "@testing-library/react";
 
 describe("<SettingsPage />", () => {
+  const { setProps, renderComponent } = setComponent(
+    SettingsPage,
+    applicationContext(),
+    routingContext(),
+  );
+  setProps({});
+
   it("shows the invite button if the user is an admin", () => {
     mockLocalstorage("admin");
-    setup();
+    renderComponent();
 
     const inviteButton = screen.queryByRole("button", {
       name: "Invite",
@@ -19,7 +27,7 @@ describe("<SettingsPage />", () => {
 
   it("hides the invite button if the user is a member", () => {
     mockLocalstorage("member");
-    setup();
+    renderComponent();
 
     const inviteButton = screen.queryByRole("button", {
       name: "Invite",

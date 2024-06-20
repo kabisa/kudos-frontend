@@ -1,8 +1,8 @@
 import { GET_TEAMS } from "./TeamList";
-import { applicationContext } from "../../../spec_helper";
 import { TeamList } from "./index";
 import { screen } from "@testing-library/react";
-import { setComponent } from "../../../support/testing/testHelper";
+import { setComponent } from "../../../support/testing/testComponent";
+import { applicationContext } from "../../../support/testing/testContexts";
 
 const mocksWithInvite = [
   {

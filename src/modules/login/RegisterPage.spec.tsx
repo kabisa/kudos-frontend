@@ -1,8 +1,12 @@
 import { GraphQLError } from "graphql";
-import { withMockedProviders } from "../../spec_helper";
 import { RegisterPage } from "./index";
 import { MUTATION_REGISTER } from "./RegisterPage";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, screen, waitFor } from "@testing-library/react";
+import { makeFC, setComponent } from "../../support/testing/testComponent";
+import {
+  applicationContext,
+  routingContext,
+} from "../../support/testing/testContexts";
 
 let mutationCalled = false;
 const mocks = [
@@ -47,9 +51,17 @@ const mocks = [
 ];
 
 describe("<RegisterPage />", () => {
+  const { setProps, renderComponent } = setComponent(
+    makeFC(RegisterPage),
+    applicationContext(mocks),
+    routingContext(),
+  );
+  setProps({});
+
   beforeEach(() => {
     mutationCalled = false;
-    render(withMockedProviders(<RegisterPage />, mocks));
+
+    renderComponent();
   });
 
   it("handles input correctly", async () => {

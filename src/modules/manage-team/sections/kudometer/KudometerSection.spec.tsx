@@ -1,17 +1,16 @@
-import { mockLocalstorage, withMockedProviders } from "../../../../spec_helper";
+import { mockLocalstorage } from "../../../../spec_helper";
 import KudometerSection from "./KudometerSection";
 import {
   CREATE_KUDOMETER,
   GET_KUDOMETERS,
   UPDATE_KUDOMETER,
 } from "./KudometerQueries";
+import { fireEvent, screen, waitFor } from "@testing-library/react";
 import {
-  fireEvent,
-  render,
-  RenderResult,
-  screen,
-  waitFor,
-} from "@testing-library/react";
+  makeFC,
+  setComponent,
+} from "../../../../support/testing/testComponent";
+import { applicationContext } from "../../../../support/testing/testContexts";
 
 let createMutationCalled = false;
 let editMutationCalled = false;
@@ -145,20 +144,21 @@ const mocksWithoutData = [
 ];
 
 describe("<KudometerSection />", () => {
-  let wrapper: RenderResult;
+  const { setProps, renderComponent, updateDecorator } = setComponent(
+    makeFC(KudometerSection),
+    applicationContext(mocks),
+  );
+  setProps({});
 
   beforeEach(() => {
     mockLocalstorage("1");
     createMutationCalled = false;
     editMutationCalled = false;
-    wrapper = render(withMockedProviders(<KudometerSection />, mocks));
-  });
-
-  afterEach(() => {
-    wrapper.unmount();
   });
 
   it("shows a loading state", async () => {
+    renderComponent();
+
     expect(screen.getByText("Loading...")).toBeInTheDocument();
     await waitFor(() => {
       expect(screen.queryByText("Loading...")).toBeNull();
@@ -166,16 +166,17 @@ describe("<KudometerSection />", () => {
   });
 
   it("shows when there are no kudometers", async () => {
-    wrapper = render(
-      withMockedProviders(<KudometerSection />, mocksWithoutData),
-    );
+    updateDecorator("application", { mocks: mocksWithoutData });
+    renderComponent();
+
     expect(
       await screen.findByRole("cell", { name: "No kudometers available" }),
     ).toBeInTheDocument();
   });
 
   it("shows when there is an error", async () => {
-    wrapper = render(withMockedProviders(<KudometerSection />, mocksWithError));
+    updateDecorator("application", { mocks: mocksWithError });
+    renderComponent();
 
     expect(
       await screen.findByText("Error! Something went wrong"),
@@ -183,12 +184,16 @@ describe("<KudometerSection />", () => {
   });
 
   it("shows a row for each kudometer", async () => {
+    renderComponent();
+
     // 1 header row, 2 data rows
     expect(await screen.findAllByRole("row")).toHaveLength(1 + 2);
   });
 
   describe("create kudometer", () => {
     it("calls the create mutation", async () => {
+      renderComponent();
+
       const inputField = screen.getByRole("textbox", { name: "Name" });
       fireEvent.change(inputField, { target: { value: "Test kudometer" } });
 
@@ -203,6 +208,8 @@ describe("<KudometerSection />", () => {
     });
 
     it("does not call the mutation if the name is empty", async () => {
+      renderComponent();
+
       const createButton = screen.getByRole("button", {
         name: "Create kudometer",
       });
@@ -216,6 +223,8 @@ describe("<KudometerSection />", () => {
 
   describe("edit", () => {
     it("calls the edit mutation", async () => {
+      renderComponent();
+
       await waitFor(() => {
         expect(screen.queryByText("Loading...")).toBeNull();
       });
@@ -243,6 +252,8 @@ describe("<KudometerSection />", () => {
   });
 
   it("sets the selected kudometer", async () => {
+    renderComponent();
+
     await waitFor(() => {
       expect(screen.queryByText("Loading...")).toBeNull();
     });
@@ -258,6 +269,8 @@ describe("<KudometerSection />", () => {
   });
 
   it("deselects the selected kudometer", async () => {
+    renderComponent();
+
     await waitFor(() => {
       expect(screen.queryByText("Loading...")).toBeNull();
     });

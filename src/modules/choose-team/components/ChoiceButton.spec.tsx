@@ -1,9 +1,10 @@
 import { gql } from "@apollo/client";
 import ChoiceButton from "./ChoiceButton";
-import { withMockedProviders } from "../../../spec_helper";
 import { Storage } from "../../../support/storage";
-import { render, screen, waitFor } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { setComponent } from "../../../support/testing/testComponent";
+import { applicationContext } from "../../../support/testing/testContexts";
 
 const fakeMutation = gql`
   mutation fakeMutation($team_invite_id: ID!) {
@@ -38,43 +39,32 @@ jest.mock("react-router-dom", () => ({
 }));
 
 describe("<ChoiceButton />", () => {
+  const { setProps, renderComponent, updateProps } = setComponent(
+    ChoiceButton,
+    applicationContext(mocks),
+  );
+  setProps({
+    inviteId: "1",
+    variant: "primary",
+    mutation: fakeMutation,
+    accept: true,
+    teamId: "1",
+    text: "button text",
+  });
+
   beforeEach(() => {
     mutationCalled = false;
     Storage.setItem = jest.fn();
   });
 
   it("renders the provided text", () => {
-    render(
-      withMockedProviders(
-        <ChoiceButton
-          inviteId="1"
-          variant="primary"
-          mutation={fakeMutation}
-          accept
-          teamId="1"
-          text="button text"
-        />,
-        mocks,
-      ),
-    );
+    renderComponent();
 
     expect(screen.getByText("button text")).toBeInTheDocument();
   });
 
   it("disables while loading", async () => {
-    render(
-      withMockedProviders(
-        <ChoiceButton
-          inviteId="1"
-          variant="primary"
-          mutation={fakeMutation}
-          accept
-          teamId="1"
-          text="button text"
-        />,
-        mocks,
-      ),
-    );
+    renderComponent();
 
     const button = screen.getByRole("button", { name: "button text" });
     userEvent.click(button);
@@ -85,19 +75,7 @@ describe("<ChoiceButton />", () => {
   });
 
   it("calls the mutation on button click", async () => {
-    render(
-      withMockedProviders(
-        <ChoiceButton
-          inviteId="1"
-          variant="primary"
-          mutation={fakeMutation}
-          accept
-          teamId="1"
-          text="button text"
-        />,
-        mocks,
-      ),
-    );
+    renderComponent();
 
     userEvent.click(screen.getByRole("button", { name: "button text" }));
 
@@ -107,41 +85,19 @@ describe("<ChoiceButton />", () => {
   });
 
   it("sets the team id if the accept property is true", async () => {
-    render(
-      withMockedProviders(
-        <ChoiceButton
-          inviteId="1"
-          variant="primary"
-          mutation={fakeMutation}
-          accept
-          teamId="1"
-          text="button text"
-        />,
-        mocks,
-      ),
-    );
+    updateProps({ accept: true });
+    renderComponent();
 
     userEvent.click(screen.getByRole("button", { name: "button text" }));
 
     await waitFor(() => {
-      expect(Storage.setItem).toBeCalledWith("team_id", "1");
+      expect(Storage.setItem).toHaveBeenCalledWith("team_id", "1");
     });
   });
 
   it("navigates to the next page if the accept property is true", async () => {
-    render(
-      withMockedProviders(
-        <ChoiceButton
-          inviteId="1"
-          variant="primary"
-          mutation={fakeMutation}
-          accept
-          teamId="1"
-          text="button text"
-        />,
-        mocks,
-      ),
-    );
+    updateProps({ accept: true });
+    renderComponent();
 
     userEvent.click(screen.getByRole("button", { name: "button text" }));
 
@@ -150,20 +106,9 @@ describe("<ChoiceButton />", () => {
     });
   });
 
-  it("doesnt set the team id the accept property is false", async () => {
-    render(
-      withMockedProviders(
-        <ChoiceButton
-          inviteId="1"
-          variant="primary"
-          mutation={fakeMutation}
-          accept={false}
-          teamId="1"
-          text="button text"
-        />,
-        mocks,
-      ),
-    );
+  it("does not set the team id the accept property is false", async () => {
+    updateProps({ accept: false });
+    renderComponent();
 
     userEvent.click(screen.getByRole("button", { name: "button text" }));
 

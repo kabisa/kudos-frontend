@@ -1,11 +1,12 @@
+import { MockedFunction, mockLocalstorage } from "../../../../spec_helper";
+import { setComponent } from "../../../../support/testing/testComponent";
 import {
-  MockedFunction,
-  mockLocalstorage,
-  withMockedProviders,
-} from "../../../../spec_helper";
+  applicationContext,
+  tableContext,
+} from "../../../../support/testing/testContexts";
 import { DELETE_GUIDELINE, Guideline } from "./Guideline";
 import { GET_GUIDELINES } from "./GuidelinesSection";
-import { render, screen, waitFor } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 
 let mutationCalled = false;
 let getGuidelinesCalled = false;
@@ -65,25 +66,23 @@ const guideline = {
 describe("<Guideline />", () => {
   const editGuidelineMock = jest.fn();
 
+  const { setProps, renderComponent } = setComponent(
+    Guideline,
+    tableContext,
+    applicationContext(mocks),
+  );
+  setProps({
+    key: guideline.key,
+    name: guideline.name,
+    id: guideline.id,
+    kudos: guideline.kudos,
+    editGuideline: editGuidelineMock,
+  });
+
   beforeEach(() => {
     mockLocalstorage("1");
     global.confirm = jest.fn(() => true);
-    render(
-      withMockedProviders(
-        <table>
-          <tbody>
-            <Guideline
-              key={guideline.key}
-              name={guideline.name}
-              id={guideline.id}
-              kudos={guideline.kudos}
-              editGuideline={editGuidelineMock}
-            />
-          </tbody>
-        </table>,
-        mocks,
-      ),
-    );
+    renderComponent();
   });
 
   it("renders the guideline name", () => {

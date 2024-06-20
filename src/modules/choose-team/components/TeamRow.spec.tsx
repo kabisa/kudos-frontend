@@ -1,16 +1,13 @@
 import { createMemoryHistory, MemoryHistory } from "history";
-import { applicationContext } from "../../../spec_helper";
 import TeamRow from "./TeamRow";
 import { Storage } from "../../../support/storage";
 import { screen } from "@testing-library/react";
-import { setComponent } from "../../../support/testing/testHelper";
+import { setComponent } from "../../../support/testing/testComponent";
+import { routingContext } from "../../../support/testing/testContexts";
 
 describe("<TeamRow />", () => {
   let history: MemoryHistory;
-  const { setProps, renderComponent } = setComponent(
-    TeamRow,
-    applicationContext(),
-  );
+  const { setProps, renderComponent } = setComponent(TeamRow, routingContext());
 
   beforeEach(() => {
     history = createMemoryHistory();

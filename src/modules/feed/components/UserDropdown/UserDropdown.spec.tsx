@@ -1,12 +1,17 @@
-import { mockLocalstorage, withMockedProviders } from "../../../../spec_helper";
+import { mockLocalstorage } from "../../../../spec_helper";
 import DropdownRemote from "./UserDropdown";
 import { GET_USERS } from "../../queries";
-import { render, screen, waitFor } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 import {
   getSelectOptions,
   openSelect,
 } from "../../../../support/testing/reactSelectHelpers";
 import userEvent from "@testing-library/user-event";
+import {
+  makeFC,
+  setComponent,
+} from "../../../../support/testing/testComponent";
+import { applicationContext } from "../../../../support/testing/testContexts";
 
 export const mocksWithData = (teamId: string) => [
   {
@@ -72,22 +77,20 @@ const mocksWithoutData = (teamId: string) => [
 
 const handleChangeMock = jest.fn();
 
-const setup = (mocks: any) => {
-  render(
-    withMockedProviders(
-      <DropdownRemote onChange={handleChangeMock} error={false} />,
-      mocks,
-    ),
-  );
-};
-
 describe("<DropdownRemote />", () => {
+  const { setProps, renderComponent, updateDecorator } = setComponent(
+    makeFC(DropdownRemote),
+    applicationContext(mocksWithData("1")),
+  );
+  setProps({ onChange: handleChangeMock, error: false });
+
   beforeEach(() => {
     mockLocalstorage("1");
   });
 
   it("shows when the users are loading", async () => {
-    setup(mocksWithData("1"));
+    renderComponent();
+
     const input = screen.getByRole("combobox", {
       description: "Receivers",
       hidden: true,
@@ -102,7 +105,9 @@ describe("<DropdownRemote />", () => {
   });
 
   it.skip("shows when there is an error", () => {
-    setup(mocksWithError);
+    updateDecorator("application", { mocks: mocksWithError });
+    renderComponent();
+
     const input = screen.getByRole("combobox", {
       description: "Receivers",
       hidden: true,
@@ -111,7 +116,9 @@ describe("<DropdownRemote />", () => {
   });
 
   it("shows when there are no users", async () => {
-    setup(mocksWithoutData("1"));
+    updateDecorator("application", { mocks: mocksWithoutData("1") });
+    renderComponent();
+
     const input = await screen.findByRole("combobox", {
       description: "Receivers",
     });
@@ -121,7 +128,8 @@ describe("<DropdownRemote />", () => {
   });
 
   it("creates an option for each user", async () => {
-    setup(mocksWithData("1"));
+    renderComponent();
+
     const input = await screen.findByRole("combobox", {
       description: "Receivers",
     });
@@ -131,7 +139,8 @@ describe("<DropdownRemote />", () => {
   });
 
   it("handles change correctly", async () => {
-    setup(mocksWithData("1"));
+    renderComponent();
+
     const input = await screen.findByRole("combobox", {
       description: "Receivers",
     });

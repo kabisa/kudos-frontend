@@ -1,11 +1,16 @@
-import { mockLocalstorage, withMockedProviders } from "../../../../spec_helper";
+import { mockLocalstorage } from "../../../../spec_helper";
+import {
+  makeFC,
+  setComponent,
+} from "../../../../support/testing/testComponent";
+import { applicationContext } from "../../../../support/testing/testContexts";
 import { EditGuideline } from "./EditGuideline";
 import {
   CREATE_GUIDELINE,
   GET_GUIDELINES,
   UPDATE_GUIDELINE,
 } from "./GuidelinesSection";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, screen, waitFor } from "@testing-library/react";
 import { createRef } from "react";
 
 let createMutationCalled = false;
@@ -86,6 +91,12 @@ const mocks = [
 ];
 
 describe("<EditGuideline/>", () => {
+  const { setProps, renderComponent, updateProps } = setComponent(
+    makeFC(EditGuideline),
+    applicationContext(mocks),
+  );
+  setProps({});
+
   beforeEach(() => {
     mockLocalstorage("1");
     updateMutationCalled = false;
@@ -94,7 +105,7 @@ describe("<EditGuideline/>", () => {
   });
 
   it("calls the create mutation if editing is set to false", async () => {
-    render(withMockedProviders(<EditGuideline />, mocks));
+    renderComponent();
 
     const amountKudoInput = screen.getByLabelText("Amount of kudos");
     fireEvent.change(amountKudoInput, { target: { value: "10" } });
@@ -112,7 +123,8 @@ describe("<EditGuideline/>", () => {
 
   it("calls the update mutation if editing is set to true", async () => {
     const componentRef = createRef<EditGuideline>();
-    render(withMockedProviders(<EditGuideline ref={componentRef} />, mocks));
+    updateProps({ ref: componentRef });
+    renderComponent();
 
     componentRef.current?.setEditState(2, "10", "test guideline");
 
@@ -135,7 +147,8 @@ describe("<EditGuideline/>", () => {
 
   it("shows a cancel button when editing", () => {
     const componentRef = createRef<EditGuideline>();
-    render(withMockedProviders(<EditGuideline ref={componentRef} />, mocks));
+    updateProps({ ref: componentRef });
+    renderComponent();
 
     componentRef.current?.setEditState(2, "10", "test guideline");
 
@@ -146,7 +159,7 @@ describe("<EditGuideline/>", () => {
   });
 
   it("does not show a cancel button when not editing", () => {
-    render(withMockedProviders(<EditGuideline />, mocks));
+    renderComponent();
 
     const cancelButton = screen.queryByRole("button", {
       name: "Cancel",
@@ -156,7 +169,8 @@ describe("<EditGuideline/>", () => {
 
   it("clears the edit state when pressing the cancel buttons", () => {
     const componentRef = createRef<EditGuideline>();
-    render(withMockedProviders(<EditGuideline ref={componentRef} />, mocks));
+    updateProps({ ref: componentRef });
+    renderComponent();
 
     componentRef.current?.setEditState(2, "10", "test guideline");
 

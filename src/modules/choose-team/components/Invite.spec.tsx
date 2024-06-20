@@ -1,7 +1,7 @@
 import { Invite, InviteModel } from "./Invite";
 import { screen } from "@testing-library/react";
-import { setComponent } from "../../../support/testing/testHelper";
-import { applicationContext } from "../../../spec_helper";
+import { setComponent } from "../../../support/testing/testComponent";
+import { applicationContext } from "../../../support/testing/testContexts";
 
 const invite: InviteModel = {
   id: "1",

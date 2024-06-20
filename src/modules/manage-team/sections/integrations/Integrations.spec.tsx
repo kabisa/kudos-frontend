@@ -1,10 +1,15 @@
-import { createMemoryHistory, History } from "history";
-import { mockLocalstorage, withMockedProviders } from "../../../../spec_helper";
+import { createMemoryHistory } from "history";
+import { mockLocalstorage } from "../../../../spec_helper";
 import IntegrationsSection, {
   GET_TEAM_INTEGRATIONS,
   REMOVE_SLACK,
 } from "./Integrations";
-import { render, screen, waitFor } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
+import {
+  makeFC,
+  setComponent,
+} from "../../../../support/testing/testComponent";
+import { applicationContext } from "../../../../support/testing/testContexts";
 
 let mutationCalled = false;
 const mocksWithoutSlack = [
@@ -80,20 +85,23 @@ const mocksWithError = [
   },
 ];
 
-let history: History;
-const setup = (mocks: any) => {
-  history = createMemoryHistory();
-  mutationCalled = false;
-  render(withMockedProviders(<IntegrationsSection history={history} />, mocks));
-};
-
 describe("<IntegrationsSection />", () => {
+  const { setProps, renderComponent, updateDecorator } = setComponent(
+    makeFC(IntegrationsSection),
+    applicationContext(mocksWithoutSlack),
+  );
+  setProps({
+    history: createMemoryHistory(),
+  });
+
   beforeEach(() => {
     mockLocalstorage("1");
+    mutationCalled = false;
   });
 
   it("shows when the query is loading", async () => {
-    setup(mocksWithoutSlack);
+    renderComponent();
+
     expect(screen.getByText("Loading...")).toBeInTheDocument();
 
     await waitFor(() => {
@@ -102,14 +110,17 @@ describe("<IntegrationsSection />", () => {
   });
 
   it("shows when there is an error", async () => {
-    setup(mocksWithError);
+    updateDecorator("application", { mocks: mocksWithError });
+    renderComponent();
+
     const errorMessage = await screen.findByText("something went wrong");
     expect(errorMessage).toBeInTheDocument();
   });
 
   describe("not connected to Slack", () => {
     beforeEach(() => {
-      setup(mocksWithoutSlack);
+      updateDecorator("application", { mocks: mocksWithoutSlack });
+      renderComponent();
     });
 
     it("shows the slack disconnected container", async () => {
@@ -147,7 +158,8 @@ describe("<IntegrationsSection />", () => {
 
   describe("connected to slack", () => {
     beforeEach(() => {
-      setup(mocksWitSlack);
+      updateDecorator("application", { mocks: mocksWitSlack });
+      renderComponent();
     });
 
     it("shows the connected to slack container", async () => {

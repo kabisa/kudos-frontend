@@ -1,7 +1,12 @@
 import { CreateInvite, MUTATION_CREATE_INVITE } from "./CreateInvite";
-import { mockLocalstorage, withMockedProviders } from "../../../../spec_helper";
+import { mockLocalstorage } from "../../../../spec_helper";
 import { QUERY_GET_INVITES } from "./InvitesSection";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, screen, waitFor } from "@testing-library/react";
+import {
+  makeFC,
+  setComponent,
+} from "../../../../support/testing/testComponent";
+import { applicationContext } from "../../../../support/testing/testContexts";
 
 let mutationCalled = false;
 const mocks = [
@@ -56,10 +61,17 @@ const mocks = [
 describe("<InvitePage />", () => {
   const mockRefetch = jest.fn();
 
+  const { setProps, renderComponent } = setComponent(
+    makeFC(CreateInvite),
+    applicationContext(mocks),
+  );
+
+  setProps({ refetch: mockRefetch });
+
   beforeEach(() => {
     mockLocalstorage("1");
     mutationCalled = false;
-    render(withMockedProviders(<CreateInvite refetch={mockRefetch} />, mocks));
+    renderComponent();
   });
 
   it("renders the e-mail input field", () => {

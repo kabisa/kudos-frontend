@@ -1,9 +1,9 @@
-import { applicationContext } from "../../spec_helper";
 import { Content } from "./ChooseTeamPage";
 import { screen, fireEvent } from "@testing-library/react";
 import { GET_INVITES } from "./components/InviteList";
 import { GET_TEAMS } from "./components/TeamList";
-import { setComponent } from "../../support/testing/testHelper";
+import { setComponent } from "../../support/testing/testComponent";
+import { applicationContext } from "../../support/testing/testContexts";
 
 const mockHistoryPush = jest.fn();
 

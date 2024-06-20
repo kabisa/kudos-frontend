@@ -1,4 +1,5 @@
 import { RenderResult, render } from "@testing-library/react";
+import { forwardRef } from "react";
 
 type DecoratorSettings<
   TDecorators extends Decorator<string, any>,
@@ -13,7 +14,11 @@ type TestHelpers<
   updateProps(newProps: Partial<React.ComponentProps<TComponent>>): void;
   updateDecorator<TKey extends TDecorators[number]["name"]>(
     key: TKey,
-    settings: Partial<DecoratorSettings<TDecorators[number], TKey>>,
+    settings:
+      | Partial<DecoratorSettings<TDecorators[number], TKey>>
+      | ((
+          initialSettings: DecoratorSettings<TDecorators[number], TKey>,
+        ) => Partial<DecoratorSettings<TDecorators[number], TKey>>),
   ): void;
   renderComponent(): RenderResult;
 };
@@ -52,24 +57,42 @@ export const setComponent = <
     string,
     Record<string, unknown>
   > = initializeDecoratorSettings();
+  let lastRender: RenderResult | null = null;
 
   return {
     renderComponent: () => {
       if (initialProps === null) {
         throw new Error("No props specified with setProps");
       }
-      const result = render(
-        decorators.reduce(
-          (result, dec) =>
-            dec.decorator(() => result, decoratorSettings[dec.name]),
-          <Component {...initialProps} {...props} />,
-        ),
-      );
+
+      if (
+        lastRender && // Rendered before
+        document.body.firstChild !== null &&
+        // And still in the document?
+        document.body.firstChild === lastRender.baseElement.firstChild
+      ) {
+        lastRender.rerender(
+          decorators.reduce(
+            (result, dec) =>
+              dec.decorator(() => result, decoratorSettings[dec.name]),
+            <Component {...initialProps} {...props} />,
+          ),
+        );
+      } else {
+        const result = render(
+          decorators.reduce(
+            (result, dec) =>
+              dec.decorator(() => result, decoratorSettings[dec.name]),
+            <Component {...initialProps} {...props} />,
+          ),
+        );
+        lastRender = result;
+      }
 
       props = null;
       decoratorSettings = initializeDecoratorSettings();
 
-      return result;
+      return lastRender;
     },
     setProps: (props) => {
       initialProps = props;
@@ -81,10 +104,36 @@ export const setComponent = <
       props = { ...initialProps, ...props, ...updatedProps };
     },
     updateDecorator: (name, updatedSettings) => {
-      decoratorSettings[name] = {
-        ...decoratorSettings[name],
-        ...updatedSettings,
-      };
+      if (typeof updatedSettings === "function") {
+        decoratorSettings[name] = {
+          ...decoratorSettings[name],
+          ...(updatedSettings(
+            decoratorSettings[name] as DecoratorSettings<
+              TDecorators[number],
+              typeof name
+            >,
+          ) as Record<string, unknown>),
+        };
+      } else {
+        decoratorSettings[name] = {
+          ...decoratorSettings[name],
+          ...updatedSettings,
+        };
+      }
     },
   };
+};
+
+export const makeFC = <TComponentProps,>(
+  Component: React.ComponentClass<TComponentProps>,
+): React.ForwardRefExoticComponent<
+  React.PropsWithoutRef<TComponentProps> &
+    React.RefAttributes<InstanceType<React.ComponentClass<TComponentProps>>>
+> => {
+  const fc = forwardRef<
+    InstanceType<React.ComponentClass<TComponentProps>>,
+    TComponentProps
+  >((props, ref) => <Component {...props} ref={ref} />);
+  fc.displayName = "WrappedClassComponent";
+  return fc;
 };

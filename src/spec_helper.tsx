@@ -1,44 +1,4 @@
-import { MockedProvider } from "@apollo/client/testing";
-import { MemoryRouter, Route } from "react-router-dom";
-import { ApolloCache, InMemoryCache } from "@apollo/client/cache";
-import { PATH_CHOOSE_TEAM, PATH_LOGIN } from "./routes";
-import { Decorator } from "./support/testing/testHelper";
-
-export const withMockedProviders = <TSerialized extends object>(
-  component: any,
-  mocks?: any,
-  cache?: ApolloCache<TSerialized>,
-  useTypeName: boolean = true,
-) => (
-  <MemoryRouter>
-    <MockedProvider mocks={mocks} addTypename={useTypeName} cache={cache}>
-      {component}
-    </MockedProvider>
-    <Route path={PATH_LOGIN}>Login Page</Route>
-    <Route path={PATH_CHOOSE_TEAM}>Choose team Page</Route>
-  </MemoryRouter>
-);
-
-export const applicationContext = <TSerialized extends object>(
-  mocks?: any,
-  cache?: ApolloCache<TSerialized>,
-): Decorator<"application", { useTypeName: boolean; mocks?: any }> => ({
-  name: "application",
-  settings: { useTypeName: true, mocks },
-  decorator: (Component, settings) => (
-    <MemoryRouter>
-      <MockedProvider
-        mocks={settings.mocks}
-        addTypename={settings.useTypeName}
-        cache={cache}
-      >
-        <Component />
-      </MockedProvider>
-      <Route path={PATH_LOGIN}>Login Page</Route>
-      <Route path={PATH_CHOOSE_TEAM}>Choose team Page</Route>
-    </MemoryRouter>
-  ),
-});
+import { InMemoryCache } from "@apollo/client/cache";
 
 export const wait = (amount = 0) =>
   new Promise((resolve) => setTimeout(resolve, amount));

@@ -1,14 +1,19 @@
 import { GraphQLError } from "graphql";
-import { mockLocalstorage, withMockedProviders } from "../../../../spec_helper";
+import { mockLocalstorage } from "../../../../spec_helper";
 import { CREATE_POST, CreatePost } from "./CreatePost";
 import { GET_POSTS } from "../../queries";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, screen } from "@testing-library/react";
 import { mocks as guidelineMocks } from "../../../manage-team/sections/guideline/GuidelinesSection.spec";
 import { mocksWithData as teamMemberMocks } from "../UserDropdown/UserDropdown.spec";
 import {
   getSelectOptions,
   openSelect,
 } from "../../../../support/testing/reactSelectHelpers";
+import { applicationContext } from "../../../../support/testing/testContexts";
+import {
+  makeFC,
+  setComponent,
+} from "../../../../support/testing/testComponent";
 
 const mocks = () => [
   {
@@ -121,18 +126,15 @@ const mocksWithError = [
 ];
 
 describe("<CreatePost />", () => {
-  const setup = (
-    { withErrors = false }: { withErrors: boolean } = { withErrors: false },
-  ) => {
-    render(
-      withMockedProviders(<CreatePost back={false} />, [
-        ...(withErrors ? mocksWithError : []),
-        ...mocks(),
-        ...guidelineMocks("1"),
-        ...teamMemberMocks("1"),
-      ]),
-    );
-  };
+  const { setProps, renderComponent, updateDecorator } = setComponent(
+    makeFC(CreatePost),
+    applicationContext([
+      ...mocks(),
+      ...guidelineMocks("1"),
+      ...teamMemberMocks("1"),
+    ]),
+  );
+  setProps({ back: false });
 
   beforeEach(() => {
     mockLocalstorage("1");
@@ -171,7 +173,8 @@ describe("<CreatePost />", () => {
   };
 
   it("shows a message if the amount is null", async () => {
-    setup();
+    renderComponent();
+
     await pressSubmit();
 
     const errorMessage = await screen.findByText("Amount can't be empty or 0.");
@@ -179,7 +182,8 @@ describe("<CreatePost />", () => {
   });
 
   it("shows a message if there are no receivers", async () => {
-    setup();
+    renderComponent();
+
     await setKudoAmount();
     await pressSubmit();
 
@@ -190,7 +194,8 @@ describe("<CreatePost />", () => {
   });
 
   it("shows a warning if there is no message", async () => {
-    setup();
+    renderComponent();
+
     await setKudoAmount();
     await setReceiver("Egon");
     await pressSubmit();
@@ -200,7 +205,8 @@ describe("<CreatePost />", () => {
   });
 
   it("shows a warning if the message is too short", async () => {
-    setup();
+    renderComponent();
+
     await setKudoAmount();
     await setReceiver("Egon");
     await setMessage("Oi");
@@ -214,7 +220,8 @@ describe("<CreatePost />", () => {
   });
 
   it("shows a warning if the message is too long", async () => {
-    setup();
+    renderComponent();
+
     await setKudoAmount();
     await setReceiver("Egon");
     await setMessage(
@@ -231,7 +238,8 @@ describe("<CreatePost />", () => {
   });
 
   it("shows when the mutation is loading", async () => {
-    setup();
+    renderComponent();
+
     await setKudoAmount();
     await setReceiver("Egon");
     await setMessage("Some message");
@@ -244,7 +252,10 @@ describe("<CreatePost />", () => {
   });
 
   it("shows when there is an error", async () => {
-    setup({ withErrors: true });
+    updateDecorator("application", (settings) => ({
+      mocks: [...mocksWithError, ...settings.mocks],
+    }));
+    renderComponent();
 
     await setKudoAmount();
     await setReceiver("Egon");

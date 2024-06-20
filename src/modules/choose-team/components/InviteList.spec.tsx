@@ -1,5 +1,5 @@
-import { applicationContext } from "../../../spec_helper";
-import { setComponent } from "../../../support/testing/testHelper";
+import { setComponent } from "../../../support/testing/testComponent";
+import { applicationContext } from "../../../support/testing/testContexts";
 import { InviteList } from "./index";
 import { GET_INVITES } from "./InviteList";
 import { screen, waitFor } from "@testing-library/react";

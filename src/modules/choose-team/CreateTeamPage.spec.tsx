@@ -1,9 +1,12 @@
 import { GraphQLError } from "graphql";
-import { applicationContext } from "../../spec_helper";
 import CreateTeamPage, { MUTATION_CREATE_TEAM } from "./CreateTeamPage";
 import { Storage } from "../../support/storage";
 import { fireEvent, screen, waitFor } from "@testing-library/react";
-import { setComponent } from "../../support/testing/testHelper";
+import { setComponent } from "../../support/testing/testComponent";
+import {
+  applicationContext,
+  routingContext,
+} from "../../support/testing/testContexts";
 
 let mutationCalled = false;
 const mocks = [
@@ -35,6 +38,7 @@ describe("<CreateTeamPage />", () => {
   const { renderComponent, setProps, updateDecorator } = setComponent(
     CreateTeamPage,
     applicationContext(mocks),
+    routingContext(),
   );
 
   setProps({});

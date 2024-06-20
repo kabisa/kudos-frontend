@@ -1,11 +1,12 @@
-import {
-  MockedFunction,
-  mockLocalstorage,
-  withMockedProviders,
-} from "../../../../spec_helper";
+import { MockedFunction, mockLocalstorage } from "../../../../spec_helper";
 import { Header, MUTATION_REMOVE_POST } from "./Header";
 import { FragmentPostResult, GET_POSTS } from "../../queries";
-import { screen, render, waitFor } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
+import {
+  makeFC,
+  setComponent,
+} from "../../../../support/testing/testComponent";
+import { applicationContext } from "../../../../support/testing/testContexts";
 
 const transaction: FragmentPostResult = {
   amount: 5,
@@ -85,6 +86,14 @@ const mocks = [
 ];
 
 describe("<Header />", () => {
+  const { setProps, renderComponent, updateProps } = setComponent(
+    makeFC(Header),
+    applicationContext(mocks),
+  );
+  setProps({
+    transaction,
+  });
+
   beforeEach(() => {
     mockLocalstorage("1");
     mutationCalled = false;
@@ -92,41 +101,45 @@ describe("<Header />", () => {
   });
 
   it("shows the correct kudo amount", async () => {
-    render(withMockedProviders(<Header transaction={transaction} />, mocks));
+    renderComponent();
+
     const amount = await screen.findByTestId("post-amount");
     expect(amount.textContent).toBe("5");
   });
 
   // This functionality is disabled in the code
   it.skip("shows the correct timestamp", async () => {
-    render(withMockedProviders(<Header transaction={transaction} />, mocks));
+    renderComponent();
+
     const timestamp = await screen.findByTestId("post-timestamp");
     expect(timestamp.textContent).toContain("a few seconds ago");
   });
 
   it("shows the senders avatar", async () => {
-    render(withMockedProviders(<Header transaction={transaction} />, mocks));
+    renderComponent();
+
     const senderAvatar = await screen.findByTestId("sender-avatar");
     expect(senderAvatar.getAttribute("src")).toBe("fakeAvatarUrl");
   });
 
   it("shows the receivers avatar", async () => {
-    render(withMockedProviders(<Header transaction={transaction} />, mocks));
+    renderComponent();
+
     const receiverAvatar = await screen.findByTestId("receiver-avatar");
     expect(receiverAvatar.getAttribute("src")).toBe("receiverAvatarUrl");
   });
 
   it("allows the user to remove his own post within 15 minutes", () => {
-    render(withMockedProviders(<Header transaction={transaction} />, mocks));
+    renderComponent();
+
     const deleteButton = screen.queryByTestId("delete-button");
     expect(deleteButton).not.toBeNull();
   });
 
   // deletion is always allowed now...
   it.skip("prevents the user to remove his own post after 15 minutes", () => {
-    render(
-      withMockedProviders(<Header transaction={olderTransaction} />, mocks),
-    );
+    updateProps({ transaction: olderTransaction });
+    renderComponent();
 
     const deleteButton = screen.queryByTestId("delete-button");
     expect(deleteButton).toBeNull();
@@ -134,7 +147,7 @@ describe("<Header />", () => {
 
   it("always allows an admin to remove a post", () => {
     mockLocalstorage("admin");
-    render(withMockedProviders(<Header transaction={transaction} />, mocks));
+    renderComponent();
 
     const deleteButton = screen.queryAllByTestId("delete-button");
     expect(deleteButton).not.toBeNull();
@@ -142,7 +155,7 @@ describe("<Header />", () => {
 
   it("does not allow an other user to delete the post", () => {
     mockLocalstorage("3");
-    render(withMockedProviders(<Header transaction={transaction} />, mocks));
+    renderComponent();
 
     const deleteButton = screen.queryByTestId("delete-button");
     expect(deleteButton).toBeNull();
@@ -151,7 +164,7 @@ describe("<Header />", () => {
   describe("when deleting a post", () => {
     beforeEach(() => {
       global.confirm = jest.fn(() => true);
-      render(withMockedProviders(<Header transaction={transaction} />, mocks));
+      renderComponent();
     });
 
     it("shows a confirmation dialog ", () => {

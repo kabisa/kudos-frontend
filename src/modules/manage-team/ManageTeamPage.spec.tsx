@@ -1,15 +1,22 @@
 import { createMemoryHistory, MemoryHistory } from "history";
-import { withMockedProviders } from "../../spec_helper";
 import { ManageTeamPage } from "./ManageTeamPage";
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
+import { makeFC, setComponent } from "../../support/testing/testComponent";
+import { routingContext } from "../../support/testing/testContexts";
 
 describe("<ManageTeamPage/>", () => {
   let history: MemoryHistory;
 
+  const { setProps, renderComponent } = setComponent(
+    makeFC(ManageTeamPage),
+    routingContext(),
+  );
+
   beforeEach(() => {
     history = createMemoryHistory();
+    setProps({ history });
 
-    render(withMockedProviders(<ManageTeamPage history={history} />));
+    renderComponent();
   });
 
   it("navigates to the general section", () => {
