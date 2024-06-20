@@ -31,7 +31,9 @@
 }
 
 .arrow {
-  color: var(--font-color-2);
+  color: var(
+    --font-color-2
+  ) !important; // Temporary fix::content React build ordering issue
 }
 
 .endMessage {
