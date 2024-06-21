@@ -1,7 +1,6 @@
 import { Component, MouseEvent } from "react";
 
-import { History } from "history";
-import { Route, Switch, withRouter } from "react-router-dom";
+import { Route, RouteComponentProps, Switch } from "react-router-dom";
 
 import s from "./ManageTeamPage.module.scss";
 import {
@@ -19,15 +18,11 @@ import { PATH_MANAGE_TEAM } from "../../routes";
 import { Card } from "../../ui/Card";
 import IntegrationSections from "./sections/integrations/Integrations";
 
-export interface Props {
-  history: History;
-}
-
 export interface State {
   activeItem: string;
 }
 
-export class ManageTeamPage extends Component<Props, State> {
+export class ManageTeamPage extends Component<RouteComponentProps, State> {
   sections: { icon: string; name: string }[] = [
     { icon: "settings", name: "general" },
     { icon: "steps", name: "guidelines" },
@@ -37,7 +32,7 @@ export class ManageTeamPage extends Component<Props, State> {
     { icon: "move_up", name: "integrations" },
   ];
 
-  constructor(props: Props) {
+  constructor(props: RouteComponentProps) {
     super(props);
 
     const location = props.history.location.pathname;
@@ -118,5 +113,4 @@ export class ManageTeamPage extends Component<Props, State> {
   }
 }
 
-// @ts-ignore
-export default withRouter(ManageTeamPage);
+export default ManageTeamPage;

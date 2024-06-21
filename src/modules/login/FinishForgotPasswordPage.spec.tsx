@@ -2,9 +2,9 @@ import { GraphQLError } from "graphql";
 import { MUTATION_NEW_PASSWORD } from "./FinishForgotPasswordPage";
 import { RouterBypassFinishForgotPasswordPage as FinishForgotPasswordPage } from "./index";
 import { fireEvent, screen, waitFor } from "@testing-library/react";
-import { createBrowserHistory } from "history";
 import { makeFC, setComponent } from "../../support/testing/testComponent";
 import { dataDecorator } from "../../support/testing/testDecorators";
+import { createRouterProps } from "../../spec_helper";
 
 let mutationCalled = false;
 const mocks = [
@@ -58,14 +58,8 @@ describe("<FinishForgotPasswordPage />", () => {
     {
       decorators: [dataDecorator(mocks)],
       props: {
+        ...createRouterProps(),
         location: createLocationWithToken("19810531"),
-        history: createBrowserHistory(),
-        match: {
-          params: "",
-          isExact: false,
-          path: "",
-          url: "",
-        },
       },
     },
   );

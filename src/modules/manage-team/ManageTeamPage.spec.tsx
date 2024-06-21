@@ -3,6 +3,7 @@ import { ManageTeamPage } from "./ManageTeamPage";
 import { screen } from "@testing-library/react";
 import { makeFC, setComponent } from "../../support/testing/testComponent";
 import { routingDecorator } from "../../support/testing/testDecorators";
+import { createRouterProps } from "../../spec_helper";
 
 describe("<ManageTeamPage/>", () => {
   let history: MemoryHistory;
@@ -13,7 +14,10 @@ describe("<ManageTeamPage/>", () => {
 
   beforeEach(() => {
     history = createMemoryHistory();
-    setProps({ history });
+    setProps({
+      ...createRouterProps(),
+      history,
+    });
 
     renderComponent();
   });

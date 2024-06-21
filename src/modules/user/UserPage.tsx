@@ -1,8 +1,7 @@
 import { Component } from "react";
 import { Query } from "@apollo/client/react/components";
 import { gql } from "@apollo/client";
-import { withRouter } from "react-router-dom";
-import { History } from "history";
+import { RouteComponentProps } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { Auth } from "../../support";
@@ -59,22 +58,18 @@ export interface GetUserResult {
   };
 }
 
-export interface Props {
-  history: History;
-}
-
 export interface State {
   // Future state vars go here
 }
 
-export class UserPage extends Component<Props, State> {
+export class UserPage extends Component<RouteComponentProps, State> {
   slackConnectUrl = `${settings.API_BASE_URL}/auth/slack/user/${Storage.getItem(
     settings.USER_ID_TOKEN,
   )}`;
 
   slackIconPath = `${process.env.PUBLIC_URL}/assets/slack_logo.png`;
 
-  constructor(props: Props) {
+  constructor(props: RouteComponentProps) {
     super(props);
 
     const parsed = queryString.parse(this.props.history.location.search);
@@ -146,5 +141,4 @@ export class UserPage extends Component<Props, State> {
   }
 }
 
-// @ts-ignore
-export default withRouter(UserPage);
+export default UserPage;

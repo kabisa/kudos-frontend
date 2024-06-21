@@ -1,4 +1,6 @@
 import { InMemoryCache } from "@apollo/client/cache";
+import { createMemoryHistory } from "history";
+import { RouteComponentProps } from "react-router-dom";
 
 export const wait = (amount = 0) =>
   new Promise((resolve) => setTimeout(resolve, amount));
@@ -12,6 +14,22 @@ export type MockedFunction<Func extends (...args: any[]) => any> = jest.Mock<
   ReturnType<Func>,
   Parameters<Func>
 >;
+
+export const createRouterProps = (): RouteComponentProps => ({
+  location: {
+    search: "",
+    pathname: "",
+    state: "",
+    hash: "",
+  },
+  history: createMemoryHistory(),
+  match: {
+    params: "",
+    isExact: false,
+    path: "",
+    url: "",
+  },
+});
 
 export const getMockCache = () =>
   new InMemoryCache({

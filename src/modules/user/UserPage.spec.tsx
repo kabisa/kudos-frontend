@@ -1,6 +1,6 @@
 import { createMemoryHistory, MemoryHistory } from "history";
 import { DISCONNECT_SLACK, GET_USER, UserPage } from "./UserPage";
-import { mockLocalstorage } from "../../spec_helper";
+import { createRouterProps, mockLocalstorage } from "../../spec_helper";
 import { PATH_RESET_PASSWORD } from "../../routes";
 import { screen, waitFor, within } from "@testing-library/react";
 import { makeFC, setComponent } from "../../support/testing/testComponent";
@@ -71,7 +71,10 @@ describe("<UserPage/>", () => {
   const original = window;
   beforeEach(() => {
     history = createMemoryHistory();
-    setProps({ history });
+    setProps({
+      ...createRouterProps(),
+      history,
+    });
 
     window = Object.create(window);
     const url = "http://dummy.com";
