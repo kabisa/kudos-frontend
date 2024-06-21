@@ -59,7 +59,7 @@ export type Decorator<
    * @param settings settings to apply on the decoration
    * @returns an updated JSX structure
    */
-  decorator: (Component: React.FC, settings: TSettings) => JSX.Element;
+  Decorator: React.FC<{ Component: React.FC; settings: TSettings }>;
 };
 
 const hasAlreadyRendered = (
@@ -71,7 +71,10 @@ const hasAlreadyRendered = (
   document.body.firstChild === lastRender.baseElement.firstChild;
 
 /**
- * Set the component subject of this test
+ * Set the component subject of this test.
+ *
+ * This component should be a FunctionalComponent. If you want
+ * to test a ClassComponent, you can wrap your component with `makeFC`
  *
  * @example ```
  * const { renderComponent } = setComponent(YourComponent)
@@ -128,8 +131,12 @@ export const setComponent = <
       }
 
       const jsxStructure = (settings.decorators ?? []).reduce(
-        (result, dec) =>
-          dec.decorator(() => result, decoratorSettings[dec.name]),
+        (result, dec) => (
+          <dec.Decorator
+            Component={() => result}
+            settings={decoratorSettings[dec.name]}
+          />
+        ),
         <Component {...initialProps} {...props} />,
       );
 
@@ -173,6 +180,11 @@ export const setComponent = <
   };
 };
 
+/**
+ * Convert a ClassComponent into a FunctionalComponent.
+ * The ref that can be supplied will be a ref to the instance of the
+ * ClassComponent.
+ */
 export const makeFC = <TComponentProps,>(
   Component: React.ComponentClass<TComponentProps>,
 ): React.ForwardRefExoticComponent<

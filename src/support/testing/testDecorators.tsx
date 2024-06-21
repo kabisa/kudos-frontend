@@ -7,7 +7,7 @@ import { Context as ResponsiveContext } from "react-responsive";
 export const responsiveDecorator: Decorator<"responsive", { width: number }> = {
   name: "responsive",
   settings: { width: 1200 },
-  decorator: (Component, settings) => (
+  Decorator: ({ Component, settings }) => (
     <ResponsiveContext.Provider value={{ width: settings.width }}>
       <Component />
     </ResponsiveContext.Provider>
@@ -23,7 +23,7 @@ export const dataDecorator = <TSerialized extends object>(
 > => ({
   name: "application",
   settings: { useTypeName: true, mocks, cache },
-  decorator: (Component, settings) => (
+  Decorator: ({ Component, settings }) => (
     <MockedProvider
       mocks={settings.mocks}
       addTypename={settings.useTypeName}
@@ -42,7 +42,7 @@ export const routingDecorator = (): Decorator<
   settings: {
     paths: {},
   },
-  decorator: (Component, settings) => (
+  Decorator: ({ Component, settings }) => (
     <MemoryRouter>
       <Component />
       {Object.entries(settings.paths).map(([path, content]) => (
@@ -57,7 +57,7 @@ export const routingDecorator = (): Decorator<
 export const tableDecorator: Decorator<"table", Record<string, unknown>> = {
   name: "table",
   settings: {},
-  decorator: (Component) => (
+  Decorator: ({ Component }) => (
     <table>
       <tbody>
         <Component />
