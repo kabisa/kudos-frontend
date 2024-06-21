@@ -345,7 +345,6 @@ export class CreatePost extends Component<CreatePostProps, CreatePostState> {
                           ref={this.userDropdown}
                           onChange={this.handleDropdownChange}
                           error={receiversError}
-                          value={this.state.receivers}
                         />
                         <span className={styles.note}>(v) = virtual user</span>
                       </Label>
