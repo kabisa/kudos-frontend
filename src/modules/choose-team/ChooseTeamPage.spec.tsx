@@ -115,7 +115,7 @@ describe("<ChooseTeamPage />", () => {
   });
 
   it("navigates to the create team page", () => {
-    const { unmount } = renderComponent();
+    renderComponent();
 
     const createTeamButton = screen.getByRole("button", {
       name: "Create team",
@@ -123,6 +123,5 @@ describe("<ChooseTeamPage />", () => {
     fireEvent.click(createTeamButton);
 
     expect(mockHistoryPush).toHaveBeenCalledWith("/create-team");
-    unmount();
   });
 });
