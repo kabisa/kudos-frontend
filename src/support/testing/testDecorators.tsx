@@ -54,7 +54,7 @@ export const routingDecorator = (): Decorator<
   ),
 });
 
-export const tableDecorator: Decorator<"table", Record<string, unknown>> = {
+export const tableDecorator: Decorator<"table"> = {
   name: "table",
   settings: {},
   Decorator: ({ Component }) => (

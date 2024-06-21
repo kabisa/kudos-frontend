@@ -42,7 +42,7 @@ type TestHelpers<
 
 export type Decorator<
   TName extends string,
-  TSettings extends Record<string, unknown>,
+  TSettings extends Record<string, unknown> = Record<string, unknown>,
 > = {
   /**
    * Name of the decorator, can be used in `updateDecorator` to update the settings
