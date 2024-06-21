@@ -6,6 +6,8 @@ type DecoratorSettings<
   TKey extends string,
 > = TDecorators extends Decorator<TKey, infer TSettings> ? TSettings : never;
 
+type UpdatedSettings<T> = Partial<T> | ((initialSettings: T) => Partial<T>);
+
 type TestHelpers<
   TComponent extends React.FC<any>,
   TDecorators extends Decorator<string, any>[],
@@ -20,24 +22,22 @@ type TestHelpers<
    * Update the properties of the component.
    * After a `renderComponent` call these settings get reset.
    */
-  updateProps(newProps: Partial<React.ComponentProps<TComponent>>): void;
+  updateProps(
+    newProps: UpdatedSettings<React.ComponentProps<TComponent>>,
+  ): void;
   /**
    * Update the settings of a decorator.
    * After a `renderComponent` call these settings get reset.
    */
   updateDecorator<TKey extends TDecorators[number]["name"]>(
     key: TKey,
-    settings:
-      | Partial<DecoratorSettings<TDecorators[number], TKey>>
-      | ((
-          initialSettings: DecoratorSettings<TDecorators[number], TKey>,
-        ) => Partial<DecoratorSettings<TDecorators[number], TKey>>),
+    settings: UpdatedSettings<DecoratorSettings<TDecorators[number], TKey>>,
   ): void;
   /**
    * Render the component wrapped with all decorators, applying
    * all property and decorator setting updates.
    */
-  renderComponent(): Promise<RenderResult>;
+  renderComponent(): RenderResult;
 };
 
 export type Decorator<
@@ -125,8 +125,7 @@ export const setTestSubject = <
   let lastRender: RenderResult | null = null;
 
   return {
-    // eslint-disable-next-line require-await
-    renderComponent: async () => {
+    renderComponent: () => {
       if (initialProps === null) {
         throw new Error("No props specified with setProps");
       }
@@ -160,7 +159,12 @@ export const setTestSubject = <
       if (initialProps === null) {
         throw new Error("No props specified with setProps");
       }
-      props = { ...initialProps, ...props, ...updatedProps };
+      const update: Partial<React.ComponentProps<TComponent>> =
+        typeof updatedProps === "function"
+          ? updatedProps(props ? props : initialProps)
+          : updatedProps;
+
+      props = { ...initialProps, ...props, ...update };
     },
     updateDecorator: (name, updatedSettings) => {
       const update: Record<string, unknown> =
