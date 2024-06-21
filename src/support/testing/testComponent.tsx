@@ -10,8 +10,21 @@ type TestHelpers<
   TComponent extends React.FC<any>,
   TDecorators extends Decorator<string, any>[],
 > = {
+  /**
+   * Set the initial properties of the component
+   *
+   * You can also set the props through the settings in `setComponent`
+   */
   setProps(props: React.ComponentProps<TComponent>): void;
+  /**
+   * Update the properties of the component.
+   * After a `renderComponent` call these settings get reset.
+   */
   updateProps(newProps: Partial<React.ComponentProps<TComponent>>): void;
+  /**
+   * Update the settings of a decorator.
+   * After a `renderComponent` call these settings get reset.
+   */
   updateDecorator<TKey extends TDecorators[number]["name"]>(
     key: TKey,
     settings:
@@ -20,6 +33,10 @@ type TestHelpers<
           initialSettings: DecoratorSettings<TDecorators[number], TKey>,
         ) => Partial<DecoratorSettings<TDecorators[number], TKey>>),
   ): void;
+  /**
+   * Render the component wrapped with all decorators, applying
+   * all property and decorator setting updates.
+   */
   renderComponent(): RenderResult;
 };
 
@@ -27,11 +44,51 @@ export type Decorator<
   TName extends string,
   TSettings extends Record<string, unknown>,
 > = {
+  /**
+   * Name of the decorator, can be used in `updateDecorator` to update the settings
+   */
   name: TName;
+  /**
+   * Initial settings of this decorator, van be updated through `updateDecorator`
+   */
   settings: TSettings;
+  /**
+   * Function do decorate incoming `Component`. This can be part of a larger chain.
+   *
+   * @param Component The component to decorate
+   * @param settings settings to apply on the decoration
+   * @returns an updated JSX structure
+   */
   decorator: (Component: React.FC, settings: TSettings) => JSX.Element;
 };
 
+const hasAlreadyRendered = (
+  lastRender: RenderResult | null,
+): lastRender is RenderResult =>
+  lastRender !== null && // Rendered before
+  document.body.firstChild !== null &&
+  // And still in the document?
+  document.body.firstChild === lastRender.baseElement.firstChild;
+
+/**
+ * Set the component subject of this test
+ *
+ * @example ```
+ * const { renderComponent } = setComponent(YourComponent)
+ * ```
+ *
+ * You can decorate your component with contexts by setting decorators:
+ *
+ * @example ```
+ * const { renderComponent } = setComponent(YourComponent, {
+ *   decorators: [dataDecorator, themeDecorator]
+ * })
+ * ```
+ *
+ * @param Component The react component under test
+ * @param settings
+ * @returns
+ */
 export const setComponent = <
   TComponent extends React.FC<any>,
   TDecorators extends Decorator<string, any>[],
@@ -57,6 +114,7 @@ export const setComponent = <
       }),
       {},
     );
+
   let decoratorSettings: Record<
     string,
     Record<string, unknown>
@@ -69,27 +127,16 @@ export const setComponent = <
         throw new Error("No props specified with setProps");
       }
 
-      if (
-        lastRender && // Rendered before
-        document.body.firstChild !== null &&
-        // And still in the document?
-        document.body.firstChild === lastRender.baseElement.firstChild
-      ) {
-        lastRender.rerender(
-          (settings.decorators ?? []).reduce(
-            (result, dec) =>
-              dec.decorator(() => result, decoratorSettings[dec.name]),
-            <Component {...initialProps} {...props} />,
-          ),
-        );
+      const jsxStructure = (settings.decorators ?? []).reduce(
+        (result, dec) =>
+          dec.decorator(() => result, decoratorSettings[dec.name]),
+        <Component {...initialProps} {...props} />,
+      );
+
+      if (hasAlreadyRendered(lastRender)) {
+        lastRender.rerender(jsxStructure);
       } else {
-        const result = render(
-          (settings.decorators ?? []).reduce(
-            (result, dec) =>
-              dec.decorator(() => result, decoratorSettings[dec.name]),
-            <Component {...initialProps} {...props} />,
-          ),
-        );
+        const result = render(jsxStructure);
         lastRender = result;
       }
 
@@ -108,22 +155,20 @@ export const setComponent = <
       props = { ...initialProps, ...props, ...updatedProps };
     },
     updateDecorator: (name, updatedSettings) => {
-      if (typeof updatedSettings === "function") {
-        decoratorSettings[name] = {
-          ...decoratorSettings[name],
-          ...(updatedSettings(
-            decoratorSettings[name] as DecoratorSettings<
-              TDecorators[number],
-              typeof name
-            >,
-          ) as Record<string, unknown>),
-        };
-      } else {
-        decoratorSettings[name] = {
-          ...decoratorSettings[name],
-          ...updatedSettings,
-        };
-      }
+      const update: Record<string, unknown> =
+        typeof updatedSettings === "function"
+          ? updatedSettings(
+              decoratorSettings[name] as DecoratorSettings<
+                TDecorators[number],
+                typeof name
+              >,
+            )
+          : updatedSettings;
+
+      decoratorSettings[name] = {
+        ...decoratorSettings[name],
+        ...update,
+      };
     },
   };
 };
