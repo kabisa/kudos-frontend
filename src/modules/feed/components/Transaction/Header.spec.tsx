@@ -4,8 +4,8 @@ import { FragmentPostResult, GET_POSTS } from "../../queries";
 import { screen, waitFor } from "@testing-library/react";
 import {
   makeFC,
-  setComponent,
-} from "../../../../support/testing/testComponent";
+  setTestSubject,
+} from "../../../../support/testing/testSubject";
 import { dataDecorator } from "../../../../support/testing/testDecorators";
 
 const transaction: FragmentPostResult = {
@@ -86,7 +86,7 @@ const mocks = [
 ];
 
 describe("<Header />", () => {
-  const { renderComponent, updateProps } = setComponent(makeFC(Header), {
+  const { renderComponent, updateProps } = setTestSubject(makeFC(Header), {
     decorators: [dataDecorator(mocks)],
     props: { transaction },
   });

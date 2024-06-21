@@ -1,8 +1,8 @@
 import { mockLocalstorage } from "../../../../spec_helper";
 import {
   makeFC,
-  setComponent,
-} from "../../../../support/testing/testComponent";
+  setTestSubject,
+} from "../../../../support/testing/testSubject";
 import { dataDecorator } from "../../../../support/testing/testDecorators";
 import MemberSection, { GET_USERS } from "./Members";
 import { screen, waitFor } from "@testing-library/react";
@@ -53,7 +53,7 @@ const mocksWithError = [
 ];
 
 describe("<Member />", () => {
-  const { renderComponent, updateDecorator } = setComponent(
+  const { renderComponent, updateDecorator } = setTestSubject(
     makeFC(MemberSection),
     { decorators: [dataDecorator(mocks())], props: {} },
   );

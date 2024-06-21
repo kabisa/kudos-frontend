@@ -1,4 +1,4 @@
-import { setComponent } from "../../support/testing/testComponent";
+import { setTestSubject } from "../../support/testing/testSubject";
 import { ImageUpload } from "./ImageUpload";
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -16,7 +16,7 @@ const createFile = (name: string, size: number, type: string): File => {
 describe("<ImageUpload />", () => {
   let selectedFiles: any = [];
 
-  const { setProps, renderComponent } = setComponent(ImageUpload);
+  const { setProps, renderComponent } = setTestSubject(ImageUpload);
   setProps({
     onChange: (files) => {
       selectedFiles = files;

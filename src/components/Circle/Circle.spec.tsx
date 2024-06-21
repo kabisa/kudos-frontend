@@ -1,9 +1,9 @@
-import { setComponent } from "../../support/testing/testComponent";
+import { setTestSubject } from "../../support/testing/testSubject";
 import CustomCircle from "./Circle";
 import { screen } from "@testing-library/react";
 
 describe("<CustomCircle />", () => {
-  const { setProps, renderComponent } = setComponent(CustomCircle);
+  const { setProps, renderComponent } = setTestSubject(CustomCircle);
   setProps({
     percent: 50,
     currentKudos: 200,

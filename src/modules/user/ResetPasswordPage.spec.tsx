@@ -1,4 +1,4 @@
-import { makeFC, setComponent } from "../../support/testing/testComponent";
+import { makeFC, setTestSubject } from "../../support/testing/testSubject";
 import {
   dataDecorator,
   routingDecorator,
@@ -26,7 +26,7 @@ const mocks = [
 ];
 
 describe("<ResetPasswordPage />", () => {
-  const { renderComponent } = setComponent(makeFC(ResetPasswordPage), {
+  const { renderComponent } = setTestSubject(makeFC(ResetPasswordPage), {
     decorators: [dataDecorator(mocks), routingDecorator()],
     props: {},
   });

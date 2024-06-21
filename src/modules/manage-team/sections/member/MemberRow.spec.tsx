@@ -1,5 +1,5 @@
 import { MockedFunction, mockLocalstorage } from "../../../../spec_helper";
-import { setComponent } from "../../../../support/testing/testComponent";
+import { setTestSubject } from "../../../../support/testing/testSubject";
 import {
   dataDecorator,
   tableDecorator,
@@ -41,7 +41,7 @@ const mocks = [
 const refetch = jest.fn();
 
 describe("<MemberRow />", () => {
-  const { renderComponent } = setComponent(MemberRow, {
+  const { renderComponent } = setTestSubject(MemberRow, {
     decorators: [tableDecorator, dataDecorator(mocks)],
     props: {
       key: "1",

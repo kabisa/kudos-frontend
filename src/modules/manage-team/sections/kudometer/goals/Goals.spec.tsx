@@ -3,8 +3,8 @@ import { Goal, Kudometer } from "../KudometerQueries";
 import { screen } from "@testing-library/react";
 import {
   makeFC,
-  setComponent,
-} from "../../../../../support/testing/testComponent";
+  setTestSubject,
+} from "../../../../../support/testing/testSubject";
 import { dataDecorator } from "../../../../../support/testing/testDecorators";
 
 const goals: Goal[] = [
@@ -32,7 +32,7 @@ const kudometer: Kudometer = {
 };
 
 describe("<Goals />", () => {
-  const { renderComponent } = setComponent(makeFC(Goals), {
+  const { renderComponent } = setTestSubject(makeFC(Goals), {
     decorators: [dataDecorator()],
     props: { kudometer },
   });

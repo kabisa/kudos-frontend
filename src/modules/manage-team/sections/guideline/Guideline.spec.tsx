@@ -1,5 +1,5 @@
 import { MockedFunction, mockLocalstorage } from "../../../../spec_helper";
-import { setComponent } from "../../../../support/testing/testComponent";
+import { setTestSubject } from "../../../../support/testing/testSubject";
 import {
   dataDecorator,
   tableDecorator,
@@ -66,7 +66,7 @@ const guideline = {
 describe("<Guideline />", () => {
   const editGuidelineMock = jest.fn();
 
-  const { renderComponent } = setComponent(Guideline, {
+  const { renderComponent } = setTestSubject(Guideline, {
     decorators: [tableDecorator, dataDecorator(mocks)],
     props: {
       key: guideline.key,

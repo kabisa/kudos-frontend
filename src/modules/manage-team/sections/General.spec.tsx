@@ -1,5 +1,5 @@
 import { mockLocalstorage } from "../../../spec_helper";
-import { makeFC, setComponent } from "../../../support/testing/testComponent";
+import { makeFC, setTestSubject } from "../../../support/testing/testSubject";
 import { dataDecorator } from "../../../support/testing/testDecorators";
 import GeneralSection, { GET_TEAM_NAME, UPDATE_TEAM } from "./General";
 import { fireEvent, screen, waitFor } from "@testing-library/react";
@@ -63,7 +63,7 @@ const mocksWithError = [
 ];
 
 describe("<GeneralSection />", () => {
-  const { renderComponent, updateDecorator } = setComponent(
+  const { renderComponent, updateDecorator } = setTestSubject(
     makeFC(GeneralSection),
     { decorators: [dataDecorator(mocks)], props: {} },
   );

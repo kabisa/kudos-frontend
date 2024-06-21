@@ -1,6 +1,6 @@
 import { screen, fireEvent } from "@testing-library/react";
 import { Dropdown, DropdownMenuItem } from ".";
-import { Decorator, setComponent } from "../../support/testing/testComponent";
+import { Decorator, setTestSubject } from "../../support/testing/testSubject";
 
 const dropdownDecorator: Decorator<"dropdown"> = {
   name: "dropdown",
@@ -13,7 +13,7 @@ const dropdownDecorator: Decorator<"dropdown"> = {
 };
 
 describe("Dropdown Component", () => {
-  const { renderComponent, updateProps } = setComponent(DropdownMenuItem, {
+  const { renderComponent, updateProps } = setTestSubject(DropdownMenuItem, {
     decorators: [dropdownDecorator],
     props: {
       label: "Item 1",

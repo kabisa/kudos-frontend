@@ -2,7 +2,7 @@ import { GraphQLError } from "graphql";
 import CreateTeamPage, { MUTATION_CREATE_TEAM } from "./CreateTeamPage";
 import { Storage } from "../../support/storage";
 import { fireEvent, screen, waitFor } from "@testing-library/react";
-import { setComponent } from "../../support/testing/testComponent";
+import { setTestSubject } from "../../support/testing/testSubject";
 import {
   dataDecorator,
   routingDecorator,
@@ -35,7 +35,7 @@ const mocksWithError = [
 ];
 
 describe("<CreateTeamPage />", () => {
-  const { renderComponent, updateDecorator } = setComponent(CreateTeamPage, {
+  const { renderComponent, updateDecorator } = setTestSubject(CreateTeamPage, {
     decorators: [dataDecorator(mocks), routingDecorator()],
     props: {},
   });

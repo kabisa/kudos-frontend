@@ -2,7 +2,7 @@ import { Content } from "./ChooseTeamPage";
 import { screen, fireEvent } from "@testing-library/react";
 import { GET_INVITES } from "./components/InviteList";
 import { GET_TEAMS } from "./components/TeamList";
-import { setComponent } from "../../support/testing/testComponent";
+import { setTestSubject } from "../../support/testing/testSubject";
 import { dataDecorator } from "../../support/testing/testDecorators";
 
 const mockHistoryPush = jest.fn();
@@ -86,7 +86,7 @@ const mockWithInvites = [
 ];
 
 describe("<ChooseTeamPage />", () => {
-  const { renderComponent } = setComponent(Content, {
+  const { renderComponent } = setTestSubject(Content, {
     decorators: [dataDecorator(mockWithInvites)],
     props: {},
   });

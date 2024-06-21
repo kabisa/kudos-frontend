@@ -6,8 +6,8 @@ import {
 } from "../../../../support/testing/reactSelectHelpers";
 import {
   makeFC,
-  setComponent,
-} from "../../../../support/testing/testComponent";
+  setTestSubject,
+} from "../../../../support/testing/testSubject";
 import { dataDecorator } from "../../../../support/testing/testDecorators";
 import { GET_GUIDELINES } from "../../../manage-team/sections/guideline/GuidelinesSection";
 import GuidelineInput from "./GuidelineInput";
@@ -69,7 +69,7 @@ const mocksWithoutData = [
 describe("<GuidelineInput />", () => {
   const handleChangeMock = jest.fn();
 
-  const { renderComponent, updateDecorator } = setComponent(
+  const { renderComponent, updateDecorator } = setTestSubject(
     makeFC(GuidelineInput),
     {
       decorators: [dataDecorator(mocks)],

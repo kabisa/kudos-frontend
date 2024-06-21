@@ -2,7 +2,7 @@ import { GraphQLError } from "graphql";
 import { ForgotPasswordPage } from "./index";
 import { MUTATION_FORGOT_PASSWORD } from "./ForgotPasswordPage";
 import { fireEvent, screen, waitFor } from "@testing-library/react";
-import { makeFC, setComponent } from "../../support/testing/testComponent";
+import { makeFC, setTestSubject } from "../../support/testing/testSubject";
 import { dataDecorator } from "../../support/testing/testDecorators";
 
 let mutationCalled = false;
@@ -39,7 +39,7 @@ const mocks = [
 ];
 
 describe("<ForgotPasswordPage />", () => {
-  const { renderComponent } = setComponent(makeFC(ForgotPasswordPage), {
+  const { renderComponent } = setTestSubject(makeFC(ForgotPasswordPage), {
     decorators: [dataDecorator(mocks)],
     props: {},
   });

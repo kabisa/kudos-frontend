@@ -3,7 +3,7 @@ import { DISCONNECT_SLACK, GET_USER, UserPage } from "./UserPage";
 import { createRouterProps, mockLocalstorage } from "../../spec_helper";
 import { PATH_RESET_PASSWORD } from "../../routes";
 import { screen, waitFor, within } from "@testing-library/react";
-import { makeFC, setComponent } from "../../support/testing/testComponent";
+import { makeFC, setTestSubject } from "../../support/testing/testSubject";
 import { dataDecorator } from "../../support/testing/testDecorators";
 
 let mutationCalled = false;
@@ -62,7 +62,7 @@ const mocksWithSlackId = [
 ];
 
 describe("<UserPage/>", () => {
-  const { renderComponent, setProps, updateDecorator } = setComponent(
+  const { renderComponent, setProps, updateDecorator } = setTestSubject(
     makeFC(UserPage),
     { decorators: [dataDecorator(mocks())] },
   );

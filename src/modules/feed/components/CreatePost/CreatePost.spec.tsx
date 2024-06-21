@@ -12,8 +12,8 @@ import {
 import { dataDecorator } from "../../../../support/testing/testDecorators";
 import {
   makeFC,
-  setComponent,
-} from "../../../../support/testing/testComponent";
+  setTestSubject,
+} from "../../../../support/testing/testSubject";
 
 const mocks = () => [
   {
@@ -126,7 +126,7 @@ const mocksWithError = [
 ];
 
 describe("<CreatePost />", () => {
-  const { renderComponent, updateDecorator } = setComponent(
+  const { renderComponent, updateDecorator } = setTestSubject(
     makeFC(CreatePost),
     {
       decorators: [

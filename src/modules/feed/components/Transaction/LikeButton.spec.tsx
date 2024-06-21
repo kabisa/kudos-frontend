@@ -9,8 +9,8 @@ import { screen, waitFor } from "@testing-library/react";
 import { InMemoryCache } from "@apollo/client";
 import {
   makeFC,
-  setComponent,
-} from "../../../../support/testing/testComponent";
+  setTestSubject,
+} from "../../../../support/testing/testSubject";
 import { dataDecorator } from "../../../../support/testing/testDecorators";
 
 const likedPost: FragmentPostResult = {
@@ -90,7 +90,7 @@ const mocks = [
 ];
 
 describe("<LikeButton />", () => {
-  const { renderComponent, updateProps, updateDecorator } = setComponent(
+  const { renderComponent, updateProps, updateDecorator } = setTestSubject(
     makeFC(LikeButton),
     {
       decorators: [dataDecorator(mocks)],

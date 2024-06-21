@@ -2,12 +2,12 @@ import { createMemoryHistory, MemoryHistory } from "history";
 import TeamRow from "./TeamRow";
 import { Storage } from "../../../support/storage";
 import { screen } from "@testing-library/react";
-import { setComponent } from "../../../support/testing/testComponent";
+import { setTestSubject } from "../../../support/testing/testSubject";
 import { routingDecorator } from "../../../support/testing/testDecorators";
 
 describe("<TeamRow />", () => {
   let history: MemoryHistory;
-  const { renderComponent } = setComponent(TeamRow, {
+  const { renderComponent } = setTestSubject(TeamRow, {
     decorators: [routingDecorator()],
     props: {
       id: "1",

@@ -2,7 +2,7 @@ import { GraphQLError } from "graphql";
 import { LoginPage } from "./index";
 import { MUTATION_LOGIN } from "./LoginPage";
 import { fireEvent, screen, waitFor } from "@testing-library/react";
-import { makeFC, setComponent } from "../../support/testing/testComponent";
+import { makeFC, setTestSubject } from "../../support/testing/testSubject";
 import {
   dataDecorator,
   routingDecorator,
@@ -49,7 +49,7 @@ const mocks = [
 ];
 
 describe("<LoginPage />", () => {
-  const { renderComponent } = setComponent(makeFC(LoginPage), {
+  const { renderComponent } = setTestSubject(makeFC(LoginPage), {
     decorators: [dataDecorator(mocks), routingDecorator()],
     props: {},
   });

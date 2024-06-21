@@ -1,5 +1,5 @@
 import { mockLocalstorage } from "../../spec_helper";
-import { setComponent } from "../../support/testing/testComponent";
+import { setTestSubject } from "../../support/testing/testSubject";
 import {
   dataDecorator,
   routingDecorator,
@@ -8,7 +8,7 @@ import { SettingsPage } from "./index";
 import { screen } from "@testing-library/react";
 
 describe("<SettingsPage />", () => {
-  const { renderComponent } = setComponent(SettingsPage, {
+  const { renderComponent } = setTestSubject(SettingsPage, {
     decorators: [dataDecorator(), routingDecorator()],
     props: {},
   });

@@ -1,9 +1,9 @@
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import InputField from ".";
-import { setComponent } from "../../support/testing/testComponent";
+import { setTestSubject } from "../../support/testing/testSubject";
 
 describe("InputField", () => {
-  const { renderComponent, updateProps } = setComponent(InputField, {
+  const { renderComponent, updateProps } = setTestSubject(InputField, {
     props: {
       id: "input",
       label: "Enter some text",

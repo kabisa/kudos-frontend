@@ -1,9 +1,9 @@
 import { screen } from "@testing-library/react";
 import { Card } from ".";
-import { setComponent } from "../../support/testing/testComponent";
+import { setTestSubject } from "../../support/testing/testSubject";
 
 describe("Card", () => {
-  const { renderComponent, updateProps } = setComponent(Card, {
+  const { renderComponent, updateProps } = setTestSubject(Card, {
     props: {
       title: { text: "Kudometer" },
       content: "content",

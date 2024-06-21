@@ -2,11 +2,11 @@ import { screen } from "@testing-library/react";
 import { mockLocalstorage } from "../../../spec_helper";
 import RightRail from "./RightRail";
 import { mocks as goalMocks } from "../../statistics/Statistics.spec";
-import { setComponent } from "../../../support/testing/testComponent";
+import { setTestSubject } from "../../../support/testing/testSubject";
 import { dataDecorator } from "../../../support/testing/testDecorators";
 
 describe("<RightRail />", () => {
-  const { renderComponent } = setComponent(RightRail, {
+  const { renderComponent } = setTestSubject(RightRail, {
     decorators: [dataDecorator(goalMocks("1"))],
     props: {},
   });

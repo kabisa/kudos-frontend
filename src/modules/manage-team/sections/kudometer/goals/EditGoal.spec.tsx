@@ -5,8 +5,8 @@ import { fireEvent, screen, waitFor } from "@testing-library/react";
 import { createRef } from "react";
 import {
   makeFC,
-  setComponent,
-} from "../../../../../support/testing/testComponent";
+  setTestSubject,
+} from "../../../../../support/testing/testSubject";
 import { dataDecorator } from "../../../../../support/testing/testDecorators";
 
 let createMutationCalled = false;
@@ -103,7 +103,7 @@ const mocksWithErrors = [
 ];
 
 describe("<EditGoal />", () => {
-  const { renderComponent, updateProps, updateDecorator } = setComponent(
+  const { renderComponent, updateProps, updateDecorator } = setTestSubject(
     makeFC(EditGoal),
     { decorators: [dataDecorator(mocks)], props: { kudometerId: "1" } },
   );

@@ -1,10 +1,10 @@
-import { setComponent } from "../../support/testing/testComponent";
+import { setTestSubject } from "../../support/testing/testSubject";
 import { dataDecorator } from "../../support/testing/testDecorators";
 import { InvitePage } from "./InvitePage";
 import { screen } from "@testing-library/react";
 
 describe("<InvitePage />", () => {
-  const { renderComponent } = setComponent(InvitePage, {
+  const { renderComponent } = setTestSubject(InvitePage, {
     decorators: [dataDecorator()],
     props: {},
   });

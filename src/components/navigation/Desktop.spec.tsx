@@ -1,7 +1,7 @@
 import { screen } from "@testing-library/react";
 import { mockLocalstorage } from "../../spec_helper";
 import Desktop, { GET_USER } from "./Desktop";
-import { setComponent } from "../../support/testing/testComponent";
+import { setTestSubject } from "../../support/testing/testSubject";
 import {
   dataDecorator,
   routingDecorator,
@@ -25,7 +25,7 @@ export const mocks = () => [
 ];
 
 describe("<Desktop />", () => {
-  const { renderComponent } = setComponent(Desktop, {
+  const { renderComponent } = setTestSubject(Desktop, {
     decorators: [dataDecorator(mocks()), routingDecorator()],
     props: {},
   });

@@ -3,7 +3,7 @@ import ChoiceButton from "./ChoiceButton";
 import { Storage } from "../../../support/storage";
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { setComponent } from "../../../support/testing/testComponent";
+import { setTestSubject } from "../../../support/testing/testSubject";
 import { dataDecorator } from "../../../support/testing/testDecorators";
 
 const fakeMutation = gql`
@@ -39,7 +39,7 @@ jest.mock("react-router-dom", () => ({
 }));
 
 describe("<ChoiceButton />", () => {
-  const { renderComponent, updateProps } = setComponent(ChoiceButton, {
+  const { renderComponent, updateProps } = setTestSubject(ChoiceButton, {
     decorators: [dataDecorator(mocks)],
     props: {
       inviteId: "1",

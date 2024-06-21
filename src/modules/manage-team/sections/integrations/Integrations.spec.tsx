@@ -7,8 +7,8 @@ import IntegrationsSection, {
 import { screen, waitFor } from "@testing-library/react";
 import {
   makeFC,
-  setComponent,
-} from "../../../../support/testing/testComponent";
+  setTestSubject,
+} from "../../../../support/testing/testSubject";
 import { dataDecorator } from "../../../../support/testing/testDecorators";
 
 let mutationCalled = false;
@@ -86,7 +86,7 @@ const mocksWithError = [
 ];
 
 describe("<IntegrationsSection />", () => {
-  const { renderComponent, updateDecorator } = setComponent(
+  const { renderComponent, updateDecorator } = setTestSubject(
     makeFC(IntegrationsSection),
     {
       decorators: [dataDecorator(mocksWithoutSlack)],

@@ -1,6 +1,6 @@
 import { Invite, InviteModel } from "./Invite";
 import { screen } from "@testing-library/react";
-import { setComponent } from "../../../support/testing/testComponent";
+import { setTestSubject } from "../../../support/testing/testSubject";
 import { dataDecorator } from "../../../support/testing/testDecorators";
 
 const invite: InviteModel = {
@@ -12,7 +12,7 @@ const invite: InviteModel = {
 };
 
 describe("<Invite />", () => {
-  const { renderComponent } = setComponent(Invite, {
+  const { renderComponent } = setTestSubject(Invite, {
     decorators: [dataDecorator()],
     props: { invite },
   });

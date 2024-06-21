@@ -9,8 +9,8 @@ import {
 import userEvent from "@testing-library/user-event";
 import {
   makeFC,
-  setComponent,
-} from "../../../../support/testing/testComponent";
+  setTestSubject,
+} from "../../../../support/testing/testSubject";
 import { dataDecorator } from "../../../../support/testing/testDecorators";
 
 export const mocksWithData = (teamId: string) => [
@@ -78,7 +78,7 @@ const mocksWithoutData = (teamId: string) => [
 const handleChangeMock = jest.fn();
 
 describe("<DropdownRemote />", () => {
-  const { renderComponent, updateDecorator } = setComponent(
+  const { renderComponent, updateDecorator } = setTestSubject(
     makeFC(DropdownRemote),
     {
       decorators: [dataDecorator(mocksWithData("1"))],

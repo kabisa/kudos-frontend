@@ -1,4 +1,4 @@
-import { setComponent } from "../../../support/testing/testComponent";
+import { setTestSubject } from "../../../support/testing/testSubject";
 import { dataDecorator } from "../../../support/testing/testDecorators";
 import { InviteList } from "./index";
 import { GET_INVITES } from "./InviteList";
@@ -59,7 +59,7 @@ const mockWithoutInvites = [
 ];
 
 describe("<InviteList />", () => {
-  const { renderComponent, updateDecorator } = setComponent(InviteList, {
+  const { renderComponent, updateDecorator } = setTestSubject(InviteList, {
     decorators: [dataDecorator(mockWithInvites)],
     props: {},
   });

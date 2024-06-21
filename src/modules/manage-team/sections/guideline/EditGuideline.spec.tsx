@@ -1,8 +1,8 @@
 import { mockLocalstorage } from "../../../../spec_helper";
 import {
   makeFC,
-  setComponent,
-} from "../../../../support/testing/testComponent";
+  setTestSubject,
+} from "../../../../support/testing/testSubject";
 import { dataDecorator } from "../../../../support/testing/testDecorators";
 import { EditGuideline } from "./EditGuideline";
 import {
@@ -91,10 +91,13 @@ const mocks = [
 ];
 
 describe("<EditGuideline/>", () => {
-  const { renderComponent, updateProps } = setComponent(makeFC(EditGuideline), {
-    decorators: [dataDecorator(mocks)],
-    props: {},
-  });
+  const { renderComponent, updateProps } = setTestSubject(
+    makeFC(EditGuideline),
+    {
+      decorators: [dataDecorator(mocks)],
+      props: {},
+    },
+  );
 
   beforeEach(() => {
     mockLocalstorage("1");

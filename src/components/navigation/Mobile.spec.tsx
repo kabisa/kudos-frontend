@@ -2,13 +2,13 @@ import { mockLocalstorage } from "../../spec_helper";
 import Mobile from "./Mobile";
 import { Auth } from "../../support";
 import { screen } from "@testing-library/react";
-import { setComponent } from "../../support/testing/testComponent";
+import { setTestSubject } from "../../support/testing/testSubject";
 import { routingDecorator } from "../../support/testing/testDecorators";
 
 describe("<Mobile />", () => {
   mockLocalstorage("fakeToken");
 
-  const { renderComponent } = setComponent(Mobile, {
+  const { renderComponent } = setTestSubject(Mobile, {
     decorators: [routingDecorator()],
     props: {},
   });

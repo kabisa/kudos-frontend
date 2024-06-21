@@ -2,7 +2,7 @@ import { screen } from "@testing-library/react";
 import { GET_POSTS } from "../../../modules/feed/queries";
 import { mockLocalstorage } from "../../../spec_helper";
 import { RepoList } from "./RepoList";
-import { setComponent } from "../../../support/testing/testComponent";
+import { setTestSubject } from "../../../support/testing/testSubject";
 import { dataDecorator } from "../../../support/testing/testDecorators";
 
 export const mocks = (hasNextPage: boolean) => [
@@ -81,7 +81,7 @@ const mocksWithError = [
 ];
 
 describe("<RepoList />", () => {
-  const { renderComponent, updateDecorator } = setComponent(RepoList, {
+  const { renderComponent, updateDecorator } = setTestSubject(RepoList, {
     decorators: [dataDecorator(mocks(false))],
     props: {},
   });

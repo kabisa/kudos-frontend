@@ -1,7 +1,7 @@
 import { Transaction } from "./index";
 import { FragmentPostResult } from "../../queries";
 import { screen } from "@testing-library/react";
-import { setComponent } from "../../../../support/testing/testComponent";
+import { setTestSubject } from "../../../../support/testing/testSubject";
 import { dataDecorator } from "../../../../support/testing/testDecorators";
 
 const transaction: FragmentPostResult = {
@@ -38,7 +38,7 @@ const transactionWithVote = {
 };
 
 describe("Transaction", () => {
-  const { renderComponent } = setComponent(Transaction, {
+  const { renderComponent } = setTestSubject(Transaction, {
     decorators: [dataDecorator()],
     props: { transaction: transactionWithVote },
   });

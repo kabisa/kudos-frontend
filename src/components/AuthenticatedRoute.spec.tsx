@@ -1,14 +1,14 @@
 import AuthenticatedRoute from "./AuthenticatedRoute";
 import { Auth } from "../support";
 import { screen } from "@testing-library/react";
-import { setComponent } from "../support/testing/testComponent";
+import { setTestSubject } from "../support/testing/testSubject";
 import { PATH_CHOOSE_TEAM, PATH_LOGIN } from "../routes";
 import { routingDecorator } from "../support/testing/testDecorators";
 
 jest.mock("../support/auth");
 
 describe("<AuthenticatedRoute />", () => {
-  const { renderComponent, updateDecorator, updateProps } = setComponent(
+  const { renderComponent, updateDecorator, updateProps } = setTestSubject(
     AuthenticatedRoute,
     {
       decorators: [routingDecorator()],

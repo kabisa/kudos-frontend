@@ -37,7 +37,7 @@ type TestHelpers<
    * Render the component wrapped with all decorators, applying
    * all property and decorator setting updates.
    */
-  renderComponent(): RenderResult;
+  renderComponent(): Promise<RenderResult>;
 };
 
 export type Decorator<
@@ -53,7 +53,7 @@ export type Decorator<
    */
   settings: TSettings;
   /**
-   * Function do decorate incoming `Component`. This can be part of a larger chain.
+   * Function to decorate incoming `Component`. This can be part of a larger chain.
    *
    * @param Component The component to decorate
    * @param settings settings to apply on the decoration
@@ -92,7 +92,7 @@ const hasAlreadyRendered = (
  * @param settings
  * @returns
  */
-export const setComponent = <
+export const setTestSubject = <
   TComponent extends React.FC<any>,
   TDecorators extends Decorator<string, any>[],
 >(
@@ -125,7 +125,8 @@ export const setComponent = <
   let lastRender: RenderResult | null = null;
 
   return {
-    renderComponent: () => {
+    // eslint-disable-next-line require-await
+    renderComponent: async () => {
       if (initialProps === null) {
         throw new Error("No props specified with setProps");
       }
@@ -195,6 +196,6 @@ export const makeFC = <TComponentProps,>(
     InstanceType<React.ComponentClass<TComponentProps>>,
     TComponentProps
   >((props, ref) => <Component {...props} ref={ref} />);
-  fc.displayName = "WrappedClassComponent";
+  fc.displayName = `Wrapped${Component.displayName ?? Component.name}`;
   return fc;
 };

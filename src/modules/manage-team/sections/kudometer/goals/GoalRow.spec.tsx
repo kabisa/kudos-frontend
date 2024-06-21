@@ -2,7 +2,7 @@ import { MockedFunction, mockLocalstorage } from "../../../../../spec_helper";
 import { GoalRow } from "./GoalRow";
 import { DELETE_GOAL, GET_KUDOMETERS, Goal } from "../KudometerQueries";
 import { screen, waitFor } from "@testing-library/react";
-import { setComponent } from "../../../../../support/testing/testComponent";
+import { setTestSubject } from "../../../../../support/testing/testSubject";
 import {
   dataDecorator,
   tableDecorator,
@@ -69,7 +69,7 @@ const goal: Goal = {
 describe("<GoalRow />", () => {
   const editGoalMock = jest.fn(() => 1);
 
-  const { renderComponent } = setComponent(GoalRow, {
+  const { renderComponent } = setTestSubject(GoalRow, {
     decorators: [tableDecorator, dataDecorator(mocks)],
     props: {
       key: goal.id,

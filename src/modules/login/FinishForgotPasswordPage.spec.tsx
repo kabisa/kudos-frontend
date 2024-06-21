@@ -2,7 +2,7 @@ import { GraphQLError } from "graphql";
 import { MUTATION_NEW_PASSWORD } from "./FinishForgotPasswordPage";
 import { RouterBypassFinishForgotPasswordPage as FinishForgotPasswordPage } from "./index";
 import { fireEvent, screen, waitFor } from "@testing-library/react";
-import { makeFC, setComponent } from "../../support/testing/testComponent";
+import { makeFC, setTestSubject } from "../../support/testing/testSubject";
 import { dataDecorator } from "../../support/testing/testDecorators";
 import { createRouterProps } from "../../spec_helper";
 
@@ -53,7 +53,7 @@ const createLocationWithToken = (token: string) => ({
 });
 
 describe("<FinishForgotPasswordPage />", () => {
-  const { renderComponent, updateProps } = setComponent(
+  const { renderComponent, updateProps } = setTestSubject(
     makeFC(FinishForgotPasswordPage),
     {
       decorators: [dataDecorator(mocks)],

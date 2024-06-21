@@ -4,8 +4,8 @@ import { QUERY_GET_INVITES } from "./InvitesSection";
 import { fireEvent, screen, waitFor } from "@testing-library/react";
 import {
   makeFC,
-  setComponent,
-} from "../../../../support/testing/testComponent";
+  setTestSubject,
+} from "../../../../support/testing/testSubject";
 import { dataDecorator } from "../../../../support/testing/testDecorators";
 
 let mutationCalled = false;
@@ -61,7 +61,7 @@ const mocks = [
 describe("<InvitePage />", () => {
   const mockRefetch = jest.fn();
 
-  const { renderComponent } = setComponent(makeFC(CreateInvite), {
+  const { renderComponent } = setTestSubject(makeFC(CreateInvite), {
     decorators: [dataDecorator(mocks)],
     props: {
       refetch: mockRefetch,

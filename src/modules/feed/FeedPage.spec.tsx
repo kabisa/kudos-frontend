@@ -6,7 +6,7 @@ import { mocksWithData as teamMemberMocks } from "./components/UserDropdown/User
 import { mocks as guidelineMocks } from "../manage-team/sections/guideline/GuidelinesSection.spec";
 import { mocks as userMock } from "../../components/navigation/Desktop.spec";
 import { mocks as goalMocks } from "../statistics/Statistics.spec";
-import { setComponent } from "../../support/testing/testComponent";
+import { setTestSubject } from "../../support/testing/testSubject";
 import {
   dataDecorator,
   responsiveDecorator,
@@ -17,7 +17,7 @@ type MockRequest = { request: unknown; result: unknown };
 describe("<FeedPage />", () => {
   const teamId = "1";
 
-  const { renderComponent } = setComponent(FeedPage, {
+  const { renderComponent } = setTestSubject(FeedPage, {
     decorators: [
       responsiveDecorator,
       dataDecorator(

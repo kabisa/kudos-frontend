@@ -8,7 +8,7 @@ import {
 } from "./KudometerQueries";
 import { GET_GOAL_PERCENTAGE } from "../../../feed/queries";
 import { screen, waitFor } from "@testing-library/react";
-import { setComponent } from "../../../../support/testing/testComponent";
+import { setTestSubject } from "../../../../support/testing/testSubject";
 import {
   dataDecorator,
   tableDecorator,
@@ -114,7 +114,7 @@ const deleteHandler = jest.fn();
 const editHandler = jest.fn();
 
 describe("<KudometerRow />", () => {
-  const { renderComponent, updateProps } = setComponent(KudometerRow, {
+  const { renderComponent, updateProps } = setTestSubject(KudometerRow, {
     decorators: [tableDecorator, dataDecorator(mocks)],
     props: {
       key: "1",

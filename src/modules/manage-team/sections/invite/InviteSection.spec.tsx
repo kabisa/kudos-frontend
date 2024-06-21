@@ -1,5 +1,5 @@
 import { mockLocalstorage } from "../../../../spec_helper";
-import { setComponent } from "../../../../support/testing/testComponent";
+import { setTestSubject } from "../../../../support/testing/testSubject";
 import { dataDecorator } from "../../../../support/testing/testDecorators";
 import InviteSection, { QUERY_GET_INVITES } from "./InvitesSection";
 import { screen, waitFor } from "@testing-library/react";
@@ -46,7 +46,7 @@ const mocksWithError = [
 ];
 
 describe("<InviteSection />", () => {
-  const { renderComponent, updateDecorator } = setComponent(InviteSection, {
+  const { renderComponent, updateDecorator } = setTestSubject(InviteSection, {
     decorators: [dataDecorator(mocks)],
     props: {},
   });

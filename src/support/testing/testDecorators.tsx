@@ -1,4 +1,4 @@
-import { Decorator } from "./testComponent";
+import { Decorator } from "./testSubject";
 import { MockedProvider } from "@apollo/client/testing";
 import { MemoryRouter, Route } from "react-router-dom";
 import { ApolloCache } from "@apollo/client/cache";

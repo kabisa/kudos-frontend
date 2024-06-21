@@ -8,8 +8,8 @@ import {
 import { fireEvent, screen, waitFor } from "@testing-library/react";
 import {
   makeFC,
-  setComponent,
-} from "../../../../support/testing/testComponent";
+  setTestSubject,
+} from "../../../../support/testing/testSubject";
 import { dataDecorator } from "../../../../support/testing/testDecorators";
 
 let createMutationCalled = false;
@@ -144,7 +144,7 @@ const mocksWithoutData = [
 ];
 
 describe("<KudometerSection />", () => {
-  const { renderComponent, updateDecorator } = setComponent(
+  const { renderComponent, updateDecorator } = setTestSubject(
     makeFC(KudometerSection),
     { decorators: [dataDecorator(mocks)], props: {} },
   );

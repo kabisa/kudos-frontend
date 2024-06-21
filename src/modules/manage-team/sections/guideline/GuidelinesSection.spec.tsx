@@ -1,8 +1,8 @@
 import { mockLocalstorage } from "../../../../spec_helper";
 import {
   makeFC,
-  setComponent,
-} from "../../../../support/testing/testComponent";
+  setTestSubject,
+} from "../../../../support/testing/testSubject";
 import { dataDecorator } from "../../../../support/testing/testDecorators";
 import GuidelineSection, { GET_GUIDELINES } from "./GuidelinesSection";
 import { screen } from "@testing-library/react";
@@ -49,7 +49,7 @@ const errorMocks = [
 ];
 
 describe("<GuidelinesSection />", () => {
-  const { renderComponent, updateDecorator } = setComponent(
+  const { renderComponent, updateDecorator } = setTestSubject(
     makeFC(GuidelineSection),
     { decorators: [dataDecorator(mocks("1"))], props: {} },
   );

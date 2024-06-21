@@ -1,9 +1,9 @@
 import { screen } from "@testing-library/react";
-import { setComponent } from "../../support/testing/testComponent";
+import { setTestSubject } from "../../support/testing/testSubject";
 import Dropzone from ".";
 
 describe("<Dropzone/>", () => {
-  const { renderComponent } = setComponent(Dropzone, {
+  const { renderComponent } = setTestSubject(Dropzone, {
     props: { label: "Drop it!" },
   });
 

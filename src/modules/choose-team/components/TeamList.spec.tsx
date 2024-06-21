@@ -1,7 +1,7 @@
 import { GET_TEAMS } from "./TeamList";
 import { TeamList } from "./index";
 import { screen } from "@testing-library/react";
-import { setComponent } from "../../../support/testing/testComponent";
+import { setTestSubject } from "../../../support/testing/testSubject";
 import { dataDecorator } from "../../../support/testing/testDecorators";
 
 const mocksWithInvite = [
@@ -61,7 +61,7 @@ const mocksWithError = [
 ];
 
 describe("<TeamList />", () => {
-  const { renderComponent, updateDecorator } = setComponent(TeamList, {
+  const { renderComponent, updateDecorator } = setTestSubject(TeamList, {
     decorators: [dataDecorator(mocksWithInvite)],
     props: {},
   });

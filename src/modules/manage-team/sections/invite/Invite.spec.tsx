@@ -1,5 +1,5 @@
 import { MockedFunction, mockLocalstorage } from "../../../../spec_helper";
-import { setComponent } from "../../../../support/testing/testComponent";
+import { setTestSubject } from "../../../../support/testing/testSubject";
 import {
   dataDecorator,
   tableDecorator,
@@ -80,7 +80,7 @@ const mocks = [
 describe("<Invite />", () => {
   const mockRefetch = jest.fn();
 
-  const { renderComponent, updateProps } = setComponent(Invite, {
+  const { renderComponent, updateProps } = setTestSubject(Invite, {
     decorators: [tableDecorator, dataDecorator(mocks)],
     props: {
       invite: pendingInvite,
