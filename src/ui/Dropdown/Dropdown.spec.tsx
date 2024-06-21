@@ -1,34 +1,47 @@
-import { render, fireEvent } from "@testing-library/react";
+import { screen, fireEvent } from "@testing-library/react";
 import { Dropdown, DropdownMenuItem } from ".";
+import { Decorator, setComponent } from "../../support/testing/testComponent";
+
+const dropdownDecorator: Decorator<"dropdown"> = {
+  name: "dropdown",
+  settings: {},
+  Decorator: ({ Component }) => (
+    <Dropdown label="Dropdown Label">
+      <Component />
+    </Dropdown>
+  ),
+};
 
 describe("Dropdown Component", () => {
+  const { renderComponent, updateProps } = setComponent(DropdownMenuItem, {
+    decorators: [dropdownDecorator],
+    props: {
+      label: "Item 1",
+    },
+  });
+
   it("should display the dropdown menu when clicked", () => {
-    const { queryByText, getByRole } = render(
-      <Dropdown label="Dropdown Label">
-        <DropdownMenuItem label="Item 1" />
-      </Dropdown>,
-    );
+    renderComponent();
 
-    expect(queryByText("Item 1")).toBeNull();
-
-    const dropdownButton = getByRole("button", { name: "Dropdown Label" });
+    expect(screen.queryByText("Item 1")).toBeNull();
+    const dropdownButton = screen.getByRole("button", {
+      name: "Dropdown Label",
+    });
     fireEvent.click(dropdownButton);
 
-    expect(getByRole("menuitem", { name: "Item 1" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("menuitem", { name: "Item 1" }),
+    ).toBeInTheDocument();
   });
 
   it("should render an icon when passed", () => {
-    const iconName = "man";
+    updateProps({ iconName: "man" });
+    renderComponent();
 
-    const { getByText, getByRole } = render(
-      <Dropdown label="Dropdown Label">
-        <DropdownMenuItem label="Item 1" iconName={iconName} />
-      </Dropdown>,
-    );
-
-    const dropdownButton = getByRole("button", { name: "Dropdown Label" });
+    const dropdownButton = screen.getByRole("button", {
+      name: "Dropdown Label",
+    });
     fireEvent.click(dropdownButton);
-
-    expect(getByText(iconName)).toBeInTheDocument();
+    expect(screen.getByText("man")).toBeInTheDocument();
   });
 });

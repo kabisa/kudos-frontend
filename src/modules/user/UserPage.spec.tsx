@@ -62,7 +62,7 @@ const mocksWithSlackId = [
 ];
 
 describe("<UserPage/>", () => {
-  const { setProps, renderComponent, updateDecorator } = setComponent(
+  const { renderComponent, setProps, updateDecorator } = setComponent(
     makeFC(UserPage),
     { decorators: [dataDecorator(mocks())] },
   );
