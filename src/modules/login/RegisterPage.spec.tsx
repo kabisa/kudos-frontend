@@ -1,8 +1,12 @@
 import { GraphQLError } from "graphql";
-import { withMockedProviders } from "../../spec_helper";
 import { RegisterPage } from "./index";
 import { MUTATION_REGISTER } from "./RegisterPage";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, screen, waitFor } from "@testing-library/react";
+import { makeFC, setTestSubject } from "../../support/testing/testSubject";
+import {
+  dataDecorator,
+  routingDecorator,
+} from "../../support/testing/testDecorators";
 
 let mutationCalled = false;
 const mocks = [
@@ -47,9 +51,15 @@ const mocks = [
 ];
 
 describe("<RegisterPage />", () => {
+  const { renderComponent } = setTestSubject(makeFC(RegisterPage), {
+    decorators: [dataDecorator(mocks), routingDecorator()],
+    props: {},
+  });
+
   beforeEach(() => {
     mutationCalled = false;
-    render(withMockedProviders(<RegisterPage />, mocks));
+
+    renderComponent();
   });
 
   it("handles input correctly", async () => {

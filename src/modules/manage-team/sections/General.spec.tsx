@@ -1,6 +1,8 @@
-import { mockLocalstorage, withMockedProviders } from "../../../spec_helper";
+import { mockLocalstorage } from "../../../spec_helper";
+import { makeFC, setTestSubject } from "../../../support/testing/testSubject";
+import { dataDecorator } from "../../../support/testing/testDecorators";
 import GeneralSection, { GET_TEAM_NAME, UPDATE_TEAM } from "./General";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, screen, waitFor } from "@testing-library/react";
 
 let mutationCalled = false;
 const mocks = [
@@ -61,13 +63,18 @@ const mocksWithError = [
 ];
 
 describe("<GeneralSection />", () => {
+  const { renderComponent, updateDecorator } = setTestSubject(
+    makeFC(GeneralSection),
+    { decorators: [dataDecorator(mocks)], props: {} },
+  );
+
   beforeEach(() => {
     mockLocalstorage("1");
     mutationCalled = false;
   });
 
   it("shows when the query is loading", async () => {
-    render(withMockedProviders(<GeneralSection />, mocks));
+    renderComponent();
 
     expect(screen.getByText("Loading...")).toBeInTheDocument();
     expect(
@@ -76,7 +83,8 @@ describe("<GeneralSection />", () => {
   });
 
   it("shows when there is an error", async () => {
-    render(withMockedProviders(<GeneralSection />, mocksWithError));
+    updateDecorator("application", { mocks: mocksWithError });
+    renderComponent();
 
     expect(
       await screen.findByText("Error! something went wrong"),
@@ -84,7 +92,7 @@ describe("<GeneralSection />", () => {
   });
 
   it("renders the team name", async () => {
-    render(withMockedProviders(<GeneralSection />, mocks));
+    renderComponent();
 
     expect(
       await screen.findByRole("heading", { name: "Kabisa", level: 1 }),
@@ -92,7 +100,7 @@ describe("<GeneralSection />", () => {
   });
 
   it("handles input correctly", async () => {
-    render(withMockedProviders(<GeneralSection />, mocks));
+    renderComponent();
 
     await screen.findByRole("heading", { name: "Kabisa", level: 1 });
 

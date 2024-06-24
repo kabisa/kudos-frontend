@@ -1,12 +1,17 @@
-import { mockLocalstorage, withMockedProviders } from "../../../../spec_helper";
+import { mockLocalstorage } from "../../../../spec_helper";
 import {
   getSelectOptions,
   getSelectedItemsText,
   openSelect,
 } from "../../../../support/testing/reactSelectHelpers";
+import {
+  makeFC,
+  setTestSubject,
+} from "../../../../support/testing/testSubject";
+import { dataDecorator } from "../../../../support/testing/testDecorators";
 import { GET_GUIDELINES } from "../../../manage-team/sections/guideline/GuidelinesSection";
 import GuidelineInput from "./GuidelineInput";
-import { render, waitFor, screen } from "@testing-library/react";
+import { waitFor, screen } from "@testing-library/react";
 
 let queryCalled = false;
 const mocks = [
@@ -64,18 +69,24 @@ const mocksWithoutData = [
 describe("<GuidelineInput />", () => {
   const handleChangeMock = jest.fn();
 
+  const { renderComponent, updateDecorator } = setTestSubject(
+    makeFC(GuidelineInput),
+    {
+      decorators: [dataDecorator(mocks)],
+      props: {
+        handleChange: handleChangeMock,
+        amountError: false,
+      },
+    },
+  );
+
   beforeEach(() => {
     mockLocalstorage("1");
     queryCalled = false;
   });
 
   it("handles state change correctly", async () => {
-    render(
-      withMockedProviders(
-        <GuidelineInput handleChange={handleChangeMock} amountError={false} />,
-        mocks,
-      ),
-    );
+    renderComponent();
 
     const selectElement = await screen.findByRole("combobox", {
       description: "Kudos amount",
@@ -88,45 +99,43 @@ describe("<GuidelineInput />", () => {
   });
 
   it("display only guidelines that have a kudos value within a range of 5 from the selected guideline.", async () => {
-    const modifiedMock = [...mocks];
-    modifiedMock[0] = {
-      ...mocks[0],
-      result: () => {
-        queryCalled = true;
-        return {
-          data: {
-            teamById: {
-              id: "1",
-              __typename: "Team",
-              guidelines: [
-                {
-                  id: "1",
-                  kudos: 4,
-                  name: "Great help for someone",
-                },
-                {
-                  id: "2",
-                  kudos: 11,
-                  name: "Op tijd bij meeting",
-                },
-                {
-                  id: "3",
-                  kudos: 14, // Within range of 10
-                  name: "Bureau opgeruimd",
-                },
-              ],
+    updateDecorator("application", (settings) => {
+      const modifiedMock = [...settings.mocks];
+      modifiedMock[0] = {
+        ...mocks[0],
+        result: () => {
+          queryCalled = true;
+          return {
+            data: {
+              teamById: {
+                id: "1",
+                __typename: "Team",
+                guidelines: [
+                  {
+                    id: "1",
+                    kudos: 4,
+                    name: "Great help for someone",
+                  },
+                  {
+                    id: "2",
+                    kudos: 11,
+                    name: "Op tijd bij meeting",
+                  },
+                  {
+                    id: "3",
+                    kudos: 14, // Within range of 10
+                    name: "Bureau opgeruimd",
+                  },
+                ],
+              },
             },
-          },
-        };
-      },
-    };
+          };
+        },
+      };
+      return { mocks: modifiedMock };
+    });
 
-    render(
-      withMockedProviders(
-        <GuidelineInput handleChange={handleChangeMock} amountError={false} />,
-        modifiedMock,
-      ),
-    );
+    renderComponent();
 
     // Sets showGuidelines to true which is needed to trigger the query.
     const selectElement = await screen.findByRole("combobox", {
@@ -149,12 +158,7 @@ describe("<GuidelineInput />", () => {
   });
 
   it("shows the guidelines on down arrow", async () => {
-    render(
-      withMockedProviders(
-        <GuidelineInput handleChange={handleChangeMock} amountError={false} />,
-        mocks,
-      ),
-    );
+    renderComponent();
 
     // Sets showGuidelines to true which is needed to trigger the query.
     const selectElement = await screen.findByRole("combobox", {
@@ -170,12 +174,7 @@ describe("<GuidelineInput />", () => {
   });
 
   it("calls the mutation if the input is focused and amount is not empty", async () => {
-    render(
-      withMockedProviders(
-        <GuidelineInput handleChange={handleChangeMock} amountError={false} />,
-        mocks,
-      ),
-    );
+    renderComponent();
 
     expect(queryCalled).toBe(false);
 
@@ -191,12 +190,8 @@ describe("<GuidelineInput />", () => {
   });
 
   it("shows a message when there are no guidelines", async () => {
-    render(
-      withMockedProviders(
-        <GuidelineInput handleChange={handleChangeMock} amountError={false} />,
-        mocksWithoutData,
-      ),
-    );
+    updateDecorator("application", { mocks: mocksWithoutData });
+    renderComponent();
 
     // Sets showGuidelines to true which is needed to trigger the query.
     const selectElement = await screen.findByRole("combobox", {
@@ -208,12 +203,8 @@ describe("<GuidelineInput />", () => {
   });
 
   it("is disabled when the query is loading", async () => {
-    render(
-      withMockedProviders(
-        <GuidelineInput handleChange={handleChangeMock} amountError={false} />,
-        mocks,
-      ),
-    );
+    renderComponent();
+
     const selectElement = screen.getByRole("combobox", {
       description: "Kudos amount",
       hidden: true,
@@ -227,12 +218,7 @@ describe("<GuidelineInput />", () => {
   });
 
   it("reports the correct amount when a guideline is clicked", async () => {
-    render(
-      withMockedProviders(
-        <GuidelineInput handleChange={handleChangeMock} amountError={false} />,
-        mocks,
-      ),
-    );
+    renderComponent();
 
     // Sets showGuidelines to true which is needed to trigger the query.
     const selectElement = await screen.findByRole("combobox", {
@@ -242,7 +228,7 @@ describe("<GuidelineInput />", () => {
     const options = getSelectOptions(selectElement);
     options[1].click();
 
-    expect(handleChangeMock).toBeCalledWith(15);
+    expect(handleChangeMock).toHaveBeenCalledWith(15);
     expect(getSelectedItemsText(selectElement)).toEqual("15");
   });
 });

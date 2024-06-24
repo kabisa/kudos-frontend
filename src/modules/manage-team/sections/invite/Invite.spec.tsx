@@ -1,11 +1,12 @@
+import { MockedFunction, mockLocalstorage } from "../../../../spec_helper";
+import { setTestSubject } from "../../../../support/testing/testSubject";
 import {
-  MockedFunction,
-  mockLocalstorage,
-  withMockedProviders,
-} from "../../../../spec_helper";
+  dataDecorator,
+  tableDecorator,
+} from "../../../../support/testing/testDecorators";
 import { Invite, MUTATION_DELETE_INVITE } from "./Invite";
 import { InviteModel, QUERY_GET_INVITES } from "./InvitesSection";
-import { render, screen, waitFor } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 
 const pendingInvite: InviteModel = {
   acceptedAt: "",
@@ -77,27 +78,24 @@ const mocks = [
 ];
 
 describe("<Invite />", () => {
-  function setup(invite: InviteModel) {
-    const mockRefetch = jest.fn();
+  const mockRefetch = jest.fn();
 
-    render(
-      withMockedProviders(
-        <table>
-          <tbody>
-            <Invite invite={invite} key={1} refetch={mockRefetch} />
-          </tbody>
-        </table>,
-        mocks,
-      ),
-    );
-  }
+  const { renderComponent, updateProps } = setTestSubject(Invite, {
+    decorators: [tableDecorator, dataDecorator(mocks)],
+    props: {
+      invite: pendingInvite,
+      key: 1,
+      refetch: mockRefetch,
+    },
+  });
 
   beforeEach(() => {
     global.confirm = jest.fn(() => true);
     mockLocalstorage("1");
     mutationCalled = false;
     queryCalled = false;
-    setup(pendingInvite);
+
+    renderComponent();
   });
 
   it("shows the invite send date and email", () => {
@@ -114,14 +112,16 @@ describe("<Invite />", () => {
   });
 
   it("shows that the invite is accepted", () => {
-    setup(acceptedInvite);
+    updateProps({ invite: acceptedInvite });
+    renderComponent();
 
     const status = screen.getByRole("cell", { name: "Accepted" });
     expect(status).toBeInTheDocument();
   });
 
   it("shows that the invite is declined", () => {
-    setup(declinedInvite);
+    updateProps({ invite: declinedInvite });
+    renderComponent();
 
     const status = screen.getByRole("cell", { name: "Declined" });
     expect(status).toBeInTheDocument();

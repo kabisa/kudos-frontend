@@ -1,6 +1,11 @@
-import { mockLocalstorage, withMockedProviders } from "../../../../spec_helper";
+import { mockLocalstorage } from "../../../../spec_helper";
+import {
+  makeFC,
+  setTestSubject,
+} from "../../../../support/testing/testSubject";
+import { dataDecorator } from "../../../../support/testing/testDecorators";
 import MemberSection, { GET_USERS } from "./Members";
-import { RenderResult, render, screen, waitFor } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 
 export const mocks = () => [
   {
@@ -47,35 +52,19 @@ const mocksWithError = [
   },
 ];
 
-type GraphQLData = {
-  request: {
-    query: unknown;
-    variables?: unknown;
-  };
-  error?: unknown;
-  result?: {
-    data: unknown;
-  };
-};
-
-let renderResult: RenderResult | null = null;
-const setup = async (mockData: GraphQLData[] = mocks()) => {
-  if (renderResult) {
-    await waitFor(() => {
-      expect(screen.queryByText("Loading...")).toBeNull();
-    });
-    renderResult.unmount();
-  }
-  renderResult = render(withMockedProviders(<MemberSection />, mockData));
-};
-
 describe("<Member />", () => {
-  beforeEach(async () => {
+  const { renderComponent, updateDecorator } = setTestSubject(
+    makeFC(MemberSection),
+    { decorators: [dataDecorator(mocks())], props: {} },
+  );
+
+  beforeEach(() => {
     mockLocalstorage("1");
-    await setup();
   });
 
   it("shows a loading state", async () => {
+    renderComponent();
+
     expect(screen.getByText("Loading...")).toBeInTheDocument();
 
     await waitFor(() => {
@@ -84,7 +73,9 @@ describe("<Member />", () => {
   });
 
   it("shows when there is an error", async () => {
-    await setup(mocksWithError);
+    updateDecorator("application", { mocks: mocksWithError });
+    renderComponent();
+
     await waitFor(() => {
       expect(screen.queryByText("Loading...")).toBeNull();
     });
@@ -95,6 +86,8 @@ describe("<Member />", () => {
   });
 
   it("renders a row for each membership", async () => {
+    renderComponent();
+
     // 1 header row, 2 data rows
     expect(await screen.findAllByRole("row")).toHaveLength(3);
   });

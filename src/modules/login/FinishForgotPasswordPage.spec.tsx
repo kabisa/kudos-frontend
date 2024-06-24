@@ -1,15 +1,10 @@
 import { GraphQLError } from "graphql";
-import { withMockedProviders } from "../../spec_helper";
 import { MUTATION_NEW_PASSWORD } from "./FinishForgotPasswordPage";
 import { RouterBypassFinishForgotPasswordPage as FinishForgotPasswordPage } from "./index";
-import {
-  RenderResult,
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-} from "@testing-library/react";
-import { createBrowserHistory } from "history";
+import { fireEvent, screen, waitFor } from "@testing-library/react";
+import { makeFC, setTestSubject } from "../../support/testing/testSubject";
+import { dataDecorator } from "../../support/testing/testDecorators";
+import { createRouterProps } from "../../spec_helper";
 
 let mutationCalled = false;
 const mocks = [
@@ -50,32 +45,28 @@ const mocks = [
   },
 ];
 
-describe("<FinishForgotPasswordPage />", () => {
-  const createPropsWithToken = (token: string) => ({
-    location: {
-      search: `reset_password_token=${token}`,
-      pathname: "",
-      state: "",
-      hash: "",
-    },
-    history: createBrowserHistory(),
-    match: {
-      params: "",
-      isExact: false,
-      path: "",
-      url: "",
-    },
-  });
+const createLocationWithToken = (token: string) => ({
+  search: `reset_password_token=${token}`,
+  pathname: "",
+  state: "",
+  hash: "",
+});
 
-  let renderResult: RenderResult;
+describe("<FinishForgotPasswordPage />", () => {
+  const { renderComponent, updateProps } = setTestSubject(
+    makeFC(FinishForgotPasswordPage),
+    {
+      decorators: [dataDecorator(mocks)],
+      props: {
+        ...createRouterProps(),
+        location: createLocationWithToken("19810531"),
+      },
+    },
+  );
 
   beforeEach(() => {
-    const props = createPropsWithToken("19810531");
-
     mutationCalled = false;
-    renderResult = render(
-      withMockedProviders(<FinishForgotPasswordPage {...props} />, mocks),
-    );
+    renderComponent();
   });
 
   it("Displays a reset password header", () => {
@@ -148,10 +139,8 @@ describe("<FinishForgotPasswordPage />", () => {
   });
 
   it("shows when there is an error", () => {
-    renderResult.unmount();
-
-    const props = createPropsWithToken("90210");
-    render(withMockedProviders(<FinishForgotPasswordPage {...props} />, mocks));
+    updateProps({ location: createLocationWithToken("90210") });
+    renderComponent();
 
     const passwordField = screen.getByLabelText("Password");
     fireEvent.change(passwordField, { target: { value: "password" } });

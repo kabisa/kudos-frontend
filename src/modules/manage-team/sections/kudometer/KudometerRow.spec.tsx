@@ -1,8 +1,4 @@
-import {
-  MockedFunction,
-  mockLocalstorage,
-  withMockedProviders,
-} from "../../../../spec_helper";
+import { MockedFunction, mockLocalstorage } from "../../../../spec_helper";
 import { KudometerRow } from "./KudometerRow";
 import {
   DELETE_KUDOMETER,
@@ -11,7 +7,12 @@ import {
   SET_ACTIVE_KUDOS_METER,
 } from "./KudometerQueries";
 import { GET_GOAL_PERCENTAGE } from "../../../feed/queries";
-import { render, screen, waitFor } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
+import { setTestSubject } from "../../../../support/testing/testSubject";
+import {
+  dataDecorator,
+  tableDecorator,
+} from "../../../../support/testing/testDecorators";
 
 const getKudometer = (isActive: boolean): Kudometer => ({
   id: "1",
@@ -112,43 +113,37 @@ const viewButtonHandler = jest.fn();
 const deleteHandler = jest.fn();
 const editHandler = jest.fn();
 
-const setup = (kudometer: Kudometer) => {
-  mutationCalled = false;
-  makeActiveMutationCalled = false;
-  queryCalled = false;
-  render(
-    withMockedProviders(
-      <table>
-        <tbody>
-          <KudometerRow
-            key="1"
-            kudometer={kudometer}
-            viewButtonClickHandler={viewButtonHandler}
-            deleteKudometerHandler={deleteHandler}
-            edit={editHandler}
-          />
-        </tbody>
-      </table>,
-      mocks,
-    ),
-  );
-};
-
 describe("<KudometerRow />", () => {
+  const { renderComponent, updateProps } = setTestSubject(KudometerRow, {
+    decorators: [tableDecorator, dataDecorator(mocks)],
+    props: {
+      key: "1",
+      kudometer: getKudometer(false),
+      viewButtonClickHandler: viewButtonHandler,
+      deleteKudometerHandler: deleteHandler,
+      edit: editHandler,
+    },
+  });
+
   beforeEach(() => {
     global.confirm = jest.fn(() => true);
+    mutationCalled = false;
+    makeActiveMutationCalled = false;
+    queryCalled = false;
     mockLocalstorage("1");
   });
 
   it("shows the kudometer name", async () => {
-    setup(getKudometer(false));
+    renderComponent();
+
     expect(
       await screen.findByRole("cell", { name: "First kudometer" }),
     ).toBeInTheDocument();
   });
 
   it("opens the goals", async () => {
-    setup(getKudometer(false));
+    renderComponent();
+
     const goalButton = screen.getByRole("button", { name: "View goals" });
     goalButton.click();
 
@@ -158,7 +153,8 @@ describe("<KudometerRow />", () => {
   });
 
   it("has a confirm delete button", async () => {
-    setup(getKudometer(false));
+    renderComponent();
+
     const deleteButton = screen.getByRole("button", { name: "delete" });
     deleteButton.click();
 
@@ -170,7 +166,8 @@ describe("<KudometerRow />", () => {
   });
 
   it("calls the delete mutation", async () => {
-    setup(getKudometer(false));
+    renderComponent();
+
     const deleteButton = screen.getByRole("button", { name: "delete" });
     deleteButton.click();
 
@@ -181,7 +178,8 @@ describe("<KudometerRow />", () => {
   });
 
   it("does not the delete mutation if confirm is cancelled", async () => {
-    setup(getKudometer(false));
+    renderComponent();
+
     (global.confirm as MockedFunction<Window["confirm"]>).mockReturnValueOnce(
       true,
     );
@@ -192,13 +190,15 @@ describe("<KudometerRow />", () => {
   });
 
   it("has a edit button", () => {
-    setup(getKudometer(false));
+    renderComponent();
+
     const editButton = screen.getByRole("button", { name: "edit" });
     expect(editButton).toBeInTheDocument();
   });
 
   it("calls the edit function", () => {
-    setup(getKudometer(false));
+    renderComponent();
+
     const editButton = screen.getByRole("button", { name: "edit" });
     editButton.click();
 
@@ -207,7 +207,8 @@ describe("<KudometerRow />", () => {
 
   describe("make active button", () => {
     it("is not disabled if the kudometer is not active", () => {
-      setup(getKudometer(false));
+      renderComponent();
+
       const activateButton = screen.getByRole("button", {
         name: "Set as active",
       });
@@ -215,7 +216,9 @@ describe("<KudometerRow />", () => {
     });
 
     it("is disabled if the kudometer is active", () => {
-      setup(getKudometer(true));
+      updateProps({ kudometer: getKudometer(true) });
+      renderComponent();
+
       const activateButton = screen.getByRole("button", {
         name: "Already active",
       });
@@ -223,7 +226,7 @@ describe("<KudometerRow />", () => {
     });
 
     it("calls the mutation", async () => {
-      setup(getKudometer(false));
+      renderComponent();
 
       const activateButton = screen.getByRole("button", {
         name: "Set as active",

@@ -1,6 +1,11 @@
-import { mockLocalstorage, withMockedProviders } from "../../../../spec_helper";
+import { mockLocalstorage } from "../../../../spec_helper";
+import {
+  makeFC,
+  setTestSubject,
+} from "../../../../support/testing/testSubject";
+import { dataDecorator } from "../../../../support/testing/testDecorators";
 import GuidelineSection, { GET_GUIDELINES } from "./GuidelinesSection";
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 
 export const mocks = (teamId: string) => [
   {
@@ -44,12 +49,18 @@ const errorMocks = [
 ];
 
 describe("<GuidelinesSection />", () => {
+  const { renderComponent, updateDecorator } = setTestSubject(
+    makeFC(GuidelineSection),
+    { decorators: [dataDecorator(mocks("1"))], props: {} },
+  );
+
   beforeEach(() => {
     mockLocalstorage("1");
   });
 
   it("shows a loading state", async () => {
-    render(withMockedProviders(<GuidelineSection />, mocks("1")));
+    renderComponent();
+
     expect(screen.getByText("Loading...")).toBeInTheDocument();
 
     // Wait for fetch to complete before unmount
@@ -57,12 +68,14 @@ describe("<GuidelinesSection />", () => {
   });
 
   it("shows when there is an error", async () => {
-    render(withMockedProviders(<GuidelineSection />, errorMocks));
+    updateDecorator("application", { mocks: errorMocks });
+    renderComponent();
+
     expect(await screen.findByText("Error! it went wrong")).toBeInTheDocument();
   });
 
   it("shows a row for each guideline ", async () => {
-    render(withMockedProviders(<GuidelineSection />, mocks("1")));
+    renderComponent();
 
     const rows = await screen.findAllByRole("row");
     // 1 header row, 2 data rows

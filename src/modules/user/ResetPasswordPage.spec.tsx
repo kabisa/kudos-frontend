@@ -1,7 +1,11 @@
-import { withMockedProviders } from "../../spec_helper";
+import { makeFC, setTestSubject } from "../../support/testing/testSubject";
+import {
+  dataDecorator,
+  routingDecorator,
+} from "../../support/testing/testDecorators";
 import { ResetPasswordPage } from "./index";
 import { MUTATION_RESET_PASSWORD } from "./ResetPasswordPage";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, screen, waitFor } from "@testing-library/react";
 
 let mutationCalled = false;
 const mocks = [
@@ -22,9 +26,15 @@ const mocks = [
 ];
 
 describe("<ResetPasswordPage />", () => {
+  const { renderComponent } = setTestSubject(makeFC(ResetPasswordPage), {
+    decorators: [dataDecorator(mocks), routingDecorator()],
+    props: {},
+  });
+
   beforeEach(() => {
     mutationCalled = false;
-    render(withMockedProviders(<ResetPasswordPage />, mocks));
+
+    renderComponent();
   });
 
   it("has three input elements", () => {

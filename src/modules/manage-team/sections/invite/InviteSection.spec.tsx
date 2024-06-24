@@ -1,6 +1,8 @@
-import { mockLocalstorage, withMockedProviders } from "../../../../spec_helper";
+import { mockLocalstorage } from "../../../../spec_helper";
+import { setTestSubject } from "../../../../support/testing/testSubject";
+import { dataDecorator } from "../../../../support/testing/testDecorators";
 import InviteSection, { QUERY_GET_INVITES } from "./InvitesSection";
-import { render, screen, waitFor } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 
 const mocks = [
   {
@@ -44,12 +46,18 @@ const mocksWithError = [
 ];
 
 describe("<InviteSection />", () => {
+  const { renderComponent, updateDecorator } = setTestSubject(InviteSection, {
+    decorators: [dataDecorator(mocks)],
+    props: {},
+  });
+
   beforeEach(() => {
     mockLocalstorage("1");
-    render(withMockedProviders(<InviteSection />, mocks));
   });
 
   it("shows a loading message", async () => {
+    renderComponent();
+
     expect(screen.getByText("Loading...")).toBeInTheDocument();
 
     await waitFor(() => {
@@ -58,16 +66,22 @@ describe("<InviteSection />", () => {
   });
 
   it("shows when there is an error", async () => {
-    render(withMockedProviders(<InviteSection />, mocksWithError));
+    updateDecorator("application", { mocks: mocksWithError });
+    renderComponent();
+
     expect(await screen.findByText("Error! it broke")).toBeInTheDocument();
   });
 
   it("renders a row for each invite", async () => {
+    renderComponent();
+
     // header row + 2 data rows
     expect(await screen.findAllByRole("row")).toHaveLength(1 + 2);
   });
 
   it("renders the add invites section", async () => {
+    renderComponent();
+
     expect(
       await screen.findByRole("button", { name: "Invite" }),
     ).toBeInTheDocument();

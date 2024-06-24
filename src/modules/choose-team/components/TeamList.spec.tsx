@@ -1,7 +1,8 @@
 import { GET_TEAMS } from "./TeamList";
-import { withMockedProviders } from "../../../spec_helper";
 import { TeamList } from "./index";
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
+import { setTestSubject } from "../../../support/testing/testSubject";
+import { dataDecorator } from "../../../support/testing/testDecorators";
 
 const mocksWithInvite = [
   {
@@ -60,11 +61,14 @@ const mocksWithError = [
 ];
 
 describe("<TeamList />", () => {
-  beforeEach(() => {
-    render(withMockedProviders(<TeamList />, mocksWithInvite));
+  const { renderComponent, updateDecorator } = setTestSubject(TeamList, {
+    decorators: [dataDecorator(mocksWithInvite)],
+    props: {},
   });
 
   it("renders the loading text", async () => {
+    renderComponent();
+
     const loadingElement = screen.getByText("Loading...");
     expect(loadingElement).toBeInTheDocument();
     // Wait till fetch completes
@@ -72,19 +76,23 @@ describe("<TeamList />", () => {
   });
 
   it("renders the team list", async () => {
+    renderComponent();
+
     const invite = await screen.findByTestId("kudo-team-invites");
     expect(invite).toBeInTheDocument();
   });
 
   it("shows a message when there are no teams", async () => {
-    render(withMockedProviders(<TeamList />, mocksWithoutInvite));
+    updateDecorator("application", { mocks: mocksWithoutInvite });
+    renderComponent();
 
     const noTeamsMessage = await screen.findByText("No teams.");
     expect(noTeamsMessage).toBeInTheDocument();
   });
 
   it("shows a message when there is an error", async () => {
-    render(withMockedProviders(<TeamList />, mocksWithError));
+    updateDecorator("application", { mocks: mocksWithError });
+    renderComponent();
 
     const errorMessage = await screen.findByText("It broke");
     expect(errorMessage).toBeInTheDocument();

@@ -1,11 +1,12 @@
+import { MockedFunction, mockLocalstorage } from "../../../../spec_helper";
+import { setTestSubject } from "../../../../support/testing/testSubject";
 import {
-  MockedFunction,
-  mockLocalstorage,
-  withMockedProviders,
-} from "../../../../spec_helper";
+  dataDecorator,
+  tableDecorator,
+} from "../../../../support/testing/testDecorators";
 import { MemberRow } from "./MemberRow";
 import { DEACTIVATE_USER } from "./Members";
-import { RenderResult, render, screen, waitFor } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 
 const membership = {
   id: "1",
@@ -38,31 +39,24 @@ const mocks = [
 ];
 
 const refetch = jest.fn();
-let result: RenderResult | null = null;
-const setup = () => {
-  if (result !== null) {
-    result.unmount();
-  }
-
-  result = render(
-    withMockedProviders(
-      <table>
-        <tbody>
-          <MemberRow key="1" membership={membership} refetch={refetch} />
-        </tbody>
-      </table>,
-      mocks,
-    ),
-  );
-};
 
 describe("<MemberRow />", () => {
+  const { renderComponent } = setTestSubject(MemberRow, {
+    decorators: [tableDecorator, dataDecorator(mocks)],
+    props: {
+      key: "1",
+      membership,
+      refetch,
+    },
+  });
+
   mockLocalstorage("5");
 
   beforeEach(() => {
     mutationCalled = false;
     global.confirm = jest.fn(() => true);
-    setup();
+
+    renderComponent();
   });
 
   it("renders the membership information", () => {
@@ -98,7 +92,7 @@ describe("<MemberRow />", () => {
 
   it("renders the buttons if the membership is not the current user", () => {
     mockLocalstorage("5");
-    setup();
+    renderComponent();
 
     const buttons = screen.queryAllByRole("button");
     expect(buttons).toHaveLength(3);
@@ -106,7 +100,7 @@ describe("<MemberRow />", () => {
 
   it("does not render the buttons if the membership is the current user", () => {
     mockLocalstorage("1");
-    setup();
+    renderComponent();
 
     const buttons = screen.queryAllByRole("button");
     expect(buttons).toHaveLength(0);

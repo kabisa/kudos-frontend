@@ -1,8 +1,12 @@
 import { GraphQLError } from "graphql";
 import { LoginPage } from "./index";
-import { withMockedProviders } from "../../spec_helper";
 import { MUTATION_LOGIN } from "./LoginPage";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, screen, waitFor } from "@testing-library/react";
+import { makeFC, setTestSubject } from "../../support/testing/testSubject";
+import {
+  dataDecorator,
+  routingDecorator,
+} from "../../support/testing/testDecorators";
 
 let mutationCalled = false;
 const mocks = [
@@ -45,9 +49,14 @@ const mocks = [
 ];
 
 describe("<LoginPage />", () => {
+  const { renderComponent } = setTestSubject(makeFC(LoginPage), {
+    decorators: [dataDecorator(mocks), routingDecorator()],
+    props: {},
+  });
+
   beforeEach(() => {
     mutationCalled = false;
-    render(withMockedProviders(<LoginPage />, mocks));
+    renderComponent();
   });
 
   it("has a forgot password button", () => {

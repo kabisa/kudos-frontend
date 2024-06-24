@@ -1,7 +1,11 @@
-import { withMockedProviders } from "../../../../../spec_helper";
 import { Goals } from "./Goals";
 import { Goal, Kudometer } from "../KudometerQueries";
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
+import {
+  makeFC,
+  setTestSubject,
+} from "../../../../../support/testing/testSubject";
+import { dataDecorator } from "../../../../../support/testing/testDecorators";
 
 const goals: Goal[] = [
   {
@@ -28,8 +32,13 @@ const kudometer: Kudometer = {
 };
 
 describe("<Goals />", () => {
+  const { renderComponent } = setTestSubject(makeFC(Goals), {
+    decorators: [dataDecorator()],
+    props: { kudometer },
+  });
+
   beforeEach(() => {
-    render(withMockedProviders(<Goals kudometer={kudometer} />));
+    renderComponent();
   });
 
   it("renders the add goal section", () => {

@@ -1,6 +1,11 @@
-import { render, RenderResult, screen } from "@testing-library/react";
-import { mockLocalstorage, withMockedProviders } from "../../spec_helper";
+import { screen } from "@testing-library/react";
+import { mockLocalstorage } from "../../spec_helper";
 import Desktop, { GET_USER } from "./Desktop";
+import { setTestSubject } from "../../support/testing/testSubject";
+import {
+  dataDecorator,
+  routingDecorator,
+} from "../../support/testing/testDecorators";
 
 export const mocks = () => [
   {
@@ -20,24 +25,29 @@ export const mocks = () => [
 ];
 
 describe("<Desktop />", () => {
+  const { renderComponent } = setTestSubject(Desktop, {
+    decorators: [dataDecorator(mocks()), routingDecorator()],
+    props: {},
+  });
+
   it("renders the users name", async () => {
-    render(withMockedProviders(<Desktop />, mocks()));
+    renderComponent();
+
     const node = await screen.findByText("Max");
     expect(node).toBeInTheDocument();
   });
 
   it("should have a link to the home page", async () => {
-    render(withMockedProviders(<Desktop />, mocks()));
+    renderComponent();
 
     const button = await screen.findByTestId("home-button");
     expect(button).toBeInTheDocument();
   });
 
   describe("profile menu", () => {
-    let renderResult: RenderResult;
-
     beforeEach(async () => {
-      renderResult = render(withMockedProviders(<Desktop />, mocks()));
+      renderComponent();
+
       const button = await screen.findByRole("button", { name: "Max" });
       button.click();
     });
@@ -58,21 +68,23 @@ describe("<Desktop />", () => {
     });
 
     describe("as admin", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         mockLocalstorage("admin");
-        renderResult.rerender(withMockedProviders(<Desktop />, mocks()));
+        renderComponent();
+        await screen.findByText("Max");
       });
 
       it("has a manage team button", () => {
-        const profileLink = screen.queryByTestId("manage-team-button");
+        const profileLink = screen.findByTestId("manage-team-button");
         expect(profileLink).not.toBeNull();
       });
     });
 
     describe("as member", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         mockLocalstorage("member");
-        renderResult.rerender(withMockedProviders(<Desktop />, mocks()));
+        renderComponent();
+        await screen.findByText("Max");
       });
 
       it("does not have a manage team button", () => {

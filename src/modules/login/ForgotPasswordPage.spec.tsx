@@ -1,8 +1,9 @@
 import { GraphQLError } from "graphql";
-import { withMockedProviders } from "../../spec_helper";
 import { ForgotPasswordPage } from "./index";
 import { MUTATION_FORGOT_PASSWORD } from "./ForgotPasswordPage";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, screen, waitFor } from "@testing-library/react";
+import { makeFC, setTestSubject } from "../../support/testing/testSubject";
+import { dataDecorator } from "../../support/testing/testDecorators";
 
 let mutationCalled = false;
 const mocks = [
@@ -38,9 +39,14 @@ const mocks = [
 ];
 
 describe("<ForgotPasswordPage />", () => {
+  const { renderComponent } = setTestSubject(makeFC(ForgotPasswordPage), {
+    decorators: [dataDecorator(mocks)],
+    props: {},
+  });
+
   beforeEach(() => {
     mutationCalled = false;
-    render(withMockedProviders(<ForgotPasswordPage />, mocks));
+    renderComponent();
   });
 
   it("displays a header for the page", () => {

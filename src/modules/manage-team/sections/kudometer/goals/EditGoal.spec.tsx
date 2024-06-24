@@ -1,17 +1,13 @@
-import {
-  mockLocalstorage,
-  withMockedProviders,
-} from "../../../../../spec_helper";
+import { mockLocalstorage } from "../../../../../spec_helper";
 import { EditGoal } from "./EditGoal";
 import { CREATE_GOAL, GET_KUDOMETERS, UPDATE_GOAL } from "../KudometerQueries";
+import { fireEvent, screen, waitFor } from "@testing-library/react";
+import { createRef } from "react";
 import {
-  fireEvent,
-  render,
-  RenderResult,
-  screen,
-  waitFor,
-} from "@testing-library/react";
-import { RefObject, createRef } from "react";
+  makeFC,
+  setTestSubject,
+} from "../../../../../support/testing/testSubject";
+import { dataDecorator } from "../../../../../support/testing/testDecorators";
 
 let createMutationCalled = false;
 let updateMutationCalled = false;
@@ -107,25 +103,20 @@ const mocksWithErrors = [
 ];
 
 describe("<EditGoal />", () => {
-  let component: RenderResult;
-  let ref: RefObject<EditGoal>;
+  const { renderComponent, updateProps, updateDecorator } = setTestSubject(
+    makeFC(EditGoal),
+    { decorators: [dataDecorator(mocks)], props: { kudometerId: "1" } },
+  );
 
   beforeEach(() => {
     mockLocalstorage("1");
     createMutationCalled = false;
     updateMutationCalled = false;
-    ref = createRef<EditGoal>();
-
-    component = render(
-      withMockedProviders(<EditGoal kudometerId="1" ref={ref} />, mocks),
-    );
-  });
-
-  afterEach(() => {
-    component.unmount();
   });
 
   it("has a empty initial state", () => {
+    renderComponent();
+
     const nameField = screen.getByRole("textbox", { name: "Name" });
     expect(nameField).toHaveValue("");
 
@@ -135,6 +126,10 @@ describe("<EditGoal />", () => {
 
   describe("editing goal", () => {
     beforeEach(() => {
+      const ref = createRef<EditGoal>();
+      updateProps({ ref });
+      renderComponent();
+
       ref.current?.setState({ editing: true, editGoalId: "2" });
     });
 
@@ -176,6 +171,8 @@ describe("<EditGoal />", () => {
 
   describe("adding goal", () => {
     it("Calls the create mutation if editing is false", async () => {
+      renderComponent();
+
       const nameField = screen.getByRole("textbox", { name: "Name" });
       fireEvent.change(nameField, { target: { value: "first goal" } });
 
@@ -192,10 +189,9 @@ describe("<EditGoal />", () => {
   });
 
   it("shows when there is an error", async () => {
-    component.unmount();
-    component = render(
-      withMockedProviders(<EditGoal kudometerId="1" />, mocksWithErrors),
-    );
+    updateDecorator("application", { mocks: mocksWithErrors });
+    renderComponent();
+
     const nameField = screen.getByRole("textbox", { name: "Name" });
     fireEvent.change(nameField, { target: { value: "first goal" } });
 

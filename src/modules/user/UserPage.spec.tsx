@@ -1,14 +1,10 @@
 import { createMemoryHistory, MemoryHistory } from "history";
 import { DISCONNECT_SLACK, GET_USER, UserPage } from "./UserPage";
-import { mockLocalstorage, withMockedProviders } from "../../spec_helper";
+import { createRouterProps, mockLocalstorage } from "../../spec_helper";
 import { PATH_RESET_PASSWORD } from "../../routes";
-import {
-  render,
-  RenderResult,
-  screen,
-  waitFor,
-  within,
-} from "@testing-library/react";
+import { screen, waitFor, within } from "@testing-library/react";
+import { makeFC, setTestSubject } from "../../support/testing/testSubject";
+import { dataDecorator } from "../../support/testing/testDecorators";
 
 let mutationCalled = false;
 export const mocks = ({ slackId = "" } = { slackId: "" }) => [
@@ -65,29 +61,21 @@ const mocksWithSlackId = [
   },
 ];
 
-let history: MemoryHistory;
-let renderResult: RenderResult | null = null;
-const setup = async (mock: any) => {
-  if (renderResult) {
-    await waitFor(() => {
-      expect(screen.queryByText("Loading...")).toBeNull();
+describe("<UserPage/>", () => {
+  const { renderComponent, setProps, updateDecorator } = setTestSubject(
+    makeFC(UserPage),
+    { decorators: [dataDecorator(mocks())] },
+  );
+  let history: MemoryHistory;
+
+  const original = window;
+  beforeEach(() => {
+    history = createMemoryHistory();
+    setProps({
+      ...createRouterProps(),
+      history,
     });
 
-    renderResult.unmount();
-  }
-
-  history = createMemoryHistory();
-  mutationCalled = false;
-  mockLocalstorage("1");
-
-  renderResult = render(
-    withMockedProviders(<UserPage history={history} />, mock),
-  );
-};
-
-describe("<UserPage/>", () => {
-  const original = window;
-  beforeEach(async () => {
     window = Object.create(window);
     const url = "http://dummy.com";
     Object.defineProperty(window, "location", {
@@ -97,7 +85,8 @@ describe("<UserPage/>", () => {
       writable: true, // possibility to override
     });
 
-    await setup(mocks());
+    mutationCalled = false;
+    mockLocalstorage("1");
   });
 
   afterEach(() => {
@@ -105,6 +94,8 @@ describe("<UserPage/>", () => {
   });
 
   it("shows the component is loading", async () => {
+    renderComponent();
+
     const loading = screen.getByText("Loading...");
     expect(loading).toBeInTheDocument();
 
@@ -114,22 +105,29 @@ describe("<UserPage/>", () => {
   });
 
   it("shows the users name", async () => {
+    renderComponent();
+
     const name = await screen.findByRole("heading", { level: 2, name: "Max" });
     expect(name).toBeInTheDocument();
   });
 
   it("shows the users avatar", async () => {
-    const image = (await screen.findAllByRole("img"))[0];
+    renderComponent();
 
+    const image = (await screen.findAllByRole("img"))[0];
     expect(image.getAttribute("src")).toEqual("fakeAvatarUrl");
   });
 
   it("shows a link to gravatar", async () => {
+    renderComponent();
+
     const link = await screen.findByRole("link", { name: "gravatar.com" });
     expect(link.getAttribute("href")).toEqual("https://nl.gravatar.com/");
   });
 
   it("shows a link to the reset password page", async () => {
+    renderComponent();
+
     const resetPasswordButton = await screen.findByRole("button", {
       name: "Change password",
     });
@@ -137,6 +135,8 @@ describe("<UserPage/>", () => {
   });
 
   it("shows a logout button", async () => {
+    renderComponent();
+
     const resetPasswordButton = await screen.findByRole("button", {
       name: "Log out",
     });
@@ -144,6 +144,8 @@ describe("<UserPage/>", () => {
   });
 
   it("navigates to the reset password page", async () => {
+    renderComponent();
+
     const resetPasswordButton = await screen.findByRole("button", {
       name: "Change password",
     });
@@ -155,8 +157,8 @@ describe("<UserPage/>", () => {
   });
 
   describe("not connected to slack", () => {
-    beforeEach(async () => {
-      await setup(mocks());
+    beforeEach(() => {
+      renderComponent();
     });
 
     it("shows the connect to slack part if the slack id is null", async () => {
@@ -182,8 +184,9 @@ describe("<UserPage/>", () => {
   });
 
   describe("connected to slack", () => {
-    beforeEach(async () => {
-      await setup(mocksWithSlackId);
+    beforeEach(() => {
+      updateDecorator("application", { mocks: mocksWithSlackId });
+      renderComponent();
     });
 
     it("shows the user is connected to slack if the slack id is not null", async () => {

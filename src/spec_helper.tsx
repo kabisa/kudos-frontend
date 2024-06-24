@@ -1,22 +1,6 @@
-import { MockedProvider } from "@apollo/client/testing";
-import { MemoryRouter, Route } from "react-router-dom";
-import { ApolloCache, InMemoryCache } from "@apollo/client/cache";
-import { PATH_CHOOSE_TEAM, PATH_LOGIN } from "./routes";
-
-export const withMockedProviders = <TSerialized extends object>(
-  component: any,
-  mocks?: any,
-  cache?: ApolloCache<TSerialized>,
-  useTypeName: boolean = true,
-) => (
-  <MemoryRouter>
-    <MockedProvider mocks={mocks} addTypename={useTypeName} cache={cache}>
-      {component}
-    </MockedProvider>
-    <Route path={PATH_LOGIN}>Login Page</Route>
-    <Route path={PATH_CHOOSE_TEAM}>Choose team Page</Route>
-  </MemoryRouter>
-);
+import { InMemoryCache } from "@apollo/client/cache";
+import { createMemoryHistory } from "history";
+import { RouteComponentProps } from "react-router-dom";
 
 export const wait = (amount = 0) =>
   new Promise((resolve) => setTimeout(resolve, amount));
@@ -30,6 +14,22 @@ export type MockedFunction<Func extends (...args: any[]) => any> = jest.Mock<
   ReturnType<Func>,
   Parameters<Func>
 >;
+
+export const createRouterProps = (): RouteComponentProps => ({
+  location: {
+    search: "",
+    pathname: "",
+    state: "",
+    hash: "",
+  },
+  history: createMemoryHistory(),
+  match: {
+    params: "",
+    isExact: false,
+    path: "",
+    url: "",
+  },
+});
 
 export const getMockCache = () =>
   new InMemoryCache({

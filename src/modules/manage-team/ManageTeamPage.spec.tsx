@@ -1,15 +1,25 @@
 import { createMemoryHistory, MemoryHistory } from "history";
-import { withMockedProviders } from "../../spec_helper";
 import { ManageTeamPage } from "./ManageTeamPage";
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
+import { makeFC, setTestSubject } from "../../support/testing/testSubject";
+import { routingDecorator } from "../../support/testing/testDecorators";
+import { createRouterProps } from "../../spec_helper";
 
 describe("<ManageTeamPage/>", () => {
   let history: MemoryHistory;
 
+  const { setProps, renderComponent } = setTestSubject(makeFC(ManageTeamPage), {
+    decorators: [routingDecorator()],
+  });
+
   beforeEach(() => {
     history = createMemoryHistory();
+    setProps({
+      ...createRouterProps(),
+      history,
+    });
 
-    render(withMockedProviders(<ManageTeamPage history={history} />));
+    renderComponent();
   });
 
   it("navigates to the general section", () => {

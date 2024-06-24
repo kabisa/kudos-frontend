@@ -1,6 +1,8 @@
-import { mockLocalstorage, withMockedProviders } from "../../spec_helper";
+import { mockLocalstorage } from "../../spec_helper";
+import { setTestSubject } from "../../support/testing/testSubject";
+import { dataDecorator } from "../../support/testing/testDecorators";
 import Statistics, { GET_GOAL_PERCENTAGE } from "./Statistics";
-import { render, screen, waitFor, within } from "@testing-library/react";
+import { screen, waitFor, within } from "@testing-library/react";
 
 export const mocks = (teamId: string) => [
   {
@@ -37,9 +39,15 @@ export const mocks = (teamId: string) => [
 ];
 
 describe("<Statistics />", () => {
+  const { renderComponent } = setTestSubject(Statistics, {
+    decorators: [dataDecorator(mocks("1"))],
+    props: {},
+  });
+
   beforeEach(() => {
     mockLocalstorage("1");
-    render(withMockedProviders(<Statistics />, mocks("1")));
+
+    renderComponent();
   });
 
   it("shows a loading state", async () => {

@@ -1,11 +1,12 @@
-import {
-  MockedFunction,
-  mockLocalstorage,
-  withMockedProviders,
-} from "../../../../../spec_helper";
+import { MockedFunction, mockLocalstorage } from "../../../../../spec_helper";
 import { GoalRow } from "./GoalRow";
 import { DELETE_GOAL, GET_KUDOMETERS, Goal } from "../KudometerQueries";
-import { render, screen, waitFor } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
+import { setTestSubject } from "../../../../../support/testing/testSubject";
+import {
+  dataDecorator,
+  tableDecorator,
+} from "../../../../../support/testing/testDecorators";
 
 let mutationCalled = false;
 let queryCalled = false;
@@ -68,21 +69,22 @@ const goal: Goal = {
 describe("<GoalRow />", () => {
   const editGoalMock = jest.fn(() => 1);
 
+  const { renderComponent } = setTestSubject(GoalRow, {
+    decorators: [tableDecorator, dataDecorator(mocks)],
+    props: {
+      key: goal.id,
+      goal,
+      editGoal: editGoalMock,
+    },
+  });
+
   beforeEach(() => {
     mockLocalstorage("1");
     global.confirm = jest.fn(() => true);
     mutationCalled = false;
     queryCalled = false;
-    render(
-      withMockedProviders(
-        <table>
-          <tbody>
-            <GoalRow key={goal.id} goal={goal} editGoal={editGoalMock} />
-          </tbody>
-        </table>,
-        mocks,
-      ),
-    );
+
+    renderComponent();
   });
 
   it("renders all the information", () => {

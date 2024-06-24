@@ -1,6 +1,6 @@
-import { withMockedProviders } from "../../spec_helper";
+import { setTestSubject } from "../../support/testing/testSubject";
 import { ImageUpload } from "./ImageUpload";
-import { render, screen, waitFor } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 const createFile = (name: string, size: number, type: string): File => {
@@ -16,17 +16,16 @@ const createFile = (name: string, size: number, type: string): File => {
 describe("<ImageUpload />", () => {
   let selectedFiles: any = [];
 
+  const { setProps, renderComponent } = setTestSubject(ImageUpload);
+  setProps({
+    onChange: (files) => {
+      selectedFiles = files;
+    },
+  });
+
   beforeEach(() => {
     window.URL.createObjectURL = jest.fn();
-    render(
-      withMockedProviders(
-        <ImageUpload
-          onChange={(files) => {
-            selectedFiles = files;
-          }}
-        />,
-      ),
-    );
+    renderComponent();
   });
 
   it("can select files", async () => {

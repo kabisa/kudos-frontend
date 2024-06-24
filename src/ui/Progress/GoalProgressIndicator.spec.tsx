@@ -1,64 +1,58 @@
-import { render } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import GoalProgressIndicator from "./GoalProgressIndicator";
 import { createGoal } from "./factory";
+import { setTestSubject } from "../../support/testing/testSubject";
 
-test("renders the goal progress indicator", () => {
-  const goals = {
-    activeGoals: [
-      createGoal("Third goal", 1500, null),
-      createGoal("Second goal", 1000, null),
-      createGoal("First goal", 500, null),
-    ],
-  };
-  const { getAllByRole } = render(
-    <GoalProgressIndicator
-      activeKudosMeter={{ amount: 200 }}
-      goals={goals.activeGoals}
-    />,
+describe("GoalProgressIndicator", () => {
+  const { renderComponent, updateProps } = setTestSubject(
+    GoalProgressIndicator,
+    {
+      props: {
+        goals: [
+          createGoal("Third goal", 1500, null),
+          createGoal("Second goal", 1000, null),
+          createGoal("First goal", 500, null),
+        ],
+        activeKudosMeter: { amount: 200 },
+      },
+    },
   );
 
-  const progressBars = getAllByRole("progressbar");
-  expect(progressBars).toHaveLength(3);
-});
+  it("renders the goal progress indicator", () => {
+    renderComponent();
 
-test("renders the goal progress indicator with no goals achieved, but with progress", () => {
-  const goals = {
-    activeGoals: [
-      createGoal("Third goal", 1500, null),
-      createGoal("Second goal", 1000, null),
-      createGoal("First goal", 500, null),
-    ],
-  };
+    const progressBars = screen.getAllByRole("progressbar");
+    expect(progressBars).toHaveLength(3);
+  });
 
-  const { getAllByRole } = render(
-    <GoalProgressIndicator
-      activeKudosMeter={{ amount: 200 }}
-      goals={goals.activeGoals}
-    />,
-  );
+  it("renders the goal progress indicator with no goals achieved, but with progress", () => {
+    renderComponent();
 
-  const progressBars = getAllByRole("progressbar");
-  expect(progressBars).toHaveLength(3);
-  expect(progressBars[progressBars.length - 1]).toHaveAttribute("value", "40");
-});
+    const progressBars = screen.getAllByRole("progressbar");
+    expect(progressBars).toHaveLength(3);
+    expect(progressBars[progressBars.length - 1]).toHaveAttribute(
+      "value",
+      "40",
+    );
+  });
 
-test("renders the goal progress indicator with the first goal achieved", () => {
-  const goals = {
-    activeGoals: [
-      createGoal("Third goal", 1500, null),
-      createGoal("Second goal", 1000, null),
-      createGoal("First goal", 500, "2023-05-13"),
-    ],
-  };
-  const { getAllByRole } = render(
-    <GoalProgressIndicator
-      activeKudosMeter={{ amount: 600 }}
-      goals={goals.activeGoals}
-    />,
-  );
+  it("renders the goal progress indicator with the first goal achieved", () => {
+    updateProps({
+      goals: [
+        createGoal("Third goal", 1500, null),
+        createGoal("Second goal", 1000, null),
+        createGoal("First goal", 500, "2023-05-13"),
+      ],
+      activeKudosMeter: { amount: 600 },
+    });
+    renderComponent();
 
-  const progressBars = getAllByRole("progressbar");
-  expect(progressBars).toHaveLength(3);
-  expect(progressBars[progressBars.length - 1]).toHaveAttribute("value", "100");
-  expect(progressBars[1]).toHaveAttribute("value", "20");
+    const progressBars = screen.getAllByRole("progressbar");
+    expect(progressBars).toHaveLength(3);
+    expect(progressBars[progressBars.length - 1]).toHaveAttribute(
+      "value",
+      "100",
+    );
+    expect(progressBars[1]).toHaveAttribute("value", "20");
+  });
 });

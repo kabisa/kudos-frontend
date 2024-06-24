@@ -1,12 +1,17 @@
-import { mockLocalstorage, withMockedProviders } from "../../../../spec_helper";
+import { mockLocalstorage } from "../../../../spec_helper";
 import LikeButton, { MUTATION_TOGGLE_LIKE } from "./LikeButton";
 import {
   FragmentPostResult,
   GET_GOAL_PERCENTAGE,
   GET_POSTS,
 } from "../../queries";
-import { render, screen, waitFor } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 import { InMemoryCache } from "@apollo/client";
+import {
+  makeFC,
+  setTestSubject,
+} from "../../../../support/testing/testSubject";
+import { dataDecorator } from "../../../../support/testing/testDecorators";
 
 const likedPost: FragmentPostResult = {
   id: "1",
@@ -85,24 +90,33 @@ const mocks = [
 ];
 
 describe("<LikeButton />", () => {
+  const { renderComponent, updateProps, updateDecorator } = setTestSubject(
+    makeFC(LikeButton),
+    {
+      decorators: [dataDecorator(mocks)],
+      props: {
+        liked: false,
+        post: likedPost,
+      },
+    },
+  );
+
   beforeEach(() => {
     mutationCalled = false;
     mockLocalstorage("1");
   });
 
   it("renders the correct message", async () => {
-    render(
-      withMockedProviders(<LikeButton liked={false} post={likedPost} />, mocks),
-    );
+    renderComponent();
+
     const message = await screen.findByTestId("message");
 
     expect(message.textContent).toBe("+1₭ by Max");
   });
 
   it("renders the correct like icon if the post is not liked", async () => {
-    render(
-      withMockedProviders(<LikeButton liked={false} post={likedPost} />, mocks),
-    );
+    renderComponent();
+
     const likeButton = await screen.findByRole("button");
 
     const icon = likeButton.querySelector(
@@ -115,9 +129,8 @@ describe("<LikeButton />", () => {
   });
 
   it("renders the correct like icon if the post is liked", async () => {
-    render(
-      withMockedProviders(<LikeButton liked={true} post={likedPost} />, mocks),
-    );
+    updateProps({ liked: true });
+    renderComponent();
 
     const likeButton = await screen.findByRole("button");
     const icon = likeButton.querySelector(
@@ -173,13 +186,8 @@ describe("<LikeButton />", () => {
       },
     });
 
-    render(
-      withMockedProviders(
-        <LikeButton liked={true} post={likedPost} />,
-        mocks,
-        cache,
-      ),
-    );
+    updateDecorator("application", { cache: cache });
+    renderComponent();
 
     const likeButton = await screen.findByRole("button");
     likeButton.click();

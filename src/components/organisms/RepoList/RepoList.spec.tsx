@@ -1,7 +1,9 @@
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import { GET_POSTS } from "../../../modules/feed/queries";
-import { mockLocalstorage, withMockedProviders } from "../../../spec_helper";
+import { mockLocalstorage } from "../../../spec_helper";
 import { RepoList } from "./RepoList";
+import { setTestSubject } from "../../../support/testing/testSubject";
+import { dataDecorator } from "../../../support/testing/testDecorators";
 
 export const mocks = (hasNextPage: boolean) => [
   {
@@ -78,16 +80,19 @@ const mocksWithError = [
   },
 ];
 
-const setup = (mock: any) =>
-  render(withMockedProviders(<RepoList />, mock, undefined, true));
-
 describe("<RepoList />", () => {
+  const { renderComponent, updateDecorator } = setTestSubject(RepoList, {
+    decorators: [dataDecorator(mocks(false))],
+    props: {},
+  });
+
   beforeEach(() => {
     mockLocalstorage("1");
-    setup(mocks(false));
   });
 
   it("shows loading when the query is loading", async () => {
+    renderComponent();
+
     const element = screen.getByText("Loading..");
     expect(element).toBeInTheDocument();
 
@@ -96,23 +101,31 @@ describe("<RepoList />", () => {
   });
 
   it("shows show the error message when there is an error", async () => {
-    setup(mocksWithError);
+    updateDecorator("application", { mocks: mocksWithError });
+    renderComponent();
+
     const element = await screen.findByText("It broke");
     expect(element).toBeInTheDocument();
   });
 
   it("renders all the posts", async () => {
+    renderComponent();
+
     const elements = await screen.findAllByTestId("kudo-transaction");
     expect(elements).toHaveLength(1);
   });
 
   it("shows a load next button when there are more posts", async () => {
-    setup(mocks(true));
+    updateDecorator("application", { mocks: mocks(true) });
+    renderComponent();
+
     const nextPageButton = await screen.findByTestId("next-page-button");
     expect(nextPageButton).toBeInTheDocument();
   });
 
   it("should not show a load next button when there are no more posts", async () => {
+    renderComponent();
+
     const nextPageButton = screen.queryByTestId("next-page-button");
     expect(nextPageButton).toBeNull();
 

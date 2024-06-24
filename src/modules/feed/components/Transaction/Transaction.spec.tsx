@@ -1,7 +1,8 @@
-import { withMockedProviders } from "../../../../spec_helper";
 import { Transaction } from "./index";
 import { FragmentPostResult } from "../../queries";
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
+import { setTestSubject } from "../../../../support/testing/testSubject";
+import { dataDecorator } from "../../../../support/testing/testDecorators";
 
 const transaction: FragmentPostResult = {
   id: "1",
@@ -37,10 +38,13 @@ const transactionWithVote = {
 };
 
 describe("Transaction", () => {
+  const { renderComponent } = setTestSubject(Transaction, {
+    decorators: [dataDecorator()],
+    props: { transaction: transactionWithVote },
+  });
+
   beforeEach(() => {
-    render(
-      withMockedProviders(<Transaction transaction={transactionWithVote} />),
-    );
+    renderComponent();
   });
 
   it("renders the kudos amount without votes", () => {

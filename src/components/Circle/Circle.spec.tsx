@@ -1,19 +1,18 @@
-import { withMockedProviders } from "../../spec_helper";
+import { setTestSubject } from "../../support/testing/testSubject";
 import CustomCircle from "./Circle";
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 
 describe("<CustomCircle />", () => {
+  const { setProps, renderComponent } = setTestSubject(CustomCircle);
+  setProps({
+    percent: 50,
+    currentKudos: 200,
+    neededKudos: 500,
+    goal: "Some goal",
+  });
+
   beforeEach(() => {
-    render(
-      withMockedProviders(
-        <CustomCircle
-          percent={50}
-          currentKudos={200}
-          neededKudos={500}
-          goal="Some goal"
-        />,
-      ),
-    );
+    renderComponent();
   });
 
   it("renders the correct current kudo amount", () => {
