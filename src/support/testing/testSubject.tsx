@@ -77,13 +77,13 @@ const hasAlreadyRendered = (
  * to test a ClassComponent, you can wrap your component with `makeFC`
  *
  * @example ```
- * const { renderComponent } = setComponent(YourComponent)
+ * const { renderComponent } = setTestSubject(YourComponent)
  * ```
  *
  * You can decorate your component with contexts by setting decorators:
  *
  * @example ```
- * const { renderComponent } = setComponent(YourComponent, {
+ * const { renderComponent } = setTestSubject(YourComponent, {
  *   decorators: [dataDecorator, themeDecorator]
  * })
  * ```
